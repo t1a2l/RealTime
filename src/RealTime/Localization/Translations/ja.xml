@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="ja">
+<language id="ja" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="警告"/>
   <translation id="RestrictedModeMessage" value="Real Time が制限モードで動作しています。いくつかの機能が無効化されています。これは、サードパーティライブラリの技術的な問題または mod の互換性がないためです。ヘルプが必要な場合は、ゲームのログファイルを mod の開発者に送ってください。"/>
@@ -8,192 +8,192 @@
   <translation id="Minutes" value="分"/>
 
   <translation id="Tools" value="ツール"/>
-  <translation id="ShowIncompatibilityNotifications" value="非互換 mod 通知を表示"/>
+  <translation id="ShowIncompatibilityNotifications" value="互換の無いModの通知を表示"/>
   <translation id="UseEnglishUSFormats" value="英語の場合は米国の日付/時刻形式を使用"/>
   <translation id="UseEnglishUSFormatsTooltip" value="時刻表示形式の変更にはゲームの再起動が必要です"/>
   <translation id="ResetToDefaults" value="すべてデフォルトにリセット"/>
   <translation id="UseForNewGames" value="現在の値を新規ゲームに適用"/>
 
   <translation id="1General" value="一般"/>
-  <translation id="0Time" value="時間オプション"/>
+  <translation id="0Time" value="時間のオプション"/>
   <translation id="1Other" value="その他のオプション"/>
-  <translation id="WakeUpHour" value="都市が目覚める時"/>
-  <translation id="WakeUpHourTooltip" value="多くの市民が起床し始める時間。予算と時間の進む速度が「日中」モードへ切り替わります！"/>
-  <translation id="GoToSleepHour" value="都市が眠りにつく時"/>
-  <translation id="GoToSleepHourTooltip" value="多くの市民が床につき始める時間。予算と時間の進む速度が「夜間」モードに切り替わります！"/>
+  <translation id="WakeUpHour" value="「日中」の開始時刻"/>
+  <translation id="WakeUpHourTooltip" value="多くの市民が起床し始める時間。予算と時間の進む速度が「日中」モードへ切り替わります!"/>
+  <translation id="GoToSleepHour" value="「夜間」の開始時刻"/>
+  <translation id="GoToSleepHourTooltip" value="多くの市民が床につき始める時間。予算と時間の進む速度が「夜間」モードに切り替わります!"/>
   <translation id="DayTimeSpeed" value="時間が進む速度 (日中)"/>
-  <translation id="DayTimeSpeedTooltip" value="日中に経過する時間の早さです。「1」にすると、とても遅く、実際の時間とほとんど変わりません！"/>
+  <translation id="DayTimeSpeedTooltip" value="日中に経過する時間の早さです。「1」にすると、とても遅く、実際の時間とほとんど変わりません!"/>
   <translation id="NightTimeSpeed" value="時間が進む速度 (夜間)"/>
-  <translation id="NightTimeSpeedTooltip" value="夜間に経過する時間の早さです。「1」にすると、とても遅く、実際の時間とほとんど変わりません！"/>
+  <translation id="NightTimeSpeedTooltip" value="夜間に経過する時間の早さです。「1」にすると、とても遅く、実際の時間とほとんど変わりません!"/>
   <translation id="IsDynamicDayLengthEnabled" value="一日の長さを動的に変更"/>
   <translation id="IsDynamicDayLengthEnabledTooltip" value="一日の長さは、マップテーマと日付により異なります。冬は夏より昼が短くなります。"/>
   <translation id="VirtualCitizens" value="市民のシミュレーション (リアルとバーチャル)"/>
-  <translation id="VirtualCitizensTooltip" value="リアルな都市 (ただし、市民は最大 65,535人) をシミュレートするには「すべて」を選択し、PCの性能がそれほどでないか、都市が巨大なら、「バニラ」を選択して下さい"/>
-  <translation id="VirtualCitizens.None" value="すべての市民がリアル"/>
-  <translation id="VirtualCitizens.Vanilla" value="バニラと同じ"/>
+  <translation id="VirtualCitizensTooltip" value="リアルな都市 (※市民は最大65,535人) をシミュレートするには「リアル」を選択して下さい。低性能PC、または巨大都市なら、「通常の演算」を選択して下さい。"/>
+  <translation id="VirtualCitizens.None" value="全市民がリアル"/>
+  <translation id="VirtualCitizens.Vanilla" value="通常の演算"/>
   <translation id="UseSlowAging" value="老化速度の最適化"/>
-  <translation id="UseSlowAgingTooltip" value="有効にすると、ゲーム内の1日は市民の1年となります。無効にすると、ゲーム内の1日は10年（時間の速さ6）〜340年（時間の速さ1）となります。"/>
-  <translation id="IsWeekendEnabled" value="週末を有効にする"/>
-  <translation id="IsWeekendEnabledTooltip" value="週末には市民が通勤通学しなくなります"/>
-  <translation id="IsLunchtimeEnabled" value="ランチタイムを有効にする"/>
-  <translation id="IsLunchtimeEnabledTooltip" value="市民は食事のために昼食時に外出します"/>
-  <translation id="StopConstructionAtNight" value="夜間はビルの建築やアップグレードを中断する"/>
-  <translation id="StopConstructionAtNightTooltip" value="建築現場の労働者も就寝しなくてはなりません"/>
+  <translation id="UseSlowAgingTooltip" value="有効にすると、ゲーム内の1日は市民の1年となります。無効にすると、ゲーム内の1日は10年 (時間の速さ6)〜340年 (時間の速さ1) となります。"/>
+  <translation id="IsWeekendEnabled" value="週末を有効"/>
+  <translation id="IsWeekendEnabledTooltip" value="週末には市民が通勤通学しなくなります。"/>
+  <translation id="IsLunchtimeEnabled" value="ランチタイムを有効"/>
+  <translation id="IsLunchtimeEnabledTooltip" value="市民は食事のために昼食時に外出します。"/>
+  <translation id="StopConstructionAtNight" value="夜間はビルの建築やアップグレードを中断"/>
+  <translation id="StopConstructionAtNightTooltip" value="建築現場の労働者も就寝しなくてはなりません。"/>
   <translation id="ConstructionSpeed" value="建築速度"/>
-  <translation id="ConstructionSpeedTooltip" value="建物の建築やアップグレードの速度"/>
+  <translation id="ConstructionSpeedTooltip" value="建物の建築やアップグレードの速度を調整します。"/>
   <translation id="SwitchOffLightsAtNight" value="夜間は建物の照明をつけない"/>
-  <translation id="SwitchOffLightsAtNightTooltip" value="市民が睡眠をとっている時間の住宅や、誰もそこで活動していない時間の建物、公園の照明を消します"/>
+  <translation id="SwitchOffLightsAtNightTooltip" value="市民が睡眠をとっている時間の住宅や、誰もそこで活動していない時間の建物、公園の照明を消します。"/>
   <translation id="SwitchOffLightsMaxHeight" value="高い建物の照明は点けたままにする"/>
-  <translation id="SwitchOffLightsMaxHeightTooltip" value="この値よりも高い住宅、商業施設、オフィスは夜間に消灯しません"/>
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="この値よりも高い住宅、商業施設、オフィスは夜間に消灯しません。"/>
   <translation id="CanAbandonJourney" value="渋滞と公共交通待機時の振る舞い改善"/>
   <translation id="CanAbandonJourneyTooltip" value="有効の場合、市民は長時間交通渋滞や公共交通機関を待たされた際に移動を諦めることができます。"/>
-  <translation id="RealisticFires" value="Realistic Fires last between 30 minutes to 4 hours at random" />
-  <translation id="RealisticFiresTooltip" value="If enabled, fires will take between 30 minutes to 4 hours to be extinguished" />
-  <translation id="WorkForceMatters" value="Building must have workers to operate" />
-  <translation id="WorkForceMattersTooltip" value="If enabled, buildings without workers in it will become closed and not give service" />
-  <translation id="WeeklyPickupsOnly" value="Building will be collected from only once a week" />
-  <translation id="WeeklyPickupsOnlyTooltip" value="If enabled, buildings will have bigger buffers which in turn will allow then to request services only once a week, like garbage and mail" />
-  <translation id="WeeklyCommericalDeliveries" value="Commerical building will receive goods delivery once a week" />
-  <translation id="WeeklyCommericalDeliveriesTooltip" value="If enabled, commerical buildings will have bigger goods buffer that will allow them to get goods only once a week" />
-  <translation id="DummyTrafficBehavior" value="Make the dummy traffic capacity more light" />
-  <translation id="DummyTrafficBehaviorTooltip" value="If enabled, dummy traffic is more reasonable to the mod gameplay" />
+  <translation id="RealisticFires" value="30分から4時間の間でランダムに燃え続けるリアルな火災" />
+  <translation id="RealisticFiresTooltip" value="有効の場合、火災は消化されるまでに30分から4時間の間の時間を要します。" />
+  <translation id="WorkForceMatters" value="職場の運営に労働者を必須" />
+  <translation id="WorkForceMattersTooltip" value="有効の場合、労働者が居ない職場は営業時間外となり、サービスの提供が停止します。" />
+  <translation id="WeeklyPickupsOnly" value="週一回の公営サービスの利用" />
+  <translation id="WeeklyPickupsOnlyTooltip" value="有効の場合、建物のゴミの許容量が増え、ゴミや郵便などのサービスを週に一回のみリクエストするようになります。" />
+  <translation id="WeeklyCommericalDeliveries" value="週一回の商品の搬入" />
+  <translation id="WeeklyCommericalDeliveriesTooltip" value="有効の場合、商業施設は商品の許容量が増え、週に一回のみ商品の搬入を行うようになります。" />
+  <translation id="DummyTrafficBehavior" value="都市の外へ通過する車両の容量を軽量化" />
+  <translation id="DummyTrafficBehaviorTooltip" value="有効の場合、都市の外へ通過する車両をModプレイ上で合理的にします。" />
 
   <translation id="2Quotas" value="確率"/>
-  <translation id="SecondShiftQuota" value="掛け持ちの労働者"/>
-  <translation id="SecondShiftQuotaTooltip" value="掛け持ちで働く市民の割合"/>
-  <translation id="NightShiftQuota" value="夜勤の労働者"/>
-  <translation id="NightShiftQuotaTooltip" value="夜勤で働く市民の割合"/>
-  <translation id="ContinuousNightShiftQuota" value="Continuous Night shift workers" />
-  <translation id="ContinuousNightShiftQuotaTooltip" value="The percentage of the citizens that work a continuous night shift" />
+  <translation id="SecondShiftQuota" value="副業をする労働者の割合"/>
+  <translation id="SecondShiftQuotaTooltip" value="本業に加え副業をする市民の割合です。"/>
+  <translation id="NightShiftQuota" value="夜勤労働者の割合"/>
+  <translation id="NightShiftQuotaTooltip" value="夜勤をする市民の割合です。"/>
+  <translation id="ContinuousNightShiftQuota" value="連続夜勤労働者の割合" />
+  <translation id="ContinuousNightShiftQuotaTooltip" value="連続で夜勤をする労働者の割合です。" />
   <translation id="LunchQuota" value="昼食の確率"/>
-  <translation id="LunchQuotaTooltip" value="昼食のために外出する市民の割合"/>
+  <translation id="LunchQuotaTooltip" value="昼食のために外出する市民の割合です。"/>
   <translation id="LocalBuildingSearchQuota" value="地元で買い物をする人の割合"/>
-  <translation id="LocalBuildingSearchQuotaTooltip" value="地元で買い物をする住民の割合"/>
+  <translation id="LocalBuildingSearchQuotaTooltip" value="地元で買い物をする住民の割合です。"/>
   <translation id="ShoppingForFunQuota" value="娯楽としての買い物"/>
-  <translation id="ShoppingForFunQuotaTooltip" value="商品が必要でなくとも買い物を楽しむためだけに外出する住民の割合"/>
+  <translation id="ShoppingForFunQuotaTooltip" value="商品が必要でなくとも、買い物を楽しむためだけに外出する住民の割合です。"/>
   <translation id="OnTimeQuota" value="定時出退勤者の割合"/>
-  <translation id="OnTimeQuotaTooltip" value="定時に出社、退勤する市民の割合"/>
-  <translation id="OpenLowCommercialAtNightQuota" value="Open low commercial buildings at night percentage" />
-  <translation id="OpenLowCommercialAtNightQuotaTooltip" value="The percentage of the low commercial buildings that will stay open at night" />
-  <translation id="OpenCommercialSecondShiftQuota" value="Open commercial buildings for second shift percentage" />
-  <translation id="OpenCommercialSecondShiftQuotaTooltip" value="The percentage of the commerical buildings that will stay open for a second shift" />
-  <translation id="OpenCommercialAtWeekendsQuota" value="Open commercial buildings at weekends percentage" />
-  <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="The percentage of the commercial buildings that will stay open at weekends" />
-  <translation id="NightClassQuota" value="Night School students" />
-  <translation id="NightClassQuotaTooltip" value="The percentage of the citizens that go to night school" />
+  <translation id="OnTimeQuotaTooltip" value="定時に出社、退勤する市民の割合です。"/>
+  <translation id="OpenLowCommercialAtNightQuota" value="夜間営業を行う低密度商業施設の割合" />
+  <translation id="OpenLowCommercialAtNightQuotaTooltip" value="夜も営業を続行する低密度商業施設の割合です。" />
+  <translation id="OpenCommercialSecondShiftQuota" value="第二シフトで営業する商業施設の割合" />
+  <translation id="OpenCommercialSecondShiftQuotaTooltip" value="二交代制で営業を続ける商業施設の割合です。" />
+  <translation id="OpenCommercialAtWeekendsQuota" value="週末に営業を行う商業施設の割合" />
+  <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="週末も営業を行う商業施設の割合です。" />
+  <translation id="NightClassQuota" value="夜間学校の生徒の割合" />
+  <translation id="NightClassQuotaTooltip" value="夜に学校に通う市民の割合です。" />
 
   <translation id="3Events" value="イベント"/>
   <translation id="AreEventsEnabled" value="カスタムイベントを有効にする"/>
-  <translation id="AreEventsEnabledTooltip" value="無効の場合、デフォルトのイベントだけが都市で発生します"/>
-  <translation id="EarliestHourEventStartWeekday" value="平日イベントの最速時刻"/>
-  <translation id="EarliestHourEventStartWeekdayTooltip" value="平日に発生する可能性があるイベントの一番早い発生時刻"/>
-  <translation id="LatestHourEventStartWeekday" value="平日イベントの最終時刻"/>
-  <translation id="LatestHourEventStartWeekdayTooltip" value="平日に発生する可能性があるイベントの一番遅い時刻"/>
-  <translation id="EarliestHourEventStartWeekend" value="週末イベントの最速時刻"/>
-  <translation id="EarliestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番早い時刻"/>
-  <translation id="LatestHourEventStartWeekend" value="週末イベントの最終時刻"/>
-  <translation id="LatestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番遅い時刻"/>
+  <translation id="AreEventsEnabledTooltip" value="無効の場合、デフォルトのイベントだけが都市で発生します。"/>
+  <translation id="EarliestHourEventStartWeekday" value="平日イベントの最速開始時刻"/>
+  <translation id="EarliestHourEventStartWeekdayTooltip" value="平日に発生する可能性があるイベントの一番早い開始時刻です。"/>
+  <translation id="LatestHourEventStartWeekday" value="平日イベントの最遅開始時刻"/>
+  <translation id="LatestHourEventStartWeekdayTooltip" value="平日に発生する可能性があるイベントの一番遅い開始時刻です。"/>
+  <translation id="EarliestHourEventStartWeekend" value="週末イベントの最速開始時刻"/>
+  <translation id="EarliestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番早い開始時刻です。"/>
+  <translation id="LatestHourEventStartWeekend" value="週末イベントの最遅開始時刻"/>
+  <translation id="LatestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番遅い開始時刻です。"/>
 
   <translation id="4Time" value="時間"/>
-  <translation id="MaxOvertime" value="最長時間外労働"/>
-  <translation id="MaxOvertimeTooltip" value="市民の時間外労働の最長時間です。市民はより早く仕事に来るか、より遅くまで仕事をします。"/>
+  <translation id="MaxOvertime" value="時間外労働の上限"/>
+  <translation id="MaxOvertimeTooltip" value="市民の時間外労働の上限値です。市民はより早く仕事に来るか、より遅くまで仕事をします。"/>
   <translation id="SchoolBegin" value="学校の始業時刻"/>
-  <translation id="SchoolBeginTooltip" value="学校の日中始業時刻です。若い市民は登校している必要があります。"/>
+  <translation id="SchoolBeginTooltip" value="日中の学校の始業時刻です。若い市民は登校している必要があります。"/>
   <translation id="SchoolEnd" value="学校の終業時刻"/>
-  <translation id="SchoolEndTooltip" value="若い市民が日中下校する時刻です。"/>
-  <translation id="WorkBegin" value="労働の始業時刻"/>
-  <translation id="WorkBeginTooltip" value="労働を開始する日中の時刻です。成人の市民は職場か大学にいる必要があります。"/>
-  <translation id="WorkEnd" value="労働の終業時刻"/>
-  <translation id="WorkEndTooltip" value="成人の市民が職場か大学から帰る日中の時刻です。"/>
+  <translation id="SchoolEndTooltip" value="日中、若い市民が下校する時刻です。"/>
+  <translation id="WorkBegin" value="社会人の始業時刻"/>
+  <translation id="WorkBeginTooltip" value="社会人が活動を開始する日中の時刻です。職場か大学に居る必要があります。"/>
+  <translation id="WorkEnd" value="社会人の終業時刻"/>
+  <translation id="WorkEndTooltip" value="社会人が職場か大学から帰る日中の時刻です。"/>
   <translation id="LunchBegin" value="昼食の開始時刻"/>
   <translation id="LunchBeginTooltip" value="市民が昼食を食べに外出する日中の時刻です。"/>
   <translation id="LunchEnd" value="昼食の終了時刻"/>
-  <translation id="LunchEndTooltip" value="市民が昼食から戻って仕事を再開する日中の時刻"/>
+  <translation id="LunchEndTooltip" value="市民が昼食から戻って仕事を再開する日中の時刻です。"/>
   <translation id="MaxVacationLength" value="最大休暇日数"/>
   <translation id="MaxVacationLengthTooltip" value="市民がどれだけ休暇を取れるかを設定します。0 を設定すれば、休暇はなしになります。"/>
-  <translation id="AcademicYearLength" value="Academic Year days" />
-  <translation id="AcademicYearLengthTooltip" value="how long an academic year will take. Default is 7 days." />
+  <translation id="AcademicYearLength" value="学年の日数" />
+  <translation id="AcademicYearLengthTooltip" value="何日で一学年を修了するか指定します。デフォルトは、7日です。" />
 
-  <translation id="5BuildingService" value="Building Services" />
-  <translation id="0Garbage" value="Garbage operation hours" />
-  <translation id="1Mail" value="Mail operation hours" />
-  <translation id="2Other" value="Park Maintainace operation hours" />
-  <translation id="GarbageResidentialStartHour" value="Residential start hour" />
-  <translation id="GarbageResidentialStartHourTooltip" value="The daytime when garbage services starts to operate in residential areas" />
-  <translation id="GarbageResidentialEndHour" value="Residential end hour" />
-  <translation id="GarbageResidentialEndHourTooltip" value="The daytime when garbage services stop to operate in residential areas" />
-  <translation id="GarbageCommercialStartHour" value="Commercial start hour" />
-  <translation id="GarbageCommercialStartHourTooltip" value="The daytime when garbage services starts to operate in commercial areas" />
-  <translation id="GarbageCommercialEndHour" value="Commercial end hour" />
-  <translation id="GarbageCommercialEndHourTooltip" value="The daytime when garbage services stop to operate in commercial areas" />
-  <translation id="GarbageIndustrialStartHour" value="Industrial start hour" />
-  <translation id="GarbageIndustrialStartHourTooltip" value="The daytime when garbage services starts to operate in industrial areas" />
-  <translation id="GarbageIndustrialEndHour" value="Industrial end hour" />
-  <translation id="GarbageIndustrialEndHourTooltip" value="The daytime when garbage services stop to operate in industrial areas" />
-  <translation id="GarbageOfficeStartHour" value="Office start hour" />
-  <translation id="GarbageOfficeStartHourTooltip" value="The daytime when garbage services starts to operate in office areas" />
-  <translation id="GarbageOfficeEndHour" value="Office end hour" />
-  <translation id="GarbageOfficeEndHourTooltip" value="The daytime when garbage services stop to operate in office areas" />
-  <translation id="GarbageOtherStartHour" value="Other start hour" />
-  <translation id="GarbageOtherStartHourTooltip" value="The daytime when garbage services starts to operate in other areas" />
-  <translation id="GarbageOtherEndHour" value="Other end hour" />
-  <translation id="GarbageOtherEndHourTooltip" value="The daytime when garbage services stop to operate in other areas" />
+  <translation id="5BuildingService" value="都市サービス" />
+  <translation id="0Garbage" value="ゴミ収集サービス" />
+  <translation id="1Mail" value="郵便サービス" />
+  <translation id="2Other" value="公園管理サービス" />
+  <translation id="GarbageResidentialStartHour" value="住宅地のゴミ収集開始時刻" />
+  <translation id="GarbageResidentialStartHourTooltip" value="住宅エリアでゴミ収集が開始される時刻です。" />
+  <translation id="GarbageResidentialEndHour" value="住宅地のゴミ収集終了時刻" />
+  <translation id="GarbageResidentialEndHourTooltip" value="住宅エリアでゴミ収集が終了する時刻です。" />
+  <translation id="GarbageCommercialStartHour" value="商業施設のゴミ収集開始時刻" />
+  <translation id="GarbageCommercialStartHourTooltip" value="商業エリアでゴミ収集が開始される時刻です。" />
+  <translation id="GarbageCommercialEndHour" value="商業施設のゴミ収集終了時刻" />
+  <translation id="GarbageCommercialEndHourTooltip" value="商業エリアでゴミ収集が終了する時刻です。" />
+  <translation id="GarbageIndustrialStartHour" value="産業施設のゴミ収集開始時刻" />
+  <translation id="GarbageIndustrialStartHourTooltip" value="産業エリアでゴミ収集が開始される時刻です。" />
+  <translation id="GarbageIndustrialEndHour" value="産業施設のゴミ収集終了時刻" />
+  <translation id="GarbageIndustrialEndHourTooltip" value="産業エリアでゴミ収集が終了する時刻です。" />
+  <translation id="GarbageOfficeStartHour" value="オフィスのゴミ収集開始時刻" />
+  <translation id="GarbageOfficeStartHourTooltip" value="オフィスエリアでゴミ収集が開始される時刻です。" />
+  <translation id="GarbageOfficeEndHour" value="オフィスのゴミ収集終了時刻" />
+  <translation id="GarbageOfficeEndHourTooltip" value="オフィスエリアでゴミ収集が終了する時刻です。" />
+  <translation id="GarbageOtherStartHour" value="その他のゴミ収集開始時刻" />
+  <translation id="GarbageOtherStartHourTooltip" value="その他の建物でゴミ収集が開始される時刻です。" />
+  <translation id="GarbageOtherEndHour" value="その他のゴミ収集終了時刻" />
+  <translation id="GarbageOtherEndHourTooltip" value="その他の建物でゴミ収集が終了する時刻です。" />
 
-  <translation id="MailResidentialStartHour" value="Residential start hour" />
-  <translation id="MailResidentialStartHourTooltip" value="The daytime when mail services starts to operate in residential areas" />
-  <translation id="MailResidentialEndHour" value="Residential end hour" />
-  <translation id="MailResidentialEndHourTooltip" value="The daytime when mail services stop to operate in residential areas" />
-  <translation id="MailCommercialStartHour" value="Commercial start hour" />
-  <translation id="MailCommercialStartHourTooltip" value="The daytime when mail services starts to operate in commercial areas" />
-  <translation id="MailCommercialEndHour" value="Commercial end hour" />
-  <translation id="MailCommercialEndHourTooltip" value="The daytime when mail services stop to operate in commercial areas" />
-  <translation id="MailIndustrialStartHour" value="industrial start hour" />
-  <translation id="MailIndustrialStartHourTooltip" value="The daytime when mail services starts to operate in industrial areas" />
-  <translation id="MailIndustrialEndHour" value="Industrial end hour" />
-  <translation id="MailIndustrialEndHourTooltip" value="The daytime when mail services stop to operate in industrial areas" />
-  <translation id="MailOfficeStartHour" value="Office start hour" />
-  <translation id="MailOfficeStartHourTooltip" value="The daytime when mail services starts to operate in office areas" />
-  <translation id="MailOfficeEndHour" value="Office end hour" />
-  <translation id="MailOfficeEndHourTooltip" value="The daytime when mail services stop to operate in office areas" />
-  <translation id="MailOtherStartHour" value="Other start hour" />
-  <translation id="MailOtherStartHourTooltip" value="The daytime when mail services starts to operate in other areas" />
-  <translation id="MailOtherEndHour" value="Other end hour" />
-  <translation id="MailOtherEndHourTooltip" value="The daytime when mail services stop to operate in other areas" />
+  <translation id="MailResidentialStartHour" value="住宅地の郵便配達開始時刻" />
+  <translation id="MailResidentialStartHourTooltip" value="住宅エリアで郵便配達が開始される時刻です。" />
+  <translation id="MailResidentialEndHour" value="住宅地の郵便配達終了時刻" />
+  <translation id="MailResidentialEndHourTooltip" value="住宅エリアで郵便配達が終了する時刻です。" />
+  <translation id="MailCommercialStartHour" value="商業施設の郵便配達開始時刻" />
+  <translation id="MailCommercialStartHourTooltip" value="商業エリアで郵便配達が開始される時刻です。" />
+  <translation id="MailCommercialEndHour" value="商業施設の郵便配達終了時刻" />
+  <translation id="MailCommercialEndHourTooltip" value="商業エリアで郵便配達が終了する時刻です。" />
+  <translation id="MailIndustrialStartHour" value="産業施設の郵便配達開始時刻" />
+  <translation id="MailIndustrialStartHourTooltip" value="産業エリアで郵便配達が開始される時刻です。" />
+  <translation id="MailIndustrialEndHour" value="産業施設の郵便配達終了時刻" />
+  <translation id="MailIndustrialEndHourTooltip" value="産業エリアで郵便配達が終了する時刻です。" />
+  <translation id="MailOfficeStartHour" value="オフィスの郵便配達開始時刻" />
+  <translation id="MailOfficeStartHourTooltip" value="オフィスエリアで郵便配達が開始される時刻です。" />
+  <translation id="MailOfficeEndHour" value="オフィスの郵便配達終了時刻" />
+  <translation id="MailOfficeEndHourTooltip" value="オフィスエリアで郵便配達が終了する時刻です。" />
+  <translation id="MailOtherStartHour" value="その他の郵便配達開始時刻" />
+  <translation id="MailOtherStartHourTooltip" value="その他の建物で郵便配達が開始される時刻です。" />
+  <translation id="MailOtherEndHour" value="その他の郵便配達終了時刻" />
+  <translation id="MailOtherEndHourTooltip" value="その他の建物で郵便配達が終了する時刻です。" />
 
-  <translation id="ParkMaintenanceStartHour" value="Park Maintenance start hour" />
-  <translation id="ParkMaintenanceStartHourTooltip" value="The daytime when park maintenance services starts to operate" />
-  <translation id="ParkMaintenanceEndHour" value="Park Maintenance end hour" />
-  <translation id="ParkMaintenanceEndHourTooltip" value="The daytime when park maintenance services stop to operate" />
+  <translation id="ParkMaintenanceStartHour" value="公園のメンテナンスの開始時刻" />
+  <translation id="ParkMaintenanceStartHourTooltip" value="公園や動物園、自然保護区でメンテナンスが開始される時刻です。" />
+  <translation id="ParkMaintenanceEndHour" value="公園のメンテナンスの終了時刻" />
+  <translation id="ParkMaintenanceEndHourTooltip" value="公園や動物園、自然保護区でメンテナンスが終了する時刻です。" />
 
-  <translation id="6RoadService" value="Road Services" />
-  <translation id="0MaintenanceSnow" value=" Maintenance and Snow operation hours" />
-  <translation id="MaintenanceSnowRoadsSmallStartHour" value="Small roads start hour" />
-  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for small roads" />
-  <translation id="MaintenanceSnowRoadsSmallEndHour" value="Small roads end hour" />
-  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for small roads" />
-  <translation id="MaintenanceSnowRoadsMediumStartHour" value="Medium roads start hour" />
-  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for medium roads" />
-  <translation id="MaintenanceSnowRoadsMediumEndHour" value="Medium roads end hour" />
-  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for medium roads" />
-  <translation id="MaintenanceSnowRoadsLargeStartHour" value="Large roads start hour" />
-  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for large roads" />
-  <translation id="MaintenanceSnowRoadsLargeEndHour" value="Large roads end hour" />
-  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for large roads" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="Highway roads start hour" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for highway roads" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="Highway roads end hour" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for highway roads" />
-  <translation id="MaintenanceSnowRoadsOtherStartHour" value="Other roads start hour" />
-  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for other roads" />
-  <translation id="MaintenanceSnowRoadsOtherEndHour" value="Other roads end hour" />
-  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for other roads" />
+  <translation id="6RoadService" value="道路サービス" />
+  <translation id="0MaintenanceSnow" value=" 道路メンテナンスと除雪作業" />
+  <translation id="MaintenanceSnowRoadsSmallStartHour" value="小規模道路の開始時刻" />
+  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="小規模な道路でメンテナンスや除雪作業が開始される時刻です。" />
+  <translation id="MaintenanceSnowRoadsSmallEndHour" value="小規模道路の終了時刻" />
+  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="小規模な道路でメンテナンスや除雪作業が終了する時刻です。" />
+  <translation id="MaintenanceSnowRoadsMediumStartHour" value="中規模道路の開始時刻" />
+  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="中規模な道路でメンテナンスや除雪作業が開始される時刻です。" />
+  <translation id="MaintenanceSnowRoadsMediumEndHour" value="中規模道路の終了時刻" />
+  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="中規模な道路でメンテナンスや除雪作業が終了する時刻です。" />
+  <translation id="MaintenanceSnowRoadsLargeStartHour" value="大規模道路の開始時刻" />
+  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="大規模な道路でメンテナンスや除雪作業が開始される時刻です。" />
+  <translation id="MaintenanceSnowRoadsLargeEndHour" value="大規模道路の終了時刻" />
+  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="大規模な道路でメンテナンスや除雪作業が終了する時刻です。" />
+  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="高速道路の開始時刻" />
+  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="高速道路でメンテナンスや除雪作業が開始される時刻です。" />
+  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="高速道路の終了時刻" />
+  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="高速道路でメンテナンスや除雪作業が終了する時刻です。" />
+  <translation id="MaintenanceSnowRoadsOtherStartHour" value="その他の道路の開始時刻" />
+  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="その他の道路でメンテナンスや除雪作業が開始される時刻です。" />
+  <translation id="MaintenanceSnowRoadsOtherEndHour" value="その他の道路の終了時刻" />
+  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="その他の道路でメンテナンスや除雪作業が終了する時刻です。" />
 
   <translation id="ScheduledAction" value="現在"/>
   <translation id="NextScheduledAction" value="次の予定"/>
   <translation id="ScheduledAction.AtHome" value="帰宅中"/>
   <translation id="ScheduledAction.AtSchoolOrWork" value="通勤/通学中"/>
-  <translation id="ScheduledAction.AtSchool" value="Go to school" />
-  <translation id="ScheduledAction.AtWork" value="Go to work" />
+  <translation id="ScheduledAction.AtSchool" value="通学中" />
+  <translation id="ScheduledAction.AtWork" value="通勤中" />
   <translation id="ScheduledAction.Shopping" value="買い物中"/>
   <translation id="ScheduledAction.Relaxing" value="リラックスタイム"/>
   <translation id="ScheduledAction.Visiting" value="訪問中"/>
@@ -201,14 +201,14 @@
   <translation id="WorkShift.First" value="日勤シフト"/>
   <translation id="WorkShift.Second" value="準夜勤シフト"/>
   <translation id="WorkShift.Night" value="深夜勤シフト"/>
-  <translation id="WorkShift.ContinuousDay" value="Continuous day work shift" />
-  <translation id="WorkShift.ContinuousNight" value="Continuous night work shift" />
-  <translation id="WorkShift.Event" value="Event work shift" />
-  <translation id="WorkStatus.OnVacation" value="（休暇: {0} 日）"/>
+  <translation id="WorkShift.ContinuousDay" value="連続日中出勤" />
+  <translation id="WorkShift.ContinuousNight" value="連続夜間出勤" />
+  <translation id="WorkShift.Event" value="イベント勤務" />
+  <translation id="WorkStatus.OnVacation" value="(休暇: {0}日)"/>
 
-  <translation id="AcademicYear.DaysLeft" value="残り {0} 日"/>
-  <translation id="AcademicYear.HoursLeft" value="残り {0} 時間"/>
-  <translation id="AcademicYear.EndsSoon" value="残り 1 時間未満"/>
+  <translation id="AcademicYear.DaysLeft" value="残り {0}日"/>
+  <translation id="AcademicYear.HoursLeft" value="残り {0}時間"/>
+  <translation id="AcademicYear.EndsSoon" value="残り 1時間未満"/>
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="石炭貯蔵量 {0} × {unit}"/>
@@ -320,7 +320,7 @@
     <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="コスト: {0} / 競技場 / {unit}"/>
     <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="コスト: {0} / コーチ / {unit}"/>
     <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="今年度の卒業生: {0}"/>
-    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="Cost: {0} / 研究員 / {unit}"/>
+    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="コスト: {0} / 研究員 / {unit}"/>
     <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="支出（ {unit} ）"/>
     <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="コーチ#10;コーチを多く雇うと試合に勝つ確率が上がります。コーチの効果#10;はすぐにはでませんが、1学年度の間、コーチ一人あたりプラス0%から1%の効果があります。"/>
     <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="キャンパスエリアの合計収入（ {unit} ）"/>

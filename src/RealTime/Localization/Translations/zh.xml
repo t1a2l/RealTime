@@ -2,374 +2,376 @@
 <language id="zh" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="警告" />
-  <translation id="RestrictedModeMessage" value="Real Time工作在受限模式下。某些功能被禁用。这是因为第三方库存在技术问题或mod不兼容。如果你需要帮助，请联系mod开发者且发送你的游戏日志文件。" />
-  <translation id="ModNotWorkingMessage" value="啊! 出问题了 - Real Time模组无法启用. 请把你的log记录文件分享给该模组的开发者." />
-  <translation id="IncompatibleModsFoundMessage" value="Real Time检测到至少一个不兼容的mod（或部分不兼容）。建议取消订阅。如果你忽略此提示，你可能会冒风险，游戏可能无法正常工作，甚至会使崩溃。" />
-  <translation id="Minutes" value="分钟。" />
+  <translation id="RestrictedModeMessage" value="Real Time在受限模式下工作，某些功能被禁用，这是因为第三方库存在技术问题或模组不兼容，如果你需要帮助，请联系模组开发者且发送你的游戏日志文件。" />
+  <translation id="ModNotWorkingMessage" value="啊! 出问题了 - Real Time模组无法启用. 请把你的日志文件分享给该模组的开发者." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time检测到至少一个不兼容的模组（或部分不兼容），建议取消订阅，如果你知道自己在做什么，你可能需要承担继续的风险，游戏可能无法正常工作，甚至会使崩溃。" />
+  <translation id="Minutes" value="分钟" />
 
   <translation id="Tools" value="工具" />
-  <translation id="ShowIncompatibilityNotifications" value="显示mod不兼容的通知" />
+  <translation id="ShowIncompatibilityNotifications" value="显示模组不兼容的通知" />
   <translation id="UseEnglishUSFormats" value="使用美国的时间日期格式与英语" />
   <translation id="UseEnglishUSFormatsTooltip" value="更改时间格式需要重新启动游戏" />
-  <translation id="ResetToDefaults" value="重设至默认" />
+  <translation id="ResetToDefaults" value="重置为默认值" />
   <translation id="UseForNewGames" value="为新游戏使用当前值" />
-  <translation id="ResetFireBurnManager" value="Clear the fire manager" />
+  <translation id="ResetFireBurnManager" value="清除火灾管理器" />
 
-  <translation id="1General" value="通用设置" />
-  <translation id="0Time" value="时间选项" />
-  <translation id="1Other" value="其它选项" />
-  <translation id="WakeUpHour" value="城市苏醒的时间" />
-  <translation id="WakeUpHourTooltip" value="设定市民开始起床的时间，城市预算和时间流逝速度会自动切换成“日间”模式！" />
-  <translation id="GoToSleepHour" value="城市入睡的时间" />
-  <translation id="GoToSleepHourTooltip" value="设定市民开始上床睡觉的时间，城市预算和时间流逝速度会自动切换成“夜间”模式！" />
+  <translation id="1General" value="通用" />
+  <translation id="0Time" value="时间" />
+  <translation id="1Other" value="其它" />
+  <translation id="WakeUpHour" value="城市苏醒" />
+  <translation id="WakeUpHourTooltip" value="设定大部分市民开始起床的时间，预算和时间流逝速度会自动切换成“日间”模式！" />
+  <translation id="GoToSleepHour" value="城市入睡" />
+  <translation id="GoToSleepHourTooltip" value="设定大部分市民开始上床睡觉的时间，预算和时间流逝速度会自动切换成“夜间”模式！" />
   <translation id="DayTimeSpeed" value="日间时间流逝速度" />
-  <translation id="DayTimeSpeedTooltip" value="调节日间时间快慢. '1'代表非常慢，几乎就是真实世界的时间速度！" />
+  <translation id="DayTimeSpeedTooltip" value="调节日间时间快慢，'1'代表非常慢，几乎就是真实世界的时间速度！" />
   <translation id="NightTimeSpeed" value="夜间时间流逝速度" />
-  <translation id="NightTimeSpeedTooltip" value="调节夜间时间快慢. '1'代表非常慢，几乎就是真实世界的时间速度！" />
-  <translation id="IsDynamicDayLengthEnabled" value="动态日照时长" />
-  <translation id="IsDynamicDayLengthEnabledTooltip" value="城市日照时长取决于使用的地图主题和当前日期。冬天白昼长度要比夏天时短。" />
-  <translation id="VirtualCitizens" value="市民行为模拟模式 （真实和虚拟）" />
-  <translation id="VirtualCitizensTooltip" value="选择'None'来打造100%真实的城市，如果电脑带不动请选择'Vanilla'或者'More'" />
-  <translation id="VirtualCitizens.None" value="完全真实市民行为" />
-  <translation id="VirtualCitizens.Vanilla" value="原版游戏的市民行为" />
-  <translation id="UseSlowAging" value="更好的老龄化和出生率" />
-  <translation id="UseSlowAgingTooltip" value="如果启用，1个游戏日意味着1个公民的生命年。如果禁用，1个游戏日意味着10（时间速度6）到340（时间速度1）生命年。" />
-  <translation id="IsWeekendEnabled" value="城市有周六日" />
-  <translation id="IsWeekendEnabledTooltip" value="市民们周六日都不会上班上学" />
-  <translation id="IsLunchtimeEnabled" value="城市有午饭时间" />
-  <translation id="IsLunchtimeEnabledTooltip" value="允许市民在工作日中午出去吃饭" />
-  <translation id="StopConstructionAtNight" value="夜间暂停一切基建和建筑升级" />
-  <translation id="StopConstructionAtNightTooltip" value="搬砖的也要睡觉休息嘛" />
+  <translation id="NightTimeSpeedTooltip" value="调节夜间时间快慢，'1'代表非常慢，几乎就是真实世界的时间速度！" />
+  <translation id="IsDynamicDayLengthEnabled" value="动态日间时长" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="日间时长取决于使用的地图主题和当前日期，冬天白昼长度要比夏天时短。" />
+  <translation id="VirtualCitizens" value="市民模拟模式 （真实和虚拟）" />
+  <translation id="VirtualCitizensTooltip" value="选择“全部”来打造100%真实的城市，如果电脑性能较差请选择“原版”" />
+  <translation id="VirtualCitizens.None" value="全部市民真实行为" />
+  <translation id="VirtualCitizens.Vanilla" value="类似原版游戏" />
+  <translation id="UseSlowAging" value="更好的衰老和出生率" />
+  <translation id="UseSlowAgingTooltip" value="如果启用，1个游戏日意味着1个公民的生命年；如果禁用，1个游戏日意味着10（时间速度6）到340（时间速度1）生命年。" />
+  <translation id="IsWeekendEnabled" value="启用周末" />
+  <translation id="IsWeekendEnabledTooltip" value="市民在周末不会上班或上学" />
+  <translation id="IsLunchtimeEnabled" value="启用午饭时间" />
+  <translation id="IsLunchtimeEnabledTooltip" value="市民在午饭时应该出去进食" />
+  <translation id="StopConstructionAtNight" value="夜间暂停建筑的建造和升级" />
+  <translation id="StopConstructionAtNightTooltip" value="建筑工人也需要休息" />
   <translation id="ConstructionSpeed" value="建造速度" />
-  <translation id="ConstructionSpeedTooltip" value="调节建筑建造和升级的速度" />
+  <translation id="ConstructionSpeedTooltip" value="建筑建造和升级的速度" />
   <translation id="SwitchOffLightsAtNight" value="夜间关闭建筑灯光" />
-  <translation id="SwitchOffLightsAtNightTooltip" value="市民们睡觉时住宅建筑的灯光会自动关闭，其他建筑比如办公室和公园当没有人工作时也会关灯。" />
-  <translation id="SwitchOffLightsMaxHeight" value="保持高楼建筑的灯光" />
-  <translation id="SwitchOffLightsMaxHeightTooltip" value="比这个值高的住宅、商业、办公楼不会关灯。" />
-  <translation id="CanAbandonJourney" value="改善交通拥堵与公共交通等候的行为" />
-  <translation id="CanAbandonJourneyTooltip" value="如果交通堵塞或等待公共交通时间过长市民会放弃出行" />
-  <translation id="RealisticFires" value="Realistic Fires last between 30 minutes to 4 hours at random" />
-  <translation id="RealisticFiresTooltip" value="If enabled, fires will take between 30 minutes to 4 hours to be extinguished" />
-  <translation id="WorkForceMatters" value="Building must have workers to operate" />
-  <translation id="WorkForceMattersTooltip" value="If enabled, buildings without workers in it will become closed and not give service" />
-  <translation id="WeeklyPickupsOnly" value="Building will be collected from only once a week" />
-  <translation id="WeeklyPickupsOnlyTooltip" value="If enabled, buildings will have bigger buffers which in turn will allow then to request services only once a week, like garbage and mail" />
-  <translation id="WeeklyCommericalDeliveries" value="Commerical building will receive goods delivery once a week" />
-  <translation id="WeeklyCommericalDeliveriesTooltip" value="If enabled, commerical buildings will have bigger goods buffer that will allow them to get goods only once a week" />
-  <translation id="DummyTrafficBehavior" value="Make the dummy traffic capacity more light" />
-  <translation id="DummyTrafficBehaviorTooltip" value="If enabled, dummy traffic is more reasonable to the mod gameplay" />
+  <translation id="SwitchOffLightsAtNightTooltip" value="住宅在市民睡觉时熄灯，其他建筑和公园在无人工作时熄灯。" />
+  <translation id="SwitchOffLightsMaxHeight" value="保持高层建筑的灯光" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="比这个值高的住宅、商业、办公楼不熄灯。" />
+  <translation id="CanAbandonJourney" value="改善交通堵塞和公共交通等候行为" />
+  <translation id="CanAbandonJourneyTooltip" value="如果启用该功能，市民可在堵车或等待公共交通时间过长时放弃行程" />
+  <translation id="RealisticFires" value="真实的火灾持续时间从 30 分钟到 4 小时不等" />
+  <translation id="RealisticFiresTooltip" value="如果启用，火灾将需要 30 分钟至 4 小时才能扑灭" />
+  <translation id="WorkForceMatters" value="建筑物必须有工人才能运作" />
+  <translation id="WorkForceMattersTooltip" value="如果启用，没有工人的建筑将关闭，无法提供服务" />
+  <translation id="WeeklyPickupsOnly" value="建筑每周仅收集一次" />
+  <translation id="WeeklyPickupsOnlyTooltip" value="如果启用，建筑将有更大的空间，允许建筑每周只申请一次服务，如垃圾和邮件" />
+  <translation id="WeeklyCommericalDeliveries" value="商业建筑每周收货一次" />
+  <translation id="WeeklyCommericalDeliveriesTooltip" value="如果启用，商业建筑将有更大的货物空间，使其每周只收一次货" />
+  <translation id="DummyTrafficBehavior" value="使虚拟交通容量更小" />
+  <translation id="DummyTrafficBehaviorTooltip" value="如果启用，虚拟交通对模组玩法更合理" />
 
-  <translation id="2Quotas" value="几率选项" />
-  <translation id="SecondShiftQuota" value="第二轮班工人" />
-  <translation id="SecondShiftQuotaTooltip" value="调节上第二轮班的市民的百分比" />
+  <translation id="2Quotas" value="概率选项" />
+  <translation id="SecondShiftQuota" value="中班工人" />
+  <translation id="SecondShiftQuotaTooltip" value="上中班的市民的比例" />
   <translation id="NightShiftQuota" value="夜班工人" />
-  <translation id="NightShiftQuotaTooltip" value="调节上夜班的市民的百分比" />
-  <translation id="ContinuousNightShiftQuota" value="Continuous Night shift workers" />
-  <translation id="ContinuousNightShiftQuotaTooltip" value="The percentage of the citizens that work a continuous night shift" />
-  <translation id="LunchQuota" value="午饭几率" />
-  <translation id="LunchQuotaTooltip" value="调节外出吃午饭而不叫外卖的市民的百分比" />
+  <translation id="NightShiftQuotaTooltip" value="上夜班的市民的比例" />
+  <translation id="ContinuousNightShiftQuota" value="大夜班工人" />
+  <translation id="ContinuousNightShiftQuotaTooltip" value="上大夜班的市民的比例" />
+  <translation id="LunchQuota" value="午饭概率" />
+  <translation id="LunchQuotaTooltip" value="外出吃午饭的市民的比例" />
   <translation id="LocalBuildingSearchQuota" value="就近购物几率" />
-  <translation id="LocalBuildingSearchQuotaTooltip" value="调节就近购物的市民百分比" />
+  <translation id="LocalBuildingSearchQuotaTooltip" value="就近购物的市民比例" />
   <translation id="ShoppingForFunQuota" value="为了娱乐而购物" />
-  <translation id="ShoppingForFunQuotaTooltip" value="即使不需要，也会因为娱乐而购物的市民比例" />
-  <translation id="OnTimeQuota" value="准点下班几率" />
-  <translation id="OnTimeQuotaTooltip" value="调节摸完鱼准点下班的市民百分比" />
-  <translation id="OpenLowCommercialAtNightQuota" value="Open low commercial buildings at night percentage" />
-  <translation id="OpenLowCommercialAtNightQuotaTooltip" value="The percentage of the low commercial buildings that will stay open at night" />
-  <translation id="OpenCommercialSecondShiftQuota" value="Open commercial buildings for second shift percentage" />
-  <translation id="OpenCommercialSecondShiftQuotaTooltip" value="The percentage of the commerical buildings that will stay open for a second shift" />
-  <translation id="OpenCommercialAtWeekendsQuota" value="Open commercial buildings at weekends percentage" />
-  <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="The percentage of the commercial buildings that will stay open at weekends" />
-  <translation id="NightClassQuota" value="Night School students" />
-  <translation id="NightClassQuotaTooltip" value="The percentage of the citizens that go to night school" />
+  <translation id="ShoppingForFunQuotaTooltip" value="即使不需要任何商品，也会因为乐趣而购物的人口比例" />
+  <translation id="OnTimeQuota" value="准时率" />
+  <translation id="OnTimeQuotaTooltip" value="按时上下班的市民比例" />
+  <translation id="OpenLowCommercialAtNightQuota" value="低密度商业建筑夜间营业比例" />
+  <translation id="OpenLowCommercialAtNightQuotaTooltip" value="夜间开放的低密度商业建筑比例" />
+  <translation id="OpenCommercialSecondShiftQuota" value="中班开放的商业建筑比例" />
+  <translation id="OpenCommercialSecondShiftQuotaTooltip" value="中班继续开放的商业建筑比例" />
+  <translation id="OpenCommercialAtWeekendsQuota" value="周末开放商业建筑的比例" />
+  <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="周末继续开放商业建筑的比例" />
+  <translation id="NightClassQuota" value="夜校学生" />
+  <translation id="NightClassQuotaTooltip" value="上夜校的市民比例" />
 
-  <translation id="3Events" value="大型活动选项" />
-  <translation id="AreEventsEnabled" value="启用自定义大型活动" />
-  <translation id="AreEventsEnabledTooltip" value="如果选择关闭，城市中就只会有原版游戏允许举办的赛事、音乐会等活动。" />
-  <translation id="EarliestHourEventStartWeekday" value="最早的工作日期间活动" />
-  <translation id="EarliestHourEventStartWeekdayTooltip" value="工作日期间大型活动最早可以开始的时间。" />
-  <translation id="LatestHourEventStartWeekday" value="最晚的工作日期间活动" />
-  <translation id="LatestHourEventStartWeekdayTooltip" value="工作日期间大型活动最迟可以开始的时间。" />
-  <translation id="EarliestHourEventStartWeekend" value="最早的周六日期间活动" />
-  <translation id="EarliestHourEventStartWeekendTooltip" value="周六日期间大型活动最早可以开始的时间。" />
-  <translation id="LatestHourEventStartWeekend" value="最晚的周六日期间活动" />
-  <translation id="LatestHourEventStartWeekendTooltip" value="工作日期间大型活动最迟可以开始的时间。" />
+  <translation id="3Events" value="事件" />
+  <translation id="AreEventsEnabled" value="启用自定义事件" />
+  <translation id="AreEventsEnabledTooltip" value="如果禁用，城市中只能发生原版游戏事件" />
+  <translation id="EarliestHourEventStartWeekday" value="最早的工作日事件" />
+  <translation id="EarliestHourEventStartWeekdayTooltip" value="工作日最早可以开始事件的时间" />
+  <translation id="LatestHourEventStartWeekday" value="最晚的工作日事件" />
+  <translation id="LatestHourEventStartWeekdayTooltip" value="工作日最迟可以开始事件的时间" />
+  <translation id="EarliestHourEventStartWeekend" value="最早的周末事件" />
+  <translation id="EarliestHourEventStartWeekendTooltip" value="周末最早可以开始事件的时间" />
+  <translation id="LatestHourEventStartWeekend" value="最晚的周末活动" />
+  <translation id="LatestHourEventStartWeekendTooltip" value="周末最迟可以开始事件的时间" />
 
-  <translation id="4Time" value="时刻时长选项" />
-  <translation id="MaxOvertime" value="允许最长的加班时间" />
-  <translation id="MaxOvertimeTooltip" value="调节市民们加班的最长时间。他们可以早来上班或者晚点下班。" />
-  <translation id="SchoolBegin" value="学校上课时间" />
-  <translation id="SchoolBeginTooltip" value="白天学校开始上课的时间。年青一代必须接受教育。" />
+  <translation id="4Time" value="时间" />
+  <translation id="MaxOvertime" value="最长加班时间" />
+  <translation id="MaxOvertimeTooltip" value="市民们最长加班时间——他们更早上班或者工作更久" />
+  <translation id="SchoolBegin" value="学校上学时间" />
+  <translation id="SchoolBeginTooltip" value="日间学校开始上课的时间——青少年市民必须在学校" />
   <translation id="SchoolEnd" value="学校放学时间" />
-  <translation id="SchoolEndTooltip" value="白天青少年市民放学回家的时间。" />
+  <translation id="SchoolEndTooltip" value="日间青少年市民放学回家的时间。" />
   <translation id="WorkBegin" value="上班时间" />
-  <translation id="WorkBeginTooltip" value="白天工作开始的时间 - 成年市民必须大学在校或者勤劳工作。" />
+  <translation id="WorkBeginTooltip" value="日间工作开始的时间——成年市民必须大学在校或者勤劳工作。" />
   <translation id="WorkEnd" value="下班时间" />
-  <translation id="WorkEndTooltip" value="市民结束摸鱼下班和大学放学的时间" />
-  <translation id="LunchBegin" value="午饭饭点开始时间" />
-  <translation id="LunchBeginTooltip" value="午饭饭点开始市民就会上街找吃的" />
-  <translation id="LunchEnd" value="午饭饭点结束时间" />
-  <translation id="LunchEndTooltip" value="过了午饭饭点市民又回去工作了" />
-  <translation id="MaxVacationLength" value="最大放假天数" />
-  <translation id="MaxVacationLengthTooltip" value="市民可以放假多长时间。设置为0禁用假期。" />
-  <translation id="AcademicYearLength" value="Academic Year days" />
-  <translation id="AcademicYearLengthTooltip" value="how long an academic year will take. Default is 7 days." />
+  <translation id="WorkEndTooltip" value="日间成年市民从工作或大学返回的时间" />
+  <translation id="LunchBegin" value="午饭开始时间" />
+  <translation id="LunchBeginTooltip" value="日间市民外出吃午饭的时间" />
+  <translation id="LunchEnd" value="午饭结束时间" />
+  <translation id="LunchEndTooltip" value="日间市民吃完午饭回归工作的时间" />
+  <translation id="MaxVacationLength" value="最大假期天数" />
+  <translation id="MaxVacationLengthTooltip" value="市民可以休假多长时间。设置为 0 禁用假期" />
+  <translation id="AcademicYearLength" value="学年天数" />
+  <translation id="AcademicYearLengthTooltip" value="一个学年需要多长时间，默认为 7 天" />
 
-  <translation id="5BuildingService" value="Building Services" />
-  <translation id="0Garbage" value="Garbage operation hours" />
-  <translation id="1Mail" value="Mail operation hours" />
-  <translation id="2Other" value="Park Maintainace operation hours" />
-  <translation id="GarbageResidentialStartHour" value="Residential start hour" />
-  <translation id="GarbageResidentialStartHourTooltip" value="The daytime when garbage services starts to operate in residential areas" />
-  <translation id="GarbageResidentialEndHour" value="Residential end hour" />
-  <translation id="GarbageResidentialEndHourTooltip" value="The daytime when garbage services stop to operate in residential areas" />
-  <translation id="GarbageCommercialStartHour" value="Commercial start hour" />
-  <translation id="GarbageCommercialStartHourTooltip" value="The daytime when garbage services starts to operate in commercial areas" />
-  <translation id="GarbageCommercialEndHour" value="Commercial end hour" />
-  <translation id="GarbageCommercialEndHourTooltip" value="The daytime when garbage services stop to operate in commercial areas" />
-  <translation id="GarbageIndustrialStartHour" value="Industrial start hour" />
-  <translation id="GarbageIndustrialStartHourTooltip" value="The daytime when garbage services starts to operate in industrial areas" />
-  <translation id="GarbageIndustrialEndHour" value="Industrial end hour" />
-  <translation id="GarbageIndustrialEndHourTooltip" value="The daytime when garbage services stop to operate in industrial areas" />
-  <translation id="GarbageOfficeStartHour" value="Office start hour" />
-  <translation id="GarbageOfficeStartHourTooltip" value="The daytime when garbage services starts to operate in office areas" />
-  <translation id="GarbageOfficeEndHour" value="Office end hour" />
-  <translation id="GarbageOfficeEndHourTooltip" value="The daytime when garbage services stop to operate in office areas" />
-  <translation id="GarbageOtherStartHour" value="Other start hour" />
-  <translation id="GarbageOtherStartHourTooltip" value="The daytime when garbage services starts to operate in other areas" />
-  <translation id="GarbageOtherEndHour" value="Other end hour" />
-  <translation id="GarbageOtherEndHourTooltip" value="The daytime when garbage services stop to operate in other areas" />
+  <translation id="5BuildingService" value="建筑服务" />
+  <translation id="0Garbage" value="垃圾处理运作时间" />
+  <translation id="1Mail" value="邮件收发运作时间" />
+  <translation id="2Other" value="公园维护运作时间" />
+  <translation id="GarbageResidentialStartHour" value="住宅区开始时间" />
+  <translation id="GarbageResidentialStartHourTooltip" value="日间住宅区开始垃圾服务的时间" />
+  <translation id="GarbageResidentialEndHour" value="住宅区结束时间" />
+  <translation id="GarbageResidentialEndHourTooltip" value="日间住宅区停止垃圾服务的时间" />
+  <translation id="GarbageCommercialStartHour" value="商业区开始时间" />
+  <translation id="GarbageCommercialStartHourTooltip" value="日间商业区开始垃圾服务的时间" />
+  <translation id="GarbageCommercialEndHour" value="商业区结束时间" />
+  <translation id="GarbageCommercialEndHourTooltip" value="日间商业区停止垃圾服务的时间" />
+  <translation id="GarbageIndustrialStartHour" value="工业区开始时间" />
+  <translation id="GarbageIndustrialStartHourTooltip" value="日间工业区开始垃圾服务的时间" />
+  <translation id="GarbageIndustrialEndHour" value="工业区结束时间" />
+  <translation id="GarbageIndustrialEndHourTooltip" value="日间工业区停止垃圾服务的时间" />
+  <translation id="GarbageOfficeStartHour" value="办公区开始时间" />
+  <translation id="GarbageOfficeStartHourTooltip" value="日间办公区开始垃圾服务的时间" />
+  <translation id="GarbageOfficeEndHour" value="办公区结束时间" />
+  <translation id="GarbageOfficeEndHourTooltip" value="日间办公区停止垃圾服务的时间" />
+  <translation id="GarbageOtherStartHour" value="其它区开始时间" />
+  <translation id="GarbageOtherStartHourTooltip" value="日间其它区开始垃圾服务的时间" />
+  <translation id="GarbageOtherEndHour" value="其它区结束时间" />
+  <translation id="GarbageOtherEndHourTooltip" value="日间其它区停止垃圾服务的时间" />
 
-  <translation id="MailResidentialStartHour" value="Residential start hour" />
-  <translation id="MailResidentialStartHourTooltip" value="The daytime when mail services starts to operate in residential areas" />
-  <translation id="MailResidentialEndHour" value="Residential end hour" />
-  <translation id="MailResidentialEndHourTooltip" value="The daytime when mail services stop to operate in residential areas" />
-  <translation id="MailCommercialStartHour" value="Commercial start hour" />
-  <translation id="MailCommercialStartHourTooltip" value="The daytime when mail services starts to operate in commercial areas" />
-  <translation id="MailCommercialEndHour" value="Commercial end hour" />
-  <translation id="MailCommercialEndHourTooltip" value="The daytime when mail services stop to operate in commercial areas" />
-  <translation id="MailIndustrialStartHour" value="industrial start hour" />
-  <translation id="MailIndustrialStartHourTooltip" value="The daytime when mail services starts to operate in industrial areas" />
-  <translation id="MailIndustrialEndHour" value="Industrial end hour" />
-  <translation id="MailIndustrialEndHourTooltip" value="The daytime when mail services stop to operate in industrial areas" />
-  <translation id="MailOfficeStartHour" value="Office start hour" />
-  <translation id="MailOfficeStartHourTooltip" value="The daytime when mail services starts to operate in office areas" />
-  <translation id="MailOfficeEndHour" value="Office end hour" />
-  <translation id="MailOfficeEndHourTooltip" value="The daytime when mail services stop to operate in office areas" />
-  <translation id="MailOtherStartHour" value="Other start hour" />
-  <translation id="MailOtherStartHourTooltip" value="The daytime when mail services starts to operate in other areas" />
-  <translation id="MailOtherEndHour" value="Other end hour" />
-  <translation id="MailOtherEndHourTooltip" value="The daytime when mail services stop to operate in other areas" />
+  <translation id="MailResidentialStartHour" value="住宅区开始时间" />
+  <translation id="MailResidentialStartHourTooltip" value="日间开始在住宅区提供邮件服务的时间" />
+  <translation id="MailResidentialEndHour" value="住宅区结束时间" />
+  <translation id="MailResidentialEndHourTooltip" value="日间停止在住宅区提供邮件服务的时间" />
+  <translation id="MailCommercialStartHour" value="商业区开始时间" />
+  <translation id="MailCommercialStartHourTooltip" value="日间开始在商业区提供邮件服务的时间" />
+  <translation id="MailCommercialEndHour" value="商业区结束时间" />
+  <translation id="MailCommercialEndHourTooltip" value="日间停止在商业区提供邮件服务的时间" />
+  <translation id="MailIndustrialStartHour" value="工业区开始时间" />
+  <translation id="MailIndustrialStartHourTooltip" value="日间开始在工业区提供邮件服务的时间" />
+  <translation id="MailIndustrialEndHour" value="工业区结束时间" />
+  <translation id="MailIndustrialEndHourTooltip" value="日间停止在工业区提供邮件服务的时间" />
+  <translation id="MailOfficeStartHour" value="办公区开始时间" />
+  <translation id="MailOfficeStartHourTooltip" value="日间开始在办公区提供邮件服务的时间" />
+  <translation id="MailOfficeEndHour" value="办公区结束时间" />
+  <translation id="MailOfficeEndHourTooltip" value="日间停止在办公区提供邮件服务的时间" />
+  <translation id="MailOtherStartHour" value="其他区开始时间" />
+  <translation id="MailOtherStartHourTooltip" value="日间开始在其他区提供邮件服务的时间" />
+  <translation id="MailOtherEndHour" value="其他区结束时间" />
+  <translation id="MailOtherEndHourTooltip" value="日间停止在其他区提供邮件服务的时间" />
 
-  <translation id="ParkMaintenanceStartHour" value="Park Maintenance start hour" />
-  <translation id="ParkMaintenanceStartHourTooltip" value="The daytime when park maintenance services starts to operate" />
-  <translation id="ParkMaintenanceEndHour" value="Park Maintenance end hour" />
-  <translation id="ParkMaintenanceEndHourTooltip" value="The daytime when park maintenance services stop to operate" />
+  <translation id="ParkMaintenanceStartHour" value="公园维护开始时间" />
+  <translation id="ParkMaintenanceStartHourTooltip" value="日间开始提供公园维护服务的时间" />
+  <translation id="ParkMaintenanceEndHour" value="公园维护结束时间" />
+  <translation id="ParkMaintenanceEndHourTooltip" value="日间停止提供公园维护的时间" />
 
-  <translation id="6RoadService" value="Road Services" />
-  <translation id="0MaintenanceSnow" value=" Maintenance and Snow operation hours" />
-  <translation id="MaintenanceSnowRoadsSmallStartHour" value="Small roads start hour" />
-  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for small roads" />
-  <translation id="MaintenanceSnowRoadsSmallEndHour" value="Small roads end hour" />
-  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for small roads" />
-  <translation id="MaintenanceSnowRoadsMediumStartHour" value="Medium roads start hour" />
-  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for medium roads" />
-  <translation id="MaintenanceSnowRoadsMediumEndHour" value="Medium roads end hour" />
-  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for medium roads" />
-  <translation id="MaintenanceSnowRoadsLargeStartHour" value="Large roads start hour" />
-  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for large roads" />
-  <translation id="MaintenanceSnowRoadsLargeEndHour" value="Large roads end hour" />
-  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for large roads" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="Highway roads start hour" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for highway roads" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="Highway roads end hour" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for highway roads" />
-  <translation id="MaintenanceSnowRoadsOtherStartHour" value="Other roads start hour" />
-  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for other roads" />
-  <translation id="MaintenanceSnowRoadsOtherEndHour" value="Other roads end hour" />
-  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for other roads" />
+  <translation id="6RoadService" value="道路服务" />
+  <translation id="0MaintenanceSnow" value="维护和除雪作业时间" />
+  <translation id="MaintenanceSnowRoadsSmallStartHour" value="小型道路开始时间" />
+  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="日间开始对维护和除雪作业的时间小型道路" />
+  <translation id="MaintenanceSnowRoadsSmallEndHour" value="小型道路结束时间" />
+  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="日间停止对维护和除雪作业的时间小型道路" />
+  <translation id="MaintenanceSnowRoadsMediumStartHour" value="中型道路开始时间" />
+  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="日间开始对维护和除雪作业的时间中型道路" />
+  <translation id="MaintenanceSnowRoadsMediumEndHour" value="中型道路结束时间" />
+  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="日间停止对维护和除雪作业的时间中型道路" />
+  <translation id="MaintenanceSnowRoadsLargeStartHour" value="大型道路开始时间" />
+  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="日间开始对维护和除雪作业的时间大型道路" />
+  <translation id="MaintenanceSnowRoadsLargeEndHour" value="大型道路结束时间" />
+  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="日间停止对维护和除雪作业的时间大型道路" />
+  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="高速公路开始时间" />
+  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="日间开始对维护和除雪作业的时间高速公路" />
+  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="高速公路结束时间" />
+  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="日间停止对维护和除雪作业的时间高速公路" />
+  <translation id="MaintenanceSnowRoadsOtherStartHour" value="其他道路开始时间" />
+  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="日间开始对维护和除雪作业的时间其他道路" />
+  <translation id="MaintenanceSnowRoadsOtherEndHour" value="其他道路结束时间" />
+  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="日间停止对维护和除雪作业的时间其他道路" />
 
   <translation id="ScheduledAction" value="现在" />
   <translation id="NextScheduledAction" value="直到" />
   <translation id="ScheduledAction.AtHome" value="回家" />
   <translation id="ScheduledAction.AtSchoolOrWork" value="去工作/学校" />
-  <translation id="ScheduledAction.AtSchool" value="Go to school" />
-  <translation id="ScheduledAction.AtWork" value="Go to work" />
+  <translation id="ScheduledAction.AtSchool" value="去学校" />
+  <translation id="ScheduledAction.AtWork" value="去工作" />
   <translation id="ScheduledAction.Shopping" value="去购物" />
   <translation id="ScheduledAction.Relaxing" value="去放松" />
   <translation id="ScheduledAction.Visiting" value="去参观" />
   <translation id="ScheduledAction.InShelter" value="去避难所" />
-  <translation id="ScheduledAction.Lunch" value="Go to eat lunch" />
-  <translation id="WorkShift.First" value="第一班次" />
-  <translation id="WorkShift.Second" value="第二班次" />
+  <translation id="ScheduledAction.Lunch" value="去吃午餐" />
+  <translation id="WorkShift.First" value="早班" />
+  <translation id="WorkShift.Second" value="午班" />
   <translation id="WorkShift.Night" value="晚班" />
-  <translation id="WorkShift.ContinuousDay" value="Continuous day work shift" />
-  <translation id="WorkShift.ContinuousNight" value="Continuous night work shift" />
-  <translation id="WorkShift.Event" value="Event work shift" />
-  <translation id="WorkStatus.OnVacation" value="(假期: {0} 天)" />
+  <translation id="WorkShift.ContinuousDay" value="连续白班" />
+  <translation id="WorkShift.ContinuousNight" value="连续夜班" />
+  <translation id="WorkShift.Event" value="事件工作班次" />
+  <translation id="WorkStatus.OnVacation" value="(假期：{0} 天)" />
 
-  <translation id="AcademicYear.DaysLeft" value="结束与 {0} 天" />
-  <translation id="AcademicYear.HoursLeft" value="结束与 {0} 小时" />
+  <translation id="AcademicYear.DaysLeft" value="{0} 天后结束" />
+  <translation id="AcademicYear.HoursLeft" value="{0} 小时后结束" />
   <translation id="AcademicYear.EndsSoon" value="一小时内结束" />
 
-  <translation id="OperationHoursSettingsCheckBox" value="Settings" />
-  <translation id="OperationHoursSettingsCheckBoxTooltip" value="Change building operation hours" />
-  <translation id="SettingsTitle" value="Adjust Operation Hours" />
-  <translation id="WorkAtNight" value="Work At Night" />
-  <translation id="WorkAtNightTooltip" value="The building will work 24 hours" />
-  <translation id="WorkAtWeekands" value="Work At Weekands" />
-  <translation id="WorkAtWeekandsTooltip" value="The building will work at weekends" />
+  <translation id="OperationHoursSettingsCheckBox" value="设置" />
+  <translation id="OperationHoursSettingsCheckBoxTooltip" value="更改建筑物的运行时间" />
+  <translation id="SettingsTitle" value="调整运行时间" />
+  <translation id="WorkAtNight" value="夜间工作" />
+  <translation id="WorkAtNightTooltip" value="建筑物将全天候运行" />
+  <translation id="WorkAtWeekands" value="周末工作" />
+  <translation id="WorkAtWeekandsTooltip" value="建筑物将在周末运行" />
   <translation id="HasExtendedWorkShift" value="Has Extended Work Shift" />
   <translation id="HasExtendedWorkShiftTooltip" value="The morning shift will start when the city wakes up or the earlist a citizen will wake up the lowest between them. cant have continuous shift" />
-  <translation id="HasContinuousWorkShift" value="Has Continuous Work Shift" />
-  <translation id="HasContinuousWorkShiftTooltip" value="The building will work from 8(am) to 20(8pm), if works at night, there will be two shifts 8-20 and 20-8. cant have extended shift" />
-  <translation id="ShiftCountTitle" value="Select the number of shifts" />
-  <translation id="ShiftCountTooltip" value="work at night and not continuous = 3, continuous = 1, work at night and continuous = 2, else = 1-2" />
-  <translation id="SaveBuildingSettings" value="Save building settings" />
-  <translation id="SaveBuildingSettingsTooltip" value="First priority - will override prefab and global settings and create a specific work time for this building" />
-  <translation id="ApplyPrefabSettings" value="Apply type settings" />
-  <translation id="ApplyPrefabSettingsTooltip" value="Apply work time settings to this building according to building type in this save" />
-  <translation id="ApplyGlobalSettings" value="Apply global settings" />
-  <translation id="ApplyGlobalSettingsTooltip" value="Apply work time settings to this building according to building type across all saves" />
-  <translation id="SetPrefabSettings" value="Set new type" />
-  <translation id="SetPrefabSettingsTooltip" value="This will update all building records of this type to the current work time of this building in this save" />
-  <translation id="SetGlobalSettings" value="Set new global" />
-  <translation id="SetGlobalSettingsTooltip" value="This will update all building records of this type to the current work time of this building across all saves" />
-  <translation id="UnlockSettings" value="Unlock settings" />
-  <translation id="UnlockSettingsTooltip" value="Unlock edit settings" />
-  <translation id="DefaultSettingsStatus" value="This Building is using default settings" />
-  <translation id="BuildingSettingsStatus" value="This Building is using his own settings" />
-  <translation id="PrefabSettingsStatus" value="This Building is using type settings" />
-  <translation id="GlobalSettingsStatus" value="This Building is using global settings" />
+  <translation id="HasExtendedWorkShift" value="有延长班次" />
+  <translation id="HasExtendedWorkShiftTooltip" value="早班将在城市醒来时或最早的居民醒来时开始，以两者中较早的为准。不能有连续班次。" />
+  <translation id="HasContinuousWorkShift" value="有连续班次" />
+  <translation id="HasContinuousWorkShiftTooltip" value="建筑物将从上午8点工作到晚上8点，如果夜间工作，将有两个班次：8-20和20-8。不能有延长班次。" />
+  <translation id="ShiftCountTitle" value="选择班次数量" />
+  <translation id="ShiftCountTooltip" value="夜间工作且非连续 = 3，连续 = 1，夜间工作且连续 = 2，其他情况 = 1-2" />
+  <translation id="SaveBuildingSettings" value="保存建筑设置" />
+  <translation id="SaveBuildingSettingsTooltip" value="优先级最高 - 将覆盖预设和全局设置，为此建筑创建特定的工作时间" />
+  <translation id="ApplyPrefabSettings" value="应用类型设置" />
+  <translation id="ApplyPrefabSettingsTooltip" value="根据此存档中的建筑类型，将工作时间设置应用于此建筑" />
+  <translation id="ApplyGlobalSettings" value="应用全局设置" />
+  <translation id="ApplyGlobalSettingsTooltip" value="根据所有存档中的建筑类型，将工作时间设置应用于此建筑" />
+  <translation id="SetPrefabSettings" value="设置新类型" />
+  <translation id="SetPrefabSettingsTooltip" value="这将更新此存档中所有此类型建筑的当前工作时间" />
+  <translation id="SetGlobalSettings" value="设置新全局" />
+  <translation id="SetGlobalSettingsTooltip" value="这将更新所有存档中此类型建筑的当前工作时间" />
+  <translation id="UnlockSettings" value="解锁设置" />
+  <translation id="UnlockSettingsTooltip" value="解锁编辑设置" />
+  <translation id="DefaultSettingsStatus" value="此建筑使用默认设置" />
+  <translation id="BuildingSettingsStatus" value="此建筑使用自己的设置" />
+  <translation id="PrefabSettingsStatus" value="此建筑使用类型设置" />
+  <translation id="GlobalSettingsStatus" value="此建筑使用全局设置" />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="煤炭储存 {0} × {unit}"/>
-    <translation id="AIINFO_CUMULATIVEUPKEEP" value="维护费: {0} + {1} / {unit} / cell"/>
-    <translation id="AIINFO_DECEASED_PROCESSED" value="最近的死者处理 {unit}: {0}"/>
-    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="最近的发电量 {unit}: {0} MW"/>
-    <translation id="AIINFO_FIRES_EXTINGUISHED" value="最近的火警 {unit}: {0}"/>
+    <translation id="AIINFO_CUMULATIVEUPKEEP" value="维护费：{0} + {1} / {unit} / cell"/>
+    <translation id="AIINFO_DECEASED_PROCESSED" value="近的死者处理 {unit}：{0}"/>
+    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="近的发电量 {unit}：{0} MW"/>
+    <translation id="AIINFO_FIRES_EXTINGUISHED" value="近的火警 {unit}：{0}"/>
     <translation id="AIINFO_OIL_STORED" value="石油储存 {0} × {unit}"/>
-    <translation id="AIINFO_PASSENGERS_SERVICED" value="最近的乘客服务 {unit}: {0}"/>
-    <translation id="AIINFO_PATIENTS_TREATED" value="最近的患者治疗 {unit}: {0}"/>
-    <translation id="AIINFO_POLE_UPKEEP" value="维护费: {0} / 杆 / {unit}"/>
-    <translation id="AIINFO_PROCESSING_RATE" value="加工速度: {0} / {unit}"/>
-    <translation id="AIINFO_TOURISTS" value="最近的游客 {unit}: {0}"/>
-    <translation id="AIINFO_UPKEEP" value="维护费: {0} / {unit}"/>
-    <translation id="AIINFO_UPKEEPPERCELL" value="维护费: {0} / {unit} / cell"/>
-    <translation id="AIINFO_VISITORS" value="最近的访客 {unit}: {0} "/>
-    <translation id="AIINFO_WATER_CONSUMPTION" value="水: {0} m³/{unit}"/>
-    <translation id="AIINFO_WATER_INTAKE" value="泵送能力: {0} m³/{unit}"/>
-    <translation id="AIINFO_WATER_OUTLET" value="排水能力: {0} m³/{unit}"/>
-    <translation id="AIINFO_WATER_STORED" value="水储量 {0} × {unit}"/>
-    <translation id="AINFO_WATER_IO_CAPACITY" value="开工率: {0:N0} m³/{unit}"/>
+    <translation id="AIINFO_PASSENGERS_SERVICED" value="近的乘客服务 {unit}：{0}"/>
+    <translation id="AIINFO_PATIENTS_TREATED" value="近的患者治疗 {unit}：{0}"/>
+    <translation id="AIINFO_POLE_UPKEEP" value="维护费：{0} / 根 / {unit}"/>
+    <translation id="AIINFO_PROCESSING_RATE" value="加工速度：{0} / {unit}"/>
+    <translation id="AIINFO_TOURISTS" value="近 {unit} 的游客：{0}"/>
+    <translation id="AIINFO_UPKEEP" value="维护费：{0} / {unit}"/>
+    <translation id="AIINFO_UPKEEPPERCELL" value="维护费：{0} / {unit} / 格"/>
+    <translation id="AIINFO_VISITORS" value="近 {unit} 的参观者：{0} "/>
+    <translation id="AIINFO_WATER_CONSUMPTION" value="水：{0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_INTAKE" value="泵送能力：{0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_OUTLET" value="排水能力：{0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_STORED" value="储水量 {0} × {unit}"/>
+    <translation id="AINFO_WATER_IO_CAPACITY" value="运行率：{0:N0} m³/{unit}"/>
     <translation id="DATETIME_WEEK" value="{unit}"/>
     <translation id="DATETIME_WEEKLOWERCASE" value="{unit}"/>
     <translation id="DATETIME_WEEKS" value="× {unit}"/>
-    <translation id="DISTRICT_TOURISTS" value="Tourist visits&#10;last {unit}:"/>
-    <translation id="EXPENSES_TT_EDUCATION" value="Education Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_ELECTRICITY" value="Electricity Service Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_FIRE" value="Fire Department Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_FIRE_ND" value="Emergency Service Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_GARBAGE" value="Garbage Service Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_HEALTHCARE" value="Healthcare Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_LOANS" value="Loans Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_MONUMENTS" value="Unique Buildings Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_PARK" value="Parks, Plazas and Landscaping Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_POLICE" value="Police Department Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_POLICIES" value="Policies Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="Public Transport Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_ROADS" value="Roads Service Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_TOTAL" value="Total Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_WATER" value="Water and Sewage Service Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_WATER_WW" value="Water, Sewage and Heating Service Expenses last {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="Commercial Income from citizens last {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALHIGH" value="Commercial High Income last {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALLOW" value="Commercial Low Income last {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALSPEC" value="Commercial Income from Specializations last {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALTOTAL" value="Commercial Income last {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALTOURIST" value="Commercial Income from tourists last {unit}"/>
-    <translation id="INCOME_TT_INDUSTRIAL" value="Industrial Income last {unit}"/>
-    <translation id="INCOME_TT_OFFICE" value="Office Income last {unit}"/>
-    <translation id="INCOME_TT_PARKAREAS" value="Park Area Income last {unit}"/>
-    <translation id="INCOME_TT_RESIDENTIALHIGH" value="Residential High Income last {unit}"/>
-    <translation id="INCOME_TT_RESIDENTIALLOW" value="Residential Low Income last {unit}"/>
-    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="Residential Income last {unit}"/>
-    <translation id="INCOME_TT_TOTAL" value="Total Income last {unit}"/>
-    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="Total Income from Tourism last {unit}"/>
-    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="Total Income from Residential Zones last {unit}"/>
-    <translation id="INCOME_TT_TOTAL_WORK" value="Total Income from Industrial and Office Zones last {unit}"/>
-    <translation id="INCOME_TT_PUBLICTRANSPORT" value="Public Transport Income last {unit}"/>
-    <translation id="INFO_CONNECTIONS_TOURISTSTOTAL" value="Tourist Visits last {unit}: {0:N0}"/>
-    <translation id="INFO_CRIMERATE_CRIMES" value="Criminals arrested last {unit}:"/>
-    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="Visitors in parks &amp; plazas per {unit}: {0:N0}"/>
-    <translation id="INFO_ENTERTAINMENT_UBVISIT" value="Visitors in Unique Buildings per {unit}: {0:N0}"/>
-    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="Garbage processing capacity: {0:N0} units / {unit}"/>
-    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="Garbage production: {0:N0} units / {unit}"/>
-    <translation id="INFO_POPULATION_BIRTHS" value="{0:N0} births / {unit}"/>
-    <translation id="INFO_POPULATION_DEATHS" value="{0:N0} deaths / {unit}"/>
-    <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0:N0} per {unit}"/>
-    <translation id="INFO_RES_FORESTAMOUNT" value="{0} units/{unit}"/>
-    <translation id="INFO_RES_FORESTUSED" value="{0} units/{unit}"/>
-    <translation id="INFO_RES_OILUSED" value="{0} units/{unit}"/>
-    <translation id="INFO_RES_OREUSED" value="{0} units/{unit}"/>
-    <translation id="INFO_WATER_CONSUMPTION" value="Water consumption: {0:N0} m³/{unit}"/>
-    <translation id="INFO_WATER_PRODUCTION" value="Water pumping capacity: {0:N0} m³/{unit}"/>
-    <translation id="INFO_WATER_SEWAGEACCUMULATION" value="Sewage production: {0:N0} m³/{unit}"/>
-    <translation id="INFO_WATER_SEWAGECAPACITY" value="Sewage draining capacity: {0:N0} m³/{unit}"/>
-    <translation id="LOAN_WEEKLYCOST" value="Cost last {unit}"/>
-    <translation id="MAIN_MONEYDELTA" value="Income last {unit}"/>
-    <translation id="MAIN_POPULATIONDELTA" value="Change last {unit}"/>
-    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="Pass {0} requirements for {1} × {unit}"/>
-    <translation id="MILESTONE_COMBINED_TIME_DESC" value="Maintain for {0} × {unit}"/>
-    <translation id="PARKINFOPANEL_CURRENTVISITORS" value="Visitors last {unit}: {0}"/>
-    <translation id="PARKINFOPANEL_INCOME" value="Income: {0} / {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="Total Public Transportation Profit last {unit}"/>
-    <translation id="STADIUMINFO7" value="Wins/matches last 12 × {unit}:"/>
-    <translation id="STADIUMINFO9" value="Income last {unit}:"/>
-    <translation id="TOOL_WATER_ESTIMATE" value="Estimated production: {0:N0} m³/{unit}"/>
-    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="Visitors last {unit}: {0} residents, {1} tourists"/>
-    <translation id="TRANSPORT_LINE_PASSENGERS" value="Passengers last {unit}: {0} residents, {1} tourists"/>
-    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="Production rate: {0:N0} units per {unit}"/>
-    <translation id="AIINFO_POST_SORTING_RATE" value="Sorting rate: {0:N0} pieces of mail per {unit}"/>
-    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="Cars charged last {unit}: {0:N0}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="Income from zoned industry and industry areas last {unit}"/>
-    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="Industry Area Expenses per {unit}"/>
-    <translation id="INCOME_TT_ROADTOLLS" value="Road Toll Income per {unit}"/>
-    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="Total Income from Road Tolls last {unit}"/>
-    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="Acquisition per {unit}"/>
-    <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="Cost of Importing the Resource per {unit}"/>
-    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="Output per {unit}"/>
-    <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="Income from Selling the Resource per {unit}"/>
-    <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="Profit per {unit}"/>
+    <translation id="DISTRICT_TOURISTS" value="近 {unit} 来访的游客&#10;：" />
+    <translation id="EXPENSES_TT_EDUCATION" value="近 {unit} 的教育支出" />
+    <translation id="EXPENSES_TT_ELECTRICITY" value="近 {unit} 的电力服务支出" />
+    <translation id="EXPENSES_TT_FIRE" value="近 {unit} 的消防部门支出" />
+    <translation id="EXPENSES_TT_FIRE_ND" value="近 {unit} 的应急服务支出" />
+    <translation id="EXPENSES_TT_GARBAGE" value="近 {unit} 的垃圾处理服务支出" />
+    <translation id="EXPENSES_TT_HEALTHCARE" value="近 {unit} 的医疗保健支出" />
+    <translation id="EXPENSES_TT_LOANS" value="近 {unit} 的贷款支出" />
+    <translation id="EXPENSES_TT_MONUMENTS" value="近 {unit} 的独特建筑支出" />
+    <translation id="EXPENSES_TT_PARK" value="近 {unit} 的公园、广场和景观美化支出" />
+    <translation id="EXPENSES_TT_POLICE" value="近 {unit} 的警察部门支出" />
+    <translation id="EXPENSES_TT_POLICIES" value="近 {unit} 的政策支出" />
+    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="近 {unit} 的公共交通支出" />
+    <translation id="EXPENSES_TT_ROADS" value="近 {unit} 的道路服务支出" />
+    <translation id="EXPENSES_TT_TOTAL" value="近 {unit} 的总支出" />
+    <translation id="EXPENSES_TT_WATER" value="近 {unit} 的供水和污水处理服务支出" />
+    <translation id="EXPENSES_TT_WATER_WW" value="近 {unit} 的供水、污水和供暖服务支出" />
+    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="商业区近 {unit} 来自市民的收入"/>
+    <translation id="INCOME_TT_COMMERCIALHIGH" value="高密度商业区近 {unit} 的收入"/>
+    <translation id="INCOME_TT_COMMERCIALLOW" value="低密度商业区近 {unit} 的收入"/>
+    <translation id="INCOME_TT_COMMERCIALSPEC" value="商业区近 {unit} 专精商品的收入"/>
+    <translation id="INCOME_TT_COMMERCIALTOTAL" value="商业区近 {unit} 的收入"/>
+    <translation id="INCOME_TT_COMMERCIALTOURIST" value="商业区近 {unit} 来自游客的收入"/>
+    <translation id="INCOME_TT_INDUSTRIAL" value="工业区近 {unit} 的收入"/>
+    <translation id="INCOME_TT_OFFICE" value="办公区近 {unit} 的收入"/>
+    <translation id="INCOME_TT_PARKAREAS" value="公园区域近 {unit} 的收入"/>
+    <translation id="INCOME_TT_RESIDENTIALHIGH" value="高密度住宅区近 {unit} 的收入"/>
+    <translation id="INCOME_TT_RESIDENTIALLOW" value="低密度住宅区近 {unit} 的收入"/>
+    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="住宅区近 {unit} 的收入"/>
+    <translation id="INCOME_TT_TOTAL" value="近 {unit} 的总收入"/>
+    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="近 {unit} 旅游业的总收入"/>
+    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="近 {unit} 住宅区的总收入"/>
+    <translation id="INCOME_TT_TOTAL_WORK" value="近 {unit} 工业区和办公区的总收入"/>
+    <translation id="INCOME_TT_PUBLICTRANSPORT" value="近 {unit} 公共交通的收入"/>
+    <translation id="INFO_CONNECTIONS_TOURISTSTOTAL" value="近 {unit} 游客数量：{0:N0}"/>
+    <translation id="INFO_CRIMERATE_CRIMES" value="近 {unit} 犯罪率:"/>
+    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="每 {unit} 公园和广场游客数：{0:N0}"/>
+    <translation id="INFO_ENTERTAINMENT_UBVISIT" value="每 {unit} 独特建筑游客数：{0:N0}"/>
+    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="垃圾处理能力：{0:N0} 单位 / {unit}"/>
+    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="垃圾产量：{0:N0} 单位 / {unit}"/>
+    <translation id="INFO_POPULATION_BIRTHS" value="{0:N0} 次出生 / {unit}"/>
+    <translation id="INFO_POPULATION_DEATHS" value="{0:N0} 次死亡 / {unit}"/>
+    <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0:N0} 次每 {unit}"/>
+    <translation id="INFO_RES_FORESTAMOUNT" value="{0} 单位/{unit}"/>
+    <translation id="INFO_RES_FORESTUSED" value="{0} 单位/{unit}"/>
+    <translation id="INFO_RES_OILUSED" value="{0} 单位/{unit}"/>
+    <translation id="INFO_RES_OREUSED" value="{0} 单位/{unit}"/>
+    <translation id="INFO_WATER_CONSUMPTION" value="用水量：{0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_PRODUCTION" value="供水量：{0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGEACCUMULATION" value="污水产量：{0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGECAPACITY" value="污水排放能力：{0:N0} m³/{unit}"/>
+    <translation id="LOAN_WEEKLYCOST" value="近 {unit} 支出"/>
+    <translation id="MAIN_MONEYDELTA" value="近 {unit} 收入"/>
+    <translation id="MAIN_POPULATIONDELTA" value="近 {unit} 变化"/>
+    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="达成 {0} 个要求 {1} × {unit}"/>
+    <translation id="MILESTONE_COMBINED_TIME_DESC" value="保持 {0} × {unit}"/>
+    <translation id="PARKINFOPANEL_CURRENTVISITORS" value="近 {unit} 游客：{0}"/>
+    <translation id="PARKINFOPANEL_INCOME" value="收入：{0} / {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="近 {unit} 公共交通总利润"/>
+    <translation id="STADIUMINFO7" value="近 12 × {unit} 比赛胜利："/>
+    <translation id="STADIUMINFO9" value="近 {unit} 收入："/>
+    <translation id="TOOL_WATER_ESTIMATE" value="预计产量：{0:N0} m³/{unit}"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="近 {unit} 参观者：{0} 市民，{1} 游客"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS" value="近 {unit} 乘客：{0} 市民，{1} 游客"/>
+    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="生产率：{0:N0} 单位每 {unit}"/>
+    <translation id="AIINFO_POST_SORTING_RATE" value="分类率：{0:N0} 封邮件每 {unit}"/>
+    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="近 {unit} 被收费车辆：{0:N0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="近 {unit} 工业区域和工业区收入"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="工业区域每 {unit} 支出"/>
+    <translation id="INCOME_TT_ROADTOLLS" value="道路通行费每 {unit} 收入"/>
+    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="近 {unit} 道路通行费总收入"/>
+    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="每 {unit} 采集"/>
+    <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="每 {unit} 进口资源成本"/>
+    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="每 {unit} 输出"/>
+    <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="每 {unit} 销售资源收入"/>
+    <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="每 {unit} 利润"/>
     <translation id="INDUSTRYPANEL_WEEKLYPRODUCTION" value="{0} / {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="Total Industry Area Profit per {unit}"/>
-    <translation id="TOOL_EXTRACTION_ESTIMATE" value="Estimated production: {0:N0} units per {unit}"/>
-    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="Value of the resources used to make the end product per {unit}"/>
-    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="Value of the factory output per {unit}"/>
-    <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="Income last {unit}"/>
-    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="Resource Acquisition Expenses per {unit}"/>
-    <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="Production: {0:N0} per {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="Cost: {0} / arena / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="Cost: {0} / coach / {unit}"/>
-    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="Graduates this academic year: {0}"/>
-    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="Cost: {0} / academic staff / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="Expenses last {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="Coaching Staff#10;Hiring more coaching staff increases the chances of winning varsity sports matches. Coaching staff effect#10;is not instantaneous but increases from +0% to +1% per coaching staff member over the span of the academic year."/>
-    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Total Campus Area profit last {unit}"/>
-    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Unique Buildings and Sport Arenas expenses last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Income from Campus Areas last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="Income from Industry Areas and Fishing last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="Income from Fishing last {unit}"/>
-    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="Industry Area and Fishing Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_FISHING" value="Fishing Expenses last {unit}"/>
-    <translation id="AIINFO_FISH_SOLD" value="Fish sold last {unit}: {0}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="Income from Industry Areas and Fishing Industry last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="Industry Area and Fishing Industry expenses last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="Fishing Industry expenses last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="Income from the Fishing Industry last {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="Total Industry Areas and Fishing Industry profit last {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="Total Fishing Industry profit last {unit}"/>
-    <translation id="INFO_HEALTH_CHILDCARE_BIRTHRATE" value="Birth rate: {0} / {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="工作区每 {unit} 总利润"/>
+    <translation id="TOOL_EXTRACTION_ESTIMATE" value="预计生产量：{0:N0} 单位每 {unit}"/>
+    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="制造每 {unit} 最终产品所用资源的价值"/>
+    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="每 {unit} 工厂输出价值"/>
+    <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="近 {unit} 收入"/>
+    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="每 {unit} 的资源进口支出"/>
+    <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="产出：{0:N0} 每 {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="支出：{0} / 场馆 / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="支出：{0} / 教练 / {unit}"/>
+    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="本学年毕业生：{0}"/>
+    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="支出：{0} / 教职人员 / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="近 {unit} 支出"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="教练员#10;聘用更多的教练员可增加校队体育比赛的获胜机会。教练员效果#10;不是一蹴而就的，而是在一学年中，每名教练员的效果会从 +0% 增加到 +1%。"/>
+    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="近 {unit} 校园区域总利润"/>
+    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="近 {unit} 独特建筑和体育场馆支出"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="近 {unit} 校园区域收入"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="近 {unit} 工业区和渔业收入"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="近 {unit} 渔业收入"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="近 {unit} 工业区和渔业支出"/>
+    <translation id="EXPENSES_TT_FISHING" value="近 {unit} 渔业支出"/>
+    <translation id="AIINFO_FISH_SOLD" value="近 {unit} 渔业售出的鱼：{0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="近 {unit} 工业区和水产加工业收入"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="近 {unit} 工业区和水产加工业支出"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="近 {unit} 水产加工业支出"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="近 {unit} 水产加工业收入"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="近 {unit} 工业区和水产加工业总利润"/>
+    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="近 {unit} 水产加工业总利润"/>
+    <translation id="INFO_HEALTH_CHILDCARE_BIRTHRATE" value="出生率：{0} / {unit}"/>
   </overrides>
 
 </language>

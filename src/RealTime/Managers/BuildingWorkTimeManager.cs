@@ -375,7 +375,7 @@ namespace RealTime.Managers
                         workTime.IsDefault = true;
                         SetBuildingWorkTime(buildingId, workTime);
                     }
-                    else if (workTime.WorkShifts != 2)
+                    else if (!BuildingManagerConnection.IsAreaMainBuilding(buildingId) && workTime.WorkShifts != 2)
                     {
                         workTime.WorkShifts = 2;
                         workTime.WorkAtNight = false;
@@ -413,7 +413,7 @@ namespace RealTime.Managers
                         workTime.IsDefault = true;
                         SetBuildingWorkTime(buildingId, workTime);
                     }
-                    else if (workTime.IsDefault && workTime.WorkShifts != 3 && (BuildingManagerConnection.IsWarehouseBuilding(buildingId) || BuildingManagerConnection.IsUniqueFactoryBuilding(buildingId)))
+                    else if (!BuildingManagerConnection.IsAreaMainBuilding(buildingId) && workTime.IsDefault && workTime.WorkShifts != 3 && (BuildingManagerConnection.IsWarehouseBuilding(buildingId) || BuildingManagerConnection.IsUniqueFactoryBuilding(buildingId)))
                     {
                         workTime.WorkShifts = 3;
                         workTime.WorkAtNight = true;
@@ -422,7 +422,7 @@ namespace RealTime.Managers
                         workTime.HasContinuousWorkShift = false;
                         SetBuildingWorkTime(buildingId, workTime);
                     }
-                    else if (workTime.IsDefault && !workTime.IgnorePolicy && (subService == ItemClass.SubService.PlayerIndustryFarming || subService == ItemClass.SubService.PlayerIndustryForestry))
+                    else if (!BuildingManagerConnection.IsAreaMainBuilding(buildingId) && workTime.IsDefault && !workTime.IgnorePolicy && (subService == ItemClass.SubService.PlayerIndustryFarming || subService == ItemClass.SubService.PlayerIndustryForestry))
                     {
                         bool IsEssential = BuildingManagerConnection.IsEssentialIndustryBuilding(buildingId);
                         bool need_update1 = false;

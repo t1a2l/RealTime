@@ -5,11 +5,13 @@ namespace RealTime.Core
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using ColossalFramework.Plugins;
     using ICities;
     using RealTime.Localization;
     using SkyTools.Localization;
     using SkyTools.Tools;
+    using static ColossalFramework.Plugins.PluginManager;
     using static WorkshopMods;
 
     /// <summary>
@@ -105,6 +107,29 @@ namespace RealTime.Core
             foreach (var plugin in PluginManager.instance.GetPluginsInfo().Where(m => m.isEnabled))
             {
                 activeMods[plugin.publishedFileID.AsUInt64] = plugin;
+            }
+        }
+
+
+        public bool IsLocalModActive(string modNamePart)
+        {
+            try
+            {
+                var plugins = PluginManager.instance.GetPluginsInfo();
+                return (from plugin in plugins.Where(p => p.isEnabled)
+                        select plugin.GetInstances<IUserMod>()
+                    into instances
+                        where instances.Any()
+                        select instances[0].Name
+                    into name
+                        where name != null && name.Contains(modNamePart)
+                        select name).Any();
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Failed to detect if mod with name containing {modNamePart} is active");
+                Log.Error(e.ToString());
+                return false;
             }
         }
     }

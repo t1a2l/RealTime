@@ -338,7 +338,7 @@ namespace RealTime.Core
                 ApplyBuildingPatch = true;
             }
 
-            if (compatibility.IsAnyModActive(WorkshopMods.CombinedAIS))
+            if (compatibility.IsAnyModActive(WorkshopMods.CombinedAIS) || compatibility.IsLocalModActive("CombinedAIS"))
             {
                 isCombinedAIEnabled = true;
             }

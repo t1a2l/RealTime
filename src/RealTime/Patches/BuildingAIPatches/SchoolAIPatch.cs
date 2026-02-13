@@ -4,6 +4,7 @@ namespace RealTime.Patches.BuildingAIPatches
 {
     using System;
     using System.Reflection;
+    using System.Runtime.CompilerServices;
     using ColossalFramework;
     using HarmonyLib;
     using RealTime.CustomAI;
@@ -82,7 +83,7 @@ namespace RealTime.Patches.BuildingAIPatches
                 BaseProduceGoods(__instance, buildingID, ref buildingData, ref frameData, productionRate, finalProductionRate, ref behaviour, aliveWorkerCount, totalWorkerCount, workPlaceCount, aliveVisitorCount, totalVisitorCount, visitPlaceCount);
                 int aliveCount = 0;
                 int totalCount = 0;
-                GetVisitBehaviour(buildingID, ref buildingData, ref behaviour, ref aliveCount, ref totalCount);
+                GetVisitBehaviour(__instance, buildingID, ref buildingData, ref behaviour, ref aliveCount, ref totalCount);
                 if (aliveCount != 0)
                 {
                     behaviour.m_crimeAccumulation = behaviour.m_crimeAccumulation * aliveWorkerCount / (aliveWorkerCount + aliveCount);
@@ -239,24 +240,14 @@ namespace RealTime.Patches.BuildingAIPatches
             return true;
         }
 
-        private static void GetVisitBehaviour(ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
+        [HarmonyReversePatch]
+        [HarmonyPatch(typeof(CommonBuildingAI), "GetVisitBehaviour")]
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void GetVisitBehaviour(object instance, ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
         {
-            var instance = Singleton<CitizenManager>.instance;
-            uint num = buildingData.m_citizenUnits;
-            int num2 = 0;
-            while (num != 0)
-            {
-                if ((instance.m_units.m_buffer[num].m_flags & CitizenUnit.Flags.Visit) != 0)
-                {
-                    instance.m_units.m_buffer[num].GetCitizenVisitBehaviour(ref behaviour, ref aliveCount, ref totalCount);
-                }
-                num = instance.m_units.m_buffer[num].m_nextUnit;
-                if (++num2 > 524288)
-                {
-                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                    break;
-                }
-            }
+            string message = "GetVisitBehaviour reverse Harmony patch wasn't applied";
+            Debug.LogError(message);
+            throw new NotImplementedException(message);
         }
 
         private static void EnsureCitizenUnits(ushort buildingID, ref Building data, int homeCount = 0, int workCount = 0, int visitCount = 0, int studentCount = 0, int hotelCount = 0)

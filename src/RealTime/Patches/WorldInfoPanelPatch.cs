@@ -20,7 +20,7 @@ namespace RealTime.Patches
     using System.Reflection;
     using System.Collections.Generic;
     using RealTime.Managers;
-    using ICities;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// A static class that provides the patch objects for the world info panel game methods.
@@ -395,7 +395,7 @@ namespace RealTime.Patches
                 var buildingInfo = buildingData.Info;
 
                 // Is this a cafeteria or a gymnasium
-                if (buildingInfo.GetAI() is CampusBuildingAI && (buildingInfo.name.Contains("Cafeteria") || buildingInfo.name.Contains("Gymnasium")))
+                if (buildingInfo.GetAI() is CampusBuildingAI campusBuildingAI && (buildingInfo.name.Contains("Cafeteria") || buildingInfo.name.Contains("Gymnasium")))
                 {
                     // Show the label
                     s_visitorsLabel.Show();
@@ -403,10 +403,10 @@ namespace RealTime.Patches
                     // Get current visitor count.
                     int aliveCount = 0, totalCount = 0;
                     Citizen.BehaviourData behaviour = default;
-                    GetVisitBehaviour(building, ref buildingBuffer[building], ref behaviour, ref aliveCount, ref totalCount);
+                    GetVisitBehaviour(campusBuildingAI, building, ref buildingBuffer[building], ref behaviour, ref aliveCount, ref totalCount);
 
                     // Display visitor count.
-                    s_visitorsLabel.text = totalCount.ToString() + " / 300 visitors";
+                    s_visitorsLabel.text = aliveCount.ToString() + " / 300 visitors";
 
                 }
                 else
@@ -441,6 +441,16 @@ namespace RealTime.Patches
                 {
                     m_endYearButton.Disable();
                 }
+            }
+
+            [HarmonyReversePatch]
+            [HarmonyPatch(typeof(CommonBuildingAI), "GetVisitBehaviour")]
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            public static void GetVisitBehaviour(object instance, ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
+            {
+                string message = "GetVisitBehaviour reverse Harmony patch wasn't applied";
+                Debug.LogError(message);
+                throw new NotImplementedException(message);
             }
 
             private static void CityServiceCreateUI(BuildingAI buildingAI)
@@ -540,28 +550,6 @@ namespace RealTime.Patches
                     campusWorldInfoPanel.OnAcademicYearEnded();
                 };
             }
-
-
-            private static void GetVisitBehaviour(ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
-            {
-                var instance = Singleton<CitizenManager>.instance;
-                uint num = buildingData.m_citizenUnits;
-                int num2 = 0;
-                while (num != 0)
-                {
-                    if ((instance.m_units.m_buffer[num].m_flags & CitizenUnit.Flags.Visit) != 0)
-                    {
-                        instance.m_units.m_buffer[num].GetCitizenVisitBehaviour(ref behaviour, ref aliveCount, ref totalCount);
-                    }
-                    num = instance.m_units.m_buffer[num].m_nextUnit;
-                    if (++num2 > 524288)
-                    {
-                        CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                        break;
-                    }
-                }
-            }
-
         }
 
         [HarmonyPatch]

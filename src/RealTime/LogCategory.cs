@@ -27,5 +27,8 @@ namespace RealTime
 
         /// <summary>Simulation related information</summary>
         Simulation,
+
+        /// <summary>Advanced Logging</summary>
+        Advanced,
     }
 }

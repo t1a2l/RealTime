@@ -6,7 +6,6 @@ namespace RealTime.CustomAI
     using System.Collections.Generic;
     using System.Linq;
     using ColossalFramework;
-    using ICities;
     using RealTime.Config;
     using RealTime.GameConnection;
     using RealTime.Managers;
@@ -1450,44 +1449,72 @@ namespace RealTime.CustomAI
             const Building.Flags requiredFlags = Building.Flags.Created | Building.Flags.Completed | Building.Flags.Active;
             const Building.Flags combinedFlags = requiredFlags | restrictedFlags;
 
-            int gridXFrom = Mathf.Max((int)((position.x - maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE + BuildingGridMiddle), 0);
-            int gridZFrom = Mathf.Max((int)((position.z - maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE + BuildingGridMiddle), 0);
-            int gridXTo = Mathf.Min((int)((position.x + maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE + BuildingGridMiddle), MaxBuildingGridIndex);
-            int gridZTo = Mathf.Min((int)((position.z + maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE + BuildingGridMiddle), MaxBuildingGridIndex);
+            float searchBuffer = 0.5f;
+            int gridXFrom = Mathf.Max((int)((position.x - maxDistance - searchBuffer) / BuildingManager.BUILDINGGRID_CELL_SIZE + BuildingGridMiddle), 0);
+            int gridZFrom = Mathf.Max((int)((position.z - maxDistance - searchBuffer) / BuildingManager.BUILDINGGRID_CELL_SIZE + BuildingGridMiddle), 0);
+            int gridXTo = Mathf.Min((int)((position.x + maxDistance + searchBuffer) / BuildingManager.BUILDINGGRID_CELL_SIZE + BuildingGridMiddle), MaxBuildingGridIndex);
+            int gridZTo = Mathf.Min((int)((position.z + maxDistance + searchBuffer) / BuildingManager.BUILDINGGRID_CELL_SIZE + BuildingGridMiddle), MaxBuildingGridIndex);
 
             float sqrMaxDistance = maxDistance * maxDistance;
+            var manager = BuildingManager.instance;
+
             for (int z = gridZFrom; z <= gridZTo; ++z)
             {
                 for (int x = gridXFrom; x <= gridXTo; ++x)
                 {
-                    ushort buildingId = BuildingManager.instance.m_buildingGrid[z * BuildingManager.BUILDINGGRID_RESOLUTION + x];
-                    uint counter = 0;
+                    ushort buildingId = manager.m_buildingGrid[z * BuildingManager.BUILDINGGRID_RESOLUTION + x];
+                    uint safetyCounter = 0;
+
                     while (buildingId != 0)
                     {
                         ref var building = ref BuildingManager.instance.m_buildings.m_buffer[buildingId];
-                        var building_service = building.Info.m_class.m_service;
-                        var building_subService = building.Info.m_class.m_subService;
-                        bool allowed = true;
-                        if (building.Info?.m_class != null
-                            && building_service == service
-                            && (subService == ItemClass.SubService.None || building_subService == subService)
-                            && IsBuildingWorking(buildingId, 0, currentBuilding)
-                            && (building.m_flags & combinedFlags) == requiredFlags)
-                        {
-                            if (!isShopping && building_service == ItemClass.Service.Commercial && building_subService == ItemClass.SubService.CommercialLeisure)
-                            {
-                                allowed = false;
-                            }
+                        var info = building.Info;
 
-                            float sqrDistance = Vector3.SqrMagnitude(position - building.m_position);
-                            if (sqrDistance < sqrMaxDistance && BuildingManagerConnection.BuildingCanBeVisited(buildingId) && allowed)
+                        if (info?.m_class != null && (building.m_flags & combinedFlags) == requiredFlags)
+                        {
+                            var buildingService = building.Info.m_class.m_service;
+                            var buildingSubService = building.Info.m_class.m_subService;
+
+                            if (buildingService == service && (subService == ItemClass.SubService.None || buildingSubService == subService))
                             {
-                                return buildingId;
+                                // Check shopping/leisure restriction
+                                bool notAllowed = !isShopping && buildingService == ItemClass.Service.Commercial && buildingSubService == ItemClass.SubService.CommercialLeisure;
+
+                                if (!notAllowed)
+                                {
+                                    if (IsBuildingWorking(buildingId, 0, currentBuilding))
+                                    {
+                                        float sqrDistance = Vector3.SqrMagnitude(position - building.m_position);
+                                        if (sqrDistance < sqrMaxDistance)
+                                        {
+                                            if (BuildingManagerConnection.BuildingCanBeVisited(buildingId))
+                                            {
+                                                return buildingId;
+                                            }
+                                            else
+                                            {
+                                                Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: Full capacity.");
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: Too far ({Mathf.Sqrt(sqrDistance)}m).");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: Not working.");
+                                    }
+                                }
+                                else
+                                {
+                                    Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: Leisure restriction.");
+                                }
                             }
                         }
 
                         buildingId = building.m_nextGridBuilding;
-                        if (++counter >= BuildingManager.MAX_BUILDING_COUNT)
+                        if (++safetyCounter >= BuildingManager.MAX_BUILDING_COUNT)
                         {
                             break;
                         }

@@ -15,6 +15,8 @@
   <translation id="DebugModeTooltip" value="启用额外的数据和设置以进行调试" />
   <translation id="LoggingMode" value="记录模式" />
   <translation id="LoggingModeTooltip" value="允许额外日志记录以进行调试" />
+  <translation id="AdvancedLoggingMode" value="Advanced Logging Mode" />
+  <translation id="AdvancedLoggingModeTooltip" value="Allow advanced logging for debugging" />
   <translation id="ResetToDefaults" value="重置为默认值" />
   <translation id="UseForNewGames" value="为新游戏使用当前值" />
   <translation id="ResetFireBurnManager" value="清除火灾管理器" />

@@ -624,6 +624,13 @@ namespace RealTime.Config
         [ConfigItemCheckBox]
         public bool LoggingMode { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether advanced logging should be on or not.
+        /// </summary>
+        [ConfigItem("Tools", 4)]
+        [ConfigItemCheckBox]
+        public bool AdvancedLoggingMode { get; set; }
+
         /// <summary>Checks the version of the deserialized object and migrates it to the latest version when necessary.</summary>
         public void MigrateWhenNecessary()
         {
@@ -836,6 +843,8 @@ namespace RealTime.Config
 
             ShowIncompatibilityNotifications = true;
             DebugMode = false;
+            LoggingMode = false;
+            AdvancedLoggingMode = false;
         }
     }
 }

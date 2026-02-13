@@ -147,7 +147,11 @@ namespace RealTime.Core
 
             var compatibility = Compatibility.Create(localizationProvider);
 
-            if(configProvider.Configuration.LoggingMode)
+            if(configProvider.Configuration.AdvancedLoggingMode)
+            {
+                Log.SetupDebug(Name, LogCategory.Generic, LogCategory.Movement, LogCategory.Simulation, LogCategory.State, LogCategory.Schedule, LogCategory.Events, LogCategory.Advanced);
+            }
+            else if (configProvider.Configuration.LoggingMode)
             {
                 Log.SetupDebug(Name, LogCategory.Generic, LogCategory.Movement, LogCategory.Simulation, LogCategory.State, LogCategory.Schedule, LogCategory.Events);
             }

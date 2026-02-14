@@ -2,7 +2,6 @@
 
 namespace RealTime.Patches.BuildingAIPatches
 {
-    using System;
     using System.Collections.Generic;
     using System.Reflection.Emit;
     using System.Reflection;
@@ -95,7 +94,7 @@ namespace RealTime.Patches.BuildingAIPatches
                 int aliveCount = 0;
                 int hotelTotalCount = 0;
                 Citizen.BehaviourData behaviour = default;
-                GetHotelBehaviour(buildingID, ref buildingData, ref behaviour, ref aliveCount, ref hotelTotalCount);
+                CommonBuildingAIPatch.GetHotelBehaviour(__instance, buildingID, ref buildingData, ref behaviour, ref aliveCount, ref hotelTotalCount);
                 buildingData.m_roomUsed = (ushort)hotelTotalCount;
                 Singleton<DistrictManager>.instance.m_districts.m_buffer[0].m_hotelData.m_tempHotelVisitors += (uint)hotelTotalCount;
             }
@@ -117,32 +116,12 @@ namespace RealTime.Patches.BuildingAIPatches
             }
             if (data.m_customBuffer1 - amount > 0)
             {
-                var rnd = new Random();
+                var rnd = new System.Random();
                 int custom_amount = rnd.Next(1, 5);
                 data.m_customBuffer1 -= (ushort)custom_amount;
                 return false;
             }
             return true;
-        }
-
-        private static void GetHotelBehaviour(ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
-        {
-            var instance = Singleton<CitizenManager>.instance;
-            uint num = buildingData.m_citizenUnits;
-            int num2 = 0;
-            while (num != 0)
-            {
-                if ((instance.m_units.m_buffer[num].m_flags & CitizenUnit.Flags.Hotel) != 0)
-                {
-                    instance.m_units.m_buffer[num].GetCitizenHotelBehaviour(ref behaviour, ref aliveCount, ref totalCount);
-                }
-                num = instance.m_units.m_buffer[num].m_nextUnit;
-                if (++num2 > 524288)
-                {
-                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                    break;
-                }
-            }
         }
 
     }

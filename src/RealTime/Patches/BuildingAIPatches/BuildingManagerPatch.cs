@@ -64,7 +64,8 @@ namespace RealTime.Patches.BuildingAIPatches
                 AcademicYearManager.DeleteAcademicYearData(buildingID);
             }
 
-            GarbageSlowdownManager._garbageAccumulator[buildingID] = 0f;
+            ResourceSlowdownManager.GarbageAccumulator[buildingID] = 0f;
+            ResourceSlowdownManager.MailAccumulator[buildingID] = 0f;
         }
     }
 }

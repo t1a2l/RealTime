@@ -23,6 +23,8 @@
   <translation id="ClearStuckCitizensSchedule" value="清除所有卡住的公民时间表" />
   <translation id="ClearStuckTouristsInHotels" value="清除所有滞留在酒店的游客" />
   <translation id="ClearStuckCitizensInClosedBuildings" value="清理已关闭建筑内的所有滞留市民" />
+  <translation id="ResetBuildingsGarbageBuffer" value="Reset All Buildings Garbage buffer" />
+  <translation id="ResetBuildingsMailBuffer" value="Reset All Buildings Mail buffer" />
 
   <translation id="1General" value="通用" />
   <translation id="0Time" value="时间" />

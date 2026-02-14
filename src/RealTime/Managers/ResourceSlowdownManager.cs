@@ -1,5 +1,6 @@
 namespace RealTime.Managers
 {
+    using ColossalFramework;
     using RealTime.Core;
 
     public static class ResourceSlowdownManager
@@ -64,6 +65,35 @@ namespace RealTime.Managers
             MailAccumulator[buildingID] = accumulated - adjustedDelta;
 
             delta = adjustedDelta;
+        }
+
+
+        public static void ResetAllGarbage()
+        {
+            var buildingManager = Singleton<BuildingManager>.instance;
+            var buildings = buildingManager.m_buildings.m_buffer;
+
+            for (ushort i = 0; i < buildings.Length; i++)
+            {
+                if ((buildings[i].m_flags & Building.Flags.Created) != 0)
+                {
+                    buildings[i].m_garbageBuffer = 0;
+                }
+            }
+        }
+
+        public static void ResetAllMail()
+        {
+            var buildingManager = Singleton<BuildingManager>.instance;
+            var buildings = buildingManager.m_buildings.m_buffer;
+
+            for (ushort i = 0; i < buildings.Length; i++)
+            {
+                if ((buildings[i].m_flags & Building.Flags.Created) != 0)
+                {
+                    buildings[i].m_mailBuffer = 0;
+                }
+            }
         }
     }
 }

@@ -175,6 +175,11 @@ namespace RealTime.Core
                 CheckCompatibility(compatibility);
             }
 
+
+            var version = new Version(modVersion);
+            int major = version.Major;
+            int minor = version.Minor;
+
             var buildings = Singleton<BuildingManager>.instance.m_buildings;
 
             for (ushort buildingId = 0; buildingId < buildings.m_size; buildingId++)
@@ -182,7 +187,14 @@ namespace RealTime.Core
                 var building = buildings.m_buffer[buildingId];
                 if ((building.m_flags & Building.Flags.Created) != 0)
                 {
-                    if(BuildingWorkTimeManager.BuildingWorkTimeExist(buildingId))
+                    if (major < 2 || major >= 2 && minor < 6)
+                    {
+                        // zero
+                        building.m_garbageBuffer = 0;
+                        building.m_mailBuffer = 0;
+                    }
+
+                    if (BuildingWorkTimeManager.BuildingWorkTimeExist(buildingId))
                     {
                         if (!BuildingWorkTimeManager.ShouldHaveBuildingWorkTime(buildingId))
                         {

@@ -23,6 +23,8 @@
   <translation id="ClearStuckCitizensSchedule" value="Clear All Stuck Citizens Schedule" />
   <translation id="ClearStuckTouristsInHotels" value="Clear All Stuck Tourists in Hotels" />
   <translation id="ClearStuckCitizensInClosedBuildings" value="Clear All Stuck Citizens in Closed Buildings" />
+  <translation id="ResetBuildingsGarbageBuffer" value="Reset All Buildings Garbage buffer" />
+  <translation id="ResetBuildingsMailBuffer" value="Reset All Buildings Mail buffer" />
 
   <translation id="1General" value="Allgemein" />
   <translation id="0Time" value="Zeitoptionen" />

@@ -22,6 +22,8 @@ namespace RealTime.UI
         private const string ClearStuckCitizensScheduleId = "ClearStuckCitizensSchedule";
         private const string ClearStuckTouristsInHotelsId = "ClearStuckTouristsInHotels";
         private const string ClearStuckCitizensInClosedBuildingsId = "ClearStuckCitizensInClosedBuildings";
+        private const string ResetBuildingsGarbageBufferId = "ResetBuildingsGarbageBuffer";
+        private const string ResetBuildingsMailBufferId = "ResetBuildingsMailBuffer";
         private const string ToolsId = "Tools";
 
         private readonly ConfigurationProvider<RealTimeConfig> configProvider;
@@ -84,6 +86,10 @@ namespace RealTime.UI
             viewItems.Add(ClearStuckTouristsInHotelsButton);
             var ClearStuckCitizensInClosedBuildingsButton = itemFactory.CreateButton(toolsTab, ClearStuckCitizensInClosedBuildingsId, result.ClearStuckCitizensInClosedBuildings);
             viewItems.Add(ClearStuckCitizensInClosedBuildingsButton);
+            var ResetBuildingsGarbageBufferButton = itemFactory.CreateButton(toolsTab, ResetBuildingsGarbageBufferId, result.ResetBuildingsGarbageBuffer);
+            viewItems.Add(ResetBuildingsGarbageBufferButton);
+            var ResetBuildingsMailBufferButton = itemFactory.CreateButton(toolsTab, ResetBuildingsMailBufferId, result.ResetBuildingsMailBuffer);
+            viewItems.Add(ResetBuildingsMailBufferButton);
 
             return result;
         }
@@ -196,6 +202,10 @@ namespace RealTime.UI
         private void ClearStuckTouristsInHotels() => ResidentAIPatch.RealTimeResidentAI.ClearStuckTouristsInHotels();
 
         private void ClearStuckCitizensInClosedBuildings() => ResidentAIPatch.RealTimeResidentAI.ClearStuckCitizensInClosedBuildings();
+
+        private void ResetBuildingsGarbageBuffer() => ResourceSlowdownManager.ResetAllGarbage();
+
+        private void ResetBuildingsMailBuffer() => ResourceSlowdownManager.ResetAllMail();
 
         private void ConfigProviderChanged(object sender, EventArgs e) => RefreshAllItems();
 

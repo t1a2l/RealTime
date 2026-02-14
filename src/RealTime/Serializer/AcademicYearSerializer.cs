@@ -44,8 +44,8 @@ namespace RealTime.Serializer
         {
             if (Data != null && Data.Length > iIndex)
             {
-                int iacademicYearVersion = StorageData.ReadUInt16(Data, ref iIndex);
-                Debug.Log("Global: " + iGlobalVersion + " BufferVersion: " + iacademicYearVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
+                int iAcademicYearVersion = StorageData.ReadUInt16(Data, ref iIndex);
+                Debug.Log("Global: " + iGlobalVersion + " BufferVersion: " + iAcademicYearVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
 
                 if (AcademicYearManager.MainCampusBuildingsList.Count > 0)
                 {
@@ -55,7 +55,7 @@ namespace RealTime.Serializer
                 int MainCampusBuildingsList_Count = StorageData.ReadInt32(Data, ref iIndex);
                 for (int i = 0; i < MainCampusBuildingsList_Count; i++)
                 {
-                    CheckStartTuple($"Buffer({i})", iacademicYearVersion, Data, ref iIndex);
+                    CheckStartTuple($"Buffer({i})", iAcademicYearVersion, Data, ref iIndex);
 
                     ushort BuildingId = StorageData.ReadUInt16(Data, ref iIndex);
 
@@ -76,7 +76,7 @@ namespace RealTime.Serializer
 
                     AcademicYearManager.MainCampusBuildingsList.Add(BuildingId, academicYearData);
 
-                    CheckEndTuple($"Buffer({i})", iacademicYearVersion, Data, ref iIndex);
+                    CheckEndTuple($"Buffer({i})", iAcademicYearVersion, Data, ref iIndex);
                 }
             }
         }

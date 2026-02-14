@@ -86,24 +86,6 @@ namespace RealTime.Patches.BuildingAIPatches
             }
         }
 
-        [HarmonyPatch(typeof(PlayerBuildingAI), "ReleaseBuilding")]
-        [HarmonyPrefix]
-        public static void ReleaseBuilding(PlayerBuildingAI __instance, ushort buildingID, ref Building data)
-        {
-            if (BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID))
-            {
-                BuildingWorkTimeManager.RemoveBuildingWorkTime(buildingID);
-            }
-            if (BuildingManagerConnection.IsHotel(buildingID) && HotelManager.HotelExist(buildingID))
-            {
-                HotelManager.RemoveHotel(buildingID);
-            }
-            if (data.Info.GetAI() is MainCampusBuildingAI && AcademicYearManager.MainCampusBuildingExist(buildingID))
-            {
-                AcademicYearManager.DeleteAcademicYearData(buildingID);
-            }
-        }
-
         [HarmonyPatch(typeof(PlayerBuildingAI), "SimulationStepActive")]
         public static void SimulationStepActive(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
         {

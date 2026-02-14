@@ -123,20 +123,6 @@ namespace RealTime.Patches.BuildingAIPatches
             }
         }
 
-        [HarmonyPatch(typeof(PrivateBuildingAI), "ReleaseBuilding")]
-        [HarmonyPrefix]
-        public static void ReleaseBuilding(PrivateBuildingAI __instance, ushort buildingID, ref Building data)
-        {
-            if (BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID))
-            {
-                BuildingWorkTimeManager.RemoveBuildingWorkTime(buildingID);
-            }
-            if (BuildingManagerConnection.IsHotel(buildingID) && HotelManager.HotelExist(buildingID))
-            {
-                HotelManager.RemoveHotel(buildingID);
-            }
-        }
-
         [HarmonyPatch(typeof(PrivateBuildingAI), "HandleWorkers")]
         [HarmonyPrefix]
         public static bool HandleWorkersPrefix(ref Building buildingData, ref byte __state)

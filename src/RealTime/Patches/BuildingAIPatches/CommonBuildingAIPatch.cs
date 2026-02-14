@@ -5,6 +5,7 @@ namespace RealTime.Patches.BuildingAIPatches
     using ColossalFramework;
     using HarmonyLib;
     using RealTime.CustomAI;
+    using RealTime.GameConnection;
     using RealTime.Managers;
     using UnityEngine;
 
@@ -20,51 +21,35 @@ namespace RealTime.Patches.BuildingAIPatches
             public ushort Mail;
         }
 
-        [HarmonyPatch(typeof(CommonBuildingAI), "ProduceGoods")]
-        [HarmonyPrefix]
-        public static void ProduceGoodsPrefix(ushort buildingID, ref Building buildingData, out Accumulator __state) => __state = new Accumulator
-        {
-            Garbage = buildingData.m_garbageBuffer,
-            Mail = buildingData.m_mailBuffer
-        };
-
-        [HarmonyPatch(typeof(CommonBuildingAI), "ProduceGoods")]
-        [HarmonyPostfix]
-        public static void ProduceGoodsPostfix(ushort buildingID, ref Building buildingData, Accumulator __state)
-        {
-            ResourceSlowdownManager.ApplyGarbageSlowdown(buildingID, ref buildingData, __state.Garbage);
-            ResourceSlowdownManager.ApplyMailSlowdown(buildingID, ref buildingData, __state.Mail);
-        }
-
         [HarmonyPatch(typeof(CommonBuildingAI), "HandleCommonConsumption")]
         [HarmonyPrefix]
-        public static void HandleCommonConsumptionPrefix(ushort buildingID, ref Building buildingData, out Accumulator __state) => __state = new Accumulator
+        public static void HandleCommonConsumptionPrefix(ushort buildingID, ref Building data, ref Building.Frame frameData, ref int electricityConsumption, ref int heatingConsumption, ref int waterConsumption, ref int sewageAccumulation, ref int garbageAccumulation, ref int mailAccumulation, int maxMail, DistrictPolicies.Services policies, out Accumulator __state) => __state = new Accumulator
         {
-            Garbage = buildingData.m_garbageBuffer,
-            Mail = buildingData.m_mailBuffer
+            Garbage = data.m_garbageBuffer,
+            Mail = data.m_mailBuffer
         };
 
         [HarmonyPatch(typeof(CommonBuildingAI), "HandleCommonConsumption")]
         [HarmonyPostfix]
-        public static void HandleCommonConsumptionPostfix(ushort buildingID, ref Building buildingData, Accumulator __state)
+        public static void HandleCommonConsumptionPostfix(ushort buildingID, ref Building data, ref Building.Frame frameData, ref int electricityConsumption, ref int heatingConsumption, ref int waterConsumption, ref int sewageAccumulation, ref int garbageAccumulation, ref int mailAccumulation, int maxMail, DistrictPolicies.Services policies, Accumulator __state)
         {
-            ResourceSlowdownManager.ApplyGarbageSlowdown(buildingID, ref buildingData, __state.Garbage);
-            ResourceSlowdownManager.ApplyMailSlowdown(buildingID, ref buildingData, __state.Mail);
+            ResourceSlowdownManager.ApplyGarbageSlowdown(buildingID, ref data, __state.Garbage);
+            ResourceSlowdownManager.ApplyMailSlowdown(buildingID, ref data, __state.Mail);
         }
 
         [HarmonyPatch(typeof(CommonBuildingAI), "ModifyMaterialBuffer")]
         [HarmonyPrefix]
-        public static void ModifyMaterialBufferPrefix(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int delta)
+        public static void ModifyMaterialBufferPrefix(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
         {
             // Only intercept garbage accumulation (positive delta)
-            if (material == TransferManager.TransferReason.Garbage && delta > 0)
+            if (material == TransferManager.TransferReason.Garbage && amountDelta > 0)
             {
-                ResourceSlowdownManager.ModifyGarbageMaterialBuffer(buildingID, ref delta);
+                ResourceSlowdownManager.ModifyGarbageMaterialBuffer(buildingID, ref amountDelta);
             }
             // Only intercept mail accumulation (positive delta)
-            else if (material == TransferManager.TransferReason.Mail && delta > 0)
+            else if (material == TransferManager.TransferReason.Mail && amountDelta > 0)
             {
-                ResourceSlowdownManager.ModifyMailMaterialBuffer(buildingID, ref delta);
+                ResourceSlowdownManager.ModifyMailMaterialBuffer(buildingID, ref amountDelta);
             }
         }
 
@@ -234,5 +219,25 @@ namespace RealTime.Patches.BuildingAIPatches
             throw new NotImplementedException(message);
         }
 
+        [HarmonyPatch(typeof(CommonBuildingAI), "ReleaseBuilding")]
+        [HarmonyPostfix]
+        public static void ReleaseBuildingPostfix(ushort buildingID, ref Building data)
+        {
+            if (BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID))
+            {
+                BuildingWorkTimeManager.RemoveBuildingWorkTime(buildingID);
+            }
+            if (BuildingManagerConnection.IsHotel(buildingID) && HotelManager.HotelExist(buildingID))
+            {
+                HotelManager.RemoveHotel(buildingID);
+            }
+            if (data.Info.GetAI() is MainCampusBuildingAI && AcademicYearManager.MainCampusBuildingExist(buildingID))
+            {
+                AcademicYearManager.DeleteAcademicYearData(buildingID);
+            }
+
+            ResourceSlowdownManager.GarbageAccumulator[buildingID] = 0f;
+            ResourceSlowdownManager.MailAccumulator[buildingID] = 0f;
+        }
     }
 }

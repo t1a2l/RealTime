@@ -5,8 +5,6 @@ namespace RealTime.Patches.BuildingAIPatches
     using HarmonyLib;
     using RealTime.Core;
     using RealTime.CustomAI;
-    using RealTime.GameConnection;
-    using RealTime.Managers;
 
     [HarmonyPatch]
     internal class BuildingManagerPatch
@@ -45,27 +43,6 @@ namespace RealTime.Patches.BuildingAIPatches
             {
                 RealTimeBuildingAI.RegisterConstructingBuilding(building, info.GetService());
             }
-        }
-
-        [HarmonyPatch(typeof(BuildingManager), "ReleaseBuilding")]
-        [HarmonyPostfix]
-        public static void ReleaseBuildingPostfix(ushort buildingID, ref Building data)
-        {
-            if (BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID))
-            {
-                BuildingWorkTimeManager.RemoveBuildingWorkTime(buildingID);
-            }
-            if (BuildingManagerConnection.IsHotel(buildingID) && HotelManager.HotelExist(buildingID))
-            {
-                HotelManager.RemoveHotel(buildingID);
-            }
-            if (data.Info.GetAI() is MainCampusBuildingAI && AcademicYearManager.MainCampusBuildingExist(buildingID))
-            {
-                AcademicYearManager.DeleteAcademicYearData(buildingID);
-            }
-
-            ResourceSlowdownManager.GarbageAccumulator[buildingID] = 0f;
-            ResourceSlowdownManager.MailAccumulator[buildingID] = 0f;
         }
     }
 }

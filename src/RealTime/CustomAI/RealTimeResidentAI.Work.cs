@@ -313,7 +313,9 @@ namespace RealTime.CustomAI
                 var citizen_schedule = GetCitizenSchedule(workforce[i]);
                 if(citizen_schedule.WorkShift == workShiftToFind && citizen_schedule.WorkStatus == WorkStatus.Working)
                 {
-                    if(CitizenProxy.GetLocation(ref citizen) != Citizen.Location.Work)
+                    ref var nextShiftCitizen = ref CitizenManager.instance.m_citizens.m_buffer[workforce[i]];
+
+                    if (nextShiftCitizen.CurrentLocation != Citizen.Location.Work)
                     {
                         // do not leave work until next shift has arrived
                         return false;

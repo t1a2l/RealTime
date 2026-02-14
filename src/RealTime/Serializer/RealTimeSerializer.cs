@@ -66,6 +66,15 @@ namespace RealTime.Serializer
                                 CheckStartTuple("GraduationSerializer", SaveGameFileVersion, Data, ref Index);
                                 AcademicYearSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
                                 CheckEndTuple("GraduationSerializer", SaveGameFileVersion, Data, ref Index);
+
+                                if (Index == Data.Length)
+                                {
+                                    break;
+                                }
+
+                                CheckStartTuple("GarbageSlowdownSerializer", SaveGameFileVersion, Data, ref Index);
+                                ResourceSlowdownSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
+                                CheckEndTuple("GarbageSlowdownSerializer", SaveGameFileVersion, Data, ref Index);
                                 break;
                             }
                         }
@@ -123,6 +132,11 @@ namespace RealTime.Serializer
                     // academic year data settings
                     StorageData.WriteUInt32(uiTUPLE_START, Data);
                     AcademicYearSerializer.SaveData(Data);
+                    StorageData.WriteUInt32(uiTUPLE_END, Data);
+
+                    // garbage slowndown settings
+                    StorageData.WriteUInt32(uiTUPLE_START, Data);
+                    ResourceSlowdownSerializer.SaveData(Data);
                     StorageData.WriteUInt32(uiTUPLE_END, Data);
 
                     BuildingWorkTimeGlobalConfig.Config.Serialize();

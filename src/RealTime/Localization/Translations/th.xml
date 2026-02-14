@@ -63,8 +63,10 @@
   <translation id="RealisticFiresTooltip" value="หากเปิดใช้งานอัคคีภัยจะใช้เวลาในการดับ ระหว่าง 30 นาทีถึง 4 ชั่วโมง"/>
   <translation id="WorkForceMatters" value="Building must have workers to operate" />
   <translation id="WorkForceMattersTooltip" value="If enabled, buildings without workers in it will become closed and not give service" />
-  <translation id="WeeklyPickupsOnly" value="Building will be collected from only once a week" />
-  <translation id="WeeklyPickupsOnlyTooltip" value="If enabled, buildings will have bigger buffers which in turn will allow then to request services only once a week, like garbage and mail" />
+  <translation id="GarbageSlowDown" value="Garbage Accumulation" />
+  <translation id="GarbageSlowDownTooltip" value="min (0.05) is very slow (Bi-weekly) and max (1.0) is normal daily - default is weekly (0.15)" />
+  <translation id="MailSlowDown" value="Mail Accumulation" />
+  <translation id="MailSlowDownTooltip" value="min (0.1) is very slow (weekly) and max (1.0) is normal daily - default is every 3 days (0.3)" />
   <translation id="WeeklyCommericalDeliveries" value="Commerical building will receive goods delivery once a week" />
   <translation id="WeeklyCommericalDeliveriesTooltip" value="If enabled, commerical buildings will have bigger goods buffer that will allow them to get goods only once a week" />
   <translation id="DummyTrafficBehavior" value="Make the dummy traffic capacity more light" />

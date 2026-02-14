@@ -63,8 +63,10 @@
   <translation id="RealisticFiresTooltip" value="如果启用，火灾将需要 30 分钟至 4 小时才能扑灭" />
   <translation id="WorkForceMatters" value="建筑物必须有工人才能运作" />
   <translation id="WorkForceMattersTooltip" value="如果启用，没有工人的建筑将关闭，无法提供服务" />
-  <translation id="WeeklyPickupsOnly" value="建筑每周仅收集一次" />
-  <translation id="WeeklyPickupsOnlyTooltip" value="如果启用，建筑将有更大的空间，允许建筑每周只申请一次服务，如垃圾和邮件" />
+  <translation id="GarbageSlowDown" value="Garbage Accumulation" />
+  <translation id="GarbageSlowDownTooltip" value="min (0.05) is very slow (Bi-weekly) and max (1.0) is normal daily - default is weekly (0.15)" />
+  <translation id="MailSlowDown" value="Mail Accumulation" />
+  <translation id="MailSlowDownTooltip" value="min (0.1) is very slow (weekly) and max (1.0) is normal daily - default is every 3 days (0.3)" />
   <translation id="WeeklyCommericalDeliveries" value="商业建筑每周收货一次" />
   <translation id="WeeklyCommericalDeliveriesTooltip" value="如果启用，商业建筑将有更大的货物空间，使其每周只收一次货" />
   <translation id="DummyTrafficBehavior" value="使虚拟交通容量更小" />

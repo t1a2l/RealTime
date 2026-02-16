@@ -386,19 +386,38 @@ namespace RealTime.CustomAI
 
             if (schedule.ScheduledState != ResidentState.GoToVisit || schedule.CurrentState != ResidentState.Visiting || buildingAI.IsBuildingClosingSoon(currentBuilding))
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna visit and then schedules {ResidentState.Unknown}, heading to a visit building.");
-
                 var reason = GoToPostOfficeOrBank(CitizenProxy.GetAge(ref citizen));
-
+                
                 schedule.FindVisitPlaceAttempts++;
 
                 if (reason != TransferManager.TransferReason.None)
                 {
-                    residentAI.FindVisitPlace(instance, citizenId, currentBuilding, reason);
-                    return true;
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} want to visit and then schedules {ResidentState.Unknown}, searching for visit place with reason {reason}");
+                    ushort targetBuilding = 0;
+                    if (reason == TransferManager.TransferReason.Mail)
+                    {
+                        targetBuilding = buildingAI.FindActiveBuilding(currentBuilding, LocalSearchDistance, ItemClass.Service.PublicTransport, ItemClass.SubService.PublicTransportPost);
+                    }
+                    else if (reason == TransferManager.TransferReason.Cash)
+                    {
+                        targetBuilding = buildingAI.FindActiveBuilding(currentBuilding, LocalSearchDistance, ItemClass.Service.PoliceDepartment, ItemClass.SubService.PoliceDepartmentBank);
+                    }
+                    if(targetBuilding != 0)
+                    {
+                        if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, targetBuilding))
+                        {
+                            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} heading to a nearby post office or bank building {targetBuilding}");
+                            schedule.Schedule(ResidentState.Unknown);
+                            return true;
+                        }
+                    }
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanted to visit but did find a suitable bank or post office");
+                    return false;
+
                 }
                 else
                 {
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanted to visit but did not find a good reason");
                     return false;
                 }
             }

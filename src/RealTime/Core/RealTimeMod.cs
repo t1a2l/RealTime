@@ -175,8 +175,7 @@ namespace RealTime.Core
                 CheckCompatibility(compatibility);
             }
 
-
-            var version = new Version(modVersion);
+            var version = typeof(RealTimeMod).Assembly.GetName().Version;
             int major = version.Major;
             int minor = version.Minor;
 

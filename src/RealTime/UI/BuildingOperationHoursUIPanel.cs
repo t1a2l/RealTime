@@ -305,10 +305,10 @@ namespace RealTime.UI
             SetGlobalSettingsBtn.eventClicked += SetGlobalSettings;
 
             DeletePrefabSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 185f, 420f, "DeletePrefabSettings", t_deletePrefabSettings, t_deletePrefabSettingsTooltip);
-            DeletePrefabSettingsBtn.eventClicked += SetPrefabSettings;
+            DeletePrefabSettingsBtn.eventClicked += DeletePrefabSettings;
 
             DeleteGlobalSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 260f, 470f, "DeleteGlobalSettings", t_deleteGlobalSettings, t_deleteGlobalSettingsTooltip);
-            DeleteGlobalSettingsBtn.eventClicked += SetGlobalSettings;
+            DeleteGlobalSettingsBtn.eventClicked += DeleteGlobalSettings;
 
             UnlockSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 130f, 55f, "UnlockSettings", t_unlockSettings, t_unlockSettingsTooltip);
             UnlockSettingsBtn.eventClicked += UnlockSettings;
@@ -352,10 +352,6 @@ namespace RealTime.UI
 
             SaveBuildingSettingsBtn.Enable();
             ReturnToDefaultBtn.Enable();
-            SetPrefabSettingsBtn.Enable();
-            SetGlobalSettingsBtn.Enable();
-            DeletePrefabSettingsBtn.Enable();
-            DeleteGlobalSettingsBtn.Enable();
 
             ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
             var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
@@ -363,10 +359,27 @@ namespace RealTime.UI
             if (BuildingWorkTimeManager.PrefabExist(building.Info))
             {
                 ApplyPrefabSettingsBtn.Enable();
+                SetPrefabSettingsBtn.Disable();
+                DeletePrefabSettingsBtn.Enable();
             }
+            else
+            {
+                ApplyPrefabSettingsBtn.Disable();
+                SetPrefabSettingsBtn.Enable();
+                DeletePrefabSettingsBtn.Disable();
+            }
+
             if (BuildingWorkTimeGlobalConfig.Config.GlobalSettingsExist(building.Info))
             {
                 ApplyGlobalSettingsBtn.Enable();
+                SetGlobalSettingsBtn.Disable();
+                DeleteGlobalSettingsBtn.Enable();
+            }
+            else
+            {
+                ApplyGlobalSettingsBtn.Disable();
+                SetGlobalSettingsBtn.Enable();
+                DeleteGlobalSettingsBtn.Disable();
             }
 
             UnlockSettingsBtn.Hide();

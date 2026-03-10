@@ -19,10 +19,12 @@
   <translation id="AdvancedLoggingModeTooltip" value="Allow advanced logging for debugging" />
   <translation id="ResetToDefaults" value="重置为默认值" />
   <translation id="UseForNewGames" value="为新游戏使用当前值" />
-  <translation id="ResetFireBurnManager" value="清除火灾管理器" />
   <translation id="ClearStuckCitizensSchedule" value="清除所有卡住的公民时间表" />
   <translation id="ClearStuckTouristsInHotels" value="清除所有滞留在酒店的游客" />
   <translation id="ClearStuckCitizensInClosedBuildings" value="清理已关闭建筑内的所有滞留市民" />
+  <translation id="ClearFireBurnTimeManager" value="Clear Fire Burn Time" />
+  <translation id="ClearBuildingsWorkTimePrefabs" value="Clear Buildings Types Settings" />
+  <translation id="ClearBuildingWorkTimeGlobalSettings" value="Clear Buildings Types Global Settings" />
   <translation id="ResetBuildingsGarbageBuffer" value="Reset All Buildings Garbage buffer" />
   <translation id="ResetBuildingsMailBuffer" value="Reset All Buildings Mail buffer" />
 

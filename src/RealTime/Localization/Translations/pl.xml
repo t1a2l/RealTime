@@ -19,10 +19,12 @@
   <translation id="AdvancedLoggingModeTooltip" value="Allow advanced logging for debugging" />
   <translation id="ResetToDefaults" value="Resetuj wszystko do domyślnych wartości" />
   <translation id="UseForNewGames" value="Użyj aktualnych wartości dla każdej nowej gry" />
-  <translation id="ResetFireBurnManager" value="Clear the fire manager" />
   <translation id="ClearStuckCitizensSchedule" value="Clear All Stuck Citizens Schedule" />
   <translation id="ClearStuckTouristsInHotels" value="Clear All Stuck Tourists in Hotels" />
   <translation id="ClearStuckCitizensInClosedBuildings" value="Clear All Stuck Citizens in Closed Buildings" />
+  <translation id="ClearFireBurnTimeManager" value="Clear Fire Burn Time" />
+  <translation id="ClearBuildingsWorkTimePrefabs" value="Clear Buildings Types Settings" />
+  <translation id="ClearBuildingWorkTimeGlobalSettings" value="Clear Buildings Types Global Settings" />
   <translation id="ResetBuildingsGarbageBuffer" value="Reset All Buildings Garbage buffer" />
   <translation id="ResetBuildingsMailBuffer" value="Reset All Buildings Mail buffer" />
 

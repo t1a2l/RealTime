@@ -18,10 +18,12 @@ namespace RealTime.UI
     {
         private const string ResetToDefaultsId = "ResetToDefaults";
         private const string UseForNewGamesId = "UseForNewGames";
-        private const string ResetFireBurnManagerId = "ResetFireBurnManager";
         private const string ClearStuckCitizensScheduleId = "ClearStuckCitizensSchedule";
         private const string ClearStuckTouristsInHotelsId = "ClearStuckTouristsInHotels";
         private const string ClearStuckCitizensInClosedBuildingsId = "ClearStuckCitizensInClosedBuildings";
+        private const string ClearFireBurnTimeManagerId = "ClearFireBurnTimeManager";
+        private const string ClearBuildingsWorkTimePrefabsId = "ClearBuildingsWorkTimePrefabs";
+        private const string ClearBuildingWorkTimeGlobalSettingsId = "ClearBuildingWorkTimeGlobalSettings";
         private const string ResetBuildingsGarbageBufferId = "ResetBuildingsGarbageBuffer";
         private const string ResetBuildingsMailBufferId = "ResetBuildingsMailBuffer";
         private const string ToolsId = "Tools";
@@ -78,14 +80,21 @@ namespace RealTime.UI
             viewItems.Add(resetButton);
             var newGameConfigButton = itemFactory.CreateButton(toolsTab, UseForNewGamesId, result.UseForNewGames);
             viewItems.Add(newGameConfigButton);
-            var ResetFireBurnManagerButton = itemFactory.CreateButton(toolsTab, ResetFireBurnManagerId, result.ResetFireBurnManager);
-            viewItems.Add(ResetFireBurnManagerButton);
             var ClearStuckCitizensScheduleButton = itemFactory.CreateButton(toolsTab, ClearStuckCitizensScheduleId, result.ClearStuckCitizensSchedule);
             viewItems.Add(ClearStuckCitizensScheduleButton);
             var ClearStuckTouristsInHotelsButton = itemFactory.CreateButton(toolsTab, ClearStuckTouristsInHotelsId, result.ClearStuckTouristsInHotels);
             viewItems.Add(ClearStuckTouristsInHotelsButton);
             var ClearStuckCitizensInClosedBuildingsButton = itemFactory.CreateButton(toolsTab, ClearStuckCitizensInClosedBuildingsId, result.ClearStuckCitizensInClosedBuildings);
             viewItems.Add(ClearStuckCitizensInClosedBuildingsButton);
+
+            var ClearFireBurnTimeManagerButton = itemFactory.CreateButton(toolsTab, ClearFireBurnTimeManagerId, result.ClearFireBurnTimeManager);
+            viewItems.Add(ClearFireBurnTimeManagerButton);
+            var ClearBuildingsWorkTimePrefabsButton = itemFactory.CreateButton(toolsTab, ClearBuildingsWorkTimePrefabsId, result.ClearBuildingsWorkTimePrefabs);
+            viewItems.Add(ClearBuildingsWorkTimePrefabsButton);
+            var ClearBuildingWorkTimeGlobalSettingsButton = itemFactory.CreateButton(toolsTab, ClearBuildingWorkTimeGlobalSettingsId, result.ClearBuildingWorkTimeGlobalSettings);
+            viewItems.Add(ClearBuildingWorkTimeGlobalSettingsButton);
+
+
             var ResetBuildingsGarbageBufferButton = itemFactory.CreateButton(toolsTab, ResetBuildingsGarbageBufferId, result.ResetBuildingsGarbageBuffer);
             viewItems.Add(ResetBuildingsGarbageBufferButton);
             var ResetBuildingsMailBufferButton = itemFactory.CreateButton(toolsTab, ResetBuildingsMailBufferId, result.ResetBuildingsMailBuffer);
@@ -195,13 +204,43 @@ namespace RealTime.UI
 
         private void UseForNewGames() => configProvider.SaveDefaultConfiguration();
 
-        private void ResetFireBurnManager() => FireBurnTimeManager.FireBurnTime.Clear();
-
         private void ClearStuckCitizensSchedule() => ResidentAIPatch.RealTimeResidentAI.ClearStuckCitizensSchedule();
 
         private void ClearStuckTouristsInHotels() => ResidentAIPatch.RealTimeResidentAI.ClearStuckTouristsInHotels();
 
         private void ClearStuckCitizensInClosedBuildings() => ResidentAIPatch.RealTimeResidentAI.ClearStuckCitizensInClosedBuildings();
+
+        private void ClearFireBurnTimeManager() => ConfirmPanel.ShowModal("Clear FireBurnTime", "This will clear all fire burns happening in the city! are you sure?", (comp, ret) =>
+        {
+                if (ret != 1)
+                {
+                    return;
+                }
+
+                FireBurnTimeManager.FireBurnTime.Clear();
+        });
+
+        private void ClearBuildingsWorkTimePrefabs() =>
+            ConfirmPanel.ShowModal("Clear BuildingsWorkTime Types", "This will clear all worktime settings of all the types of all the buildings in this save! are you sure?", (comp, ret) =>
+        {
+            if (ret != 1)
+            {
+                return;
+            }
+
+            BuildingWorkTimeManager.BuildingsWorkTimePrefabs.Clear();
+        });
+
+        private void ClearBuildingWorkTimeGlobalSettings() =>
+            ConfirmPanel.ShowModal("Clear BuildingsWorkTime Global Types", "This will clear all worktime settings of all the types of all the buildings across all saves! are you sure?", (comp, ret) =>
+        {
+            if (ret != 1)
+            {
+                return;
+            }
+
+            BuildingWorkTimeGlobalConfig.Config.BuildingWorkTimeGlobalSettings.Clear();
+        });
 
         private void ResetBuildingsGarbageBuffer() => ResourceSlowdownManager.ResetAllGarbage();
 

@@ -85,8 +85,6 @@ namespace RealTime.Config
             }
         }
 
-        public void ClearGlobalSettings() => BuildingWorkTimeGlobalSettings.Clear();
-
         public static BuildingWorkTimeGlobalConfig Deserialize()
         {
             try

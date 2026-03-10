@@ -274,6 +274,10 @@
   <translation id="SetPrefabSettingsTooltip" value="这将更新此存档中所有此类型建筑的当前工作时间" />
   <translation id="SetGlobalSettings" value="设置新全局" />
   <translation id="SetGlobalSettingsTooltip" value="这将更新所有存档中此类型建筑的当前工作时间" />
+  <translation id="DeletePrefabSettings" value="Delete existing type" />
+  <translation id="DeletePrefabSettingsTooltip" value="This will delete all building records of this type and return them back to default in this save" />
+  <translation id="DeleteGlobalSettings" value="Delete existing global" />
+  <translation id="DeleteGlobalSettingsTooltip" value="This will delete all building records of this type and return them back to default across all saves" />
   <translation id="UnlockSettings" value="解锁设置" />
   <translation id="UnlockSettingsTooltip" value="解锁编辑设置" />
   <translation id="DefaultSettingsStatus" value="此建筑使用默认设置" />
@@ -281,10 +285,14 @@
   <translation id="PrefabSettingsStatus" value="此建筑使用类型设置" />
   <translation id="GlobalSettingsStatus" value="此建筑使用全局设置" />
   <translation id="LockUnlockChangesTooltip" value="如果锁定，类型和全局设置对该建筑没有影响" />
-  <translation id="ConfirmPanelPrefabTitle" value="设置预制设置" />
-  <translation id="ConfirmPanelPrefabText" value="这将把当前存档中该类型的所有建筑工作时间更新为当前工作时间！" />
-  <translation id="ConfirmPanelGlobalTitle" value="设置全局设置" />
-  <translation id="ConfirmPanelGlobalText" value="这将把所有存档中该类型的所有建筑工作时间更新为当前工作时间！" />
+  <translation id="ConfirmPanelSetPrefabTitle" value="Set Type Settings" />
+  <translation id="ConfirmPanelSetPrefabText" value="This will update all the buildings work hours of this type to the current work time settings in this save!" />
+  <translation id="ConfirmPanelSetGlobalTitle" value="Set Global Settings" />
+  <translation id="ConfirmPanelSetGlobalText" value="This will update all the buildings work hours of this type to the current work time settings across all saves!" />
+  <translation id="ConfirmPanelDeletePrefabTitle" value="Delete Type Settings" />
+  <translation id="ConfirmPanelDeletePrefabText" value="This will remove all the buildings work hours of this type back to default settings in this save!" />
+  <translation id="ConfirmPanelDeleteGlobalTitle" value="Delete Global Settings" />
+  <translation id="ConfirmPanelDeleteGlobalText" value="This will remove all the buildings work hours of this type back to default settings across all saves!" />
   <translation id="ClosedBuilding" value="已关闭" />
   <translation id="ServingTimeAt" value="服刑于" />
 

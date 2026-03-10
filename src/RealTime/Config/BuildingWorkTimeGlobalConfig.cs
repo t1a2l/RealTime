@@ -16,11 +16,9 @@ namespace RealTime.Config
 
         private static XmlSerializer Ser_ => new(typeof(BuildingWorkTimeGlobalConfig));
 
-        private static BuildingWorkTimeGlobalConfig config_;
+        public static BuildingWorkTimeGlobalConfig Config { get => field ??= Deserialize() ?? new BuildingWorkTimeGlobalConfig(); private set; }
 
-        public static BuildingWorkTimeGlobalConfig Config => config_ ??= Deserialize() ?? new BuildingWorkTimeGlobalConfig();
-
-        public static void Reset() => config_ = new BuildingWorkTimeGlobalConfig();
+        public static void Reset() => Config = new BuildingWorkTimeGlobalConfig();
 
         public int GetIndex(string infoName, string buildingAIstr)
         {
@@ -68,13 +66,22 @@ namespace RealTime.Config
                 BuildingWorkTimeGlobalSettings[index] = buildingWorkTimeGlobal;
             }
         }
-
+         
         public void CreateGlobalSettings(BuildingWorkTimeGlobal buildingWorkTimeGlobal)
         {
             int index = GetIndex(buildingWorkTimeGlobal.InfoName, buildingWorkTimeGlobal.BuildingAI);
             if (index == -1)
             {
                 BuildingWorkTimeGlobalSettings.Add(buildingWorkTimeGlobal);
+            }
+        }
+
+        public void RemoveGlobalSettings(BuildingWorkTimeGlobal buildingWorkTimeGlobal)
+        {
+            int index = GetIndex(buildingWorkTimeGlobal.InfoName, buildingWorkTimeGlobal.BuildingAI);
+            if (index != -1)
+            {
+                BuildingWorkTimeGlobalSettings.RemoveAt(index);
             }
         }
 

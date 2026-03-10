@@ -154,6 +154,18 @@ namespace RealTime.Localization
         /// <summary>The key for the set global settings button tooltip.</summary>
         public const string SetGlobalSettingsTooltip = "SetGlobalSettingsTooltip";
 
+        /// <summary>The key for the delete prefab settings button.</summary>
+        public const string DeletePrefabSettings = "DeletePrefabSettings";
+
+        /// <summary>The key for the delete prefab settings button tooltip.</summary>
+        public const string DeletePrefabSettingsTooltip = "DeletePrefabSettingsTooltip";
+
+        /// <summary>The key for the delete global settings button.</summary>
+        public const string DeleteGlobalSettings = "DeleteGlobalSettings";
+
+        /// <summary>The key for the delete global settings button tooltip.</summary>
+        public const string DeleteGlobalSettingsTooltip = "DeleteGlobalSettingsTooltip";
+
         /// <summary>The key for the unlock settings button.</summary>
         public const string UnlockSettings = "UnlockSettings";
 
@@ -175,17 +187,29 @@ namespace RealTime.Localization
         /// <summary>The key for the lock/unlock changes button tooltip.</summary>
         public const string LockUnlockChangesTooltip = "LockUnlockChangesTooltip";
 
-        /// <summary>The key for the prefab confirm panel title.</summary>
-        public const string ConfirmPanelPrefabTitle = "ConfirmPanelPrefabTitle";
+        /// <summary>The key for the set prefab confirm panel title.</summary>
+        public const string ConfirmPanelSetPrefabTitle = "ConfirmPanelSetPrefabTitle";
 
-        /// <summary>The key for the prefab confirm panel text.</summary>
-        public const string ConfirmPanelPrefabText = "ConfirmPanelPrefabText";
+        /// <summary>The key for the set prefab confirm panel text.</summary>
+        public const string ConfirmPanelSetPrefabText = "ConfirmPanelSetPrefabText";
 
-        /// <summary>The key for the global confirm panel title.</summary>
-        public const string ConfirmPanelGlobalTitle = "ConfirmPanelGlobalTitle";
+        /// <summary>The key for the set global confirm panel title.</summary>
+        public const string ConfirmPanelSetGlobalTitle = "ConfirmPanelSetGlobalTitle";
 
-        /// <summary>The key for the global confirm panel text.</summary>
-        public const string ConfirmPanelGlobalText = "ConfirmPanelGlobalText";
+        /// <summary>The key for the set global confirm panel text.</summary>
+        public const string ConfirmPanelSetGlobalText = "ConfirmPanelSetGlobalText";
+
+        /// <summary>The key for the delete prefab confirm panel title.</summary>
+        public const string ConfirmPanelDeletePrefabTitle = "ConfirmPanelDeletePrefabTitle";
+
+        /// <summary>The key for the delete prefab confirm panel text.</summary>
+        public const string ConfirmPanelDeletePrefabText = "ConfirmPanelDeletePrefabText";
+
+        /// <summary>The key for the delete global confirm panel title.</summary>
+        public const string ConfirmPanelDeleteGlobalTitle = "ConfirmPanelDeleteGlobalTitle";
+
+        /// <summary>The key for the delete global confirm panel text.</summary>
+        public const string ConfirmPanelDeleteGlobalText = "ConfirmPanelDeleteGlobalText";
 
         /// <summary>The key for the closed text on buildings.</summary>
         public const string ClosedBuilding = "ClosedBuilding";

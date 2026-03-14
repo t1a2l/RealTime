@@ -698,7 +698,6 @@ namespace RealTime.UI
                 foreach (var item in BuildingWorkTimeManager.BuildingsWorkTime)
                 {
                     var Info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[item.Key].Info;
-                    string buildingAIName = Info.GetAI().GetType().Name;
                     if (Info.name == buildingInfo.name)
                     {
                         BackToDefault(item.Key, Info);
@@ -726,7 +725,6 @@ namespace RealTime.UI
                 foreach (var item in BuildingWorkTimeManager.BuildingsWorkTime)
                 {
                     var Info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[item.Key].Info;
-                    string buildingAIName = Info.GetAI().GetType().Name;
                     if (Info.name == buildingInfo.name)
                     {
                         BackToDefault(item.Key, Info);

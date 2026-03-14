@@ -3,6 +3,7 @@ namespace RealTime.Patches.BuildingAIPatches
     using System;
     using System.Runtime.CompilerServices;
     using ColossalFramework;
+    using ColossalFramework.Math;
     using HarmonyLib;
     using RealTime.CustomAI;
     using RealTime.GameConnection;
@@ -21,17 +22,21 @@ namespace RealTime.Patches.BuildingAIPatches
             public ushort Mail;
         }
 
-        [HarmonyPatch(typeof(CommonBuildingAI), "HandleCommonConsumption")]
+        [HarmonyPatch(typeof(CommonBuildingAI), "HandleCommonConsumption",
+                [typeof(ushort), typeof(Building), typeof(Building.Frame), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(DistrictPolicies.Services), typeof(ushort)],
+                [ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal])]
         [HarmonyPrefix]
-        public static void HandleCommonConsumptionPrefix(ushort buildingID, ref Building data, ref Building.Frame frameData, ref int electricityConsumption, ref int heatingConsumption, ref int waterConsumption, ref int sewageAccumulation, ref int garbageAccumulation, ref int mailAccumulation, int maxMail, DistrictPolicies.Services policies, out Accumulator __state) => __state = new Accumulator
+        public static void HandleCommonConsumptionPrefix(ushort buildingID, ref Building data, ref Building.Frame frameData, ref int electricityConsumption, ref int heatingConsumption, ref int waterConsumption, ref int sewageAccumulation, ref int garbageAccumulation, ref int mailAccumulation, int maxMail, DistrictPolicies.Services policies, ushort mainBuildingID, out Accumulator __state) => __state = new Accumulator
         {
             Garbage = data.m_garbageBuffer,
             Mail = data.m_mailBuffer
         };
 
-        [HarmonyPatch(typeof(CommonBuildingAI), "HandleCommonConsumption")]
+        [HarmonyPatch(typeof(CommonBuildingAI), "HandleCommonConsumption",
+                [typeof(ushort), typeof(Building), typeof(Building.Frame), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(DistrictPolicies.Services), typeof(ushort)],
+                [ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal])]
         [HarmonyPostfix]
-        public static void HandleCommonConsumptionPostfix(ushort buildingID, ref Building data, ref Building.Frame frameData, ref int electricityConsumption, ref int heatingConsumption, ref int waterConsumption, ref int sewageAccumulation, ref int garbageAccumulation, ref int mailAccumulation, int maxMail, DistrictPolicies.Services policies, Accumulator __state)
+        public static void HandleCommonConsumptionPostfix(ushort buildingID, ref Building data, ref Building.Frame frameData, ref int electricityConsumption, ref int heatingConsumption, ref int waterConsumption, ref int sewageAccumulation, ref int garbageAccumulation, ref int mailAccumulation, int maxMail, DistrictPolicies.Services policies, ushort mainBuildingID, Accumulator __state)
         {
             ResourceSlowdownManager.ApplyGarbageSlowdown(buildingID, ref data, __state.Garbage);
             ResourceSlowdownManager.ApplyMailSlowdown(buildingID, ref data, __state.Mail);

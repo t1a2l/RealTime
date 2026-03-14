@@ -126,7 +126,7 @@ namespace RealTime.UI
             m_uiMainPanel.opacity = 0.90f;
             m_uiMainPanel.isVisible = false;
             m_uiMainPanel.relativePosition = new Vector3(m_uiMainPanel.parent.width + 1, panelHeight);
-            m_uiMainPanel.height = 410f;
+            m_uiMainPanel.height = 470f;
             m_uiMainPanel.width = 510f;
 
             m_operationHoursSettingsCheckBox = UiUtils.CreateCheckBox(uIPanel, "OperationHoursSettingsCheckBox", t_operationHoursSettingsCheckBox, t_operationHoursSettingsCheckBoxTooltip, false);
@@ -304,10 +304,10 @@ namespace RealTime.UI
             SetGlobalSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 260f, 370f, "SetGlobalSettings", t_setGlobalSettings, t_setGlobalSettingsTooltip);
             SetGlobalSettingsBtn.eventClicked += SetGlobalSettings;
 
-            DeletePrefabSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 185f, 420f, "DeletePrefabSettings", t_deletePrefabSettings, t_deletePrefabSettingsTooltip);
+            DeletePrefabSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 15f, 420f, "DeletePrefabSettings", t_deletePrefabSettings, t_deletePrefabSettingsTooltip);
             DeletePrefabSettingsBtn.eventClicked += DeletePrefabSettings;
 
-            DeleteGlobalSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 260f, 470f, "DeleteGlobalSettings", t_deleteGlobalSettings, t_deleteGlobalSettingsTooltip);
+            DeleteGlobalSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 260f, 420f, "DeleteGlobalSettings", t_deleteGlobalSettings, t_deleteGlobalSettingsTooltip);
             DeleteGlobalSettingsBtn.eventClicked += DeleteGlobalSettings;
 
             UnlockSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 130f, 55f, "UnlockSettings", t_unlockSettings, t_unlockSettingsTooltip);

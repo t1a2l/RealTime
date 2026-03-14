@@ -11,7 +11,6 @@ namespace RealTime.UI
     using RealTime.Utils;
     using SkyTools.Localization;
     using UnityEngine;
-    using static ColossalFramework.DataBinding.BindPropertyByKey;
 
     internal class BuildingOperationHoursUIPanel
     {

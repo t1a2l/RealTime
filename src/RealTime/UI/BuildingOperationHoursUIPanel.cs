@@ -139,7 +139,7 @@ namespace RealTime.UI
                 m_uiMainPanel.isVisible = value;
                 if (m_uiMainPanel.isVisible)
                 {
-                    m_uiMainPanel.height = 410f;
+                    m_uiMainPanel.height = 470f;
                 }
                 else
                 {
@@ -521,7 +521,7 @@ namespace RealTime.UI
 
             if (m_operationHoursSettingsCheckBox.isChecked)
             {
-                m_uiMainPanel.height = 410f;
+                m_uiMainPanel.height = 470f;
                 m_uiMainPanel.Show();
             }
         }

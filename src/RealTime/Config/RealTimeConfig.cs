@@ -620,7 +620,6 @@ namespace RealTime.Config
         /// </summary>
         [ConfigItem("Tools", 2)]
         [ConfigItemCheckBox]
-        [HideInGameOrEditorCondition]
         public bool DebugMode { get; set; }
 
         /// <summary>
@@ -628,7 +627,6 @@ namespace RealTime.Config
         /// </summary>
         [ConfigItem("Tools", 3)]
         [ConfigItemCheckBox]
-        [HideInGameOrEditorCondition]
         public bool LoggingMode { get; set; }
 
         /// <summary>
@@ -636,7 +634,6 @@ namespace RealTime.Config
         /// </summary>
         [ConfigItem("Tools", 4)]
         [ConfigItemCheckBox]
-        [HideInGameOrEditorCondition]
         public bool AdvancedLoggingMode { get; set; }
 
         /// <summary>Checks the version of the deserialized object and migrates it to the latest version when necessary.</summary>

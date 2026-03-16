@@ -22,7 +22,7 @@ namespace RealTime.UI
 
         private readonly RealTimeResidentAI<ResidentAI, Citizen> residentAI;
         private readonly ILocalizationProvider localizationProvider;
-        private readonly ITimeInfo timeInfo;
+   //     private readonly ITimeInfo timeInfo;
         private UILabel scheduleLabel;
         private CitizenSchedule scheduleCopy;
 
@@ -40,7 +40,7 @@ namespace RealTime.UI
         {
             this.residentAI = residentAI ?? throw new System.ArgumentNullException(nameof(residentAI));
             this.localizationProvider = localizationProvider ?? throw new System.ArgumentNullException(nameof(localizationProvider));
-            this.timeInfo = timeInfo ?? throw new System.ArgumentNullException(nameof(timeInfo));
+           // this.timeInfo = timeInfo ?? throw new System.ArgumentNullException(nameof(timeInfo));
         }
 
         /// <summary>Disables the custom citizen info panel, if it is enabled.</summary>

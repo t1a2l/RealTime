@@ -2,7 +2,6 @@ namespace RealTime.UI
 {
     using ColossalFramework.UI;
     using UnityEngine;
-    using static TerrainModify;
 
     public static class UiUtils
     {

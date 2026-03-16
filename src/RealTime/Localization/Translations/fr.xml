@@ -23,10 +23,18 @@
   <translation id="ClearStuckTouristsInHotels" value="Clear All Stuck Tourists in Hotels" />
   <translation id="ClearStuckCitizensInClosedBuildings" value="Clear All Stuck Citizens in Closed Buildings" />
   <translation id="ClearFireBurnTimeManager" value="Clear Fire Burn Time" />
+  <translation id="ConfirmPanelClearFireBurnTimeManagerTitle" value="Clear FireBurnTime" />
+  <translation id="ConfirmPanelClearFireBurnTimeManagerText" value="This will clear all fire burns happening in the city! are you sure?" />
   <translation id="ClearBuildingsWorkTimePrefabs" value="Clear Buildings Types Settings" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsTitle" value="Clear All BuildingsWorkTime Types" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsText" value="This will clear all worktime settings of all the types of all the buildings in this save! are you sure?" />
   <translation id="ClearBuildingWorkTimeGlobalSettings" value="Clear Buildings Types Global Settings" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitle" value="Clear All BuildingsWorkTime Global Settings" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsText" value="This will clear all worktime settings of all the types of all the buildings across all saves! are you sure?" />
   <translation id="ResetBuildingsGarbageBuffer" value="Reset All Buildings Garbage buffer" />
   <translation id="ResetBuildingsMailBuffer" value="Reset All Buildings Mail buffer" />
+  <translation id="ExecuteSelectedAction" value="Execute Selected Action" />
+  <translation id="ClearActionsGroupTitle" value="Clear Actions" />
 
   <translation id="1General" value="Général" />
   <translation id="0Time" value="Options de temps" />

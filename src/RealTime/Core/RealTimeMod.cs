@@ -103,6 +103,10 @@ namespace RealTime.Core
             CloseConfigUI();
             configUI = ConfigUI.Create(configProvider, itemFactory);
             ApplyLanguage();
+            if(localizationProvider != null)
+            {
+                configUI?.UpdateModalTranslations(localizationProvider);
+            }
         }
 
 
@@ -227,7 +231,7 @@ namespace RealTime.Core
 
             configProvider.LoadDefaultConfiguration();
         }
-
+  
         private static string GetModPath()
         {
             string addonsPath = Path.Combine(DataLocation.localApplicationData, "Addons");

@@ -4,14 +4,17 @@ namespace RealTime.UI
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Reflection;
     using RealTime.Config;
+    using RealTime.Core;
     using RealTime.Managers;
     using RealTime.Patches;
     using SkyTools.Configuration;
     using SkyTools.Localization;
     using SkyTools.UI;
+    using UnityEngine;
 
     /// <summary>Manages the mod's configuration page.</summary>
     internal sealed class ConfigUI
@@ -26,10 +29,34 @@ namespace RealTime.UI
         private const string ClearBuildingWorkTimeGlobalSettingsId = "ClearBuildingWorkTimeGlobalSettings";
         private const string ResetBuildingsGarbageBufferId = "ResetBuildingsGarbageBuffer";
         private const string ResetBuildingsMailBufferId = "ResetBuildingsMailBuffer";
+        private const string ExecuteSelectedActionId = "ExecuteSelectedAction";
+        private const string ClearActionsGroupTitleId = "ClearActionsGroupTitle";
         private const string ToolsId = "Tools";
+
+        private string ConfirmPanelClearFireBurnTimeManagerTitleId;
+        private string ConfirmPanelClearFireBurnTimeManagerTextId;
+        private string ConfirmPanelClearBuildingsWorkTimePrefabsTitleId;
+        private string ConfirmPanelClearBuildingsWorkTimePrefabsTextId;
+        private string ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitleId;
+        private string ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTextId;
 
         private readonly ConfigurationProvider<RealTimeConfig> configProvider;
         private readonly IEnumerable<IViewItem> viewItems;
+
+        private readonly RadioButtonsConfig radioConfig = new();
+        private readonly List<IViewItem> radioCheckboxes = [];
+
+        private static readonly Dictionary<RadioButtonsConfig.ModeType, string> ModeToIdMap = new() {
+            { RadioButtonsConfig.ModeType.ClearStuckCitizensSchedule, ClearStuckCitizensScheduleId },
+            { RadioButtonsConfig.ModeType.ClearStuckTouristsInHotels, ClearStuckTouristsInHotelsId },
+            { RadioButtonsConfig.ModeType.ClearStuckCitizensInClosedBuildings, ClearStuckCitizensInClosedBuildingsId },
+            { RadioButtonsConfig.ModeType.ClearFireBurnTimeManager, ClearFireBurnTimeManagerId },
+            { RadioButtonsConfig.ModeType.ClearBuildingsWorkTimePrefabs, ClearBuildingsWorkTimePrefabsId },
+            { RadioButtonsConfig.ModeType.ClearBuildingWorkTimeGlobalSettings, ClearBuildingWorkTimeGlobalSettingsId },
+            { RadioButtonsConfig.ModeType.ResetBuildingsGarbageBuffer, ResetBuildingsGarbageBufferId },
+            { RadioButtonsConfig.ModeType.ResetBuildingsMailBuffer, ResetBuildingsMailBufferId }
+        };
+
 
         private ConfigUI(ConfigurationProvider<RealTimeConfig> configProvider, IEnumerable<IViewItem> viewItems)
         {
@@ -80,25 +107,37 @@ namespace RealTime.UI
             viewItems.Add(resetButton);
             var newGameConfigButton = itemFactory.CreateButton(toolsTab, UseForNewGamesId, result.UseForNewGames);
             viewItems.Add(newGameConfigButton);
-            var ClearStuckCitizensScheduleButton = itemFactory.CreateButton(toolsTab, ClearStuckCitizensScheduleId, result.ClearStuckCitizensSchedule);
-            viewItems.Add(ClearStuckCitizensScheduleButton);
-            var ClearStuckTouristsInHotelsButton = itemFactory.CreateButton(toolsTab, ClearStuckTouristsInHotelsId, result.ClearStuckTouristsInHotels);
-            viewItems.Add(ClearStuckTouristsInHotelsButton);
-            var ClearStuckCitizensInClosedBuildingsButton = itemFactory.CreateButton(toolsTab, ClearStuckCitizensInClosedBuildingsId, result.ClearStuckCitizensInClosedBuildings);
-            viewItems.Add(ClearStuckCitizensInClosedBuildingsButton);
 
-            var ClearFireBurnTimeManagerButton = itemFactory.CreateButton(toolsTab, ClearFireBurnTimeManagerId, result.ClearFireBurnTimeManager);
-            viewItems.Add(ClearFireBurnTimeManagerButton);
-            var ClearBuildingsWorkTimePrefabsButton = itemFactory.CreateButton(toolsTab, ClearBuildingsWorkTimePrefabsId, result.ClearBuildingsWorkTimePrefabs);
-            viewItems.Add(ClearBuildingsWorkTimePrefabsButton);
-            var ClearBuildingWorkTimeGlobalSettingsButton = itemFactory.CreateButton(toolsTab, ClearBuildingWorkTimeGlobalSettingsId, result.ClearBuildingWorkTimeGlobalSettings);
-            viewItems.Add(ClearBuildingWorkTimeGlobalSettingsButton);
+            var radioGroup = itemFactory.CreateGroup(toolsTab, ClearActionsGroupTitleId);
 
+            var props = typeof(RadioButtonsConfig).GetProperties().Where(p => p.Name.StartsWith("Is") && p.PropertyType == typeof(bool)).ToArray();
 
-            var ResetBuildingsGarbageBufferButton = itemFactory.CreateButton(toolsTab, ResetBuildingsGarbageBufferId, result.ResetBuildingsGarbageBuffer);
-            viewItems.Add(ResetBuildingsGarbageBufferButton);
-            var ResetBuildingsMailBufferButton = itemFactory.CreateButton(toolsTab, ResetBuildingsMailBufferId, result.ResetBuildingsMailBuffer);
-            viewItems.Add(ResetBuildingsMailBufferButton);
+            var tempRadios = new List<IViewItem>();
+
+            foreach (RadioButtonsConfig.ModeType mode in Enum.GetValues(typeof(RadioButtonsConfig.ModeType)))
+            {
+                string propName = $"Is{mode}Mode";  // "IsClearStuckCitizensScheduleMode"
+                var prop = typeof(RadioButtonsConfig).GetProperty(propName);
+                if (prop == null)
+                {
+                    continue;  // Safety
+                }
+
+                string id = ModeToIdMap[mode];  // Your const ID
+
+                var radioCB = itemFactory.CreateCheckBox(radioGroup, id, prop, () => result.radioConfig);
+                tempRadios.Add(radioCB);
+                viewItems.Add(radioCB);
+            }
+
+            result.radioCheckboxes.Clear();
+            result.radioCheckboxes.AddRange(tempRadios);
+            result.radioConfig.PropertyChanged += result.RefreshRadioCheckboxes;
+
+            viewItems.Add(radioGroup);
+
+            var executeButton = itemFactory.CreateButton(radioGroup ?? toolsTab, ExecuteSelectedActionId,  result.ExecuteSelectedAction);
+            viewItems.Add(executeButton);
 
             return result;
         }
@@ -114,6 +153,16 @@ namespace RealTime.UI
             {
                 item.Translate(localizationProvider);
             }
+        }
+
+        public void UpdateModalTranslations(ILocalizationProvider localizationProvider)
+        {
+            ConfirmPanelClearFireBurnTimeManagerTitleId = localizationProvider.Translate("ConfirmPanelClearFireBurnTimeManagerTitle");
+            ConfirmPanelClearFireBurnTimeManagerTextId = localizationProvider.Translate("ConfirmPanelClearFireBurnTimeManagerText");
+            ConfirmPanelClearBuildingsWorkTimePrefabsTitleId = localizationProvider.Translate("ConfirmPanelClearBuildingsWorkTimePrefabsTitle");
+            ConfirmPanelClearBuildingsWorkTimePrefabsTextId = localizationProvider.Translate("ConfirmPanelClearBuildingsWorkTimePrefabsText");
+            ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitleId = localizationProvider.Translate("ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitle");
+            ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTextId = localizationProvider.Translate("ConfirmPanelClearBuildingsWorkTimeGlobalSettingsText");
         }
 
         private static void CreateViewItems(ConfigurationProvider<RealTimeConfig> configProvider, IViewItemFactory itemFactory, ICollection<IViewItem> viewItems)
@@ -196,6 +245,52 @@ namespace RealTime.UI
             where T : Attribute
             => (T)property.GetCustomAttributes(typeof(T), inherit).FirstOrDefault();
 
+        private void ExecuteSelectedAction()
+        {
+            switch (radioConfig.SelectedMode)
+            {
+                case RadioButtonsConfig.ModeType.ClearStuckCitizensSchedule:
+                    ClearStuckCitizensSchedule();
+                    break;
+                case RadioButtonsConfig.ModeType.ClearStuckTouristsInHotels:
+                    ClearStuckTouristsInHotels();
+                    break;
+                case RadioButtonsConfig.ModeType.ClearStuckCitizensInClosedBuildings:
+                    ClearStuckCitizensInClosedBuildings();
+                    break;
+                case RadioButtonsConfig.ModeType.ClearFireBurnTimeManager:
+                    ClearFireBurnTimeManager();
+                    break;
+                case RadioButtonsConfig.ModeType.ClearBuildingsWorkTimePrefabs:
+                    ClearBuildingsWorkTimePrefabs();
+                    break;
+                case RadioButtonsConfig.ModeType.ClearBuildingWorkTimeGlobalSettings:
+                    ClearBuildingWorkTimeGlobalSettings();
+                    break;
+                case RadioButtonsConfig.ModeType.ResetBuildingsGarbageBuffer:
+                    ResetBuildingsGarbageBuffer();
+                    break;
+                case RadioButtonsConfig.ModeType.ResetBuildingsMailBuffer:
+                    ResetBuildingsMailBuffer();
+                    break;
+                default:
+                    return;
+            }
+        }
+
+        private void RefreshRadioCheckboxes(object sender, PropertyChangedEventArgs e)
+        {
+            Debug.Log($"Radio refresh triggered. e.PropertyName={e?.PropertyName}, Count={radioCheckboxes.Count}");
+            foreach (var cb in radioCheckboxes)
+            {
+                Debug.Log($"Refreshing {cb.Id}");
+                if (cb is IValueViewItem valueItem)
+                {
+                    valueItem.Refresh();
+                }
+            }
+        }
+
         private void ResetToDefaults()
         {
             configProvider.Configuration.ResetToDefaults();
@@ -210,18 +305,20 @@ namespace RealTime.UI
 
         private void ClearStuckCitizensInClosedBuildings() => ResidentAIPatch.RealTimeResidentAI.ClearStuckCitizensInClosedBuildings();
 
-        private void ClearFireBurnTimeManager() => ConfirmPanel.ShowModal("Clear FireBurnTime", "This will clear all fire burns happening in the city! are you sure?", (comp, ret) =>
+        public void ClearFireBurnTimeManager() =>
+            ConfirmPanel.ShowModal(ConfirmPanelClearFireBurnTimeManagerTitleId, ConfirmPanelClearFireBurnTimeManagerTextId, (comp, ret) =>
         {
-                if (ret != 1)
-                {
-                    return;
-                }
+            if (ret != 1)
+            {
+                return;
+            }
 
-                FireBurnTimeManager.FireBurnTime.Clear();
+            FireBurnTimeManager.FireBurnTime.Clear();
         });
 
-        private void ClearBuildingsWorkTimePrefabs() =>
-            ConfirmPanel.ShowModal("Clear BuildingsWorkTime Types", "This will clear all worktime settings of all the types of all the buildings in this save! are you sure?", (comp, ret) =>
+
+        public void ClearBuildingsWorkTimePrefabs() =>
+            ConfirmPanel.ShowModal(ConfirmPanelClearBuildingsWorkTimePrefabsTitleId, ConfirmPanelClearBuildingsWorkTimePrefabsTextId, (comp, ret) =>
         {
             if (ret != 1)
             {
@@ -231,8 +328,9 @@ namespace RealTime.UI
             BuildingWorkTimeManager.BuildingsWorkTimePrefabs.Clear();
         });
 
-        private void ClearBuildingWorkTimeGlobalSettings() =>
-            ConfirmPanel.ShowModal("Clear BuildingsWorkTime Global Types", "This will clear all worktime settings of all the types of all the buildings across all saves! are you sure?", (comp, ret) =>
+
+        public void ClearBuildingWorkTimeGlobalSettings() =>
+            ConfirmPanel.ShowModal(ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitleId, ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTextId, (comp, ret) =>
         {
             if (ret != 1)
             {

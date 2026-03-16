@@ -27,7 +27,7 @@ namespace RealTime.Events
         private static readonly TimeSpan EventStartTimeGranularity = TimeSpan.FromMinutes(30);
         private static readonly TimeSpan EventProcessInterval = TimeSpan.FromMinutes(15);
 
-        private static readonly ItemClass.Service[] EventBuildingServices = { ItemClass.Service.Monument, ItemClass.Service.Beautification, ItemClass.Service.Museums };
+        private static readonly ItemClass.Service[] EventBuildingServices = [ItemClass.Service.Monument, ItemClass.Service.Beautification, ItemClass.Service.Museums];
 
         private readonly LinkedList<ICityEvent> upcomingEvents;
         private readonly RealTimeConfig config;
@@ -37,13 +37,11 @@ namespace RealTime.Events
         private readonly IRandomizer randomizer;
         private readonly ITimeInfo timeInfo;
         private readonly List<ICityEvent> eventsCache;
-        private readonly IReadOnlyList<ICityEvent> readonlyEventsCache;
-
         private readonly float attendingTimeMargin;
         private readonly List<ICityEvent> eventsToAttend;
 
-        private readonly List<ICityEvent> finishedEvents = new List<ICityEvent>();
-        private readonly List<ICityEvent> activeEvents = new List<ICityEvent>();
+        private readonly List<ICityEvent> finishedEvents = [];
+        private readonly List<ICityEvent> activeEvents = [];
         private DateTime lastProcessed;
         private DateTime earliestEvent;
 
@@ -81,9 +79,9 @@ namespace RealTime.Events
             this.attendingTimeMargin = attendingTimeMargin;
 
             upcomingEvents = new LinkedList<ICityEvent>();
-            eventsCache = new List<ICityEvent>();
-            readonlyEventsCache = new ReadOnlyList<ICityEvent>(eventsCache);
-            eventsToAttend = new List<ICityEvent>();
+            eventsCache = [];
+            AllEvents = new ReadOnlyList<ICityEvent>(eventsCache);
+            eventsToAttend = [];
             EventsToAttend = new ReadOnlyList<ICityEvent>(eventsToAttend);
         }
 
@@ -99,7 +97,7 @@ namespace RealTime.Events
                 eventsCache.AddRange(finishedEvents);
                 eventsCache.AddRange(activeEvents);
                 upcomingEvents.CopyTo(eventsCache);
-                return readonlyEventsCache;
+                return field;
             }
         }
 
@@ -131,12 +129,9 @@ namespace RealTime.Events
                 var vanillaEventState = eventManager.GetEventFlags(eventId);
                 if ((vanillaEventState & (EventData.Flags.Preparing | EventData.Flags.Ready)) != 0)
                 {
-                    if (eventManager.TryGetEventStartTime(eventId, out var startTime) && startTime <= latestStart)
-                    {
-                        return CityEventState.Upcoming;
-                    }
-
-                    return CityEventState.None;
+                    return eventManager.TryGetEventStartTime(eventId, out var startTime) && startTime <= latestStart
+                        ? CityEventState.Upcoming
+                        : CityEventState.None;
                 }
 
                 if ((vanillaEventState & EventData.Flags.Active) != 0)

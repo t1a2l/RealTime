@@ -5,6 +5,7 @@ namespace RealTime.Patches.BuildingAIPatches
     using ColossalFramework;
     using ColossalFramework.Math;
     using HarmonyLib;
+    using RealTime.Core;
     using RealTime.CustomAI;
     using RealTime.GameConnection;
     using RealTime.Managers;
@@ -26,11 +27,24 @@ namespace RealTime.Patches.BuildingAIPatches
                 [typeof(ushort), typeof(Building), typeof(Building.Frame), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(DistrictPolicies.Services), typeof(ushort)],
                 [ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal])]
         [HarmonyPrefix]
-        public static void HandleCommonConsumptionPrefix(ushort buildingID, ref Building data, ref Building.Frame frameData, ref int electricityConsumption, ref int heatingConsumption, ref int waterConsumption, ref int sewageAccumulation, ref int garbageAccumulation, ref int mailAccumulation, int maxMail, DistrictPolicies.Services policies, ushort mainBuildingID, out Accumulator __state) => __state = new Accumulator
+        public static void HandleCommonConsumptionPrefix(ushort buildingID, ref Building data, ref Building.Frame frameData, ref int electricityConsumption, ref int heatingConsumption, ref int waterConsumption, ref int sewageAccumulation, ref int garbageAccumulation, ref int mailAccumulation, int maxMail, DistrictPolicies.Services policies, ushort mainBuildingID, out Accumulator __state)
         {
-            Garbage = data.m_garbageBuffer,
-            Mail = data.m_mailBuffer
-        };
+            __state = new Accumulator
+            {
+                Garbage = data.m_garbageBuffer,
+                Mail = data.m_mailBuffer
+            };
+
+            // NEW: Detect Race Day / complex buildings and apply stronger slowdown
+            if (IsComplexBuilding(buildingID, ref data))
+            {
+                float complexMultiplier = 0.1f; // Extra slowdown for complexes
+
+                garbageAccumulation = (int)(garbageAccumulation * RealTimeMod.configProvider.Configuration.GarbageSlowDown * complexMultiplier);
+
+                mailAccumulation = (int)(mailAccumulation * RealTimeMod.configProvider.Configuration.MailSlowDown * complexMultiplier);
+            }
+        }
 
         [HarmonyPatch(typeof(CommonBuildingAI), "HandleCommonConsumption",
                 [typeof(ushort), typeof(Building), typeof(Building.Frame), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(DistrictPolicies.Services), typeof(ushort)],
@@ -243,6 +257,23 @@ namespace RealTime.Patches.BuildingAIPatches
 
             ResourceSlowdownManager.GarbageAccumulator[buildingID] = 0f;
             ResourceSlowdownManager.MailAccumulator[buildingID] = 0f;
+        }
+
+
+        private static bool IsComplexBuilding(ushort buildingID, ref Building data)
+        {
+            if (data.Info.m_buildingAI is RaceBuildingAI ||
+                data.Info.m_buildingAI is MainCampusBuildingAI ||
+                data.Info.m_buildingAI is MainIndustryBuildingAI ||
+                data.Info.m_buildingAI is AirportEntranceAI ||
+                data.m_eventIndex != 0) // Event buildings
+            {
+                return true;
+            }
+
+            // Check for building complexes (mainBuilding != 0 && mainBuilding != buildingID)
+            // This catches recursive calls
+            return data.m_parentBuilding != 0 || data.m_children > 0;
         }
     }
 }

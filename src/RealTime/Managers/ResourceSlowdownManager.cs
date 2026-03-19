@@ -48,7 +48,7 @@ namespace RealTime.Managers
             // Apply slowdown directly to the delta
             float accumulated = GarbageAccumulator[buildingID];
             accumulated += delta * RealTimeMod.configProvider.Configuration.GarbageSlowDown;
-
+            
             int adjustedDelta = (int)accumulated;
             GarbageAccumulator[buildingID] = accumulated - adjustedDelta;
 

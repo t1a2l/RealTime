@@ -22,7 +22,7 @@ namespace RealTime.Events.Storage
         private const string RushHourEventsDirectoryName = "RushHour Events";
         private const string EventFileSearchPattern = "*.xml";
 
-        private readonly List<CityEventTemplate> events = new List<CityEventTemplate>();
+        private readonly List<CityEventTemplate> events = [];
 
         private CityEventsLoader()
         {
@@ -119,6 +119,10 @@ namespace RealTime.Events.Storage
             return events.Find(e => e.EventName == eventName && e.BuildingClassName == buildingClassName);
         }
 
+        public List<CityEventTemplate> GetEventTemplates(string buildingClassName) => [.. events.Where(t => t.BuildingClassName == buildingClassName)];
+
+        public CityEventTemplate GetEventTemplate(string name, string buildingClassName) => events.FirstOrDefault(t => t.EventName == name && t.BuildingClassName == buildingClassName);
+
         private void LoadRushHourEvents(HashSet<string> loadedEvents)
         {
             var buildingPaths = PackageManager.FilterAssets(UserAssetType.CustomAssetMetaData)
@@ -167,14 +171,12 @@ namespace RealTime.Events.Storage
             {
                 try
                 {
-                    using (var sr = new StreamReader(file))
+                    using var sr = new StreamReader(file);
+                    var container = (CityEventContainer)serializer.Deserialize(sr);
+                    foreach (var cityEvent in container.Templates.Where(e => loadedEvents.Add(e.EventName)))
                     {
-                        var container = (CityEventContainer)serializer.Deserialize(sr);
-                        foreach (var cityEvent in container.Templates.Where(e => loadedEvents.Add(e.EventName)))
-                        {
-                            events.Add(cityEvent);
-                            Log.Debug(LogCategory.Generic, $"Loaded event template '{cityEvent.EventName}' for '{cityEvent.BuildingClassName}'");
-                        }
+                        events.Add(cityEvent);
+                        Log.Debug(LogCategory.Generic, $"Loaded event template '{cityEvent.EventName}' for '{cityEvent.BuildingClassName}'");
                     }
                 }
                 catch (Exception ex)

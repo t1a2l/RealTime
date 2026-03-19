@@ -7,35 +7,29 @@ namespace RealTime.Events
     /// <summary>
     /// A struct representing the event color.
     /// </summary>
-    internal struct EventColor : IEquatable<EventColor>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="EventColor"/> struct.
+    /// </remarks>
+    /// <param name="red">The red component of the color.</param>
+    /// <param name="green">The green component of the color.</param>
+    /// <param name="blue">The blue component of the color.</param>
+    internal readonly struct EventColor(byte red, byte green, byte blue) : IEquatable<EventColor>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EventColor"/> struct.
-        /// </summary>
-        /// <param name="red">The red component of the color.</param>
-        /// <param name="green">The green component of the color.</param>
-        /// <param name="blue">The blue component of the color.</param>
-        public EventColor(byte red, byte green, byte blue)
-        {
-            Red = red;
-            Green = green;
-            Blue = blue;
-        }
 
         /// <summary>
         /// Gets the red component of the color.
         /// </summary>
-        public byte Red { get; }
+        public byte Red { get; } = red;
 
         /// <summary>
         /// Gets the green component of the color.
         /// </summary>
-        public byte Green { get; }
+        public byte Green { get; } = green;
 
         /// <summary>
         /// Gets the blue component of the color.
         /// </summary>
-        public byte Blue { get; }
+        public byte Blue { get; } = blue;
 
         public static bool operator ==(EventColor left, EventColor right) => left.Equals(right);
 

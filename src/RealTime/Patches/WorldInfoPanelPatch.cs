@@ -21,6 +21,7 @@ namespace RealTime.Patches
     using System.Collections.Generic;
     using RealTime.Managers;
     using System.Runtime.CompilerServices;
+    using RealTime.Utils.UIUtils;
 
     /// <summary>
     /// A static class that provides the patch objects for the world info panel game methods.
@@ -304,9 +305,9 @@ namespace RealTime.Patches
                     var infoPanel = UIView.library.Get<ZonedBuildingWorldInfoPanel>(typeof(ZonedBuildingWorldInfoPanel).Name);
 
                     // Add current visitor count label.
-                    s_hotelLabel = UiUtils.CreateLabel(infoPanel.component, 65f, 280f, "Rooms Ocuppied", textScale: 0.75f);
+                    s_hotelLabel = UILabels.CreateLabel(infoPanel.component, 65f, 280f, "Rooms Ocuppied", textScale: 0.75f);
                     s_hotelLabel.textColor = new Color32(185, 221, 254, 255);
-                    s_hotelLabel.font = Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault((UIFont f) => f.name == "OpenSans-Regular");
+                    s_hotelLabel.font = Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault(f => f.name == "OpenSans-Regular");
 
                     // Position under existing Highly Educated workers count row in line with total workplace count label.
                     var situationLabel = infoPanel.Find("WorkSituation");
@@ -380,6 +381,8 @@ namespace RealTime.Patches
                 }
                 cityServiceOperationHoursUIPanel.CheckBoxYposition = checkBoxYposition;
                 cityServiceOperationHoursUIPanel.UpdateBuildingData();
+                var m_cityServiceWorldInfoPanel = GameObject.Find("(Library) CityServiceWorldInfoPanel").GetComponent<CityServiceWorldInfoPanel>();
+                NewBuildingWorldInfoPanel.OnSetTarget(m_cityServiceWorldInfoPanel);
             }
 
             [HarmonyPatch(typeof(CityServiceWorldInfoPanel), "UpdateBindings")]
@@ -477,16 +480,16 @@ namespace RealTime.Patches
                 cityServiceOperationHoursUIPanel ??= new BuildingOperationHoursUIPanel(m_cityServiceWorldInfoPanel, buttonPanels, checkBoxXposition, checkBoxYposition, panelHeight, localizationProvider);
                 if (s_visitorsLabel == null)
                 {
-                    s_visitorsLabel = UiUtils.CreateLabel(buttonPanels, 65f, 280f, "Visitors", textScale: 0.75f);
+                    s_visitorsLabel = UILabels.CreateLabel(buttonPanels, 65f, 280f, "Visitors", textScale: 0.75f);
                     s_visitorsLabel.textColor = new Color32(185, 221, 254, 255);
-                    s_visitorsLabel.font = Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault((UIFont f) => f.name == "OpenSans-Regular");
+                    s_visitorsLabel.font = Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault(f => f.name == "OpenSans-Regular");
                     s_visitorsLabel.relativePosition = new Vector2(200f, 26f);
                 }
                 if (m_endYearButton == null)
                 {
                     string endYearButtonText = localizationProvider.Translate(TranslationKeys.AcademicYearEndYearButtonText);
                     string endYearButtonTooltipText = localizationProvider.Translate(TranslationKeys.AcademicYearEndYearButtonTooltip);
-                    m_endYearButton = UiUtils.CreateButton(buttonPanels, 133f, 19.5f, "EndYear", endYearButtonText, endYearButtonTooltipText);
+                    m_endYearButton = UIButtons.CreateButton(buttonPanels, 133f, 19.5f, "EndYear", endYearButtonText, endYearButtonTooltipText);
                     m_endYearButton.textVerticalAlignment = UIVerticalAlignment.Top;
                     m_endYearButton.relativePosition = new Vector2(150f, 22.5f);
                     m_endYearButton.textScale = 0.75f;
@@ -650,7 +653,7 @@ namespace RealTime.Patches
             private static void CreateClearScheduleButton()
             {
                 var citizenInfoPanel = GameObject.Find("(Library) CitizenWorldInfoPanel").GetComponent<CitizenWorldInfoPanel>();
-                m_clearScheduleButton = UiUtils.CreateButton(citizenInfoPanel.component, -10f, 90f, "ClearSchedule", "", "Clear the citizen schedule", 30, 30);
+                m_clearScheduleButton = UIButtons.CreateButton(citizenInfoPanel.component, -10f, 90f, "ClearSchedule", "", "Clear the citizen schedule", 30, 30);
                 m_clearScheduleButton.AlignTo(citizenInfoPanel.component, UIAlignAnchor.TopRight);
                 m_clearScheduleButton.relativePosition += new Vector3(-10f, 90f);
 

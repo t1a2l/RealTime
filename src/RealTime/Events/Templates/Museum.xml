@@ -3,41 +3,45 @@
 	<Events>
 		<Event EventName="PostModernArtShow" BuildingName="Landmark Museum of Post-Modern Art 01" UserEventName="Gallery Show" Capacity="150" LengthInHours="3">
 			
-			<ChanceOfAttendingPercentage>
-				<Males>80</Males>
-				<Females>80</Females>
+		  <ChanceOfAttendingPercentage>
+			<Males>80</Males>
+			<Females>80</Females>
 				
-				<Children>0</Children>
-				<Teens>0</Teens>
-				<YoungAdults>80</YoungAdults>
-				<Adults>80</Adults>
-				<Seniors>20</Seniors>
+			<Children>0</Children>
+			<Teens>0</Teens>
+			<YoungAdults>80</YoungAdults>
+			<Adults>80</Adults>
+			<Seniors>20</Seniors>
 				
-				<LowWealth>5</LowWealth>
-				<MediumWealth>100</MediumWealth>
-				<HighWealth>80</HighWealth>
+			<LowWealth>5</LowWealth>
+			<MediumWealth>100</MediumWealth>
+			<HighWealth>80</HighWealth>
 				
-				<Uneducated>5</Uneducated>
-				<OneSchool>80</OneSchool>
-				<TwoSchools>100</TwoSchools>
-				<ThreeSchools>100</ThreeSchools>
+			<Uneducated>5</Uneducated>
+			<OneSchool>80</OneSchool>
+			<TwoSchools>100</TwoSchools>
+			<ThreeSchools>100</ThreeSchools>
 				
-				<BadHappiness>0</BadHappiness>
-				<PoorHappiness>30</PoorHappiness>
-				<GoodHappiness>80</GoodHappiness>				
-				<ExcellentHappiness>100</ExcellentHappiness>
-				<SuperbHappiness>100</SuperbHappiness>
+			<BadHappiness>0</BadHappiness>
+			<PoorHappiness>30</PoorHappiness>
+			<GoodHappiness>80</GoodHappiness>				
+			<ExcellentHappiness>100</ExcellentHappiness>
+			<SuperbHappiness>100</SuperbHappiness>
 				
-				<VeryUnhappyWellbeing>0</VeryUnhappyWellbeing>
-				<UnhappyWellbeing>10</UnhappyWellbeing>
-				<SatisfiedWellbeing>50</SatisfiedWellbeing>
-				<HappyWellbeing>100</HappyWellbeing>
-				<VeryHappyWellbeing>100</VeryHappyWellbeing>
-			</ChanceOfAttendingPercentage>
-			
-			<Costs>
-				<EntryCost>30</EntryCost>
-			</Costs>
+			<VeryUnhappyWellbeing>0</VeryUnhappyWellbeing>
+			<UnhappyWellbeing>10</UnhappyWellbeing>
+			<SatisfiedWellbeing>50</SatisfiedWellbeing>
+			<HappyWellbeing>100</HappyWellbeing>
+			<VeryHappyWellbeing>100</VeryHappyWellbeing>
+		  </ChanceOfAttendingPercentage>
+
+          <Costs>
+            <Creation>15000</Creation>
+            <PerHead>50</PerHead>
+            <AdvertisingSigns>100</AdvertisingSigns>
+            <AdvertisingTV>100</AdvertisingTV>
+            <EntryCost>50</EntryCost>
+          </Costs>
 			
 		</Event>
 	</Events>

@@ -70,23 +70,13 @@ namespace RealTime.Events
         /// <param name="wealth">The citizen's wealth.</param>
         /// <param name="randomizer">A reference to the game's randomizer.</param>
         /// <returns>The citizen's budget for attending an event.</returns>
-        protected static float GetCitizenBudgetForEvent(Citizen.Wealth wealth, IRandomizer randomizer)
+        protected static float GetCitizenBudgetForEvent(Citizen.Wealth wealth, IRandomizer randomizer) => wealth switch
         {
-            switch (wealth)
-            {
-                case Citizen.Wealth.Low:
-                    return 30f + randomizer.GetRandomValue(60);
-
-                case Citizen.Wealth.Medium:
-                    return 80f + randomizer.GetRandomValue(80);
-
-                case Citizen.Wealth.High:
-                    return 120f + randomizer.GetRandomValue(320);
-
-                default:
-                    return 0;
-            }
-        }
+            Citizen.Wealth.Low => 30f + randomizer.GetRandomValue(60),
+            Citizen.Wealth.Medium => 80f + randomizer.GetRandomValue(80),
+            Citizen.Wealth.High => 120f + randomizer.GetRandomValue(320),
+            _ => 0,
+        };
 
         /// <summary>When overridden in derived classes, calculates the city event duration.</summary>
         /// ///

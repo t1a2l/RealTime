@@ -20,8 +20,8 @@ namespace RealTime.UI
         private GetDriverInstanceDelegate<PassengerCarAI> passengerCarAIGetDriverInstance;
         private GetDriverInstanceDelegate<BicycleAI> bicycleAIGetDriverInstance;
 
-        private CustomVehicleInfoPanel(string panelName, RealTimeResidentAI<ResidentAI, Citizen> residentAI, ILocalizationProvider localizationProvider, ITimeInfo timeInfo)
-            : base(panelName, residentAI, localizationProvider, timeInfo)
+        private CustomVehicleInfoPanel(string panelName, RealTimeResidentAI<ResidentAI, Citizen> residentAI, ILocalizationProvider localizationProvider)
+            : base(panelName, residentAI, localizationProvider)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace RealTime.UI
         /// the customization, or null when the customization fails.</returns>
         ///
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="residentAI"/> is <c>null</c>.</exception>
-        public static CustomVehicleInfoPanel Enable(RealTimeResidentAI<ResidentAI, Citizen> residentAI, ILocalizationProvider localizationProvider, ITimeInfo timeInfo)
+        public static CustomVehicleInfoPanel Enable(RealTimeResidentAI<ResidentAI, Citizen> residentAI, ILocalizationProvider localizationProvider)
         {
             if (residentAI == null)
             {
@@ -58,7 +58,7 @@ namespace RealTime.UI
                 throw new ArgumentNullException(nameof(localizationProvider));
             }
 
-            var result = new CustomVehicleInfoPanel(GameInfoPanelName, residentAI, localizationProvider, timeInfo);
+            var result = new CustomVehicleInfoPanel(GameInfoPanelName, residentAI, localizationProvider);
             return result.Initialize() ? result : null;
         }
 

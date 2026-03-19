@@ -27,12 +27,12 @@ namespace RealTime.UI
 
         private const byte EventSpriteOpacity = 128;
 
-        private static readonly Color32 TimeLabelShadowColor = new Color32(32, 32, 32, 255);
-        private static readonly Vector2 TimeLabelShadowOffset = new Vector2(1f, -1f);
+        private static readonly Color32 TimeLabelShadowColor = new(32, 32, 32, 255);
+        private static readonly Vector2 TimeLabelShadowOffset = new(1f, -1f);
 
-        private readonly List<ICityEvent> displayedEvents = new List<ICityEvent>();
-        private readonly List<UISprite> displayedEventSprites = new List<UISprite>();
-        private readonly List<ICityEvent> eventsToDisplay = new List<ICityEvent>();
+        private readonly List<ICityEvent> displayedEvents = [];
+        private readonly List<UISprite> displayedEventSprites = [];
+        private readonly List<ICityEvent> eventsToDisplay = [];
 
         private CultureInfo currentCulture = CultureInfo.CurrentCulture;
         private RealTimeUIDateTimeWrapper customDateTimeWrapper;
@@ -153,7 +153,7 @@ namespace RealTime.UI
             }
         }
 
-        private static Color32 GetColor(EventColor color, byte alpha) => new Color32(color.Red, color.Green, color.Blue, alpha);
+        private static Color32 GetColor(EventColor color, byte alpha) => new(color.Red, color.Green, color.Blue, alpha);
 
         private static bool EventListsEqual(List<ICityEvent> first, List<ICityEvent> second)
         {
@@ -189,7 +189,7 @@ namespace RealTime.UI
                 return null;
             }
 
-            if (!(field.GetValue(bindings) is UIDateTimeWrapper originalWrapper))
+            if (field.GetValue(bindings) is not UIDateTimeWrapper originalWrapper)
             {
                 Log.Warning($"The '{nameof(Bindings)}' component has no '{nameof(UIDateTimeWrapper)}'");
                 return null;
@@ -386,7 +386,7 @@ namespace RealTime.UI
 
         private void OnCityEventClick(ushort buildingId) => CityEventClick?.Invoke(this, new CustomTimeBarClickEventArgs(buildingId));
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used as a Unity3D component")]
+
         private sealed class EventColorsUpdateBehavior : MonoBehaviour
         {
             public CustomTimeBar TimeBar { get; set; }

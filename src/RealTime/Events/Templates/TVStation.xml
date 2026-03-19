@@ -36,7 +36,11 @@
 			</ChanceOfAttendingPercentage>
 			
 			<Costs>
-				<EntryCost>10</EntryCost>
+              <Creation>12000</Creation>
+              <PerHead>20</PerHead>
+              <AdvertisingSigns>0</AdvertisingSigns>
+              <AdvertisingTV>0</AdvertisingTV>
+              <EntryCost>10</EntryCost>
 			</Costs>
 			
 		</Event>

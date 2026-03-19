@@ -6,42 +6,35 @@ namespace RealTime.UI
     using ColossalFramework;
     using ColossalFramework.UI;
     using RealTime.CustomAI;
-    using RealTime.Simulation;
+    // using RealTime.Simulation;
     using SkyTools.Localization;
     using SkyTools.UI;
     using static Localization.TranslationKeys;
 
     /// <summary>A base class for the customized world info panels.</summary>
     /// <typeparam name="T">The type of the game world info panel to customize.</typeparam>
-    internal abstract class RealTimeInfoPanelBase<T> : CustomInfoPanelBase<T>
+    /// <remarks>Initializes a new instance of the <see cref="RealTimeInfoPanelBase{T}"/> class.</remarks>
+    /// <param name="panelName">Name of the game's panel object.</param>
+    /// <param name="residentAI">The custom resident AI.</param>
+    /// <param name="localizationProvider">The localization provider to use for text translation.</param>
+    /// <exception cref="System.ArgumentNullException">
+    /// Thrown when <paramref name="residentAI"/> or <paramref name="localizationProvider"/> is null.
+    /// </exception>
+    /// <exception cref="System.ArgumentException">
+    /// Thrown when <paramref name="panelName"/> is null or an empty string.
+    /// </exception>
+    internal abstract class RealTimeInfoPanelBase<T>(string panelName, RealTimeResidentAI<ResidentAI, Citizen> residentAI, ILocalizationProvider localizationProvider) : CustomInfoPanelBase<T>(panelName)
         where T : WorldInfoPanel
     {
         private const string ComponentId = "RealTimeInfoSchedule";
         private const string AgeEducationLabelName = "AgeEducation";
         private const float LineHeight = 14f;
 
-        private readonly RealTimeResidentAI<ResidentAI, Citizen> residentAI;
-        private readonly ILocalizationProvider localizationProvider;
-   //     private readonly ITimeInfo timeInfo;
+        private readonly RealTimeResidentAI<ResidentAI, Citizen> residentAI = residentAI ?? throw new System.ArgumentNullException(nameof(residentAI));
+        private readonly ILocalizationProvider localizationProvider = localizationProvider ?? throw new System.ArgumentNullException(nameof(localizationProvider));
+        // private readonly ITimeInfo timeInfo;
         private UILabel scheduleLabel;
         private CitizenSchedule scheduleCopy;
-
-        /// <summary>Initializes a new instance of the <see cref="RealTimeInfoPanelBase{T}"/> class.</summary>
-        /// <param name="panelName">Name of the game's panel object.</param>
-        /// <param name="residentAI">The custom resident AI.</param>
-        /// <param name="localizationProvider">The localization provider to use for text translation.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="residentAI"/> or <paramref name="localizationProvider"/> is null.
-        /// </exception>
-        /// <exception cref="System.ArgumentException">
-        /// Thrown when <paramref name="panelName"/> is null or an empty string.
-        /// </exception>
-        protected RealTimeInfoPanelBase(string panelName, RealTimeResidentAI<ResidentAI, Citizen> residentAI, ILocalizationProvider localizationProvider, ITimeInfo timeInfo) : base(panelName)
-        {
-            this.residentAI = residentAI ?? throw new System.ArgumentNullException(nameof(residentAI));
-            this.localizationProvider = localizationProvider ?? throw new System.ArgumentNullException(nameof(localizationProvider));
-           // this.timeInfo = timeInfo ?? throw new System.ArgumentNullException(nameof(timeInfo));
-        }
 
         /// <summary>Disables the custom citizen info panel, if it is enabled.</summary>
         protected sealed override void DisableCore()
@@ -365,14 +358,9 @@ namespace RealTime.UI
                             break;
                     }
 
-                    if ((citizen.m_flags & Citizen.Flags.Student) != 0 || Citizen.GetAgeGroup(citizen.m_age) == Citizen.AgeGroup.Child || Citizen.GetAgeGroup(citizen.m_age) == Citizen.AgeGroup.Teen)
-                    {
-                        schedule.CurrentState = ResidentState.AtSchool;
-                    }
-                    else
-                    {
-                        schedule.CurrentState = ResidentState.AtWork;
-                    }
+                    schedule.CurrentState = (citizen.m_flags & Citizen.Flags.Student) != 0 || Citizen.GetAgeGroup(citizen.m_age) == Citizen.AgeGroup.Child || Citizen.GetAgeGroup(citizen.m_age) == Citizen.AgeGroup.Teen
+                        ? ResidentState.AtSchool
+                        : ResidentState.AtWork;
                     return;
 
                 case Citizen.Location.Visit:

@@ -18,7 +18,7 @@ namespace RealTime.Events
         /// <exception cref="System.ArgumentException">
         /// Thrown when the argument is null or an empty string.
         /// </exception>
-        ICityEvent GetRandomEvent(string buildingClass);
+        internal ICityEvent GetRandomEvent(string buildingClass);
 
         /// <summary>
         /// Gets the event template that has the specified name and is configured for the specified
@@ -32,6 +32,6 @@ namespace RealTime.Events
         /// <exception cref="System.ArgumentException">
         /// Thrown when any argument is null or an empty string.
         /// </exception>
-        CityEventTemplate GetEventTemplate(string eventName, string buildingClassName);
+        internal CityEventTemplate GetEventTemplate(string eventName, string buildingClassName);
     }
 }

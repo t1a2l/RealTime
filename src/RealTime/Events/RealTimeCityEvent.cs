@@ -3,26 +3,25 @@
 namespace RealTime.Events
 {
     using System;
+    using System.Collections.Generic;
+    using RealTime.Events.Containers;
     using RealTime.Events.Storage;
     using RealTime.Simulation;
 
     /// <summary>A custom city event.</summary>
     /// <seealso cref="CityEventBase"/>
-    internal sealed class RealTimeCityEvent : CityEventBase
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="RealTimeCityEvent"/> class using the specified <paramref name="eventTemplate"/>.
+    /// </remarks>
+    /// <param name="eventTemplate">The event template this city event is created from.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+    internal sealed class RealTimeCityEvent(CityEventTemplate eventTemplate) : CityEventBase
     {
-        private readonly CityEventTemplate eventTemplate;
+        private readonly CityEventTemplate eventTemplate = eventTemplate ?? throw new ArgumentNullException(nameof(eventTemplate));
 
         private int attendeesCount;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RealTimeCityEvent"/> class using the specified <paramref name="eventTemplate"/>.
-        /// </summary>
-        /// <param name="eventTemplate">The event template this city event is created from.</param>
-        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
-        public RealTimeCityEvent(CityEventTemplate eventTemplate)
-        {
-            this.eventTemplate = eventTemplate ?? throw new ArgumentNullException(nameof(eventTemplate));
-        }
+        public List<IncentiveOptionItem> UserIncentives { get; } = [];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RealTimeCityEvent"/> class using the specified
@@ -118,7 +117,7 @@ namespace RealTime.Events
         /// Creates an instance of the <see cref="RealTimeEventStorage"/> class that contains the current city event data.
         /// </summary>
         /// <returns>A new instance of the <see cref="RealTimeEventStorage"/> class.</returns>
-        public RealTimeEventStorage GetStorageData() => new RealTimeEventStorage
+        public RealTimeEventStorage GetStorageData() => new()
         {
             EventName = eventTemplate.EventName,
             BuildingClassName = eventTemplate.BuildingClassName,
@@ -127,6 +126,14 @@ namespace RealTime.Events
             BuildingName = BuildingName,
             AttendeesCount = attendeesCount,
         };
+
+        public void AddIncentive(string name, float count, float cost) => UserIncentives.Add(new IncentiveOptionItem
+        {
+            title = name,
+            sliderValue = count,
+            cost = cost
+        });
+
 
         /// <summary>Calculates the city event duration.</summary>
         /// <returns>This city event duration in hours.</returns>
@@ -150,6 +157,8 @@ namespace RealTime.Events
 
                 case Citizen.AgeGroup.Senior:
                     return randomPercentage < attendees.Seniors;
+                default:
+                    break;
             }
 
             return false;
@@ -173,6 +182,8 @@ namespace RealTime.Events
 
                 case Citizen.Wellbeing.VeryHappy:
                     return randomPercentage < attendees.VeryHappyWellbeing;
+                default:
+                    break;
             }
 
             return false;
@@ -196,6 +207,8 @@ namespace RealTime.Events
 
                 case Citizen.Happiness.Suberb:
                     return randomPercentage < attendees.SuperbHappiness;
+                default:
+                    break;
             }
 
             return false;
@@ -210,6 +223,8 @@ namespace RealTime.Events
 
                 case Citizen.Gender.Male:
                     return randomPercentage < attendees.Males;
+                default:
+                    break;
             }
 
             return false;
@@ -230,6 +245,8 @@ namespace RealTime.Events
 
                 case Citizen.Education.ThreeSchools:
                     return randomPercentage < attendees.ThreeSchools;
+                default:
+                    break;
             }
 
             return false;
@@ -247,6 +264,8 @@ namespace RealTime.Events
 
                 case Citizen.Wealth.High:
                     return randomPercentage < attendees.HighWealth;
+                default:
+                    break;
             }
 
             return false;

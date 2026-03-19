@@ -3,7 +3,7 @@
 namespace RealTime.UI
 {
     using RealTime.CustomAI;
-    using RealTime.Simulation;
+    // using RealTime.Simulation;
     using SkyTools.Localization;
 
     /// <summary>
@@ -13,8 +13,8 @@ namespace RealTime.UI
     {
         private const string GameInfoPanelName = "(Library) CitizenWorldInfoPanel";
 
-        private CustomCitizenInfoPanel(string panelName, RealTimeResidentAI<ResidentAI, Citizen> residentAI, ILocalizationProvider localizationProvider, ITimeInfo timeInfo)
-            : base(panelName, residentAI, localizationProvider, timeInfo)
+        private CustomCitizenInfoPanel(string panelName, RealTimeResidentAI<ResidentAI, Citizen> residentAI, ILocalizationProvider localizationProvider)
+            : base(panelName, residentAI, localizationProvider)
         {
         }
 
@@ -24,9 +24,9 @@ namespace RealTime.UI
         /// <param name="timeInfo">time info.</param>
         /// <returns>An instance of the <see cref="CustomCitizenInfoPanel"/> object that can be used for disabling
         /// the customization, or null when the customization fails.</returns>
-        public static CustomCitizenInfoPanel Enable(RealTimeResidentAI<ResidentAI, Citizen> residentAI, ILocalizationProvider localizationProvider, ITimeInfo timeInfo)
+        public static CustomCitizenInfoPanel Enable(RealTimeResidentAI<ResidentAI, Citizen> residentAI, ILocalizationProvider localizationProvider)
         {
-            var result = new CustomCitizenInfoPanel(GameInfoPanelName, residentAI, localizationProvider, timeInfo);
+            var result = new CustomCitizenInfoPanel(GameInfoPanelName, residentAI, localizationProvider);
             return result.Initialize() ? result : null;
         }
 

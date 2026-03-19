@@ -9,21 +9,21 @@ namespace RealTime.Events
     internal interface ICityEvent
     {
         /// <summary>Gets the start time of this city event.</summary>
-        DateTime StartTime { get; }
+        internal DateTime StartTime { get; }
 
         /// <summary>Gets the end time of this city event.</summary>
-        DateTime EndTime { get; }
+        internal DateTime EndTime { get; }
 
         /// <summary>Gets the building ID this city event takes place in.</summary>
-        ushort BuildingId { get; }
+        internal ushort BuildingId { get; }
 
         /// <summary>Gets the localized name of the building this city event takes place in.</summary>
-        string BuildingName { get; }
+        internal string BuildingName { get; }
 
         /// <summary>
         /// Gets the event color.
         /// </summary>
-        EventColor Color { get; }
+        internal EventColor Color { get; }
 
         /// <summary>
         /// Configures this event to take place in the specified building and at the specified start time.
@@ -34,7 +34,7 @@ namespace RealTime.Events
         /// The localized name of the building this city event should take place in.
         /// </param>
         /// <param name="startTime">The city event start time.</param>
-        void Configure(ushort buildingId, string buildingName, DateTime startTime);
+        internal void Configure(ushort buildingId, string buildingName, DateTime startTime);
 
         /// <summary>Accepts an event attendee with specified properties.</summary>
         /// <param name="age">The attendee age.</param>
@@ -48,7 +48,7 @@ namespace RealTime.Events
         /// <c>true</c> if the event attendee with specified properties is accepted and can attend
         /// this city event; otherwise, <c>false</c>.
         /// </returns>
-        bool TryAcceptAttendee(
+        internal bool TryAcceptAttendee(
             Citizen.AgeGroup age,
             Citizen.Gender gender,
             Citizen.Education education,

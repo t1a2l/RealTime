@@ -9,6 +9,7 @@ namespace RealTime.UI
     using RealTime.Localization;
     using RealTime.Managers;
     using RealTime.Utils;
+    using RealTime.Utils.UIUtils;
     using SkyTools.Localization;
     using UnityEngine;
 
@@ -128,7 +129,7 @@ namespace RealTime.UI
             m_uiMainPanel.height = 470f;
             m_uiMainPanel.width = 510f;
 
-            m_operationHoursSettingsCheckBox = UiUtils.CreateCheckBox(uIPanel, "OperationHoursSettingsCheckBox", t_operationHoursSettingsCheckBox, t_operationHoursSettingsCheckBoxTooltip, false);
+            m_operationHoursSettingsCheckBox = UICheckBoxes.CreateCheckBox(uIPanel, "OperationHoursSettingsCheckBox", t_operationHoursSettingsCheckBox, t_operationHoursSettingsCheckBoxTooltip, false);
             m_operationHoursSettingsCheckBox.width = 80f;
             m_operationHoursSettingsCheckBox.label.textColor = new Color32(185, 221, 254, 255);
             m_operationHoursSettingsCheckBox.label.textScale = 0.8125f;
@@ -162,21 +163,21 @@ namespace RealTime.UI
             };
             uIPanel.AttachUIComponent(m_operationHoursSettingsCheckBox.gameObject);
 
-            m_settingsTitle = UiUtils.CreateLabel(m_uiMainPanel, "SettingsTitle", t_settingsTitle, "");
-            m_settingsTitle.font = UiUtils.GetUIFont("OpenSans-Regular");
+            m_settingsTitle = UILabels.CreateLabel(m_uiMainPanel, "SettingsTitle", t_settingsTitle, "");
+            m_settingsTitle.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_settingsTitle.textAlignment = UIHorizontalAlignment.Center;
             m_settingsTitle.textColor = new Color32(78, 184, 126, 255);
             m_settingsTitle.relativePosition = new Vector3(130f, 20f);
             m_settingsTitle.textScale = 1.2f;
 
-            m_settingsStatus = UiUtils.CreateLabel(m_uiMainPanel, "SettingsStatus", "", "");
-            m_settingsStatus.font = UiUtils.GetUIFont("OpenSans-Regular");
+            m_settingsStatus = UILabels.CreateLabel(m_uiMainPanel, "SettingsStatus", "", "");
+            m_settingsStatus.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_settingsStatus.textAlignment = UIHorizontalAlignment.Center;
             m_settingsStatus.textColor = new Color32(240, 190, 199, 255);
             m_settingsStatus.relativePosition = new Vector3(110f, 95f);
             m_settingsStatus.textScale = 0.9f;
 
-            m_workAtNight = UiUtils.CreateCheckBox(m_uiMainPanel, "WorkAtNight", t_workAtNight, t_workAtNightTooltip, false);
+            m_workAtNight = UICheckBoxes.CreateCheckBox(m_uiMainPanel, "WorkAtNight", t_workAtNight, t_workAtNightTooltip, false);
             m_workAtNight.width = 110f;
             m_workAtNight.label.textColor = new Color32(185, 221, 254, 255);
             m_workAtNight.label.textScale = 0.8125f;
@@ -189,7 +190,7 @@ namespace RealTime.UI
             };
             m_uiMainPanel.AttachUIComponent(m_workAtNight.gameObject);
 
-            m_workAtWeekands = UiUtils.CreateCheckBox(m_uiMainPanel, "WorkAtWeekands", t_workAtWeekands, t_workAtWeekandsTooltip, false);
+            m_workAtWeekands = UICheckBoxes.CreateCheckBox(m_uiMainPanel, "WorkAtWeekands", t_workAtWeekands, t_workAtWeekandsTooltip, false);
             m_workAtWeekands.width = 110f;
             m_workAtWeekands.label.textColor = new Color32(185, 221, 254, 255);
             m_workAtWeekands.label.textScale = 0.8125f;
@@ -198,7 +199,7 @@ namespace RealTime.UI
             m_workAtWeekands.eventCheckChanged += (component, value) => m_workAtWeekands.isChecked = value;
             m_uiMainPanel.AttachUIComponent(m_workAtWeekands.gameObject);
 
-            m_hasExtendedWorkShift = UiUtils.CreateCheckBox(m_uiMainPanel, "HasExtendedWorkShift", t_hasExtendedWorkShift, t_hasExtendedWorkShiftTooltip, false);
+            m_hasExtendedWorkShift = UICheckBoxes.CreateCheckBox(m_uiMainPanel, "HasExtendedWorkShift", t_hasExtendedWorkShift, t_hasExtendedWorkShiftTooltip, false);
             m_hasExtendedWorkShift.width = 110f;
             m_hasExtendedWorkShift.label.textColor = new Color32(185, 221, 254, 255);
             m_hasExtendedWorkShift.label.textScale = 0.8125f;
@@ -215,7 +216,7 @@ namespace RealTime.UI
             };
             m_uiMainPanel.AttachUIComponent(m_hasExtendedWorkShift.gameObject);
 
-            m_hasContinuousWorkShift = UiUtils.CreateCheckBox(m_uiMainPanel, "HasContinuousWorkShift", t_hasContinuousWorkShift, t_hasContinuousWorkShiftTooltip, false);
+            m_hasContinuousWorkShift = UICheckBoxes.CreateCheckBox(m_uiMainPanel, "HasContinuousWorkShift", t_hasContinuousWorkShift, t_hasContinuousWorkShiftTooltip, false);
             m_hasContinuousWorkShift.width = 110f;
             m_hasContinuousWorkShift.label.textColor = new Color32(185, 221, 254, 255);
             m_hasContinuousWorkShift.label.textScale = 0.8125f;
@@ -232,7 +233,7 @@ namespace RealTime.UI
             };
             m_uiMainPanel.AttachUIComponent(m_hasContinuousWorkShift.gameObject);
 
-            m_ignorePolicy = UiUtils.CreateCheckBox(m_uiMainPanel, "IgnorePolicy", t_ignorePolicy, t_ignorePolicyTooltip, false);
+            m_ignorePolicy = UICheckBoxes.CreateCheckBox(m_uiMainPanel, "IgnorePolicy", t_ignorePolicy, t_ignorePolicyTooltip, false);
             m_ignorePolicy.width = 110f;
             m_ignorePolicy.label.textColor = new Color32(185, 221, 254, 255);
             m_ignorePolicy.label.textScale = 0.8125f;
@@ -246,19 +247,19 @@ namespace RealTime.UI
             m_uiMainPanel.AttachUIComponent(m_ignorePolicy.gameObject);
 
 
-            m_InnerPanel = UiUtils.CreatePanel(m_uiMainPanel, "OperationHoursInnerPanel");
+            m_InnerPanel = UIPanels.CreatePanel(m_uiMainPanel, "OperationHoursInnerPanel");
             m_InnerPanel.backgroundSprite = "GenericPanelLight";
             m_InnerPanel.color = new Color32(206, 206, 206, 255);
             m_InnerPanel.size = new Vector2(235f, 66f);
             m_InnerPanel.relativePosition = new Vector3(15f, 322f);
 
-            m_workShiftsLabel = UiUtils.CreateLabel(m_uiMainPanel, "WorkShiftsTitle", t_shiftCountTitle, "");
-            m_workShiftsLabel.font = UiUtils.GetUIFont("OpenSans-Regular");
+            m_workShiftsLabel = UILabels.CreateLabel(m_uiMainPanel, "WorkShiftsTitle", t_shiftCountTitle, "");
+            m_workShiftsLabel.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_workShiftsLabel.textAlignment = UIHorizontalAlignment.Center;
             m_workShiftsLabel.relativePosition = new Vector3(10f, 10f);
             m_InnerPanel.AttachUIComponent(m_workShiftsLabel.gameObject);
 
-            m_workShifts = UiUtils.CreateSlider(m_InnerPanel, "ShiftCount", t_shiftCountTooltip, 1, 3, 1, 1);
+            m_workShifts = UISliders.CreateSlider(m_InnerPanel, "ShiftCount", t_shiftCountTooltip, 1, 3, 1, 1);
             m_workShifts.size = new Vector2(130f, 8f);
             m_workShifts.relativePosition = new Vector3(25f, 48f);
             m_workShifts.disabledColor = Color.black;
@@ -275,7 +276,7 @@ namespace RealTime.UI
             };
             m_InnerPanel.AttachUIComponent(m_workShifts.gameObject);
 
-            m_workShiftsCount = UiUtils.CreateLabel(m_InnerPanel, "OperationHoursInnerCount", "", "");
+            m_workShiftsCount = UILabels.CreateLabel(m_InnerPanel, "OperationHoursInnerCount", "", "");
             m_workShiftsCount.textAlignment = UIHorizontalAlignment.Right;
             m_workShiftsCount.verticalAlignment = UIVerticalAlignment.Top;
             m_workShiftsCount.textColor = new Color32(185, 221, 254, 255);
@@ -285,34 +286,34 @@ namespace RealTime.UI
             m_workShiftsCount.relativePosition = new Vector3(150f, 44f);
             m_InnerPanel.AttachUIComponent(m_workShiftsCount.gameObject);
 
-            SaveBuildingSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 260f, 120f, "SaveBuildingSettings", t_SaveBuildingSettings, t_SaveBuildingSettingsTooltip);
+            SaveBuildingSettingsBtn = UIButtons.CreateButton(m_uiMainPanel, 260f, 120f, "SaveBuildingSettings", t_SaveBuildingSettings, t_SaveBuildingSettingsTooltip);
             SaveBuildingSettingsBtn.eventClicked += SaveBuildingSettings;
 
-            ReturnToDefaultBtn = UiUtils.CreateButton(m_uiMainPanel, 260f, 170f, "ReturnToDefault", t_ReturnToDefault, t_ReturnToDefaultTooltip);
+            ReturnToDefaultBtn = UIButtons.CreateButton(m_uiMainPanel, 260f, 170f, "ReturnToDefault", t_ReturnToDefault, t_ReturnToDefaultTooltip);
             ReturnToDefaultBtn.eventClicked += ReturnToDefault;
 
-            ApplyPrefabSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 260f, 220f, "ApplyPrefabSettings", t_applyPrefabSettings, t_applyPrefabSettingsTooltip);
+            ApplyPrefabSettingsBtn = UIButtons.CreateButton(m_uiMainPanel, 260f, 220f, "ApplyPrefabSettings", t_applyPrefabSettings, t_applyPrefabSettingsTooltip);
             ApplyPrefabSettingsBtn.eventClicked += ApplyPrefabSettings;
 
-            ApplyGlobalSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 260f, 270f, "ApplyGlobalSettings", t_applyGlobalSettings, t_applyGlobalSettingsTooltip);
+            ApplyGlobalSettingsBtn = UIButtons.CreateButton(m_uiMainPanel, 260f, 270f, "ApplyGlobalSettings", t_applyGlobalSettings, t_applyGlobalSettingsTooltip);
             ApplyGlobalSettingsBtn.eventClicked += ApplyGlobalSettings;
 
-            SetPrefabSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 260f, 320f, "SetPrefabSettings", t_setPrefabSettings, t_setPrefabSettingsTooltip);
+            SetPrefabSettingsBtn = UIButtons.CreateButton(m_uiMainPanel, 260f, 320f, "SetPrefabSettings", t_setPrefabSettings, t_setPrefabSettingsTooltip);
             SetPrefabSettingsBtn.eventClicked += SetPrefabSettings;
 
-            SetGlobalSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 260f, 370f, "SetGlobalSettings", t_setGlobalSettings, t_setGlobalSettingsTooltip);
+            SetGlobalSettingsBtn = UIButtons.CreateButton(m_uiMainPanel, 260f, 370f, "SetGlobalSettings", t_setGlobalSettings, t_setGlobalSettingsTooltip);
             SetGlobalSettingsBtn.eventClicked += SetGlobalSettings;
 
-            DeletePrefabSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 15f, 420f, "DeletePrefabSettings", t_deletePrefabSettings, t_deletePrefabSettingsTooltip);
+            DeletePrefabSettingsBtn = UIButtons.CreateButton(m_uiMainPanel, 15f, 420f, "DeletePrefabSettings", t_deletePrefabSettings, t_deletePrefabSettingsTooltip);
             DeletePrefabSettingsBtn.eventClicked += DeletePrefabSettings;
 
-            DeleteGlobalSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 260f, 420f, "DeleteGlobalSettings", t_deleteGlobalSettings, t_deleteGlobalSettingsTooltip);
+            DeleteGlobalSettingsBtn = UIButtons.CreateButton(m_uiMainPanel, 260f, 420f, "DeleteGlobalSettings", t_deleteGlobalSettings, t_deleteGlobalSettingsTooltip);
             DeleteGlobalSettingsBtn.eventClicked += DeleteGlobalSettings;
 
-            UnlockSettingsBtn = UiUtils.CreateButton(m_uiMainPanel, 130f, 55f, "UnlockSettings", t_unlockSettings, t_unlockSettingsTooltip);
+            UnlockSettingsBtn = UIButtons.CreateButton(m_uiMainPanel, 130f, 55f, "UnlockSettings", t_unlockSettings, t_unlockSettingsTooltip);
             UnlockSettingsBtn.eventClicked += UnlockSettings;
 
-            LockUnlockChangesBtn = UiUtils.CreateButton(m_uiMainPanel, 10f, 55f, "LockUnLockChanges", "", t_lockUnlockChangesTooltip, 32, 32);
+            LockUnlockChangesBtn = UIButtons.CreateButton(m_uiMainPanel, 10f, 55f, "LockUnLockChanges", "", t_lockUnlockChangesTooltip, 32, 32);
 
             LockUnlockChangesBtn.atlas = TextureUtils.GetAtlas("LockButtonAtlas");
             LockUnlockChangesBtn.normalFgSprite = "UnLock";

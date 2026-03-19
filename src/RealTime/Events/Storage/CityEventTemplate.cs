@@ -38,5 +38,10 @@ namespace RealTime.Events.Storage
         /// <summary>Gets or sets the city event costs configuration.</summary>
         [XmlElement("Costs", IsNullable = false)]
         public CityEventCosts Costs { get; set; }
+
+        /// <summary>Gets or sets the city event incentives configuration.</summary>
+        [XmlArray("Incentives", IsNullable = false)]
+        [XmlArrayItem("Incentive", IsNullable = false)]
+        public CityEventIncentive[] Incentives = null;
     }
 }

@@ -7,6 +7,7 @@ namespace RealTime.Events
     using System.IO;
     using System.Linq;
     using System.Xml.Serialization;
+    using ColossalFramework.UI;
     using RealTime.Config;
     using RealTime.Events.Storage;
     using RealTime.GameConnection;
@@ -567,6 +568,27 @@ namespace RealTime.Events
             }
 
             return false;
+        }
+
+        public void AddEvent(ICityEvent ev, DateTime eventStartTime)
+        {
+            var startTime = AdjustEventStartTime(eventStartTime, randomize: false);
+            ev.Configure(ev.BuildingId, buildingManager.GetBuildingName(ev.BuildingId), startTime);
+            if (startTime < earliestEvent)
+            {
+                upcomingEvents.AddFirst(ev);
+            }
+            else
+            {
+                upcomingEvents.AddLast(ev);
+            }
+
+            earliestEvent = startTime.AddHours(randomizer.GetRandomValue(EventIntervalVariance));
+            
+            // List<ICityEvent>
+            eventsToAttend.Add(ev);  // Citizens check this
+            OnEventsChanged();
+            Log.Debug(LogCategory.Events, timeInfo.Now, $"New manual event created for building {ev.BuildingId}, starts on {ev.StartTime}, ends on {ev.EndTime}");
         }
 
         private void CreateRandomEvent(ushort buildingId)

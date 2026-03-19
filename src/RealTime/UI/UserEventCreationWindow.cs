@@ -473,7 +473,7 @@ namespace RealTime.UI
                 }
 
                 // Add (Real Time manager)
-                SimulationHandler.EventManager.AddEvent(rtEvent, startTime);  // ← No clash check
+                SimulationHandler.EventManager.AddEvent(rtEvent, eventBuildingID, startTime);  // ← No clash check
                 Hide();
 
                 Log.Info($"Created {template.EventName} for {eventBuildingID}");

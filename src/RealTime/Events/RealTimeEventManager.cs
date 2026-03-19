@@ -569,10 +569,10 @@ namespace RealTime.Events
             return false;
         }
 
-        public void AddEvent(ICityEvent ev, DateTime eventStartTime)
+        public void AddEvent(ICityEvent ev, ushort buildingId, DateTime eventStartTime)
         {
             var startTime = AdjustEventStartTime(eventStartTime, randomize: false);
-            ev.Configure(ev.BuildingId, buildingManager.GetBuildingName(ev.BuildingId), startTime);
+            ev.Configure(buildingId, buildingManager.GetBuildingName(buildingId), startTime);
             if (startTime < earliestEvent)
             {
                 upcomingEvents.AddFirst(ev);
@@ -583,7 +583,7 @@ namespace RealTime.Events
             }
 
             earliestEvent = startTime.AddHours(randomizer.GetRandomValue(EventIntervalVariance));
-            
+  
             // List<ICityEvent>
             eventsToAttend.Add(ev);  // Citizens check this
             OnEventsChanged();

@@ -1,5 +1,6 @@
 namespace RealTime.UI
 {
+    using System;
     using System.Collections.Generic;
     using ColossalFramework;
     using ColossalFramework.Globalization;
@@ -33,6 +34,7 @@ namespace RealTime.UI
         protected UISlider _startDaySlider = null;
 
         public static ILocalizationProvider localizationProvider;
+        public static ITimeInfo TimeInfo;
 
         protected float totalCost = 0f;
         protected float maxIncome = 0f;
@@ -375,7 +377,7 @@ namespace RealTime.UI
         {
             if (_startTimeSlider != null)
             {
-                if (_startTimeSlider.value <= SimulationManager.instance.m_currentGameTime.Hour)
+                if (_startTimeSlider.value <= TimeInfo.Now.Hour)
                 {
                     _startDaySlider.value = Mathf.Max(1f, _startDaySlider.value);
                 }
@@ -409,7 +411,7 @@ namespace RealTime.UI
                 sliderLabel.text = string.Format("{0} tickets", _ticketSlider.value);
             }
 
-            if (template.Costs != null)
+            if (template != null && template.Costs != null)
             {
                 totalCost = 0f;
                 maxIncome = 0f;
@@ -453,10 +455,9 @@ namespace RealTime.UI
                 // Incentives
                 var optionItems = GetIncentiveItems();
 
-                // Start time (Real Time SimulationManager)
-                var now = SimulationManager.instance.m_currentGameTime;  // ← Real Time now
+                var startTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
 
-                var startTime = now.AddDays((int)_startDaySlider.value).AddHours(_startTimeSlider.value);
+                startTime = startTime.AddDays((int)_startDaySlider.value).AddHours(_startTimeSlider.value);
 
                 // Real Time event
                 var rtEvent = new RealTimeCityEvent(template, Mathf.RoundToInt(_ticketSlider.value));
@@ -490,26 +491,23 @@ namespace RealTime.UI
 
         private void TranslationOnLanguageChanged()
         {
-            if (_totalAmountLabel != null)
-            {
-                _totalAmountLabel.text = "Event cost";
-                _totalAmountLabel.tooltip = "The total cost to create this event.";
-                _totalIncomeLabel.text = "Max profit";
-                _totalIncomeLabel.tooltip = "The maximum profits you can receive if the event is 100% successful and all incentives are used.";
-                _createButton.text = "Create";
-                _createButton.tooltip = "Create the event.";
+            _totalAmountLabel.text = "Event cost";
+            _totalAmountLabel.tooltip = "The total cost to create this event.";
+            _totalIncomeLabel.text = "Max profit";
+            _totalIncomeLabel.tooltip = "The maximum profits you can receive if the event is 100% successful and all incentives are used.";
+            _createButton.text = "Create";
+            _createButton.tooltip = "Create the event.";
 
-                var sliderPanel = _ticketSlider.parent as UIPanel;
-                var sliderLabel = sliderPanel.Find<UILabel>("Label");
-                sliderLabel.tooltip = "Increase or decrease the number of tickets available for this venue.";
+            var sliderPanel = _ticketSlider.parent as UIPanel;
+            var sliderLabel = sliderPanel.Find<UILabel>("Label");
+            sliderLabel.tooltip = "Increase or decrease the number of tickets available for this venue.";
 
-                _totalAmountLabel.Update();
-                _totalIncomeLabel.Update();
-                _createButton.Update();
+            _totalAmountLabel.Invalidate();
+            _totalIncomeLabel.Invalidate();
+            _createButton.Invalidate();
 
-                UpdateTotalCost();
-                PerformLayout();
-            }
+            UpdateTotalCost();
+            PerformLayout();
         }
     }
 }

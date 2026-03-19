@@ -10,19 +10,13 @@ namespace RealTime.GameConnection
     /// The default implementation of the <see cref="ITimeInfo"/> interface.
     /// </summary>
     /// <seealso cref="ITimeInfo" />
-    internal sealed class TimeInfo : ITimeInfo
+    /// <remarks>Initializes a new instance of the <see cref="TimeInfo" /> class.</remarks>
+    /// <param name="config">The configuration to run with.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+    internal sealed class TimeInfo(RealTimeConfig config) : ITimeInfo
     {
-        private readonly RealTimeConfig config;
+        private readonly RealTimeConfig config = config ?? throw new ArgumentNullException(nameof(config));
         private DateTime currentTime;
-        private float currentHour;
-
-        /// <summary>Initializes a new instance of the <see cref="TimeInfo" /> class.</summary>
-        /// <param name="config">The configuration to run with.</param>
-        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
-        public TimeInfo(RealTimeConfig config)
-        {
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
-        }
 
         /// <summary>Gets the current game date and time.</summary>
         public DateTime Now => SimulationManager.instance.m_currentGameTime;
@@ -35,10 +29,10 @@ namespace RealTime.GameConnection
                 if (SimulationManager.instance.m_currentGameTime != currentTime)
                 {
                     currentTime = SimulationManager.instance.m_currentGameTime;
-                    currentHour = (float)Now.TimeOfDay.TotalHours;
+                    field = (float)Now.TimeOfDay.TotalHours;
                 }
 
-                return currentHour;
+                return field;
             }
         }
 
@@ -65,7 +59,6 @@ namespace RealTime.GameConnection
         public float NightDuration => 24f - DayDuration;
 
         /// <summary>Gets the number of hours that fit into one simulation frame.</summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Logically an instance property, no performance penalty")]
         public float HoursPerFrame => SimulationManager.DAYTIME_FRAME_TO_HOUR;
     }
 }

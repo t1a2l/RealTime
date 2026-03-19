@@ -7,7 +7,6 @@ namespace RealTime.Events
     using System.IO;
     using System.Linq;
     using System.Xml.Serialization;
-    using ColossalFramework.UI;
     using RealTime.Config;
     using RealTime.Events.Storage;
     using RealTime.GameConnection;

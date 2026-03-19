@@ -89,7 +89,7 @@ namespace RealTime.UI
                 createEventButton.normalFgSprite = "InfoIconLevel";
                 createEventButton.width = locationBtn.width;
                 createEventButton.height = locationBtn.height;
-                createEventButton.relativePosition = locationBtn.relativePosition + new Vector3(-(locationBtn.width + 5f), 0);
+                createEventButton.relativePosition = new Vector3(410f, 80f);
                 createEventButton.eventClicked += OnCreateEventButtonClicked;
             }
 
@@ -104,6 +104,7 @@ namespace RealTime.UI
                 eventSelection.rowHeight = 20f;
                 eventSelection.canSelect = true;
                 eventSelection.selectedIndex = -1;
+                eventSelection.relativePosition = new Vector3(420f, 120f);
                 eventSelection.eventSelectedIndexChanged += OnEventSelectionChanged;
                 eventSelection.Hide();
             }
@@ -116,6 +117,7 @@ namespace RealTime.UI
                 eventCreationWindow.name = "EventCreator";
                 eventCreationWindow.Hide();
             }
+            UpdateButtonState();
         }
 
         private static void OnCreateEventButtonClicked(UIComponent c, UIMouseEventParameter p)

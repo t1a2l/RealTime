@@ -240,7 +240,7 @@ namespace RealTime.Utils.UIUtils
                 amount.value = Mathf.Min(newValue - 10, amount.maxValue);
                 currentOption.sliderValue = amount.value;
 
-                amount.Update();
+                amount.Invalidate();
 
                 UpdateTotals();
             }
@@ -268,9 +268,6 @@ namespace RealTime.Utils.UIUtils
                 returnsLabel.tooltip = "SELL_TT";
                 returnsLabel.Invalidate();
             }
-
-            // If you had extra variable text, call your own helpers here
-            // UpdateVariableStrings();   // only if you rewrote it to Real Time localization
         }
     }
 }

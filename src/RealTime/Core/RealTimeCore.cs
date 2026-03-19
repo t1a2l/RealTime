@@ -187,6 +187,7 @@ namespace RealTime.Core
             WorldInfoPanelPatch.CampusWorldInfoPanel = CustomCampusWorldInfoPanel.Enable(localizationProvider, configProvider.Configuration);
             WorldInfoPanelPatch.localizationProvider = localizationProvider;
             UserEventCreationWindow.localizationProvider = localizationProvider;
+            UserEventCreationWindow.TimeInfo = timeInfo;
 
             AwakeSleepSimulation.Install(configProvider.Configuration);
 

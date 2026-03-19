@@ -455,7 +455,11 @@ namespace RealTime.UI
                 // Incentives
                 var optionItems = GetIncentiveItems();
 
-                var startTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+                int year = SimulationManager.instance.m_currentGameTime.Year;
+                int month = SimulationManager.instance.m_currentGameTime.Month;
+                int day = SimulationManager.instance.m_currentGameTime.Day;
+
+                var startTime = new DateTime(year, month, day, 0, 0, 0);
 
                 startTime = startTime.AddDays((int)_startDaySlider.value).AddHours(_startTimeSlider.value);
 

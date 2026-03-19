@@ -582,6 +582,19 @@ namespace RealTime.Managers
                         SetBuildingWorkTime(buildingId, workTime);
                     }
                     return;
+
+                case ItemClass.Service.Race:
+                    if (!workTime.WorkAtNight)
+                    {
+                        workTime.WorkShifts = 3;
+                        workTime.WorkAtNight = true;
+                        workTime.WorkAtWeekands = true;
+                        workTime.HasExtendedWorkShift = false;
+                        workTime.HasContinuousWorkShift = false;
+                        workTime.IsDefault = true;
+                        SetBuildingWorkTime(buildingId, workTime);
+                    }
+                    return;
             }
         }
 
@@ -637,6 +650,7 @@ namespace RealTime.Managers
                 case ItemClass.Service.Garbage:
                 case ItemClass.Service.Road:
                 case ItemClass.Service.Hotel:
+                case ItemClass.Service.Race:
                 case ItemClass.Service.ServicePoint:
                     return true;
 
@@ -675,6 +689,7 @@ namespace RealTime.Managers
                 case ItemClass.Service.Fishing:
                 case ItemClass.Service.ServicePoint:
                 case ItemClass.Service.Hotel:
+                case ItemClass.Service.Race:
                 case ItemClass.Service.Commercial when ShouldOccur(RealTimeMod.configProvider.Configuration.OpenCommercialAtWeekendsQuota):
                     return true;
 

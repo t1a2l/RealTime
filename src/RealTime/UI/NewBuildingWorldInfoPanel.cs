@@ -1,9 +1,12 @@
 namespace RealTime.UI
 {
+    using System;
     using System.Collections.Generic;
     using System.Reflection;
     using ColossalFramework;
     using ColossalFramework.UI;
+    using HarmonyLib;
+    using Newtonsoft.Json;
     using RealTime.Events.Containers;
     using RealTime.Events.Storage;  // CityEventsLoader
     using RealTime.Utils.UIUtils;
@@ -11,116 +14,85 @@ namespace RealTime.UI
 
     public static class NewBuildingWorldInfoPanel
     {
-        private static UITextField mNameField;
-        private static UIButton createEventButton;
-        private static UIFastList eventSelection;
+        private static UIPanel eventSelectionPanel;
+        private static UIDropDown eventSelectionDropDown;
+        private static UIButton eventSelectionButton;
+
         private static UserEventCreationWindow eventCreationWindow;
-        private static float originalNameWidth = -1f;
+
         private static InstanceID? lastInstanceID;
 
-        public static void OnSetTarget(BuildingWorldInfoPanel thisPanel)
+        private static readonly JsonSerializerSettings settings = new()
         {
-            var m_TimeInfo = typeof(BuildingWorldInfoPanel).GetField("m_Time", BindingFlags.NonPublic | BindingFlags.Instance);
-            float? m_Time = m_TimeInfo.GetValue(thisPanel) as float?;
+            TypeNameHandling = TypeNameHandling.Objects,  // Preserves exact types on deserialize
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,  // Handles game object cycles
+            Formatting = Formatting.None  // Compact for UIDropdown
+        };
 
-            if (m_Time != null)
+        public static void OnSetTarget()
+        {
+            if (eventSelectionPanel == null)
             {
-                mNameField = thisPanel.Find<UITextField>("BuildingName");
-
-                if (mNameField != null)
-                {
-                    if (originalNameWidth == -1)
-                    {
-                        originalNameWidth = mNameField.width;
-                    }
-
-                    
-                    m_Time = 0.0f;
-
-                    var servicePanel = thisPanel as CityServiceWorldInfoPanel;
-
-                    if (servicePanel != null)
-                    {
-                        Debug.Log("Adding event UI to service panel.");
-                        AddEventUI(servicePanel);
-                        mNameField.text = GetName();
-                    }
-                }
-                else
-                {
-                    Debug.LogError("Couldn't set the m_NameField parameter of the BuildingWorldInfoPanel");
-                }
+                Debug.Log("Adding event UI to service panel.");
+                CreateEventSelectionPanel();
             }
-            else
-            {
-                Debug.LogError("Couldn't set the m_Time parameter of the BuildingWorldInfoPanel");
-            }
+            CheckAndSetupEvents();
         }
 
-        private static string GetName()
+        private static void CreateEventSelectionPanel()
         {
-            if (lastInstanceID.Value != null && lastInstanceID.Value.Type == InstanceType.Building && lastInstanceID.Value.Building != 0)
+            var _cityServiceWorldInfoPanel = UIView.library.Get<CityServiceWorldInfoPanel>(typeof(CityServiceWorldInfoPanel).Name);
+            if (!(_cityServiceWorldInfoPanel != null))
             {
-                return Singleton<BuildingManager>.instance.GetBuildingName(lastInstanceID.Value.Building, InstanceID.Empty);
+                return;
             }
-            return string.Empty;
-        }
 
-        private static void AddEventUI(CityServiceWorldInfoPanel parent)
-        {
             var m_InstanceIDInfo = typeof(CityServiceWorldInfoPanel).GetField("m_InstanceID", BindingFlags.NonPublic | BindingFlags.Instance);
-            var m_InstanceID = m_InstanceIDInfo.GetValue(parent) as InstanceID?;
+            var m_InstanceID = m_InstanceIDInfo.GetValue(_cityServiceWorldInfoPanel) as InstanceID?;
 
             lastInstanceID = m_InstanceID;
 
-            // Create "Create Event" button (next to Location button)
-            createEventButton = parent.Find<UIButton>("CreateEventButton");
-            if (createEventButton == null)
+            var wrapper = _cityServiceWorldInfoPanel?.Find("Wrapper");
+            var mainSectionPanel = wrapper?.Find("MainSectionPanel");
+            var mainBottom = mainSectionPanel?.Find("MainBottom");
+            var buttonPanels = mainBottom?.Find("ButtonPanels");
+            if (buttonPanels != null)
             {
-                var locationBtn = parent.Find<UIMultiStateButton>("LocationMarker");
-                if (locationBtn == null)
-                {
-                    return;
-                }
+                eventSelectionPanel = buttonPanels.AddUIComponent<UIPanel>();
+                eventSelectionPanel.name = "EventSelectionPanel";
+                eventSelectionPanel.width = 230f;
+                eventSelectionPanel.height = 40f;
+                eventSelectionPanel.autoLayoutDirection = LayoutDirection.Vertical;
+                eventSelectionPanel.autoLayoutStart = LayoutStart.TopLeft;
+                eventSelectionPanel.autoLayoutPadding = new RectOffset(0, 0, 0, 5);
+                eventSelectionPanel.autoLayout = true;
+                eventSelectionPanel.relativePosition = new Vector3(150f, -40f);
+                eventSelectionDropDown = UIDropDowns.AddLabelledDropDown(eventSelectionPanel, eventSelectionPanel.width, 160f, "Events:");
+                
+                eventSelectionButton = eventSelectionPanel.AddUIComponent<UIButton>();
+                eventSelectionButton = UIButtons.CreateButton(eventSelectionPanel, 260f, 320f, "EventSelectionButton", "select", "");
+                eventSelectionButton.eventClicked += OnEventSelectionButtonClicked;
 
-                createEventButton = parent.component.AddUIComponent<UIButton>();
-                createEventButton.name = "CreateEventButton";
-                createEventButton.atlas = parent.GetComponent<UIPanel>().atlas;  // Reuse panel atlas
-                createEventButton.normalFgSprite = "InfoIconLevel";
-                createEventButton.width = locationBtn.width;
-                createEventButton.height = locationBtn.height;
-                createEventButton.relativePosition = new Vector3(410f, 80f);
-                createEventButton.eventClicked += OnCreateEventButtonClicked;
-            }
+                eventSelectionPanel.isVisible = false;
 
-            // Create event dropdown
-            eventSelection = parent.Find<UIFastList>("EventSelectionList");
-            if (eventSelection == null)
-            {
-                eventSelection = UIFastList.Create<UIFastListLabel>(parent.component);
-                eventSelection.name = "EventSelectionList";
-                eventSelection.backgroundSprite = "UnlockingPanel";
-                eventSelection.size = new Vector2(120, 60);
-                eventSelection.rowHeight = 20f;
-                eventSelection.canSelect = true;
-                eventSelection.selectedIndex = -1;
-                eventSelection.relativePosition = new Vector3(420f, 120f);
-                eventSelection.eventSelectedIndexChanged += OnEventSelectionChanged;
-                eventSelection.Hide();
+                buttonPanels.AttachUIComponent(eventSelectionPanel.gameObject);
+
             }
 
             // Create event window (slides in)
-            eventCreationWindow = parent.Find<UserEventCreationWindow>("EventCreator");
+            eventCreationWindow = _cityServiceWorldInfoPanel.Find<UserEventCreationWindow>("EventCreator");
             if (eventCreationWindow == null)
             {
-                eventCreationWindow = parent.component.AddUIComponent<UserEventCreationWindow>();
+                eventCreationWindow = _cityServiceWorldInfoPanel.component.AddUIComponent<UserEventCreationWindow>();
                 eventCreationWindow.name = "EventCreator";
                 eventCreationWindow.Hide();
             }
-            UpdateButtonState();
+
+
         }
 
-        private static void OnCreateEventButtonClicked(UIComponent c, UIMouseEventParameter p)
+
+        private static void CheckAndSetupEvents()
         {
             if (lastInstanceID == null || lastInstanceID.Value.Building == 0)
             {
@@ -130,42 +102,19 @@ namespace RealTime.UI
             ushort buildingId = lastInstanceID.Value.Building;
             bool hasTemplates = GetTemplatesForBuilding(buildingId).Count > 0;
 
-            createEventButton.enabled = hasTemplates;
-
-            if (eventSelection.isVisible)
+            if (hasTemplates)
             {
-                eventSelection.Hide();
-                eventCreationWindow?.Hide();
+                eventSelectionPanel.isVisible = true;
+                eventSelectionPanel.Show();
+                BuildDropdownList();
             }
             else
             {
-                BuildDropdownList();
-                eventSelection.Show();
+                eventSelectionPanel.isVisible = false;
+                eventCreationWindow?.Hide();
             }
         }
 
-        private static void OnEventSelectionChanged(UIComponent c, int index)
-        {
-            if (index < 0 || eventCreationWindow == null)
-            {
-                return;
-            }
-
-            ushort buildingId = lastInstanceID.Value.Building;
-
-            // Get selected item (not raw template)
-            var selectedItem = eventSelection.rowsData[index] as LabelOptionItem;
-            if (selectedItem?.linkedTemplate == null)
-            {
-                return;
-            }
-
-            eventCreationWindow.Show();
-            eventCreationWindow.SetUp(selectedItem, buildingId);  // ← LabelOptionItem!
-            eventCreationWindow.relativePosition = eventSelection.relativePosition + new Vector3(-eventSelection.width - 2f, eventSelection.height);
-        }
-
-        // Real Time replacements
         private static List<CityEventTemplate> GetTemplatesForBuilding(ushort buildingId)
         {
             var buildingMgr = Singleton<BuildingManager>.instance;
@@ -176,39 +125,32 @@ namespace RealTime.UI
             return CityEventsLoader.Instance.GetEventTemplates(buildingName);
         }
 
-        private static void UpdateEventSelection(UIComponent component)
+        private static void OnEventSelectionButtonClicked(UIComponent c, UIMouseEventParameter p)
         {
-            var list = component as UIFastList;
-
-            if (list != null)
-            {
-                if (list.selectedItem is LabelOptionItem selectedOption && eventCreationWindow != null)
-                {
-                    eventCreationWindow.Show();
-                    eventCreationWindow.SetUp(selectedOption, lastInstanceID.Value.Building);
-                    eventCreationWindow.relativePosition = list.relativePosition + new Vector3(-(list.width / 2f), list.height);
-
-                    Debug.Log("Selected " + list.selectedIndex);
-                }
-                else
-                {
-                    Debug.LogError("Couldn't find the option that has been selected for an event!");
-                }
-            }
-            else
-            {
-                Debug.LogError("Couldn't find the list that the selection was made on!");
-            }
-        }
-
-        private static void BuildDropdownList()
-        {
-            if (eventSelection == null)
+            int selected_index = eventSelectionDropDown.selectedIndex;
+            if (selected_index == -1)
             {
                 return;
             }
 
-            eventSelection.rowsData.Clear();
+            string json = eventSelectionDropDown.items[selected_index];
+
+            var selectedOption = JsonConvert.DeserializeObject<LabelOptionItem>(json, settings);
+
+            eventCreationWindow.Show();
+            eventCreationWindow.SetUp(selectedOption, lastInstanceID.Value.Building);
+            eventCreationWindow.relativePosition = eventSelectionPanel.relativePosition + new Vector3(-(eventSelectionPanel.width / 2f), eventSelectionPanel.height);
+        }
+
+        private static void BuildDropdownList()
+        {
+            if (eventSelectionDropDown == null)
+            {
+                return;
+            }
+
+            Array.Clear(eventSelectionDropDown.items, 0, eventSelectionDropDown.items.Length);
+
             ushort buildingId = lastInstanceID.Value.Building;
             var templates = GetTemplatesForBuilding(buildingId);
 
@@ -219,24 +161,11 @@ namespace RealTime.UI
                     linkedTemplate = template,
                     readableLabel = template.EventName
                 };
-                eventSelection.rowsData.Add(item);
+                string json = JsonConvert.SerializeObject(item, settings);
+                eventSelectionDropDown.items.AddItem(json);
             }
-            eventSelection.DisplayAt(0);
+            eventSelectionDropDown.selectedIndex = 0;
         }
 
-        private static void UpdateButtonState()
-        {
-            if (createEventButton == null || lastInstanceID == null)
-            {
-                return;
-            }
-
-            ushort buildingId = lastInstanceID.Value.Building;
-            bool hasTemplates = GetTemplatesForBuilding(buildingId).Count > 0;
-            createEventButton.Show();
-            createEventButton.enabled = hasTemplates;
-
-            mNameField.width = hasTemplates ? originalNameWidth - 45f : originalNameWidth;
-        }
     }
 }

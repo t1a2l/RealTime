@@ -381,8 +381,7 @@ namespace RealTime.Patches
                 }
                 cityServiceOperationHoursUIPanel.CheckBoxYposition = checkBoxYposition;
                 cityServiceOperationHoursUIPanel.UpdateBuildingData();
-                var m_cityServiceWorldInfoPanel = GameObject.Find("(Library) CityServiceWorldInfoPanel").GetComponent<CityServiceWorldInfoPanel>();
-                NewBuildingWorldInfoPanel.OnSetTarget(m_cityServiceWorldInfoPanel);
+                NewBuildingWorldInfoPanel.OnSetTarget();
             }
 
             [HarmonyPatch(typeof(CityServiceWorldInfoPanel), "UpdateBindings")]

@@ -16,7 +16,7 @@ namespace RealTime.UI
     using SkyTools.Tools;
     using UnityEngine;
 
-    internal class UserEventCreationWindow : UIPanel
+    internal class UserEventCreationPanel : UIPanel
     {
         protected CityEventTemplate template = null;
         protected UIHelper _helper = null;
@@ -159,6 +159,8 @@ namespace RealTime.UI
 
             TranslationOnLanguageChanged();
             PerformLayout();
+
+            isVisible = false;
         }
 
         private void Initialise()

@@ -248,7 +248,7 @@ namespace RealTime.Utils.UIUtils
 
         private void TranslationOnLanguageChanged()
         {
-            var lp = UserEventCreationWindow.localizationProvider; // or UserEventCreationWindow.localizationProvider
+            var lp = UserEventCreationPanel.localizationProvider; // or UserEventCreationWindow.localizationProvider
 
             if (lp == null)
             {

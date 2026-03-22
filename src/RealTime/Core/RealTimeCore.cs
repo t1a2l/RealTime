@@ -186,8 +186,8 @@ namespace RealTime.Core
             WorldInfoPanelPatch.VehicleInfoPanel = CustomVehicleInfoPanel.Enable(ResidentAIPatch.RealTimeResidentAI, localizationProvider);
             WorldInfoPanelPatch.CampusWorldInfoPanel = CustomCampusWorldInfoPanel.Enable(localizationProvider, configProvider.Configuration);
             WorldInfoPanelPatch.localizationProvider = localizationProvider;
-            UserEventCreationWindow.localizationProvider = localizationProvider;
-            UserEventCreationWindow.TimeInfo = timeInfo;
+            UserEventCreationPanel.localizationProvider = localizationProvider;
+            UserEventCreationPanel.TimeInfo = timeInfo;
 
             AwakeSleepSimulation.Install(configProvider.Configuration);
 

@@ -11,7 +11,6 @@ namespace RealTime.Patches
     using ColossalFramework;
     using ColossalFramework.UI;
     using HarmonyLib;
-    using ICities;
     using RealTime.Config;
     using RealTime.CustomAI;
     using RealTime.Events;
@@ -23,7 +22,6 @@ namespace RealTime.Patches
     using RealTime.Utils.UIUtils;
     using SkyTools.Localization;
     using UnityEngine;
-    using static RenderManager;
 
     /// <summary>
     /// A static class that provides the patch objects for the world info panel game methods.

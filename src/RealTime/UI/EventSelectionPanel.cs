@@ -4,9 +4,6 @@ namespace RealTime.UI
     using System.Collections.Generic;
     using ColossalFramework;
     using ColossalFramework.UI;
-    using HarmonyLib;
-    using Newtonsoft.Json;
-    using RealTime.Events.Containers;
     using RealTime.Events.Storage;
     using RealTime.Utils.UIUtils;
     using UnityEngine;
@@ -16,13 +13,6 @@ namespace RealTime.UI
         private UIDropDown eventSelectionDropDown;
         private UIButton eventSelectionButton;
         private UserEventCreationPanel eventCreationPanel;
-
-        private readonly JsonSerializerSettings settings = new()
-        {
-            TypeNameHandling = TypeNameHandling.Objects,  // Preserves exact types on deserialize
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,  // Handles game object cycles
-            Formatting = Formatting.None  // Compact for UIDropdown
-        };
 
         public override void Awake()
         {
@@ -34,7 +24,7 @@ namespace RealTime.UI
             autoLayout = false;
             relativePosition = new Vector3(120f, 15f);
 
-            UILabels.CreatePositionedLabel(this, 0f, -15f, "EventSelectionLabel", "Evenets:");
+            UILabels.CreatePositionedLabel(this, 0f, -15f, "EventSelectionLabel", "Events:");
 
             eventSelectionDropDown = UIDropDowns.AddDropDown(this, 0f, 0f, "EventSelectionDropDown", 120f);
 
@@ -72,14 +62,18 @@ namespace RealTime.UI
                 return;
             }
 
-            string json = eventSelectionDropDown.items[selected_index];
-
-            var selectedOption = JsonConvert.DeserializeObject<LabelOptionItem>(json, settings);
+            string event_name = eventSelectionDropDown.items[selected_index];
 
             ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
 
+            var buildingMgr = Singleton<BuildingManager>.instance;
+            var building = buildingMgr.m_buildings.m_buffer[buildingID];
+            string buildingName = building.Info.name;
+
+            var template = CityEventsLoader.Instance.GetEventTemplate(event_name, buildingName);
+
             eventCreationPanel.Show();
-            eventCreationPanel.SetUp(selectedOption, buildingID);
+            eventCreationPanel.SetUp(template, buildingID);
             eventCreationPanel.relativePosition = relativePosition + new Vector3(-(width / 2f), height);
         }
 
@@ -94,16 +88,13 @@ namespace RealTime.UI
 
             var templates = GetTemplatesForBuilding(buildingId);
 
+            var list = new List<string>();
             foreach (var template in templates)
             {
-                var item = new LabelOptionItem
-                {
-                    linkedTemplate = template,
-                    readableLabel = template.EventName
-                };
-                string json = JsonConvert.SerializeObject(item, settings);
-                eventSelectionDropDown.items.AddItem(json);
+                list.Add(template.EventName);
             }
+
+            eventSelectionDropDown.items = [.. list];
             eventSelectionDropDown.selectedIndex = 0;
         }
 

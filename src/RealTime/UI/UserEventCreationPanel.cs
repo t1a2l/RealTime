@@ -245,9 +245,9 @@ namespace RealTime.UI
             return hours.ToString() + ':' + minutes.ToString() + ' ' + suffix;
         }
 
-        public void SetUp(LabelOptionItem selectedData, ushort buildingID)
+        public void SetUp(CityEventTemplate selectedTemplate, ushort buildingID)
         {
-            template = selectedData.linkedTemplate;
+            template = selectedTemplate;
 
             if (template != null && buildingID != 0 && _ticketSlider != null)
             {

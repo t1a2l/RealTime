@@ -29,6 +29,7 @@ namespace RealTime.Utils.UIUtils
             checkBox.label.font = UIFonts.GetUIFont("OpenSans-Regular");
             checkBox.label.autoSize = false;
             checkBox.label.height = 20f;
+            checkBox.label.width = checkBox.width;
             checkBox.label.verticalAlignment = UIVerticalAlignment.Middle;
             checkBox.label.relativePosition = new Vector3(20f, 0f);
             checkBox.tooltip = tooltip;

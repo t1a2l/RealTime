@@ -121,6 +121,8 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="Самое раннее время, когда мероприятие может начаться в выходной день" />
   <translation id="LatestHourEventStartWeekend" value="Самое позднее по вых." />
   <translation id="LatestHourEventStartWeekendTooltip" value="Самое позднее время, когда мероприятие может начаться в выходной день" />
+  <translation id="DisableRaceOrParadeAutoOccur" value="Disable race or parade auto occurrence" />
+  <translation id="DisableRaceOrParadeAutoOccurTooltip" value="Disable race or parade from auto occuring" />
 
   <translation id="4Time" value="Время" />
   <translation id="MaxOvertime" value="Макс. сверхурочные" />

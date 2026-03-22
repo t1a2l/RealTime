@@ -121,6 +121,8 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番早い時刻"/>
   <translation id="LatestHourEventStartWeekend" value="週末イベントの最終時刻"/>
   <translation id="LatestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番遅い時刻"/>
+  <translation id="DisableRaceOrParadeAutoOccur" value="Disable race or parade auto occurrence" />
+  <translation id="DisableRaceOrParadeAutoOccurTooltip" value="Disable race or parade from auto occuring" />
 
   <translation id="4Time" value="時間"/>
   <translation id="MaxOvertime" value="最長時間外労働"/>

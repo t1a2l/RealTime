@@ -121,6 +121,8 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="Der früheste Zeitpunkt, wann ein Ereignis am Wochenendtag beginnen kann" />
   <translation id="LatestHourEventStartWeekend" value="Spätester Beginn am Wochenende" />
   <translation id="LatestHourEventStartWeekendTooltip" value="Der späteste Zeitpunkt, wann ein Ereignis am Wochenendtag beginnen kann" />
+  <translation id="DisableRaceOrParadeAutoOccur" value="Disable race or parade auto occurrence" />
+  <translation id="DisableRaceOrParadeAutoOccurTooltip" value="Disable race or parade from auto occuring" />
 
   <translation id="4Time" value="Zeiten" />
   <translation id="MaxOvertime" value="Max. Überstunden" />

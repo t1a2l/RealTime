@@ -121,6 +121,8 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="周末最早可以开始事件的时间" />
   <translation id="LatestHourEventStartWeekend" value="最晚的周末活动" />
   <translation id="LatestHourEventStartWeekendTooltip" value="周末最迟可以开始事件的时间" />
+  <translation id="DisableRaceOrParadeAutoOccur" value="Disable race or parade auto occurrence" />
+  <translation id="DisableRaceOrParadeAutoOccurTooltip" value="Disable race or parade from auto occuring" />
 
   <translation id="4Time" value="时间" />
   <translation id="MaxOvertime" value="最长加班时间" />

@@ -121,6 +121,8 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="Най -ранното време, когато едно събитие може да започне в деня на уикенда" />
   <translation id="LatestHourEventStartWeekend" value="Последно събитие през уикенда" />
   <translation id="LatestHourEventStartWeekendTooltip" value="Последният път, когато събитието може да започне в деня на уикенда" />
+  <translation id="DisableRaceOrParadeAutoOccur" value="Disable race or parade auto occurrence" />
+  <translation id="DisableRaceOrParadeAutoOccurTooltip" value="Disable race or parade from auto occuring" />
 
   <translation id="4Time" value="Време" />
   <translation id="MaxOvertime" value="Макс. Извънреден труд" />

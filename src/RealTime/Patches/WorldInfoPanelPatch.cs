@@ -2,26 +2,28 @@
 
 namespace RealTime.Patches
 {
-    using ColossalFramework.UI;
-    using ColossalFramework;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Runtime.CompilerServices;
+    using System.Text;
+    using ColossalFramework;
+    using ColossalFramework.UI;
     using HarmonyLib;
+    using ICities;
+    using RealTime.Config;
     using RealTime.CustomAI;
-    using RealTime.UI;
     using RealTime.Events;
     using RealTime.GameConnection;
-    using UnityEngine;
-    using System.Linq;
-    using SkyTools.Localization;
-    using RealTime.Config;
-    using System.Text;
-    using RealTime.Utils;
     using RealTime.Localization;
-    using System.Reflection;
-    using System.Collections.Generic;
     using RealTime.Managers;
-    using System.Runtime.CompilerServices;
+    using RealTime.UI;
+    using RealTime.Utils;
     using RealTime.Utils.UIUtils;
+    using SkyTools.Localization;
+    using UnityEngine;
+    using static RenderManager;
 
     /// <summary>
     /// A static class that provides the patch objects for the world info panel game methods.
@@ -55,7 +57,9 @@ namespace RealTime.Patches
 
         /// <summary>Gets or sets the mod localization.</summary>
         public static ILocalizationProvider localizationProvider { get; set; }
-        
+
+        private static readonly string[] CarParkingBuildings = ["parking", "garage", "car park", "Parking", "Car Port", "Garage", "Car Park"];
+
         [HarmonyPatch]
         private sealed class WorldInfoPanel_UpdateBindings
         {
@@ -63,7 +67,6 @@ namespace RealTime.Patches
             [HarmonyPostfix]
             private static void Postfix(WorldInfoPanel __instance, ref InstanceID ___m_InstanceID)
             {
-                
                 switch (__instance)
                 {
                     case CitizenWorldInfoPanel _:
@@ -150,7 +153,7 @@ namespace RealTime.Patches
         }
 
         [HarmonyPatch]
-        internal static class VarsitySportsArenaPanelPatch
+        private static class VarsitySportsArenaPanelPatch
         {
             [HarmonyPatch(typeof(VarsitySportsArenaPanel), "RefreshPastMatches")]
             [HarmonyPostfix]
@@ -191,7 +194,7 @@ namespace RealTime.Patches
         }
 
         [HarmonyPatch]
-        internal static class HotelWorldInfoPanelPatch
+        private static class HotelWorldInfoPanelPatch
         {
             [HarmonyPatch(typeof(HotelWorldInfoPanel), "UpdateBindings")]
             [HarmonyPostfix]
@@ -255,7 +258,7 @@ namespace RealTime.Patches
         }
 
         [HarmonyPatch]
-        internal static class FestivalPanelPatch
+        private static class FestivalPanelPatch
         {
             [HarmonyPatch(typeof(FestivalPanel), "RefreshCurrentConcert")]
             [HarmonyPostfix]
@@ -274,22 +277,447 @@ namespace RealTime.Patches
         }
 
         [HarmonyPatch]
+        private sealed class LivingCreatureWorldInfoPanelPatch
+        {
+            private static UIButton m_clearScheduleButton;
+
+            [HarmonyPatch(typeof(LivingCreatureWorldInfoPanel), "OnSetTarget")]
+            [HarmonyPostfix]
+            private static void OnSetTarget(ref InstanceID ___m_InstanceID)
+            {
+                if (___m_InstanceID.Citizen != 0)
+                {
+                    if (m_clearScheduleButton == null)
+                    {
+                        CreateClearScheduleButton();
+                    }
+                    if (RealTimeConfig.DebugMode)
+                    {
+                        m_clearScheduleButton.Show();
+                    }
+                    else
+                    {
+                        m_clearScheduleButton.Hide();
+                    }
+                }
+            }
+
+            private static void CreateClearScheduleButton()
+            {
+                var citizenInfoPanel = GameObject.Find("(Library) CitizenWorldInfoPanel").GetComponent<CitizenWorldInfoPanel>();
+                m_clearScheduleButton = UIButtons.CreateButton(citizenInfoPanel.component, -10f, 90f, "ClearSchedule", "", "Clear the citizen schedule", 30, 30);
+                m_clearScheduleButton.AlignTo(citizenInfoPanel.component, UIAlignAnchor.TopRight);
+                m_clearScheduleButton.relativePosition += new Vector3(-10f, 90f);
+
+                m_clearScheduleButton.atlas = TextureUtils.GetAtlas("ClearScheduleButton");
+                m_clearScheduleButton.normalFgSprite = "ClearSchedule";
+                m_clearScheduleButton.disabledFgSprite = "ClearSchedule";
+                m_clearScheduleButton.focusedFgSprite = "ClearSchedule";
+                m_clearScheduleButton.hoveredFgSprite = "ClearSchedule";
+                m_clearScheduleButton.pressedFgSprite = "ClearSchedule";
+                m_clearScheduleButton.eventClicked += ClearSchedule;
+                citizenInfoPanel.component.AttachUIComponent(m_clearScheduleButton.gameObject);
+            }
+
+            public static void ClearSchedule(UIComponent c, UIMouseEventParameter eventParameter)
+            {
+                uint citizenID = WorldInfoPanel.GetCurrentInstanceID().Citizen;
+                var citizen = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].GetCitizenInfo(citizenID);
+                if (citizen.GetAI() is ResidentAI)
+                {
+                    RealTimeResidentAI.ClearCitizenSchedule(citizenID);
+                }
+            }
+        }
+
+        [HarmonyPatch]
+        private sealed class BuildingWorldInfoPanelPatch
+        {
+            private static BuildingOperationHoursPanel CityServiceOperationHoursPanel;
+
+            private static BuildingOperationHoursPanel UniqueFactoryOperationHoursPanel;
+
+            private static BuildingOperationHoursPanel WarehouseOperationHoursPanel;
+
+            private static BuildingOperationHoursPanel ZonedBuildingOperationHoursPanel;
+
+            private static OperationHoursSettingsCheckBoxPanel CityServiceOperationHoursCheckBoxPanel;
+
+            private static OperationHoursSettingsCheckBoxPanel UniqueFactoryOperationHoursCheckBoxPanel;
+
+            private static OperationHoursSettingsCheckBoxPanel WarehouseOperationHoursCheckBoxPanel;
+
+            private static OperationHoursSettingsCheckBoxPanel ZonedBuildingOperationHoursCheckBoxPanel;
+
+            private static UserEventCreationPanel userEventCreationPanel;
+
+            private static EventSelectionPanel eventSelectionPanel;
+
+
+            [HarmonyPatch(typeof(BuildingWorldInfoPanel), "OnSetTarget")]
+            [HarmonyPostfix]
+            private static void OnSetTarget(BuildingWorldInfoPanel __instance, InstanceID ___m_InstanceID) => OperationHoursUIUpdate(__instance, ___m_InstanceID.Building);
+
+            private static void OperationHoursUIUpdate(BuildingWorldInfoPanel instance, ushort buildingID)
+            {
+                float checkBoxXposition = 340f;
+                float checkBoxYposition = 16f;
+                float panelHeight = 0f;
+
+                var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
+                var buildingAI = building.Info.GetAI();
+
+                if (instance is CityServiceWorldInfoPanel)
+                {
+                    var m_cityServiceWorldInfoPanel = GameObject.Find("(Library) CityServiceWorldInfoPanel").GetComponent<CityServiceWorldInfoPanel>();
+                    var wrapper = m_cityServiceWorldInfoPanel?.Find("Wrapper");
+                    var mainSectionPanel = wrapper?.Find("MainSectionPanel");
+                    var mainBottom = mainSectionPanel?.Find("MainBottom");
+                    var buttonPanels = mainBottom?.Find("ButtonPanels").GetComponent<UIPanel>();
+
+                    if (buttonPanels == null)
+                    {
+                        return;
+                    }
+
+                    if (CityServiceOperationHoursPanel == null)
+                    {
+                        CityServiceOperationHoursPanel = m_cityServiceWorldInfoPanel.component.AddUIComponent<BuildingOperationHoursPanel>();
+                    }
+
+                    if (CityServiceOperationHoursCheckBoxPanel == null)
+                    {
+                        CityServiceOperationHoursCheckBoxPanel = buttonPanels.AddUIComponent<OperationHoursSettingsCheckBoxPanel>();
+                    }
+
+                    if(userEventCreationPanel == null)
+                    {
+                        userEventCreationPanel = m_cityServiceWorldInfoPanel.component.AddUIComponent<UserEventCreationPanel>();
+                    }
+
+                    if(eventSelectionPanel == null)
+                    {
+                        eventSelectionPanel = buttonPanels.AddUIComponent<EventSelectionPanel>();
+                    }
+
+                    if (buildingAI is ExtractingFacilityAI || buildingAI is ProcessingFacilityAI)
+                    {
+                        checkBoxXposition = 360f;
+                        checkBoxYposition = 0f;
+                        panelHeight = 40f;
+                    }
+
+                    eventSelectionPanel.UpdateData(userEventCreationPanel);
+                    eventSelectionPanel.CheckAndSetupEvents();
+
+                    CityServiceOperationHoursPanel.UpdateData(panelHeight, localizationProvider);
+                    CityServiceOperationHoursCheckBoxPanel.UpdateData(checkBoxXposition, checkBoxYposition, localizationProvider, CityServiceOperationHoursPanel);
+
+                    OperationHoursUIVisibility(buildingID, CityServiceOperationHoursPanel, CityServiceOperationHoursCheckBoxPanel, checkBoxXposition, checkBoxYposition);
+                }
+                if (instance is UniqueFactoryWorldInfoPanel)
+                {
+                    var m_uniqueFactoryWorldInfoPanel = GameObject.Find("(Library) UniqueFactoryWorldInfoPanel").GetComponent<UniqueFactoryWorldInfoPanel>();
+                    var IncomeExpensesSection = m_uniqueFactoryWorldInfoPanel?.Find("IncomeExpensesSection").GetComponent<UIPanel>();
+                    if (IncomeExpensesSection == null)
+                    {
+                        return;
+                    }
+
+                    if (UniqueFactoryOperationHoursPanel == null)
+                    {
+                        UniqueFactoryOperationHoursPanel = m_uniqueFactoryWorldInfoPanel.component.AddUIComponent<BuildingOperationHoursPanel>();
+                    }
+
+                    if (UniqueFactoryOperationHoursCheckBoxPanel == null)
+                    {
+                        UniqueFactoryOperationHoursCheckBoxPanel = IncomeExpensesSection.AddUIComponent<OperationHoursSettingsCheckBoxPanel>();
+                    }
+
+                    checkBoxXposition = 320f;
+                    checkBoxYposition = 0f;
+                    panelHeight = 0f;
+
+                    UniqueFactoryOperationHoursPanel.UpdateData(panelHeight, localizationProvider);
+                    UniqueFactoryOperationHoursCheckBoxPanel.UpdateData(checkBoxXposition, checkBoxYposition, localizationProvider, UniqueFactoryOperationHoursPanel);
+
+                    OperationHoursUIVisibility(buildingID, UniqueFactoryOperationHoursPanel, UniqueFactoryOperationHoursCheckBoxPanel, checkBoxXposition, checkBoxYposition);
+                }
+                if(instance is WarehouseWorldInfoPanel)
+                {
+                    var m_warehouseWorldInfoPanel = GameObject.Find("(Library) WarehouseWorldInfoPanel").GetComponent<WarehouseWorldInfoPanel>();
+                    var WarehousePanel = GameObject.Find("(Library) WarehouseWorldInfoPanel").GetComponent<UIPanel>();
+                    if (WarehousePanel == null)
+                    {
+                        return;
+                    }
+
+                    if (WarehouseOperationHoursPanel == null)
+                    {
+                        WarehouseOperationHoursPanel = m_warehouseWorldInfoPanel.component.AddUIComponent<BuildingOperationHoursPanel>();
+                    }
+
+                    if (WarehouseOperationHoursCheckBoxPanel == null)
+                    {
+                        WarehouseOperationHoursCheckBoxPanel = WarehousePanel.AddUIComponent<OperationHoursSettingsCheckBoxPanel>();
+                    }
+
+                    checkBoxXposition = 320f;
+                    checkBoxYposition = 500f;
+                    panelHeight = 0f;
+
+                    if (buildingAI is WarehouseAI warehouse && warehouse.m_storageType == TransferManager.TransferReason.None)
+                    {
+                        checkBoxYposition = 550f;
+                    }
+
+                    WarehouseOperationHoursPanel.UpdateData(panelHeight, localizationProvider);
+                    WarehouseOperationHoursCheckBoxPanel.UpdateData(checkBoxXposition, checkBoxYposition, localizationProvider, WarehouseOperationHoursPanel);
+
+                    OperationHoursUIVisibility(buildingID, WarehouseOperationHoursPanel, WarehouseOperationHoursCheckBoxPanel, checkBoxXposition, checkBoxYposition);
+                }
+                if(instance is ZonedBuildingWorldInfoPanel)
+                {
+                    var m_zonedBuildingWorldInfoPanel = GameObject.Find("(Library) ZonedBuildingWorldInfoPanel").GetComponent<ZonedBuildingWorldInfoPanel>();
+                    var makeHistoricalPanel = m_zonedBuildingWorldInfoPanel.Find("MakeHistoricalPanel").GetComponent<UIPanel>();
+                    if (makeHistoricalPanel == null)
+                    {
+                        return;
+                    }
+
+                    if (ZonedBuildingOperationHoursPanel == null)
+                    {
+                        ZonedBuildingOperationHoursPanel = m_zonedBuildingWorldInfoPanel.component.AddUIComponent<BuildingOperationHoursPanel>();
+                    }
+
+                    if (ZonedBuildingOperationHoursCheckBoxPanel == null)
+                    {
+                        ZonedBuildingOperationHoursCheckBoxPanel = makeHistoricalPanel.AddUIComponent<OperationHoursSettingsCheckBoxPanel>();
+                    }
+
+                    checkBoxXposition = 340f;
+                    checkBoxYposition = 6f;
+                    panelHeight = 0f;
+
+                    ZonedBuildingOperationHoursPanel.UpdateData(panelHeight, localizationProvider);
+                    ZonedBuildingOperationHoursCheckBoxPanel.UpdateData(checkBoxXposition, checkBoxYposition, localizationProvider, ZonedBuildingOperationHoursPanel);
+
+                    OperationHoursUIVisibility(buildingID, ZonedBuildingOperationHoursPanel, ZonedBuildingOperationHoursCheckBoxPanel, checkBoxXposition, checkBoxYposition);
+                }
+            }
+
+            private static void OperationHoursUIVisibility(ushort buildingID, BuildingOperationHoursPanel buildingOperationHoursPanel, OperationHoursSettingsCheckBoxPanel operationHoursSettingsCheckBoxPanel, float checkBoxXposition, float checkBoxYposition)
+            {
+                var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
+                var buildingAI = building.Info.GetAI();
+                var service = building.Info.GetService();
+                var sub_service = building.Info.GetSubService();
+                var DistrictInstance = Singleton<DistrictManager>.instance;
+                bool IsAllowedZonedCommercial = buildingAI is CommercialBuildingAI && service == ItemClass.Service.Commercial && !BuildingManagerConnection.IsHotel(buildingID);
+                bool IsAllowedZonedGeneral = buildingAI is IndustrialBuildingAI || buildingAI is IndustrialExtractorAI || buildingAI is OfficeBuildingAI;
+                bool isAllowedCityService = buildingAI is BankOfficeAI || buildingAI is PostOfficeAI || buildingAI is SaunaAI || buildingAI is TourBuildingAI || buildingAI is MonumentAI || buildingAI is MarketAI || buildingAI is LibraryAI;
+                bool isAllowedParkBuilding = buildingAI is ParkBuildingAI && DistrictInstance.GetPark(building.m_position) == 0 && !CarParkingBuildings.Any(s => building.Info.name.Contains(s));
+                bool isAllowedIndustriesBuilding = buildingAI is ExtractingFacilityAI || buildingAI is ProcessingFacilityAI || buildingAI is UniqueFactoryAI || buildingAI is WarehouseAI || buildingAI is WarehouseStationAI;
+                bool isPark = buildingAI is ParkAI && !CarParkingBuildings.Any(s => building.Info.name.Contains(s));
+                // dont allow hotels
+                if (IsAllowedZonedCommercial || IsAllowedZonedGeneral || isAllowedCityService || isAllowedParkBuilding || isPark || isAllowedIndustriesBuilding)
+                {
+                    var buildingWorkTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingID);
+                    buildingOperationHoursPanel.RefreshData(buildingID, buildingWorkTime);
+                    operationHoursSettingsCheckBoxPanel.RefreshData(checkBoxXposition, checkBoxYposition, buildingOperationHoursPanel);
+                }
+                else
+                {
+                    buildingOperationHoursPanel.Hide();
+                    operationHoursSettingsCheckBoxPanel.Hide();
+                }
+            }
+
+        }
+
+        [HarmonyPatch]
+        private sealed class CityServiceWorldInfoPanelPatch
+        {
+            private static UILabel s_visitorsLabel;
+
+            private static UIButton m_endYearButton;
+
+            [HarmonyPatch(typeof(CityServiceWorldInfoPanel), "OnSetTarget")]
+            [HarmonyPostfix]
+            public static void OnSetTarget()
+            {
+                if (s_visitorsLabel == null || m_endYearButton == null)
+                {
+                    CreateUI();
+                }
+            }
+
+            [HarmonyPatch(typeof(CityServiceWorldInfoPanel), "UpdateBindings")]
+            [HarmonyPostfix]
+            public static void UpdateBindings()
+            {
+                // Currently selected building.
+                ushort building = WorldInfoPanel.GetCurrentInstanceID().Building;
+
+                // Local references.
+                var buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
+                var buildingData = buildingBuffer[building];
+                var buildingInfo = buildingData.Info;
+
+                // Is this a cafeteria or a gymnasium
+                if (buildingInfo.GetAI() is CampusBuildingAI campusBuildingAI && (buildingInfo.name.Contains("Cafeteria") || buildingInfo.name.Contains("Gymnasium")))
+                {
+                    // Show the label
+                    s_visitorsLabel.Show();
+
+                    // Get current visitor count.
+                    int aliveCount = 0, totalCount = 0;
+                    Citizen.BehaviourData behaviour = default;
+                    GetVisitBehaviour(campusBuildingAI, building, ref buildingBuffer[building], ref behaviour, ref aliveCount, ref totalCount);
+
+                    // Display visitor count.
+                    s_visitorsLabel.text = aliveCount.ToString() + " / 300 visitors";
+                }
+                else
+                {
+                    // Not a cafeteria or a gymnasium hide the label
+                    s_visitorsLabel.Hide();
+                }
+
+                // hide end year button if not in debug mode
+                if (RealTimeConfig.DebugMode && buildingInfo.GetAI() is MainCampusBuildingAI)
+                {
+                    m_endYearButton.width = 133f;
+                    m_endYearButton.height = 19.5f;
+                    m_endYearButton.Show();
+                }
+                else
+                {
+                    m_endYearButton.Hide();
+                }
+
+                // Is this a main campus building and the academic year can end and the year has not already ended
+                if (buildingInfo.GetAI() is MainCampusBuildingAI && AcademicYearManager.CanAcademicYearEndorBegin(TimeInfo)
+                    && AcademicYearManager.MainCampusBuildingExist(building))
+                {
+                    var academicYearData = AcademicYearManager.GetAcademicYearData(building);
+                    if (academicYearData.DidLastYearEnd)
+                    {
+                        m_endYearButton.Enable();
+                    }
+                }
+                else
+                {
+                    m_endYearButton.Disable();
+                }
+            }
+
+            [HarmonyReversePatch]
+            [HarmonyPatch(typeof(CommonBuildingAI), "GetVisitBehaviour")]
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            public static void GetVisitBehaviour(object instance, ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
+            {
+                string message = "GetVisitBehaviour reverse Harmony patch wasn't applied";
+                Debug.LogError(message);
+                throw new NotImplementedException(message);
+            }
+
+            private static void CreateUI()
+            {
+                var m_cityServiceWorldInfoPanel = GameObject.Find("(Library) CityServiceWorldInfoPanel").GetComponent<CityServiceWorldInfoPanel>();
+                var wrapper = m_cityServiceWorldInfoPanel?.Find("Wrapper");
+                var mainSectionPanel = wrapper?.Find("MainSectionPanel");
+                var mainBottom = mainSectionPanel?.Find("MainBottom");
+                var buttonPanels = mainBottom?.Find("ButtonPanels").GetComponent<UIPanel>();
+
+                if (buttonPanels == null)
+                {
+                    return;
+                }
+
+                if (s_visitorsLabel == null)
+                {
+                    s_visitorsLabel = UILabels.CreatePositionedLabel(buttonPanels, 65f, 280f, "VisitorsLabel", "Visitors", textScale: 0.75f);
+                    s_visitorsLabel.textColor = new Color32(185, 221, 254, 255);
+                    s_visitorsLabel.font = Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault(f => f.name == "OpenSans-Regular");
+                    s_visitorsLabel.relativePosition = new Vector2(200f, 26f);
+                }
+
+                if (m_endYearButton == null)
+                {
+                    string endYearButtonText = localizationProvider.Translate(TranslationKeys.AcademicYearEndYearButtonText);
+                    string endYearButtonTooltipText = localizationProvider.Translate(TranslationKeys.AcademicYearEndYearButtonTooltip);
+                    m_endYearButton = UIButtons.CreateButton(buttonPanels, 133f, 19.5f, "EndYear", endYearButtonText, endYearButtonTooltipText);
+                    m_endYearButton.textVerticalAlignment = UIVerticalAlignment.Top;
+                    m_endYearButton.relativePosition = new Vector2(150f, 22.5f);
+                    m_endYearButton.textScale = 0.75f;
+                    m_endYearButton.normalBgSprite = "ButtonMenu";
+                    m_endYearButton.disabledBgSprite = "ButtonMenuDisabled";
+                    m_endYearButton.pressedBgSprite = "ButtonMenuPressed";
+                    m_endYearButton.hoveredBgSprite = "ButtonMenuHovered";
+                    m_endYearButton.textColor = new Color32(255, 255, 255, 255);
+                    m_endYearButton.disabledTextColor = new Color32(142, 142, 142, 255);
+                    m_endYearButton.pressedTextColor = new Color32(255, 255, 255, 255);
+                    m_endYearButton.hoveredTextColor = new Color32(255, 255, 255, 255);
+                    m_endYearButton.focusedTextColor = new Color32(255, 255, 255, 255);
+                    m_endYearButton.eventClicked += EndAcademicYear;
+                }
+            }
+
+            private static void EndAcademicYear(UIComponent c, UIMouseEventParameter eventParameter)
+            {
+                ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
+
+                var buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
+                var buildingData = buildingBuffer[buildingID];
+                ref var eventData = ref Singleton<EventManager>.instance.m_events.m_buffer[buildingData.m_eventIndex];
+
+                if (eventData.Info.GetAI() is AcademicYearAI)
+                {
+                    var academicYearData = AcademicYearManager.GetAcademicYearData(buildingID);
+                    academicYearData.ActualAcademicYearEndFrame = SimulationManager.instance.m_currentFrameIndex;
+                    AcademicYearManager.SetAcademicYearData(buildingID, academicYearData);
+                    eventData.m_flags = (eventData.m_flags & ~EventData.Flags.Active) | EventData.Flags.Completed | EventData.Flags.Disorganizing;
+                    Singleton<EventManager>.instance.m_globalEventDataDirty = true;
+                    byte park = Singleton<DistrictManager>.instance.GetPark(Singleton<BuildingManager>.instance.m_buildings.m_buffer[eventData.m_building].m_position);
+                    if (park != 0 && Singleton<DistrictManager>.instance.m_parks.m_buffer[park].m_isMainCampus)
+                    {
+                        OnAcademicYearEnded();
+                        m_endYearButton.Disable();
+                    }
+
+                }
+            }
+
+            private static void OnAcademicYearEnded()
+            {
+                var instance = DistrictManager.instance;
+                var m_activeCampusAreas = (List<byte>)typeof(DistrictManager).GetField("m_activeCampusAreas", BindingFlags.Static | BindingFlags.NonPublic).GetValue(instance);
+                m_activeCampusAreas.Clear();
+                for (byte b = 0; b < instance.m_parks.m_buffer.Length; b++)
+                {
+                    if (instance.m_parks.m_buffer[b].m_flags != 0 && instance.m_parks.m_buffer[b].IsCampus && instance.m_parks.m_buffer[b].m_mainGate != 0)
+                    {
+                        instance.m_parks.m_buffer[b].OnAcademicYearEnded(b);
+                        m_activeCampusAreas.Add(b);
+                    }
+                }
+                var academicYearReportPanel = UIView.library.Get<AcademicYearReportPanel>("AcademicYearReportPanel");
+                typeof(DistrictManager).GetField("m_activeCampusAreas", BindingFlags.Static | BindingFlags.NonPublic).SetValue(instance, m_activeCampusAreas);
+                academicYearReportPanel.PopupPanel(m_activeCampusAreas, 0, wasTriggeredByButton: true);
+                var campusWorldInfoPanel = UIView.library.Get<CampusWorldInfoPanel>("CampusWorldInfoPanel");
+                if (campusWorldInfoPanel.component.isVisible)
+                {
+                    campusWorldInfoPanel.OnAcademicYearEnded();
+                }
+                ;
+            }
+        }
+
+        [HarmonyPatch]
         private sealed class ZonedBuildingWorldInfoPanelPatch
         {
-            private static BuildingOperationHoursUIPanel zonedBuildingOperationHoursUIPanel;
-
             private static UILabel s_hotelLabel;
-
-            [HarmonyPatch(typeof(ZonedBuildingWorldInfoPanel), "OnSetTarget")]
-            [HarmonyPostfix]
-            private static void OnSetTarget()
-            {
-                if (zonedBuildingOperationHoursUIPanel == null)
-                {
-                    ZonedCreateUI();
-                }
-                zonedBuildingOperationHoursUIPanel.UpdateBuildingData();
-            }
 
             [HarmonyPatch(typeof(ZonedBuildingWorldInfoPanel), "UpdateBindings")]
             [HarmonyPostfix]
@@ -305,7 +733,7 @@ namespace RealTime.Patches
                     var infoPanel = UIView.library.Get<ZonedBuildingWorldInfoPanel>(typeof(ZonedBuildingWorldInfoPanel).Name);
 
                     // Add current visitor count label.
-                    s_hotelLabel = UILabels.CreateLabel(infoPanel.component, 65f, 280f, "Rooms Ocuppied", textScale: 0.75f);
+                    s_hotelLabel = UILabels.CreatePositionedLabel(infoPanel.component, 65f, 280f, "HotelLabel", "Rooms Ocuppied", textScale: 0.75f);
                     s_hotelLabel.textColor = new Color32(185, 221, 254, 255);
                     s_hotelLabel.font = Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault(f => f.name == "OpenSans-Regular");
 
@@ -343,338 +771,7 @@ namespace RealTime.Patches
                     s_hotelLabel.Hide();
                 }
             }
-
-            private static void ZonedCreateUI()
-            {
-                var m_zonedBuildingWorldInfoPanel = GameObject.Find("(Library) ZonedBuildingWorldInfoPanel").GetComponent<ZonedBuildingWorldInfoPanel>();
-                var makeHistoricalPanel = m_zonedBuildingWorldInfoPanel.Find("MakeHistoricalPanel").GetComponent<UIPanel>();
-                if (makeHistoricalPanel == null)
-                {
-                    return;
-                }
-                zonedBuildingOperationHoursUIPanel = new BuildingOperationHoursUIPanel(m_zonedBuildingWorldInfoPanel, makeHistoricalPanel, 350f, 6f, 0f, localizationProvider);
-            }
         }
 
-        [HarmonyPatch]
-        private sealed class CityServiceWorldInfoPanelPatch
-        {
-            private static BuildingOperationHoursUIPanel cityServiceOperationHoursUIPanel;
-
-            private static UILabel s_visitorsLabel;
-
-            private static UIButton m_endYearButton;
-
-            [HarmonyPatch(typeof(CityServiceWorldInfoPanel), "OnSetTarget")]
-            [HarmonyPostfix]
-            private static void OnSetTarget(InstanceID ___m_InstanceID)
-            {
-                var buildingAI = Singleton<BuildingManager>.instance.m_buildings.m_buffer[___m_InstanceID.Building].Info.m_buildingAI;
-                if (cityServiceOperationHoursUIPanel == null || s_visitorsLabel == null || m_endYearButton == null)
-                {
-                    CityServiceCreateUI(buildingAI);
-                }
-                float checkBoxYposition = 16f;
-                if (buildingAI is ExtractingFacilityAI || buildingAI is ProcessingFacilityAI)
-                {
-                    checkBoxYposition = 0f;
-                }
-                cityServiceOperationHoursUIPanel.CheckBoxYposition = checkBoxYposition;
-                cityServiceOperationHoursUIPanel.UpdateBuildingData();
-                NewBuildingWorldInfoPanel.OnSetTarget();
-            }
-
-            [HarmonyPatch(typeof(CityServiceWorldInfoPanel), "UpdateBindings")]
-            [HarmonyPostfix]
-            private static void UpdateBindings()
-            {
-                // Currently selected building.
-                ushort building = WorldInfoPanel.GetCurrentInstanceID().Building;
-
-                // Local references.
-                var buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
-                var buildingData = buildingBuffer[building];
-                var buildingInfo = buildingData.Info;
-
-                // Is this a cafeteria or a gymnasium
-                if (buildingInfo.GetAI() is CampusBuildingAI campusBuildingAI && (buildingInfo.name.Contains("Cafeteria") || buildingInfo.name.Contains("Gymnasium")))
-                {
-                    // Show the label
-                    s_visitorsLabel.Show();
-
-                    // Get current visitor count.
-                    int aliveCount = 0, totalCount = 0;
-                    Citizen.BehaviourData behaviour = default;
-                    GetVisitBehaviour(campusBuildingAI, building, ref buildingBuffer[building], ref behaviour, ref aliveCount, ref totalCount);
-
-                    // Display visitor count.
-                    s_visitorsLabel.text = aliveCount.ToString() + " / 300 visitors";
-
-                }
-                else
-                {
-                    // Not a cafeteria or a gymnasium hide the label
-                    s_visitorsLabel.Hide();
-                }
-
-                // hide end year button if not in debug mode
-                if(RealTimeConfig.DebugMode && buildingInfo.GetAI() is MainCampusBuildingAI)
-                {
-                    m_endYearButton.width = 133f;
-                    m_endYearButton.height = 19.5f;
-                    m_endYearButton.Show();
-                }
-                else
-                {
-                    m_endYearButton.Hide();
-                }
-
-                // Is this a main campus building and the academic year can end and the year has not already ended
-                if (buildingInfo.GetAI() is MainCampusBuildingAI && AcademicYearManager.CanAcademicYearEndorBegin(TimeInfo)
-                    && AcademicYearManager.MainCampusBuildingExist(building))
-                {
-                    var academicYearData = AcademicYearManager.GetAcademicYearData(building);
-                    if(academicYearData.DidLastYearEnd)
-                    {
-                        m_endYearButton.Enable();
-                    }
-                }
-                else
-                {
-                    m_endYearButton.Disable();
-                }
-            }
-
-            [HarmonyReversePatch]
-            [HarmonyPatch(typeof(CommonBuildingAI), "GetVisitBehaviour")]
-            [MethodImpl(MethodImplOptions.NoInlining)]
-            public static void GetVisitBehaviour(object instance, ushort buildingID, ref Building buildingData, ref Citizen.BehaviourData behaviour, ref int aliveCount, ref int totalCount)
-            {
-                string message = "GetVisitBehaviour reverse Harmony patch wasn't applied";
-                Debug.LogError(message);
-                throw new NotImplementedException(message);
-            }
-
-            private static void CityServiceCreateUI(BuildingAI buildingAI)
-            {
-                var m_cityServiceWorldInfoPanel = GameObject.Find("(Library) CityServiceWorldInfoPanel").GetComponent<CityServiceWorldInfoPanel>();
-                var wrapper = m_cityServiceWorldInfoPanel?.Find("Wrapper");
-                var mainSectionPanel = wrapper?.Find("MainSectionPanel");
-                var mainBottom = mainSectionPanel?.Find("MainBottom");
-                var buttonPanels = mainBottom?.Find("ButtonPanels").GetComponent<UIPanel>();
-                if (buttonPanels == null)
-                {
-                    return;
-                }
-                float checkBoxXposition = 320f;
-                float checkBoxYposition = 16f;
-                float panelHeight = 0f;
-                if (buildingAI is ExtractingFacilityAI || buildingAI is ProcessingFacilityAI)
-                {
-                    checkBoxXposition = 360f;
-                    checkBoxYposition = 0f;
-                    panelHeight = 40f;
-                }
-
-                cityServiceOperationHoursUIPanel ??= new BuildingOperationHoursUIPanel(m_cityServiceWorldInfoPanel, buttonPanels, checkBoxXposition, checkBoxYposition, panelHeight, localizationProvider);
-                if (s_visitorsLabel == null)
-                {
-                    s_visitorsLabel = UILabels.CreateLabel(buttonPanels, 65f, 280f, "Visitors", textScale: 0.75f);
-                    s_visitorsLabel.textColor = new Color32(185, 221, 254, 255);
-                    s_visitorsLabel.font = Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault(f => f.name == "OpenSans-Regular");
-                    s_visitorsLabel.relativePosition = new Vector2(200f, 26f);
-                }
-                if (m_endYearButton == null)
-                {
-                    string endYearButtonText = localizationProvider.Translate(TranslationKeys.AcademicYearEndYearButtonText);
-                    string endYearButtonTooltipText = localizationProvider.Translate(TranslationKeys.AcademicYearEndYearButtonTooltip);
-                    m_endYearButton = UIButtons.CreateButton(buttonPanels, 133f, 19.5f, "EndYear", endYearButtonText, endYearButtonTooltipText);
-                    m_endYearButton.textVerticalAlignment = UIVerticalAlignment.Top;
-                    m_endYearButton.relativePosition = new Vector2(150f, 22.5f);
-                    m_endYearButton.textScale = 0.75f;
-                    m_endYearButton.normalBgSprite = "ButtonMenu";
-                    m_endYearButton.disabledBgSprite = "ButtonMenuDisabled";
-                    m_endYearButton.pressedBgSprite = "ButtonMenuPressed";
-                    m_endYearButton.hoveredBgSprite = "ButtonMenuHovered";
-                    m_endYearButton.textColor = new Color32(255, 255, 255, 255);
-                    m_endYearButton.disabledTextColor = new Color32(142, 142, 142, 255);
-                    m_endYearButton.pressedTextColor = new Color32(255, 255, 255, 255);
-                    m_endYearButton.hoveredTextColor = new Color32(255, 255, 255, 255);
-                    m_endYearButton.focusedTextColor = new Color32(255, 255, 255, 255);
-                    m_endYearButton.eventClicked += EndAcademicYear;
-                }
-            }
-
-            private static void EndAcademicYear(UIComponent c, UIMouseEventParameter eventParameter)
-            {
-                ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
-
-                var buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
-                var buildingData = buildingBuffer[buildingID];
-                ref var eventData = ref Singleton<EventManager>.instance.m_events.m_buffer[buildingData.m_eventIndex];
-
-                if(eventData.Info.GetAI() is AcademicYearAI)
-                {
-                    var academicYearData = AcademicYearManager.GetAcademicYearData(buildingID);
-                    academicYearData.ActualAcademicYearEndFrame = SimulationManager.instance.m_currentFrameIndex;
-                    AcademicYearManager.SetAcademicYearData(buildingID, academicYearData);
-                    eventData.m_flags = (eventData.m_flags & ~EventData.Flags.Active) | EventData.Flags.Completed | EventData.Flags.Disorganizing;
-                    Singleton<EventManager>.instance.m_globalEventDataDirty = true;
-                    byte park = Singleton<DistrictManager>.instance.GetPark(Singleton<BuildingManager>.instance.m_buildings.m_buffer[eventData.m_building].m_position);
-                    if (park != 0 && Singleton<DistrictManager>.instance.m_parks.m_buffer[park].m_isMainCampus)
-                    {
-                        OnAcademicYearEnded();
-                        m_endYearButton.Disable();
-                    }
-          
-                }
-            }
-
-            private static void OnAcademicYearEnded()
-            {
-                var instance = DistrictManager.instance;
-                var m_activeCampusAreas = (List<byte>)typeof(DistrictManager).GetField("m_activeCampusAreas", BindingFlags.Static | BindingFlags.NonPublic).GetValue(instance);
-                m_activeCampusAreas.Clear();
-                for (byte b = 0; b < instance.m_parks.m_buffer.Length; b++)
-                {
-                    if (instance.m_parks.m_buffer[b].m_flags != 0 && instance.m_parks.m_buffer[b].IsCampus && instance.m_parks.m_buffer[b].m_mainGate != 0)
-                    {
-                        instance.m_parks.m_buffer[b].OnAcademicYearEnded(b);
-                        m_activeCampusAreas.Add(b);
-                    }
-                }
-                var academicYearReportPanel = UIView.library.Get<AcademicYearReportPanel>("AcademicYearReportPanel");
-                typeof(DistrictManager).GetField("m_activeCampusAreas", BindingFlags.Static | BindingFlags.NonPublic).SetValue(instance, m_activeCampusAreas);
-                academicYearReportPanel.PopupPanel(m_activeCampusAreas, 0, wasTriggeredByButton: true);
-                var campusWorldInfoPanel = UIView.library.Get<CampusWorldInfoPanel>("CampusWorldInfoPanel");
-                if (campusWorldInfoPanel.component.isVisible)
-                {
-                    campusWorldInfoPanel.OnAcademicYearEnded();
-                };
-            }
-        }
-
-        [HarmonyPatch]
-        private sealed class UniqueFactoryWorldInfoPanelPatch
-        {
-            private static BuildingOperationHoursUIPanel uniqueFactoryOperationHoursUIPanel;
-
-            [HarmonyPatch(typeof(UniqueFactoryWorldInfoPanel), "OnSetTarget")]
-            [HarmonyPostfix]
-            private static void OnSetTarget()
-            {
-                if (uniqueFactoryOperationHoursUIPanel == null)
-                {
-                    UniqueFactoryCreateUI();
-                }
-                uniqueFactoryOperationHoursUIPanel.UpdateBuildingData();
-            }
-
-            private static void UniqueFactoryCreateUI()
-            {
-                var m_uniqueFactoryWorldInfoPanel = GameObject.Find("(Library) UniqueFactoryWorldInfoPanel").GetComponent<UniqueFactoryWorldInfoPanel>();
-                var IncomeExpensesSection = m_uniqueFactoryWorldInfoPanel?.Find("IncomeExpensesSection").GetComponent<UIPanel>();
-                if (IncomeExpensesSection == null)
-                {
-                    return;
-                } 
-                uniqueFactoryOperationHoursUIPanel ??= new BuildingOperationHoursUIPanel(m_uniqueFactoryWorldInfoPanel, IncomeExpensesSection, 320f, 0f, 0f, localizationProvider);
-            }
-        }
-
-        [HarmonyPatch]
-        private sealed class WarehouseWorldInfoPanelPatch
-        {
-            private static BuildingOperationHoursUIPanel warehouseOperationHoursUIPanel;
-
-            [HarmonyPatch(typeof(WarehouseWorldInfoPanel), "OnSetTarget")]
-            [HarmonyPostfix]
-            private static void OnSetTarget(InstanceID ___m_InstanceID)
-            {
-                var buildingAI = Singleton<BuildingManager>.instance.m_buildings.m_buffer[___m_InstanceID.Building].Info.m_buildingAI;
-                if (warehouseOperationHoursUIPanel == null)
-                {
-                    WarehouseCreateUI(buildingAI);
-                }
-                float checkBoxYposition = 500f;
-                if (buildingAI is WarehouseAI warehouse && warehouse.m_storageType == TransferManager.TransferReason.None)
-                {
-                    checkBoxYposition = 550f;
-                }
-                warehouseOperationHoursUIPanel.CheckBoxYposition = checkBoxYposition;
-                warehouseOperationHoursUIPanel.UpdateBuildingData();
-            }
-
-            private static void WarehouseCreateUI(BuildingAI buildingAI)
-            {
-                var m_warehouseWorldInfoPanel = GameObject.Find("(Library) WarehouseWorldInfoPanel").GetComponent<WarehouseWorldInfoPanel>();
-                var WarehousePanel = GameObject.Find("(Library) WarehouseWorldInfoPanel").GetComponent<UIPanel>();
-                if (WarehousePanel == null)
-                {
-                    return;
-                }
-                float checkBoxYposition = 500f;
-                if (buildingAI is WarehouseAI warehouse && warehouse.m_storageType == TransferManager.TransferReason.None)
-                {
-                    checkBoxYposition = 550f;
-                }
-                warehouseOperationHoursUIPanel ??= new BuildingOperationHoursUIPanel(m_warehouseWorldInfoPanel, WarehousePanel, 320f, checkBoxYposition, 0f, localizationProvider);
-            }
-        }
-
-        [HarmonyPatch]
-        private sealed class LivingCreatureWorldInfoPanelPatch
-        {
-            private static UIButton m_clearScheduleButton;
-
-            [HarmonyPatch(typeof(LivingCreatureWorldInfoPanel), "OnSetTarget")]
-            [HarmonyPostfix]
-            private static void OnSetTarget(ref InstanceID ___m_InstanceID)
-            {
-                if(___m_InstanceID.Citizen != 0)
-                {
-                    if (m_clearScheduleButton == null)
-                    {
-                        CreateClearScheduleButton();
-                    }
-
-                    if (RealTimeConfig.DebugMode)
-                    {
-                        m_clearScheduleButton.Show();
-                    }
-                    else
-                    {
-                        m_clearScheduleButton.Hide();
-                    }
-                }
-            } 
-
-            private static void CreateClearScheduleButton()
-            {
-                var citizenInfoPanel = GameObject.Find("(Library) CitizenWorldInfoPanel").GetComponent<CitizenWorldInfoPanel>();
-                m_clearScheduleButton = UIButtons.CreateButton(citizenInfoPanel.component, -10f, 90f, "ClearSchedule", "", "Clear the citizen schedule", 30, 30);
-                m_clearScheduleButton.AlignTo(citizenInfoPanel.component, UIAlignAnchor.TopRight);
-                m_clearScheduleButton.relativePosition += new Vector3(-10f, 90f);
-
-                m_clearScheduleButton.atlas = TextureUtils.GetAtlas("ClearScheduleButton");
-                m_clearScheduleButton.normalFgSprite = "ClearSchedule";
-                m_clearScheduleButton.disabledFgSprite = "ClearSchedule";
-                m_clearScheduleButton.focusedFgSprite = "ClearSchedule";
-                m_clearScheduleButton.hoveredFgSprite = "ClearSchedule";
-                m_clearScheduleButton.pressedFgSprite = "ClearSchedule";
-                m_clearScheduleButton.eventClicked += ClearSchedule;
-                citizenInfoPanel.component.AttachUIComponent(m_clearScheduleButton.gameObject);
-            }
-
-            public static void ClearSchedule(UIComponent c, UIMouseEventParameter eventParameter)
-            {
-                uint citizenID = WorldInfoPanel.GetCurrentInstanceID().Citizen;
-                var citizen = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].GetCitizenInfo(citizenID);
-                if(citizen.GetAI() is ResidentAI)
-                {
-                    RealTimeResidentAI.ClearCitizenSchedule(citizenID);
-                }
-            }
-        }
     }
 }

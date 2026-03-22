@@ -11,6 +11,7 @@ namespace RealTime.Utils.UIUtils
         /// <param name="parent">Parent component.</param>
         /// <param name="xPos">Relative x position.</param>
         /// <param name="yPos">Relative y position.</param>
+        /// <param name="name">Dropdown name.</param>
         /// <param name="text">Text label.</param>
         /// <param name="width">Dropdown menu width, excluding label (default 220f).</param>
         /// <param name="height">Dropdown button height (default 25f).</param>
@@ -20,10 +21,10 @@ namespace RealTime.Utils.UIUtils
         /// <param name="accomodateLabel">True (default) to move menu to accomodate text label width, false otherwise.</param>
         /// <param name="tooltip">Tooltip, if any.</param>
         /// <returns>New dropdown menu with an attached text label and enclosing panel.</returns>
-        public static UIDropDown AddLabelledDropDown(UIComponent parent, float xPos, float yPos, string text, float width = 220f, float height = 25f, float itemTextScale = 0.7f, int itemHeight = 20, int itemVertPadding = 8, bool accomodateLabel = true, string tooltip = null)
+        public static UIDropDown AddLabelledDropDown(UIComponent parent, float xPos, float yPos, string name, string text, float width = 220f, float height = 25f, float itemTextScale = 0.7f, int itemHeight = 20, int itemVertPadding = 8, bool accomodateLabel = true, string tooltip = null)
         {
             // Create dropdown.
-            var dropDown = AddDropDown(parent, xPos, yPos, width, height, itemTextScale, itemHeight, itemVertPadding, tooltip);
+            var dropDown = AddDropDown(parent, xPos, yPos, name, width, height, itemTextScale, itemHeight, itemVertPadding, tooltip);
 
             // Add label.
             var label = dropDown.AddUIComponent<UILabel>();
@@ -50,6 +51,7 @@ namespace RealTime.Utils.UIUtils
         /// <param name="parent">Parent component.</param>
         /// <param name="xPos">Relative x position (default 20).</param>
         /// <param name="yPos">Relative y position (default 0).</param>
+        /// <param name="name">Dropdown name.</param>
         /// <param name="width">Dropdown menu width, excluding label (default 220f).</param>
         /// <param name="height">Dropdown button height (default 25f).</param>
         /// <param name="itemTextScale">Text scaling (default 0.7f).</param>
@@ -57,11 +59,12 @@ namespace RealTime.Utils.UIUtils
         /// <param name="itemVertPadding">Dropdown menu item vertical text padding (default 8).</param>
         /// <param name="tooltip">Tooltip, if any.</param>
         /// <returns>New dropdown menu *without* an attached text label or enclosing panel.</returns>
-        public static UIDropDown AddDropDown(UIComponent parent, float xPos, float yPos, float width = 220f, float height = 25f, float itemTextScale = 0.7f, int itemHeight = 20, int itemVertPadding = 8, string tooltip = null)
+        public static UIDropDown AddDropDown(UIComponent parent, float xPos, float yPos, string name, float width = 220f, float height = 25f, float itemTextScale = 0.7f, int itemHeight = 20, int itemVertPadding = 8, string tooltip = null)
         {
             // Create dropdown menu.
             var dropDown = parent.AddUIComponent<UIDropDown>();
             dropDown.atlas = TextureUtils.GetAtlas("Ingame");
+            dropDown.name = name;
             dropDown.normalBgSprite = "TextFieldPanel";
             dropDown.disabledBgSprite = "TextFieldPanelDisabled";
             dropDown.hoveredBgSprite = "TextFieldPanelHovered";
@@ -125,12 +128,13 @@ namespace RealTime.Utils.UIUtils
         /// <param name="parent">Parent component.</param>
         /// <param name="xPos">Relative x position.</param>
         /// <param name="yPos">Relative y position.</param>
+        /// <param name="name">Dropdown name.</param>
         /// <param name="text">Descriptive label text.</param>
         /// <param name="items">Dropdown menu item list.</param>
         /// <param name="selectedIndex">Initially selected index (default 0).</param>
         /// <param name="width">Width of dropdown (default 60).</param>
         /// <returns>New dropdown menu using game's option panel template.</returns>
-        public static UIDropDown AddPlainDropDown(UIComponent parent, float xPos, float yPos, string text, string[] items, int selectedIndex = 0, float width = 270f)
+        public static UIDropDown AddPlainDropDown(UIComponent parent, float xPos, float yPos, string name, string text, string[] items, int selectedIndex = 0, float width = 270f)
         {
             var panel = parent.AttachUIComponent(UITemplateManager.GetAsGameObject("OptionsDropdownTemplate")) as UIPanel;
             var dropDown = panel.Find<UIDropDown>("Dropdown");
@@ -148,6 +152,9 @@ namespace RealTime.Utils.UIUtils
 
             // Set position.
             dropDown.parent.relativePosition = new Vector2(xPos, yPos);
+
+            // Set name.
+            dropDown.name = name;
 
             return dropDown;
         }

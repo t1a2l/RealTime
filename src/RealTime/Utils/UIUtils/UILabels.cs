@@ -15,7 +15,7 @@ namespace RealTime.Utils.UIUtils
             return label;
         }
 
-        public static UILabel CreateLabel(UIComponent parent, float xPos, float yPos, string text, float width = -1f, float textScale = 1.0f, UIHorizontalAlignment alignment = UIHorizontalAlignment.Left)
+        public static UILabel CreatePositionedLabel(UIComponent parent, float xPos, float yPos, string name, string text, float width = -1f, float textScale = 1.0f, UIHorizontalAlignment alignment = UIHorizontalAlignment.Left)
         {
             // Add label.
             var label = parent.AddUIComponent<UILabel>();
@@ -36,6 +36,9 @@ namespace RealTime.Utils.UIUtils
                 label.autoHeight = false;
                 label.wordWrap = false;
             }
+
+            // Name.
+            label.name = name;
 
             // Alignment.
             label.textAlignment = alignment;

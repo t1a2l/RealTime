@@ -405,6 +405,7 @@ namespace RealTime.Patches
                         panelHeight = 40f;
                     }
 
+                    userEventCreationPanel.isVisible = false;
                     eventSelectionPanel.UpdateData(userEventCreationPanel);
                     eventSelectionPanel.CheckAndSetupEvents();
 

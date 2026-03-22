@@ -18,7 +18,7 @@ namespace RealTime.UI
 
     internal class UserEventCreationPanel : UIPanel
     {
-        protected CityEventTemplate template = null;
+        internal CityEventTemplate template = null;
         protected UIHelper _helper = null;
         protected UITitleBar _titleBar = null;
         protected UILabel _informationLabel = null;

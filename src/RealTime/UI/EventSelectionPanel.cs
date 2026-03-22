@@ -24,7 +24,7 @@ namespace RealTime.UI
             autoLayout = false;
             relativePosition = new Vector3(120f, 15f);
 
-            UILabels.CreatePositionedLabel(this, 0f, -15f, "EventSelectionLabel", "Events:");
+            UILabels.CreatePositionedLabel(this, 0f, -18f, "EventSelectionLabel", "Events:");
 
             eventSelectionDropDown = UIDropDowns.AddDropDown(this, 0f, 0f, "EventSelectionDropDown", 120f);
 
@@ -35,7 +35,12 @@ namespace RealTime.UI
             isVisible = false;
         }
 
-        public void UpdateData(UserEventCreationPanel EventCreationPanel) => eventCreationPanel = EventCreationPanel;
+        public void UpdateData(UserEventCreationPanel EventCreationPanel)
+        {
+            eventCreationPanel = EventCreationPanel;
+
+            relativePosition = new Vector3(120f, 15f);
+        }
 
         public void CheckAndSetupEvents()
         {
@@ -61,8 +66,13 @@ namespace RealTime.UI
             {
                 return;
             }
-
+            
             string event_name = eventSelectionDropDown.items[selected_index];
+
+            if (eventCreationPanel.isVisible && eventCreationPanel.template.EventName == event_name)
+            {
+                return;
+            }
 
             ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
 
@@ -74,7 +84,7 @@ namespace RealTime.UI
 
             eventCreationPanel.Show();
             eventCreationPanel.SetUp(template, buildingID);
-            eventCreationPanel.relativePosition = relativePosition + new Vector3(-(width / 2f), height);
+            eventCreationPanel.relativePosition = new Vector3(485f, 40f);
         }
 
         private void BuildDropdownList(ushort buildingId)

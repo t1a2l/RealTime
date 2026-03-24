@@ -117,6 +117,7 @@ namespace RealTime.Core
             {
                 AcademicYearManager.Init();
                 BuildingWorkTimeManager.Init();
+                EventRouteTimeManager.Init();
                 FireBurnTimeManager.Init();
                 HotelManager.Init();
             }
@@ -125,6 +126,7 @@ namespace RealTime.Core
                 Debug.LogError(e.ToString());
                 AcademicYearManager.Deinit();
                 BuildingWorkTimeManager.Deinit();
+                EventRouteTimeManager.Deinit();
                 FireBurnTimeManager.Deinit();
             }
         }

@@ -75,6 +75,15 @@ namespace RealTime.Serializer
                                 CheckStartTuple("GarbageSlowdownSerializer", SaveGameFileVersion, Data, ref Index);
                                 ResourceSlowdownSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
                                 CheckEndTuple("GarbageSlowdownSerializer", SaveGameFileVersion, Data, ref Index);
+
+                                if (Index == Data.Length)
+                                {
+                                    break;
+                                }
+
+                                CheckStartTuple("EventRouteTimeSerializer", SaveGameFileVersion, Data, ref Index);
+                                EventRouteTimeSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
+                                CheckEndTuple("EventRouteTimeSerializer", SaveGameFileVersion, Data, ref Index);
                                 break;
                             }
                         }
@@ -137,6 +146,11 @@ namespace RealTime.Serializer
                     // garbage slowndown settings
                     StorageData.WriteUInt32(uiTUPLE_START, Data);
                     ResourceSlowdownSerializer.SaveData(Data);
+                    StorageData.WriteUInt32(uiTUPLE_END, Data);
+
+                    // event route time settings
+                    StorageData.WriteUInt32(uiTUPLE_START, Data);
+                    EventRouteTimeSerializer.SaveData(Data);
                     StorageData.WriteUInt32(uiTUPLE_END, Data);
 
                     BuildingWorkTimeGlobalConfig.Config.Serialize();

@@ -5,13 +5,14 @@ namespace RealTime.Patches
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Text;
     using ColossalFramework;
+    using ColossalFramework.Threading;
     using ColossalFramework.UI;
     using HarmonyLib;
     using RealTime.Config;
+    using RealTime.Core;
     using RealTime.CustomAI;
     using RealTime.Events;
     using RealTime.GameConnection;
@@ -22,6 +23,8 @@ namespace RealTime.Patches
     using RealTime.Utils.UIUtils;
     using SkyTools.Localization;
     using UnityEngine;
+    using static ColossalFramework.UI.UIDynamicPanels;
+    using static RenderManager;
 
     /// <summary>
     /// A static class that provides the patch objects for the world info panel game methods.
@@ -691,7 +694,7 @@ namespace RealTime.Patches
             private static void OnAcademicYearEnded()
             {
                 var instance = DistrictManager.instance;
-                var m_activeCampusAreas = (List<byte>)typeof(DistrictManager).GetField("m_activeCampusAreas", BindingFlags.Static | BindingFlags.NonPublic).GetValue(instance);
+                var m_activeCampusAreas = (List<byte>)typeof(DistrictManager).GetField("m_activeCampusAreas", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).GetValue(instance);
                 m_activeCampusAreas.Clear();
                 for (byte b = 0; b < instance.m_parks.m_buffer.Length; b++)
                 {
@@ -702,7 +705,7 @@ namespace RealTime.Patches
                     }
                 }
                 var academicYearReportPanel = UIView.library.Get<AcademicYearReportPanel>("AcademicYearReportPanel");
-                typeof(DistrictManager).GetField("m_activeCampusAreas", BindingFlags.Static | BindingFlags.NonPublic).SetValue(instance, m_activeCampusAreas);
+                typeof(DistrictManager).GetField("m_activeCampusAreas", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).SetValue(instance, m_activeCampusAreas);
                 academicYearReportPanel.PopupPanel(m_activeCampusAreas, 0, wasTriggeredByButton: true);
                 var campusWorldInfoPanel = UIView.library.Get<CampusWorldInfoPanel>("CampusWorldInfoPanel");
                 if (campusWorldInfoPanel.component.isVisible)
@@ -768,6 +771,243 @@ namespace RealTime.Patches
                 {
                     // Not a hotel hide the label
                     s_hotelLabel.Hide();
+                }
+            }
+        }
+
+        [HarmonyPatch]
+        private sealed class RaceEventWorldInfoPanelPatch
+        {
+            private delegate void UpdatePastEventDelegate(ushort eventIndex, ref EventData eventData);
+
+            [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "Start")]
+            [HarmonyPostfix]
+            private static void Start(RaceEventWorldInfoPanel __instance, ref ushort ___m_eventRouteID, ref UITemplateList<UIPanel> ___m_EventConfigs, ref UITemplateList<UIPanel> ___m_PastEventList)
+            {
+                ushort m_eventRouteID = ___m_eventRouteID;
+                var m_EventConfigs = ___m_EventConfigs;
+
+                for (int i = 0; i < 4; i++)
+                {
+                    // Match the logic you already have
+                    var panel = ___m_EventConfigs.items[i];
+
+                    panel.autoLayout = false;
+
+                    panel.parent?.GetComponent<UIPanel>()?.autoLayout = false;
+
+                    panel.height = 375f;
+
+                    var buttonStartNow = panel.Find<UIButton>("ButtonStartNow");
+                    buttonStartNow.relativePosition = new Vector3(8f, 40f);
+
+                    int scheduleIndex = i;
+                    var DropdownDay = panel.Find<UIDropDown>("DropdownDay");
+
+                    var DropdownDayLabel = panel.Find<UILabel>("LabelDay");
+
+                    var DropdownHourGameObject = UnityEngine.Object.Instantiate(DropdownDay.gameObject, DropdownDay.parent.transform);
+                    var dropDownHour = DropdownHourGameObject.GetComponent<UIDropDown>();
+                    dropDownHour.name = "DropdownHour";
+                    dropDownHour.relativePosition =  new Vector3(80f, 57f);
+
+                    var DropdownHourLabelGameObject = UnityEngine.Object.Instantiate(DropdownDayLabel.gameObject, DropdownDayLabel.parent.transform);
+                    var dropDownHourLabel = DropdownHourLabelGameObject.GetComponent<UILabel>();
+                    dropDownHourLabel.text = "Hour";
+                    dropDownHourLabel.relativePosition = new Vector3(0f, 63f);
+
+                    dropDownHour.items = [.. Enumerable.Range(0, 24).Select(i => i.ToString("D2"))];
+
+                    dropDownHour.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
+                    {
+                        OnScheduleHourChanged(scheduleIndex, value, __instance, m_eventRouteID, m_EventConfigs);
+                    };
+
+                    var DropdownMinuteGameObject = UnityEngine.Object.Instantiate(DropdownDay.gameObject, DropdownDay.parent.transform);
+                    var dropDownMinute = DropdownMinuteGameObject.GetComponent<UIDropDown>();
+                    dropDownMinute.name = "DropdownMinute";
+                    dropDownMinute.relativePosition = new Vector3(210f, 57f);
+
+                    var DropdownMinuteLabelGameObject = UnityEngine.Object.Instantiate(DropdownDayLabel.gameObject, DropdownDayLabel.parent.transform);
+                    var dropDownMinuteLabel = DropdownMinuteLabelGameObject.GetComponent<UILabel>();
+                    dropDownMinuteLabel.text = "Minute";
+                    dropDownMinuteLabel.relativePosition = new Vector3(130f, 63f);
+
+                    dropDownMinute.items = [.. Enumerable.Range(0, 60).Select(i => i.ToString("D2"))];
+
+                    dropDownMinute.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
+                    {
+                        OnScheduleMinuteChanged(scheduleIndex, value, __instance, m_eventRouteID, m_EventConfigs);
+                    };
+
+                    var sliderLapCount = panel.Find<UISlider>("SliderLapCount");
+
+                    if (sliderLapCount != null)
+                    {
+                        sliderLapCount.minValue = 1f;
+                        sliderLapCount.maxValue = 25f;
+                        sliderLapCount.stepSize = 1f;
+                    }
+
+                    var existingAction = panel.objectUserData as Action;
+
+                    panel.objectUserData = (Action)delegate  // Chain: original + your logic
+                    {
+                        existingAction?.Invoke();  // Run game code first
+
+                        var m_raceEventWorldInfoPanel = GameObject.Find("(Library) RaceEventWorldInfoPanel").GetComponent<RaceEventWorldInfoPanel>();
+
+                        ushort routeID = Traverse.Create(m_raceEventWorldInfoPanel).Field("m_eventRouteID").GetValue<ushort>();
+                        var eventConfigs = Traverse.Create(m_raceEventWorldInfoPanel).Field("m_EventConfigs").GetValue<UITemplateList<UIPanel>>();
+
+                        var buffer = Singleton<EventManager>.instance.m_eventRoutes.m_buffer;
+                        var scheduleData = buffer[routeID].m_scheduleData;
+                        bool flag2 = (scheduleData[scheduleIndex].m_flags & EventRouteData.EventScheduleFlags.Suspended) != 0;
+
+                        var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(routeID);
+
+                        var dropDownHour_action = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
+                        var dropDownMinute_action = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
+
+                        dropDownHour_action.selectedIndex = eventTimeSchedules[scheduleIndex].StartHour;
+                        dropDownMinute_action.selectedIndex = eventTimeSchedules[scheduleIndex].StartMinute;
+                        dropDownHour_action.isEnabled = flag2;
+                        dropDownMinute_action.isEnabled = flag2;
+                        dropDownHour_action.opacity = (!flag2) ? 0.4f : 1f;
+                        dropDownMinute_action.opacity = (!flag2) ? 0.4f : 1f;
+
+                        var buttonStartNow = m_raceEventWorldInfoPanel.Find<UIButton>("ButtonStartNow");
+                        buttonStartNow.relativePosition = new Vector3(8f, 40f);
+                    }; 
+                }
+
+                var m_raceEventWorldInfoPanel = GameObject.Find("(Library) RaceEventWorldInfoPanel").GetComponent<RaceEventWorldInfoPanel>();
+
+                for (int j = 0; j < ___m_PastEventList.items.Count; j++)
+                {
+                    var uIPanel2 = ___m_PastEventList.items[j];
+
+                    int index = j;
+
+                    var UpdatePastEventDelegate = Traverse.Create(m_raceEventWorldInfoPanel).Field("UpdatePastEventDelegate").GetValue<UpdatePastEventDelegate>();
+
+                    uIPanel2.objectUserData = (UpdatePastEventDelegate)delegate (ushort eventIndex, ref EventData eventData)
+                    {
+                        UpdatePastEventDelegate?.Invoke(eventIndex, ref eventData);  // Run game code first
+
+                        var m_raceEventWorldInfoPanel1 = GameObject.Find("(Library) RaceEventWorldInfoPanel").GetComponent<RaceEventWorldInfoPanel>();
+
+                        var pastEventList = Traverse.Create(m_raceEventWorldInfoPanel1).Field("m_PastEventList").GetValue<UITemplateList<UIPanel>>();
+
+                        var labelDate = pastEventList.items[index].Find<UILabel>("LabelDate");
+                        labelDate.text = Singleton<SimulationManager>.instance.FrameToTime(eventData.m_startFrame).ToString("dd/MM/yyyy HH:mm");
+                    };
+                }
+            }
+
+            [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "UpdateEventSchedule")]
+            [HarmonyPostfix]
+            private static void UpdateEventSchedule(ref ushort ___m_eventRouteID, ref UIComponent[] ___m_PanelNextEvent)
+            {
+                var scheduledEvents = Singleton<EventManager>.instance.m_eventRoutes.m_buffer[___m_eventRouteID].m_scheduledEvents;
+                ushort num = Singleton<EventManager>.instance.m_eventRoutes.m_buffer[___m_eventRouteID].m_event;
+                int num4 = (num == 0) ? 1 : 0;
+                for (int j = 0; j < 5; j++)
+                {
+                    var uILabel = ___m_PanelNextEvent[j].Find<UILabel>("Date");
+                    uILabel.text = scheduledEvents[j + num4].m_startDate.ToString("dd/MM/yyyy HH:mm");
+                }
+            }
+
+            [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "CreateNewEvent")]
+            [HarmonyPrefix]
+            private static bool CreateNewEvent(RaceEventWorldInfoPanel __instance, bool alwaysCreateNew, ref ushort ___m_eventRouteID, ref List<EventInfo> ___m_allowedEventInfos, ref UITabstrip ___m_tabstrip)
+            {
+                ushort m_eventRouteID = ___m_eventRouteID;
+                var m_allowedEventInfos = ___m_allowedEventInfos;
+                var m_tabstrip = ___m_tabstrip;
+                Singleton<SimulationManager>.instance.AddAction(delegate
+                {
+                    if (m_eventRouteID != 0)
+                    {
+                        var buffer = Singleton<EventManager>.instance.m_eventRoutes.m_buffer;
+                        int scheduleCount = buffer[m_eventRouteID].m_scheduleCount;
+                        if (scheduleCount == 0 || alwaysCreateNew)
+                        {
+                            if (scheduleCount >= buffer[m_eventRouteID].m_scheduleData.Length)
+                            {
+                                return;
+                            }
+                            var dateTime = Singleton<SimulationManager>.instance.m_currentGameTime;
+                            buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_scheduleID = ++Singleton<EventManager>.instance.m_eventScheduleCount;
+                            buffer[m_eventRouteID].m_scheduleData[scheduleCount].Info = m_allowedEventInfos[0];
+                            buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_startDay = (byte)(dateTime.Day - 1);
+                            buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_startMonth = (byte)(dateTime.Month - 1);
+                            buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_laps = 1;
+                            buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_ticketPrice = 100;
+                            buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_flags = EventRouteData.EventScheduleFlags.Suspended;
+                            buffer[m_eventRouteID].m_scheduleCount++;
+                            if (RealTimeMod.configProvider.Configuration.DisableRaceOrParadeAutoOccur)
+                            {
+                                buffer[m_eventRouteID].m_scheduleCount = 1;
+                            }
+                            Singleton<EventManager>.instance.ScheduleEventRoute(m_eventRouteID);
+                        }
+                        ThreadHelper.dispatcher.Dispatch(delegate
+                        {
+                            m_tabstrip.selectedIndex = 1;
+                            UpdateEventScheduleForm(__instance);
+                        });
+                    }
+                });
+                return false;
+            }
+
+            [HarmonyReversePatch]
+            [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "UpdateEventScheduleForm")]
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static void UpdateEventScheduleForm(object instance)
+            {
+                string message = "UpdateEventScheduleForm reverse Harmony patch wasn't applied";
+                Debug.LogError(message);
+                throw new NotImplementedException(message);
+            }
+
+            [HarmonyReversePatch]
+            [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "RefreshEventSchedule")]
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static void RefreshEventSchedule(object instance)
+            {
+                string message = "RefreshEventSchedule reverse Harmony patch wasn't applied";
+                Debug.LogError(message);
+                throw new NotImplementedException(message);
+            }
+
+            private static void OnScheduleHourChanged(int scheduleIndex, int value, RaceEventWorldInfoPanel instance, ushort m_eventRouteID, UITemplateList<UIPanel> m_EventConfigs)
+            {
+                var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(m_eventRouteID);
+                byte startHour = eventTimeSchedules[scheduleIndex].StartHour;
+                byte b = (byte)value;
+                if (startHour != b)
+                {
+                    var uIDropDown = m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
+                    EventRouteTimeManager.SetEventTimeScheduleHour(m_eventRouteID, scheduleIndex, b);
+                    RefreshEventSchedule(instance);
+                    uIDropDown.selectedIndex = b;
+                }
+            }
+
+            private static void OnScheduleMinuteChanged(int scheduleIndex, int value, RaceEventWorldInfoPanel instance, ushort m_eventRouteID, UITemplateList<UIPanel> m_EventConfigs)
+            {
+                var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(m_eventRouteID);
+                byte startMinute = eventTimeSchedules[scheduleIndex].StartMinute;
+                byte b = (byte)value;
+                if (startMinute != b)
+                {
+                    var uIDropDown = m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
+                    EventRouteTimeManager.SetEventTimeScheduleMinute(m_eventRouteID, scheduleIndex, b);
+                    RefreshEventSchedule(instance);
+                    uIDropDown.selectedIndex = b;
                 }
             }
         }

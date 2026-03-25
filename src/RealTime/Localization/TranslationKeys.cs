@@ -251,6 +251,12 @@ namespace RealTime.Localization
         /// <summary>The key for vanilla event selection label title.</summary>
         public const string VanillaEventSelectionLabelTitle = "VanillaEventSelectionLabelTitle";
 
+        /// <summary>The key for vanilla event select event button text.</summary>
+        public const string VanillaEventSelectEventButton = "VanillaEventSelectEventButton";
+
+        /// <summary>The key for vanilla event select event button tooltip.</summary>
+        public const string VanillaEventSelectEventButtonTooltip = "VanillaEventSelectEventButtonTooltip";
+
         /// <summary>The key for vanilla event total amount label.</summary>
         public const string VanillaEventTotalAmountLabel = "VanillaEventTotalAmountLabel";
 

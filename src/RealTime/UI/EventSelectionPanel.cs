@@ -33,7 +33,9 @@ namespace RealTime.UI
             eventSelectionDropDown = UIDropDowns.AddDropDown(this, 0f, 0f, "EventSelectionDropDown", 120f);
 
             eventSelectionButton = AddUIComponent<UIButton>();
-            eventSelectionButton = UIButtons.CreateButton(this, 130f, 0f, "EventSelectionButton", "select", "", 80f);
+            eventSelectionButton = UIButtons.CreateButton(this, 130f, 0f, "EventSelectionButton",
+                localizationProvider.Translate(TranslationKeys.VanillaEventSelectEventButton),
+                localizationProvider.Translate(TranslationKeys.VanillaEventSelectEventButtonTooltip), 80f);
             eventSelectionButton.eventClicked += OnEventSelectionButtonClicked;
 
             isVisible = false;

@@ -1070,7 +1070,6 @@ namespace RealTime.Patches
                 }
             }
 
-
             private static float AdjustEventStartTime(DateTime eventStartTime)
             {
                 var result = eventStartTime;

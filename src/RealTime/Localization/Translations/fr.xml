@@ -123,6 +123,8 @@
   <translation id="LatestHourEventStartWeekendTooltip" value="L'heure maximale à laquelle un événement peut commencer (durant le week-end)" />
   <translation id="DisableRaceOrParadeAutoOccur" value="Disable race or parade auto occurrence" />
   <translation id="DisableRaceOrParadeAutoOccurTooltip" value="Disable race or parade from auto occuring" />
+  <translation id="DailyRaceOrParadeEvents" value="Set race or parade auto event to daily(default weekly)" />
+  <translation id="DailyRaceOrParadeEventsTooltip" value="Set race or parade auto event to daily(default weekly)" />
 
   <translation id="4Time" value="Temps" />
   <translation id="MaxOvertime" value="Maximum d'heures supplémentaires" />

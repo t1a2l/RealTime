@@ -517,7 +517,7 @@ namespace RealTime.UI
             {
                 var sliderPanel = _ticketSlider.parent as UIPanel;
                 var sliderLabel = sliderPanel.Find<UILabel>("Label");
-                string ticketsText = localizationProvider.Translate("tickets");
+                string ticketsText = localizationProvider.Translate(TranslationKeys.VanillaEventTicketSliderLabel);
                 sliderLabel.text = string.Format("{0} {1}", _ticketSlider.value, ticketsText);
             }
 
@@ -624,7 +624,6 @@ namespace RealTime.UI
 
             var sliderPanel = _ticketSlider.parent as UIPanel;
             var sliderLabel = sliderPanel.Find<UILabel>("Label");
-            sliderLabel.text = localizationProvider.Translate(TranslationKeys.VanillaEventTicketSliderLabel);
             sliderLabel.tooltip = localizationProvider.Translate(TranslationKeys.VanillaEventTicketSliderLabelTooltip);
 
             _totalAmountLabel.Invalidate();

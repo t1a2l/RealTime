@@ -278,20 +278,6 @@ namespace RealTime.Config
         public float LatestHourEventStartWeekend { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether Race or parade events auto occur.
-        /// </summary>
-        [ConfigItem("3Events", 5)]
-        [ConfigItemCheckBox]
-        public bool DisableRaceOrParadeAutoOccur { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether Race or parade events will happen daily or weekly.
-        /// </summary>
-        [ConfigItem("3Events", 6)]
-        [ConfigItemCheckBox]
-        public bool DailyRaceOrParadeEvents { get; set; }
-
-        /// <summary>
         /// Gets or sets the daytime hour when the city wakes up.
         /// </summary>
         [ConfigItem("4Time", 0)]
@@ -813,8 +799,6 @@ namespace RealTime.Config
             LatestHourEventStartWeekday = 20f;
             EarliestHourEventStartWeekend = 8f;
             LatestHourEventStartWeekend = 22f;
-            DisableRaceOrParadeAutoOccur = false;
-            DailyRaceOrParadeEvents = false;
 
             WorkBegin = 9f;
             WorkEnd = 18f;

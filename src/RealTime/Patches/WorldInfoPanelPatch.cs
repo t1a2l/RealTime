@@ -239,10 +239,7 @@ namespace RealTime.Patches
                     }
                 }
                 var buttonStartEvent = ___m_panelEventInactive.Find<UIButton>("ButtonStartEvent");
-                if (buttonStartEvent != null)
-                {
-                    buttonStartEvent.text = "Schedule";
-                }
+                buttonStartEvent?.text = "Schedule";
             }
 
             [HarmonyPatch(typeof(HotelWorldInfoPanel), "SelectEvent")]
@@ -820,7 +817,7 @@ namespace RealTime.Patches
 
                     dropDownHour.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
                     {
-                        OnScheduleHourChanged(scheduleIndex, value, __instance, m_eventRouteID, m_EventConfigs);
+                        OnScheduleHourChanged(scheduleIndex, value, __instance);
                     };
 
                     var DropdownMinuteGameObject = UnityEngine.Object.Instantiate(DropdownDay.gameObject, DropdownDay.parent.transform);
@@ -837,7 +834,7 @@ namespace RealTime.Patches
 
                     dropDownMinute.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
                     {
-                        OnScheduleMinuteChanged(scheduleIndex, value, __instance, m_eventRouteID, m_EventConfigs);
+                        OnScheduleMinuteChanged(scheduleIndex, value, __instance);
                     };
 
                     var sliderLapCount = panel.Find<UISlider>("SliderLapCount");
@@ -855,10 +852,8 @@ namespace RealTime.Patches
                     {
                         existingAction?.Invoke();  // Run game code first
 
-                        var m_raceEventWorldInfoPanel = GameObject.Find("(Library) RaceEventWorldInfoPanel").GetComponent<RaceEventWorldInfoPanel>();
-
-                        ushort routeID = Traverse.Create(m_raceEventWorldInfoPanel).Field("m_eventRouteID").GetValue<ushort>();
-                        var eventConfigs = Traverse.Create(m_raceEventWorldInfoPanel).Field("m_EventConfigs").GetValue<UITemplateList<UIPanel>>();
+                        ushort routeID = Traverse.Create(__instance).Field("m_eventRouteID").GetValue<ushort>();
+                        var eventConfigs = Traverse.Create(__instance).Field("m_EventConfigs").GetValue<UITemplateList<UIPanel>>();
 
                         var buffer = Singleton<EventManager>.instance.m_eventRoutes.m_buffer;
                         var scheduleData = buffer[routeID].m_scheduleData;
@@ -876,12 +871,11 @@ namespace RealTime.Patches
                         dropDownHour_action.opacity = (!flag2) ? 0.4f : 1f;
                         dropDownMinute_action.opacity = (!flag2) ? 0.4f : 1f;
 
-                        var buttonStartNow = m_raceEventWorldInfoPanel.Find<UIButton>("ButtonStartNow");
+                        var buttonStartNow = panel.Find<UIButton>("ButtonStartNow");
                         buttonStartNow.relativePosition = new Vector3(8f, 40f);
                     }; 
                 }
 
-                var m_raceEventWorldInfoPanel = GameObject.Find("(Library) RaceEventWorldInfoPanel").GetComponent<RaceEventWorldInfoPanel>();
 
                 for (int j = 0; j < ___m_PastEventList.items.Count; j++)
                 {
@@ -889,15 +883,13 @@ namespace RealTime.Patches
 
                     int index = j;
 
-                    var UpdatePastEventDelegate = Traverse.Create(m_raceEventWorldInfoPanel).Field("UpdatePastEventDelegate").GetValue<UpdatePastEventDelegate>();
+                    var UpdatePastEventDelegate = Traverse.Create(__instance).Field("UpdatePastEventDelegate").GetValue<UpdatePastEventDelegate>();
 
                     uIPanel2.objectUserData = (UpdatePastEventDelegate)delegate (ushort eventIndex, ref EventData eventData)
                     {
                         UpdatePastEventDelegate?.Invoke(eventIndex, ref eventData);  // Run game code first
 
-                        var m_raceEventWorldInfoPanel1 = GameObject.Find("(Library) RaceEventWorldInfoPanel").GetComponent<RaceEventWorldInfoPanel>();
-
-                        var pastEventList = Traverse.Create(m_raceEventWorldInfoPanel1).Field("m_PastEventList").GetValue<UITemplateList<UIPanel>>();
+                        var pastEventList = Traverse.Create(__instance).Field("m_PastEventList").GetValue<UITemplateList<UIPanel>>();
 
                         var labelDate = pastEventList.items[index].Find<UILabel>("LabelDate");
                         labelDate.text = Singleton<SimulationManager>.instance.FrameToTime(eventData.m_startFrame).ToString("dd/MM/yyyy HH:mm");
@@ -946,11 +938,9 @@ namespace RealTime.Patches
                             buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_laps = 1;
                             buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_ticketPrice = 100;
                             buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_flags = EventRouteData.EventScheduleFlags.Suspended;
+                            EventRouteTimeManager.SetEventTimeScheduleHour(m_eventRouteID, scheduleCount, (byte)dateTime.Hour);
+                            EventRouteTimeManager.SetEventTimeScheduleMinute(m_eventRouteID, scheduleCount, (byte)dateTime.Minute);
                             buffer[m_eventRouteID].m_scheduleCount++;
-                            if (RealTimeMod.configProvider.Configuration.DisableRaceOrParadeAutoOccur)
-                            {
-                                buffer[m_eventRouteID].m_scheduleCount = 1;
-                            }
                             Singleton<EventManager>.instance.ScheduleEventRoute(m_eventRouteID);
                         }
                         ThreadHelper.dispatcher.Dispatch(delegate
@@ -983,31 +973,41 @@ namespace RealTime.Patches
                 throw new NotImplementedException(message);
             }
 
-            private static void OnScheduleHourChanged(int scheduleIndex, int value, RaceEventWorldInfoPanel instance, ushort m_eventRouteID, UITemplateList<UIPanel> m_EventConfigs)
+            private static void OnScheduleHourChanged(int scheduleIndex, int value, RaceEventWorldInfoPanel instance)
             {
-                var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(m_eventRouteID);
+                ushort routeID = Traverse.Create(instance).Field("m_eventRouteID").GetValue<ushort>();
+                var eventConfigs = Traverse.Create(instance).Field("m_EventConfigs").GetValue<UITemplateList<UIPanel>>();
+                var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(routeID);
                 byte startHour = eventTimeSchedules[scheduleIndex].StartHour;
                 byte b = (byte)value;
                 if (startHour != b)
                 {
-                    var uIDropDown = m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
-                    EventRouteTimeManager.SetEventTimeScheduleHour(m_eventRouteID, scheduleIndex, b);
+                    var uIDropDown = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
+                    EventRouteTimeManager.SetEventTimeScheduleHour(routeID, scheduleIndex, b);
                     RefreshEventSchedule(instance);
-                    uIDropDown.selectedIndex = b;
+                    if(uIDropDown.selectedIndex != b)
+                    {
+                        uIDropDown.selectedIndex = b;
+                    }
                 }
             }
 
-            private static void OnScheduleMinuteChanged(int scheduleIndex, int value, RaceEventWorldInfoPanel instance, ushort m_eventRouteID, UITemplateList<UIPanel> m_EventConfigs)
+            private static void OnScheduleMinuteChanged(int scheduleIndex, int value, RaceEventWorldInfoPanel instance)
             {
-                var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(m_eventRouteID);
+                ushort routeID = Traverse.Create(instance).Field("m_eventRouteID").GetValue<ushort>();
+                var eventConfigs = Traverse.Create(instance).Field("m_EventConfigs").GetValue<UITemplateList<UIPanel>>();
+                var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(routeID);
                 byte startMinute = eventTimeSchedules[scheduleIndex].StartMinute;
                 byte b = (byte)value;
                 if (startMinute != b)
                 {
-                    var uIDropDown = m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
-                    EventRouteTimeManager.SetEventTimeScheduleMinute(m_eventRouteID, scheduleIndex, b);
+                    var uIDropDown = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
+                    EventRouteTimeManager.SetEventTimeScheduleMinute(routeID, scheduleIndex, b);
                     RefreshEventSchedule(instance);
-                    uIDropDown.selectedIndex = b;
+                    if (uIDropDown.selectedIndex != b)
+                    {
+                        uIDropDown.selectedIndex = b;
+                    }
                 }
             }
         }

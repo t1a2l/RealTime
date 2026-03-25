@@ -5,6 +5,7 @@ namespace RealTime.Patches
     using System;
     using ColossalFramework;
     using HarmonyLib;
+    using RealTime.Core;
     using RealTime.CustomAI;
     using RealTime.GameConnection;
     using RealTime.Managers;
@@ -117,6 +118,10 @@ namespace RealTime.Patches
             }
             bool flag = false;
             int num = schedule.Length;
+            if (RealTimeMod.configProvider.Configuration.DisableRaceOrParadeAutoOccur)
+            {
+                num = 1;
+            }
             var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(eventRouteIndex);
             var scheduleData = ___m_eventRoutes.m_buffer[eventRouteIndex].m_scheduleData;
             for (int i = 0; i < ___m_eventRoutes.m_buffer[eventRouteIndex].m_scheduleCount; i++)
@@ -125,7 +130,7 @@ namespace RealTime.Patches
                 {
                     continue;
                 }
-                var dateTime = CalculateNextEvent(startDate, scheduleData[i].m_startDay + 1, scheduleData[i].m_startMonth + 1, eventTimeSchedules[i].StartHour, eventTimeSchedules[i].StartMinute);
+                var dateTime = CalculateNextEvent(Singleton<SimulationManager>.instance.m_currentGameTime, scheduleData[i].m_startDay + 1, scheduleData[i].m_startMonth + 1, eventTimeSchedules[i].StartHour, eventTimeSchedules[i].StartMinute);
                 int j = 0;
                 for (int k = 0; k < num; k++)
                 {
@@ -162,6 +167,16 @@ namespace RealTime.Patches
                             };
                         }
                     }
+                    if (RealTimeMod.configProvider.Configuration.DailyRaceOrParadeEvents)
+                    {
+                        // daily
+                        dateTime = dateTime.AddDays(1);
+                    }
+                    else
+                    {
+                        // weekly default
+                        dateTime = dateTime.AddDays(7);
+                    }
                 }
                 flag = true;
             }
@@ -169,11 +184,10 @@ namespace RealTime.Patches
             return false;
         }
 
-
         private static DateTime CalculateNextEvent(DateTime currentDate, int scheduleDay, int scheduleMonth, int scheduleHour, int scheduleMinute)
         {
             var dateTime = new DateTime(currentDate.Year, scheduleMonth, scheduleDay, scheduleHour, scheduleMinute, 0);
-            return dateTime > currentDate ? dateTime : dateTime.AddYears(1);
+            return dateTime >= currentDate ? dateTime : dateTime.AddYears(1);
 
         }
 

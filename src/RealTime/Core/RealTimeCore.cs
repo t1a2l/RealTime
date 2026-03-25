@@ -14,6 +14,7 @@ namespace RealTime.Core
     using RealTime.Serializer;
     using RealTime.Simulation;
     using RealTime.UI;
+    using RealTime.Utils.UIUtils;
     using SkyTools.Configuration;
     using SkyTools.GameTools;
     using SkyTools.Localization;
@@ -186,6 +187,10 @@ namespace RealTime.Core
             WorldInfoPanelPatch.VehicleInfoPanel = CustomVehicleInfoPanel.Enable(ResidentAIPatch.RealTimeResidentAI, localizationProvider);
             WorldInfoPanelPatch.CampusWorldInfoPanel = CustomCampusWorldInfoPanel.Enable(localizationProvider, configProvider.Configuration);
             WorldInfoPanelPatch.localizationProvider = localizationProvider;
+
+            EventSelectionPanel.localizationProvider = localizationProvider;
+            UIFastListIncentives.localizationProvider = localizationProvider;
+            UserEventCreationPanel.RealTimeConfig = configProvider.Configuration;
             UserEventCreationPanel.localizationProvider = localizationProvider;
             UserEventCreationPanel.TimeInfo = timeInfo;
 

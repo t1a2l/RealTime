@@ -3,14 +3,14 @@ namespace RealTime.Utils.UIUtils
     using ColossalFramework.Globalization;
     using ColossalFramework.UI;
     using RealTime.Events.Containers;
-    using RealTime.UI;
+    using RealTime.Localization;
     using RealTime.Utils;
+    using SkyTools.Localization;
     using UnityEngine;
 
     public class UIFastListIncentives : UIPanel, IUIFastListRow
     {
         private UIPanel background;
-        //private UILabel title;
         private UILabel effects;
         private UISlider amount;
         private UIHelper mainHelper;
@@ -20,6 +20,8 @@ namespace RealTime.Utils.UIUtils
         private UILabel costsReadout;
         private UILabel returnsReadout;
         private IncentiveOptionItem currentOption = null;
+
+        public static ILocalizationProvider localizationProvider;
 
         public override void Start()
         {
@@ -133,16 +135,6 @@ namespace RealTime.Utils.UIUtils
 
                     option.OnTicketSizeChanged += Option_OnTicketSizeChanged;
 
-                    /*title.name = option.title;
-                    title.text = option.title;
-                    title.autoSize = false;
-                    title.relativePosition = new Vector2(0, 0);
-                    title.width = width - ((width * 40) / 100);
-                    title.height = sliderPanel.relativePosition.y;
-                    title.textScale = 1f;
-                    title.padding = new RectOffset(5, 5, 5, 5);
-                    title.tooltip = option.description;*/
-
                     Deselect(isRowOdd);
                     UpdateTotals();
                     UpdateVariableStrings();
@@ -248,24 +240,20 @@ namespace RealTime.Utils.UIUtils
 
         private void TranslationOnLanguageChanged()
         {
-            var lp = UserEventCreationPanel.localizationProvider; // or UserEventCreationWindow.localizationProvider
-
-            if (lp == null)
+            if (localizationProvider == null)
             {
                 return; // safe no-op if localization not ready
             }
 
             if (costsLabel != null)
             {
-                costsLabel.text = "BUY";      // new key
-                costsLabel.tooltip = "BUY_TT";
-                costsLabel.Invalidate();   // instead of .Update()
+                costsLabel.text = localizationProvider.Translate(TranslationKeys.VanillaEventCostsLabel);
+                costsLabel.Invalidate();
             }
 
             if (returnsLabel != null)
             {
-                returnsLabel.text = "SELL";
-                returnsLabel.tooltip = "SELL_TT";
+                returnsLabel.text = localizationProvider.Translate(TranslationKeys.VanillaEventReturnsLabel);
                 returnsLabel.Invalidate();
             }
         }

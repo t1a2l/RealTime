@@ -5,7 +5,9 @@ namespace RealTime.UI
     using ColossalFramework;
     using ColossalFramework.UI;
     using RealTime.Events.Storage;
+    using RealTime.Localization;
     using RealTime.Utils.UIUtils;
+    using SkyTools.Localization;
     using UnityEngine;
 
     internal class EventSelectionPanel : UIPanel
@@ -13,6 +15,8 @@ namespace RealTime.UI
         private UIDropDown eventSelectionDropDown;
         private UIButton eventSelectionButton;
         private UserEventCreationPanel eventCreationPanel;
+
+        public static ILocalizationProvider localizationProvider;
 
         public override void Awake()
         {
@@ -24,7 +28,7 @@ namespace RealTime.UI
             autoLayout = false;
             relativePosition = new Vector3(120f, 15f);
 
-            UILabels.CreatePositionedLabel(this, 0f, -18f, "EventSelectionLabel", "Events:");
+            UILabels.CreatePositionedLabel(this, 0f, -18f, "EventSelectionLabel", localizationProvider.Translate(TranslationKeys.VanillaEventSelectionLabelTitle));
 
             eventSelectionDropDown = UIDropDowns.AddDropDown(this, 0f, 0f, "EventSelectionDropDown", 120f);
 

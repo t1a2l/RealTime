@@ -216,5 +216,95 @@ namespace RealTime.Localization
 
         /// <summary>The key for the prisoners Serving time in prison.</summary>
         public const string ServingTimeAt = "ServingTimeAt";
+
+
+        /// --------------------------------- RaceDay Events Keys -------------------------------------------
+
+        /// <summary>The key for race day label hour.</summary>
+        public const string RaceDayLabelHour = "RaceDayLabelHour";
+
+        /// <summary>The key for race day label frequency.</summary>
+        public const string RaceDayLabelFrequency = "RaceDayLabelFrequency";
+
+        /// <summary>The key for race day label minute.</summary>
+        public const string RaceDayLabelMinute = "RaceDayLabelMinute";
+
+        /// <summary>The key for race day label auto occur.</summary>
+        public const string RaceDayLabelAutoOccur = "RaceDayLabelAutoOccur";
+
+        /// <summary>The key for race day dropdown weekly frequency option.</summary>
+        public const string RaceDayDropDownWeeklyFrequency = "RaceDayDropDownWeeklyFrequency";
+
+        /// <summary>The key for race day dropdown daily frequency option.</summary>
+        public const string RaceDayDropDownDailyFrequency = "RaceDayDropDownDailyFrequency";
+
+        /// <summary>The key for race day dropdown disable auto occur option.</summary>
+        public const string RaceDayDropDownDisableAutoOccur = "RaceDayDropDownDailyFrequency";
+
+        /// <summary>The key for race day dropdown enable auto occur option.</summary>
+        public const string RaceDayDropDownEnableAutoOccur = "RaceDayDropDownWeeklyFrequency";
+
+        // --------------------------------------------------------------------------------------------------
+
+        /// --------------------------------- Vanilla Events Keys -------------------------------------------
+
+        /// <summary>The key for vanilla event selection label title.</summary>
+        public const string VanillaEventSelectionLabelTitle = "VanillaEventSelectionLabelTitle";
+
+        /// <summary>The key for vanilla event total amount label.</summary>
+        public const string VanillaEventTotalAmountLabel = "VanillaEventTotalAmountLabel";
+
+        /// <summary>The key for vanilla event total amount label tooltip.</summary>
+        public const string VanillaEventTotalAmountLabelTooltip = "VanillaEventTotalAmountLabelTooltip";
+
+        /// <summary>The key for vanilla event total income label.</summary>
+        public const string VanillaEventTotalIncomeLabel = "VanillaEventTotalIncomeLabel";
+
+        /// <summary>The key for vanilla event total income label tooltip.</summary>
+        public const string VanillaEventTotalIncomeLabelTooltip = "VanillaEventTotalIncomeLabelTooltip";
+
+        /// <summary>The key for vanilla event create button text.</summary>
+        public const string VanillaEventCreateButton = "VanillaEventCreateButton";
+
+        /// <summary>The key for vanilla event create button tooltip.</summary>
+        public const string VanillaEventCreateButtonTooltip = "VanillaEventCreateButtonTooltip";
+
+        /// <summary>The key for vanilla event day dropdown label.</summary>
+        public const string VanillaEventDayDropDownLabel = "VanillaEventDayDropDownLabel";
+
+        /// <summary>The key for vanilla event day dropdown label tooltip.</summary>
+        public const string VanillaEventDayDropDownLabelTooltip = "VanillaEventDayDropDownLabelTooltip";
+
+        /// <summary>The key for vanilla event month dropdown label.</summary>
+        public const string VanillaEventMonthDropDownLabel = "VanillaEventMonthDropDownLabel";
+
+        /// <summary>The key for vanilla event month dropdown label tooltip.</summary>
+        public const string VanillaEventMonthDropDownLabelTooltip = "VanillaEventMonthDropDownLabelTooltip";
+
+        /// <summary>The key for vanilla event hour dropdown label.</summary>
+        public const string VanillaEventHourDropDownLabel = "VanillaEventHourDropDownLabel";
+
+        /// <summary>The key for vanilla event hour dropdown label tooltip.</summary>
+        public const string VanillaEventHourDropDownLabelTooltip = "VanillaEventHourDropDownLabelTooltip";
+
+        /// <summary>The key for vanilla event minute dropdown label.</summary>
+        public const string VanillaEventMinuteDropDownLabel = "VanillaEventMinuteDropDownLabel";
+
+        /// <summary>The key for vanilla event minute dropdown label tooltip.</summary>
+        public const string VanillaEventMinuteDropDownLabelTooltip = "VanillaEventMinuteDropDownLabelTooltip";
+
+        /// <summary>The key for vanilla event ticket slider label.</summary>
+        public const string VanillaEventTicketSliderLabel = "VanillaEventTicketSliderLabel";
+
+        /// <summary>The key for vanilla event ticket slider label tooltip.</summary>
+        public const string VanillaEventTicketSliderLabelTooltip = "VanillaEventTicketSliderLabelTooltip";
+
+        /// <summary>The key for vanilla event costs label.</summary>
+        public const string VanillaEventCostsLabel = "VanillaEventCostsLabel";
+
+        /// <summary>The key for vanilla event returns label.</summary>
+        public const string VanillaEventReturnsLabel = "VanillaEventReturnsLabel";
+
+        // --------------------------------------------------------------------------------------------------
     }
 }

@@ -5,7 +5,6 @@ namespace RealTime.Patches
     using System;
     using ColossalFramework;
     using HarmonyLib;
-    using RealTime.Core;
     using RealTime.CustomAI;
     using RealTime.GameConnection;
     using RealTime.Managers;
@@ -118,10 +117,6 @@ namespace RealTime.Patches
             }
             bool flag = false;
             int num = schedule.Length;
-            if (RealTimeMod.configProvider.Configuration.DisableRaceOrParadeAutoOccur)
-            {
-                num = 1;
-            }
             var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(eventRouteIndex);
             var scheduleData = ___m_eventRoutes.m_buffer[eventRouteIndex].m_scheduleData;
             for (int i = 0; i < ___m_eventRoutes.m_buffer[eventRouteIndex].m_scheduleCount; i++)
@@ -132,6 +127,10 @@ namespace RealTime.Patches
                 }
                 var dateTime = CalculateNextEvent(Singleton<SimulationManager>.instance.m_currentGameTime, scheduleData[i].m_startDay + 1, scheduleData[i].m_startMonth + 1, eventTimeSchedules[i].StartHour, eventTimeSchedules[i].StartMinute);
                 int j = 0;
+                if (!eventTimeSchedules[i].AutoOccur)
+                {
+                    num = 0;
+                }
                 for (int k = 0; k < num; k++)
                 {
                     if (j >= num)
@@ -167,12 +166,12 @@ namespace RealTime.Patches
                             };
                         }
                     }
-                    if (RealTimeMod.configProvider.Configuration.DailyRaceOrParadeEvents)
+                    if (eventTimeSchedules[i].Frequency == 0)
                     {
                         // daily
                         dateTime = dateTime.AddDays(1);
                     }
-                    else
+                    else if (eventTimeSchedules[i].Frequency == 1)
                     {
                         // weekly default
                         dateTime = dateTime.AddDays(7);

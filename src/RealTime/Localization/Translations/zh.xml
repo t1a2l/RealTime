@@ -121,10 +121,6 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="周末最早可以开始事件的时间" />
   <translation id="LatestHourEventStartWeekend" value="最晚的周末活动" />
   <translation id="LatestHourEventStartWeekendTooltip" value="周末最迟可以开始事件的时间" />
-  <translation id="DisableRaceOrParadeAutoOccur" value="Disable race or parade auto occurrence" />
-  <translation id="DisableRaceOrParadeAutoOccurTooltip" value="Disable race or parade from auto occuring" />
-  <translation id="DailyRaceOrParadeEvents" value="Set race or parade auto event to daily(default weekly)" />
-  <translation id="DailyRaceOrParadeEventsTooltip" value="Set race or parade auto event to daily(default weekly)" />
 
   <translation id="4Time" value="时间" />
   <translation id="MaxOvertime" value="最长加班时间" />
@@ -309,6 +305,37 @@
   <translation id="ConfirmPanelDeleteGlobalText" value="This will remove all the buildings work hours of this type back to default settings across all saves!" />
   <translation id="ClosedBuilding" value="已关闭" />
   <translation id="ServingTimeAt" value="服刑于" />
+
+  <translation id="RaceDayLabelHour" value="Hour" />
+  <translation id="RaceDayLabelFrequency" value="Frequency" />
+  <translation id="RaceDayLabelMinute" value="Minute" />
+  <translation id="RaceDayLabelAutoOccur" value="AutoOccur" />
+  <translation id="RaceDayDropDownWeeklyFrequency" value="Weekly" />
+  <translation id="RaceDayDropDownDailyFrequency" value="Daily" />
+  <translation id="RaceDayDropDownDisableAutoOccur" value="Disable" />
+  <translation id="RaceDayDropDownEnableAutoOccur" value="Enable" />
+
+  <translation id="VanillaEventSelectionLabelTitle" value="Events:" />
+  <translation id="VanillaEventSelectEventButton" value="Select" />
+  <translation id="VanillaEventSelectEventButtonTooltip" value="Select the event to create" />
+  <translation id="VanillaEventTotalAmountLabel" value="Event cost" />
+  <translation id="VanillaEventTotalAmountLabelTooltip" value="The total cost to create this event" />
+  <translation id="VanillaEventTotalIncomeLabel" value="Max profit" />
+  <translation id="VanillaEventTotalIncomeLabelTooltip" value="The maximum profits you can receive if the event is 100% successful and all incentives are used" />
+  <translation id="VanillaEventCreateButton" value="Create" />
+  <translation id="VanillaEventCreateButtonTooltip" value="Create the event" />
+  <translation id="VanillaEventDayDropDownLabel" value="Day" />
+  <translation id="VanillaEventDayDropDownLabelTooltip" value="The day of the month to start the event" />
+  <translation id="VanillaEventMonthDropDownLabel" value="Month" />
+  <translation id="VanillaEventMonthDropDownLabelTooltip" value="The month to start the event" />
+  <translation id="VanillaEventHourDropDownLabel" value="Hour" />
+  <translation id="VanillaEventHourDropDownLabelTooltip" value="The Hour to start the event" />
+  <translation id="VanillaEventMinuteDropDownLabel" value="Minute" />
+  <translation id="VanillaEventMinuteDropDownLabelTooltip" value="the minute to start the event" />
+  <translation id="VanillaEventTicketSliderLabel" value="Tickets" />
+  <translation id="VanillaEventTicketSliderLabelTooltip" value="Increase or decrease the number of tickets available for this venue" />
+  <translation id="VanillaEventCostsLabel" value="BUY" />
+  <translation id="VanillaEventReturnsLabel" value="SELL" />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="煤炭储存 {0} × {unit}"/>

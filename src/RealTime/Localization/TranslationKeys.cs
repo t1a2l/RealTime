@@ -239,10 +239,10 @@ namespace RealTime.Localization
         public const string RaceDayDropDownDailyFrequency = "RaceDayDropDownDailyFrequency";
 
         /// <summary>The key for race day dropdown disable auto occur option.</summary>
-        public const string RaceDayDropDownDisableAutoOccur = "RaceDayDropDownDailyFrequency";
+        public const string RaceDayDropDownDisableAutoOccur = "RaceDayDropDownDisableAutoOccur";
 
         /// <summary>The key for race day dropdown enable auto occur option.</summary>
-        public const string RaceDayDropDownEnableAutoOccur = "RaceDayDropDownWeeklyFrequency";
+        public const string RaceDayDropDownEnableAutoOccur = "RaceDayDropDownEnableAutoOccur";
 
         // --------------------------------------------------------------------------------------------------
 

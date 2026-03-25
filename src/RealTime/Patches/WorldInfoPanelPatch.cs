@@ -8,7 +8,6 @@ namespace RealTime.Patches
     using System.Runtime.CompilerServices;
     using System.Text;
     using ColossalFramework;
-    using ColossalFramework.Math;
     using ColossalFramework.Threading;
     using ColossalFramework.UI;
     using HarmonyLib;
@@ -24,7 +23,6 @@ namespace RealTime.Patches
     using SkyTools.Localization;
     using SkyTools.Tools;
     using UnityEngine;
-    using static RenderManager;
 
     /// <summary>
     /// A static class that provides the patch objects for the world info panel game methods.
@@ -776,8 +774,6 @@ namespace RealTime.Patches
         [HarmonyPatch]
         private sealed class RaceEventWorldInfoPanelPatch
         {
-            private delegate void UpdatePastEventDelegate(ushort eventIndex, ref EventData eventData);
-
             [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "Start")]
             [HarmonyPostfix]
             private static void Start(RaceEventWorldInfoPanel __instance, ref ushort ___m_eventRouteID, ref UITemplateList<UIPanel> ___m_EventConfigs, ref UITemplateList<UIPanel> ___m_PastEventList)
@@ -918,6 +914,9 @@ namespace RealTime.Patches
                         var dropDownMinute_action = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
                         var dropDownAutoOccur_action = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownAutoOccur");
 
+                        var dropDownFrequency_label = eventConfigs.items[scheduleIndex].Find<UILabel>("LabelFrequency");
+                        dropDownFrequency_label.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelFrequency);
+
                         dropDownHour_action.selectedIndex = eventTimeSchedules[scheduleIndex].StartHour;
                         dropDownFrequency_action.selectedIndex = eventTimeSchedules[scheduleIndex].Frequency;
                         dropDownMinute_action.selectedIndex = eventTimeSchedules[scheduleIndex].StartMinute;
@@ -933,31 +932,19 @@ namespace RealTime.Patches
                         dropDownMinute_action.opacity = (!flag2) ? 0.4f : 1f;
                         dropDownAutoOccur_action.opacity = (!flag2) ? 0.4f : 1f;
 
+                        dropDownFrequency_action.items = [
+                            localizationProvider.Translate(TranslationKeys.RaceDayDropDownWeeklyFrequency),
+                            localizationProvider.Translate(TranslationKeys.RaceDayDropDownDailyFrequency)
+                        ];
+
                         __instance.GetComponent<UIPanel>().height = 415f;
+
+                        dropDownAutoOccur_action.relativePosition = new Vector3(310f, 57f);
 
                         var buttonStartNow = __instance.Find<UIButton>("ButtonStartNow");
                         buttonStartNow.relativePosition = new Vector3(8f, 80f);
+
                     }; 
-                }
-
-
-                for (int j = 0; j < ___m_PastEventList.items.Count; j++)
-                {
-                    var uIPanel2 = ___m_PastEventList.items[j];
-
-                    int index = j;
-
-                    var UpdatePastEventDelegate = Traverse.Create(__instance).Field("UpdatePastEventDelegate").GetValue<UpdatePastEventDelegate>();
-
-                    uIPanel2.objectUserData = (UpdatePastEventDelegate)delegate (ushort eventIndex, ref EventData eventData)
-                    {
-                        UpdatePastEventDelegate?.Invoke(eventIndex, ref eventData);  // Run game code first
-
-                        var pastEventList = Traverse.Create(__instance).Field("m_PastEventList").GetValue<UITemplateList<UIPanel>>();
-
-                        var labelDate = pastEventList.items[index].Find<UILabel>("LabelDate");
-                        labelDate.text = Singleton<SimulationManager>.instance.FrameToTime(eventData.m_startFrame).ToString("dd/MM/yyyy HH:mm");
-                    };
                 }
             }
 
@@ -994,7 +981,29 @@ namespace RealTime.Patches
                 }
             }
 
-
+            [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "UpdatePastEvents")]
+            [HarmonyPostfix]
+            private static void UpdatePastEvents(RaceEventWorldInfoPanel __instance, ref InstanceID ___m_InstanceID, ref UITemplateList<UIPanel> ___m_PastEventList)
+            {
+                if (___m_InstanceID.Building != 0)
+                {
+                    ushort num2 = Singleton<BuildingManager>.instance.m_buildings.m_buffer[___m_InstanceID.Building].m_eventIndex;
+                    if (num2 != 0)
+                    {
+                        if ((Singleton<EventManager>.instance.m_events.m_buffer[num2].m_flags & (EventData.Flags.Completed | EventData.Flags.Cancelled)) == 0)
+                        {
+                            num2 = Singleton<EventManager>.instance.m_events.m_buffer[num2].m_nextBuildingEvent;
+                        }
+                        ref var eventData = ref Singleton<EventManager>.instance.m_events.m_buffer[num2];
+                        for (int num4 = 0; num4 < ___m_PastEventList.items.Count; num4++)
+                        {
+                            var uIPanel2 = ___m_PastEventList.items[num4];
+                            var labelDate = uIPanel2.Find<UILabel>("LabelDate");
+                            labelDate.text = Singleton<SimulationManager>.instance.FrameToTime(eventData.m_startFrame).ToString("dd/MM/yyyy");
+                        }
+                    }   
+                }
+            }
 
             [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "UpdateEventSchedule")]
             [HarmonyPostfix]

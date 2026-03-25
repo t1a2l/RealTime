@@ -268,17 +268,21 @@ namespace RealTime.UI
         {
             var dropdown = (UIDropDown)uiComponent;
             int startMonth = byte.Parse(_startMonthDropDown.selectedValue);
+
+            string dayText = dropdown.items[value];
+            int day = byte.Parse(dayText);
+
             int num = DateTime.DaysInMonth(2, startMonth);
-            bool flag = value + 1 > num;
+            bool flag = day > num;
             if (flag)
             {
-                dropdown.selectedIndex = (byte)(num - 1);
+                day = num;
             }
-
+            dropdown.selectedIndex = day - 1;
             int startHour = byte.Parse(_startHourDropDown.selectedValue);
             int startMinute = byte.Parse(_startMinuteDropDown.selectedValue);
             int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
-            var startDateTime = new DateTime(year, startMonth, value, startHour, startMinute, 0);
+            var startDateTime = new DateTime(year, startMonth, day, startHour, startMinute, 0);
             var dateTime = AdjustEventStartTime(startDateTime);
             _startHourDropDown.selectedIndex = dateTime.Hour;
             _startMinuteDropDown.selectedIndex = dateTime.Minute;
@@ -286,21 +290,26 @@ namespace RealTime.UI
 
         private void OnScheduleMonthChanged(UIComponent uiComponent, int value)
         {
+            var dropdown = (UIDropDown)uiComponent;
+            string monthText = dropdown.items[value];
+            int month = byte.Parse(monthText);
+
             int startDay = byte.Parse(_startDayDropDown.selectedValue);
-            int num = DateTime.DaysInMonth(2, value + 1);
+
+            int num = DateTime.DaysInMonth(2, month);
             if (startDay > num)
             {
-                _startDayDropDown.selectedIndex = num - 1;
+                startDay = num;
             }
+            _startDayDropDown.selectedIndex = startDay - 1;
 
             int startHour = byte.Parse(_startHourDropDown.selectedValue);
             int startMinute = byte.Parse(_startMinuteDropDown.selectedValue);
             int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
-            var startDateTime = new DateTime(year, value, startDay, startHour, startMinute, 0);
+            var startDateTime = new DateTime(year, month, startDay, startHour, startMinute, 0);
             var dateTime = AdjustEventStartTime(startDateTime);
             _startHourDropDown.selectedIndex = dateTime.Hour;
             _startMinuteDropDown.selectedIndex = dateTime.Minute;
-
         }
 
         private void OnScheduleHourChanged(UIComponent uiComponent, int value)
@@ -313,9 +322,9 @@ namespace RealTime.UI
 
             int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
             string hourText = dropdown.items[value];
-            int Hour = byte.Parse(hourText);
+            int hour = byte.Parse(hourText);
 
-            var startDateTime = new DateTime(year, startMonth, startDay, Hour, startMinute, 0);
+            var startDateTime = new DateTime(year, startMonth, startDay, hour, startMinute, 0);
             var dateTime = AdjustEventStartTime(startDateTime);
             dropdown.selectedIndex = dateTime.Hour;
             _startMinuteDropDown.selectedIndex = dateTime.Minute;
@@ -324,7 +333,19 @@ namespace RealTime.UI
         private void OnScheduleMinuteChanged(UIComponent uiComponent, int value)
         {
             var dropdown = (UIDropDown)uiComponent;
-            dropdown.selectedIndex = value;
+
+            int startDay = byte.Parse(_startDayDropDown.selectedValue);
+            int startMonth = byte.Parse(_startMonthDropDown.selectedValue);
+            int startHour = byte.Parse(_startHourDropDown.selectedValue);
+
+            int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
+            string minuteText = dropdown.items[value];
+            int minute = byte.Parse(minuteText);
+
+            var startDateTime = new DateTime(year, startMonth, startDay, startHour, minute, 0);
+            var dateTime = AdjustEventStartTime(startDateTime);
+            _startHourDropDown.selectedIndex = dateTime.Hour;
+            dropdown.selectedIndex = dateTime.Minute;
         }
 
         private static string getTimeFromFloatingValue(float value)

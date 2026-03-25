@@ -36,6 +36,8 @@ namespace RealTime.Serializer
                 {
                     StorageData.WriteByte(kvp.Value[i].StartHour, Data);
                     StorageData.WriteByte(kvp.Value[i].StartMinute, Data);
+                    StorageData.WriteByte(kvp.Value[i].Frequency, Data);
+                    StorageData.WriteBool(kvp.Value[i].AutoOccur, Data);
                 }
 
                 // Write end tuple
@@ -71,6 +73,8 @@ namespace RealTime.Serializer
                     {
                         eventTimeSchedule[j].StartHour = StorageData.ReadByte(Data, ref iIndex);
                         eventTimeSchedule[j].StartMinute = StorageData.ReadByte(Data, ref iIndex);
+                        eventTimeSchedule[j].Frequency = StorageData.ReadByte(Data, ref iIndex);
+                        eventTimeSchedule[j].AutoOccur = StorageData.ReadBool(Data, ref iIndex);
                     }
 
                     EventRouteTimeManager.TimeSchedules.Add(EventRouteID, eventTimeSchedule);

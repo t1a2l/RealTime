@@ -12,6 +12,8 @@ namespace RealTime.Managers
         {
             public byte StartHour;
             public byte StartMinute;
+            public byte Frequency;
+            public bool AutoOccur;
         }
 
         public static void Init() => TimeSchedules ??= [];
@@ -42,6 +44,20 @@ namespace RealTime.Managers
         {
             var eventTimeSchedule = GetEventTimeSchedules(eventRouteID);
             eventTimeSchedule[scheduleIndex].StartMinute = startMinute;
+            SetEventTimeSchedule(eventRouteID, eventTimeSchedule);
+        }
+
+        public static void SetEventTimeScheduleFrequency(ushort eventRouteID, int scheduleIndex, byte frequency)
+        {
+            var eventTimeSchedule = GetEventTimeSchedules(eventRouteID);
+            eventTimeSchedule[scheduleIndex].Frequency = frequency;
+            SetEventTimeSchedule(eventRouteID, eventTimeSchedule);
+        }
+
+        public static void SetEventTimeScheduleAutoOccur(ushort eventRouteID, int scheduleIndex, bool autoOccur)
+        {
+            var eventTimeSchedule = GetEventTimeSchedules(eventRouteID);
+            eventTimeSchedule[scheduleIndex].AutoOccur = autoOccur;
             SetEventTimeSchedule(eventRouteID, eventTimeSchedule);
         }
 

@@ -155,19 +155,19 @@ namespace RealTime.UI
 
             var dropdownPanel = _startDayDropDown.parent as UIPanel;
             var dropdownLabel = dropdownPanel.Find<UILabel>("Label");
-            dropdownLabel.textScale = 0.8f;
+            dropdownLabel.textScale = 0.875f;
 
             dropdownPanel = _startMonthDropDown.parent as UIPanel;
-            dropdownLabel = sliderPanel.Find<UILabel>("Label");
-            dropdownLabel.textScale = 0.8f;
+            dropdownLabel = dropdownPanel.Find<UILabel>("Label");
+            dropdownLabel.textScale = 0.875f;
 
             dropdownPanel = _startHourDropDown.parent as UIPanel;
-            dropdownLabel = sliderPanel.Find<UILabel>("Label");
-            dropdownLabel.textScale = 0.8f;
+            dropdownLabel = dropdownPanel.Find<UILabel>("Label");
+            dropdownLabel.textScale = 0.875f;
 
             dropdownPanel = _startMinuteDropDown.parent as UIPanel;
-            dropdownLabel = sliderPanel.Find<UILabel>("Label");
-            dropdownLabel.textScale = 0.8f;
+            dropdownLabel = dropdownPanel.Find<UILabel>("Label");
+            dropdownLabel.textScale = 0.875f;
 
             _createButton.textScale = 0.9f;
             _createButton.anchor = UIAnchorStyle.Right | UIAnchorStyle.Bottom;
@@ -211,20 +211,32 @@ namespace RealTime.UI
                     }
                 });
 
-                _startDayDropDown = (UIDropDown)_helper.AddDropdown("Day", [], 0, null);
-                _startMonthDropDown = (UIDropDown)_helper.AddDropdown("Month", [], 0, null);
-                _startHourDropDown = (UIDropDown)_helper.AddDropdown("Hour", [], 0, null);
-                _startMinuteDropDown = (UIDropDown)_helper.AddDropdown("Minute", [], 0, null);
+                _createButton = _helper.AddButton("Create", new OnButtonClicked(CreateEvent)) as UIButton;
 
-                _startDayDropDown.items = [.. Enumerable.Range(0, 32).Select(i => i.ToString("D2"))];
-                _startMonthDropDown.items = [.. Enumerable.Range(0, 13).Select(i => i.ToString("D2"))];
-                _startHourDropDown.items = [.. Enumerable.Range(0, 24).Select(i => i.ToString("D2"))];
-                _startMinuteDropDown.items = [.. Enumerable.Range(0, 60).Select(i => i.ToString("D2"))];
+                int defaultDaySelection = Singleton<SimulationManager>.instance.m_currentGameTime.Day - 1;
+                int defaultMonthSelection = Singleton<SimulationManager>.instance.m_currentGameTime.Month - 1;
+                int defaultHourSelection = AdjustEventStartTime(Singleton<SimulationManager>.instance.m_currentGameTime).Hour;
+                int defaultMinuteSelection = Singleton<SimulationManager>.instance.m_currentGameTime.Minute;
 
-                _startDayDropDown.selectedIndex = Singleton<SimulationManager>.instance.m_currentGameTime.Day - 1;
-                _startMonthDropDown.selectedIndex = Singleton<SimulationManager>.instance.m_currentGameTime.Month - 1;
-                _startHourDropDown.selectedIndex = Singleton<SimulationManager>.instance.m_currentGameTime.Hour;
-                _startMinuteDropDown.selectedIndex = Singleton<SimulationManager>.instance.m_currentGameTime.Minute;
+                _startDayDropDown = (UIDropDown)_helper.AddDropdown("Day", [.. Enumerable.Range(1, 31).Select(i => i.ToString("D2"))], defaultDaySelection, delegate (int value) {});
+                _startMonthDropDown = (UIDropDown)_helper.AddDropdown("Month", [.. Enumerable.Range(1, 12).Select(i => i.ToString("D2"))], defaultMonthSelection, delegate (int value) { });
+                _startHourDropDown = (UIDropDown)_helper.AddDropdown("Hour", [.. Enumerable.Range(0, 24).Select(i => i.ToString("D2"))], defaultHourSelection, delegate (int value) { });
+                _startMinuteDropDown = (UIDropDown)_helper.AddDropdown("Minute", [.. Enumerable.Range(0, 60).Select(i => i.ToString("D2"))], defaultMinuteSelection, delegate (int value) { });
+
+                _startDayDropDown.size = new Vector3(50f, 27f);
+                _startMonthDropDown.size = new Vector3(50f, 27f);
+                _startHourDropDown.size = new Vector3(50f, 27f);
+                _startMinuteDropDown.size = new Vector3(50f, 27f);
+
+                _startDayDropDown.textScale = 0.875f;
+                _startMonthDropDown.textScale = 0.875f;
+                _startHourDropDown.textScale = 0.875f;
+                _startMinuteDropDown.textScale = 0.875f;
+
+                _startDayDropDown.textFieldPadding.right = 10;
+                _startMonthDropDown.textFieldPadding.right = 10;
+                _startHourDropDown.textFieldPadding.right = 10;
+                _startMinuteDropDown.textFieldPadding.right = 10;
 
                 _startDayDropDown.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
                 {
@@ -249,74 +261,70 @@ namespace RealTime.UI
                     OnScheduleMinuteChanged(uiComponent, value);
                     UpdateTotalCost();
                 };
-
-                _createButton = _helper.AddButton("Create", new OnButtonClicked(CreateEvent)) as UIButton;
-
             }
         }
 
         private void OnScheduleDayChanged(UIComponent uiComponent, int value)
         {
             var dropdown = (UIDropDown)uiComponent;
-
-            if(dropdown == null && dropdown.selectedIndex != value)
+            int startMonth = byte.Parse(_startMonthDropDown.selectedValue);
+            int num = DateTime.DaysInMonth(2, startMonth);
+            bool flag = value + 1 > num;
+            if (flag)
             {
-                int startMonth = byte.Parse(_startMonthDropDown.selectedValue);
-                int num = DateTime.DaysInMonth(2, startMonth + 1);
-                bool flag = value + 1 > num;
-                if (flag)
-                {
-                    value = (byte)(num - 1);
-                }
-                if (flag)
-                {
-                    dropdown.selectedIndex = value;
-                }
+                dropdown.selectedIndex = (byte)(num - 1);
             }
+
+            int startHour = byte.Parse(_startHourDropDown.selectedValue);
+            int startMinute = byte.Parse(_startMinuteDropDown.selectedValue);
+            int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
+            var startDateTime = new DateTime(year, startMonth, value, startHour, startMinute, 0);
+            var dateTime = AdjustEventStartTime(startDateTime);
+            _startHourDropDown.selectedIndex = dateTime.Hour;
+            _startMinuteDropDown.selectedIndex = dateTime.Minute;
         }
 
         private void OnScheduleMonthChanged(UIComponent uiComponent, int value)
         {
-            var dropdown = (UIDropDown)uiComponent;
-
-            if (dropdown == null && dropdown.selectedIndex != value)
+            int startDay = byte.Parse(_startDayDropDown.selectedValue);
+            int num = DateTime.DaysInMonth(2, value + 1);
+            if (startDay > num)
             {
-                int startDay = byte.Parse(_startDayDropDown.selectedValue);
-                int num = DateTime.DaysInMonth(2, value + 1);
-                if (startDay > num)
-                {
-                    dropdown.selectedIndex = num - 1;
-                }
+                _startDayDropDown.selectedIndex = num - 1;
             }
+
+            int startHour = byte.Parse(_startHourDropDown.selectedValue);
+            int startMinute = byte.Parse(_startMinuteDropDown.selectedValue);
+            int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
+            var startDateTime = new DateTime(year, value, startDay, startHour, startMinute, 0);
+            var dateTime = AdjustEventStartTime(startDateTime);
+            _startHourDropDown.selectedIndex = dateTime.Hour;
+            _startMinuteDropDown.selectedIndex = dateTime.Minute;
+
         }
 
         private void OnScheduleHourChanged(UIComponent uiComponent, int value)
         {
             var dropdown = (UIDropDown)uiComponent;
 
-            int startDay = byte.Parse(_startDayDropDown.selectedValue) + 1;
-            int startMonth = byte.Parse(_startMonthDropDown.selectedValue) + 1;
-            int startMinute = byte.Parse(_startMinuteDropDown.selectedValue) + 1;
+            int startDay = byte.Parse(_startDayDropDown.selectedValue);
+            int startMonth = byte.Parse(_startMonthDropDown.selectedValue);
+            int startMinute = byte.Parse(_startMinuteDropDown.selectedValue);
 
             int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
+            string hourText = dropdown.items[value];
+            int Hour = byte.Parse(hourText);
 
-            if (dropdown == null && dropdown.selectedIndex != value)
-            {
-                string hourText = dropdown.items[value];
-                int Hour = byte.Parse(hourText) + 1;
-
-                var startDateTime = new DateTime(year, startMonth, startDay, Hour, startMinute, 0);
-                dropdown.selectedIndex = (byte)AdjustEventStartTime(startDateTime) - 1;
-            }
+            var startDateTime = new DateTime(year, startMonth, startDay, Hour, startMinute, 0);
+            var dateTime = AdjustEventStartTime(startDateTime);
+            dropdown.selectedIndex = dateTime.Hour;
+            _startMinuteDropDown.selectedIndex = dateTime.Minute;
         }
 
         private void OnScheduleMinuteChanged(UIComponent uiComponent, int value)
         {
             var dropdown = (UIDropDown)uiComponent;
-            if (dropdown == null && dropdown.selectedIndex != value)
-            {
-                dropdown.selectedIndex = value;
-            }
+            dropdown.selectedIndex = value;
         }
 
         private static string getTimeFromFloatingValue(float value)
@@ -333,12 +341,15 @@ namespace RealTime.UI
             return hours.ToString() + ':' + minutes.ToString() + ' ' + suffix;
         }
 
-        private static float AdjustEventStartTime(DateTime eventStartTime)
+        private static DateTime AdjustEventStartTime(DateTime eventStartTime)
         {
             var result = eventStartTime;
 
             float earliestHour;
             float latestHour;
+            float hour = result.Hour;
+            float minute = result.Minute;
+
             if (RealTimeConfig.IsWeekendEnabled && result.IsWeekend())
             {
                 earliestHour = RealTimeConfig.EarliestHourEventStartWeekend;
@@ -350,7 +361,17 @@ namespace RealTime.UI
                 latestHour = RealTimeConfig.LatestHourEventStartWeekday;
             }
 
-            return result.Hour >= latestHour ? latestHour : result.Hour < earliestHour ? earliestHour : result.Hour;
+            if(result.Hour >= latestHour)
+            {
+                hour = latestHour;
+                minute = 0;
+            }
+            else if(result.Hour < earliestHour)
+            {
+                hour = earliestHour;
+            }
+
+            return new DateTime(eventStartTime.Year, eventStartTime.Month, eventStartTime.Day, (int)hour, (int)minute, 0);
         }
 
         public void SetUp(CityEventTemplate selectedTemplate, ushort buildingID)
@@ -474,21 +495,21 @@ namespace RealTime.UI
 
             var startMonthDropDownPanel = _startMonthDropDown.parent as UIPanel;
             startMonthDropDownPanel.width = _startMonthDropDown.width;
-            startMonthDropDownPanel.relativePosition = new Vector3(startDayDropDownPanel.relativePosition.x + startDayDropDownPanel.width + 5, _createButton.relativePosition.y - 7f);
+            startMonthDropDownPanel.relativePosition = new Vector3(startDayDropDownPanel.relativePosition.x + startDayDropDownPanel.width + 10, _createButton.relativePosition.y - 7f);
 
             dropdownLabel = startMonthDropDownPanel.Find<UILabel>("Label");
             dropdownLabel.width = _startMonthDropDown.width;
 
             var startHourDropDownPanel = _startHourDropDown.parent as UIPanel;
             startHourDropDownPanel.width = _startHourDropDown.width;
-            startHourDropDownPanel.relativePosition = new Vector3(startMonthDropDownPanel.relativePosition.x + startMonthDropDownPanel.width + 5, _createButton.relativePosition.y - 7f);
+            startHourDropDownPanel.relativePosition = new Vector3(startMonthDropDownPanel.relativePosition.x + startMonthDropDownPanel.width + 10, _createButton.relativePosition.y - 7f);
 
             dropdownLabel = startHourDropDownPanel.Find<UILabel>("Label");
             dropdownLabel.width = _startHourDropDown.width;
 
             var startMinuteDropDownPanel = _startMinuteDropDown.parent as UIPanel;
             startMinuteDropDownPanel.width = _startMinuteDropDown.width;
-            startMinuteDropDownPanel.relativePosition = new Vector3(startHourDropDownPanel.relativePosition.x + startHourDropDownPanel.width + 5, _createButton.relativePosition.y - 7f);
+            startMinuteDropDownPanel.relativePosition = new Vector3(startHourDropDownPanel.relativePosition.x + startHourDropDownPanel.width + 10, _createButton.relativePosition.y - 7f);
 
             dropdownLabel = startMinuteDropDownPanel.Find<UILabel>("Label");
             dropdownLabel.width = _startMinuteDropDown.width;

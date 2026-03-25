@@ -24,6 +24,7 @@ namespace RealTime.Patches
     using SkyTools.Localization;
     using SkyTools.Tools;
     using UnityEngine;
+    using static RenderManager;
 
     /// <summary>
     /// A static class that provides the patch objects for the world info panel game methods.
@@ -818,8 +819,9 @@ namespace RealTime.Patches
 
                     // get y positions of dropdown and label
                     float dropdownDayY = dropdownDay.relativePosition.y;
-                    float labelDayY = labelDay.relativePosition.y;
                     float newDropdownY = 57f;
+
+                    float labelDayY = labelDay.relativePosition.y;
                     float newlabelY = 63f;
 
                     // dropdowns relative positions
@@ -835,9 +837,9 @@ namespace RealTime.Patches
                     dropdownAutoOccur.width = 110f;
 
                     // labels relative positions
-                    labelDay.relativePosition = new Vector3(-40f, newlabelY);
-                    labelMonth.relativePosition = new Vector3(80f, newlabelY);
-                    labelFrequency.relativePosition = new Vector3(230f, newlabelY);
+                    labelDay.relativePosition = new Vector3(-40f, labelDayY);
+                    labelMonth.relativePosition = new Vector3(80f, labelDayY);
+                    labelFrequency.relativePosition = new Vector3(230f, labelDayY);
                     labelHour.relativePosition = new Vector3(-40f, newlabelY);
                     labelMinute.relativePosition = new Vector3(80f, newlabelY);                 
                     labelAutoOccur.relativePosition = new Vector3(230f, newlabelY);
@@ -846,7 +848,7 @@ namespace RealTime.Patches
                     dropdownHour.name = "DropdownHour";
                     dropdownFrequency.name = "DropdownFrequency";
                     dropdownMinute.name = "DropdownMinute";
-                    dropdownAutoOccur.name = "LabelAutoOccur";
+                    dropdownAutoOccur.name = "DropdownAutoOccur";
 
                     // new labels names
                     labelHour.name = "LabelHour";
@@ -855,22 +857,16 @@ namespace RealTime.Patches
                     labelAutoOccur.name = "LabelAutoOccur";
 
                     // new labels texts
-                    labelHour.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelHour);
-                    labelFrequency.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelFrequency);
-                    labelMinute.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelMinute); 
-                    labelAutoOccur.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelAutoOccur);
+                    labelHour.text = "";
+                    labelFrequency.text = "";
+                    labelMinute.text = ""; 
+                    labelAutoOccur.text = "";
 
                     // new dropdown items
                     dropdownHour.items = [.. Enumerable.Range(0, 24).Select(i => i.ToString("D2"))];
-                    dropdownFrequency.items = [
-                        localizationProvider.Translate(TranslationKeys.RaceDayDropDownWeeklyFrequency),
-                        localizationProvider.Translate(TranslationKeys.RaceDayDropDownDailyFrequency)
-                    ];
+                    dropdownFrequency.items = [];
                     dropdownMinute.items = [.. Enumerable.Range(0, 60).Select(i => i.ToString("D2"))];
-                    dropdownAutoOccur.items = [
-                        localizationProvider.Translate(TranslationKeys.RaceDayDropDownDisableAutoOccur),
-                        localizationProvider.Translate(TranslationKeys.RaceDayDropDownEnableAutoOccur)
-                    ];
+                    dropdownAutoOccur.items = [];
 
                     // new dropdown event changes
                     dropdownHour.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
@@ -937,7 +933,9 @@ namespace RealTime.Patches
                         dropDownMinute_action.opacity = (!flag2) ? 0.4f : 1f;
                         dropDownAutoOccur_action.opacity = (!flag2) ? 0.4f : 1f;
 
-                        var buttonStartNow = panel.Find<UIButton>("ButtonStartNow");
+                        __instance.GetComponent<UIPanel>().height = 415f;
+
+                        var buttonStartNow = __instance.Find<UIButton>("ButtonStartNow");
                         buttonStartNow.relativePosition = new Vector3(8f, 80f);
                     }; 
                 }
@@ -962,6 +960,41 @@ namespace RealTime.Patches
                     };
                 }
             }
+
+            [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "OnSetTarget")]
+            [HarmonyPostfix]
+            private static void OnSetTarget(RaceEventWorldInfoPanel __instance, ref UITemplateList<UIPanel> ___m_EventConfigs)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    int scheduleIndex = i;
+
+                    var dropdownFrequency = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownFrequency");
+                    var dropdownAutoOccur = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownAutoOccur");
+
+                    dropdownFrequency.items = [
+                        localizationProvider.Translate(TranslationKeys.RaceDayDropDownWeeklyFrequency),
+                        localizationProvider.Translate(TranslationKeys.RaceDayDropDownDailyFrequency)
+                    ];
+
+                    dropdownAutoOccur.items = [
+                        localizationProvider.Translate(TranslationKeys.RaceDayDropDownDisableAutoOccur),
+                        localizationProvider.Translate(TranslationKeys.RaceDayDropDownEnableAutoOccur)
+                    ];
+
+                    var labelHour = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("LabelHour");
+                    var labelFrequency = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("LabelFrequency");
+                    var labelMinute = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("LabelMinute");
+                    var labelAutoOccur = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("LabelAutoOccur");
+
+                    labelHour.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelHour);
+                    labelFrequency.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelFrequency);
+                    labelMinute.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelMinute);
+                    labelAutoOccur.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelAutoOccur);
+                }
+            }
+
+
 
             [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "UpdateEventSchedule")]
             [HarmonyPostfix]
@@ -1041,6 +1074,86 @@ namespace RealTime.Patches
                 throw new NotImplementedException(message);
             }
 
+
+            [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "OnScheduleDayChanged")]
+            [HarmonyPrefix]
+            private static bool OnScheduleDayChanged(RaceEventWorldInfoPanel __instance, int scheduleIndex, int value, ref ushort ___m_eventRouteID, ref UITemplateList<UIPanel> ___m_EventConfigs)
+            {
+                var buffer = Singleton<EventManager>.instance.m_eventRoutes.m_buffer;
+                var scheduleData = buffer[___m_eventRouteID].m_scheduleData;
+                var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(___m_eventRouteID);
+                int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
+
+                byte startDay = scheduleData[scheduleIndex].m_startDay;
+                byte startMonth = scheduleData[scheduleIndex].m_startMonth;
+                byte startHour = eventTimeSchedules[scheduleIndex].StartHour;
+                byte startMinute = eventTimeSchedules[scheduleIndex].StartMinute;
+
+                byte b = (byte)value;
+                if (startDay != b)
+                {
+                    int num = DateTime.DaysInMonth(2, startMonth + 1);
+                    bool flag = b + 1 > num;
+                    if (flag)
+                    {
+                        b = (byte)(num - 1);
+                    }
+                    var uIDropDown = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownDay");
+                    scheduleData[scheduleIndex].m_startDay = b;
+                    RefreshEventSchedule(__instance);
+                    if (flag)
+                    {
+                        uIDropDown.selectedIndex = b;
+                    }
+
+                    var startDateTime = new DateTime(year, b, startMonth, startHour, startMinute, 0);
+                    var newDateTime = AdjustEventStartTime(startDateTime);
+                    var uIDropDownHour = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
+                    var uIDropDownMinute = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
+                    uIDropDownHour.selectedIndex = newDateTime.Hour;
+                    uIDropDownMinute.selectedIndex = newDateTime.Minute;
+                }
+                return false;
+            }
+
+            [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "OnScheduleDayChanged")]
+            [HarmonyPrefix]
+            private static bool OnScheduleMonthChanged(RaceEventWorldInfoPanel __instance, int scheduleIndex, int value, ref ushort ___m_eventRouteID, ref UITemplateList<UIPanel> ___m_EventConfigs)
+            {
+                var buffer = Singleton<EventManager>.instance.m_eventRoutes.m_buffer;
+                var scheduleData = buffer[___m_eventRouteID].m_scheduleData;
+                var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(___m_eventRouteID);
+                int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
+
+                byte startDay = scheduleData[scheduleIndex].m_startDay;
+                byte startMonth = scheduleData[scheduleIndex].m_startMonth;
+                byte startHour = eventTimeSchedules[scheduleIndex].StartHour;
+                byte startMinute = eventTimeSchedules[scheduleIndex].StartMinute;
+
+                byte b = (byte)value;
+                if (startMonth != b)
+                {
+                    scheduleData[scheduleIndex].m_startMonth = b;
+                    byte b2 = (byte)(scheduleData[scheduleIndex].m_startDay + 1);
+                    int num = DateTime.DaysInMonth(2, b + 1);
+                    if (b2 > num)
+                    {
+                        var uIDropDown = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownDay");
+                        uIDropDown.selectedIndex = num - 1;
+                    }
+                    RefreshEventSchedule(__instance);
+
+                    var startDateTime = new DateTime(year, startDay, b, startHour, startMinute, 0);
+                    var newDateTime = AdjustEventStartTime(startDateTime);
+                    var uIDropDownHour = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
+                    var uIDropDownMinute = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
+                    uIDropDownHour.selectedIndex = newDateTime.Hour;
+                    uIDropDownMinute.selectedIndex = newDateTime.Minute;
+
+                }
+                return false;
+            }
+
             private static void OnScheduleHourChanged(int scheduleIndex, int value, RaceEventWorldInfoPanel instance)
             {
                 ushort routeID = Traverse.Create(instance).Field("m_eventRouteID").GetValue<ushort>();
@@ -1051,31 +1164,38 @@ namespace RealTime.Patches
                 var scheduleData = buffer[routeID].m_scheduleData;
                 int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
 
+                byte startDay = scheduleData[scheduleIndex].m_startDay;
+                byte startMonth = scheduleData[scheduleIndex].m_startMonth;
                 byte startHour = eventTimeSchedules[scheduleIndex].StartHour;
+                byte startMinute = eventTimeSchedules[scheduleIndex].StartMinute;
+
                 byte b = (byte)value;
                 if (startHour != b)
                 {
-                    
-                    var startDateTime = new DateTime(year, scheduleData[scheduleIndex].m_startMonth + 1, scheduleData[scheduleIndex].m_startDay + 1, b, eventTimeSchedules[scheduleIndex].StartMinute, 0);
-                    b = (byte)((byte)AdjustEventStartTime(startDateTime) - 1);
+                    var startDateTime = new DateTime(year, startDay, startMonth, b, startMinute, 0);
+                    var newDateTime = AdjustEventStartTime(startDateTime);
+
+                    b = (byte)newDateTime.Hour;
 
                     EventRouteTimeManager.SetEventTimeScheduleHour(routeID, scheduleIndex, b);
                     RefreshEventSchedule(instance);
 
-                    var uIDropDown = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
-                    if (uIDropDown.selectedIndex != b)
-                    {
-                        uIDropDown.selectedIndex = b;
-                    }
+                    var uIDropDownHour = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
+                    var uIDropDownMinute = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
+                    uIDropDownHour.selectedIndex = b;
+                    uIDropDownMinute.selectedIndex = newDateTime.Minute;
                 }
             }
 
-            private static float AdjustEventStartTime(DateTime eventStartTime)
+            private static DateTime AdjustEventStartTime(DateTime eventStartTime)
             {
                 var result = eventStartTime;
 
                 float earliestHour;
                 float latestHour;
+                float hour = result.Hour;
+                float minute = result.Minute;
+
                 if (RealTimeConfig.IsWeekendEnabled && result.IsWeekend())
                 {
                     earliestHour = RealTimeConfig.EarliestHourEventStartWeekend;
@@ -1087,7 +1207,17 @@ namespace RealTime.Patches
                     latestHour = RealTimeConfig.LatestHourEventStartWeekday;
                 }
 
-                return result.Hour >= latestHour ? latestHour : result.Hour < earliestHour ? earliestHour : result.Hour;
+                if (result.Hour >= latestHour)
+                {
+                    hour = latestHour;
+                    minute = 0;
+                }
+                else if (result.Hour < earliestHour)
+                {
+                    hour = earliestHour;
+                }
+
+                return new DateTime(eventStartTime.Year, eventStartTime.Month, eventStartTime.Day, (int)hour, (int)minute, 0);
             }
 
             private static void OnScheduleFrequencyChanged(int scheduleIndex, int value, RaceEventWorldInfoPanel instance)
@@ -1114,17 +1244,28 @@ namespace RealTime.Patches
                 ushort routeID = Traverse.Create(instance).Field("m_eventRouteID").GetValue<ushort>();
                 var eventConfigs = Traverse.Create(instance).Field("m_EventConfigs").GetValue<UITemplateList<UIPanel>>();
                 var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(routeID);
+
+                var buffer = Singleton<EventManager>.instance.m_eventRoutes.m_buffer;
+                var scheduleData = buffer[routeID].m_scheduleData;
+                int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
+
+                byte startDay = scheduleData[scheduleIndex].m_startDay;
+                byte startMonth = scheduleData[scheduleIndex].m_startMonth;
+                byte startHour = eventTimeSchedules[scheduleIndex].StartHour;
                 byte startMinute = eventTimeSchedules[scheduleIndex].StartMinute;
+
                 byte b = (byte)value;
                 if (startMinute != b)
                 {
+                    var startDateTime = new DateTime(year, startDay, startMonth, startHour, b, 0);
+                    var newDateTime = AdjustEventStartTime(startDateTime);
+
+                    b = (byte)newDateTime.Minute;
+
                     var uIDropDown = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
                     EventRouteTimeManager.SetEventTimeScheduleMinute(routeID, scheduleIndex, b);
                     RefreshEventSchedule(instance);
-                    if (uIDropDown.selectedIndex != b)
-                    {
-                        uIDropDown.selectedIndex = b;
-                    }
+                    uIDropDown.selectedIndex = b;
                 }
             }
 

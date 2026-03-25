@@ -121,7 +121,7 @@ namespace RealTime.Events
 
                 case EventManager.EventType.RaceOrParade:
                     eventDuration = eventAI.m_eventDuration;
-                    prepareDuration = eventAI.m_eventDuration / 2;
+                    prepareDuration = eventAI.m_eventDuration;
                     disorganizeDuration = eventAI.m_disorganizeDuration;
                     break;
 
@@ -134,20 +134,13 @@ namespace RealTime.Events
             eventAI.m_disorganizeDuration = disorganizeDuration;
         }
 
-        private readonly struct EventAIData
+        private readonly struct EventAIData(float eventDuration, float prepareDuration, float disorganizeDuration)
         {
-            public EventAIData(float eventDuration, float prepareDuration, float disorganizeDuration)
-            {
-                EventDuration = eventDuration;
-                PrepareDuration = prepareDuration;
-                DisorganizeDuration = disorganizeDuration;
-            }
+            public float EventDuration { get; } = eventDuration;
 
-            public float EventDuration { get; }
+            public float PrepareDuration { get; } = prepareDuration;
 
-            public float PrepareDuration { get; }
-
-            public float DisorganizeDuration { get; }
+            public float DisorganizeDuration { get; } = disorganizeDuration;
         }
     }
 }

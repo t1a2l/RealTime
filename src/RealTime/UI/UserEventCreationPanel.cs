@@ -278,7 +278,7 @@ namespace RealTime.UI
             {
                 day = num;
             }
-            dropdown.selectedIndex = day - 1;
+
             int startHour = byte.Parse(_startHourDropDown.selectedValue);
             int startMinute = byte.Parse(_startMinuteDropDown.selectedValue);
             int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
@@ -326,7 +326,7 @@ namespace RealTime.UI
 
             var startDateTime = new DateTime(year, startMonth, startDay, hour, startMinute, 0);
             var dateTime = AdjustEventStartTime(startDateTime);
-            dropdown.selectedIndex = dateTime.Hour;
+            _startHourDropDown.selectedIndex = dateTime.Hour;
             _startMinuteDropDown.selectedIndex = dateTime.Minute;
         }
 
@@ -345,7 +345,7 @@ namespace RealTime.UI
             var startDateTime = new DateTime(year, startMonth, startDay, startHour, minute, 0);
             var dateTime = AdjustEventStartTime(startDateTime);
             _startHourDropDown.selectedIndex = dateTime.Hour;
-            dropdown.selectedIndex = dateTime.Minute;
+            _startMinuteDropDown.selectedIndex = dateTime.Minute;
         }
 
         private static string getTimeFromFloatingValue(float value)

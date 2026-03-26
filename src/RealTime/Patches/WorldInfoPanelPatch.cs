@@ -792,77 +792,83 @@ namespace RealTime.Patches
 
                     panel.height = 415f;
 
-                    var buttonStartNow = panel.Find<UIButton>("ButtonStartNow");
-                    buttonStartNow.relativePosition = new Vector3(8f, 80f);
+                    var panelStartNow = panel.Find<UIPanel>("PanelStartNow");
+                    panelStartNow.relativePosition = new Vector3(266f, 98f);
 
                     int scheduleIndex = i;
 
                     // setup dropdowns
                     var dropdownDay = panel.Find<UIDropDown>("DropdownDay");
                     var dropdownMonth = panel.Find<UIDropDown>("DropdownMonth");
-                    var dropdownFrequency = UnityEngine.Object.Instantiate(dropdownDay.gameObject, dropdownDay.parent.transform).GetComponent<UIDropDown>();
+                    var dropdownFrequency = panel.Find<UIDropDown>("DropdownFrequency");
+
+                    dropdownFrequency.parent.isVisible = true;
+                    dropdownFrequency.parent.enabled = true;
+                    dropdownFrequency.parent.isEnabled = true;
+
+                    dropdownFrequency.isVisible = true;
+                    dropdownFrequency.enabled = true;
+                    dropdownFrequency.zOrder = 10;
+
                     var dropdownHour = UnityEngine.Object.Instantiate(dropdownDay.gameObject, dropdownDay.parent.transform).GetComponent<UIDropDown>();
                     var dropdownMinute = UnityEngine.Object.Instantiate(dropdownMonth.gameObject, dropdownMonth.parent.transform).GetComponent<UIDropDown>();
-                    var dropdownAutoOccur = UnityEngine.Object.Instantiate(dropdownMonth.gameObject, dropdownMonth.parent.transform).GetComponent<UIDropDown>();
+                    var dropdownAutoOccur = UnityEngine.Object.Instantiate(dropdownFrequency.gameObject, dropdownFrequency.parent.transform).GetComponent<UIDropDown>();
 
                     // setup dropdowns labels
                     var labelDay = panel.Find<UILabel>("LabelDay");
                     var labelMonth = panel.Find<UILabel>("LabelMonth");
-                    var labelFrequency = UnityEngine.Object.Instantiate(labelDay.gameObject, labelDay.parent.transform).GetComponent<UILabel>();
+                    var labelFrequency = panel.Find<UILabel>("LabelFrequency");
+
                     var labelHour = UnityEngine.Object.Instantiate(labelDay.gameObject, labelDay.parent.transform).GetComponent<UILabel>();
                     var labelMinute = UnityEngine.Object.Instantiate(labelMonth.gameObject, labelMonth.parent.transform).GetComponent<UILabel>();
-                    var labelAutoOccur = UnityEngine.Object.Instantiate(labelMonth.gameObject, labelMonth.parent.transform).GetComponent<UILabel>();
+                    var labelAutoOccur = UnityEngine.Object.Instantiate(labelFrequency.gameObject, labelFrequency.parent.transform).GetComponent<UILabel>();
+
+                    // add disabled missing sprite
+                    dropdownFrequency.disabledBgSprite = "OptionsDropboxDisabled";
+                    dropdownAutoOccur.disabledBgSprite = "OptionsDropboxDisabled";
 
                     // get y positions of dropdown and label
                     float dropdownDayY = dropdownDay.relativePosition.y;
-                    float newDropdownY = 57f;
+                    float newDropdownY = 65f;
+                    float y = labelFrequency.relativePosition.y;
 
                     float labelDayY = labelDay.relativePosition.y;
-                    float newlabelY = 63f;
+                    float newlabelY = 71f;
 
                     // dropdowns relative positions
                     dropdownDay.relativePosition = new Vector3(40f, dropdownDayY);
                     dropdownMonth.relativePosition = new Vector3(160f, dropdownDayY);
-                    dropdownFrequency.relativePosition = new Vector3(310f, dropdownDayY);
+                    dropdownFrequency.relativePosition = new Vector3(250f, dropdownDayY);
                     dropdownHour.relativePosition = new Vector3(40f, newDropdownY);
                     dropdownMinute.relativePosition = new Vector3(160f, newDropdownY);
-                    dropdownAutoOccur.relativePosition = new Vector3(310f, newDropdownY);
-
-                    // long dropdowns new width
-                    dropdownFrequency.width = 110f;
-                    dropdownAutoOccur.width = 110f;
+                    dropdownAutoOccur.relativePosition = new Vector3(250f, newDropdownY);
 
                     // labels relative positions
                     labelDay.relativePosition = new Vector3(-40f, labelDayY);
-                    labelMonth.relativePosition = new Vector3(80f, labelDayY);
-                    labelFrequency.relativePosition = new Vector3(230f, labelDayY);
+                    labelMonth.relativePosition = new Vector3(80f, labelDayY);                  
+                    labelFrequency.relativePosition = new Vector3(250f, y);
                     labelHour.relativePosition = new Vector3(-40f, newlabelY);
                     labelMinute.relativePosition = new Vector3(80f, newlabelY);                 
-                    labelAutoOccur.relativePosition = new Vector3(230f, newlabelY);
+                    labelAutoOccur.relativePosition = new Vector3(250f, 50f);
 
                     // new dropdowns names
                     dropdownHour.name = "DropdownHour";
-                    dropdownFrequency.name = "DropdownFrequency";
                     dropdownMinute.name = "DropdownMinute";
                     dropdownAutoOccur.name = "DropdownAutoOccur";
 
                     // new labels names
                     labelHour.name = "LabelHour";
-                    labelFrequency.name = "LabelFrequency";
                     labelMinute.name = "LabelMinute";
                     labelAutoOccur.name = "LabelAutoOccur";
 
                     // new labels texts
                     labelHour.text = "";
-                    labelFrequency.text = "";
                     labelMinute.text = ""; 
                     labelAutoOccur.text = "";
 
                     // new dropdown items
                     dropdownHour.items = [.. Enumerable.Range(0, 24).Select(i => i.ToString("D2"))];
-                    dropdownFrequency.items = [];
                     dropdownMinute.items = [.. Enumerable.Range(0, 60).Select(i => i.ToString("D2"))];
-                    dropdownAutoOccur.items = [];
 
                     // new dropdown event changes
                     dropdownHour.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
@@ -909,41 +915,24 @@ namespace RealTime.Patches
 
                         var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(routeID);
 
-                        var dropDownHour_action = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
                         var dropDownFrequency_action = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownFrequency");
-                        var dropDownMinute_action = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
                         var dropDownAutoOccur_action = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownAutoOccur");
-
-                        var dropDownFrequency_label = eventConfigs.items[scheduleIndex].Find<UILabel>("LabelFrequency");
-                        dropDownFrequency_label.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelFrequency);
-
+                        var dropDownHour_action = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
+                        var dropDownMinute_action = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
+                        
                         dropDownHour_action.selectedIndex = eventTimeSchedules[scheduleIndex].StartHour;
-                        dropDownFrequency_action.selectedIndex = eventTimeSchedules[scheduleIndex].Frequency;
                         dropDownMinute_action.selectedIndex = eventTimeSchedules[scheduleIndex].StartMinute;
+                        dropDownFrequency_action.selectedIndex = eventTimeSchedules[scheduleIndex].Frequency;
                         dropDownAutoOccur_action.selectedIndex = eventTimeSchedules[scheduleIndex].AutoOccur ? 1 : 0;
 
                         dropDownHour_action.isEnabled = flag2;
-                        dropDownFrequency_action.isEnabled = flag2;
                         dropDownMinute_action.isEnabled = flag2;
+                        dropDownFrequency_action.isEnabled = flag2;
                         dropDownAutoOccur_action.isEnabled = flag2;
-
                         dropDownHour_action.opacity = (!flag2) ? 0.4f : 1f;
-                        dropDownFrequency_action.opacity = (!flag2) ? 0.4f : 1f;
                         dropDownMinute_action.opacity = (!flag2) ? 0.4f : 1f;
+                        dropDownFrequency_action.opacity = (!flag2) ? 0.4f : 1f;
                         dropDownAutoOccur_action.opacity = (!flag2) ? 0.4f : 1f;
-
-                        dropDownFrequency_action.items = [
-                            localizationProvider.Translate(TranslationKeys.RaceDayDropDownWeeklyFrequency),
-                            localizationProvider.Translate(TranslationKeys.RaceDayDropDownDailyFrequency)
-                        ];
-
-                        __instance.GetComponent<UIPanel>().height = 415f;
-
-                        dropDownAutoOccur_action.relativePosition = new Vector3(310f, 57f);
-
-                        var buttonStartNow = __instance.Find<UIButton>("ButtonStartNow");
-                        buttonStartNow.relativePosition = new Vector3(8f, 80f);
-
                     }; 
                 }
             }
@@ -959,26 +948,25 @@ namespace RealTime.Patches
                     var dropdownFrequency = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownFrequency");
                     var dropdownAutoOccur = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownAutoOccur");
 
-                    dropdownFrequency.items = [
+                    dropdownFrequency?.items = [
                         localizationProvider.Translate(TranslationKeys.RaceDayDropDownWeeklyFrequency),
                         localizationProvider.Translate(TranslationKeys.RaceDayDropDownDailyFrequency)
                     ];
 
-                    dropdownAutoOccur.items = [
+                    dropdownAutoOccur?.items = [
                         localizationProvider.Translate(TranslationKeys.RaceDayDropDownDisableAutoOccur),
                         localizationProvider.Translate(TranslationKeys.RaceDayDropDownEnableAutoOccur)
                     ];
 
                     var labelHour = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("LabelHour");
-                    var labelFrequency = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("LabelFrequency");
                     var labelMinute = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("LabelMinute");
                     var labelAutoOccur = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("LabelAutoOccur");
 
-                    labelHour.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelHour);
-                    labelFrequency.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelFrequency);
-                    labelMinute.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelMinute);
-                    labelAutoOccur.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelAutoOccur);
+                    labelHour?.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelHour);
+                    labelMinute?.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelMinute);
+                    labelAutoOccur?.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelAutoOccur);
                 }
+                
             }
 
             [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "UpdatePastEvents")]

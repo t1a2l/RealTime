@@ -7,27 +7,19 @@ namespace RealTime.Events
 
     /// <summary>A class for the default game city event.</summary>
     /// <seealso cref="CityEventBase"/>
-    internal sealed class VanillaEvent : CityEventBase
+    /// <remarks>Initializes a new instance of the <see cref="VanillaEvent"/> class.</remarks>
+    /// <param name="id">The event ID.</param>
+    /// <param name="duration">The city event duration in hours.</param>
+    /// <param name="ticketPrice">The event ticket price.</param>
+    /// <param name="eventManager">An <see cref="IEventManagerConnection"/> reference.</param>
+    internal sealed class VanillaEvent(ushort id, float duration, float ticketPrice, IEventManagerConnection eventManager) : CityEventBase
     {
-        private readonly float duration;
-        private readonly float ticketPrice;
-        private readonly IEventManagerConnection eventManager;
-
-        /// <summary>Initializes a new instance of the <see cref="VanillaEvent"/> class.</summary>
-        /// <param name="id">The event ID.</param>
-        /// <param name="duration">The city event duration in hours.</param>
-        /// <param name="ticketPrice">The event ticket price.</param>
-        /// <param name="eventManager">An <see cref="IEventManagerConnection"/> reference.</param>
-        public VanillaEvent(ushort id, float duration, float ticketPrice, IEventManagerConnection eventManager)
-        {
-            this.duration = duration;
-            this.ticketPrice = ticketPrice;
-            EventId = id;
-            this.eventManager = eventManager ?? throw new System.ArgumentNullException(nameof(eventManager));
-        }
+        private readonly float duration = duration;
+        private readonly float ticketPrice = ticketPrice;
+        private readonly IEventManagerConnection eventManager = eventManager ?? throw new System.ArgumentNullException(nameof(eventManager));
 
         /// <summary>Gets the vanilla event ID.</summary>
-        public ushort EventId { get; }
+        public ushort EventId { get; } = id;
 
         /// <summary>
         /// Gets the event color.

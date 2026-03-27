@@ -244,7 +244,9 @@ namespace RealTime.CustomAI
             var wellbeing = CitizenProxy.GetWellbeingLevel(ref citizen);
             var happiness = CitizenProxy.GetHappinessLevel(ref citizen);
 
-            return cityEvent.TryAcceptAttendee(age, gender, education, wealth, wellbeing, happiness, Random);
+            var buildingClass = BuildingMgr.GetBuildingClass(cityEvent.BuildingId);
+
+            return cityEvent.TryAcceptAttendee(age, gender, education, wealth, wellbeing, happiness, Random, buildingClass);
         }
     }
 }

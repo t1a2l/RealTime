@@ -27,6 +27,17 @@ namespace RealTime.GameConnection
             "Babylon"
         ];
 
+        /// <summary>Gets the class type of the building with specified ID.</summary>
+        /// <param name="buildingId">The ID of the building to get the class type of.</param>
+        /// <returns>
+        /// The class type of the building with the specified ID, or
+        /// <see cref="null" /> if <paramref name="buildingId" /> is 0.
+        /// </returns>
+        public ItemClass GetBuildingClass(ushort buildingId) =>
+            buildingId == 0
+                ? null
+                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class ?? null;
+
         /// <summary>Gets the service type of the building with specified ID.</summary>
         /// <param name="buildingId">The ID of the building to get the service type of.</param>
         /// <returns>
@@ -48,6 +59,17 @@ namespace RealTime.GameConnection
             buildingId == 0
                 ? ItemClass.SubService.None
                 : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class?.m_subService ?? ItemClass.SubService.None;
+
+        /// <summary>Gets the level of the building with specified ID.</summary>
+        /// <param name="buildingId">The ID of the building to get the level of.</param>
+        /// <returns>
+        /// The level of the building with the specified ID, or
+        /// <see cref="ItemClass.Level.None" /> if <paramref name="buildingId" /> is 0.
+        /// </returns>
+        public ItemClass.Level GetBuildingLevel(ushort buildingId) =>
+            buildingId == 0
+                ? ItemClass.Level.None
+                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class?.m_level ?? ItemClass.Level.None;
 
         /// <summary>Gets the service and sub-service types of the building with specified ID.</summary>
         /// <param name="buildingId">The ID of the building to get the service and sub-service types of.</param>

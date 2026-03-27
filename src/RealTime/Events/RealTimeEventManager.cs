@@ -607,7 +607,18 @@ namespace RealTime.Events
             Log.Debug(LogCategory.Events, timeInfo.Now, $"New manual event created for building {ev.BuildingId}, starts on {ev.StartTime}, ends on {ev.EndTime}");
         }
 
-        public LinkedList<ICityEvent> GetUpcomingEventsForBuilding(ushort buildingId) => new(upcomingEvents.Where(ev => ev.BuildingId == buildingId));
+        public LinkedList<RealTimeCityEvent> GetUpcomingEventsForBuilding(ushort buildingId) => new(upcomingEvents.OfType<RealTimeCityEvent>().Where(ev => ev.BuildingId == buildingId));
+
+        public void RemoveEvent(RealTimeCityEvent cityEvent)
+        {
+            if (cityEvent == null)
+            {
+                return;
+            }
+
+            upcomingEvents.Remove(cityEvent);
+            Log.Debug(LogCategory.Events, $"RealTime: Removed event '{cityEvent.EventName}' " + $"on building {cityEvent.BuildingId} from upcoming events.");
+        }
 
         private void CreateRandomEvent(ushort buildingId)
         {

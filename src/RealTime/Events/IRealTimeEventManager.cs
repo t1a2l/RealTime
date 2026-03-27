@@ -34,9 +34,9 @@ namespace RealTime.Events
         /// <summary>Gets all upcoming city events that take place in a building with the specified ID.</summary>
         /// <param name="buildingId">The ID of a building to search upcoming events for.</param>
         /// <returns>
-        /// A <see cref="LinkedList{T}"/> of <see cref="ICityEvent"/> instances for all upcoming events
+        /// A <see cref="LinkedList{T}"/> of <see cref="RealTimeCityEvent"/> instances for all upcoming events
         /// in the specified building, or an empty list if none found.
         /// </returns>
-        internal LinkedList<ICityEvent> GetUpcomingEventsForBuilding(ushort buildingId);
+        internal LinkedList<RealTimeCityEvent> GetUpcomingEventsForBuilding(ushort buildingId);
     }
 }

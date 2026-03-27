@@ -757,21 +757,24 @@ namespace RealTime.UI
             _upcomingEventsList.rowsData.Clear();
             var now = Singleton<SimulationManager>.instance.m_currentGameTime;
 
-            // Replace with your actual event fetch
             var events = SimulationHandler.EventManager.GetUpcomingEventsForBuilding(eventBuildingID);
 
             foreach (var ev in events.Where(e => e.StartTime > now).OrderBy(e => e.StartTime))
             {
+                var capturedEvent = ev; // ← fix closure capture bug
+
                 _upcomingEventsList.rowsData.Add(new UpcomingEventItem
                 {
-                    eventName = ev.n?.UserEventName ?? "Event",
-                    timeStr = ev.StartTime.ToString("MMM dd\nHH:mm"),
-                    deleteAction = () => {
-                        SimulationHandler.EventManager.RemoveEvent(ev);
+                    eventName = capturedEvent.UserEventName ?? capturedEvent.EventName ?? "Event",
+                    timeStr = capturedEvent.StartTime.ToString("MMM dd\nHH:mm"),
+                    deleteAction = () =>
+                    {
+                        SimulationHandler.EventManager.RemoveEvent(capturedEvent);
                         LoadUpcomingEvents();
                     }
                 });
             }
+
             _upcomingEventsList.Refresh();
         }
 

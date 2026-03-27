@@ -785,11 +785,5 @@ namespace RealTime.UI
             _upcomingToggleBtn.text = _upcomingVisible ? "Hide Upcoming" : "Upcoming Events";
             PerformLayout();
         }
-
-        private void RemoveEvent(UpcomingEventItem item)
-        {
-            SimulationHandler.EventManager.RemoveEvent(item.startTime, eventBuildingID);  // Need Remove method
-            LoadUpcomingEvents();  // Refresh list
-        }
     }
 }

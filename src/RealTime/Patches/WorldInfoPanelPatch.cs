@@ -953,6 +953,7 @@ namespace RealTime.Patches
                         localizationProvider.Translate(TranslationKeys.RaceDayDropDownDailyFrequency)
                     ];
 
+                    dropdownAutoOccur?.items = [];
                     dropdownAutoOccur?.items = [
                         localizationProvider.Translate(TranslationKeys.RaceDayDropDownDisableAutoOccur),
                         localizationProvider.Translate(TranslationKeys.RaceDayDropDownEnableAutoOccur)

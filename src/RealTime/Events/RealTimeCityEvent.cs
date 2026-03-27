@@ -24,6 +24,8 @@ namespace RealTime.Events
 
         private int attendeesCount;
 
+        private bool _eventFinished = false;
+
         public int UserTicketCount { get; private set; }
 
         public float UserEntryCost { get; private set; }
@@ -44,8 +46,7 @@ namespace RealTime.Events
         /// </summary>
         /// <param name="eventTemplate">The event template this city event is created from.</param>
         /// <param name="attendeesCount">The current attendees count of this city event.</param>
-        public RealTimeCityEvent(CityEventTemplate eventTemplate, int attendeesCount)
-            : this(eventTemplate)
+        public RealTimeCityEvent(CityEventTemplate eventTemplate, int attendeesCount) : this(eventTemplate)
         {
             this.attendeesCount = attendeesCount;
         }
@@ -166,6 +167,13 @@ namespace RealTime.Events
 
         public void OnEventFinished(ItemClass buildingClass)
         {
+            if (_eventFinished)
+            {
+                return;
+            }
+
+            _eventFinished = true;
+
             foreach (var incentive in UserIncentives)
             {
                 int returnAmount = Mathf.RoundToInt(incentive.returnCost * incentive.sliderValue * 100f);

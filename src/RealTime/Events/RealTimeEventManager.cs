@@ -600,9 +600,7 @@ namespace RealTime.Events
             }
 
             // Don't touch earliestEvent — that's only for random event throttling
-
-            // List<ICityEvent>
-            eventsToAttend.Add(ev);  // Citizens check this
+            UpdateEventsToAttend(); // refresh the attend list now
             OnEventsChanged();
             Log.Debug(LogCategory.Events, timeInfo.Now, $"New manual event created for building {ev.BuildingId}, starts on {ev.StartTime}, ends on {ev.EndTime}");
         }

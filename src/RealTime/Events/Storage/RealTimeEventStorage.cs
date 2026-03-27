@@ -2,6 +2,7 @@
 
 namespace RealTime.Events.Storage
 {
+    using System.Collections.Generic;
     using System.Xml.Serialization;
 
     /// <summary>
@@ -42,5 +43,22 @@ namespace RealTime.Events.Storage
         /// <summary>Gets or sets the current attendees count of this city event.</summary>
         [XmlElement]
         public int AttendeesCount { get; set; }
+
+        [XmlElement]
+        public int UserTicketCount { get; set; }
+
+        [XmlElement]
+        public float UserEntryCost { get; set; }
+
+        // Incentive amounts chosen by user (just the name + chosen count)
+        [XmlArray("UserIncentives")]
+        [XmlArrayItem("Incentive")]
+        public List<StoredIncentive> UserIncentives { get; set; } = [];
+
+        public class StoredIncentive
+        {
+            [XmlAttribute] public string Name { get; set; }
+            [XmlAttribute] public float SliderValue { get; set; }
+        }
     }
 }

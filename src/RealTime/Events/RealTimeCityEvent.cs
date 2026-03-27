@@ -4,9 +4,12 @@ namespace RealTime.Events
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using ColossalFramework;
     using RealTime.Events.Containers;
     using RealTime.Events.Storage;
     using RealTime.Simulation;
+    using UnityEngine;
 
     /// <summary>A custom city event.</summary>
     /// <seealso cref="CityEventBase"/>
@@ -21,7 +24,19 @@ namespace RealTime.Events
 
         private int attendeesCount;
 
+        public int UserTicketCount { get; private set; }
+
+        public float UserEntryCost { get; private set; }
+
         public List<IncentiveOptionItem> UserIncentives { get; } = [];
+
+        public string EventName => eventTemplate.EventName;
+
+        public string UserEventName => eventTemplate.UserEventName;
+
+        public CityEventCosts Costs => eventTemplate.Costs;
+
+        public CityEventIncentive[] Incentives => eventTemplate.Incentives;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RealTimeCityEvent"/> class using the specified
@@ -48,6 +63,7 @@ namespace RealTime.Events
         /// <param name="wellbeing">The attendee wellbeing.</param>
         /// <param name="happiness">The attendee happiness.</param>
         /// <param name="randomizer">A reference to the game's randomizer.</param>
+        /// <param name="buildingClass">the class of the building the event is taking place in.</param>
         /// <returns>
         /// <c>true</c> if the event attendee with specified properties is accepted and can attend this city event;
         /// otherwise, <c>false</c>.
@@ -59,7 +75,8 @@ namespace RealTime.Events
             Citizen.Wealth wealth,
             Citizen.Wellbeing wellbeing,
             Citizen.Happiness happiness,
-            IRandomizer randomizer)
+            IRandomizer randomizer,
+            ItemClass buildingClass)
         {
             if (attendeesCount > eventTemplate.Capacity)
             {
@@ -109,7 +126,13 @@ namespace RealTime.Events
                 return false;
             }
 
+            if (eventTemplate.Costs != null && eventTemplate.Costs.Entry > 0)
+            {
+                int entryFee = Mathf.RoundToInt(eventTemplate.Costs.Entry * 100f);
+                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, entryFee, buildingClass);
+            }
             attendeesCount++;
+
             return true;
         }
 
@@ -125,6 +148,13 @@ namespace RealTime.Events
             BuildingId = BuildingId,
             BuildingName = BuildingName,
             AttendeesCount = attendeesCount,
+            UserTicketCount = UserTicketCount,
+            UserEntryCost = UserEntryCost,
+            UserIncentives = [.. UserIncentives.Select(i => new RealTimeEventStorage.StoredIncentive
+            {
+                Name = i.title,
+                SliderValue = i.sliderValue
+            })]
         };
 
         public void AddIncentive(string name, float count, float cost) => UserIncentives.Add(new IncentiveOptionItem
@@ -133,6 +163,15 @@ namespace RealTime.Events
             sliderValue = count,
             cost = cost
         });
+
+        public void OnEventFinished(ItemClass buildingClass)
+        {
+            foreach (var incentive in UserIncentives)
+            {
+                int returnAmount = Mathf.RoundToInt(incentive.returnCost * incentive.sliderValue * 100f);
+                Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, returnAmount, buildingClass);
+            }
+        }
 
 
         /// <summary>Calculates the city event duration.</summary>

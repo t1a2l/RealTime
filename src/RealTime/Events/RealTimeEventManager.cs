@@ -7,12 +7,14 @@ namespace RealTime.Events
     using System.IO;
     using System.Linq;
     using System.Xml.Serialization;
+    using ColossalFramework;
     using RealTime.Config;
     using RealTime.Events.Storage;
     using RealTime.GameConnection;
     using RealTime.Simulation;
     using SkyTools.Storage;
     using SkyTools.Tools;
+    using UnityEngine;
 
     /// <summary>The central class for the custom city events logic.</summary>
     /// <seealso cref="IStorageData"/>
@@ -334,6 +336,11 @@ namespace RealTime.Events
                 var cityEvent = activeEvents[i];
                 if (cityEvent.EndTime <= timeInfo.Now)
                 {
+                    if (cityEvent is RealTimeCityEvent rtEvent)
+                    {
+                        var buildingClass = buildingManager.GetBuildingClass(cityEvent.BuildingId);
+                        rtEvent.OnEventFinished(buildingClass);
+                    }
                     Log.Debug(LogCategory.Events, timeInfo.Now, $"Event finished in {cityEvent.BuildingId}, started at {cityEvent.StartTime}, end time {cityEvent.EndTime}");
                     finishedEvents.Add(cityEvent);
                     activeEvents.RemoveAt(i);
@@ -571,24 +578,36 @@ namespace RealTime.Events
 
         public void AddEvent(ICityEvent ev, ushort buildingId, DateTime eventStartTime)
         {
-            var startTime = AdjustEventStartTime(eventStartTime, randomize: false);
-            ev.Configure(buildingId, buildingManager.GetBuildingName(buildingId), startTime);
-            if (startTime < earliestEvent)
+            ev.Configure(buildingId, buildingManager.GetBuildingName(buildingId), eventStartTime);
+
+            if (ev is RealTimeCityEvent rtEvent && rtEvent.Costs != null)
             {
-                upcomingEvents.AddFirst(ev);
+                var buildingClass = buildingManager.GetBuildingClass(buildingId);
+
+                int creationCost = Mathf.RoundToInt(rtEvent.Costs.Creation * 100f);
+                Singleton<EconomyManager>.instance.FetchResource(EconomyManager.Resource.Construction, creationCost, buildingClass);
             }
-            else
+
+            // Insert in chronological order
+            var insertBefore = upcomingEvents.FirstOrDefaultNode(e => e.StartTime >= eventStartTime);
+            if (insertBefore == null)
             {
                 upcomingEvents.AddLast(ev);
             }
+            else
+            {
+                upcomingEvents.AddBefore(insertBefore, ev);
+            }
 
-            earliestEvent = startTime.AddHours(randomizer.GetRandomValue(EventIntervalVariance));
-  
+            // Don't touch earliestEvent — that's only for random event throttling
+
             // List<ICityEvent>
             eventsToAttend.Add(ev);  // Citizens check this
             OnEventsChanged();
             Log.Debug(LogCategory.Events, timeInfo.Now, $"New manual event created for building {ev.BuildingId}, starts on {ev.StartTime}, ends on {ev.EndTime}");
         }
+
+        public LinkedList<ICityEvent> GetUpcomingEventsForBuilding(ushort buildingId) => new(upcomingEvents.Where(ev => ev.BuildingId == buildingId));
 
         private void CreateRandomEvent(ushort buildingId)
         {

@@ -3,6 +3,7 @@
 namespace RealTime.Events
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>An interface for the customized city events manager.</summary>
     internal interface IRealTimeEventManager
@@ -28,5 +29,14 @@ namespace RealTime.Events
         /// The state of an event that meets the specified criteria, or <see cref="CityEventState.None"/> if none found.
         /// </returns>
         internal CityEventState GetEventState(ushort buildingId, DateTime latestStart);
+
+
+        /// <summary>Gets all upcoming city events that take place in a building with the specified ID.</summary>
+        /// <param name="buildingId">The ID of a building to search upcoming events for.</param>
+        /// <returns>
+        /// A <see cref="LinkedList{T}"/> of <see cref="ICityEvent"/> instances for all upcoming events
+        /// in the specified building, or an empty list if none found.
+        /// </returns>
+        internal LinkedList<ICityEvent> GetUpcomingEventsForBuilding(ushort buildingId);
     }
 }

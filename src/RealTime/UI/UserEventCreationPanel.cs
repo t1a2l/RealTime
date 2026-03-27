@@ -46,6 +46,11 @@ namespace RealTime.UI
         protected float totalCost = 0f;
         protected float maxIncome = 0f;
         protected ushort eventBuildingID = 0;
+        private bool _updatingSchedule;
+
+        protected UIFastList _upcomingEventsList = null;
+        protected UIButton _upcomingToggleBtn = null;  // Tab button to show/hide
+        private bool _upcomingVisible = false;
 
         private const float one_over_twelve = 0.08333333333333333f; // This is just 1/12 because * is (usually) faster than /
 
@@ -197,6 +202,15 @@ namespace RealTime.UI
                 _incomeLabel = _totalPanel.AddUIComponent<UILabel>();
                 _incentiveList = UIFastList.Create<UIFastListIncentives>(this);
 
+                _upcomingToggleBtn = _helper.AddButton("Upcoming Events", OnUpcomingToggle) as UIButton;
+                _upcomingToggleBtn.size = new Vector2(120, 28);
+                _upcomingToggleBtn.textScale = 0.85f;
+
+                _upcomingEventsList = UIFastList.Create<UpcomingEventRow>(this);
+                _upcomingEventsList.rowHeight = 30f;
+                _upcomingEventsList.backgroundSprite = "UnlockingPanel";
+                _upcomingEventsList.isVisible = false;
+
                 _ticketSlider = (UISlider)_helper.AddSlider("Tickets", 100, 9000, 10, 500, delegate (float value)
                 {
                     if (_incentiveList != null)
@@ -266,86 +280,137 @@ namespace RealTime.UI
 
         private void OnScheduleDayChanged(UIComponent uiComponent, int value)
         {
-            var dropdown = (UIDropDown)uiComponent;
-            int startMonth = byte.Parse(_startMonthDropDown.selectedValue);
-
-            string dayText = dropdown.items[value];
-            int day = byte.Parse(dayText);
-
-            int num = DateTime.DaysInMonth(2, startMonth);
-            bool flag = day > num;
-            if (flag)
+            if (_updatingSchedule)
             {
-                day = num;
+                return;
             }
+            _updatingSchedule = true;
+            try
+            {
+                int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
 
-            int startHour = byte.Parse(_startHourDropDown.selectedValue);
-            int startMinute = byte.Parse(_startMinuteDropDown.selectedValue);
-            int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
-            var startDateTime = new DateTime(year, startMonth, day, startHour, startMinute, 0);
-            var dateTime = AdjustEventStartTime(startDateTime);
-            _startHourDropDown.selectedIndex = dateTime.Hour;
-            _startMinuteDropDown.selectedIndex = dateTime.Minute;
+                var dropdown = (UIDropDown)uiComponent;
+                int startMonth = int.Parse(_startMonthDropDown.selectedValue);
+
+                string dayText = dropdown.items[value];
+                int day = byte.Parse(dayText);
+
+                int num = DateTime.DaysInMonth(2, startMonth);
+                bool flag = day > num;
+                if (flag)
+                {
+                    day = num;
+                }
+
+                int startHour = byte.Parse(_startHourDropDown.selectedValue);
+                int startMinute = byte.Parse(_startMinuteDropDown.selectedValue);
+                var startDateTime = new DateTime(year, startMonth, day, startHour, startMinute, 0);
+                var dateTime = AdjustEventStartTime(startDateTime);
+                _startHourDropDown.selectedIndex = dateTime.Hour;
+                _startMinuteDropDown.selectedIndex = dateTime.Minute;
+            }
+            finally
+            {
+                _updatingSchedule = false;
+            }
         }
 
         private void OnScheduleMonthChanged(UIComponent uiComponent, int value)
         {
-            var dropdown = (UIDropDown)uiComponent;
-            string monthText = dropdown.items[value];
-            int month = byte.Parse(monthText);
-
-            int startDay = byte.Parse(_startDayDropDown.selectedValue);
-
-            int num = DateTime.DaysInMonth(2, month);
-            if (startDay > num)
+            if (_updatingSchedule)
             {
-                startDay = num;
+                return;
             }
-            _startDayDropDown.selectedIndex = startDay - 1;
+            _updatingSchedule = true;
+            try
+            {
+                int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
+                var dropdown = (UIDropDown)uiComponent;
+                string monthText = dropdown.items[value];
+                int month = int.Parse(monthText);
 
-            int startHour = byte.Parse(_startHourDropDown.selectedValue);
-            int startMinute = byte.Parse(_startMinuteDropDown.selectedValue);
-            int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
-            var startDateTime = new DateTime(year, month, startDay, startHour, startMinute, 0);
-            var dateTime = AdjustEventStartTime(startDateTime);
-            _startHourDropDown.selectedIndex = dateTime.Hour;
-            _startMinuteDropDown.selectedIndex = dateTime.Minute;
+                int startDay = int.Parse(_startDayDropDown.selectedValue);
+
+                int num = DateTime.DaysInMonth(2, month);
+                if (startDay > num)
+                {
+                    startDay = num;
+                }
+                _startDayDropDown.selectedIndex = startDay - 1;
+
+                int startHour = byte.Parse(_startHourDropDown.selectedValue);
+                int startMinute = byte.Parse(_startMinuteDropDown.selectedValue);
+                var startDateTime = new DateTime(year, month, startDay, startHour, startMinute, 0);
+                var dateTime = AdjustEventStartTime(startDateTime);
+                _startHourDropDown.selectedIndex = dateTime.Hour;
+                _startMinuteDropDown.selectedIndex = dateTime.Minute;
+            }
+            finally
+            {
+                _updatingSchedule = false;
+            }
         }
 
         private void OnScheduleHourChanged(UIComponent uiComponent, int value)
         {
-            var dropdown = (UIDropDown)uiComponent;
+            if (_updatingSchedule)
+            {
+                return;
+            }
+            _updatingSchedule = true;
+            try
+            {
+                int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
+                var dropdown = (UIDropDown)uiComponent;
 
-            int startDay = byte.Parse(_startDayDropDown.selectedValue);
-            int startMonth = byte.Parse(_startMonthDropDown.selectedValue);
-            int startMinute = byte.Parse(_startMinuteDropDown.selectedValue);
+                int startDay = int.Parse(_startDayDropDown.selectedValue);
+                int startMonth = int.Parse(_startMonthDropDown.selectedValue);
+                int startMinute = int.Parse(_startMinuteDropDown.selectedValue);
 
-            int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
-            string hourText = dropdown.items[value];
-            int hour = byte.Parse(hourText);
+                
+                string hourText = dropdown.items[value];
+                int hour = int.Parse(hourText);
 
-            var startDateTime = new DateTime(year, startMonth, startDay, hour, startMinute, 0);
-            var dateTime = AdjustEventStartTime(startDateTime);
-            _startHourDropDown.selectedIndex = dateTime.Hour;
-            _startMinuteDropDown.selectedIndex = dateTime.Minute;
+                var startDateTime = new DateTime(year, startMonth, startDay, hour, startMinute, 0);
+                var dateTime = AdjustEventStartTime(startDateTime);
+                _startHourDropDown.selectedIndex = dateTime.Hour;
+                _startMinuteDropDown.selectedIndex = dateTime.Minute;
+            }
+            finally
+            {
+                _updatingSchedule = false;
+            }
         }
 
         private void OnScheduleMinuteChanged(UIComponent uiComponent, int value)
         {
-            var dropdown = (UIDropDown)uiComponent;
+            if (_updatingSchedule)
+            {
+                return;
+            }
+            _updatingSchedule = true;
+            try
+            {
+                int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
+                var dropdown = (UIDropDown)uiComponent;
 
-            int startDay = byte.Parse(_startDayDropDown.selectedValue);
-            int startMonth = byte.Parse(_startMonthDropDown.selectedValue);
-            int startHour = byte.Parse(_startHourDropDown.selectedValue);
+                int startDay = int.Parse(_startDayDropDown.selectedValue);
+                int startMonth = int.Parse(_startMonthDropDown.selectedValue);
+                int startHour = int.Parse(_startHourDropDown.selectedValue);
 
-            int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
-            string minuteText = dropdown.items[value];
-            int minute = byte.Parse(minuteText);
+                
+                string minuteText = dropdown.items[value];
+                int minute = int.Parse(minuteText);
 
-            var startDateTime = new DateTime(year, startMonth, startDay, startHour, minute, 0);
-            var dateTime = AdjustEventStartTime(startDateTime);
-            _startHourDropDown.selectedIndex = dateTime.Hour;
-            _startMinuteDropDown.selectedIndex = dateTime.Minute;
+                var startDateTime = new DateTime(year, startMonth, startDay, startHour, minute, 0);
+                var dateTime = AdjustEventStartTime(startDateTime);
+                _startHourDropDown.selectedIndex = dateTime.Hour;
+                _startMinuteDropDown.selectedIndex = dateTime.Minute;
+            }
+            finally
+            {
+                _updatingSchedule = false;
+            }
         }
 
         private static string getTimeFromFloatingValue(float value)
@@ -405,6 +470,9 @@ namespace RealTime.UI
                 _ticketSlider.maxValue = template.Capacity;
                 _ticketSlider.minValue = Mathf.Min(template.Capacity, 100);
                 _ticketSlider.value = _ticketSlider.minValue;
+
+                LoadUpcomingEvents();
+                _upcomingToggleBtn.isVisible = true;
 
                 title = template.UserEventName;
 
@@ -500,6 +568,11 @@ namespace RealTime.UI
 
             _incentiveList.height = height - _incentiveList.relativePosition.y - 20 - _createButton.height;
 
+            _upcomingEventsList.relativePosition = _incentiveList.relativePosition + new Vector3(0, _incentiveList.height + 5);
+            _upcomingEventsList.width = width - 20;
+            _upcomingEventsList.height = _upcomingVisible ? 120 : 0;
+            _upcomingToggleBtn.relativePosition = new Vector3(10, _incentiveList.relativePosition.y);
+
             _createButton.relativePosition = new Vector3(width - _createButton.width - 10, height - _createButton.height - 10);
 
             _startDayDropDown.width = 60f;
@@ -536,17 +609,6 @@ namespace RealTime.UI
             dropdownLabel.width = _startMinuteDropDown.width;
 
             _incentiveList.DisplayAt(0);
-        }
-
-        public override void Update()
-        {
-            if (_startHourDropDown != null)
-            {
-                if (_startHourDropDown.selectedIndex + 1 <= TimeInfo.Now.Hour)
-                {
-                    _startHourDropDown.selectedIndex = (int)Mathf.Max(1, _startHourDropDown.selectedIndex + 1);
-                }
-            }
         }
 
         private void OptionItem_OnOptionItemChanged() => UpdateTotalCost();
@@ -608,16 +670,26 @@ namespace RealTime.UI
                 var optionItems = GetIncentiveItems();
 
                 int year = SimulationManager.instance.m_currentGameTime.Year;
-                int month = byte.Parse(_startMonthDropDown.selectedValue);
-                int day = byte.Parse(_startDayDropDown.selectedValue);
+                int month = int.Parse(_startMonthDropDown.selectedValue);
+                int day = int.Parse(_startDayDropDown.selectedValue);
+                int hour = int.Parse(_startHourDropDown.selectedValue);
+                int minute = int.Parse(_startMinuteDropDown.selectedValue);
 
-                int hour = byte.Parse(_startHourDropDown.selectedValue);
-                int minute = byte.Parse(_startMinuteDropDown.selectedValue);
+                // Clamp day to valid range (CS ignores leap years so year 2 = always non-leap)
+                int safeDay = Math.Min(day, DateTime.DaysInMonth(2, month));
 
-                var startTime = new DateTime(year, month, day, hour, minute, 0);
+                var now = Singleton<SimulationManager>.instance.m_currentGameTime;
+                var startTime = new DateTime(year, month, safeDay, hour, minute, 0);
+
+                // Auto-fix past dates to next year
+                if (startTime < now)
+                {
+                    int nextYear = now.Year + 1;
+                    startTime = new DateTime(nextYear, month, day, hour, minute, 0);
+                }
 
                 // Real Time event
-                var rtEvent = new RealTimeCityEvent(template, Mathf.RoundToInt(_ticketSlider.value));
+                var rtEvent = new RealTimeCityEvent(template);
 
                 // Copy incentives (optional—Real Time skips now)
                 foreach (var item in optionItems)
@@ -678,6 +750,43 @@ namespace RealTime.UI
 
             UpdateTotalCost();
             PerformLayout();
+        }
+
+        private void LoadUpcomingEvents()
+        {
+            _upcomingEventsList.rowsData.Clear();
+            var now = Singleton<SimulationManager>.instance.m_currentGameTime;
+
+            // Replace with your actual event fetch
+            var events = SimulationHandler.EventManager.GetUpcomingEventsForBuilding(eventBuildingID);
+
+            foreach (var ev in events.Where(e => e.StartTime > now).OrderBy(e => e.StartTime))
+            {
+                _upcomingEventsList.rowsData.Add(new UpcomingEventItem
+                {
+                    eventName = ev.n?.UserEventName ?? "Event",
+                    timeStr = ev.StartTime.ToString("MMM dd\nHH:mm"),
+                    deleteAction = () => {
+                        SimulationHandler.EventManager.RemoveEvent(ev);
+                        LoadUpcomingEvents();
+                    }
+                });
+            }
+            _upcomingEventsList.Refresh();
+        }
+
+        private void OnUpcomingToggle()
+        {
+            _upcomingVisible = !_upcomingVisible;
+            _upcomingEventsList.isVisible = _upcomingVisible;
+            _upcomingToggleBtn.text = _upcomingVisible ? "Hide Upcoming" : "Upcoming Events";
+            PerformLayout();
+        }
+
+        private void RemoveEvent(UpcomingEventItem item)
+        {
+            SimulationHandler.EventManager.RemoveEvent(item.startTime, eventBuildingID);  // Need Remove method
+            LoadUpcomingEvents();  // Refresh list
         }
     }
 }

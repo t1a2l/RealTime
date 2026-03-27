@@ -311,6 +311,12 @@ namespace RealTime.Localization
         /// <summary>The key for vanilla event returns label.</summary>
         public const string VanillaEventReturnsLabel = "VanillaEventReturnsLabel";
 
+        /// <summary>The key for upcoming vanilla event show button.</summary>
+        public const string VanillaEventUpcomingShowBtn = "VanillaEventUpcomingShowBtn";
+
+        /// <summary>The key for upcoming vanilla event hide button.</summary>
+        public const string VanillaEventUpcomingHideBtn = "VanillaEventUpcomingHideBtn";
+
         // --------------------------------------------------------------------------------------------------
     }
 }

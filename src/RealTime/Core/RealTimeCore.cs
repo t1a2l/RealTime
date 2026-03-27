@@ -190,9 +190,8 @@ namespace RealTime.Core
 
             EventSelectionPanel.localizationProvider = localizationProvider;
             UIFastListIncentives.localizationProvider = localizationProvider;
-            UserEventCreationPanel.RealTimeConfig = configProvider.Configuration;
-            UserEventCreationPanel.localizationProvider = localizationProvider;
-            UserEventCreationPanel.TimeInfo = timeInfo;
+
+            UserEventCreationPanel.Configure(configProvider.Configuration, localizationProvider);
 
             AwakeSleepSimulation.Install(configProvider.Configuration);
 

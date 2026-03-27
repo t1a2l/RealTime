@@ -335,7 +335,9 @@
   <translation id="VanillaEventTicketSliderLabel" value="Tickets" />
   <translation id="VanillaEventTicketSliderLabelTooltip" value="Increase or decrease the number of tickets available for this venue" />
   <translation id="VanillaEventCostsLabel" value="BUY" />
-  <translation id="VanillaEventReturnsLabel" value="SELL" /> 
+  <translation id="VanillaEventReturnsLabel" value="SELL" />
+  <translation id="VanillaEventUpcomingShowBtn" value="Upcoming Events" />
+  <translation id="VanillaEventUpcomingHideBtn" value="Hide Upcoming" />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Coal stored for {0} × {unit}"/>

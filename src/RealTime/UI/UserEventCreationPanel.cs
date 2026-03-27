@@ -39,9 +39,15 @@ namespace RealTime.UI
         protected UIDropDown _startHourDropDown = null;
         protected UIDropDown _startMinuteDropDown = null;
 
-        public static RealTimeConfig RealTimeConfig;
-        public static ILocalizationProvider localizationProvider;
-        public static ITimeInfo TimeInfo;
+        internal static RealTimeConfig RealTimeConfig { get => field ?? throw new InvalidOperationException("RealTimeConfig not set"); private set; }
+
+        internal static ILocalizationProvider LocalizationProvider { get => field ?? throw new InvalidOperationException("LocalizationProvider not set"); private set; }
+
+        internal static void Configure(RealTimeConfig config, ILocalizationProvider provider)
+        {
+            RealTimeConfig = config;
+            LocalizationProvider = provider;
+        }
 
         protected float totalCost = 0f;
         protected float maxIncome = 0f;
@@ -50,7 +56,7 @@ namespace RealTime.UI
 
         protected UIFastList _upcomingEventsList = null;
         protected UIButton _upcomingToggleBtn = null;  // Tab button to show/hide
-        private bool _upcomingVisible = false;
+        private bool _upcomingEventsVisible = false;
 
         private const float one_over_twelve = 0.08333333333333333f; // This is just 1/12 because * is (usually) faster than /
 
@@ -65,13 +71,6 @@ namespace RealTime.UI
             }
 
             get => _titleBar ? _titleBar.title : "";
-        }
-
-        public override void Awake()
-        {
-            Initialise();
-
-            base.Awake();
         }
 
         public override void Start()
@@ -202,7 +201,7 @@ namespace RealTime.UI
                 _incomeLabel = _totalPanel.AddUIComponent<UILabel>();
                 _incentiveList = UIFastList.Create<UIFastListIncentives>(this);
 
-                _upcomingToggleBtn = _helper.AddButton("Upcoming Events", OnUpcomingToggle) as UIButton;
+                _upcomingToggleBtn = _helper.AddButton("Upcoming Events", OnUpcomingToggleClicked) as UIButton;
                 _upcomingToggleBtn.size = new Vector2(120, 28);
                 _upcomingToggleBtn.textScale = 0.85f;
 
@@ -413,20 +412,6 @@ namespace RealTime.UI
             }
         }
 
-        private static string getTimeFromFloatingValue(float value)
-        {
-            float displayedValue = value % 12; // Wrap military time into civilian time
-            if (displayedValue < 1f)
-            {
-                displayedValue += 12f; // Instead of 0 let's show 12 even for am
-            }
-            int hours = (int)displayedValue;
-            string minutes = string.Format("{0:00}", (int)(displayedValue % 1f * 60f));
-            string suffix = (value * one_over_twelve > 1) ? "pm" : "am";
-
-            return hours.ToString() + ':' + minutes.ToString() + ' ' + suffix;
-        }
-
         private static DateTime AdjustEventStartTime(DateTime eventStartTime)
         {
             var result = eventStartTime;
@@ -479,7 +464,7 @@ namespace RealTime.UI
                 var incentives = template.Incentives;
                 _incentiveList.rowsData.Clear();
 
-                if( incentives != null )
+                if(incentives != null)
                 {
                     foreach (var incentive in incentives)
                     {
@@ -498,23 +483,12 @@ namespace RealTime.UI
                         _incentiveList.rowsData.Add(optionItem);
                     }
 
-                    try
-                    {
-                        _incentiveList.DisplayAt(0);
-                        _incentiveList.selectedIndex = 0;
-                        _incentiveList.Show();
-                    }
-                    catch
-                    {
-                        Log.Error("IncentiveList DisplayAt hit an error. Probably too few items in the list.");
-                    }
-
                     _incentiveList.Refresh();
                 }
 
                 string tooltip = $"Males: {template.Attendees.Males}%\n" + $"Females: {template.Attendees.Females}%\n" + $"Young: {template.Attendees.YoungAdults}%";
 
-                _informationLabel.tooltip = localizationProvider.Translate("RUSH_EVENT_DEMOS") + "\n" + tooltip;
+                _informationLabel.tooltip = LocalizationProvider.Translate("RUSH_EVENT_DEMOS") + "\n" + tooltip;
 
                 UpdateTotalCost();
                 PerformLayout();
@@ -568,10 +542,10 @@ namespace RealTime.UI
 
             _incentiveList.height = height - _incentiveList.relativePosition.y - 20 - _createButton.height;
 
-            _upcomingEventsList.relativePosition = _incentiveList.relativePosition + new Vector3(0, _incentiveList.height + 5);
             _upcomingEventsList.width = width - 20;
-            _upcomingEventsList.height = _upcomingVisible ? 120 : 0;
-            _upcomingToggleBtn.relativePosition = new Vector3(10, _incentiveList.relativePosition.y);
+            _upcomingEventsList.height = _upcomingEventsVisible ? 120 : 0;
+            _upcomingToggleBtn.relativePosition = new Vector3(10, _incentiveList.relativePosition.y + _incentiveList.height + 5);
+            _upcomingEventsList.relativePosition = _incentiveList.relativePosition + new Vector3(0, _upcomingToggleBtn.height + 5);
 
             _createButton.relativePosition = new Vector3(width - _createButton.width - 10, height - _createButton.height - 10);
 
@@ -621,7 +595,7 @@ namespace RealTime.UI
             {
                 var sliderPanel = _ticketSlider.parent as UIPanel;
                 var sliderLabel = sliderPanel.Find<UILabel>("Label");
-                string ticketsText = localizationProvider.Translate(TranslationKeys.VanillaEventTicketSliderLabel);
+                string ticketsText = LocalizationProvider.Translate(TranslationKeys.VanillaEventTicketSliderLabel);
                 sliderLabel.text = string.Format("{0} {1}", _ticketSlider.value, ticketsText);
             }
 
@@ -720,25 +694,27 @@ namespace RealTime.UI
 
         private void TranslationOnLanguageChanged()
         {
-            _totalAmountLabel.text = localizationProvider.Translate(TranslationKeys.VanillaEventTotalAmountLabel);
-            _totalAmountLabel.tooltip = localizationProvider.Translate(TranslationKeys.VanillaEventTotalAmountLabelTooltip);
-            _totalIncomeLabel.text = localizationProvider.Translate(TranslationKeys.VanillaEventTotalIncomeLabel);
-            _totalIncomeLabel.tooltip = localizationProvider.Translate(TranslationKeys.VanillaEventTotalIncomeLabelTooltip);
-            _createButton.text = localizationProvider.Translate(TranslationKeys.VanillaEventCreateButton);
-            _createButton.tooltip = localizationProvider.Translate(TranslationKeys.VanillaEventCreateButtonTooltip);
+            _totalAmountLabel.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventTotalAmountLabel);
+            _totalAmountLabel.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventTotalAmountLabelTooltip);
+            _totalIncomeLabel.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventTotalIncomeLabel);
+            _totalIncomeLabel.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventTotalIncomeLabelTooltip);
+            _createButton.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventCreateButton);
+            _createButton.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventCreateButtonTooltip);
 
-            _startDayDropDown.text = localizationProvider.Translate(TranslationKeys.VanillaEventDayDropDownLabel);
-            _startDayDropDown.tooltip = localizationProvider.Translate(TranslationKeys.VanillaEventDayDropDownLabelTooltip);
-            _startMonthDropDown.text = localizationProvider.Translate(TranslationKeys.VanillaEventMonthDropDownLabel);
-            _startMonthDropDown.tooltip = localizationProvider.Translate(TranslationKeys.VanillaEventMonthDropDownLabelTooltip);
-            _startHourDropDown.text = localizationProvider.Translate(TranslationKeys.VanillaEventHourDropDownLabel);
-            _startHourDropDown.tooltip = localizationProvider.Translate(TranslationKeys.VanillaEventHourDropDownLabelTooltip);
-            _startMinuteDropDown.text = localizationProvider.Translate(TranslationKeys.VanillaEventMinuteDropDownLabel);
-            _startMinuteDropDown.tooltip = localizationProvider.Translate(TranslationKeys.VanillaEventMinuteDropDownLabelTooltip);
+            _startDayDropDown.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventDayDropDownLabel);
+            _startDayDropDown.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventDayDropDownLabelTooltip);
+            _startMonthDropDown.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventMonthDropDownLabel);
+            _startMonthDropDown.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventMonthDropDownLabelTooltip);
+            _startHourDropDown.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventHourDropDownLabel);
+            _startHourDropDown.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventHourDropDownLabelTooltip);
+            _startMinuteDropDown.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventMinuteDropDownLabel);
+            _startMinuteDropDown.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventMinuteDropDownLabelTooltip);
 
             var sliderPanel = _ticketSlider.parent as UIPanel;
             var sliderLabel = sliderPanel.Find<UILabel>("Label");
-            sliderLabel.tooltip = localizationProvider.Translate(TranslationKeys.VanillaEventTicketSliderLabelTooltip);
+            sliderLabel.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventTicketSliderLabelTooltip);
+
+            _upcomingToggleBtn.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventUpcomingShowBtn);
 
             _totalAmountLabel.Invalidate();
             _totalIncomeLabel.Invalidate();
@@ -778,11 +754,14 @@ namespace RealTime.UI
             _upcomingEventsList.Refresh();
         }
 
-        private void OnUpcomingToggle()
+        private void OnUpcomingToggleClicked()
         {
-            _upcomingVisible = !_upcomingVisible;
-            _upcomingEventsList.isVisible = _upcomingVisible;
-            _upcomingToggleBtn.text = _upcomingVisible ? "Hide Upcoming" : "Upcoming Events";
+            string show_btn_text = LocalizationProvider.Translate(TranslationKeys.VanillaEventUpcomingShowBtn);
+            string hide_btn_text = LocalizationProvider.Translate(TranslationKeys.VanillaEventUpcomingHideBtn);
+
+            _upcomingEventsVisible = !_upcomingEventsVisible;
+            _upcomingEventsList.isVisible = _upcomingEventsVisible;
+            _upcomingToggleBtn.text = _upcomingEventsVisible ? hide_btn_text : show_btn_text;
             PerformLayout();
         }
     }

@@ -34,6 +34,7 @@ namespace RealTime.Events
         /// <param name="wellbeing">The attendee wellbeing.</param>
         /// <param name="happiness">The attendee happiness.</param>
         /// <param name="randomizer">A reference to the game's randomizer.</param>
+        /// <param name="buildingClass">the class of the building the event is taking place in.</param>
         /// <returns>
         /// <c>true</c> if the event attendee with specified properties is accepted and can attend
         /// this city event; otherwise, <c>false</c>.
@@ -45,7 +46,8 @@ namespace RealTime.Events
             Citizen.Wealth wealth,
             Citizen.Wellbeing wellbeing,
             Citizen.Happiness happiness,
-            IRandomizer randomizer) => true;
+            IRandomizer randomizer,
+            ItemClass buildingClass) => true;
 
         /// <summary>
         /// Configures this event to take place in the specified building and at the specified start time.

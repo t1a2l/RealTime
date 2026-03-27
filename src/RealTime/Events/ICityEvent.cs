@@ -5,7 +5,7 @@ namespace RealTime.Events
     using System;
     using RealTime.Simulation;
 
-    /// <summary>An interface for a city event that is taking pace or being prepared.</summary>
+    /// <summary>An interface for a city event that is taking place or being prepared.</summary>
     internal interface ICityEvent
     {
         /// <summary>Gets the start time of this city event.</summary>
@@ -30,9 +30,7 @@ namespace RealTime.Events
         /// </summary>
         /// ///
         /// <param name="buildingId">The building ID this city event should take place in.</param>
-        /// <param name="buildingName">
-        /// The localized name of the building this city event should take place in.
-        /// </param>
+        /// <param name="buildingName">The localized name of the building this city event should take place in.</param>
         /// <param name="startTime">The city event start time.</param>
         internal void Configure(ushort buildingId, string buildingName, DateTime startTime);
 
@@ -44,6 +42,7 @@ namespace RealTime.Events
         /// <param name="wellbeing">The attendee wellbeing.</param>
         /// <param name="happiness">The attendee happiness.</param>
         /// <param name="randomizer">A reference to the game's randomizer.</param>
+        /// <param name="buildingClass">the class of the building the event is taking place in.</param>
         /// <returns>
         /// <c>true</c> if the event attendee with specified properties is accepted and can attend
         /// this city event; otherwise, <c>false</c>.
@@ -55,6 +54,7 @@ namespace RealTime.Events
             Citizen.Wealth wealth,
             Citizen.Wellbeing wellbeing,
             Citizen.Happiness happiness,
-            IRandomizer randomizer);
+            IRandomizer randomizer,
+            ItemClass buildingClass);
     }
 }

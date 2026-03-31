@@ -244,6 +244,39 @@ namespace RealTime.Localization
         /// <summary>The key for race day dropdown enable auto occur option.</summary>
         public const string RaceDayDropDownEnableAutoOccur = "RaceDayDropDownEnableAutoOccur";
 
+        /// <summary>The key for race day dropdown datetime tooltip.</summary>
+        public const string RaceDayDropDownDateTimeTooltip = "RaceDayDropDownDateTimeTooltip";
+
+        /// <summary>The key for race day dropdown frequency tooltip.</summary>
+        public const string RaceDayDropDownFrequencyTooltip = "RaceDayDropDownFrequencyTooltip";
+
+        /// <summary>The key for race day dropdown auto occur tooltip.</summary>
+        public const string RaceDayDropDownAutoOccurTooltip = "RaceDayDropDownAutoOccurTooltip";
+
+        /// <summary>The key for race day label day of week.</summary>
+        public const string RaceDayLabelDayOfWeek = "RaceDayLabelDayOfWeek";
+
+        /// <summary>The key for race day label day of week sunday.</summary>
+        public const string RaceDayLabelDayOfWeekSunday = "RaceDayLabelDayOfWeekSunday";
+
+        /// <summary>The key for race day label day of week monday.</summary>
+        public const string RaceDayLabelDayOfWeekMonday = "RaceDayLabelDayOfWeekMonday";
+
+        /// <summary>The key for race day label day of week tuesday.</summary>
+        public const string RaceDayLabelDayOfWeekTuesday = "RaceDayLabelDayOfWeekTuesday";
+
+        /// <summary>The key for race day label day of week wednesday.</summary>
+        public const string RaceDayLabelDayOfWeekWednesday = "RaceDayLabelDayOfWeekWednesday";
+
+        /// <summary>The key for race day label day of week thursday.</summary>
+        public const string RaceDayLabelDayOfWeekThursday = "RaceDayLabelDayOfWeekThursday";
+
+        /// <summary>The key for race day label day of week friday.</summary>
+        public const string RaceDayLabelDayOfWeekFriday = "RaceDayLabelDayOfWeekFriday";
+
+        /// <summary>The key for race day label day of week saturday.</summary>
+        public const string RaceDayLabelDayOfWeekSaturday = "RaceDayLabelDayOfWeekSaturday";
+
         // --------------------------------------------------------------------------------------------------
 
         /// --------------------------------- Vanilla Events Keys -------------------------------------------

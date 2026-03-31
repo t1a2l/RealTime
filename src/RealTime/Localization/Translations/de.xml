@@ -314,9 +314,20 @@
   <translation id="RaceDayDropDownDailyFrequency" value="Daily" />
   <translation id="RaceDayDropDownDisableAutoOccur" value="Disable" />
   <translation id="RaceDayDropDownEnableAutoOccur" value="Enable" />
+  <translation id="RaceDayDropDownDateTimeTooltip" value="Specify the datetime you wish this event to occur on each day/week. If an Event overlaps another event it may cancel out the later one, so avoid setting them close together in the day/week" />
+  <translation id="RaceDayDropDownFrequencyTooltip" value="Specify the frequency you wish this event to occur on (daily/weekly)" />
+  <translation id="RaceDayDropDownAutoOccurTooltip" value="Specify if you want this event to re-occur on a daily/weekly bases" />
+  <translation id="RaceDayLabelDayOfWeek" value="Day Of Week:" />
+  <translation id="RaceDayLabelDayOfWeekSunday" value="Sunday" />
+  <translation id="RaceDayLabelDayOfWeekMonday" value="Monday" />
+  <translation id="RaceDayLabelDayOfWeekTuesday" value="Tuesday" />
+  <translation id="RaceDayLabelDayOfWeekWednesday" value="Wednesday" />
+  <translation id="RaceDayLabelDayOfWeekThursday" value="Thursday" />
+  <translation id="RaceDayLabelDayOfWeekFriday" value="Friday" />
+  <translation id="RaceDayLabelDayOfWeekSaturday" value="Saturday" />
 
   <translation id="VanillaEventSelectionLabelTitle" value="Events:" />
-  <translation id="VanillaEventSelectEventButton" value="Select" />
+  <translation id="VanillaEventSelectEventButton" value="Event Info" />
   <translation id="VanillaEventSelectEventButtonTooltip" value="Select the event to create" />
   <translation id="VanillaEventTotalAmountLabel" value="Event cost" />
   <translation id="VanillaEventTotalAmountLabelTooltip" value="The total cost to create this event" />

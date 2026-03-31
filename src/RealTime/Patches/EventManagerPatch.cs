@@ -8,7 +8,6 @@ namespace RealTime.Patches
     using RealTime.CustomAI;
     using RealTime.GameConnection;
     using RealTime.Managers;
-    using UnityEngine;
 
     [HarmonyPatch]
     internal static class EventManagerPatch

@@ -21,9 +21,6 @@ namespace RealTime.Events
     internal sealed class RealTimeCityEvent(CityEventTemplate eventTemplate) : CityEventBase
     {
         private readonly CityEventTemplate eventTemplate = eventTemplate ?? throw new ArgumentNullException(nameof(eventTemplate));
-
-        private int attendeesCount;
-
         private bool _eventFinished = false;
 
         public int UserTicketCount { get; private set; }
@@ -48,7 +45,47 @@ namespace RealTime.Events
         /// <param name="attendeesCount">The current attendees count of this city event.</param>
         public RealTimeCityEvent(CityEventTemplate eventTemplate, int attendeesCount) : this(eventTemplate)
         {
-            this.attendeesCount = attendeesCount;
+            this.AttendeesCount = attendeesCount;
+        }
+
+        public int AttendeesCount { get; private set; }
+
+        public float Revenue
+        {
+            get
+            {
+                float revenue = AttendeesCount * UserEntryCost;
+                foreach (var incentive in UserIncentives)
+                {
+                    revenue += incentive.returnCost * incentive.sliderValue;
+                }
+
+                return revenue;
+            }
+        }
+
+        public float TotalCost
+        {
+            get
+            {
+                float totalCost = Costs?.Creation ?? 0f;
+                totalCost += UserTicketCount * (Costs?.PerHead ?? 0f);
+
+                foreach (var incentive in UserIncentives)
+                {
+                    totalCost += incentive.cost * incentive.sliderValue;
+                }
+
+                return totalCost;
+            }
+        }
+
+        public float Profit => Revenue - TotalCost;
+
+        public void SetUserConfiguration(int ticketCount, float entryCost)
+        {
+            UserTicketCount = ticketCount;
+            UserEntryCost = entryCost;
         }
 
         /// <summary>
@@ -79,7 +116,7 @@ namespace RealTime.Events
             IRandomizer randomizer,
             ItemClass buildingClass)
         {
-            if (attendeesCount > eventTemplate.Capacity)
+            if (AttendeesCount > eventTemplate.Capacity)
             {
                 return false;
             }
@@ -132,7 +169,7 @@ namespace RealTime.Events
                 int entryFee = Mathf.RoundToInt(eventTemplate.Costs.Entry * 100f);
                 Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, entryFee, buildingClass);
             }
-            attendeesCount++;
+            AttendeesCount++;
 
             return true;
         }
@@ -148,7 +185,7 @@ namespace RealTime.Events
             StartTime = StartTime.Ticks,
             BuildingId = BuildingId,
             BuildingName = BuildingName,
-            AttendeesCount = attendeesCount,
+            AttendeesCount = AttendeesCount,
             UserTicketCount = UserTicketCount,
             UserEntryCost = UserEntryCost,
             UserIncentives = [.. UserIncentives.Select(i => new RealTimeEventStorage.StoredIncentive
@@ -158,11 +195,12 @@ namespace RealTime.Events
             })]
         };
 
-        public void AddIncentive(string name, float count, float cost) => UserIncentives.Add(new IncentiveOptionItem
+        public void AddIncentive(string name, float count, float cost, float returnCost = 0f) => UserIncentives.Add(new IncentiveOptionItem
         {
             title = name,
             sliderValue = count,
-            cost = cost
+            cost = cost,
+            returnCost = returnCost
         });
 
         public void OnEventFinished(ItemClass buildingClass)

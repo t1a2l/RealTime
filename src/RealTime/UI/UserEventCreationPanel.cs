@@ -6,7 +6,6 @@ namespace RealTime.UI
     using ColossalFramework;
     using ColossalFramework.Globalization;
     using ColossalFramework.UI;
-    using ICities;
     using RealTime.Config;
     using RealTime.Events;
     using RealTime.Events.Containers;
@@ -19,262 +18,659 @@ namespace RealTime.UI
     using SkyTools.Tools;
     using UnityEngine;
 
+    /// <summary>
+    /// A WorldInfoPanel-style UI for creating and managing user city events.
+    /// Mirrors the structure of RaceEventWorldInfoPanel with custom naming.
+    /// Panel: 492×742, Tabstrip at y=40, TabContainer below.
+    /// </summary>
     internal class UserEventCreationPanel : UIPanel
     {
-        internal CityEventTemplate template = null;
-        protected UIHelper _helper = null;
-        protected UITitleBar _titleBar = null;
-        protected UILabel _informationLabel = null;
-        protected UISlider _ticketSlider = null;
-        protected UIPanel _totalPanel = null;
-        protected UILabel _totalAmountLabel = null;
-        protected UILabel _costLabel = null;
-        protected UILabel _totalIncomeLabel = null;
-        protected UILabel _incomeLabel = null;
-        protected UIFastList _incentiveList = null;
-        protected UIButton _createButton = null;
-
-        protected UIDropDown _startDayDropDown = null;
-        protected UIDropDown _startMonthDropDown = null;
-        protected UIDropDown _startHourDropDown = null;
-        protected UIDropDown _startMinuteDropDown = null;
-
+        // ── Static configuration (set before panel is shown) ─────────────────
         internal static RealTimeConfig RealTimeConfig { get => field ?? throw new InvalidOperationException("RealTimeConfig not set"); private set; }
 
         internal static ILocalizationProvider LocalizationProvider { get => field ?? throw new InvalidOperationException("LocalizationProvider not set"); private set; }
 
         internal static void Configure(RealTimeConfig config, ILocalizationProvider provider)
         {
-            RealTimeConfig = config;
-            LocalizationProvider = provider;
+            RealTimeConfig = config ?? throw new ArgumentNullException(nameof(config));
+            LocalizationProvider = provider ?? throw new ArgumentNullException(nameof(provider));
         }
 
-        protected float totalCost = 0f;
-        protected float maxIncome = 0f;
-        protected ushort eventBuildingID = 0;
+        // ── Tab indices ───────────────────────────────────────────────────────
+        private const int TAB_SCHEDULE = 0;
+        private const int TAB_UPCOMING = 1;
+        private const int TAB_PAST = 2;
+
+        // ── Root layout ───────────────────────────────────────────────────────
+        private UITabstrip _tabstrip;
+        private UITabContainer _tabContainer;
+
+        // ── Schedule tab ──────────────────────────────────────────────────────
+        private UIPanel _containerSchedule;
+        private UIPanel _eventConfigPanel;
+        private UIScrollablePanel _eventConfigContainer;
+        private UIDropDown _eventTypeDropdown;
+        private UIPanel _incentiveListPanel;
+        private UIFastList _incentiveList;
+        private UIPanel _scheduleFooter;
+        private UIButton _createEventButton;
+        private UILabel _labelEventCost;
+        private UILabel _labelMaxProfit;
+        private UILabel _labelTickets;
+        private UILabel _labelScheduledDate;
+        private UISlider _ticketSlider;
+        private UIDropDown _dropDay;
+        private UIDropDown _dropMonth;
+        private UIDropDown _dropHour;
+        private UIDropDown _dropMinute;
+
+        // ── Upcoming tab ──────────────────────────────────────────────────────
+        private UIPanel _containerUpcoming;
+        private UIScrollablePanel _upcomingEventList;
+
+        // ── Past events tab ───────────────────────────────────────────────────
+        private UIPanel _containerPast;
+        private UIScrollablePanel _pastEventList;
+
+        // ── Upcoming / past event rows ────────────────────────────────────────
+        private readonly List<UpcomingEventRow> _upcomingRows = [];
+        private readonly List<PastEventRow> _pastRows = [];
+
+        // ── State ─────────────────────────────────────────────────────────────
+        private CityEventTemplate _currentEventData;
+        private ushort _buildingId;
         private bool _updatingSchedule;
+        private float _totalCost;
+        private float _maxIncome;
 
-        protected UIFastList _upcomingEventsList = null;
-        protected UIButton _upcomingToggleBtn = null;  // Tab button to show/hide
-        private bool _upcomingEventsVisible = false;
-
-        private const float one_over_twelve = 0.08333333333333333f; // This is just 1/12 because * is (usually) faster than /
-
-        public string title
-        {
-            set
-            {
-                if (_titleBar)
-                {
-                    _titleBar.title = value;
-                }
-            }
-
-            get => _titleBar ? _titleBar.title : "";
-        }
+        // ─────────────────────────────────────────────────────────────────────
+        // Unity lifecycle
+        // ─────────────────────────────────────────────────────────────────────
 
         public override void Start()
         {
             base.Start();
-
-            Initialise();
-
-            atlas = TextureUtils.GetAtlas("Ingame");
-            backgroundSprite = "MenuPanel2";
-
-            _titleBar.name = "TitleBar";
-            _titleBar.relativePosition = new Vector3(0, 0);
-            _titleBar.width = width;
-
-            _informationLabel.width = width;
-            _informationLabel.padding = new RectOffset(5, 5, 5, 5);
-            _informationLabel.autoHeight = true;
-            _informationLabel.processMarkup = true;
-            _informationLabel.wordWrap = true;
-            _informationLabel.textScale = 0.7f;
-
-            _ticketSlider.eventValueChanged += TicketSlider_eventValueChanged;
-
-            var sliderPanel = _ticketSlider.parent as UIPanel;
-            sliderPanel.name = "TicketSliderPanel";
-
-            var sliderLabel = sliderPanel.Find<UILabel>("Label");
-            sliderLabel.textScale = 0.8f;
-
-            _totalPanel.atlas = TextureUtils.GetAtlas("Ingame");
-            _totalPanel.backgroundSprite = "GenericPanel";
-            _totalPanel.color = new Color32(91, 97, 106, 255);
-            _totalPanel.name = "Totals";
-
-            _totalAmountLabel.autoSize = false;
-            _totalAmountLabel.autoHeight = false;
-            _totalAmountLabel.name = "TotalLabel";
-            _totalAmountLabel.padding = new RectOffset(4, 4, 4, 4);
-            _totalAmountLabel.textAlignment = UIHorizontalAlignment.Left;
-            _totalAmountLabel.verticalAlignment = UIVerticalAlignment.Middle;
-            _totalAmountLabel.textColor = new Color32(255, 100, 100, 255);
-            _totalAmountLabel.color = new Color32(91, 97, 106, 255);
-            _totalAmountLabel.textScale = 0.7f;
-
-            _totalIncomeLabel.autoSize = false;
-            _totalIncomeLabel.autoHeight = false;
-            _totalIncomeLabel.name = "TotalIncome";
-            _totalIncomeLabel.padding = new RectOffset(4, 4, 4, 4);
-            _totalIncomeLabel.textAlignment = UIHorizontalAlignment.Left;
-            _totalIncomeLabel.verticalAlignment = UIVerticalAlignment.Middle;
-            _totalIncomeLabel.textColor = new Color32(206, 248, 0, 255);
-            _totalIncomeLabel.color = new Color32(91, 97, 106, 255);
-            _totalIncomeLabel.textScale = 0.7f;
-
-            _costLabel.autoSize = false;
-            _costLabel.autoHeight = false;
-            _costLabel.atlas = TextureUtils.GetAtlas("Ingame");
-            _costLabel.backgroundSprite = "TextFieldPanel";
-            _costLabel.name = "Cost";
-            _costLabel.padding = new RectOffset(4, 4, 2, 2);
-            _costLabel.textAlignment = UIHorizontalAlignment.Right;
-            _costLabel.verticalAlignment = UIVerticalAlignment.Middle;
-            _costLabel.textColor = new Color32(238, 95, 0, 255);
-            _costLabel.color = new Color32(45, 52, 61, 255);
-            _costLabel.textScale = 0.7f;
-
-            _incomeLabel.autoSize = false;
-            _incomeLabel.autoHeight = false;
-            _incomeLabel.atlas = TextureUtils.GetAtlas("Ingame");
-            _incomeLabel.backgroundSprite = "TextFieldPanel";
-            _incomeLabel.name = "Income";
-            _incomeLabel.padding = new RectOffset(4, 4, 2, 2);
-            _incomeLabel.textAlignment = UIHorizontalAlignment.Right;
-            _incomeLabel.verticalAlignment = UIVerticalAlignment.Middle;
-            _incomeLabel.textColor = new Color32(151, 238, 0, 255);
-            _incomeLabel.color = new Color32(45, 52, 61, 255);
-            _incomeLabel.textScale = 0.7f;
-
-            _incentiveList.canSelect = false;
-            _incentiveList.name = "IncentiveSelectionList";
-            _incentiveList.backgroundSprite = "UnlockingPanel";
-            _incentiveList.rowHeight = 76f;
-            _incentiveList.rowsData.Clear();
-            _incentiveList.selectedIndex = -1;
-
-            var dropdownPanel = _startDayDropDown.parent as UIPanel;
-            var dropdownLabel = dropdownPanel.Find<UILabel>("Label");
-            dropdownLabel.textScale = 0.875f;
-
-            dropdownPanel = _startMonthDropDown.parent as UIPanel;
-            dropdownLabel = dropdownPanel.Find<UILabel>("Label");
-            dropdownLabel.textScale = 0.875f;
-
-            dropdownPanel = _startHourDropDown.parent as UIPanel;
-            dropdownLabel = dropdownPanel.Find<UILabel>("Label");
-            dropdownLabel.textScale = 0.875f;
-
-            dropdownPanel = _startMinuteDropDown.parent as UIPanel;
-            dropdownLabel = dropdownPanel.Find<UILabel>("Label");
-            dropdownLabel.textScale = 0.875f;
-
-            _createButton.textScale = 0.9f;
-            _createButton.anchor = UIAnchorStyle.Right | UIAnchorStyle.Bottom;
-
+            BuildPanel();
             TranslationOnLanguageChanged();
-            PerformLayout();
-
             isVisible = false;
         }
 
-        private void Initialise()
+        // ─────────────────────────────────────────────────────────────────────
+        // Public API
+        // ─────────────────────────────────────────────────────────────────────
+
+        public void Show(ushort buildingId, List<CityEventTemplate> availableEvents)
         {
-            if (_helper == null)
+            _buildingId = buildingId;           // ← must be first
+            PopulateEventTypeDropdown(availableEvents);
+            RefreshUpcomingTab();
+            RefreshPastTab();
+            _tabstrip.selectedIndex = TAB_SCHEDULE;
+            Show();
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        // Panel construction
+        // ─────────────────────────────────────────────────────────────────────
+
+        private void BuildPanel()
+        {
+            width = 492f;
+            height = 742f;
+            backgroundSprite = "MenuPanel2";
+            atlas = TextureUtils.GetAtlas("Ingame");
+
+            BuildCaption();
+            BuildTabstrip();
+            BuildTabContainer();
+        }
+
+        private void BuildCaption()
+        {
+            var caption = AddUIComponent<UIPanel>();
+            caption.name = "Caption";
+            caption.width = width;
+            caption.height = 40f;
+            caption.relativePosition = Vector3.zero;
+
+            var title = caption.AddUIComponent<UILabel>();
+            title.name = "BuildingName";
+            title.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventSelectionLabelTitle);
+            title.textAlignment = UIHorizontalAlignment.Center;
+            title.verticalAlignment = UIVerticalAlignment.Middle;
+            title.size = new Vector2(width - 40f, 40f);
+            title.relativePosition = new Vector3(0f, 0f);
+            title.textScale = 0.9f;
+
+            var closeBtn = caption.AddUIComponent<UIButton>();
+            closeBtn.name = "Close";
+            closeBtn.size = new Vector2(32f, 32f);
+            closeBtn.relativePosition = new Vector3(width - 36f, 4f);
+            closeBtn.normalBgSprite = "buttonclose";
+            closeBtn.hoveredBgSprite = "buttonclosehover";
+            closeBtn.pressedBgSprite = "buttonclosepressed";
+            closeBtn.eventClicked += (c, e) => Hide();
+        }
+
+        private void BuildTabstrip()
+        {
+            _tabstrip = AddUIComponent<UITabstrip>();
+            _tabstrip.name = "Tabstrip";
+            _tabstrip.size = new Vector2(492f, 30f);
+            _tabstrip.relativePosition = new Vector3(0f, 40f);
+
+            AddTab(_tabstrip, "TabSchedule", LocalizationProvider.Translate("TranslationKeys.TabSchedule"));
+            AddTab(_tabstrip, "TabUpcoming", LocalizationProvider.Translate(TranslationKeys.VanillaEventUpcomingShowBtn));
+            AddTab(_tabstrip, "TabPast", LocalizationProvider.Translate("TranslationKeys.TabPast"));
+
+            _tabstrip.selectedIndex = TAB_SCHEDULE;
+            _tabstrip.eventSelectedIndexChanged += OnTabChanged;
+        }
+
+        private static void AddTab(UITabstrip strip, string tabName, string tabText)
+        {
+            var btn = strip.AddTab(tabText);
+            btn.name = tabName;
+            btn.size = new Vector2(96f, 31.5f);
+            btn.normalBgSprite = "GenericTab";
+            btn.focusedBgSprite = "GenericTabFocused";
+            btn.hoveredBgSprite = "GenericTabHovered";
+            btn.pressedBgSprite = "GenericTabPressed";
+            btn.textColor = Color.white;
+            btn.focusedTextColor = Color.white;
+            btn.hoveredTextColor = Color.white;
+            btn.textScale = 0.8f;
+        }
+
+        private void BuildTabContainer()
+        {
+            _tabContainer = AddUIComponent<UITabContainer>();
+            _tabContainer.name = "TabContainer";
+            _tabContainer.size = new Vector2(492f, 672f);
+            _tabContainer.relativePosition = new Vector3(0f, 70f);
+            _tabContainer.padding = new RectOffset(0, 0, 0, 0);
+
+            _tabstrip.tabPages = _tabContainer;
+
+            BuildScheduleTab();
+            BuildUpcomingTab();
+            BuildPastTab();
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        // Schedule tab
+        // ─────────────────────────────────────────────────────────────────────
+
+        private void BuildScheduleTab()
+        {
+            _containerSchedule = _tabContainer.AddUIComponent<UIPanel>();
+            _containerSchedule.name = "ContainerSchedule";
+            _containerSchedule.size = new Vector2(492f, 672f);
+
+            _eventConfigPanel = _containerSchedule.AddUIComponent<UIPanel>();
+            _eventConfigPanel.name = "EventConfigPanel";
+            _eventConfigPanel.size = new Vector2(492f, 658f);
+            _eventConfigPanel.relativePosition = new Vector3(0f, 0f);
+            _eventConfigPanel.backgroundSprite = "GenericPanel";
+            _eventConfigPanel.atlas = TextureUtils.GetAtlas("Ingame");
+            _eventConfigPanel.color = new Color32(91, 97, 106, 255);
+
+            _eventConfigContainer = _eventConfigPanel.AddUIComponent<UIScrollablePanel>();
+            _eventConfigContainer.name = "EventConfigContainer";
+            _eventConfigContainer.size = new Vector2(456f, 580f);
+            _eventConfigContainer.relativePosition = new Vector3(8f, 8f);
+            _eventConfigContainer.autoLayout = true;
+            _eventConfigContainer.autoLayoutDirection = LayoutDirection.Vertical;
+            _eventConfigContainer.autoLayoutPadding = new RectOffset(0, 0, 0, 4);
+            _eventConfigContainer.clipChildren = true;
+            _eventConfigContainer.scrollWheelDirection = UIOrientation.Vertical;
+
+            BuildEventTypeDropdown();
+            BuildTicketSliderRow();
+            BuildCostInfoRow();
+            BuildIncentiveListArea();
+            BuildScheduleDateRow();
+            BuildScheduleFooter();
+        }
+
+        private void BuildEventTypeDropdown()
+        {
+            var row = _eventConfigContainer.AddUIComponent<UIPanel>();
+            row.name = "PanelEventType";
+            row.size = new Vector2(444f, 30f);
+
+            _eventTypeDropdown = row.AddUIComponent<UIDropDown>();
+            _eventTypeDropdown.name = "EventTypeDropdown";
+            _eventTypeDropdown.size = new Vector2(440f, 28f);
+            _eventTypeDropdown.relativePosition = new Vector3(2f, 1f);
+            _eventTypeDropdown.textFieldPadding = new RectOffset(8, 0, 4, 0);
+            _eventTypeDropdown.triggerButton = _eventTypeDropdown; // self-trigger
+            _eventTypeDropdown.listBackground = "GenericPanelDark";
+            _eventTypeDropdown.itemHover = "ListItemHover";
+            _eventTypeDropdown.itemHighlight = "ListItemHighlight";
+            _eventTypeDropdown.listHeight = 160;
+            _eventTypeDropdown.itemHeight = 26;
+            _eventTypeDropdown.textColor = Color.white;
+            _eventTypeDropdown.eventSelectedIndexChanged += OnEventTypeChanged;
+        }
+
+        private void BuildTicketSliderRow()
+        {
+            var row = _eventConfigContainer.AddUIComponent<UIPanel>();
+            row.name = "PanelTickets";
+            row.size = new Vector2(456f, 40f);
+
+            var lblTicketTitle = row.AddUIComponent<UILabel>();
+            lblTicketTitle.name = "LabelTicketTitle";
+            lblTicketTitle.textScale = 0.8f;
+            lblTicketTitle.relativePosition = new Vector3(5f, 4f);
+
+            _ticketSlider = row.AddUIComponent<UISlider>();
+            _ticketSlider.name = "TicketSlider";
+            _ticketSlider.size = new Vector2(260f, 16f);
+            _ticketSlider.relativePosition = new Vector3(5f, 20f);
+            _ticketSlider.minValue = 100f;
+            _ticketSlider.maxValue = 9000f;
+            _ticketSlider.stepSize = 10f;
+            _ticketSlider.value = 500f;
+            _ticketSlider.backgroundSprite = "ScrollbarTrack";
+            _ticketSlider.atlas = TextureUtils.GetAtlas("Ingame");
+
+            var thumb = _ticketSlider.AddUIComponent<UISprite>();
+            thumb.spriteName = "ScrollbarThumb";
+            thumb.size = new Vector2(16f, 16f);
+            _ticketSlider.thumbObject = thumb;
+
+            _labelTickets = row.AddUIComponent<UILabel>();
+            _labelTickets.name = "LabelTickets";
+            _labelTickets.textColor = Color.white;
+            _labelTickets.textScale = 0.75f;
+            _labelTickets.relativePosition = new Vector3(275f, 20f);
+
+            _ticketSlider.eventValueChanged += (c, v) =>
             {
-                width = 400;
-                height = 500;
-                isInteractive = true;
-                enabled = true;
-
-                _helper = new UIHelper(this);
-                _titleBar = AddUIComponent<UITitleBar>();
-                _informationLabel = AddUIComponent<UILabel>();
-                _totalPanel = AddUIComponent<UIPanel>();
-                _totalAmountLabel = _totalPanel.AddUIComponent<UILabel>();
-                _totalIncomeLabel = _totalPanel.AddUIComponent<UILabel>();
-                _costLabel = _totalPanel.AddUIComponent<UILabel>();
-                _incomeLabel = _totalPanel.AddUIComponent<UILabel>();
-                _incentiveList = UIFastList.Create<UIFastListIncentives>(this);
-
-                _upcomingToggleBtn = _helper.AddButton("Upcoming Events", OnUpcomingToggleClicked) as UIButton;
-                _upcomingToggleBtn.size = new Vector2(120, 28);
-                _upcomingToggleBtn.textScale = 0.85f;
-
-                _upcomingEventsList = UIFastList.Create<UpcomingEventRow>(this);
-                _upcomingEventsList.rowHeight = 30f;
-                _upcomingEventsList.backgroundSprite = "UnlockingPanel";
-                _upcomingEventsList.isVisible = false;
-
-                _ticketSlider = (UISlider)_helper.AddSlider("Tickets", 100, 9000, 10, 500, delegate (float value)
+                foreach (IncentiveOptionItem optionItemObject in _incentiveList?.rowsData ?? new FastList<object>())
                 {
-                    if (_incentiveList != null)
-                    {
-                        var optionItems = _incentiveList.rowsData;
+                    optionItemObject.ticketCount = v;
+                    optionItemObject.UpdateTicketSize();
+                }
+                UpdateCostDisplay();
+            };
+        }
 
-                        foreach (IncentiveOptionItem optionItemObject in optionItems)
-                        {
-                            optionItemObject.ticketCount = value;
-                            optionItemObject.UpdateTicketSize();
-                        }
-                    }
-                });
+        private void BuildCostInfoRow()
+        {
+            var row = _eventConfigContainer.AddUIComponent<UIPanel>();
+            row.name = "PanelCostInfo";
+            row.size = new Vector2(456f, 26f);
+            row.backgroundSprite = "GenericPanel";
+            row.atlas = TextureUtils.GetAtlas("Ingame");
+            row.color = new Color32(45, 52, 61, 255);
 
-                _createButton = _helper.AddButton("Create", new OnButtonClicked(CreateEvent)) as UIButton;
+            var costTitle = row.AddUIComponent<UILabel>();
+            costTitle.name = "LabelEventCostTitle";
+            costTitle.textColor = new Color32(255, 100, 100, 255);
+            costTitle.textScale = 0.7f;
+            costTitle.relativePosition = new Vector3(4f, 5f);
 
-                int defaultDaySelection = Singleton<SimulationManager>.instance.m_currentGameTime.Day - 1;
-                int defaultMonthSelection = Singleton<SimulationManager>.instance.m_currentGameTime.Month - 1;
-                int defaultHourSelection = AdjustEventStartTime(Singleton<SimulationManager>.instance.m_currentGameTime).Hour;
-                int defaultMinuteSelection = Singleton<SimulationManager>.instance.m_currentGameTime.Minute;
+            _labelEventCost = row.AddUIComponent<UILabel>();
+            _labelEventCost.name = "LabelEventCostValue";
+            _labelEventCost.textColor = new Color32(238, 95, 0, 255);
+            _labelEventCost.textScale = 0.7f;
+            _labelEventCost.textAlignment = UIHorizontalAlignment.Right;
+            _labelEventCost.relativePosition = new Vector3(120f, 5f);
+            _labelEventCost.text = "0";
 
-                _startDayDropDown = (UIDropDown)_helper.AddDropdown("Day", [.. Enumerable.Range(1, 31).Select(i => i.ToString("D2"))], defaultDaySelection, delegate (int value) {});
-                _startMonthDropDown = (UIDropDown)_helper.AddDropdown("Month", [.. Enumerable.Range(1, 12).Select(i => i.ToString("D2"))], defaultMonthSelection, delegate (int value) { });
-                _startHourDropDown = (UIDropDown)_helper.AddDropdown("Hour", [.. Enumerable.Range(0, 24).Select(i => i.ToString("D2"))], defaultHourSelection, delegate (int value) { });
-                _startMinuteDropDown = (UIDropDown)_helper.AddDropdown("Minute", [.. Enumerable.Range(0, 60).Select(i => i.ToString("D2"))], defaultMinuteSelection, delegate (int value) { });
+            var profitTitle = row.AddUIComponent<UILabel>();
+            profitTitle.name = "LabelMaxProfitTitle";
+            profitTitle.textColor = new Color32(206, 248, 0, 255);
+            profitTitle.textScale = 0.7f;
+            profitTitle.relativePosition = new Vector3(240f, 5f);
 
-                _startDayDropDown.size = new Vector3(50f, 27f);
-                _startMonthDropDown.size = new Vector3(50f, 27f);
-                _startHourDropDown.size = new Vector3(50f, 27f);
-                _startMinuteDropDown.size = new Vector3(50f, 27f);
+            _labelMaxProfit = row.AddUIComponent<UILabel>();
+            _labelMaxProfit.name = "LabelMaxProfitValue";
+            _labelMaxProfit.textColor = new Color32(151, 238, 0, 255);
+            _labelMaxProfit.textScale = 0.7f;
+            _labelMaxProfit.textAlignment = UIHorizontalAlignment.Right;
+            _labelMaxProfit.relativePosition = new Vector3(360f, 5f);
+            _labelMaxProfit.text = "0";
+        }
 
-                _startDayDropDown.textScale = 0.875f;
-                _startMonthDropDown.textScale = 0.875f;
-                _startHourDropDown.textScale = 0.875f;
-                _startMinuteDropDown.textScale = 0.875f;
+        private void BuildIncentiveListArea()
+        {
+            _incentiveListPanel = _eventConfigContainer.AddUIComponent<UIPanel>();
+            _incentiveListPanel.name = "IncentiveListPanel";
+            _incentiveListPanel.size = new Vector2(456f, 415f);
 
-                _startDayDropDown.textFieldPadding.right = 10;
-                _startMonthDropDown.textFieldPadding.right = 10;
-                _startHourDropDown.textFieldPadding.right = 10;
-                _startMinuteDropDown.textFieldPadding.right = 10;
+            _incentiveList = UIFastList.Create<UIFastListIncentives>(_incentiveListPanel);
+            _incentiveList.name = "IncentiveList";
+            _incentiveList.size = new Vector2(452f, 415f);
+            _incentiveList.relativePosition = Vector3.zero;
+            _incentiveList.rowHeight = 76f;
+            _incentiveList.canSelect = false;
+            _incentiveList.backgroundSprite = "UnlockingPanel";
+            _incentiveList.rowsData.Clear();
+            _incentiveList.selectedIndex = -1;
+        }
 
-                _startDayDropDown.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
-                {
-                    OnScheduleDayChanged(uiComponent, value);
-                    UpdateTotalCost();
-                };
+        private void BuildScheduleDateRow()
+        {
+            var panel = _eventConfigContainer.AddUIComponent<UIPanel>();
+            panel.name = "PanelScheduleDate";
+            panel.size = new Vector2(456f, 60f);
 
-                _startMonthDropDown.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
-                {
-                    OnScheduleMonthChanged(uiComponent, value);
-                    UpdateTotalCost();
-                };
+            var lblStartDate = panel.AddUIComponent<UILabel>();
+            lblStartDate.name = "LabelStartDate";
+            lblStartDate.textColor = Color.white;
+            lblStartDate.textScale = 0.8f;
+            lblStartDate.relativePosition = new Vector3(8f, 4f);
 
-                _startHourDropDown.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
-                {
-                    OnScheduleHourChanged(uiComponent, value);
-                    UpdateTotalCost();
-                };
+            _dropDay = CreateDropdown(panel, "DropDay", 50f, new Vector3(8f, 24f));
+            _dropMonth = CreateDropdown(panel, "DropMonth", 50f, new Vector3(68f, 24f));
+            _dropHour = CreateDropdown(panel, "DropHour", 50f, new Vector3(138f, 24f));
+            _dropMinute = CreateDropdown(panel, "DropMinute", 50f, new Vector3(198f, 24f));
 
-                _startMinuteDropDown.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
-                {
-                    OnScheduleMinuteChanged(uiComponent, value);
-                    UpdateTotalCost();
-                };
+            _dropDay.textScale = 0.875f;
+            _dropMonth.textScale = 0.875f;
+            _dropHour.textScale = 0.875f;
+            _dropMinute.textScale = 0.875f;
+
+            _dropDay.eventSelectedIndexChanged += (c, v) =>
+            {
+                OnScheduleDayChanged(c, v);
+                UpdateCostDisplay();
+            };
+            _dropMonth.eventSelectedIndexChanged += (c, v) =>
+            {
+                OnScheduleMonthChanged(c, v);
+                UpdateCostDisplay();
+            };
+            _dropHour.eventSelectedIndexChanged += (c, v) =>
+            {
+                OnScheduleHourChanged(c, v);
+                UpdateCostDisplay();
+            };
+            _dropMinute.eventSelectedIndexChanged += (c, v) =>
+            {
+                OnScheduleMinuteChanged(c, v);
+                UpdateCostDisplay();
+            };
+
+            var panelDatePreview = _eventConfigContainer.AddUIComponent<UIPanel>();
+            panelDatePreview.name = "PanelDatePreview";
+            panelDatePreview.size = new Vector2(456f, 22f);
+
+            _labelScheduledDate = panelDatePreview.AddUIComponent<UILabel>();
+            _labelScheduledDate.name = "LabelScheduledDate";
+            _labelScheduledDate.textColor = new Color32(255, 180, 0, 255);
+            _labelScheduledDate.textScale = 0.75f;
+            _labelScheduledDate.relativePosition = new Vector3(8f, 2f);
+            _labelScheduledDate.text = "";
+        }
+
+        private void BuildScheduleFooter()
+        {
+            _scheduleFooter = _eventConfigPanel.AddUIComponent<UIPanel>();
+            _scheduleFooter.name = "PanelCreateEvent";
+            _scheduleFooter.size = new Vector2(476f, 40f);
+            _scheduleFooter.relativePosition = new Vector3(8f, 610f);
+            _scheduleFooter.backgroundSprite = "GenericPanel";
+            _scheduleFooter.atlas = TextureUtils.GetAtlas("Ingame");
+            _scheduleFooter.color = new Color32(91, 97, 106, 255);
+
+            _createEventButton = _scheduleFooter.AddUIComponent<UIButton>();
+            _createEventButton.name = "ButtonCreateEvent";
+            _createEventButton.size = new Vector2(120f, 32f);
+            _createEventButton.relativePosition = new Vector3(348f, 4f);
+            _createEventButton.normalBgSprite = "ButtonMenu";
+            _createEventButton.hoveredBgSprite = "ButtonMenuHovered";
+            _createEventButton.pressedBgSprite = "ButtonMenuPressed";
+            _createEventButton.disabledBgSprite = "ButtonMenuDisabled";
+            _createEventButton.textColor = Color.white;
+            _createEventButton.textScale = 0.9f;
+            _createEventButton.anchor = UIAnchorStyle.Right | UIAnchorStyle.Bottom;
+            _createEventButton.eventClicked += (c, e) => CreateEvent();
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        // Upcoming tab
+        // ─────────────────────────────────────────────────────────────────────
+
+        private void BuildUpcomingTab()
+        {
+            _containerUpcoming = _tabContainer.AddUIComponent<UIPanel>();
+            _containerUpcoming.name = "ContainerUpcoming";
+            _containerUpcoming.size = new Vector2(492f, 672f);
+
+            var heading = _containerUpcoming.AddUIComponent<UILabel>();
+            heading.name = "LabelUpcomingHeading";
+            heading.textAlignment = UIHorizontalAlignment.Center;
+            heading.textColor = Color.white;
+            heading.textScale = 0.85f;
+            heading.size = new Vector2(492f, 24f);
+            heading.relativePosition = new Vector3(0f, 8f);
+
+            var panelUpcoming = _containerUpcoming.AddUIComponent<UIPanel>();
+            panelUpcoming.name = "PanelUpcomingEvents";
+            panelUpcoming.size = new Vector2(492f, 630f);
+            panelUpcoming.relativePosition = new Vector3(0f, 40f);
+
+            _upcomingEventList = panelUpcoming.AddUIComponent<UIScrollablePanel>();
+            _upcomingEventList.name = "UpcomingEventList";
+            _upcomingEventList.size = new Vector2(460f, 614f);
+            _upcomingEventList.relativePosition = new Vector3(16f, 8f);
+            _upcomingEventList.autoLayout = true;
+            _upcomingEventList.autoLayoutDirection = LayoutDirection.Vertical;
+            _upcomingEventList.autoLayoutPadding = new RectOffset(0, 0, 0, 2);
+            _upcomingEventList.clipChildren = true;
+            _upcomingEventList.scrollWheelDirection = UIOrientation.Vertical;
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        // Past events tab
+        // ─────────────────────────────────────────────────────────────────────
+
+        private void BuildPastTab()
+        {
+            _containerPast = _tabContainer.AddUIComponent<UIPanel>();
+            _containerPast.name = "ContainerPast";
+            _containerPast.size = new Vector2(492f, 672f);
+
+            var heading = _containerPast.AddUIComponent<UILabel>();
+            heading.name = "LabelPastHeading";
+            heading.textAlignment = UIHorizontalAlignment.Center;
+            heading.textColor = Color.white;
+            heading.textScale = 0.85f;
+            heading.size = new Vector2(492f, 24f);
+            heading.relativePosition = new Vector3(0f, 8f);
+
+            var panelPast = _containerPast.AddUIComponent<UIPanel>();
+            panelPast.name = "PanelPastEvents";
+            panelPast.size = new Vector2(492f, 630f);
+            panelPast.relativePosition = new Vector3(0f, 40f);
+
+            _pastEventList = panelPast.AddUIComponent<UIScrollablePanel>();
+            _pastEventList.name = "PastEventList";
+            _pastEventList.size = new Vector2(460f, 614f);
+            _pastEventList.relativePosition = new Vector3(16f, 8f);
+            _pastEventList.autoLayout = true;
+            _pastEventList.autoLayoutDirection = LayoutDirection.Vertical;
+            _pastEventList.autoLayoutPadding = new RectOffset(0, 0, 0, 2);
+            _pastEventList.clipChildren = true;
+            _pastEventList.scrollWheelDirection = UIOrientation.Vertical;
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        // Tab switching
+        // ─────────────────────────────────────────────────────────────────────
+
+        private void OnTabChanged(UIComponent c, int index)
+        {
+            if (index == TAB_UPCOMING)
+            {
+                RefreshUpcomingTab();
             }
+            else if (index == TAB_PAST)
+            {
+                RefreshPastTab();
+            }
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        // Event type dropdown
+        // ─────────────────────────────────────────────────────────────────────
+
+        private void PopulateEventTypeDropdown(List<CityEventTemplate> templates)
+        {
+            var buildingMgr = Singleton<BuildingManager>.instance;
+            var building = buildingMgr.m_buildings.m_buffer[_buildingId]; // ← use the field, not WorldInfoPanel
+            string buildingName = building.Info.name;
+
+            var items = new List<string>();
+            foreach (var e in templates)
+            {
+                items.Add(e.EventName);
+            }
+
+            _eventTypeDropdown.items = [.. items];
+            if (items.Count > 0)
+            {
+                _eventTypeDropdown.selectedIndex = 0;
+                var template = CityEventsLoader.Instance.GetEventTemplate(items[0], buildingName);
+                LoadEventData(template);
+            }
+        }
+
+        private void OnEventTypeChanged(UIComponent c, int index)
+        {
+            if (index < 0 || index >= _eventTypeDropdown.items.Length)
+            {
+                return;
+            }
+
+            var buildingMgr = Singleton<BuildingManager>.instance;
+            var building = buildingMgr.m_buildings.m_buffer[_buildingId]; // ← use field
+            string buildingName = building.Info.name;
+
+            var data = CityEventsLoader.Instance.GetEventTemplate(_eventTypeDropdown.items[index], buildingName);
+            if (data != null)
+            {
+                LoadEventData(data);
+            }
+        }
+
+        private void LoadEventData(CityEventTemplate eventData)
+        {
+            _currentEventData = eventData;
+            PopulateIncentiveList(eventData);
+            UpdateCostDisplay();
+            UpdateDatePreview();
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        // Incentive list population (mirrors SetUp from UserEventCreationPanel)
+        // ─────────────────────────────────────────────────────────────────────
+
+        private void PopulateIncentiveList(CityEventTemplate eventData)
+        {
+            _incentiveList.rowsData.Clear();
+
+            if (eventData?.Incentives == null)
+            {
+                _incentiveList.Refresh();
+                return;
+            }
+
+            foreach (var incentive in eventData.Incentives)
+            {
+                var optionItem = new IncentiveOptionItem()
+                {
+                    cost = incentive.Cost,
+                    description = incentive.Description,
+                    negativeEffect = incentive.NegativeEffect,
+                    positiveEffect = incentive.PositiveEffect,
+                    returnCost = incentive.ReturnCost,
+                    title = incentive.Name,
+                    ticketCount = _ticketSlider != null ? _ticketSlider.value : 500f
+                };
+
+                optionItem.OnOptionItemChanged += UpdateCostDisplay;
+                _incentiveList.rowsData.Add(optionItem);
+            }
+
+            _incentiveList.Refresh();
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        // Cost display  (ported from UserEventCreationPanel.UpdateTotalCost)
+        // ─────────────────────────────────────────────────────────────────────
+
+        private void UpdateCostDisplay()
+        {
+            if (_ticketSlider != null)
+            {
+                string ticketsText = LocalizationProvider.Translate(TranslationKeys.VanillaEventTicketSliderLabel);
+                _labelTickets?.text = string.Format("{0} {1}", _ticketSlider.value, ticketsText);
+            }
+
+            if (_currentEventData != null && _currentEventData.Costs != null)
+            {
+                _totalCost = 0f;
+                _maxIncome = 0f;
+
+                _totalCost += _currentEventData.Costs.Creation;
+                _totalCost += (_ticketSlider?.value ?? 0f) * _currentEventData.Costs.PerHead;
+                _maxIncome += (_ticketSlider?.value ?? 0f) * _currentEventData.Costs.Entry;
+
+                foreach (IncentiveOptionItem item in _incentiveList.rowsData)
+                {
+                    _totalCost += item.cost * item.sliderValue;
+                    _maxIncome += item.returnCost * item.sliderValue;
+                }
+            }
+
+            if (_labelEventCost != null)
+            {
+                _labelEventCost.text = _totalCost.ToString(Settings.moneyFormat, LocaleManager.cultureInfo);
+                _labelMaxProfit.text = _maxIncome.ToString(Settings.moneyFormat, LocaleManager.cultureInfo);
+            }
+
+            UpdateDatePreview();
+
+            if (_createEventButton != null)
+            {
+                int adjustedCost = Mathf.RoundToInt(_totalCost * 100f);
+                if (Singleton<EconomyManager>.instance.PeekResource(EconomyManager.Resource.Construction, adjustedCost) != adjustedCost)
+                {
+                    _createEventButton.Disable();
+                }
+                else
+                {
+                    _createEventButton.Enable();
+                }
+            }
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        // Schedule date dropdowns  (ported from UserEventCreationPanel)
+        // ─────────────────────────────────────────────────────────────────────
+
+        private void PopulateDateDropdowns()
+        {
+            var now = Singleton<SimulationManager>.instance.m_currentGameTime;
+
+            _dropDay.items = [.. Enumerable.Range(1, 31).Select(i => i.ToString("D2"))];
+            _dropDay.selectedIndex = now.Day - 1;
+
+            _dropMonth.items = [.. Enumerable.Range(1, 12).Select(i => i.ToString("D2"))];
+            _dropMonth.selectedIndex = now.Month - 1;
+
+            _dropHour.items = [.. Enumerable.Range(0, 24).Select(i => i.ToString("D2"))];
+            _dropMinute.items = [.. Enumerable.Range(0, 60).Select(i => i.ToString("D2"))];
+
+            var adjusted = AdjustEventStartTime(now);
+            _dropHour.selectedIndex = adjusted.Hour;
+            _dropMinute.selectedIndex = adjusted.Minute;
         }
 
         private void OnScheduleDayChanged(UIComponent uiComponent, int value)
@@ -283,30 +679,29 @@ namespace RealTime.UI
             {
                 return;
             }
+
             _updatingSchedule = true;
             try
             {
                 int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
-
                 var dropdown = (UIDropDown)uiComponent;
-                int startMonth = int.Parse(_startMonthDropDown.selectedValue);
+                int startMonth = int.Parse(_dropMonth.selectedValue);
 
                 string dayText = dropdown.items[value];
                 int day = byte.Parse(dayText);
 
-                int num = DateTime.DaysInMonth(2, startMonth);
-                bool flag = day > num;
-                if (flag)
+                int maxDay = DateTime.DaysInMonth(2, startMonth);
+                if (day > maxDay)
                 {
-                    day = num;
+                    day = maxDay;
                 }
 
-                int startHour = byte.Parse(_startHourDropDown.selectedValue);
-                int startMinute = byte.Parse(_startMinuteDropDown.selectedValue);
+                int startHour = byte.Parse(_dropHour.selectedValue);
+                int startMinute = byte.Parse(_dropMinute.selectedValue);
                 var startDateTime = new DateTime(year, startMonth, day, startHour, startMinute, 0);
                 var dateTime = AdjustEventStartTime(startDateTime);
-                _startHourDropDown.selectedIndex = dateTime.Hour;
-                _startMinuteDropDown.selectedIndex = dateTime.Minute;
+                _dropHour.selectedIndex = dateTime.Hour;
+                _dropMinute.selectedIndex = dateTime.Minute;
             }
             finally
             {
@@ -320,6 +715,7 @@ namespace RealTime.UI
             {
                 return;
             }
+
             _updatingSchedule = true;
             try
             {
@@ -328,21 +724,22 @@ namespace RealTime.UI
                 string monthText = dropdown.items[value];
                 int month = int.Parse(monthText);
 
-                int startDay = int.Parse(_startDayDropDown.selectedValue);
+                int startDay = int.Parse(_dropDay.selectedValue);
 
-                int num = DateTime.DaysInMonth(2, month);
-                if (startDay > num)
+                int maxDay = DateTime.DaysInMonth(2, month);
+                if (startDay > maxDay)
                 {
-                    startDay = num;
+                    startDay = maxDay;
                 }
-                _startDayDropDown.selectedIndex = startDay - 1;
 
-                int startHour = byte.Parse(_startHourDropDown.selectedValue);
-                int startMinute = byte.Parse(_startMinuteDropDown.selectedValue);
+                _dropDay.selectedIndex = startDay - 1;
+
+                int startHour = byte.Parse(_dropHour.selectedValue);
+                int startMinute = byte.Parse(_dropMinute.selectedValue);
                 var startDateTime = new DateTime(year, month, startDay, startHour, startMinute, 0);
                 var dateTime = AdjustEventStartTime(startDateTime);
-                _startHourDropDown.selectedIndex = dateTime.Hour;
-                _startMinuteDropDown.selectedIndex = dateTime.Minute;
+                _dropHour.selectedIndex = dateTime.Hour;
+                _dropMinute.selectedIndex = dateTime.Minute;
             }
             finally
             {
@@ -356,24 +753,24 @@ namespace RealTime.UI
             {
                 return;
             }
+
             _updatingSchedule = true;
             try
             {
                 int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
                 var dropdown = (UIDropDown)uiComponent;
 
-                int startDay = int.Parse(_startDayDropDown.selectedValue);
-                int startMonth = int.Parse(_startMonthDropDown.selectedValue);
-                int startMinute = int.Parse(_startMinuteDropDown.selectedValue);
+                int startDay = int.Parse(_dropDay.selectedValue);
+                int startMonth = int.Parse(_dropMonth.selectedValue);
+                int startMinute = int.Parse(_dropMinute.selectedValue);
 
-                
                 string hourText = dropdown.items[value];
                 int hour = int.Parse(hourText);
 
                 var startDateTime = new DateTime(year, startMonth, startDay, hour, startMinute, 0);
                 var dateTime = AdjustEventStartTime(startDateTime);
-                _startHourDropDown.selectedIndex = dateTime.Hour;
-                _startMinuteDropDown.selectedIndex = dateTime.Minute;
+                _dropHour.selectedIndex = dateTime.Hour;
+                _dropMinute.selectedIndex = dateTime.Minute;
             }
             finally
             {
@@ -387,24 +784,24 @@ namespace RealTime.UI
             {
                 return;
             }
+
             _updatingSchedule = true;
             try
             {
                 int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
                 var dropdown = (UIDropDown)uiComponent;
 
-                int startDay = int.Parse(_startDayDropDown.selectedValue);
-                int startMonth = int.Parse(_startMonthDropDown.selectedValue);
-                int startHour = int.Parse(_startHourDropDown.selectedValue);
+                int startDay = int.Parse(_dropDay.selectedValue);
+                int startMonth = int.Parse(_dropMonth.selectedValue);
+                int startHour = int.Parse(_dropHour.selectedValue);
 
-                
                 string minuteText = dropdown.items[value];
                 int minute = int.Parse(minuteText);
 
                 var startDateTime = new DateTime(year, startMonth, startDay, startHour, minute, 0);
                 var dateTime = AdjustEventStartTime(startDateTime);
-                _startHourDropDown.selectedIndex = dateTime.Hour;
-                _startMinuteDropDown.selectedIndex = dateTime.Minute;
+                _dropHour.selectedIndex = dateTime.Hour;
+                _dropMinute.selectedIndex = dateTime.Minute;
             }
             finally
             {
@@ -412,16 +809,15 @@ namespace RealTime.UI
             }
         }
 
+        /// <summary>Clamps a proposed event start time to the configured earliest/latest hours.</summary>
         private static DateTime AdjustEventStartTime(DateTime eventStartTime)
         {
-            var result = eventStartTime;
-
             float earliestHour;
             float latestHour;
-            float hour = result.Hour;
-            float minute = result.Minute;
+            float hour = eventStartTime.Hour;
+            float minute = eventStartTime.Minute;
 
-            if (RealTimeConfig.IsWeekendEnabled && result.IsWeekend())
+            if (RealTimeConfig.IsWeekendEnabled && eventStartTime.IsWeekend())
             {
                 earliestHour = RealTimeConfig.EarliestHourEventStartWeekend;
                 latestHour = RealTimeConfig.LatestHourEventStartWeekend;
@@ -432,12 +828,12 @@ namespace RealTime.UI
                 latestHour = RealTimeConfig.LatestHourEventStartWeekday;
             }
 
-            if(result.Hour >= latestHour)
+            if (eventStartTime.Hour >= latestHour)
             {
                 hour = latestHour;
                 minute = 0;
             }
-            else if(result.Hour < earliestHour)
+            else if (eventStartTime.Hour < earliestHour)
             {
                 hour = earliestHour;
             }
@@ -445,242 +841,72 @@ namespace RealTime.UI
             return new DateTime(eventStartTime.Year, eventStartTime.Month, eventStartTime.Day, (int)hour, (int)minute, 0);
         }
 
-        public void SetUp(CityEventTemplate selectedTemplate, ushort buildingID)
+        private void UpdateDatePreview()
         {
-            template = selectedTemplate;
-
-            if (template != null && buildingID != 0 && _ticketSlider != null)
+            if (_dropDay == null || _dropDay.items.Length == 0)
             {
-                eventBuildingID = buildingID;
-                _ticketSlider.maxValue = template.Capacity;
-                _ticketSlider.minValue = Mathf.Min(template.Capacity, 100);
-                _ticketSlider.value = _ticketSlider.minValue;
-
-                LoadUpcomingEvents();
-                _upcomingToggleBtn.isVisible = true;
-
-                title = template.UserEventName;
-
-                var incentives = template.Incentives;
-                _incentiveList.rowsData.Clear();
-
-                if(incentives != null)
-                {
-                    foreach (var incentive in incentives)
-                    {
-                        var optionItem = new IncentiveOptionItem()
-                        {
-                            cost = incentive.Cost,
-                            description = incentive.Description,
-                            negativeEffect = incentive.NegativeEffect,
-                            positiveEffect = incentive.PositiveEffect,
-                            returnCost = incentive.ReturnCost,
-                            title = incentive.Name,
-                            ticketCount = _ticketSlider.value
-                        };
-                        optionItem.OnOptionItemChanged += OptionItem_OnOptionItemChanged;
-
-                        _incentiveList.rowsData.Add(optionItem);
-                    }
-
-                    _incentiveList.Refresh();
-                }
-
-                string tooltip = $"Males: {template.Attendees.Males}%\n" + $"Females: {template.Attendees.Females}%\n" + $"Young: {template.Attendees.YoungAdults}%";
-
-                _informationLabel.tooltip = LocalizationProvider.Translate("RUSH_EVENT_DEMOS") + "\n" + tooltip;
-
-                UpdateTotalCost();
-                PerformLayout();
-
-                Log.Info($"Event capacity: {template.Capacity}");
+                return;
             }
+
+            int day = _dropDay.selectedIndex + 1;
+            int month = _dropMonth.selectedIndex + 1;
+
+            // Guard: items array bounds
+            if (_dropHour.items.Length == 0 || _dropMinute.items.Length == 0)
+            {
+                return;
+            }
+
+            int hour = int.Parse(_dropHour.selectedValue);
+            int minute = int.Parse(_dropMinute.selectedValue);
+
+            // CS ignores leap years; year 2 is a stable non-leap reference
+            int maxDay = DateTime.DaysInMonth(2, month);
+            if (day > maxDay)
+            {
+                _dropDay.selectedIndex = maxDay - 1;
+                day = maxDay;
+            }
+
+            _labelScheduledDate?.text = $"{day:D2}/{month:D2} {hour:D2}:{minute:D2}";
         }
 
-        public override void PerformLayout()
+        private DateTime BuildScheduledDateTime()
         {
-            base.PerformLayout();
+            var now = Singleton<SimulationManager>.instance.m_currentGameTime;
+            int day = int.Parse(_dropDay.selectedValue);
+            int month = int.Parse(_dropMonth.selectedValue);
+            int hour = int.Parse(_dropHour.selectedValue);
+            int minute = int.Parse(_dropMinute.selectedValue);
 
-            _titleBar.width = width;
+            // CS ignores leap years — year 2 is always non-leap
+            int safeDay = Math.Min(day, DateTime.DaysInMonth(2, month));
 
-            _informationLabel.width = width;
-            _informationLabel.relativePosition = new Vector3(0, _titleBar.height + 10);
+            var startTime = new DateTime(now.Year, month, safeDay, hour, minute, 0);
 
-            _ticketSlider.width = width - width * 60f / 100f;
+            // Auto-fix past dates to next year
+            if (startTime <= now)
+            {
+                startTime = new DateTime(now.Year + 1, month, safeDay, hour, minute, 0);
+            }
 
-            var sliderPanel = _ticketSlider.parent as UIPanel;
-            sliderPanel.width = _ticketSlider.width;
-            sliderPanel.relativePosition = new Vector3(10, _informationLabel.relativePosition.y + _informationLabel.height + 5);
-
-            var sliderLabel = sliderPanel.Find<UILabel>("Label");
-            sliderLabel.width = _ticketSlider.width;
-
-            _totalPanel.relativePosition = sliderPanel.relativePosition + new Vector3(sliderPanel.width + 10, 0);
-            _totalPanel.width = width - sliderPanel.width - 30;
-            _totalPanel.height = sliderPanel.height;
-
-            _totalAmountLabel.relativePosition = Vector3.zero;
-            _totalAmountLabel.width = 110;
-            _totalAmountLabel.height = _totalPanel.height / 2f;
-
-            _totalIncomeLabel.relativePosition = _totalAmountLabel.relativePosition + new Vector3(0, _totalAmountLabel.height);
-            _totalIncomeLabel.width = 110;
-            _totalIncomeLabel.height = _totalPanel.height / 2f;
-
-            _costLabel.relativePosition = _totalAmountLabel.relativePosition + new Vector3(_totalAmountLabel.width, 4);
-            _costLabel.width = _totalPanel.width - _totalAmountLabel.width - 4;
-            _costLabel.height = _totalAmountLabel.height - 8;
-
-            _incomeLabel.relativePosition = _totalIncomeLabel.relativePosition + new Vector3(_totalIncomeLabel.width, 4);
-            _incomeLabel.width = _totalPanel.width - _totalIncomeLabel.width - 4;
-            _incomeLabel.height = _totalIncomeLabel.height - 8;
-
-            _incentiveList.relativePosition = sliderPanel.relativePosition + new Vector3(0, sliderPanel.height + 10);
-            _incentiveList.width = width - 20;
-
-            _createButton.height = sliderPanel.height;
-
-            _incentiveList.height = height - _incentiveList.relativePosition.y - 20 - _createButton.height;
-
-            _upcomingEventsList.width = width - 20;
-            _upcomingEventsList.height = _upcomingEventsVisible ? 120 : 0;
-            _upcomingToggleBtn.relativePosition = new Vector3(10, _incentiveList.relativePosition.y + _incentiveList.height + 5);
-            _upcomingEventsList.relativePosition = _incentiveList.relativePosition + new Vector3(0, _upcomingToggleBtn.height + 5);
-
-            _createButton.relativePosition = new Vector3(width - _createButton.width - 10, height - _createButton.height - 10);
-
-            _startDayDropDown.width = 60f;
-            _startMonthDropDown.width = 60f;
-            _startHourDropDown.width = 60f;
-            _startMinuteDropDown.width = 60f;
-
-            var startDayDropDownPanel = _startDayDropDown.parent as UIPanel;
-            startDayDropDownPanel.width = _startDayDropDown.width;
-            startDayDropDownPanel.relativePosition = new Vector3(10, _createButton.relativePosition.y - 7f);
-
-            var dropdownLabel = startDayDropDownPanel.Find<UILabel>("Label");
-            dropdownLabel.width = _startDayDropDown.width;
-
-            var startMonthDropDownPanel = _startMonthDropDown.parent as UIPanel;
-            startMonthDropDownPanel.width = _startMonthDropDown.width;
-            startMonthDropDownPanel.relativePosition = new Vector3(startDayDropDownPanel.relativePosition.x + startDayDropDownPanel.width + 10, _createButton.relativePosition.y - 7f);
-
-            dropdownLabel = startMonthDropDownPanel.Find<UILabel>("Label");
-            dropdownLabel.width = _startMonthDropDown.width;
-
-            var startHourDropDownPanel = _startHourDropDown.parent as UIPanel;
-            startHourDropDownPanel.width = _startHourDropDown.width;
-            startHourDropDownPanel.relativePosition = new Vector3(startMonthDropDownPanel.relativePosition.x + startMonthDropDownPanel.width + 10, _createButton.relativePosition.y - 7f);
-
-            dropdownLabel = startHourDropDownPanel.Find<UILabel>("Label");
-            dropdownLabel.width = _startHourDropDown.width;
-
-            var startMinuteDropDownPanel = _startMinuteDropDown.parent as UIPanel;
-            startMinuteDropDownPanel.width = _startMinuteDropDown.width;
-            startMinuteDropDownPanel.relativePosition = new Vector3(startHourDropDownPanel.relativePosition.x + startHourDropDownPanel.width + 10, _createButton.relativePosition.y - 7f);
-
-            dropdownLabel = startMinuteDropDownPanel.Find<UILabel>("Label");
-            dropdownLabel.width = _startMinuteDropDown.width;
-
-            _incentiveList.DisplayAt(0);
+            return startTime;
         }
 
-        private void OptionItem_OnOptionItemChanged() => UpdateTotalCost();
-
-        private void TicketSlider_eventValueChanged(UIComponent component, float value) => UpdateTotalCost();
-
-        private void UpdateTotalCost()
-        {
-            if (_ticketSlider != null)
-            {
-                var sliderPanel = _ticketSlider.parent as UIPanel;
-                var sliderLabel = sliderPanel.Find<UILabel>("Label");
-                string ticketsText = LocalizationProvider.Translate(TranslationKeys.VanillaEventTicketSliderLabel);
-                sliderLabel.text = string.Format("{0} {1}", _ticketSlider.value, ticketsText);
-            }
-
-            if (template != null && template.Costs != null)
-            {
-                totalCost = 0f;
-                maxIncome = 0f;
-
-                totalCost += template.Costs.Creation;
-                totalCost += _ticketSlider.value * template.Costs.PerHead;
-
-                maxIncome += _ticketSlider.value * template.Costs.Entry;
-
-                foreach (IncentiveOptionItem item in _incentiveList.rowsData)
-                {
-                    totalCost += item.cost * item.sliderValue;
-                    maxIncome += item.returnCost * item.sliderValue;
-                }
-            }
-
-            if (_costLabel != null)
-            {
-                _costLabel.text = totalCost.ToString(Settings.moneyFormat, LocaleManager.cultureInfo);
-                _incomeLabel.text = maxIncome.ToString(Settings.moneyFormat, LocaleManager.cultureInfo);
-            }
-
-            if (_createButton != null)
-            {
-                int adjustedCost = Mathf.RoundToInt(totalCost * 100f);
-                if (Singleton<EconomyManager>.instance.PeekResource(EconomyManager.Resource.Construction, adjustedCost) != adjustedCost)
-                {
-                    _createButton.Disable();
-                }
-                else
-                {
-                    _createButton.Enable();
-                }
-            }
-        }
+        // ─────────────────────────────────────────────────────────────────────
+        // Create event  (ported from UserEventCreationPanel.CreateEvent)
+        // ─────────────────────────────────────────────────────────────────────
 
         private void CreateEvent()
         {
-            if (template != null)
+            if (_currentEventData == null || _buildingId == 0)
             {
-                // Incentives
-                var optionItems = GetIncentiveItems();
-
-                int year = SimulationManager.instance.m_currentGameTime.Year;
-                int month = int.Parse(_startMonthDropDown.selectedValue);
-                int day = int.Parse(_startDayDropDown.selectedValue);
-                int hour = int.Parse(_startHourDropDown.selectedValue);
-                int minute = int.Parse(_startMinuteDropDown.selectedValue);
-
-                // Clamp day to valid range (CS ignores leap years so year 2 = always non-leap)
-                int safeDay = Math.Min(day, DateTime.DaysInMonth(2, month));
-
-                var now = Singleton<SimulationManager>.instance.m_currentGameTime;
-                var startTime = new DateTime(year, month, safeDay, hour, minute, 0);
-
-                // Auto-fix past dates to next year
-                if (startTime < now)
-                {
-                    int nextYear = now.Year + 1;
-                    startTime = new DateTime(nextYear, month, day, hour, minute, 0);
-                }
-
-                // Real Time event
-                var rtEvent = new RealTimeCityEvent(template);
-
-                // Copy incentives (optional—Real Time skips now)
-                foreach (var item in optionItems)
-                {
-                    rtEvent.AddIncentive(item.title, item.sliderValue, item.cost);  // If needed
-                }
-
-                // Add (Real Time manager)
-                SimulationHandler.EventManager.AddEvent(rtEvent, eventBuildingID, startTime);  // ← No clash check
-                Hide();
-
-                Log.Info($"Created {template.EventName} for {eventBuildingID}");
+                return;
             }
-        }
 
-        private List<IncentiveOptionItem> GetIncentiveItems()
-        {
+            var startTime = BuildScheduledDateTime();
+
+            // Collect incentive selections
             var optionItems = new List<IncentiveOptionItem>();
             for (int i = 0; i < _incentiveList.rowsData.m_size; i++)
             {
@@ -689,80 +915,166 @@ namespace RealTime.UI
                     optionItems.Add(item);
                 }
             }
-            return optionItems;
+
+            var rtEvent = new RealTimeCityEvent(_currentEventData);
+            rtEvent.SetUserConfiguration((int)(_ticketSlider?.value ?? 0f), _currentEventData.Costs?.Entry ?? 0f);
+
+            foreach (var item in optionItems)
+            {
+                rtEvent.AddIncentive(item.title, item.sliderValue, item.cost, item.returnCost);
+            }
+
+            SimulationHandler.EventManager.AddEvent(rtEvent, _buildingId, startTime);
+            RefreshUpcomingTab();
+            _tabstrip.selectedIndex = TAB_UPCOMING;
+
+            Log.Info($"Created {_currentEventData.EventName} for building {_buildingId} at {startTime}");
         }
 
-        private void TranslationOnLanguageChanged()
+        // ─────────────────────────────────────────────────────────────────────
+        // Refresh upcoming tab  (ported from LoadUpcomingEvents)
+        // ─────────────────────────────────────────────────────────────────────
+
+        private void RefreshUpcomingTab()
         {
-            _totalAmountLabel.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventTotalAmountLabel);
-            _totalAmountLabel.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventTotalAmountLabelTooltip);
-            _totalIncomeLabel.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventTotalIncomeLabel);
-            _totalIncomeLabel.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventTotalIncomeLabelTooltip);
-            _createButton.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventCreateButton);
-            _createButton.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventCreateButtonTooltip);
+            // Destroy old row gameobjects
+            foreach (var row in _upcomingRows)
+            {
+                if (row?.Root != null)
+                {
+                    Destroy(row.Root.gameObject);
+                }
+            }
 
-            _startDayDropDown.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventDayDropDownLabel);
-            _startDayDropDown.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventDayDropDownLabelTooltip);
-            _startMonthDropDown.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventMonthDropDownLabel);
-            _startMonthDropDown.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventMonthDropDownLabelTooltip);
-            _startHourDropDown.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventHourDropDownLabel);
-            _startHourDropDown.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventHourDropDownLabelTooltip);
-            _startMinuteDropDown.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventMinuteDropDownLabel);
-            _startMinuteDropDown.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventMinuteDropDownLabelTooltip);
+            _upcomingRows.Clear();
 
-            var sliderPanel = _ticketSlider.parent as UIPanel;
-            var sliderLabel = sliderPanel.Find<UILabel>("Label");
-            sliderLabel.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventTicketSliderLabelTooltip);
+            if (_upcomingEventList == null)
+            {
+                return;
+            }
 
-            _upcomingToggleBtn.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventUpcomingShowBtn);
-
-            _totalAmountLabel.Invalidate();
-            _totalIncomeLabel.Invalidate();
-            _startDayDropDown.Invalidate();
-            _startMonthDropDown.Invalidate();
-            _startHourDropDown.Invalidate();
-            _startMinuteDropDown.Invalidate();
-            _createButton.Invalidate();
-
-            UpdateTotalCost();
-            PerformLayout();
-        }
-
-        private void LoadUpcomingEvents()
-        {
-            _upcomingEventsList.rowsData.Clear();
             var now = Singleton<SimulationManager>.instance.m_currentGameTime;
+            var events = SimulationHandler.EventManager.GetUpcomingEventsForBuilding(_buildingId);
 
-            var events = SimulationHandler.EventManager.GetUpcomingEventsForBuilding(eventBuildingID);
+            if (events == null)
+            {
+                return;
+            }
 
             foreach (var ev in events.Where(e => e.StartTime > now).OrderBy(e => e.StartTime))
             {
-                var capturedEvent = ev; // ← fix closure capture bug
-
-                _upcomingEventsList.rowsData.Add(new UpcomingEventItem
+                var capturedEvent = ev;
+                var row = UpcomingEventRow.Create(_upcomingEventList, ev, LocalizationProvider);
+                row.OnRemoveClicked += () =>
                 {
-                    eventName = capturedEvent.UserEventName ?? capturedEvent.EventName ?? "Event",
-                    timeStr = capturedEvent.StartTime.ToString("MMM dd\nHH:mm"),
-                    deleteAction = () =>
-                    {
-                        SimulationHandler.EventManager.RemoveEvent(capturedEvent);
-                        LoadUpcomingEvents();
-                    }
-                });
+                    SimulationHandler.EventManager.RemoveEvent(capturedEvent);
+                    RefreshUpcomingTab();
+                };
+                _upcomingRows.Add(row);
+            }
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        // Refresh past tab
+        // ─────────────────────────────────────────────────────────────────────
+
+        private void RefreshPastTab()
+        {
+            foreach (var row in _pastRows)
+            {
+                if (row?.Root != null)
+                {
+                    Destroy(row.Root.gameObject);
+                }
             }
 
-            _upcomingEventsList.Refresh();
+            _pastRows.Clear();
+
+            if (_pastEventList == null)
+            {
+                return;
+            }
+
+            var events = SimulationHandler.EventManager.GetPastEventsForBuilding(_buildingId);
+            if (events == null)
+            {
+                return;
+            }
+
+            foreach (var ev in events)
+            {
+                var row = PastEventRow.Create(_pastEventList, ev, LocalizationProvider);
+                _pastRows.Add(row);
+            }
         }
 
-        private void OnUpcomingToggleClicked()
+        // ─────────────────────────────────────────────────────────────────────
+        // Translations  (ported from TranslationOnLanguageChanged)
+        // ─────────────────────────────────────────────────────────────────────
+
+        private void TranslationOnLanguageChanged()
         {
-            string show_btn_text = LocalizationProvider.Translate(TranslationKeys.VanillaEventUpcomingShowBtn);
-            string hide_btn_text = LocalizationProvider.Translate(TranslationKeys.VanillaEventUpcomingHideBtn);
+            if (_createEventButton != null)
+            {
+                _createEventButton.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventCreateButton);
+                _createEventButton.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventCreateButtonTooltip);
+            }
 
-            _upcomingEventsVisible = !_upcomingEventsVisible;
-            _upcomingEventsList.isVisible = _upcomingEventsVisible;
-            _upcomingToggleBtn.text = _upcomingEventsVisible ? hide_btn_text : show_btn_text;
-            PerformLayout();
+            if (_dropDay != null)
+            {
+                _dropDay.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventDayDropDownLabelTooltip);
+                _dropMonth.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventMonthDropDownLabelTooltip);
+                _dropHour.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventHourDropDownLabelTooltip);
+                _dropMinute.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventMinuteDropDownLabelTooltip);
+            }
+
+            // Update cost row title labels
+            var costTitle = _eventConfigPanel?.Find<UILabel>("LabelEventCostTitle");
+            if (costTitle != null)
+            {
+                costTitle.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventTotalAmountLabel);
+                costTitle.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventTotalAmountLabelTooltip);
+            }
+
+            var profitTitle = _eventConfigPanel?.Find<UILabel>("LabelMaxProfitTitle");
+            if (profitTitle != null)
+            {
+                profitTitle.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventTotalIncomeLabel);
+                profitTitle.tooltip = LocalizationProvider.Translate(TranslationKeys.VanillaEventTotalIncomeLabelTooltip);
+            }
+
+            // Update tab headings
+            var upcomingHeading = _containerUpcoming?.Find<UILabel>("LabelUpcomingHeading");
+            upcomingHeading?.text = LocalizationProvider.Translate(TranslationKeys.VanillaEventUpcomingShowBtn);
+
+            // Update tabstrip button labels
+            if (_tabstrip?.tabs != null && _tabstrip.tabs.Count >= 3)
+            {
+                // Tab buttons are UIButton children
+            }
+
+            UpdateCostDisplay();
         }
-    }
+
+        // ─────────────────────────────────────────────────────────────────────
+        // Helper: create a small dropdown
+        // ─────────────────────────────────────────────────────────────────────
+
+        private static UIDropDown CreateDropdown(UIPanel parent, string name, float width, Vector3 pos)
+        {
+            var dd = parent.AddUIComponent<UIDropDown>();
+            dd.name = name;
+            dd.size = new Vector2(width, 24f);
+            dd.relativePosition = pos;
+            dd.listBackground = "GenericPanelDark";
+            dd.itemHover = "ListItemHover";
+            dd.itemHighlight = "ListItemHighlight";
+            dd.textFieldPadding = new RectOffset(4, 0, 4, 0);
+            dd.listHeight = 200;
+            dd.itemHeight = 22;
+            dd.textColor = Color.white;
+            dd.atlas = TextureUtils.GetAtlas("Ingame");
+            return dd;
+        }
+    }   
 }

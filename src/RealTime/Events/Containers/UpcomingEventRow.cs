@@ -1,99 +1,70 @@
 namespace RealTime.Events.Containers
 {
+    using System;
     using ColossalFramework.UI;
-    using RealTime.Utils.UIUtils;
+    using RealTime.Localization;
+    using SkyTools.Localization;
     using UnityEngine;
 
-    internal class UpcomingEventRow : UIPanel, IUIFastListRow
+    // =========================================================================
+    // UpcomingEventRow  —  460×48 row with date, name, tickets, cost + remove btn
+    // =========================================================================
+
+    internal sealed class UpcomingEventRow
     {
-        private UIPanel background;
-        private UILabel nameLabel;
-        private UILabel timeLabel;
-        private UIButton deleteBtn;
+        public UIPanel Root { get; }
+        public event Action OnRemoveClicked;
 
-        public override void Start()
+        private UpcomingEventRow(UIPanel root) { Root = root; }
+
+        public static UpcomingEventRow Create(UIScrollablePanel parent, RealTimeCityEvent ev, ILocalizationProvider loc)
         {
-            base.Start();
-            isVisible = true;
-            canFocus = true;
-            isInteractive = true;
-            width = parent.width;
-            height = 30f;  // Matches rowHeight
+            var row = parent.AddUIComponent<UIPanel>();
+            row.name = "UpcomingEventRow";
+            row.size = new Vector2(460f, 48f);
+            row.backgroundSprite = "GenericPanelDark";
 
-            // Background
-            background = AddUIComponent<UIPanel>();
-            background.width = width;
-            background.height = height;
-            background.relativePosition = Vector2.zero;
-            background.zOrder = 0;
-            background.backgroundSprite = "GenericPanel";
-            background.color = new Color32(91, 97, 106, 128);
+            var lblDate = row.AddUIComponent<UILabel>();
+            lblDate.name = "LabelDate";
+            lblDate.textColor = Color.white;
+            lblDate.textScale = 0.75f;
+            lblDate.relativePosition = new Vector3(8f, 4f);
+            lblDate.text = ev.StartTime.ToString("MMM dd\nHH:mm");
 
-            // Name label
-            nameLabel = AddUIComponent<UILabel>();
-            nameLabel.autoSize = false;
-            nameLabel.width = 180;
-            nameLabel.height = height;
-            nameLabel.relativePosition = new Vector2(8, 0);
-            nameLabel.textScale = 0.85f;
-            nameLabel.verticalAlignment = UIVerticalAlignment.Middle;
-            nameLabel.textAlignment = UIHorizontalAlignment.Left;
+            var lblName = row.AddUIComponent<UILabel>();
+            lblName.name = "LabelEventName";
+            lblName.textColor = Color.white;
+            lblName.textScale = 0.8f;
+            lblName.relativePosition = new Vector3(90f, 4f);
+            lblName.text = ev.UserEventName ?? ev.EventName ?? "Event";
 
-            // Time label
-            timeLabel = AddUIComponent<UILabel>();
-            timeLabel.autoSize = false;
-            timeLabel.width = 100;
-            timeLabel.height = height;
-            timeLabel.relativePosition = new Vector2(195, 0);
-            timeLabel.textScale = 0.85f;
-            timeLabel.verticalAlignment = UIVerticalAlignment.Middle;
-            timeLabel.textAlignment = UIHorizontalAlignment.Left;
+            var lblTickets = row.AddUIComponent<UILabel>();
+            lblTickets.name = "LabelTickets";
+            lblTickets.textColor = new Color32(180, 180, 180, 255);
+            lblTickets.textScale = 0.7f;
+            lblTickets.relativePosition = new Vector3(8f, 28f);
+            lblTickets.text = loc.Translate(TranslationKeys.VanillaEventTicketSliderLabel) + ": " + ev.UserTicketCount;
 
-            // Delete X button
-            deleteBtn = AddUIComponent<UIButton>();
-            deleteBtn.text = "✕";
-            deleteBtn.size = new Vector2(25, 25);
-            deleteBtn.relativePosition = new Vector2(width - 35, (height - 25) / 2);
-            deleteBtn.textScale = 1.1f;
-            deleteBtn.normalBgSprite = "SmallButton";
-            deleteBtn.hoveredBgSprite = "SmallButtonHovered";
-            deleteBtn.pressedBgSprite = "SmallButtonPressed";
-            deleteBtn.textColor = new Color32(255, 100, 100, 255);
-        }
+            var lblCost = row.AddUIComponent<UILabel>();
+            lblCost.name = "LabelCost";
+            lblCost.textColor = new Color32(255, 180, 0, 255);
+            lblCost.textScale = 0.7f;
+            lblCost.relativePosition = new Vector3(160f, 28f);
 
-        public void Display(object data, bool isRowOdd)
-        {
-            if (data is UpcomingEventItem item)
-            {
-                nameLabel.text = item.eventName;
-                timeLabel.text = item.timeStr;
-                deleteBtn.eventClick -= OnDeleteClick;  // Clear previous
-                deleteBtn.eventClick += OnDeleteClick;
-                deleteBtn.objectUserData = item;  // Pass data
+            var btnRemove = row.AddUIComponent<UIButton>();
+            btnRemove.name = "ButtonRemove";
+            btnRemove.text = loc.Translate(TranslationKeys.VanillaEventUpcomingHideBtn);
+            btnRemove.size = new Vector2(70f, 22f);
+            btnRemove.relativePosition = new Vector3(382f, 13f);
+            btnRemove.normalBgSprite = "ButtonMenu";
+            btnRemove.hoveredBgSprite = "ButtonMenuHovered";
+            btnRemove.pressedBgSprite = "ButtonMenuPressed";
+            btnRemove.textColor = Color.white;
+            btnRemove.textScale = 0.8f;
 
-                if (isRowOdd)
-                {
-                    background.color = new Color32(70, 77, 86, 180);
-                }
-                else
-                {
-                    background.color = new Color32(91, 97, 106, 128);
-                }
-            }
-        }
-
-        public void Select(bool isRowOdd) => background.color = new Color32(100, 150, 255, 200);
-
-        public void Deselect(bool isRowOdd) =>
-            // Revert to odd/even colors
-            background.color = isRowOdd ? new Color32(70, 77, 86, 180) : new Color32(91, 97, 106, 128);
-
-        private void OnDeleteClick(UIComponent component, UIMouseEventParameter eventParam)
-        {
-            if (component.objectUserData is UpcomingEventItem item && item.deleteAction != null)
-            {
-                item.deleteAction();
-            }
+            var result = new UpcomingEventRow(row);
+            btnRemove.eventClicked += (c, e) => result.OnRemoveClicked?.Invoke();
+            return result;
         }
     }
 }

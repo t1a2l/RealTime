@@ -607,6 +607,8 @@ namespace RealTime.Events
 
         public LinkedList<RealTimeCityEvent> GetUpcomingEventsForBuilding(ushort buildingId) => new(upcomingEvents.OfType<RealTimeCityEvent>().Where(ev => ev.BuildingId == buildingId));
 
+        public LinkedList<RealTimeCityEvent> GetPastEventsForBuilding(ushort buildingId) => new(finishedEvents.OfType<RealTimeCityEvent>().Where(ev => ev.BuildingId == buildingId));
+
         public void RemoveEvent(RealTimeCityEvent cityEvent)
         {
             if (cityEvent == null)

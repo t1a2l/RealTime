@@ -8,6 +8,7 @@ namespace RealTime.Patches
     using RealTime.CustomAI;
     using RealTime.GameConnection;
     using RealTime.Managers;
+    using UnityEngine;
 
     [HarmonyPatch]
     internal static class EventManagerPatch
@@ -129,7 +130,7 @@ namespace RealTime.Patches
                 int j = 0;
                 if (!eventTimeSchedules[i].AutoOccur)
                 {
-                    num = 0;
+                    num = 1;
                 }
                 for (int k = 0; k < num; k++)
                 {
@@ -169,12 +170,12 @@ namespace RealTime.Patches
                     if (eventTimeSchedules[i].Frequency == 0)
                     {
                         // daily
-                        dateTime = dateTime.AddDays(1);
+                        dateTime = dateTime.AddDays(7);
                     }
                     else if (eventTimeSchedules[i].Frequency == 1)
                     {
                         // weekly default
-                        dateTime = dateTime.AddDays(7);
+                        dateTime = dateTime.AddDays(1);
                     }
                 }
                 flag = true;

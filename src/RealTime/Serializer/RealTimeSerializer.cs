@@ -84,6 +84,15 @@ namespace RealTime.Serializer
                                 CheckStartTuple("EventRouteTimeSerializer", SaveGameFileVersion, Data, ref Index);
                                 EventRouteTimeSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
                                 CheckEndTuple("EventRouteTimeSerializer", SaveGameFileVersion, Data, ref Index);
+
+                                if (Index == Data.Length)
+                                {
+                                    break;
+                                }
+
+                                CheckStartTuple("CommercialBuildingTypesSerializer", SaveGameFileVersion, Data, ref Index);
+                                CommercialBuildingTypesSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
+                                CheckEndTuple("CommercialBuildingTypesSerializer", SaveGameFileVersion, Data, ref Index);
                                 break;
                             }
                         }
@@ -151,6 +160,11 @@ namespace RealTime.Serializer
                     // event route time settings
                     StorageData.WriteUInt32(uiTUPLE_START, Data);
                     EventRouteTimeSerializer.SaveData(Data);
+                    StorageData.WriteUInt32(uiTUPLE_END, Data);
+
+                    // commercial building types settings
+                    StorageData.WriteUInt32(uiTUPLE_START, Data);
+                    CommercialBuildingTypesSerializer.SaveData(Data);
                     StorageData.WriteUInt32(uiTUPLE_END, Data);
 
                     BuildingWorkTimeGlobalConfig.Config.Serialize();

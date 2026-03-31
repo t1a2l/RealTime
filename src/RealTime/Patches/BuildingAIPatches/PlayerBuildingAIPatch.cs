@@ -52,6 +52,11 @@ namespace RealTime.Patches.BuildingAIPatches
             {
                 AcademicYearManager.CreateAcademicYearData(buildingID);
             }
+
+            if (BuildingManagerConnection.IsGenericCommercialBuilding(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
+            {
+                CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingTypesManager.CommercialBuildingType.All);
+            }
         }
 
         [HarmonyPatch(typeof(PlayerBuildingAI), "BuildingLoaded")]
@@ -83,6 +88,11 @@ namespace RealTime.Patches.BuildingAIPatches
             if (data.Info.GetAI() is MainCampusBuildingAI && !AcademicYearManager.MainCampusBuildingExist(buildingID))
             {
                 AcademicYearManager.CreateAcademicYearDataExistingCampus(buildingID);
+            }
+
+            if (BuildingManagerConnection.IsGenericCommercialBuilding(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
+            {
+                CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingTypesManager.CommercialBuildingType.All);
             }
         }
 

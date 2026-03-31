@@ -470,6 +470,36 @@ namespace RealTime.GameConnection
         }
 
         /// <summary>
+        /// Determines whether the building with specified ID is a generic commercial building or not.
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the building is a generic commercial building;
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsGenericCommercialBuilding(ushort buildingId)
+        {
+            var building = BuildingManager.instance.m_buildings.m_buffer[buildingId];
+
+            if (building.Info.m_class.m_service == ItemClass.Service.Commercial && building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
+            {
+                return false;
+            }
+
+            if (building.Info.m_class.m_service == ItemClass.Service.Commercial && building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
+            {
+                return false;
+            }
+
+            if (building.Info.m_buildingAI is not CommercialBuildingAI)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Determines whether the building with specified ID is the main building of an Industrial or a Campus area.
         /// </summary>
         /// <param name="buildingId">The building ID to check.</param>

@@ -3,13 +3,15 @@
 namespace RealTime.Patches.BuildingAIPatches
 {
     using System.Collections.Generic;
-    using System.Reflection.Emit;
     using System.Reflection;
+    using System.Reflection.Emit;
     using ColossalFramework;
+    using ColossalFramework.Math;
     using HarmonyLib;
     using ICities;
     using RealTime.CustomAI;
     using RealTime.GameConnection;
+    using RealTime.Managers;
 
     [HarmonyPatch]
     internal static class CommercialBuildingAIPatch
@@ -122,6 +124,91 @@ namespace RealTime.Patches.BuildingAIPatches
                 return false;
             }
             return true;
+        }
+
+        [HarmonyPatch(typeof(CommercialBuildingAI), "GetOutgoingTransferReason")]
+        [HarmonyPrefix]
+        public static bool GetOutgoingTransferReason(CommercialBuildingAI __instance, ushort buildingID, ref TransferManager.TransferReason __result)
+        {
+            if (BuildingManagerConnection.IsGenericCommercialBuilding(buildingID) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
+            {
+                int num = 0;
+                if (__instance.m_info.m_class.isCommercialLowGeneric)
+                {
+                    num = 2;
+                }
+                else if (__instance.m_info.m_class.isCommercialHighGenegic || __instance.m_info.m_class.isCommercialWallToWall)
+                {
+                    num = 4;
+                }
+                else if (__instance.m_info.m_class.isCommercialEco)
+                {
+                    num = 0;
+                }
+
+                var commercialBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingID);
+
+                if(commercialBuildingType == CommercialBuildingTypesManager.CommercialBuildingType.Entertainment)
+                {
+                    var randomizer = new Randomizer(buildingID);
+                    __result = randomizer.Int32(4u) switch
+                    {
+                        0 => TransferManager.TransferReason.Entertainment,
+                        1 => TransferManager.TransferReason.EntertainmentB,
+                        2 => TransferManager.TransferReason.EntertainmentC,
+                        3 => TransferManager.TransferReason.EntertainmentD,
+                        _ => TransferManager.TransferReason.Entertainment,
+                    };
+                }
+                else if (commercialBuildingType == CommercialBuildingTypesManager.CommercialBuildingType.Shopping)
+                {
+                    var randomizer = new Randomizer(buildingID);
+                    __result = randomizer.Int32(8u) switch
+                    {
+                        0 => TransferManager.TransferReason.Shopping,
+                        1 => TransferManager.TransferReason.ShoppingB,
+                        2 => TransferManager.TransferReason.ShoppingC,
+                        3 => TransferManager.TransferReason.ShoppingD,
+                        4 => TransferManager.TransferReason.ShoppingE,
+                        5 => TransferManager.TransferReason.ShoppingF,
+                        6 => TransferManager.TransferReason.ShoppingG,
+                        7 => TransferManager.TransferReason.ShoppingH,
+                        _ => TransferManager.TransferReason.Shopping,
+                    };
+                }
+                else if (commercialBuildingType == CommercialBuildingTypesManager.CommercialBuildingType.All)
+                {
+                    var randomizer = new Randomizer(buildingID);
+                    if (randomizer.Int32(100u) < num)
+                    {
+                        __result = randomizer.Int32(4u) switch
+                        {
+                            0 => TransferManager.TransferReason.Entertainment,
+                            1 => TransferManager.TransferReason.EntertainmentB,
+                            2 => TransferManager.TransferReason.EntertainmentC,
+                            3 => TransferManager.TransferReason.EntertainmentD,
+                            _ => TransferManager.TransferReason.Entertainment,
+                        };
+                    }
+                    else
+                    {
+                        __result = randomizer.Int32(8u) switch
+                        {
+                            0 => TransferManager.TransferReason.Shopping,
+                            1 => TransferManager.TransferReason.ShoppingB,
+                            2 => TransferManager.TransferReason.ShoppingC,
+                            3 => TransferManager.TransferReason.ShoppingD,
+                            4 => TransferManager.TransferReason.ShoppingE,
+                            5 => TransferManager.TransferReason.ShoppingF,
+                            6 => TransferManager.TransferReason.ShoppingG,
+                            7 => TransferManager.TransferReason.ShoppingH,
+                            _ => TransferManager.TransferReason.Shopping,
+                        };
+                    }    
+                }
+                return false;
+            }
+            return true;  
         }
 
     }

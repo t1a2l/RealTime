@@ -48,6 +48,10 @@ namespace RealTime.Patches.BuildingAIPatches
                     UpdateBuildingSettings.SetBuildingToGlobal(buildingID, buildignGlobal);
                 }
             }
+            if (BuildingManagerConnection.IsGenericCommercialBuilding(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
+            {
+                CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingTypesManager.CommercialBuildingType.All);
+            }
             if (BuildingManagerConnection.IsHotel(buildingID))
             {
                 BaseCreateBuilding(__instance, buildingID, ref data);
@@ -95,6 +99,10 @@ namespace RealTime.Patches.BuildingAIPatches
                     var buildignGlobal = BuildingWorkTimeGlobalConfig.Config.GetGlobalSettings(buildingInfo);
                     UpdateBuildingSettings.SetBuildingToGlobal(buildingID, buildignGlobal);
                 }
+            }
+            if (BuildingManagerConnection.IsGenericCommercialBuilding(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
+            {
+                CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingTypesManager.CommercialBuildingType.All);
             }
             if (BuildingManagerConnection.IsHotel(buildingID))
             {

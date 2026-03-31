@@ -12,6 +12,7 @@ namespace RealTime.Patches
     using ColossalFramework.Threading;
     using ColossalFramework.UI;
     using HarmonyLib;
+    using ICities;
     using RealTime.Config;
     using RealTime.CustomAI;
     using RealTime.Events;
@@ -25,6 +26,8 @@ namespace RealTime.Patches
     using SkyTools.Localization;
     using SkyTools.Tools;
     using UnityEngine;
+    using static ColossalFramework.DataBinding.BindPropertyByKey;
+    using BuildingType = RealTime.Managers.CommercialBuildingTypesManager.CommercialBuildingType;
 
     /// <summary>
     /// A static class that provides the patch objects for the world info panel game methods.
@@ -527,11 +530,13 @@ namespace RealTime.Patches
 
             private static UserEventCreationPanel userEventCreationPanel;
 
+            private static UIDropDown m_commercialBuildingTypeDropdown;
+
             [HarmonyPatch(typeof(CityServiceWorldInfoPanel), "OnSetTarget")]
             [HarmonyPostfix]
             public static void OnSetTarget()
             {
-                if (s_visitorsLabel == null || m_endYearButton == null || m_openUserEventCreationPanelButton == null || userEventCreationPanel == null)
+                if (s_visitorsLabel == null || m_endYearButton == null || m_openUserEventCreationPanelButton == null || userEventCreationPanel == null || m_commercialBuildingTypeDropdown == null)
                 {
                     CreateUI();
                 }
@@ -551,6 +556,16 @@ namespace RealTime.Patches
                 else
                 {
                     m_openUserEventCreationPanelButton.Hide();
+                }
+
+                // show commercial building type dropdown only for generic commercial buildings that are not hotels
+                if (BuildingManagerConnection.IsGenericCommercialBuilding(building) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(building))
+                {
+                    m_commercialBuildingTypeDropdown.Show();
+                }
+                else
+                {
+                    m_commercialBuildingTypeDropdown.Hide();
                 }
             }
 
@@ -690,6 +705,24 @@ namespace RealTime.Patches
                     m_openUserEventCreationPanelButton.focusedTextColor = new Color32(255, 255, 255, 255);
                     m_openUserEventCreationPanelButton.eventClicked += OnOpenUserEventCreationPanelButtonClicked;
                 }
+
+                if(m_commercialBuildingTypeDropdown == null)
+                {
+                    m_commercialBuildingTypeDropdown = UIDropDowns.AddLabelledDropDown(buttonPanels, 133f, 19.5f, "CommercialBuildingTypeDropdown", "select type", "select commercial buildign type", 100f, 20f);
+                    m_commercialBuildingTypeDropdown.relativePosition = new Vector2(150f, 22.5f);
+                    m_commercialBuildingTypeDropdown.textColor = new Color32(255, 255, 255, 255);
+                    m_commercialBuildingTypeDropdown.disabledTextColor = new Color32(142, 142, 142, 255);
+                    m_commercialBuildingTypeDropdown.items = [
+                        "Shopping",                       // Index 0
+                        "Entertainment",                  // Index 1
+                        "Food",                           // Index 2
+                        "Shopping & Entertainment",       // Index 3
+                        "Shopping & Food",                // Index 4
+                        "Entertainment & Food",           // Index 5
+                        "All"                             // Index 6
+                    ];
+                    m_commercialBuildingTypeDropdown.eventSelectedIndexChanged += OnCommercialBuildingTypeDropdownIndexChanged;
+                }
             }
 
             private static void EndAcademicYear(UIComponent c, UIMouseEventParameter eventParameter)
@@ -757,12 +790,79 @@ namespace RealTime.Patches
                 var templates = CityEventsLoader.Instance.GetEventTemplates(buildingName);
                 userEventCreationPanel.Show(buildingID, templates);
             }
+
+            private static void OnCommercialBuildingTypeDropdownIndexChanged(UIComponent uiComponent, int value)
+            {
+                ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
+
+                if (buildingID == 0)
+                {
+                    return;
+                }
+
+                if (CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
+                {
+                    CommercialBuildingTypesManager.SetCommercialBuildingType(buildingID, ConvertIndexToFlags(value));
+                }
+            }
+
+            private static BuildingType ConvertIndexToFlags(int index) => index switch
+            {
+                0 => BuildingType.Shopping,
+                1 => BuildingType.Entertainment,
+                2 => BuildingType.Food,
+
+                // On the fly combination using bitwise OR!
+                3 => BuildingType.Shopping | BuildingType.Entertainment,
+                4 => BuildingType.Shopping | BuildingType.Food,
+                5 => BuildingType.Entertainment | BuildingType.Food,
+                6 => BuildingType.Shopping | BuildingType.Entertainment | BuildingType.Food,
+
+                // Fallback safety
+                _ => BuildingType.Shopping
+            };
         }
 
         [HarmonyPatch]
         private sealed class ZonedBuildingWorldInfoPanelPatch
         {
             private static UILabel s_hotelLabel;
+
+            private static UIDropDown m_commercialBuildingTypeDropdown;
+
+            [HarmonyPatch(typeof(ZonedBuildingWorldInfoPanel), "OnSetTarget")]
+            [HarmonyPostfix]
+            public static void OnSetTarget()
+            {
+                if (s_hotelLabel == null || m_commercialBuildingTypeDropdown == null)
+                {
+                    CreateUI();
+                }
+
+                // Currently selected building.
+                ushort building = WorldInfoPanel.GetCurrentInstanceID().Building;
+
+                if (BuildingManagerConnection.IsHotel(building))
+                {
+                    // Hotel show the label
+                    s_hotelLabel.Show();
+                }
+                else
+                {
+                    // Not a hotel hide the label
+                    s_hotelLabel.Hide();
+                }
+
+                // show commercial building type dropdown only for generic commercial buildings that are not hotels
+                if (BuildingManagerConnection.IsGenericCommercialBuilding(building) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(building))
+                {
+                    m_commercialBuildingTypeDropdown.Show();
+                }
+                else
+                {
+                    m_commercialBuildingTypeDropdown.Hide();
+                }
+            }
 
             [HarmonyPatch(typeof(ZonedBuildingWorldInfoPanel), "UpdateBindings")]
             [HarmonyPostfix]
@@ -771,20 +871,38 @@ namespace RealTime.Patches
                 // Currently selected building.
                 ushort building = WorldInfoPanel.GetCurrentInstanceID().Building;
 
-                // Create hotel label if it isn't already set up.
+                // Local references.
+                var buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
+                var buildingData = buildingBuffer[building];
+                var buildingInfo = buildingData.Info;
+
+                // Is this a hotel building?
+                if (buildingInfo.GetAI() is CommercialBuildingAI && BuildingManagerConnection.IsHotel(building))
+                {
+                    // Display hotel rooms ocuppied count out of max hotel rooms.
+                    s_hotelLabel.text = buildingData.m_roomUsed + " / " + buildingData.m_roomMax + " Rooms";
+                }
+            }
+
+            private static void CreateUI()
+            {
+                var m_zonedBuildingWorldInfoPanel = GameObject.Find("(Library) ZonedBuildingWorldInfoPanel").GetComponent<ZonedBuildingWorldInfoPanel>();
+
+                if (m_zonedBuildingWorldInfoPanel == null)
+                {
+                    return;
+                }
+
                 if (s_hotelLabel == null)
                 {
-                    // Get info panel.
-                    var infoPanel = UIView.library.Get<ZonedBuildingWorldInfoPanel>(typeof(ZonedBuildingWorldInfoPanel).Name);
-
                     // Add current visitor count label.
-                    s_hotelLabel = UILabels.CreatePositionedLabel(infoPanel.component, 65f, 280f, "HotelLabel", "Rooms Ocuppied", textScale: 0.75f);
+                    s_hotelLabel = UILabels.CreatePositionedLabel(m_zonedBuildingWorldInfoPanel.component, 65f, 280f, "HotelLabel", "Rooms Ocuppied", textScale: 0.75f);
                     s_hotelLabel.textColor = new Color32(185, 221, 254, 255);
                     s_hotelLabel.font = Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault(f => f.name == "OpenSans-Regular");
 
                     // Position under existing Highly Educated workers count row in line with total workplace count label.
-                    var situationLabel = infoPanel.Find("WorkSituation");
-                    var workerLabel = infoPanel.Find("HighlyEducatedWorkers");
+                    var situationLabel = m_zonedBuildingWorldInfoPanel.Find("WorkSituation");
+                    var workerLabel = m_zonedBuildingWorldInfoPanel.Find("HighlyEducatedWorkers");
                     if (situationLabel != null && workerLabel != null)
                     {
                         s_hotelLabel.absolutePosition = new Vector2(situationLabel.absolutePosition.x + 200f, workerLabel.absolutePosition.y + 25f);
@@ -795,27 +913,60 @@ namespace RealTime.Patches
                     }
                 }
 
-                // Local references.
-                var buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
-                var buildingData = buildingBuffer[building];
-                var buildingInfo = buildingData.Info;
-
-                // Is this a hotel building?
-                if (buildingInfo.GetAI() is CommercialBuildingAI && BuildingManagerConnection.IsHotel(building))
+                if (m_commercialBuildingTypeDropdown == null)
                 {
-                    // Hotel show the label
-                    s_hotelLabel.Show();
-
-                    // Display hotel rooms ocuppied count out of max hotel rooms.
-                    s_hotelLabel.text = buildingData.m_roomUsed + " / " + buildingData.m_roomMax + " Rooms";
-
-                }
-                else
-                {
-                    // Not a hotel hide the label
-                    s_hotelLabel.Hide();
+                    var situationLabel = m_zonedBuildingWorldInfoPanel.Find("WorkSituation");
+                    var workerLabel = m_zonedBuildingWorldInfoPanel.Find("HighlyEducatedWorkers");
+                    if (situationLabel != null && workerLabel != null)
+                    {
+                        m_commercialBuildingTypeDropdown.absolutePosition = new Vector2(situationLabel.absolutePosition.x + 200f, workerLabel.absolutePosition.y + 25f);
+                    }
+                    m_commercialBuildingTypeDropdown = UIDropDowns.AddLabelledDropDown(m_zonedBuildingWorldInfoPanel.component, 133f, 19.5f, "CommercialBuildingTypeDropdown", "select type", "select commercial buildign type", 100f, 20f);
+                    m_commercialBuildingTypeDropdown.textColor = new Color32(255, 255, 255, 255);
+                    m_commercialBuildingTypeDropdown.disabledTextColor = new Color32(142, 142, 142, 255);
+                    m_commercialBuildingTypeDropdown.items = [
+                        "Shopping",                       // Index 0
+                        "Entertainment",                  // Index 1
+                        "Food",                           // Index 2
+                        "Shopping & Entertainment",       // Index 3
+                        "Shopping & Food",                // Index 4
+                        "Entertainment & Food",           // Index 5
+                        "All"                             // Index 6
+                    ];
+                    m_commercialBuildingTypeDropdown.eventSelectedIndexChanged += OnCommercialBuildingTypeDropdownIndexChanged;
                 }
             }
+
+            private static void OnCommercialBuildingTypeDropdownIndexChanged(UIComponent uiComponent, int value)
+            {
+                ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
+
+                if (buildingID == 0)
+                {
+                    return;
+                }
+
+                if (CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
+                {
+                    CommercialBuildingTypesManager.SetCommercialBuildingType(buildingID, ConvertIndexToFlags(value));
+                }
+            }
+
+            private static BuildingType ConvertIndexToFlags(int index) => index switch
+            {
+                0 => BuildingType.Shopping,
+                1 => BuildingType.Entertainment,
+                2 => BuildingType.Food,
+
+                // On the fly combination using bitwise OR!
+                3 => BuildingType.Shopping | BuildingType.Entertainment,
+                4 => BuildingType.Shopping | BuildingType.Food,
+                5 => BuildingType.Entertainment | BuildingType.Food,
+                6 => BuildingType.Shopping | BuildingType.Entertainment | BuildingType.Food,
+
+                // Fallback safety
+                _ => BuildingType.Shopping
+            };
         }
 
         [HarmonyPatch]

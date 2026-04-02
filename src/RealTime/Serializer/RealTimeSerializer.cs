@@ -15,6 +15,7 @@ namespace RealTime.Serializer
 
         public const ushort DataVersion = 2;
         public const string DataID = "RealTime";
+        public static ushort SaveGameFileVersion;
 
         public static RealTimeSerializer instance = null;
         private ISerializableData m_serializableData = null;
@@ -34,12 +35,11 @@ namespace RealTime.Serializer
                     byte[] Data = m_serializableData.LoadData(DataID);
                     if (Data != null && Data.Length > 0)
                     {
-                        ushort SaveGameFileVersion;
                         int Index = 0;
 
                         SaveGameFileVersion = StorageData.ReadUInt16(Data, ref Index);
 
-                        Debug.Log("DataID: " + DataID + "; Data length: " + Data.Length.ToString() + "; Data Version: " + SaveGameFileVersion);
+                        Debug.Log("RealTime LoadData - DataID: " + DataID + "; Data length: " + Data.Length.ToString() + "; Data Version: " + SaveGameFileVersion);
 
                         if (SaveGameFileVersion <= DataVersion)
                         {

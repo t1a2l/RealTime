@@ -45,7 +45,7 @@ namespace RealTime.Serializer
             if (Data != null && Data.Length > iIndex)
             {
                 int iAcademicYearVersion = StorageData.ReadUInt16(Data, ref iIndex);
-                Debug.Log("Global: " + iGlobalVersion + " BufferVersion: " + iAcademicYearVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
+                Debug.Log("RealTime AcademicYear - Global: " + iGlobalVersion + " BufferVersion: " + iAcademicYearVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
 
                 if (AcademicYearManager.MainCampusBuildingsList.Count > 0)
                 {

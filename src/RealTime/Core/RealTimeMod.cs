@@ -28,8 +28,9 @@ namespace RealTime.Core
         private const long WorkshopId = 3059406297;
         private const string NoWorkshopMessage = "Real Time can only run when subscribed to in Steam Workshop";
 
-        public static readonly string modVersion = GitVersion.GetAssemblyVersion(typeof(RealTimeMod).Assembly);
+        public static readonly string modVersion = "2.7";
         private readonly string modPath = GetModPath();
+
 
         public static ConfigurationProvider<RealTimeConfig> configProvider;
         private RealTimeCore core;
@@ -120,6 +121,7 @@ namespace RealTime.Core
                 EventRouteTimeManager.Init();
                 FireBurnTimeManager.Init();
                 HotelManager.Init();
+                CommercialBuildingTypesManager.Init();
             }
             catch (Exception e)
             {
@@ -128,6 +130,7 @@ namespace RealTime.Core
                 BuildingWorkTimeManager.Deinit();
                 EventRouteTimeManager.Deinit();
                 FireBurnTimeManager.Deinit();
+                CommercialBuildingTypesManager.Deinit();
             }
         }
 

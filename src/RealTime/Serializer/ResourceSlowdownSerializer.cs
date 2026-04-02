@@ -85,7 +85,7 @@ namespace RealTime.Serializer
             if (Data != null && Data.Length > iIndex)
             {
                 int iResourceSlowdownVersion = StorageData.ReadUInt16(Data, ref iIndex);
-                Debug.Log("Global: " + iGlobalVersion + " BufferVersion: " + iResourceSlowdownVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
+                Debug.Log("RealTime ResourceSlowdown - Global: " + iGlobalVersion + " BufferVersion: " + iResourceSlowdownVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
 
                 Array.Clear(ResourceSlowdownManager.GarbageAccumulator, 0, ResourceSlowdownManager.GarbageAccumulator.Length);
                 Array.Clear(ResourceSlowdownManager.MailAccumulator, 0, ResourceSlowdownManager.MailAccumulator.Length);

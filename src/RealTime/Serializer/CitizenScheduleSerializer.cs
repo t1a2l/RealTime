@@ -71,7 +71,7 @@ namespace RealTime.Serializer
             if (Data != null && Data.Length > iIndex)
             {
                 int iCitizenScheduleVersion = StorageData.ReadUInt16(Data, ref iIndex);
-                Debug.Log("Global: " + iGlobalVersion + " BufferVersion: " + iCitizenScheduleVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
+                Debug.Log("RealTime CitizenSchedule - Global: " + iGlobalVersion + " BufferVersion: " + iCitizenScheduleVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
 
                 residentSchedules = [];
                 int recordCount = StorageData.ReadInt32(Data, ref iIndex);

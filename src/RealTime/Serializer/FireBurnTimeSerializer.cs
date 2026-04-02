@@ -42,7 +42,7 @@ namespace RealTime.Serializer
             if (Data != null && Data.Length > iIndex)
             {
                 int iFireBurnStartTimeVersion = StorageData.ReadUInt16(Data, ref iIndex);
-                Debug.Log("Global: " + iGlobalVersion + " BufferVersion: " + iFireBurnStartTimeVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
+                Debug.Log("RealTime FireBurnTime - Global: " + iGlobalVersion + " BufferVersion: " + iFireBurnStartTimeVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
                 FireBurnTimeManager.FireBurnTime ??= [];
 
                 if (FireBurnTimeManager.FireBurnTime.Count > 0)

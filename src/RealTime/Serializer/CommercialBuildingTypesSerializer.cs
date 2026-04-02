@@ -41,7 +41,7 @@ namespace RealTime.Serializer
             if (Data != null && Data.Length > iIndex)
             {
                 int iCommercialBuildingTypesVersion = StorageData.ReadUInt16(Data, ref iIndex);
-                Debug.Log("Global: " + iGlobalVersion + " BufferVersion: " + iCommercialBuildingTypesVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
+                Debug.Log("RealTime CommercialBuildingTypes - Global: " + iGlobalVersion + " BufferVersion: " + iCommercialBuildingTypesVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
                 CommercialBuildingTypesManager.CommercialBuildingTypes ??= [];
 
                 if (CommercialBuildingTypesManager.CommercialBuildingTypes.Count > 0)

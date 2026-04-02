@@ -20,6 +20,7 @@ namespace RealTime.Core
     using SkyTools.Localization;
     using SkyTools.Storage;
     using SkyTools.Tools;
+    using UnityEngine;
 
     /// <summary>
     /// The core component of the Real Time mod. Activates and deactivates
@@ -193,7 +194,7 @@ namespace RealTime.Core
 
             AwakeSleepSimulation.Install(configProvider.Configuration);
 
-            if(RealTimeMod.modVersion == "26")
+            if (RealTimeSerializer.SaveGameFileVersion == 1)
             {
                 var schedulesStorage = ResidentAIPatch.RealTimeResidentAI.GetStorageService(schedules => new CitizenScheduleSerializerOld(schedules, gameConnections.CitizenManager.GetCitizensArray, timeInfo));
                 result.storageData.Add(schedulesStorage);
@@ -399,7 +400,10 @@ namespace RealTime.Core
 
             SimulationHandler.CitizenProcessor = new CitizenProcessor<ResidentAI, Citizen>(realTimeResidentAI, timeInfo, spareTimeBehavior, travelBehavior);
 
-            realTimeResidentAI.ApplyLoadedSchedules(CitizenScheduleSerializer.residentSchedules);
+            if (RealTimeSerializer.SaveGameFileVersion >= 2)
+            {
+                realTimeResidentAI.ApplyLoadedSchedules(CitizenScheduleSerializer.residentSchedules);
+            }
 
             var touristAIConnection = TouristAIPatch.GetTouristAIConnection();
             if (touristAIConnection == null)

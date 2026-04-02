@@ -50,7 +50,7 @@ namespace RealTime.Serializer
             if (Data != null && Data.Length > iIndex)
             {
                 int iEventRouteTimeVersion = StorageData.ReadUInt16(Data, ref iIndex);
-                Debug.Log("Global: " + iGlobalVersion + " BufferVersion: " + iEventRouteTimeVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
+                Debug.Log("RealTime EventRouteTime - Global: " + iGlobalVersion + " BufferVersion: " + iEventRouteTimeVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
                 EventRouteTimeManager.TimeSchedules ??= [];
 
                 if (EventRouteTimeManager.TimeSchedules.Count > 0)

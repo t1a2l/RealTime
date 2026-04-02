@@ -5,98 +5,171 @@ namespace RealTime.Serializer
     using System;
     using System.IO;
     using RealTime.CustomAI;
-    using RealTime.Simulation;
-    using SkyTools.Storage;
+    using UnityEngine;
 
-    /// <summary>
-    /// A helper class that enables loading and saving of the custom citizen schedules.
-    /// This class accesses the <see cref="CitizenManager"/> directly for better performance.
-    /// </summary>
-    /// <seealso cref="IStorageData" />
-    internal sealed class CitizenScheduleSerializer : IStorageData
+    public class CitizenScheduleSerializer
     {
-        private const string StorageDataId = "RealTimeCitizenSchedule";
+        private const ushort iCITIZEN_SCHEDULE_DATA_VERSION = 1;
+        
+        private const uint uiTUPLE_START = 0xFEFEFEFE;
+        private const uint uiTUPLE_END = 0xFAFAFAFA;
 
-        private readonly CitizenSchedule[] residentSchedules;
-        private readonly Citizen[] citizens;
-        private readonly ITimeInfo timeInfo;
+        internal static CitizenSchedule[] residentSchedules;
+        internal static Citizen[] citizens;
 
-        /// <summary>Initializes a new instance of the <see cref="CitizenScheduleSerializer"/> class.</summary>
-        /// <param name="residentSchedules">The resident schedules to store or load.</param>
-        /// <param name="citizensProvider">A method that returns the game's citizens array.</param>
-        /// <param name="timeInfo">An object that provides the game time information.</param>
-        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="residentSchedules"/> and the array returned by
-        /// <paramref name="citizensProvider"/> have different lengths.</exception>
-        public CitizenScheduleSerializer(CitizenSchedule[] residentSchedules, Func<Citizen[]> citizensProvider, ITimeInfo timeInfo)
+        public static void SaveData(FastList<byte> Data)
         {
-            this.residentSchedules = residentSchedules ?? throw new ArgumentNullException(nameof(residentSchedules));
-            if (citizensProvider == null)
-            {
-                throw new ArgumentNullException(nameof(citizensProvider));
-            }
+            int recordCount = CitizenManager.instance.m_citizens.m_buffer.Length;
+            citizens = CitizenManager.instance.m_citizens.m_buffer;
 
-            this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
+            StorageData.WriteUInt16(iCITIZEN_SCHEDULE_DATA_VERSION, Data);
+            StorageData.WriteInt32(recordCount, Data);
 
-            citizens = citizensProvider();
-            if (citizens == null || residentSchedules.Length != citizens.Length)
+            for (ushort citizenId = 0; citizenId < citizens.Length; ++citizenId)
             {
-                throw new ArgumentException($"{nameof(residentSchedules)} and citizens arrays must have equal length");
+                ref var schedule = ref residentSchedules[citizenId];
+
+                StorageData.WriteUInt32(uiTUPLE_START, Data);
+
+                StorageData.WriteUInt16(citizenId, Data);
+
+                StorageData.WriteInt32((int)schedule.CurrentState, Data);
+                StorageData.WriteInt32((int)schedule.Hint, Data);
+                StorageData.WriteUInt16(schedule.EventBuilding, Data);
+
+                StorageData.WriteInt32((int)schedule.WorkStatus, Data);
+                StorageData.WriteInt32((int)schedule.SchoolStatus, Data);
+                StorageData.WriteInt32(schedule.FindVisitPlaceAttempts, Data);
+                StorageData.WriteByte(schedule.VacationDaysLeft, Data);
+
+                StorageData.WriteUInt16(schedule.WorkBuilding, Data);
+                StorageData.WriteUInt16(schedule.SchoolBuilding, Data);
+                StorageData.WriteDateTime(schedule.DepartureTime, Data);
+
+                StorageData.WriteInt32((int)schedule.ScheduledState, Data);
+                StorageData.WriteInt32((int)schedule.LastScheduledState, Data);
+                StorageData.WriteDateTime(schedule.ScheduledStateTime, Data);
+                StorageData.WriteInt32((int)schedule.ScheduledMealType, Data);
+                StorageData.WriteFloat(schedule.TravelTimeToWork, Data);
+                StorageData.WriteFloat(schedule.TravelTimeToSchool, Data);
+
+                StorageData.WriteInt32((int)schedule.WorkShift, Data);
+                StorageData.WriteFloat(schedule.WorkShiftStartHour, Data);
+                StorageData.WriteFloat(schedule.WorkShiftEndHour, Data);
+                StorageData.WriteBool(schedule.WorksOnWeekends, Data);
+
+                StorageData.WriteInt32((int)schedule.SchoolClass, Data);
+                StorageData.WriteFloat(schedule.SchoolClassStartHour, Data);
+                StorageData.WriteFloat(schedule.SchoolClassEndHour, Data);
+
+                StorageData.WriteUInt32(uiTUPLE_END, Data);
             }
         }
 
-        /// <summary>Gets an unique ID of this storage data set.</summary>
-        string IStorageData.StorageDataId => StorageDataId;
-
-        /// <summary>Reads the data set from the specified <see cref="Stream" />.</summary>
-        /// <param name="source">A <see cref="Stream" /> to read the data set from.</param>
-        void IStorageData.ReadData(Stream source)
+        public static void LoadData(int iGlobalVersion, byte[] Data, ref int iIndex)
         {
-            if (source == null)
+            if (Data != null && Data.Length > iIndex)
             {
-                throw new ArgumentNullException(nameof(source));
-            }
+                int iCitizenScheduleVersion = StorageData.ReadUInt16(Data, ref iIndex);
+                Debug.Log("Global: " + iGlobalVersion + " BufferVersion: " + iCitizenScheduleVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
 
-            byte[] buffer = new byte[CitizenSchedule.DataRecordSize];
-            long referenceTime = timeInfo.Now.Date.Ticks;
+                residentSchedules = [];
+                int recordCount = StorageData.ReadInt32(Data, ref iIndex);
 
-            for (int i = 0; i < citizens.Length; ++i)
-            {
-                var flags = citizens[i].m_flags;
-                if ((flags & Citizen.Flags.Created) == 0
-                    || (flags & Citizen.Flags.DummyTraffic) != 0)
+                for (int i = 0; i < recordCount; ++i)
                 {
-                    continue;
-                }
+                    CheckStartTuple($"Buffer({i})", iCitizenScheduleVersion, Data, ref iIndex);
 
-                source.Read(buffer, 0, buffer.Length);
-                residentSchedules[i].Read(buffer, referenceTime, citizens[i].m_workBuilding);
+                    ushort citizenId = StorageData.ReadUInt16(Data, ref iIndex);
+                    if (citizenId >= residentSchedules.Length)
+                    {
+                        throw new InvalidDataException($"Citizen id {citizenId} is outside resident schedule buffer.");
+                    }
+
+                    var schedule = residentSchedules[citizenId];
+
+                    schedule.CurrentState = (ResidentState)StorageData.ReadInt32(Data, ref iIndex);
+                    schedule.Hint = (ScheduleHint)StorageData.ReadInt32(Data, ref iIndex);
+                    schedule.EventBuilding = StorageData.ReadUInt16(Data, ref iIndex);
+
+                    schedule.WorkStatus = (WorkStatus)StorageData.ReadInt32(Data, ref iIndex);
+                    schedule.SchoolStatus = (SchoolStatus)StorageData.ReadInt32(Data, ref iIndex);
+                    schedule.FindVisitPlaceAttempts = StorageData.ReadInt32(Data, ref iIndex);
+                    schedule.VacationDaysLeft = StorageData.ReadByte(Data, ref iIndex);
+
+                    schedule.WorkBuilding = StorageData.ReadUInt16(Data, ref iIndex);
+                    schedule.SchoolBuilding = StorageData.ReadUInt16(Data, ref iIndex);
+                    schedule.DepartureTime = StorageData.ReadDateTime(Data, ref iIndex);
+
+                    var scheduledState = (ResidentState)StorageData.ReadInt32(Data, ref iIndex);
+                    var lastScheduledState = (ResidentState)StorageData.ReadInt32(Data, ref iIndex);
+                    var scheduledStateTime = StorageData.ReadDateTime(Data, ref iIndex);
+                    var scheduledMealType = (MealType)StorageData.ReadInt32(Data, ref iIndex);
+                    float travelTimeToWork = StorageData.ReadFloat(Data, ref iIndex);
+                    float travelTimeToSchool = StorageData.ReadFloat(Data, ref iIndex);
+
+                    var workShift = (WorkShift)StorageData.ReadInt32(Data, ref iIndex);
+                    float workShiftStartHour = StorageData.ReadFloat(Data, ref iIndex);
+                    float workShiftEndHour = StorageData.ReadFloat(Data, ref iIndex);
+                    bool worksOnWeekends = StorageData.ReadBool(Data, ref iIndex);
+
+                    var schoolClass = (SchoolClass)StorageData.ReadInt32(Data, ref iIndex);
+                    float schoolClassStartHour = StorageData.ReadFloat(Data, ref iIndex);
+                    float schoolClassEndHour = StorageData.ReadFloat(Data, ref iIndex);
+
+                    schedule.UpdateScheduleState(scheduledState, lastScheduledState, scheduledStateTime, scheduledMealType);
+                    schedule.UpdateTravelTimeToWork(travelTimeToWork);
+                    schedule.UpdateTravelTimeToSchool(travelTimeToSchool);
+                    schedule.UpdateWorkShift(workShift, workShiftStartHour, workShiftEndHour, worksOnWeekends);
+                    schedule.UpdateSchoolClass(schoolClass, schoolClassStartHour, schoolClassEndHour);
+
+                    if (schedule.WorkShift != WorkShift.Unemployed
+                        && schedule.WorkShift != WorkShift.Event
+                        && citizens[citizenId].m_workBuilding != 0)
+                    {
+                        schedule.UpdateWorkShiftHours(schedule.WorkShift, citizens[citizenId].m_workBuilding);
+                    }
+
+                    if (schedule.SchoolClass != SchoolClass.NoSchool)
+                    {
+                        schedule.UpdateSchoolClassHours(schedule.SchoolClass);
+                    }
+
+                    residentSchedules[citizenId] = schedule;
+
+                    uint maybeEndTuple = StorageData.ReadUInt32(Data, ref iIndex);
+
+                    if (maybeEndTuple != uiTUPLE_END)
+                    {
+                        StorageData.ReadUInt32(Data, ref iIndex);
+
+                        CheckEndTuple($"Buffer({i})", iCitizenScheduleVersion, Data, ref iIndex);
+                    }
+                }
             }
         }
 
-        /// <summary>Reads the data set to the specified <see cref="Stream" />.</summary>
-        /// <param name="target">A <see cref="Stream" /> to write the data set to.</param>
-        void IStorageData.StoreData(Stream target)
+        private static void CheckStartTuple(string sTupleLocation, int iDataVersion, byte[] Data, ref int iIndex)
         {
-            if (target == null)
+            if (iDataVersion >= 1)
             {
-                throw new ArgumentNullException(nameof(target));
-            }
-
-            byte[] buffer = new byte[CitizenSchedule.DataRecordSize];
-            long referenceTime = timeInfo.Now.Date.Ticks;
-
-            for (int i = 0; i < citizens.Length; ++i)
-            {
-                var flags = citizens[i].m_flags;
-                if ((flags & Citizen.Flags.Created) == 0
-                    || (flags & Citizen.Flags.DummyTraffic) != 0)
+                uint iTupleStart = StorageData.ReadUInt32(Data, ref iIndex);
+                if (iTupleStart != uiTUPLE_START)
                 {
-                    continue;
+                    throw new Exception($"CitizenSchedule Buffer start tuple not found at: {sTupleLocation}");
                 }
+            }
+        }
 
-                residentSchedules[i].Write(buffer, referenceTime);
-                target.Write(buffer, 0, buffer.Length);
+        private static void CheckEndTuple(string sTupleLocation, int iDataVersion, byte[] Data, ref int iIndex)
+        {
+            if (iDataVersion >= 1)
+            {
+                uint iTupleEnd = StorageData.ReadUInt32(Data, ref iIndex);
+                if (iTupleEnd != uiTUPLE_END)
+                {
+                    throw new Exception($"CitizenSchedule Buffer end tuple not found at: {sTupleLocation}");
+                }
             }
         }
     }

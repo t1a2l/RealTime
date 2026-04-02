@@ -13,7 +13,7 @@ namespace RealTime.Serializer
         private const uint uiTUPLE_START = 0xFEFEFEFE;
         private const uint uiTUPLE_END = 0xFAFAFAFA;
 
-        public const ushort DataVersion = 1;
+        public const ushort DataVersion = 2;
         public const string DataID = "RealTime";
 
         public static RealTimeSerializer instance = null;
@@ -93,7 +93,23 @@ namespace RealTime.Serializer
                                 CheckStartTuple("CommercialBuildingTypesSerializer", SaveGameFileVersion, Data, ref Index);
                                 CommercialBuildingTypesSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
                                 CheckEndTuple("CommercialBuildingTypesSerializer", SaveGameFileVersion, Data, ref Index);
-                                break;
+
+                                if(SaveGameFileVersion >= DataVersion)
+                                {
+                                    if (Index == Data.Length)
+                                    {
+                                        break;
+                                    }
+
+                                    CheckStartTuple("CitizenScheduleSerializer", SaveGameFileVersion, Data, ref Index);
+                                    CitizenScheduleSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
+                                    CheckEndTuple("CitizenScheduleSerializer", SaveGameFileVersion, Data, ref Index);
+                                    break;
+                                }
+                                else
+                                {
+                                    break;
+                                }
                             }
                         }
                         else
@@ -165,6 +181,11 @@ namespace RealTime.Serializer
                     // commercial building types settings
                     StorageData.WriteUInt32(uiTUPLE_START, Data);
                     CommercialBuildingTypesSerializer.SaveData(Data);
+                    StorageData.WriteUInt32(uiTUPLE_END, Data);
+
+                    // citizen schedules
+                    StorageData.WriteUInt32(uiTUPLE_START, Data);
+                    CitizenScheduleSerializer.SaveData(Data);
                     StorageData.WriteUInt32(uiTUPLE_END, Data);
 
                     BuildingWorkTimeGlobalConfig.Config.Serialize();

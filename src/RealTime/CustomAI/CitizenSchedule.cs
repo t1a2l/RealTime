@@ -55,11 +55,20 @@ namespace RealTime.CustomAI
         /// <summary>Gets the time when the citizen will perform the next state change.</summary>
         public DateTime ScheduledStateTime { get; private set; }
 
+        /// <summary>Gets the citizen's next scheduled meal type.</summary>
+        public MealType ScheduledMealType { get; private set; }
+
         /// <summary>
         /// Gets the travel time (in hours) from citizen's home to the work building. The maximum value is
         /// determined by the <see cref="MaxTravelTime"/> constant.
         /// </summary>
         public float TravelTimeToWork { get; private set; }
+
+        /// <summary>
+        /// Gets the travel time (in hours) from citizen's home to the school building. The maximum value is
+        /// determined by the <see cref="MaxTravelTime"/> constant.
+        /// </summary>
+        public float TravelTimeToSchool { get; private set; }
 
         /// <summary>Gets the citizen's work shift.</summary>
         public WorkShift WorkShift { get; private set; }
@@ -82,9 +91,9 @@ namespace RealTime.CustomAI
         /// <summary>Gets the daytime hour when the citizen's school class ends.</summary>
         public float SchoolClassEndHour { get; private set; }
 
-        /// <summary>Updates the travel time that the citizen needs to read the work building or school/university.</summary>
+        /// <summary>Updates the travel time that the citizen needs to read the work building.</summary>
         /// <param name="arrivalTime">
-        /// The arrival time at the work building or school/university. Must be great than <see cref="DepartureTime"/>.
+        /// The arrival time at the work building. Must be great than <see cref="DepartureTime"/>.
         /// </param>
         public void UpdateTravelTimeToWork(DateTime arrivalTime)
         {
@@ -102,6 +111,26 @@ namespace RealTime.CustomAI
             TravelTimeToWork = TravelTimeToWork == 0 ? onTheWayHours : (TravelTimeToWork + onTheWayHours) / 2;
         }
 
+        /// <summary>Updates the travel time that the citizen needs to read the school building.</summary>
+        /// <param name="arrivalTime">
+        /// The arrival time at the school building. Must be great than <see cref="DepartureTime"/>.
+        /// </param>
+        public void UpdateTravelTimeToSchool(DateTime arrivalTime)
+        {
+            if (arrivalTime < DepartureTime || DepartureTime == default)
+            {
+                return;
+            }
+
+            float onTheWayHours = (float)(arrivalTime - DepartureTime).TotalHours;
+            if (onTheWayHours > MaxTravelTime)
+            {
+                onTheWayHours = MaxTravelTime;
+            }
+
+            TravelTimeToSchool = TravelTimeToSchool == 0 ? onTheWayHours : (TravelTimeToSchool + onTheWayHours) / 2;
+        }
+
         /// <summary>Updates the work shift data for this citizen's schedule.</summary>
         /// <param name="workShift">The citizen's work shift.</param>
         /// <param name="startHour">The work shift start hour.</param>
@@ -116,7 +145,7 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>Updates the school class data for this citizen's schedule.</summary>
-        /// <param name="workShift">The citizen's school class.</param>
+        /// <param name="schoolClass">The citizen's school class.</param>
         /// <param name="startHour">The school class start hour.</param>
         /// <param name="endHour">The school class end hour.</param>
         public void UpdateSchoolClass(SchoolClass schoolClass, float startHour, float endHour)
@@ -129,42 +158,44 @@ namespace RealTime.CustomAI
         /// <summary>Schedules next actions for the citizen with a specified action time.</summary>
         /// <param name="nextState">The next scheduled citizen's state.</param>
         /// <param name="nextStateTime">The time when the scheduled state must change.</param>
-        public void Schedule(ResidentState nextState, DateTime nextStateTime)
+        public void Schedule(ResidentState nextState, DateTime nextStateTime, MealType mealType = MealType.None)
         {
             LastScheduledState = ScheduledState;
             ScheduledState = nextState;
             ScheduledStateTime = nextStateTime;
+            ScheduledMealType = mealType;
         }
 
         /// <summary>Schedules next actions for the citizen with no action time (ASAP).</summary>
         /// <param name="nextState">The next scheduled citizen's state.</param>
-        public void Schedule(ResidentState nextState)
+        public void Schedule(ResidentState nextState, MealType mealType = MealType.None)
         {
             // Note: not calling the overload to avoid additional method call - this method will be called frequently
             LastScheduledState = ScheduledState;
             ScheduledState = nextState;
             ScheduledStateTime = default;
+            ScheduledMealType = mealType;
         }
 
-        /// <summary>Writes this instance to the specified target buffer.</summary>
-        /// <param name="target">The target buffer. Must have length of <see cref="DataRecordSize"/> elements.</param>
-        /// <param name="referenceTime">The reference time (in ticks) to use for time serialization.</param>
-        public void Write(byte[] target, long referenceTime)
+        /// <summary>Updates the schedule state for this citizen.</summary>
+        /// <param name="scheduledState">The citizen's schedule state.</param>
+        /// <param name="lastScheduledState">The citizen's last schedule state.</param>
+        /// <param name="scheduledStateTime">The citizen's schedule state time.</param>
+        public void UpdateScheduleState(ResidentState scheduledState, ResidentState lastScheduledState, DateTime scheduledStateTime, MealType mealType)
         {
-            target[0] = (byte)(((int)WorkShift & 0xF) + ((int)WorkStatus << 4));
-            target[1] = (byte)(((int)ScheduledState & 0xF) + (VacationDaysLeft << 4));
-
-            ushort minutes = ScheduledStateTime == default ? (ushort)0 : (ushort)((ScheduledStateTime.Ticks - referenceTime) / TimeSpan.TicksPerMinute);
-
-            target[2] = (byte)(minutes & 0xFF);
-            target[3] = (byte)(minutes >> 8);
-
-            ushort travelTime = (ushort)(TravelTimeToWork * TravelTimeMultiplier);
-            target[4] = (byte)(travelTime & 0xFF);
-            target[5] = (byte)(travelTime >> 8);
-            target[6] = (byte)(((int)SchoolClass & 0xF) + ((int)SchoolStatus << 4));
-            target[7] = (byte)(FindVisitPlaceAttempts & 0xFF);
+            ScheduledState = scheduledState;
+            LastScheduledState = lastScheduledState;
+            ScheduledStateTime = scheduledStateTime;
+            ScheduledMealType = mealType;
         }
+
+        /// <summary>Updates the travel time to work for this citizen.</summary>
+        /// <param name="travelTimeToWork">The citizen's schedule state.</param>
+        public void UpdateTravelTimeToWork(float travelTimeToWork) => TravelTimeToWork = travelTimeToWork;
+
+        /// <summary>Updates the travel time to school for this citizen.</summary>
+        /// <param name="travelTimeToSchool">The citizen's schedule state.</param>
+        public void UpdateTravelTimeToSchool(float travelTimeToSchool) => TravelTimeToSchool = travelTimeToSchool;
 
         /// <summary>Reads this instance from the specified source buffer.</summary>
         /// <param name="source">The source buffer. Must have length of <see cref="DataRecordSize"/> elements.</param>
@@ -174,6 +205,17 @@ namespace RealTime.CustomAI
             WorkShift = (WorkShift)(source[0] & 0xF);
             WorkStatus = (WorkStatus)(source[0] >> 4);
             ScheduledState = (ResidentState)(source[1] & 0xF);
+
+            if(ScheduledState == ResidentState.GoToBreakfast || ScheduledState == ResidentState.GoToLunch)
+            {
+                ScheduledState = ResidentState.GoToMeal;
+            }
+
+            if (ScheduledState == ResidentState.Breakfast || ScheduledState == ResidentState.Lunch)
+            {
+                ScheduledState = ResidentState.EatMeal;
+            }
+
             VacationDaysLeft = (byte)(source[1] >> 4);
 
             int minutes = source[2] + (source[3] << 8);
@@ -276,7 +318,6 @@ namespace RealTime.CustomAI
 
             UpdateWorkShift(workShift, workBegin, workEnd, workTime.WorkAtWeekands);
         }
-
 
         public void UpdateSchoolClassHours(SchoolClass schoolClass)
         {

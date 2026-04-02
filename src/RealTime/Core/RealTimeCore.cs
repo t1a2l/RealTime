@@ -193,9 +193,12 @@ namespace RealTime.Core
 
             AwakeSleepSimulation.Install(configProvider.Configuration);
 
-            var schedulesStorage = ResidentAIPatch.RealTimeResidentAI.GetStorageService(schedules => new CitizenScheduleSerializer(schedules, gameConnections.CitizenManager.GetCitizensArray, timeInfo));
+            if(RealTimeMod.modVersion == "26")
+            {
+                var schedulesStorage = ResidentAIPatch.RealTimeResidentAI.GetStorageService(schedules => new CitizenScheduleSerializerOld(schedules, gameConnections.CitizenManager.GetCitizensArray, timeInfo));
+                result.storageData.Add(schedulesStorage);
+            }
 
-            result.storageData.Add(schedulesStorage);
             result.storageData.Add(eventManager);
             if (StorageBase.CurrentLevelStorage != null)
             {
@@ -395,6 +398,8 @@ namespace RealTime.Core
                 travelBehavior);
 
             SimulationHandler.CitizenProcessor = new CitizenProcessor<ResidentAI, Citizen>(realTimeResidentAI, timeInfo, spareTimeBehavior, travelBehavior);
+
+            realTimeResidentAI.ApplyLoadedSchedules(CitizenScheduleSerializer.residentSchedules);
 
             var touristAIConnection = TouristAIPatch.GetTouristAIConnection();
             if (touristAIConnection == null)

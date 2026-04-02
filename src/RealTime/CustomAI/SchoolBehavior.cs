@@ -9,36 +9,28 @@ namespace RealTime.CustomAI
     using SkyTools.Tools;
 
     /// <summary>
-    /// A class containing methods for managing the citizens' work behavior.
+    /// A class containing methods for managing the citizens' school behavior.
     /// </summary>
-    internal sealed class SchoolBehavior : ISchoolBehavior
+    /// <remarks>Initializes a new instance of the <see cref="SchoolBehavior"/> class.</remarks>
+    /// <param name="config">The configuration to run with.</param>
+    /// <param name="randomizer">The randomizer implementation.</param>
+    /// <param name="buildingManager">The building manager implementation.</param>
+    /// <param name="timeInfo">The time information source.</param>
+    /// <param name="travelBehavior">A behavior that provides simulation info for the citizens traveling.</param>
+    /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
+    internal sealed class SchoolBehavior(
+        RealTimeConfig config,
+        IRandomizer randomizer,
+        ITimeInfo timeInfo,
+        ITravelBehavior travelBehavior) : ISchoolBehavior
     {
-        private readonly RealTimeConfig config;
-        private readonly IRandomizer randomizer;
-        private readonly ITimeInfo timeInfo;
-        private readonly ITravelBehavior travelBehavior;
+        private readonly RealTimeConfig config = config ?? throw new ArgumentNullException(nameof(config));
+        private readonly IRandomizer randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
+        private readonly ITimeInfo timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
+        private readonly ITravelBehavior travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
 
         private DateTime lunchBegin;
         private DateTime lunchEnd;
-
-        /// <summary>Initializes a new instance of the <see cref="WorkBehavior"/> class.</summary>
-        /// <param name="config">The configuration to run with.</param>
-        /// <param name="randomizer">The randomizer implementation.</param>
-        /// <param name="buildingManager">The building manager implementation.</param>
-        /// <param name="timeInfo">The time information source.</param>
-        /// <param name="travelBehavior">A behavior that provides simulation info for the citizens traveling.</param>
-        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
-        public SchoolBehavior(
-            RealTimeConfig config,
-            IRandomizer randomizer,
-            ITimeInfo timeInfo,
-            ITravelBehavior travelBehavior)
-        {
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
-            this.randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
-            this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
-            this.travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
-        }
 
         public void BeginNewDay()
         {
@@ -48,7 +40,7 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>Updates the citizen's school class parameters in the specified citizen's <paramref name="schedule"/>.</summary>
-        /// <param name="schedule">The citizen's schedule to update the work shift in.</param>
+        /// <param name="schedule">The citizen's schedule to update the school class in.</param>
         /// <param name="citizenAge">The age of the citizen.</param>
         public void UpdateSchoolClass(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge)
         {
@@ -151,20 +143,44 @@ namespace RealTime.CustomAI
             return departureTime;
         }
 
-        /// <summary>Updates the citizen's school schedule by determining the lunch time.</summary>
+        /// <summary>Updates the citizen's school schedule by determining the meal time.</summary>
         /// <param name="schedule">The citizen's schedule to update.</param>
         /// <param name="schoolBuilding">The citizen's school building.</param>
-        /// <returns><c>true</c> if a lunch time was scheduled; otherwise, <c>false</c>.</returns>
-        public bool ScheduleLunch(ref CitizenSchedule schedule, ushort schoolBuilding)
+        /// <param name="mealType">The meal type the citizen is going to eat.</param>
+        /// <returns><c>true</c> if a meal was scheduled; otherwise, <c>false</c>.</returns>
+        public bool ScheduleMeal(ref CitizenSchedule schedule, ushort schoolBuilding, MealType mealType)
         {
-            int hours = (int)(lunchBegin - timeInfo.Now).TotalHours;
-
-            if (hours >= 2.5 && schedule.SchoolStatus == SchoolStatus.Studying
-                && schedule.SchoolClass == SchoolClass.DayClass
-                && WillGoToLunch(schoolBuilding))
+            if (mealType == MealType.Breakfast)
             {
-                schedule.Schedule(ResidentState.GoToLunch, lunchBegin);
-                return true;
+                float minGoToBreakfastHour = config.WakeUpHour;
+                float maxGoToBreakfastHour = schedule.SchoolClassStartHour;
+
+                Log.Debug(LogCategory.Schedule, $"  - School status is {schedule.SchoolStatus}");
+                if (schedule.SchoolStatus == SchoolStatus.None
+                    && schedule.SchoolClass == SchoolClass.DayClass
+                    && timeInfo.CurrentHour >= minGoToBreakfastHour && timeInfo.CurrentHour <= maxGoToBreakfastHour
+                    && WillGoToMeal(schoolBuilding, mealType))
+                {
+                    schedule.Schedule(ResidentState.GoToMeal, mealType);
+                    return true;
+                }
+
+                return false;
+            }
+            else if (mealType == MealType.Lunch)
+            {
+                int hours = (int)(lunchBegin - timeInfo.Now).TotalHours;
+
+                Log.Debug(LogCategory.Schedule, $"  - School status is {schedule.SchoolStatus}");
+                if (hours >= 2.5 && schedule.SchoolStatus == SchoolStatus.Studying
+                    && schedule.SchoolClass == SchoolClass.DayClass
+                    && WillGoToMeal(schoolBuilding, mealType))
+                {
+                    schedule.Schedule(ResidentState.GoToMeal, lunchBegin, mealType);
+                    return true;
+                }
+
+                return false;
             }
 
             return false;
@@ -172,9 +188,9 @@ namespace RealTime.CustomAI
 
         /// <summary>Updates the citizen's school schedule by determining the returning from lunch time.</summary>
         /// <param name="schedule">The citizen's schedule to update.</param>
-        public void ScheduleReturnFromLunch(ref CitizenSchedule schedule)
+        public void ScheduleReturnFromMeal(ref CitizenSchedule schedule)
         {
-            if (schedule.SchoolStatus == SchoolStatus.Studying)
+            if (schedule.ScheduledMealType == MealType.Lunch && schedule.SchoolStatus == SchoolStatus.Studying)
             {
                 schedule.Schedule(ResidentState.GoToSchool, lunchEnd);
             }
@@ -194,7 +210,7 @@ namespace RealTime.CustomAI
             float time = 0;
             if (timeInfo.CurrentHour - schedule.SchoolClassEndHour > 0)
             {
-                time = timeInfo.CurrentHour - schedule.WorkShiftEndHour;
+                time = timeInfo.CurrentHour - schedule.SchoolClassEndHour;
             }
 
             Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} time is {time}");
@@ -210,14 +226,21 @@ namespace RealTime.CustomAI
 
             Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} departureHour is {departureHour} and future hour is {timeInfo.Now.FutureHour(departureHour):dd.MM.yy HH:mm}");
 
-            schedule.Schedule(ResidentState.Unknown, timeInfo.Now.FutureHour(departureHour));
+            if (WillGoToMeal(schedule.SchoolBuilding, MealType.Supper))
+            {
+                schedule.Schedule(ResidentState.GoToMeal, timeInfo.Now.FutureHour(departureHour));
+            }
+            else
+            {
+                schedule.Schedule(ResidentState.Unknown, timeInfo.Now.FutureHour(departureHour));
+            }
         }
 
         private float GetTravelTimeToSchool(ref CitizenSchedule schedule, ushort buildingId)
         {
-            float result = schedule.CurrentState == ResidentState.AtHome ? schedule.TravelTimeToWork : 0;
+            float result = schedule.CurrentState == ResidentState.AtHome ? schedule.TravelTimeToSchool : 0;
 
-            Log.Debug(LogCategory.Schedule, $"  - schedule CurrentState is {schedule.CurrentState}, schedule TravelTimeToWork is {schedule.TravelTimeToWork}, result is {result}");
+            Log.Debug(LogCategory.Schedule, $"  - schedule CurrentState is {schedule.CurrentState}, schedule TravelTimeToSchool is {schedule.TravelTimeToSchool}, result is {result}");
 
             if (result <= 0)
             {
@@ -227,20 +250,43 @@ namespace RealTime.CustomAI
             return result;
         }
 
-        private bool WillGoToLunch(ushort schoolBuildingId)
+        private bool WillGoToMeal(ushort schoolBuildingId, MealType mealType)
         {
-            if (!config.IsLunchTimeEnabled)
-            {
-                return false;
-            }
-
             var schoolBuilding = Singleton<BuildingManager>.instance.m_buildings.m_buffer[schoolBuildingId];
-            if(schoolBuilding.Info.GetAI() is not CampusBuildingAI)
+            if (schoolBuilding.Info.GetAI() is not CampusBuildingAI)
             {
                 return false;
             }
 
-            return randomizer.ShouldOccur(config.LunchQuota);
+            if (mealType == MealType.Breakfast)
+            {
+                Log.Debug(LogCategory.Schedule, $"  - BreakfastQuota is {config.BreakfastQuota}");
+                if (!config.IsBreakfastTimeEnabled)
+                {
+                    return false;
+                }
+                return randomizer.ShouldOccur(config.BreakfastQuota);
+            }
+            else if (mealType == MealType.Lunch)
+            {
+                Log.Debug(LogCategory.Schedule, $"  - LunchQuota is {config.LunchQuota}");
+                if (!config.IsLunchTimeEnabled)
+                {
+                    return false;
+                }
+                return randomizer.ShouldOccur(config.LunchQuota);
+            }
+            else if (mealType == MealType.Supper)
+            {
+                Log.Debug(LogCategory.Schedule, $"  - SupperQuota is {config.SupperQuota}");
+                if (!config.IsSupperTimeEnabled)
+                {
+                    return false;
+                }
+                return randomizer.ShouldOccur(config.SupperQuota);
+            }
+
+            return false;
         }
 
     }

@@ -252,16 +252,16 @@ namespace RealTime.CustomAI
                             {
                                 schedule.CurrentState = ResidentState.Relaxing;
                             }
-                            else if (schedule.LastScheduledState == ResidentState.GoToBreakfast)
+                            else if (schedule.LastScheduledState == ResidentState.GoToMeal)
                             {
-                                schedule.CurrentState = ResidentState.Breakfast;
+                                schedule.CurrentState = ResidentState.EatMeal;
                             }
                             return ScheduleAction.ProcessState;
 
                         case ItemClass.Service.Commercial:
-                            if(schedule.WorkStatus == WorkStatus.Working && schedule.LastScheduledState == ResidentState.GoToLunch)
+                            if(schedule.WorkStatus == WorkStatus.Working && schedule.LastScheduledState == ResidentState.GoToMeal)
                             {
-                                schedule.CurrentState = ResidentState.Lunch;
+                                schedule.CurrentState = ResidentState.EatMeal;
                             }
                             else
                             {
@@ -269,9 +269,9 @@ namespace RealTime.CustomAI
                                 {
                                     schedule.CurrentState = ResidentState.Shopping;
                                 }
-                                else if (schedule.LastScheduledState == ResidentState.GoToBreakfast)
+                                else if (schedule.LastScheduledState == ResidentState.GoToMeal)
                                 {
-                                    schedule.CurrentState = ResidentState.Breakfast;
+                                    schedule.CurrentState = ResidentState.EatMeal;
                                 }
                             }
                             return ScheduleAction.ProcessState;
@@ -435,6 +435,12 @@ namespace RealTime.CustomAI
                     return true;
                 }
 
+                if (ScheduleMeal(ref schedule, ref citizen, localOnly: false))
+                {
+                    Log.Debug(LogCategory.Schedule, $"  - Schedule meal, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
+                    return true;
+                }
+
                 if (ScheduleVisiting(ref schedule, ref citizen))
                 {
                     Log.Debug(LogCategory.Schedule, $"  - Schedule visiting, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
@@ -519,28 +525,20 @@ namespace RealTime.CustomAI
                     DoScheduledSchool(ref schedule, instance, citizenId, ref citizen);
                     return;
 
-                case ResidentState.GoToBreakfast when schedule.CurrentState != ResidentState.Breakfast && schedule.WorkStatus == WorkStatus.None:
-                    DoScheduledBreakfast(ref schedule, instance, citizenId, ref citizen);
-                    return;
-
-                case ResidentState.GoToLunch when schedule.CurrentState != ResidentState.Lunch:
-                    if(schedule.WorkStatus == WorkStatus.Working)
+                case ResidentState.GoToMeal when schedule.CurrentState != ResidentState.EatMeal:
+                    if (schedule.WorkStatus == WorkStatus.None)
                     {
-                        DoScheduledWorkLunch(ref schedule, instance, citizenId, ref citizen);
+                        DoScheduledWorkMeal(ref schedule, instance, citizenId, ref citizen);
                         executed = true;
                     }
-                    else if (schedule.SchoolStatus == SchoolStatus.Studying)
+                    else if (schedule.SchoolStatus == SchoolStatus.None)
                     {
-                        DoScheduledSchoolLunch(ref schedule, instance, citizenId, ref citizen);
+                        DoScheduledSchoolMeal(ref schedule, instance, citizenId, ref citizen);
                         executed = true;
                     }
                     else
                     {
-                        if (schedule.CurrentState == ResidentState.AtHome)
-                        {
-                            schedule.Schedule(ResidentState.Unknown);
-                        }
-                        executed = false;
+                        executed = DoScheduledMeal(ref schedule, instance, citizenId, ref citizen);
                     }
                     break;
 
@@ -581,11 +579,8 @@ namespace RealTime.CustomAI
                 case ResidentState.Shopping:
                     return ProcessCitizenShopping(ref schedule, citizenId, ref citizen, noReschedule);
 
-                case ResidentState.Breakfast:
-                    return ProcessCitizenEatingBreakfast(ref schedule, citizenId, ref citizen, noReschedule);
-
-                case ResidentState.Lunch:
-                    return ProcessCitizenEatingLunch(ref schedule, citizenId, ref citizen, noReschedule);
+                case ResidentState.EatMeal:
+                    return ProcessCitizenEatingMeal(ref schedule, citizenId, ref citizen, noReschedule);
 
                 case ResidentState.Relaxing:
                     return ProcessCitizenRelaxing(ref schedule, citizenId, ref citizen, noReschedule);
@@ -637,8 +632,8 @@ namespace RealTime.CustomAI
                     return false;
                 }
 
-                if (schedule.CurrentState == ResidentState.AtSchool || schedule.CurrentState == ResidentState.Lunch
-                    || schedule.ScheduledState == ResidentState.GoToSchool || schedule.ScheduledState == ResidentState.GoToLunch ||
+                if (schedule.CurrentState == ResidentState.AtSchool || schedule.CurrentState == ResidentState.EatMeal
+                    || schedule.ScheduledState == ResidentState.GoToSchool || schedule.ScheduledState == ResidentState.GoToMeal ||
                     schedule.ScheduledState == ResidentState.GoShopping && schedule.Hint == ScheduleHint.LocalShoppingOnlyBeforeUniversity)
                 {
                     return false;
@@ -657,8 +652,8 @@ namespace RealTime.CustomAI
                 {
                     return false;
                 }
-                if (schedule.CurrentState == ResidentState.AtWork || schedule.CurrentState == ResidentState.Breakfast || schedule.CurrentState == ResidentState.Lunch
-                    || schedule.ScheduledState == ResidentState.GoToWork || schedule.ScheduledState == ResidentState.GoToBreakfast || schedule.ScheduledState == ResidentState.GoToLunch
+                if (schedule.CurrentState == ResidentState.AtWork || schedule.CurrentState == ResidentState.EatMeal
+                    || schedule.ScheduledState == ResidentState.GoToWork || schedule.ScheduledState == ResidentState.GoToMeal
                     || schedule.ScheduledState == ResidentState.GoShopping && schedule.Hint == ScheduleHint.LocalShoppingOnlyBeforeWork)
                 {
                     return false;

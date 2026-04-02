@@ -94,8 +94,7 @@ namespace RealTime.CustomAI
                     return false;
 
                 case ScheduleHint.RelaxNearbyOnly:
-                    var currentPosition = CitizenMgr.GetCitizenPosition(CitizenProxy.GetInstance(ref citizen));
-                    ushort parkBuildingId = buildingAI.FindActiveBuilding(currentPosition, LocalSearchDistance, ItemClass.Service.Beautification);
+                    ushort parkBuildingId = buildingAI.FindActiveBuilding(currentBuilding, LocalSearchDistance, ItemClass.Service.Beautification);
                     if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, parkBuildingId))
                     {
                         Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} heading to a nearby entertainment building {parkBuildingId}");
@@ -234,7 +233,7 @@ namespace RealTime.CustomAI
                 {
                     schedule.Schedule(ResidentState.Unknown);
 
-                    ushort shop = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, true);
+                    ushort shop = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, CommercialBuildingType.Shopping);
                     if (shop == 0)
                     {
                         Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping, but didn't find a local shop");
@@ -253,7 +252,7 @@ namespace RealTime.CustomAI
 
                 if (schedule.Hint == ScheduleHint.LocalShoppingOnlyBeforeWork || schedule.Hint == ScheduleHint.LocalShoppingOnlyBeforeUniversity)
                 {
-                    ushort shop = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, true);
+                    ushort shop = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, CommercialBuildingType.Shopping);
                     ushort sourceBuilding = currentBuilding;
                     bool found = false;
                     if (shop == 0)
@@ -325,16 +324,81 @@ namespace RealTime.CustomAI
             return RescheduleVisit(ref schedule, citizenId, ref citizen, currentBuilding, noReschedule);
         }
 
-        private bool ProcessCitizenEatingBreakfast(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen, bool noReschedule)
+
+        private bool ScheduleMeal(ref CitizenSchedule schedule, ref TCitizen citizen, bool localOnly)
         {
-            ushort currentBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
-            return RescheduleVisit(ref schedule, citizenId, ref citizen, currentBuilding, noReschedule);
+            if (!Random.ShouldOccur(spareTimeBehavior.GetEatingOutsideChance(CitizenProxy.GetAge(ref citizen))))
+            {
+                return false;
+            }
+
+            if (TimeInfo.IsNightTime || localOnly || Random.ShouldOccur(Config.LocalBuildingSearchQuota))
+            {
+                schedule.Hint = ScheduleHint.LocalMealOnly;
+            }
+
+            schedule.Schedule(ResidentState.GoToMeal, GetCurrentMealType(TimeInfo.CurrentHour));
+            return true;
         }
 
-        private bool ProcessCitizenEatingLunch(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen, bool noReschedule)
+
+
+        private bool DoScheduledMeal(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            ushort currentBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
-            return RescheduleVisit(ref schedule, citizenId, ref citizen, currentBuilding, noReschedule);
+            // Shopping was already scheduled last time, but the citizen is still at school/work or in shelter.
+            // This can occur when the game's transfer manager can't find any activity for the citizen.
+            // In that case, move back home.
+            if ((schedule.ScheduledState == ResidentState.GoToWork || schedule.CurrentState == ResidentState.AtWork
+                || schedule.ScheduledState == ResidentState.GoToSchool || schedule.CurrentState == ResidentState.AtSchool
+                || schedule.ScheduledState == ResidentState.GoToShelter || schedule.CurrentState == ResidentState.InShelter)
+                && schedule.LastScheduledState == ResidentState.GoToMeal)
+            {
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go eat a meal but is still at work or school or in shelter. No meal activity found. Now going home.");
+                return false;
+            }
+
+            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+            if (schedule.Hint == ScheduleHint.LocalMealOnly)
+            {
+                schedule.Schedule(ResidentState.Unknown);
+
+                ushort mealPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, CommercialBuildingType.Food);
+                if (mealPlace == 0)
+                {
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go to eat a meal, but didn't find a local meal place");
+                    return false;
+                }
+
+                if (TimeInfo.IsNightTime)
+                {
+                    schedule.Hint = ScheduleHint.NoMealAnyMore;
+                }
+
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} going to eat a meal at a local meal place {mealPlace}");
+                return true;
+            }
+
+            if (QuitVisit(citizenId, ref citizen, currentBuilding))
+            {
+                schedule.Schedule(ResidentState.GoHome);
+                return false;
+            }
+
+            schedule.Schedule(ResidentState.Unknown);
+
+            if (schedule.ScheduledState != ResidentState.GoToMeal || schedule.CurrentState != ResidentState.EatMeal || buildingAI.IsBuildingClosingSoon(currentBuilding))
+            {
+                schedule.Schedule(ResidentState.Unknown);
+                schedule.FindVisitPlaceAttempts++;
+            }
+#if DEBUG
+            else
+            {
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues eating in the same place.");
+            }
+#endif
+
+            return true;
         }
 
         private bool ScheduleVisiting(ref CitizenSchedule schedule, ref TCitizen citizen)
@@ -507,6 +571,32 @@ namespace RealTime.CustomAI
             }
 
             return false;
+        }
+
+        private bool ProcessCitizenEatingMeal(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen, bool noReschedule)
+        {
+            ushort currentBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
+            return RescheduleVisit(ref schedule, citizenId, ref citizen, currentBuilding, noReschedule);
+        }
+
+        private MealType GetCurrentMealType(float currentHour)
+        {
+            if (currentHour >= Config.WakeUpHour && currentHour < Config.WorkBegin + 2f)
+            {
+                return MealType.Breakfast;
+            }
+            else if (currentHour >= Config.WorkBegin + 3f && currentHour < Config.WorkEnd - 1f)
+            {
+                return MealType.Lunch;
+            }
+            else if (currentHour >= Config.WorkEnd && currentHour < Config.GoToSleepHour)
+            {
+                return MealType.Supper;
+            }
+            else
+            {
+                return MealType.Other; // night snack, etc.
+            }
         }
     }
 }

@@ -31,5 +31,11 @@ namespace RealTime.CustomAI
 
         /// <summary>The citizen can search for entertainment nearby only.</summary>
         RelaxNearbyOnly,
+
+        /// <summary>The citizen can go to eat only locally.</summary>
+        LocalMealOnly,
+
+        /// <summary>The citizen will not go  to eat one more time right away.</summary>
+        NoMealAnyMore
     }
 }

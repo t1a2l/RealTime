@@ -22,6 +22,7 @@ namespace RealTime.CustomAI
         private readonly uint[] shoppingChances;
         private readonly uint[] vacationChances;
         private readonly uint[] businessAppointmentChances;
+        private readonly uint[] eatingOutChances;
 
         private float simulationCycle;
 
@@ -44,6 +45,7 @@ namespace RealTime.CustomAI
             continuousNightShiftChances = new uint[agesCount];
             shoppingChances = new uint[agesCount];
             businessAppointmentChances = new uint[agesCount];
+            eatingOutChances = new uint[agesCount];
 
             vacationChances = new uint[Enum.GetValues(typeof(Citizen.Wealth)).Length];
         }
@@ -84,6 +86,7 @@ namespace RealTime.CustomAI
                 CalculateContinuousNightShiftChances(currentHour, isWeekend);
                 CalculateShoppingChance(currentHour);
                 CalculateBusinessAppointmentChance(currentHour);
+                CalculateEatingOutChance(currentHour);
 
                 lastUpdatedMinute = timeInfo.Now.Minute;
             }
@@ -182,6 +185,16 @@ namespace RealTime.CustomAI
         /// <returns>The precise probability (in percent multiplied by 100) for the citizen to go on vacation
         /// on current day.</returns>
         public uint GetPreciseVacationChance(Citizen.Wealth wealth) => vacationChances[(int)wealth];
+
+        /// <summary>
+        /// Gets the probability whether a citizen with specified age would go to eat out on current time.
+        /// </summary>
+        ///
+        /// <param name="citizenAge">The age of the citizen to check.</param>
+        ///
+        /// <returns>A percentage value in range of 0..100 that describes the probability whether
+        /// a citizen with specified age would go to eat out on current time.</returns>
+        public uint GetEatingOutChance(Citizen.AgeGroup citizenAge) => eatingOutChances[(int)citizenAge];
 
         private void CalculateDefaultChances(float currentHour, uint weekdayModifier)
         {
@@ -383,6 +396,34 @@ namespace RealTime.CustomAI
                 Log.Debug(LogCategory.Simulation, $"BusinessAppointment CHANCES for {timeInfo.Now}: child = {businessAppointmentChances[0]}, teen = {businessAppointmentChances[1]}, young = {businessAppointmentChances[2]}, adult = {businessAppointmentChances[3]}, senior = {businessAppointmentChances[4]}");
             }
 #endif
+        }
+
+        private void CalculateEatingOutChance(float currentHour)
+        {
+            float breakfastPeak = config.WakeUpHour + 1.5f;
+            float lunchPeak = (config.WorkBegin + config.WorkEnd) * 0.5f;
+            float supperPeak = Math.Min(config.GoToSleepHour - 2f, config.WorkEnd + 3f);
+
+            float breakfastChance = GetMealChance(currentHour, breakfastPeak, 2.0f, 35f);
+            float lunchChance = GetMealChance(currentHour, lunchPeak, 2.0f, 55f);
+            float supperChance = GetMealChance(currentHour, supperPeak, 3.0f, 75f);
+
+            float chance = Math.Max(breakfastChance, Math.Max(lunchChance, supperChance));
+            uint roundedChance = (uint)Math.Round(FastMath.Clamp(chance, 0f, 100f));
+
+            bool isLateEvening = currentHour >= config.GoToSleepHour - 2f;
+
+            eatingOutChances[(int)Citizen.AgeGroup.Child] = 0u;
+            eatingOutChances[(int)Citizen.AgeGroup.Teen] = 0u;
+            eatingOutChances[(int)Citizen.AgeGroup.Young] = roundedChance;
+            eatingOutChances[(int)Citizen.AgeGroup.Adult] = roundedChance;
+            eatingOutChances[(int)Citizen.AgeGroup.Senior] = isLateEvening ? (uint)Math.Round(roundedChance * 0.5f) : (uint)Math.Round(roundedChance * 0.8f);
+        }
+
+        private static float GetMealChance(float currentHour, float peakHour, float halfWidth, float peakChance)
+        {
+            float distance = Math.Abs(currentHour - peakHour);
+            return distance >= halfWidth ? 0f : peakChance * (1f - distance / halfWidth);
         }
 
         private void CalculateVacationChances()

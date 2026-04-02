@@ -12,7 +12,6 @@ namespace RealTime.Patches
     using ColossalFramework.Threading;
     using ColossalFramework.UI;
     using HarmonyLib;
-    using ICities;
     using RealTime.Config;
     using RealTime.CustomAI;
     using RealTime.Events;
@@ -26,7 +25,6 @@ namespace RealTime.Patches
     using SkyTools.Localization;
     using SkyTools.Tools;
     using UnityEngine;
-    using BuildingType = Managers.CommercialBuildingTypesManager.CommercialBuildingType;
 
     /// <summary>
     /// A static class that provides the patch objects for the world info panel game methods.
@@ -558,7 +556,7 @@ namespace RealTime.Patches
                 }
 
                 // show commercial building type dropdown only for generic commercial buildings that are not hotels
-                if (BuildingManagerConnection.IsGenericCommercialBuilding(building) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(building))
+                if (BuildingManagerConnection.IsAllowedCommercialBuildingType(building) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(building))
                 {
                     m_commercialBuildingTypeDropdown.Show();
                 }
@@ -805,20 +803,20 @@ namespace RealTime.Patches
                 }
             }
 
-            private static BuildingType ConvertIndexToFlags(int index) => index switch
+            private static CommercialBuildingType ConvertIndexToFlags(int index) => index switch
             {
-                0 => BuildingType.Shopping,
-                1 => BuildingType.Entertainment,
-                2 => BuildingType.Food,
+                0 => CommercialBuildingType.Shopping,
+                1 => CommercialBuildingType.Entertainment,
+                2 => CommercialBuildingType.Food,
 
                 // On the fly combination using bitwise OR!
-                3 => BuildingType.Shopping | BuildingType.Entertainment,
-                4 => BuildingType.Shopping | BuildingType.Food,
-                5 => BuildingType.Entertainment | BuildingType.Food,
-                6 => BuildingType.Shopping | BuildingType.Entertainment | BuildingType.Food,
+                3 => CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment,
+                4 => CommercialBuildingType.Shopping | CommercialBuildingType.Food,
+                5 => CommercialBuildingType.Entertainment | CommercialBuildingType.Food,
+                6 => CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food,
 
                 // Fallback safety
-                _ => BuildingType.Shopping
+                _ => CommercialBuildingType.Shopping
             };
         }
 
@@ -853,7 +851,7 @@ namespace RealTime.Patches
                 }
 
                 // show commercial building type dropdown only for generic commercial buildings that are not hotels
-                if (BuildingManagerConnection.IsGenericCommercialBuilding(building) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(building))
+                if (BuildingManagerConnection.IsAllowedCommercialBuildingType(building) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(building))
                 {
                     m_commercialBuildingTypeDropdown.Show();
                 }
@@ -951,20 +949,20 @@ namespace RealTime.Patches
                 }
             }
 
-            private static BuildingType ConvertIndexToFlags(int index) => index switch
+            private static CommercialBuildingType ConvertIndexToFlags(int index) => index switch
             {
-                0 => BuildingType.Shopping,
-                1 => BuildingType.Entertainment,
-                2 => BuildingType.Food,
+                0 => CommercialBuildingType.Shopping,
+                1 => CommercialBuildingType.Entertainment,
+                2 => CommercialBuildingType.Food,
 
                 // On the fly combination using bitwise OR!
-                3 => BuildingType.Shopping | BuildingType.Entertainment,
-                4 => BuildingType.Shopping | BuildingType.Food,
-                5 => BuildingType.Entertainment | BuildingType.Food,
-                6 => BuildingType.Shopping | BuildingType.Entertainment | BuildingType.Food,
+                3 => CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment,
+                4 => CommercialBuildingType.Shopping | CommercialBuildingType.Food,
+                5 => CommercialBuildingType.Entertainment | CommercialBuildingType.Food,
+                6 => CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food,
 
                 // Fallback safety
-                _ => BuildingType.Shopping
+                _ => CommercialBuildingType.Shopping
             };
         }
 

@@ -3,6 +3,7 @@
 namespace RealTime.Serializer
 {
     using System;
+    using RealTime.CustomAI;
     using RealTime.Managers;
     using UnityEngine;
 
@@ -55,7 +56,7 @@ namespace RealTime.Serializer
 
                     ushort BuildingId = StorageData.ReadUInt16(Data, ref iIndex);
 
-                    var type = (CommercialBuildingTypesManager.CommercialBuildingType)StorageData.ReadByte(Data, ref iIndex);
+                    var type = (CommercialBuildingType)StorageData.ReadByte(Data, ref iIndex);
 
                     CommercialBuildingTypesManager.CommercialBuildingTypes.Add(BuildingId, type);
 

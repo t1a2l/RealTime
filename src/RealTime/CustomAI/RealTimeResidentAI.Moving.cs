@@ -105,7 +105,7 @@ namespace RealTime.CustomAI
             return true;
         }
 
-        private ushort MoveToCommercialBuilding(TAI instance, uint citizenId, ref TCitizen citizen, float distance, bool isShopping)
+        private ushort MoveToCommercialBuilding(TAI instance, uint citizenId, ref TCitizen citizen, float distance, CommercialBuildingType buildingType)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             if (currentBuilding == 0)
@@ -113,7 +113,7 @@ namespace RealTime.CustomAI
                 return 0;
             }
 
-            ushort foundBuilding = buildingAI.FindActiveBuilding(currentBuilding, distance, ItemClass.Service.Commercial, ItemClass.SubService.None, isShopping);
+            ushort foundBuilding = buildingAI.FindActiveBuilding(currentBuilding, distance, ItemClass.Service.Commercial, ItemClass.SubService.None, buildingType);
             if (foundBuilding == 0)
             {
                 Log.Debug(LogCategory.Movement, $"Citizen {citizenId} didn't find any visitable commercial buildings nearby");
@@ -159,7 +159,8 @@ namespace RealTime.CustomAI
                 currentBuilding,
                 LeisureSearchDistance,
                 ItemClass.Service.Commercial,
-                ItemClass.SubService.CommercialLeisure);
+                ItemClass.SubService.CommercialLeisure,
+                CommercialBuildingType.Entertainment);
 
             return StartMovingToVisitBuilding(instance, citizenId, ref citizen, leisureBuilding)
                 ? leisureBuilding

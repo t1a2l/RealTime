@@ -48,9 +48,16 @@ namespace RealTime.Patches.BuildingAIPatches
                     UpdateBuildingSettings.SetBuildingToGlobal(buildingID, buildignGlobal);
                 }
             }
-            if (BuildingManagerConnection.IsGenericCommercialBuilding(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
+            if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
             {
-                CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingTypesManager.CommercialBuildingType.All);
+                if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
+                {
+                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
+                }
+                else
+                {
+                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
+                }
             }
             if (BuildingManagerConnection.IsHotel(buildingID))
             {
@@ -100,9 +107,16 @@ namespace RealTime.Patches.BuildingAIPatches
                     UpdateBuildingSettings.SetBuildingToGlobal(buildingID, buildignGlobal);
                 }
             }
-            if (BuildingManagerConnection.IsGenericCommercialBuilding(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
+            if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
             {
-                CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingTypesManager.CommercialBuildingType.All);
+                if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
+                {
+                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
+                }
+                else
+                {
+                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
+                }
             }
             if (BuildingManagerConnection.IsHotel(buildingID))
             {

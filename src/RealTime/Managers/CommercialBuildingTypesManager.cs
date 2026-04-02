@@ -1,20 +1,11 @@
 namespace RealTime.Managers
 {
-    using System;
     using System.Collections.Generic;
+    using RealTime.CustomAI;
 
     internal static class CommercialBuildingTypesManager
     {
         internal static Dictionary<ushort, CommercialBuildingType> CommercialBuildingTypes;
-
-        [Flags]
-        internal enum CommercialBuildingType
-        {
-            None = 0,            // 0000
-            Shopping = 1 << 0,     // 0001 (1)
-            Entertainment = 1 << 1,// 0010 (2)
-            Food = 1 << 2,          // 0100 (4)
-        }
 
         internal static void Init() => CommercialBuildingTypes ??= [];
 
@@ -22,7 +13,7 @@ namespace RealTime.Managers
 
         internal static bool CommercialBuildingTypeExist(ushort buildingID) => CommercialBuildingTypes.ContainsKey(buildingID);
 
-        internal static CommercialBuildingType GetCommercialBuildingType(ushort buildingID) => !CommercialBuildingTypes.TryGetValue(buildingID, out var burnTime) ? default : burnTime;
+        internal static CommercialBuildingType GetCommercialBuildingType(ushort buildingID) => !CommercialBuildingTypes.TryGetValue(buildingID, out var commercialBuildingType) ? default : commercialBuildingType;
 
         internal static void CreateCommercialBuildingType(ushort buildingID, CommercialBuildingType type)
         {

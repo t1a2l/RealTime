@@ -26,8 +26,7 @@ namespace RealTime.Patches
     using SkyTools.Localization;
     using SkyTools.Tools;
     using UnityEngine;
-    using static ColossalFramework.DataBinding.BindPropertyByKey;
-    using BuildingType = RealTime.Managers.CommercialBuildingTypesManager.CommercialBuildingType;
+    using BuildingType = Managers.CommercialBuildingTypesManager.CommercialBuildingType;
 
     /// <summary>
     /// A static class that provides the patch objects for the world info panel game methods.

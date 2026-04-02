@@ -95,10 +95,10 @@ namespace RealTime.CustomAI
             var preallocated = Enumerable.Range(0, MaximumBuildingsInConstruction * 2).Select(v => (ushort)v).ToList();
             buildingsInConstruction =
             [
-                new HashSet<ushort>(preallocated),
-                new HashSet<ushort>(preallocated),
-                new HashSet<ushort>(preallocated),
-                new HashSet<ushort>(preallocated),
+                [.. preallocated],
+                [.. preallocated],
+                [.. preallocated],
+                [.. preallocated],
             ];
 
             for (int i = 0; i < buildingsInConstruction.Length; ++i)
@@ -1404,14 +1404,14 @@ namespace RealTime.CustomAI
         /// <param name="maxDistance">The maximum distance for search, the search area radius.</param>
         /// <param name="service">The building service type to find.</param>
         /// <param name="subService">The building sub-service type to find.</param>
-        /// <param name="isShopping">The building sub-service includes leisure if true.</param>
+        /// <param name="buildingType">The commercial building type the citizen is going to visit.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
         public ushort FindActiveBuilding(
             ushort searchAreaCenterBuilding,
             float maxDistance,
             ItemClass.Service service,
             ItemClass.SubService subService = ItemClass.SubService.None,
-            bool isShopping = true)
+            CommercialBuildingType buildingType = CommercialBuildingType.None)
         {
             if (searchAreaCenterBuilding == 0)
             {
@@ -1419,7 +1419,7 @@ namespace RealTime.CustomAI
             }
 
             var currentPosition = BuildingManager.instance.m_buildings.m_buffer[searchAreaCenterBuilding].m_position;
-            return FindActiveBuilding(currentPosition, maxDistance, service, subService, isShopping, searchAreaCenterBuilding);
+            return FindActiveBuilding(currentPosition, maxDistance, service, subService, searchAreaCenterBuilding, buildingType);
         }
 
         /// <summary>Finds an active building that matches the specified criteria and can accept visitors.</summary>
@@ -1427,16 +1427,16 @@ namespace RealTime.CustomAI
         /// <param name="maxDistance">The maximum distance for search, the search area radius.</param>
         /// <param name="service">The building service type to find.</param>
         /// <param name="subService">The building sub-service type to find.</param>
-        /// <param name="isShopping">The building sub-service includes leisure if true.</param>
         /// <param name="currentBuilding">The current building the citizen is in.</param>
+        /// <param name="buildingType">The commercial building type the citizen is going to visit.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
         public ushort FindActiveBuilding(
             Vector3 position,
             float maxDistance,
             ItemClass.Service service,
             ItemClass.SubService subService = ItemClass.SubService.None,
-            bool isShopping = true,
-            ushort currentBuilding = 0)
+            ushort currentBuilding = 0,
+            CommercialBuildingType buildingType = CommercialBuildingType.None)
         {
             if (position == Vector3.zero)
             {
@@ -1477,38 +1477,43 @@ namespace RealTime.CustomAI
 
                             if (buildingService == service && (subService == ItemClass.SubService.None || buildingSubService == subService))
                             {
-                                // Check shopping/leisure restriction
-                                bool notAllowed = !isShopping && buildingService == ItemClass.Service.Commercial && buildingSubService == ItemClass.SubService.CommercialLeisure;
-
-                                if (!notAllowed)
+                                if (IsBuildingWorking(buildingId, 0, currentBuilding))
                                 {
-                                    if (IsBuildingWorking(buildingId, 0, currentBuilding))
+                                    float sqrDistance = Vector3.SqrMagnitude(position - building.m_position);
+                                    if (sqrDistance < sqrMaxDistance)
                                     {
-                                        float sqrDistance = Vector3.SqrMagnitude(position - building.m_position);
-                                        if (sqrDistance < sqrMaxDistance)
+                                        if (BuildingManagerConnection.BuildingCanBeVisited(buildingId))
                                         {
-                                            if (BuildingManagerConnection.BuildingCanBeVisited(buildingId))
+                                            if(CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
                                             {
-                                                return buildingId;
+                                                var currentBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
+                                                if ((currentBuildingType & buildingType) == buildingType)
+                                                {
+                                                    return buildingId;
+                                                }
+                                                else
+                                                {
+                                                    Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Commercial building {buildingId} rejected: Wrong commercial building type ({currentBuildingType}).");
+                                                }
                                             }
                                             else
                                             {
-                                                Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: Full capacity.");
-                                            }
+                                                return buildingId;
+                                            }  
                                         }
                                         else
                                         {
-                                            Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: Too far ({Mathf.Sqrt(sqrDistance)}m).");
+                                            Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: Full capacity.");
                                         }
                                     }
                                     else
                                     {
-                                        Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: Not working.");
+                                        Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: Too far ({Mathf.Sqrt(sqrDistance)}m).");
                                     }
                                 }
                                 else
                                 {
-                                    Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: Leisure restriction.");
+                                    Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: Not working.");
                                 }
                             }
                         }

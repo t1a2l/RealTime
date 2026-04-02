@@ -367,7 +367,6 @@ namespace RealTime.GameConnection
         /// <returns>
         ///   <c>true</c> if the building with the specified ID is a real unique building; otherwise, <c>false</c>.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("General", "RCS1130", Justification = "The EventType enum has no [Flags] attribute but has values of power of 2")]
         public bool IsRealUniqueBuilding(ushort buildingId)
         {
             if (buildingId == 0)
@@ -470,23 +469,18 @@ namespace RealTime.GameConnection
         }
 
         /// <summary>
-        /// Determines whether the building with specified ID is a generic commercial building or not.
+        /// Determines whether the building with specified ID is a none tourist commercial building or not.
         /// </summary>
         /// <param name="buildingId">The building ID to check.</param>
         /// <returns>
-        ///   <c>true</c> if the building is a generic commercial building;
+        ///   <c>true</c> if the building is a none tourist commercial building;
         ///   otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsGenericCommercialBuilding(ushort buildingId)
+        public static bool IsAllowedCommercialBuildingType(ushort buildingId)
         {
             var building = BuildingManager.instance.m_buildings.m_buffer[buildingId];
 
             if (building.Info.m_class.m_service == ItemClass.Service.Commercial && building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
-            {
-                return false;
-            }
-
-            if (building.Info.m_class.m_service == ItemClass.Service.Commercial && building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
             {
                 return false;
             }

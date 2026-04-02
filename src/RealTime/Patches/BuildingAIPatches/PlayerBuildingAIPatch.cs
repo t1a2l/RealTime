@@ -53,9 +53,16 @@ namespace RealTime.Patches.BuildingAIPatches
                 AcademicYearManager.CreateAcademicYearData(buildingID);
             }
 
-            if (BuildingManagerConnection.IsGenericCommercialBuilding(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
+            if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
             {
-                CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingTypesManager.CommercialBuildingType.All);
+                if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
+                {
+                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
+                }
+                else
+                {
+                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
+                }
             }
         }
 
@@ -90,9 +97,16 @@ namespace RealTime.Patches.BuildingAIPatches
                 AcademicYearManager.CreateAcademicYearDataExistingCampus(buildingID);
             }
 
-            if (BuildingManagerConnection.IsGenericCommercialBuilding(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
+            if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
             {
-                CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingTypesManager.CommercialBuildingType.All);
+                if(data.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
+                {
+                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
+                }
+                else
+                {
+                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
+                } 
             }
         }
 

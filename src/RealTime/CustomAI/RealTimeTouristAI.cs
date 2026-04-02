@@ -326,7 +326,8 @@ namespace RealTime.CustomAI
                         currentBuilding,
                         LeisureSearchDistance,
                         ItemClass.Service.Commercial,
-                        ItemClass.SubService.CommercialLeisure);
+                        ItemClass.SubService.CommercialLeisure,
+                        CommercialBuildingType.Entertainment);
                     if (leisureBuilding == 0)
                     {
                         goto case TouristTarget.Hotel;

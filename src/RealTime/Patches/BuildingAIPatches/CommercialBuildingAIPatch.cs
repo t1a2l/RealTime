@@ -12,7 +12,6 @@ namespace RealTime.Patches.BuildingAIPatches
     using RealTime.CustomAI;
     using RealTime.GameConnection;
     using RealTime.Managers;
-    using BuildingType = Managers.CommercialBuildingTypesManager.CommercialBuildingType;
 
     [HarmonyPatch]
     internal static class CommercialBuildingAIPatch
@@ -131,7 +130,7 @@ namespace RealTime.Patches.BuildingAIPatches
         [HarmonyPrefix]
         public static bool GetOutgoingTransferReason(CommercialBuildingAI __instance, ushort buildingID, ref TransferManager.TransferReason __result)
         {
-            if (BuildingManagerConnection.IsGenericCommercialBuilding(buildingID) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
+            if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
             {
                 int num = 0;
                 if (__instance.m_info.m_class.isCommercialLowGeneric)
@@ -149,7 +148,7 @@ namespace RealTime.Patches.BuildingAIPatches
 
                 var commercialBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingID);
 
-                if (commercialBuildingType.IsFlagSet(BuildingType.Entertainment) && !commercialBuildingType.IsFlagSet(BuildingType.Shopping))
+                if (commercialBuildingType.IsFlagSet(CommercialBuildingType.Entertainment) && !commercialBuildingType.IsFlagSet(CommercialBuildingType.Shopping))
                 {
                     var randomizer = new Randomizer(buildingID);
                     __result = randomizer.Int32(4u) switch
@@ -161,7 +160,7 @@ namespace RealTime.Patches.BuildingAIPatches
                         _ => TransferManager.TransferReason.Entertainment,
                     };
                 }
-                else if (commercialBuildingType.IsFlagSet(BuildingType.Shopping) && !commercialBuildingType.IsFlagSet(BuildingType.Entertainment))
+                else if (commercialBuildingType.IsFlagSet(CommercialBuildingType.Shopping) && !commercialBuildingType.IsFlagSet(CommercialBuildingType.Entertainment))
                 {
                     var randomizer = new Randomizer(buildingID);
                     __result = randomizer.Int32(8u) switch
@@ -177,7 +176,7 @@ namespace RealTime.Patches.BuildingAIPatches
                         _ => TransferManager.TransferReason.Shopping,
                     };
                 }
-                if (commercialBuildingType.IsFlagSet(BuildingType.Shopping | BuildingType.Entertainment))
+                if (commercialBuildingType.IsFlagSet(CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment))
                 {
                     var randomizer = new Randomizer(buildingID);
                     if (randomizer.Int32(100u) < num)

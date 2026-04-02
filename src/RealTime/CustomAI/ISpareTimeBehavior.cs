@@ -57,13 +57,13 @@ namespace RealTime.CustomAI
         internal int SetDummyTrafficProbability(int probability);
 
         /// <summary>
-        /// Gets the probability whether a citizen with specified age would go to eat outside on current time.
+        /// Gets the probability whether a citizen with specified age would go to eat out on current time.
         /// </summary>
         ///
         /// <param name="citizenAge">The age of the citizen to check.</param>
         ///
         /// <returns>A percentage value in range of 0..100 that describes the probability whether
-        /// a citizen with specified age would go to eat outside on current time.</returns>
-        internal uint GetEatingOutsideChance(Citizen.AgeGroup citizenAge);
+        /// a citizen with specified age would go to eat out on current time.</returns>
+        internal uint GetEatingOutChance(Citizen.AgeGroup citizenAge);
     }
 }

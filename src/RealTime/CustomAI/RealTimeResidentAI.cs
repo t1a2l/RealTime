@@ -149,13 +149,14 @@ namespace RealTime.CustomAI
             switch (CitizenMgr.GetCitizenLocation(citizenId))
             {
                 case Citizen.Location.Work:
-                    schedule.UpdateTravelTimeToWork(TimeInfo.Now);
                     if(schedule.SchoolBuilding != 0)
                     {
-                        Log.Debug(LogCategory.Movement, $"The citizen {citizenId} arrived at school at {TimeInfo.Now} and needs {schedule.TravelTimeToWork} hours to get to school");
+                        schedule.UpdateTravelTimeToSchool(TimeInfo.Now);
+                        Log.Debug(LogCategory.Movement, $"The citizen {citizenId} arrived at school at {TimeInfo.Now} and needs {schedule.TravelTimeToSchool} hours to get to school");
                     }
                     else
                     {
+                        schedule.UpdateTravelTimeToWork(TimeInfo.Now);
                         Log.Debug(LogCategory.Movement, $"The citizen {citizenId} arrived at work at {TimeInfo.Now} and needs {schedule.TravelTimeToWork} hours to get to work");
                     }
                     break;
@@ -301,6 +302,13 @@ namespace RealTime.CustomAI
             return serviceFactory(residentSchedules);
         }
 
+        /// <summary>Apply loadedSchedules to the residentSchedules array.</summary>
+        public void ApplyLoadedSchedules(CitizenSchedule[] loadedSchedules)
+        {
+            int count = Math.Min(loadedSchedules.Length, residentSchedules.Length);
+            Array.Copy(loadedSchedules, residentSchedules, count);
+        }
+
         /// <summary>Gets the citizen schedule. Note that the method returns the reference
         /// and thus doesn't prevent changing the schedule.</summary>
         /// <param name="citizenId">The ID of the citizen to get the schedule for.</param>
@@ -331,7 +339,7 @@ namespace RealTime.CustomAI
             schedule.CurrentState = ResidentState.Unknown;
             schedule.UpdateWorkShift(WorkShift.Unemployed, 0, 0, worksOnWeekends: false);
             schedule.UpdateSchoolClass(SchoolClass.NoSchool, 0, 0);
-            schedule.UpdateTravelTimeToWork(default);
+            schedule.UpdateTravelTimeToWork((DateTime)default);
             schedule.WorkBuilding = 0;
             schedule.SchoolBuilding = 0;
             schedule.WorkStatus = 0;

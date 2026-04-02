@@ -185,10 +185,18 @@ namespace RealTime.Config
         public uint LunchQuota { get; set; }
 
         /// <summary>
-        /// Gets or sets the percentage of the population that will search locally for buildings.
+        /// Gets or sets the percentage of the Cims that will go out for supper.
         /// Valid values are 0..100.
         /// </summary>
         [ConfigItem("2Quotas", 5)]
+        [ConfigItemSlider(0, 100)]
+        public uint SupperQuota { get; set; }
+
+        /// <summary>
+        /// Gets or sets the percentage of the population that will search locally for buildings.
+        /// Valid values are 0..100.
+        /// </summary>
+        [ConfigItem("2Quotas", 6)]
         [ConfigItemSlider(0, 100)]
         public uint LocalBuildingSearchQuota { get; set; }
 
@@ -196,7 +204,7 @@ namespace RealTime.Config
         /// Gets or sets the percentage of the Cims that will go shopping just for fun without needing to buy something.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 6)]
+        [ConfigItem("2Quotas", 7)]
         [ConfigItemSlider(0, 50)]
         public uint ShoppingForFunQuota { get; set; }
 
@@ -205,7 +213,7 @@ namespace RealTime.Config
         /// on time (no overtime!).
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 7)]
+        [ConfigItem("2Quotas", 8)]
         [ConfigItemSlider(0, 100)]
         public uint OnTimeQuota { get; set; }
 
@@ -214,7 +222,7 @@ namespace RealTime.Config
         /// on time (no overtime!).
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 8)]
+        [ConfigItem("2Quotas", 9)]
         [ConfigItemSlider(0, 100)]
         public uint OpenLowCommercialAtNightQuota { get; set; }
 
@@ -222,7 +230,7 @@ namespace RealTime.Config
         /// Gets or sets the percentage of commercial buildings that stay open at weekends
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 9)]
+        [ConfigItem("2Quotas", 10)]
         [ConfigItemSlider(0, 100)]
         public uint OpenCommercialSecondShiftQuota { get; set; }
 
@@ -230,7 +238,7 @@ namespace RealTime.Config
         /// Gets or sets the percentage of commercial buildings that stay open at weekends
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 10)]
+        [ConfigItem("2Quotas", 11)]
         [ConfigItemSlider(0, 100)]
         public uint OpenCommercialAtWeekendsQuota { get; set; }
 
@@ -238,7 +246,7 @@ namespace RealTime.Config
         /// Gets or sets the percentage of the Cims that will go to night class.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 11)]
+        [ConfigItem("2Quotas", 12)]
         [ConfigItemSlider(0, 100)]
         public uint NightClassQuota { get; set; }
 
@@ -306,7 +314,7 @@ namespace RealTime.Config
         public float WorkEnd { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether Cims should go out at the morning for food.
+        /// Gets or sets a value indicating whether Cims should go out at morning for food.
         /// </summary>
         [ConfigItem("4Time", 4)]
         [ConfigItemCheckBox]
@@ -320,16 +328,23 @@ namespace RealTime.Config
         public bool IsLunchTimeEnabled { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the Cims go out for lunch.
+        /// Gets or sets a value indicating whether Cims should go out at evening for food.
         /// </summary>
         [ConfigItem("4Time", 6)]
+        [ConfigItemCheckBox]
+        public bool IsSupperTimeEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the Cims go out for lunch.
+        /// </summary>
+        [ConfigItem("4Time", 7)]
         [ConfigItemSlider(11, 13, 0.25f, ValueType = SliderValueType.Time)]
         public float LunchBegin { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the Cims return from lunch back to work.
         /// </summary>
-        [ConfigItem("4Time", 7)]
+        [ConfigItem("4Time", 8)]
         [ConfigItemSlider(13, 15, 0.25f, ValueType = SliderValueType.Time)]
         public float LunchEnd { get; set; }
 
@@ -338,42 +353,42 @@ namespace RealTime.Config
         /// amount of hours. This applies only for those Cims that are not on time, see <see cref="OnTimeQuota"/>.
         /// The young Cims (school and university) don't do overtime.
         /// </summary>
-        [ConfigItem("4Time", 8)]
+        [ConfigItem("4Time", 9)]
         [ConfigItemSlider(0, 4, 0.25f, ValueType = SliderValueType.Duration)]
         public float MaxOvertime { get; set; }
 
         /// <summary>
         /// Gets or sets the school start daytime hour. The young Cims must be at school or university.
         /// </summary>
-        [ConfigItem("4Time", 9)]
+        [ConfigItem("4Time", 10)]
         [ConfigItemSlider(4, 10, 0.25f, ValueType = SliderValueType.Time)]
         public float SchoolBegin { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the young Cims return from school or university.
         /// </summary>
-        [ConfigItem("4Time", 10)]
+        [ConfigItem("4Time", 11)]
         [ConfigItemSlider(11, 16, 0.25f, ValueType = SliderValueType.Time)]
         public float SchoolEnd { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum vacation length in days.
         /// </summary>
-        [ConfigItem("4Time", 11)]
+        [ConfigItem("4Time", 12)]
         [ConfigItemSlider(0, 7, ValueType = SliderValueType.Default)]
         public uint MaxVacationLength { get; set; }
 
         /// <summary>
         /// Gets or sets the length of the academic year in hours.
         /// </summary>
-        [ConfigItem("4Time", 12)]
+        [ConfigItem("4Time", 13)]
         [ConfigItemSlider(1f, 30f, 1f, ValueType = SliderValueType.Default)]
         public float AcademicYearLength { get; set; }
 
         /// <summary>
         /// Gets or sets the length of a Toga party in hours.
         /// </summary>
-        [ConfigItem("4Time", 13)]
+        [ConfigItem("4Time", 14)]
         [ConfigItemSlider(4f, 24f, 1f, ValueType = SliderValueType.Default)]
         public float TogaPartyLength { get; set; }
 
@@ -668,6 +683,7 @@ namespace RealTime.Config
 
             BreakfastQuota = FastMath.Clamp(BreakfastQuota, 0u, 100u);
             LunchQuota = FastMath.Clamp(LunchQuota, 0u, 100u);
+            SupperQuota = FastMath.Clamp(SupperQuota, 0u, 100u);
             LocalBuildingSearchQuota = FastMath.Clamp(LocalBuildingSearchQuota, 0u, 100u);
             ShoppingForFunQuota = FastMath.Clamp(ShoppingForFunQuota, 0u, 50u);
             OnTimeQuota = FastMath.Clamp(OnTimeQuota, 0u, 100u);
@@ -767,6 +783,7 @@ namespace RealTime.Config
             IsWeekendEnabled = true;
             IsBreakfastTimeEnabled = true;
             IsLunchTimeEnabled = true;
+            IsSupperTimeEnabled = false;
 
             StopConstructionAtNight = true;
             ConstructionSpeed = 50;
@@ -786,6 +803,7 @@ namespace RealTime.Config
 
             BreakfastQuota = 20;
             LunchQuota = 80;
+            SupperQuota = 20;
             LocalBuildingSearchQuota = 60;
             ShoppingForFunQuota = 30;
             OnTimeQuota = 80;

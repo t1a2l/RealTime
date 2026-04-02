@@ -23,7 +23,7 @@ namespace RealTime.GameConnection
                 return 0;
             }
 
-            ref CitizenInstance instance = ref CitizenManager.instance.m_instances.m_buffer[instanceId];
+            ref var instance = ref CitizenManager.instance.m_instances.m_buffer[instanceId];
             return (instance.m_flags & CitizenInstance.Flags.TargetIsNode) == 0
                 ? instance.m_targetBuilding
                 : (ushort)0;
@@ -39,7 +39,7 @@ namespace RealTime.GameConnection
                 return 0;
             }
 
-            ref CitizenInstance instance = ref CitizenManager.instance.m_instances.m_buffer[instanceId];
+            ref var instance = ref CitizenManager.instance.m_instances.m_buffer[instanceId];
             return (instance.m_flags & CitizenInstance.Flags.TargetIsNode) == 0
                 ? (ushort)0
                 : instance.m_targetBuilding;
@@ -184,7 +184,7 @@ namespace RealTime.GameConnection
                 targetBuffer[i] = 0;
             }
 
-            ref Citizen citizen = ref CitizenManager.instance.m_citizens.m_buffer[citizenId];
+            ref var citizen = ref CitizenManager.instance.m_citizens.m_buffer[citizenId];
             if (citizen.m_homeBuilding == 0)
             {
                 return false;
@@ -196,7 +196,7 @@ namespace RealTime.GameConnection
                 return false;
             }
 
-            ref CitizenUnit unit = ref CitizenManager.instance.m_units.m_buffer[unitId];
+            ref var unit = ref CitizenManager.instance.m_units.m_buffer[unitId];
             int currentMember = -1;
             if (unit.m_citizen0 != 0 && unit.m_citizen0 != citizenId)
             {
@@ -240,7 +240,7 @@ namespace RealTime.GameConnection
                 return;
             }
 
-            ref CitizenInstance instance = ref CitizenManager.instance.m_instances.m_buffer[instanceId];
+            ref var instance = ref CitizenManager.instance.m_instances.m_buffer[instanceId];
             if (instance.m_path != 0)
             {
                 PathManager.instance.ReleasePath(instance.m_path);

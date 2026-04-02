@@ -11,6 +11,6 @@ namespace RealTime.CustomAI
         /// <param name="building1">The ID of the first building.</param>
         /// <param name="building2">The ID of the second building.</param>
         /// <returns>An estimated travel time in hours.</returns>
-        float GetEstimatedTravelTime(ushort building1, ushort building2);
+        internal float GetEstimatedTravelTime(ushort building1, ushort building2);
     }
 }

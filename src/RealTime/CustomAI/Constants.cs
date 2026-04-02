@@ -23,7 +23,7 @@ namespace RealTime.CustomAI
         /// <summary>A chance in percent that a citizen going on vacation will cause his/her family members to go on vacation too.</summary>
         public const uint FamilyVacationChance = 30u;
 
-        /// <summary>A chance in percent for a citizen to fin dome other facility if they continue shopping/relaxing.</summary>
+        /// <summary>A chance in percent for a citizen to findsome other facility if they continue shopping/relaxing.</summary>
         public const uint FindAnotherShopOrEntertainmentChance = 50u;
 
         /// <summary>A chance in percent for a citizen to go shopping in the night.</summary>

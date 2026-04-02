@@ -375,16 +375,16 @@ namespace RealTime.UI
                             {
                                 schedule.CurrentState = ResidentState.Relaxing;
                             }
-                            else if (schedule.LastScheduledState == ResidentState.GoToBreakfast)
+                            else if (schedule.LastScheduledState == ResidentState.GoToMeal)
                             {
-                                schedule.CurrentState = ResidentState.Breakfast;
+                                schedule.CurrentState = ResidentState.EatMeal;
                             }
                             return;
 
                         case ItemClass.Service.Commercial:
-                            if (schedule.WorkStatus == WorkStatus.Working && schedule.LastScheduledState == ResidentState.GoToLunch)
+                            if (schedule.WorkStatus == WorkStatus.Working && schedule.LastScheduledState == ResidentState.GoToMeal)
                             {
-                                schedule.CurrentState = ResidentState.Lunch;
+                                schedule.CurrentState = ResidentState.EatMeal;
                             }
                             else
                             {
@@ -392,9 +392,9 @@ namespace RealTime.UI
                                 {
                                     schedule.CurrentState = ResidentState.Shopping;
                                 }
-                                else if (schedule.LastScheduledState == ResidentState.GoToBreakfast)
+                                else if (schedule.LastScheduledState == ResidentState.GoToMeal)
                                 {
-                                    schedule.CurrentState = ResidentState.Breakfast;
+                                    schedule.CurrentState = ResidentState.EatMeal;
                                 }
                             }
                             return;

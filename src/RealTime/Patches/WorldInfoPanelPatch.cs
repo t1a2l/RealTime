@@ -523,17 +523,20 @@ namespace RealTime.Patches
 
             private static UIButton m_endYearButton;
 
-            private static UIButton m_openUserEventCreationPanelButton;
+            // private static UIButton m_openUserEventCreationPanelButton;
 
-            private static UserEventCreationPanel userEventCreationPanel;
+            // private static UserEventCreationPanel userEventCreationPanel;
 
             private static UIDropDown m_commercialBuildingTypeDropdown;
+
+            private static bool s_updatingDropdown;
 
             [HarmonyPatch(typeof(CityServiceWorldInfoPanel), "OnSetTarget")]
             [HarmonyPostfix]
             public static void OnSetTarget()
             {
-                if (s_visitorsLabel == null || m_endYearButton == null || m_openUserEventCreationPanelButton == null || userEventCreationPanel == null || m_commercialBuildingTypeDropdown == null)
+                // userEventCreationPanel == null || m_openUserEventCreationPanelButton == null
+                if (s_visitorsLabel == null || m_endYearButton == null || m_commercialBuildingTypeDropdown == null)
                 {
                     CreateUI();
                 }
@@ -542,18 +545,18 @@ namespace RealTime.Patches
                 ushort building = WorldInfoPanel.GetCurrentInstanceID().Building;
 
                 // Local references.
-                var buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
-                var buildingData = buildingBuffer[building];
-                var buildingInfo = buildingData.Info;
+                // var buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
+                // var buildingData = buildingBuffer[building];
+                // var buildingInfo = buildingData.Info;
 
-                if (CityEventsLoader.Instance.GetEventTemplates(buildingInfo.name).Count > 0)
-                {
-                    m_openUserEventCreationPanelButton.Show();
-                }
-                else
-                {
-                    m_openUserEventCreationPanelButton.Hide();
-                }
+                //if (CityEventsLoader.Instance.GetEventTemplates(buildingInfo.name).Count > 0)
+                //{
+                //    m_openUserEventCreationPanelButton.Show();
+                //}
+                //else
+                //{
+                //    m_openUserEventCreationPanelButton.Hide();
+                //}
 
                 // show commercial building type dropdown only for generic commercial buildings that are not hotels
                 if (BuildingManagerConnection.IsAllowedCommercialBuildingType(building) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(building))
@@ -564,6 +567,8 @@ namespace RealTime.Patches
                 {
                     m_commercialBuildingTypeDropdown.Hide();
                 }
+
+                CommercialBuildingTypesManager.CommercialBuildingTypeDropdownVisibility(building, ref m_commercialBuildingTypeDropdown, ref s_updatingDropdown);
             }
 
             [HarmonyPatch(typeof(CityServiceWorldInfoPanel), "UpdateBindings")]
@@ -649,10 +654,10 @@ namespace RealTime.Patches
                     return;
                 }
 
-                if (userEventCreationPanel == null)
-                {
-                    userEventCreationPanel = m_cityServiceWorldInfoPanel.component.AddUIComponent<UserEventCreationPanel>();
-                }
+                //if (userEventCreationPanel == null)
+                //{
+                //    userEventCreationPanel = m_cityServiceWorldInfoPanel.component.AddUIComponent<UserEventCreationPanel>();
+                //}
 
                 if (s_visitorsLabel == null)
                 {
@@ -680,46 +685,34 @@ namespace RealTime.Patches
                     m_endYearButton.hoveredTextColor = new Color32(255, 255, 255, 255);
                     m_endYearButton.focusedTextColor = new Color32(255, 255, 255, 255);
                     m_endYearButton.eventClicked += EndAcademicYear;
-
                 }
 
-                if(m_openUserEventCreationPanelButton == null)
+                CommercialBuildingTypesManager.CreateUI(buttonPanels, ref m_commercialBuildingTypeDropdown, 220f, 5f);
+                m_commercialBuildingTypeDropdown.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
                 {
-                    string eventButtonText = localizationProvider.Translate(TranslationKeys.VanillaEventSelectEventButton);
-                    string eventButtonTooltipText = localizationProvider.Translate(TranslationKeys.VanillaEventSelectEventButtonTooltip);
-                    m_openUserEventCreationPanelButton = UIButtons.CreateButton(buttonPanels, 133f, 19.5f, "OpenUserEventCreationPanelButton", eventButtonText, eventButtonTooltipText, 100f, 20f);
-                    m_openUserEventCreationPanelButton.textVerticalAlignment = UIVerticalAlignment.Top;
-                    m_openUserEventCreationPanelButton.relativePosition = new Vector2(150f, 22.5f);
-                    m_openUserEventCreationPanelButton.textScale = 0.75f;
-                    m_openUserEventCreationPanelButton.normalBgSprite = "ButtonMenu";
-                    m_openUserEventCreationPanelButton.disabledBgSprite = "ButtonMenuDisabled";
-                    m_openUserEventCreationPanelButton.pressedBgSprite = "ButtonMenuPressed";
-                    m_openUserEventCreationPanelButton.hoveredBgSprite = "ButtonMenuHovered";
-                    m_openUserEventCreationPanelButton.textColor = new Color32(255, 255, 255, 255);
-                    m_openUserEventCreationPanelButton.disabledTextColor = new Color32(142, 142, 142, 255);
-                    m_openUserEventCreationPanelButton.pressedTextColor = new Color32(255, 255, 255, 255);
-                    m_openUserEventCreationPanelButton.hoveredTextColor = new Color32(255, 255, 255, 255);
-                    m_openUserEventCreationPanelButton.focusedTextColor = new Color32(255, 255, 255, 255);
-                    m_openUserEventCreationPanelButton.eventClicked += OnOpenUserEventCreationPanelButtonClicked;
-                }
+                    ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
+                    CommercialBuildingTypesManager.OnCommercialBuildingTypeDropdownIndexChanged(value, buildingID, s_updatingDropdown);
+                };
 
-                if(m_commercialBuildingTypeDropdown == null)
-                {
-                    m_commercialBuildingTypeDropdown = UIDropDowns.AddLabelledDropDown(buttonPanels, 133f, 19.5f, "CommercialBuildingTypeDropdown", "select type", "select commercial buildign type", 100f, 20f);
-                    m_commercialBuildingTypeDropdown.relativePosition = new Vector2(150f, 22.5f);
-                    m_commercialBuildingTypeDropdown.textColor = new Color32(255, 255, 255, 255);
-                    m_commercialBuildingTypeDropdown.disabledTextColor = new Color32(142, 142, 142, 255);
-                    m_commercialBuildingTypeDropdown.items = [
-                        "Shopping",                       // Index 0
-                        "Entertainment",                  // Index 1
-                        "Food",                           // Index 2
-                        "Shopping & Entertainment",       // Index 3
-                        "Shopping & Food",                // Index 4
-                        "Entertainment & Food",           // Index 5
-                        "All"                             // Index 6
-                    ];
-                    m_commercialBuildingTypeDropdown.eventSelectedIndexChanged += OnCommercialBuildingTypeDropdownIndexChanged;
-                }
+                //if(m_openUserEventCreationPanelButton == null)
+                //{
+                //    string eventButtonText = localizationProvider.Translate(TranslationKeys.VanillaEventSelectEventButton);
+                //    string eventButtonTooltipText = localizationProvider.Translate(TranslationKeys.VanillaEventSelectEventButtonTooltip);
+                //    m_openUserEventCreationPanelButton = UIButtons.CreateButton(buttonPanels, 133f, 19.5f, "OpenUserEventCreationPanelButton", eventButtonText, eventButtonTooltipText, 100f, 20f);
+                //    m_openUserEventCreationPanelButton.textVerticalAlignment = UIVerticalAlignment.Top;
+                //    m_openUserEventCreationPanelButton.relativePosition = new Vector2(150f, 22.5f);
+                //    m_openUserEventCreationPanelButton.textScale = 0.75f;
+                //    m_openUserEventCreationPanelButton.normalBgSprite = "ButtonMenu";
+                //    m_openUserEventCreationPanelButton.disabledBgSprite = "ButtonMenuDisabled";
+                //    m_openUserEventCreationPanelButton.pressedBgSprite = "ButtonMenuPressed";
+                //    m_openUserEventCreationPanelButton.hoveredBgSprite = "ButtonMenuHovered";
+                //    m_openUserEventCreationPanelButton.textColor = new Color32(255, 255, 255, 255);
+                //    m_openUserEventCreationPanelButton.disabledTextColor = new Color32(142, 142, 142, 255);
+                //    m_openUserEventCreationPanelButton.pressedTextColor = new Color32(255, 255, 255, 255);
+                //    m_openUserEventCreationPanelButton.hoveredTextColor = new Color32(255, 255, 255, 255);
+                //    m_openUserEventCreationPanelButton.focusedTextColor = new Color32(255, 255, 255, 255);
+                //    m_openUserEventCreationPanelButton.eventClicked += OnOpenUserEventCreationPanelButtonClicked;
+                //}
             }
 
             private static void EndAcademicYear(UIComponent c, UIMouseEventParameter eventParameter)
@@ -771,53 +764,22 @@ namespace RealTime.Patches
                 ;
             }
 
-            private static void OnOpenUserEventCreationPanelButtonClicked(UIComponent c, UIMouseEventParameter p)
-            {
-                ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
+            //private static void OnOpenUserEventCreationPanelButtonClicked(UIComponent c, UIMouseEventParameter p)
+            //{
+            //    ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
 
-                if (buildingID == 0)
-                {
-                    return;
-                }
+            //    if (buildingID == 0)
+            //    {
+            //        return;
+            //    }
 
-                var buildingMgr = Singleton<BuildingManager>.instance;
-                var building = buildingMgr.m_buildings.m_buffer[buildingID];
-                string buildingName = building.Info.name;
+            //    var buildingMgr = Singleton<BuildingManager>.instance;
+            //    var building = buildingMgr.m_buildings.m_buffer[buildingID];
+            //    string buildingName = building.Info.name;
 
-                var templates = CityEventsLoader.Instance.GetEventTemplates(buildingName);
-                userEventCreationPanel.Show(buildingID, templates);
-            }
-
-            private static void OnCommercialBuildingTypeDropdownIndexChanged(UIComponent uiComponent, int value)
-            {
-                ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
-
-                if (buildingID == 0)
-                {
-                    return;
-                }
-
-                if (CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
-                {
-                    CommercialBuildingTypesManager.SetCommercialBuildingType(buildingID, ConvertIndexToFlags(value));
-                }
-            }
-
-            private static CommercialBuildingType ConvertIndexToFlags(int index) => index switch
-            {
-                0 => CommercialBuildingType.Shopping,
-                1 => CommercialBuildingType.Entertainment,
-                2 => CommercialBuildingType.Food,
-
-                // On the fly combination using bitwise OR!
-                3 => CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment,
-                4 => CommercialBuildingType.Shopping | CommercialBuildingType.Food,
-                5 => CommercialBuildingType.Entertainment | CommercialBuildingType.Food,
-                6 => CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food,
-
-                // Fallback safety
-                _ => CommercialBuildingType.Shopping
-            };
+            //    var templates = CityEventsLoader.Instance.GetEventTemplates(buildingName);
+            //    userEventCreationPanel.Show(buildingID, templates);
+            //}
         }
 
         [HarmonyPatch]
@@ -852,22 +814,7 @@ namespace RealTime.Patches
                     s_hotelLabel.Hide();
                 }
 
-                // show commercial building type dropdown only for generic commercial buildings that are not hotels
-                if (BuildingManagerConnection.IsAllowedCommercialBuildingType(building) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(building))
-                {
-                    int commercialBuildingTypeIndex = ConvertFlagsToIndex(CommercialBuildingTypesManager.GetCommercialBuildingType(building));
-                    if (commercialBuildingTypeIndex != m_commercialBuildingTypeDropdown.selectedIndex)
-                    {
-                        s_updatingDropdown = true;
-                        m_commercialBuildingTypeDropdown.selectedIndex = commercialBuildingTypeIndex;
-                        s_updatingDropdown = false;
-                    }
-                    m_commercialBuildingTypeDropdown.Show();
-                }
-                else
-                {
-                    m_commercialBuildingTypeDropdown.Hide();
-                }
+                CommercialBuildingTypesManager.CommercialBuildingTypeDropdownVisibility(building, ref m_commercialBuildingTypeDropdown, ref s_updatingDropdown);
             }
 
             [HarmonyPatch(typeof(ZonedBuildingWorldInfoPanel), "UpdateBindings")]
@@ -920,74 +867,17 @@ namespace RealTime.Patches
                     s_hotelLabel.Hide();
                 }
 
-                if (m_commercialBuildingTypeDropdown == null)
+                var level = m_zonedBuildingWorldInfoPanel.Find("Level");
+                if (level != null)
                 {
-                    m_commercialBuildingTypeDropdown = UIDropDowns.AddLabelledDropDown(m_zonedBuildingWorldInfoPanel.component, 133f, 19.5f, "CommercialBuildingTypeDropdown", "Store Type", "select commercial building store type", 180f, 24f);
-                    m_commercialBuildingTypeDropdown.textColor = new Color32(255, 255, 255, 255);
-                    m_commercialBuildingTypeDropdown.disabledTextColor = new Color32(142, 142, 142, 255);
-                    m_commercialBuildingTypeDropdown.items = [
-                        "Shopping",                       // Index 0
-                        "Entertainment",                  // Index 1
-                        "Food",                           // Index 2
-                        "Shopping & Entertainment",       // Index 3
-                        "Shopping & Food",                // Index 4
-                        "Entertainment & Food",           // Index 5
-                        "All"                             // Index 6
-                    ];
-                    m_commercialBuildingTypeDropdown.eventSelectedIndexChanged += OnCommercialBuildingTypeDropdownIndexChanged;
-                    var level = m_zonedBuildingWorldInfoPanel.Find("Level");
-                    if(level != null)
+                    CommercialBuildingTypesManager.CreateUI(m_zonedBuildingWorldInfoPanel.component, ref m_commercialBuildingTypeDropdown, level.relativePosition.x + 220f, level.relativePosition.y + 5f);
+                    m_commercialBuildingTypeDropdown.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
                     {
-                        m_commercialBuildingTypeDropdown.relativePosition = new Vector2(level.relativePosition.x + 130f, level.relativePosition.y + 5f);
-                    }
-                    m_commercialBuildingTypeDropdown.Hide();
+                        ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
+                        CommercialBuildingTypesManager.OnCommercialBuildingTypeDropdownIndexChanged(value, buildingID, s_updatingDropdown);
+                    };
                 }
             }
-
-            private static void OnCommercialBuildingTypeDropdownIndexChanged(UIComponent uiComponent, int value)
-            {
-                if (s_updatingDropdown)
-                {
-                    return;
-                }
-
-                ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
-
-                if (buildingID == 0)
-                {
-                    return;
-                }
-
-                CommercialBuildingTypesManager.SetCommercialBuildingType(buildingID, ConvertIndexToFlags(value));
-            }
-
-            private static CommercialBuildingType ConvertIndexToFlags(int index) => index switch
-            {
-                0 => CommercialBuildingType.Shopping,
-                1 => CommercialBuildingType.Entertainment,
-                2 => CommercialBuildingType.Food,
-
-                // On the fly combination using bitwise OR!
-                3 => CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment,
-                4 => CommercialBuildingType.Shopping | CommercialBuildingType.Food,
-                5 => CommercialBuildingType.Entertainment | CommercialBuildingType.Food,
-                6 => CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food,
-
-                // Fallback safety
-                _ => CommercialBuildingType.Shopping
-            };
-
-            private static int ConvertFlagsToIndex(CommercialBuildingType type) => type switch
-            {
-                CommercialBuildingType.Shopping => 0,
-                CommercialBuildingType.Entertainment => 1,
-                CommercialBuildingType.Food => 2,
-                CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment => 3,
-                CommercialBuildingType.Shopping | CommercialBuildingType.Food => 4,
-                CommercialBuildingType.Entertainment | CommercialBuildingType.Food => 5,
-                CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food => 6,
-                _ => 0,
-            };
         }
 
         [HarmonyPatch]

@@ -17,6 +17,8 @@ namespace RealTime.Serializer
 
         public static void SaveData(FastList<byte> Data)
         {
+            Debug.Log("RealTime CommercialBuildingTypes OnSaveData - Start");
+
             // Write out metadata
             StorageData.WriteUInt16(iCOMMERCIAL_BUILDING_TYPES_DATA_VERSION, Data);
             StorageData.WriteInt32(CommercialBuildingTypesManager.CommercialBuildingTypes.Count, Data);
@@ -34,6 +36,8 @@ namespace RealTime.Serializer
                 // Write end tuple
                 StorageData.WriteUInt32(uiTUPLE_END, Data);
             }
+
+            Debug.Log("RealTime CommercialBuildingTypes OnSaveData - End");
         }
 
         public static void LoadData(int iGlobalVersion, byte[] Data, ref int iIndex)

@@ -16,6 +16,8 @@ namespace RealTime.Serializer
 
         public static void SaveData(FastList<byte> Data)
         {
+            Debug.Log("RealTime ResourceSlowdown OnSaveData - Start");
+
             // Write out metadata
             StorageData.WriteUInt16(iRESOURCE_SLOWDOWN_DATA_VERSION, Data);
 
@@ -78,6 +80,8 @@ namespace RealTime.Serializer
             }
 
             StorageData.WriteUInt32(uiTUPLE_END, Data);
+
+            Debug.Log("RealTime ResourceSlowdown OnSaveData - End");
         }
 
         public static void LoadData(int iGlobalVersion, byte[] Data, ref int iIndex)

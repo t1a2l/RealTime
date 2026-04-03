@@ -19,6 +19,8 @@ namespace RealTime.Serializer
 
         public static void SaveData(FastList<byte> Data)
         {
+            Debug.Log("RealTime CitizenSchedule OnSaveData - Start");
+
             int recordCount = CitizenManager.instance.m_citizens.m_buffer.Length;
             citizens = CitizenManager.instance.m_citizens.m_buffer;
 
@@ -64,6 +66,8 @@ namespace RealTime.Serializer
 
                 StorageData.WriteUInt32(uiTUPLE_END, Data);
             }
+
+            Debug.Log("RealTime CitizenSchedule OnSaveData - End");
         }
 
         public static void LoadData(int iGlobalVersion, byte[] Data, ref int iIndex)

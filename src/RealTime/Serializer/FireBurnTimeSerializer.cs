@@ -16,6 +16,8 @@ namespace RealTime.Serializer
 
         public static void SaveData(FastList<byte> Data)
         {
+            Debug.Log("RealTime FireBurnTime OnSaveData - Start");
+
             // Write out metadata
             StorageData.WriteUInt16(iFIRE_BURN_START_TIME_DATA_VERSION, Data);
             StorageData.WriteInt32(FireBurnTimeManager.FireBurnTime.Count, Data);
@@ -35,6 +37,8 @@ namespace RealTime.Serializer
                 // Write end tuple
                 StorageData.WriteUInt32(uiTUPLE_END, Data);
             }
+
+            Debug.Log("RealTime FireBurnTime OnSaveData - End");
         }
 
         public static void LoadData(int iGlobalVersion, byte[] Data, ref int iIndex)

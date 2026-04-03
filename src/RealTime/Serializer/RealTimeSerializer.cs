@@ -144,7 +144,7 @@ namespace RealTime.Serializer
 
         public void OnSaveData()
         {
-            Debug.Log("OnSaveData - Start");
+            Debug.Log("RealTime OnSaveData - Start, Data Version: " + DataVersion);
             try
             {
                 if (m_serializableData != null)
@@ -195,9 +195,9 @@ namespace RealTime.Serializer
             }
             catch (Exception ex)
             {
-                Debug.Log("Could not save data. " + ex.Message);
+                Debug.Log("RealTime Could not save data. " + ex.Message);
             }
-            Debug.Log("OnSaveData - Finish");
+            Debug.Log("RealTime OnSaveData - Finish");
         }
 
         private void CheckStartTuple(string sTupleLocation, int iDataVersion, byte[] Data, ref int iIndex)

@@ -16,6 +16,8 @@ namespace RealTime.Serializer
 
         public static void SaveData(FastList<byte> Data)
         {
+            Debug.Log("RealTime BuildingWorkTime OnSaveData - Start");
+
             // Write out metadata
             StorageData.WriteUInt16(iBUILDING_WORK_TIME_DATA_VERSION, Data);
 
@@ -74,6 +76,8 @@ namespace RealTime.Serializer
             }
 
             StorageData.WriteUInt32(uiTUPLE_END, Data);
+
+            Debug.Log("RealTime BuildingWorkTime OnSaveData - End");
         }
 
         public static void LoadData(int iGlobalVersion, byte[] Data, ref int iIndex)

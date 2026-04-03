@@ -16,6 +16,8 @@ namespace RealTime.Serializer
 
         public static void SaveData(FastList<byte> Data)
         {
+            Debug.Log("RealTime EventRouteTime OnSaveData - Start");
+
             // Write out metadata
             StorageData.WriteUInt16(iEVENT_ROUTE_TIME_DATA_VERSION, Data);
             StorageData.WriteInt32(EventRouteTimeManager.TimeSchedules.Count, Data);
@@ -43,6 +45,8 @@ namespace RealTime.Serializer
                 // Write end tuple
                 StorageData.WriteUInt32(uiTUPLE_END, Data);
             }
+
+            Debug.Log("RealTime EventRouteTime OnSaveData - End");
         }
 
         public static void LoadData(int iGlobalVersion, byte[] Data, ref int iIndex)

@@ -3,6 +3,8 @@
 namespace RealTime.CustomAI
 {
     using System;
+    using ColossalFramework;
+    using ColossalFramework.Math;
     using RealTime.Config;
     using RealTime.Events;
     using RealTime.GameConnection;
@@ -58,7 +60,8 @@ namespace RealTime.CustomAI
             Party,
             Hotel,
             BusinessAppointment,
-            VisitNature
+            VisitNature,
+            Food
         }
 
         /// <summary>
@@ -171,12 +174,9 @@ namespace RealTime.CustomAI
                 }
 
                 BuildingMgr.GetBuildingService(targetBuildingId, out var targetService, out var targetSubService);
+
                 switch (targetService)
                 {
-                    case ItemClass.Service.Commercial when targetSubService == ItemClass.SubService.CommercialLeisure:
-                        target = TouristTarget.Party;
-                        break;
-
                     case ItemClass.Service.Tourism:
                     case ItemClass.Service.Monument:
                         target = TouristTarget.Relaxing;
@@ -191,7 +191,26 @@ namespace RealTime.CustomAI
                         break;
 
                     case ItemClass.Service.Commercial:
-                        target = TouristTarget.Shopping;
+                        if (!CommercialBuildingTypesManager.CommercialBuildingTypeExist(targetBuildingId))
+                        {
+                            return;
+                        }
+
+                        var type = CommercialBuildingTypesManager.GetCommercialBuildingType(targetBuildingId);
+                        if ((type & (CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food)) == 0)
+                        {
+                            return;
+                        }
+
+                        // Random commercial intent, weighted by time/mood
+                        target = PickRandomCommercialIntent(citizenId, ref citizen, TimeInfo.IsNightTime);
+
+                        // Validate building supports this intent
+                        if (!BuildingSupportsIntent(target, type))
+                        {
+                            // Fallback to next-best match or hotel
+                            target = ResolveFallbackTargetFromBuilding(targetSubService, type);
+                        }
                         break;
 
                     default:
@@ -294,6 +313,12 @@ namespace RealTime.CustomAI
             var tourist_target = ConvertToTouristTarget(target);
             tourist_target = AdjustTargetToTimeAndWeather(ref citizen, tourist_target);
 
+            if (CurrentBuildingSupportsTarget(currentBuilding, tourist_target))
+            {
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for {tourist_target}");
+                return;
+            }
+
             switch (tourist_target)
             {
                 case TouristTarget.LeaveCity:
@@ -340,6 +365,22 @@ namespace RealTime.CustomAI
                 case TouristTarget.Hotel:
                     HotelCheck(instance, citizenId, ref citizen, currentBuilding);
                     break;
+
+                case TouristTarget.Food:
+                    ushort mealBuilding = buildingAI.FindActiveBuilding(
+                        currentBuilding,
+                        LeisureSearchDistance,
+                        ItemClass.Service.Commercial,
+                        ItemClass.SubService.None,
+                        CommercialBuildingType.Food);
+                    if (mealBuilding == 0)
+                    {
+                        goto case TouristTarget.Hotel;
+                    }
+
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} want to eat in {mealBuilding}");
+                    StartMovingToVisitBuilding(instance, citizenId, ref citizen, currentBuilding, mealBuilding);
+                    break;
             }
         }
 
@@ -370,27 +411,35 @@ namespace RealTime.CustomAI
         {
             switch (target)
             {
+                case TouristTarget.Relaxing:
+                {
+                    var age = CitizenProxy.GetAge(ref citizen);
+
+                    if (Random.ShouldOccur(spareTimeBehavior.GetEatingOutChance(age)))
+                    {
+                        target = TouristTarget.Food;
+                    }
+                    else if (TimeInfo.IsNightTime)
+                    {
+                        target = TouristTarget.Party;
+                    }
+
+                    break;
+                }
+
                 case TouristTarget.Shopping:
                 case TouristTarget.BusinessAppointment:
                 case TouristTarget.VisitNature:
-                case TouristTarget.Relaxing:
                 case TouristTarget.Party:
-                    uint goingOutChance = GetTouristGoingOutChance(ref citizen, target);
-                    if (!Random.ShouldOccur(goingOutChance))
-                    {
-                        return TouristTarget.Hotel;
-                    }
-
-                    if (target == TouristTarget.Relaxing && TimeInfo.IsNightTime)
-                    {
-                        return TouristTarget.Party;
-                    }
-
-                    goto default;
+                case TouristTarget.Food:
+                    break;
 
                 default:
                     return target;
             }
+
+            uint goingOutChance = GetTouristGoingOutChance(ref citizen, target);
+            return Random.ShouldOccur(goingOutChance) ? target : TouristTarget.Hotel;
         }
 
         private uint GetTouristGoingOutChance(ref TCitizen citizen, TouristTarget target)
@@ -414,6 +463,9 @@ namespace RealTime.CustomAI
 
                 case TouristTarget.BusinessAppointment:
                     return spareTimeBehavior.GetBusinessAppointmentChance(age);
+
+                case TouristTarget.Food:
+                    return spareTimeBehavior.GetEatingOutChance(age);
 
                 default:
                     return 100u;
@@ -486,5 +538,93 @@ namespace RealTime.CustomAI
         }
 
         private uint GetHotelLeaveChance() => TimeInfo.IsNightTime ? 0u : (uint)((TimeInfo.CurrentHour - Config.WakeUpHour) / 0.03f);
+
+        private TouristTarget PickRandomCommercialIntent(uint citizenId, ref TCitizen citizen, bool isNightTime)
+        {
+            uint seed = citizenId ^ ((uint)TimeInfo.CurrentHour << 8) ^ (isNightTime ? 1u : 0u);
+            var age = CitizenProxy.GetAge(ref citizen);
+            var rand = new Randomizer(seed);
+
+            // Daytime: Shopping 50%, Food 30%, Entertainment 20%
+            // Nighttime: Food 35%, Party 35%, Shopping 30%
+            int shoppingWeight = (int)spareTimeBehavior.GetShoppingChance(age);
+            int foodWeight = (int)spareTimeBehavior.GetEatingOutChance(age);
+            int entWeight = (int)spareTimeBehavior.GetRelaxingChance(age);
+
+            if (isNightTime)
+            {
+                entWeight = Math.Max(entWeight, foodWeight); // Party gets boosted
+            }
+
+            int total = shoppingWeight + foodWeight + entWeight;
+            int pick = rand.Int32((uint)total);
+
+            if (pick < shoppingWeight)
+            {
+                return TouristTarget.Shopping;
+            }
+            else if (pick < shoppingWeight + foodWeight)
+            {
+                return TouristTarget.Food;
+            }
+            else
+            {
+                return isNightTime ? TouristTarget.Party : TouristTarget.Relaxing;
+            }
+        }
+
+        private bool BuildingSupportsIntent(TouristTarget intent, CommercialBuildingType type) => intent switch
+        {
+            TouristTarget.Shopping => type.IsFlagSet(CommercialBuildingType.Shopping),
+            TouristTarget.Food => type.IsFlagSet(CommercialBuildingType.Food),
+            TouristTarget.Party or TouristTarget.Relaxing => type.IsFlagSet(CommercialBuildingType.Entertainment),
+            _ => false
+        };
+
+        private TouristTarget ResolveFallbackTargetFromBuilding(ItemClass.SubService subService, CommercialBuildingType type)
+        {
+            if (subService == ItemClass.SubService.CommercialLeisure && type.IsFlagSet(CommercialBuildingType.Entertainment))
+            {
+                return TouristTarget.Party;
+            }
+
+            if (type.IsFlagSet(CommercialBuildingType.Food))
+            {
+                return TouristTarget.Food;
+            }
+
+            if (type.IsFlagSet(CommercialBuildingType.Shopping))
+            {
+                return TouristTarget.Shopping;
+            }
+
+            if (type.IsFlagSet(CommercialBuildingType.Entertainment))
+            {
+                return TouristTarget.Relaxing;
+            }
+
+            return TouristTarget.DoNothing;
+        }
+
+        private bool CurrentBuildingSupportsTarget(ushort buildingId, TouristTarget target)
+        {
+            if (buildingId == 0 || !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
+            {
+                return false;
+            }
+
+            var type = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
+
+            return target switch
+            {
+                TouristTarget.Shopping => type.IsFlagSet(CommercialBuildingType.Shopping),
+                TouristTarget.Food => type.IsFlagSet(CommercialBuildingType.Food),
+                TouristTarget.Relaxing => type.IsFlagSet(CommercialBuildingType.Entertainment),
+                TouristTarget.Party =>
+                    BuildingMgr.GetBuildingSubService(buildingId) == ItemClass.SubService.CommercialLeisure &&
+                    type.IsFlagSet(CommercialBuildingType.Entertainment),
+                _ => false
+            };
+        }
     }
 }

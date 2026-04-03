@@ -403,8 +403,9 @@ namespace RealTime.Core
             if (RealTimeSerializer.SaveGameFileVersion >= 2)
             {
                 realTimeResidentAI.ApplyLoadedSchedules(CitizenScheduleSerializer.residentSchedules);
-                CitizenScheduleSerializer.RealTimeResidentAI = realTimeResidentAI;
             }
+
+            CitizenScheduleSerializer.RealTimeResidentAI = realTimeResidentAI;
 
             var touristAIConnection = TouristAIPatch.GetTouristAIConnection();
             if (touristAIConnection == null)

@@ -16,7 +16,6 @@ namespace RealTime.Serializer
         private const uint uiTUPLE_END = 0xFAFAFAFA;
 
         internal static CitizenSchedule[] residentSchedules;
-        internal static Citizen[] citizens;
 
         /// <summary>Gets or sets the custom AI object for resident citizens.</summary>
         internal static RealTimeResidentAI<ResidentAI, Citizen> RealTimeResidentAI { get; set; }
@@ -39,17 +38,35 @@ namespace RealTime.Serializer
                 return;
             }
 
-            int recordCount = citizenMgr.m_citizens.m_buffer.Length;
-
             var residentSchedules = RealTimeResidentAI.GetResidentSchedules();
 
-            citizens = CitizenManager.instance.m_citizens.m_buffer;
+            var citizens = citizenMgr.m_citizens.m_buffer;
 
             StorageData.WriteUInt16(iCITIZEN_SCHEDULE_DATA_VERSION, Data);
-            StorageData.WriteInt32(recordCount, Data);
+
+            int savedCount = 0;
+            for (int i = 0; i < citizens.Length; ++i)
+            {
+                var flags = citizens[i].m_flags;
+                if ((flags & Citizen.Flags.Created) == 0
+                    || (flags & Citizen.Flags.DummyTraffic) != 0)
+                {
+                    continue;
+                }
+
+                savedCount++;
+            }
+
+            StorageData.WriteInt32(savedCount, Data);
 
             for (ushort citizenId = 0; citizenId < citizens.Length; citizenId++)
             {
+                var flags = citizens[citizenId].m_flags;
+                if ((flags & Citizen.Flags.Created) == 0 || (flags & Citizen.Flags.DummyTraffic) != 0)
+                {
+                    continue;
+                }
+
                 ref var schedule = ref residentSchedules[citizenId];
 
                 StorageData.WriteUInt32(uiTUPLE_START, Data);
@@ -95,10 +112,20 @@ namespace RealTime.Serializer
         {
             if (Data != null && Data.Length > iIndex)
             {
+                var citizenMgr = Singleton<CitizenManager>.instance;
+
+                if (citizenMgr == null)
+                {
+                    Debug.LogError("RealTime CitizenSchedule OnLoadData failed: CitizenManager is null.");
+                    return;
+                }
+
+                var citizens = citizenMgr.m_citizens.m_buffer;
+
                 int iCitizenScheduleVersion = StorageData.ReadUInt16(Data, ref iIndex);
                 Debug.Log("RealTime CitizenSchedule - Global: " + iGlobalVersion + " BufferVersion: " + iCitizenScheduleVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
 
-                residentSchedules = [];
+                residentSchedules = new CitizenSchedule[citizenMgr.m_citizens.m_size];
                 int recordCount = StorageData.ReadInt32(Data, ref iIndex);
 
                 for (int i = 0; i < recordCount; ++i)
@@ -162,14 +189,7 @@ namespace RealTime.Serializer
 
                     residentSchedules[citizenId] = schedule;
 
-                    uint maybeEndTuple = StorageData.ReadUInt32(Data, ref iIndex);
-
-                    if (maybeEndTuple != uiTUPLE_END)
-                    {
-                        StorageData.ReadUInt32(Data, ref iIndex);
-
-                        CheckEndTuple($"Buffer({i})", iCitizenScheduleVersion, Data, ref iIndex);
-                    }
+                    CheckEndTuple($"Buffer({i})", iCitizenScheduleVersion, Data, ref iIndex);
                 }
             }
         }

@@ -7,6 +7,8 @@ namespace RealTime.CustomAI
     using SkyTools.Tools;
     using static Constants;
     using RealTime.Core;
+    using RealTime.Managers;
+    using ColossalFramework;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
@@ -64,6 +66,14 @@ namespace RealTime.CustomAI
                 case ScheduleHint.RelaxAtLeisureBuilding:
                     schedule.Schedule(ResidentState.Unknown);
 
+                    BuildingMgr.GetBuildingService(currentBuilding, out var targetService, out var targetSubService);
+
+                    if(targetSubService == ItemClass.SubService.CommercialLeisure)
+                    {
+                        Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is already in a leisure building {currentBuilding} and continues relaxing there.");
+                        return true;
+                    }
+
                     ushort leisure = MoveToLeisureBuilding(instance, citizenId, ref citizen, currentBuilding);
                     if (leisure == 0)
                     {
@@ -94,6 +104,13 @@ namespace RealTime.CustomAI
                     return false;
 
                 case ScheduleHint.RelaxNearbyOnly:
+
+                    if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule))
+                    {
+                        Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for {schedule.CurrentState}");
+                        return true;
+                    }
+
                     ushort parkBuildingId = buildingAI.FindActiveBuilding(currentBuilding, LocalSearchDistance, ItemClass.Service.Beautification);
                     if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, parkBuildingId))
                     {
@@ -128,6 +145,12 @@ namespace RealTime.CustomAI
 
             if (schedule.ScheduledState != ResidentState.GoToRelax || schedule.CurrentState != ResidentState.Relaxing || Random.ShouldOccur(FindAnotherShopOrEntertainmentChance) || buildingAI.IsBuildingClosingSoon(currentBuilding))
             {
+                if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule) && !buildingAI.IsBuildingClosingSoon(currentBuilding))
+                {
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for relaxing");
+                    return true;
+                }
+
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna relax and then schedules {nextState}, heading to an entertainment building.");
 
                 TransferManager.TransferReason entertainmentReason;
@@ -233,6 +256,12 @@ namespace RealTime.CustomAI
                 {
                     schedule.Schedule(ResidentState.Unknown);
 
+                    if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule))
+                    {
+                        Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for shopping");
+                        return true;
+                    }
+
                     ushort shop = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, CommercialBuildingType.Shopping);
                     if (shop == 0)
                     {
@@ -298,6 +327,12 @@ namespace RealTime.CustomAI
 
             if (schedule.ScheduledState != ResidentState.GoShopping || schedule.CurrentState != ResidentState.Shopping || Random.ShouldOccur(FindAnotherShopOrEntertainmentChance) || buildingAI.IsBuildingClosingSoon(currentBuilding))
             {
+                if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule) && !buildingAI.IsBuildingClosingSoon(currentBuilding))
+                {
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for shopping");
+                    return true;
+                }
+
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna go shopping and schedules {nextState}, heading to a random shop, hint = {schedule.Hint}");
                 residentAI.FindVisitPlace(instance, citizenId, currentBuilding, residentAI.GetShoppingReason(instance));
                 schedule.FindVisitPlaceAttempts++;
@@ -362,6 +397,12 @@ namespace RealTime.CustomAI
             {
                 schedule.Schedule(ResidentState.Unknown);
 
+                if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule))
+                {
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for food");
+                    return true;
+                }
+
                 ushort mealPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, CommercialBuildingType.Food);
                 if (mealPlace == 0)
                 {
@@ -388,6 +429,12 @@ namespace RealTime.CustomAI
 
             if (schedule.ScheduledState != ResidentState.GoToMeal || schedule.CurrentState != ResidentState.EatMeal || buildingAI.IsBuildingClosingSoon(currentBuilding))
             {
+                if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule) && !buildingAI.IsBuildingClosingSoon(currentBuilding))
+                {
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for food");
+                    return true;
+                }
+
                 schedule.Schedule(ResidentState.Unknown);
                 schedule.FindVisitPlaceAttempts++;
             }
@@ -597,6 +644,24 @@ namespace RealTime.CustomAI
             {
                 return MealType.Other; // night snack, etc.
             }
+        }
+
+        private bool CurrentBuildingSupportsTarget(ushort buildingId, ref CitizenSchedule schedule)
+        {
+            if (buildingId == 0 || !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
+            {
+                return false;
+            }
+
+            var type = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
+
+            return schedule.CurrentState switch
+            {
+                ResidentState.Shopping => type.IsFlagSet(CommercialBuildingType.Shopping),
+                ResidentState.EatMeal => type.IsFlagSet(CommercialBuildingType.Food),
+                ResidentState.Relaxing => type.IsFlagSet(CommercialBuildingType.Entertainment),
+                _ => false
+            };
         }
     }
 }

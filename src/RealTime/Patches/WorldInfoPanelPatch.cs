@@ -827,6 +827,8 @@ namespace RealTime.Patches
 
             private static UIDropDown m_commercialBuildingTypeDropdown;
 
+            private static bool s_updatingDropdown;
+
             [HarmonyPatch(typeof(ZonedBuildingWorldInfoPanel), "OnSetTarget")]
             [HarmonyPostfix]
             public static void OnSetTarget()
@@ -853,10 +855,12 @@ namespace RealTime.Patches
                 // show commercial building type dropdown only for generic commercial buildings that are not hotels
                 if (BuildingManagerConnection.IsAllowedCommercialBuildingType(building) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(building))
                 {
-                    int commericalBuildingType = (int)CommercialBuildingTypesManager.GetCommercialBuildingType(building);
-                    if(commericalBuildingType != m_commercialBuildingTypeDropdown.selectedIndex)
+                    int commercialBuildingTypeIndex = ConvertFlagsToIndex(CommercialBuildingTypesManager.GetCommercialBuildingType(building));
+                    if (commercialBuildingTypeIndex != m_commercialBuildingTypeDropdown.selectedIndex)
                     {
-                        m_commercialBuildingTypeDropdown.selectedIndex = commericalBuildingType;
+                        s_updatingDropdown = true;
+                        m_commercialBuildingTypeDropdown.selectedIndex = commercialBuildingTypeIndex;
+                        s_updatingDropdown = false;
                     }
                     m_commercialBuildingTypeDropdown.Show();
                 }
@@ -888,7 +892,7 @@ namespace RealTime.Patches
 
             private static void CreateUI()
             {
-                var m_zonedBuildingWorldInfoPanel = GameObject.Find("(Library) ZonedBuildingWorldInfoPanel").GetComponent<ZonedBuildingWorldInfoPanel>();
+                var m_zonedBuildingWorldInfoPanel = UIView.library.Get<ZonedBuildingWorldInfoPanel>("ZonedBuildingWorldInfoPanel");
 
                 if (m_zonedBuildingWorldInfoPanel == null)
                 {
@@ -942,6 +946,11 @@ namespace RealTime.Patches
 
             private static void OnCommercialBuildingTypeDropdownIndexChanged(UIComponent uiComponent, int value)
             {
+                if (s_updatingDropdown)
+                {
+                    return;
+                }
+
                 ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
 
                 if (buildingID == 0)
@@ -949,10 +958,7 @@ namespace RealTime.Patches
                     return;
                 }
 
-                if (CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
-                {
-                    CommercialBuildingTypesManager.SetCommercialBuildingType(buildingID, ConvertIndexToFlags(value));
-                }
+                CommercialBuildingTypesManager.SetCommercialBuildingType(buildingID, ConvertIndexToFlags(value));
             }
 
             private static CommercialBuildingType ConvertIndexToFlags(int index) => index switch
@@ -969,6 +975,18 @@ namespace RealTime.Patches
 
                 // Fallback safety
                 _ => CommercialBuildingType.Shopping
+            };
+
+            private static int ConvertFlagsToIndex(CommercialBuildingType type) => type switch
+            {
+                CommercialBuildingType.Shopping => 0,
+                CommercialBuildingType.Entertainment => 1,
+                CommercialBuildingType.Food => 2,
+                CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment => 3,
+                CommercialBuildingType.Shopping | CommercialBuildingType.Food => 4,
+                CommercialBuildingType.Entertainment | CommercialBuildingType.Food => 5,
+                CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food => 6,
+                _ => 0,
             };
         }
 

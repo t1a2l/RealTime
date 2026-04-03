@@ -12,6 +12,7 @@ namespace RealTime.Patches.BuildingAIPatches
     using RealTime.CustomAI;
     using RealTime.GameConnection;
     using RealTime.Managers;
+    using RealTime.Simulation;
 
     [HarmonyPatch]
     internal static class CommercialBuildingAIPatch
@@ -141,46 +142,30 @@ namespace RealTime.Patches.BuildingAIPatches
                 {
                     num = 4;
                 }
+                else if (__instance.m_info.m_class.isCommercialLeisure)
+                {
+                    num = 20;
+                }
+                else if (__instance.m_info.m_class.isCommercialTourist)
+                {
+                    num = 80;
+                }
                 else if (__instance.m_info.m_class.isCommercialEco)
                 {
                     num = 0;
                 }
 
                 var commercialBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingID);
+                var transferType = commercialBuildingType & (CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment);
+                var randomizer = new Randomizer(buildingID);
 
-                if (commercialBuildingType.IsFlagSet(CommercialBuildingType.Entertainment) && !commercialBuildingType.IsFlagSet(CommercialBuildingType.Shopping))
+                switch (transferType)
                 {
-                    var randomizer = new Randomizer(buildingID);
-                    __result = randomizer.Int32(4u) switch
-                    {
-                        0 => TransferManager.TransferReason.Entertainment,
-                        1 => TransferManager.TransferReason.EntertainmentB,
-                        2 => TransferManager.TransferReason.EntertainmentC,
-                        3 => TransferManager.TransferReason.EntertainmentD,
-                        _ => TransferManager.TransferReason.Entertainment,
-                    };
-                }
-                else if (commercialBuildingType.IsFlagSet(CommercialBuildingType.Shopping) && !commercialBuildingType.IsFlagSet(CommercialBuildingType.Entertainment))
-                {
-                    var randomizer = new Randomizer(buildingID);
-                    __result = randomizer.Int32(8u) switch
-                    {
-                        0 => TransferManager.TransferReason.Shopping,
-                        1 => TransferManager.TransferReason.ShoppingB,
-                        2 => TransferManager.TransferReason.ShoppingC,
-                        3 => TransferManager.TransferReason.ShoppingD,
-                        4 => TransferManager.TransferReason.ShoppingE,
-                        5 => TransferManager.TransferReason.ShoppingF,
-                        6 => TransferManager.TransferReason.ShoppingG,
-                        7 => TransferManager.TransferReason.ShoppingH,
-                        _ => TransferManager.TransferReason.Shopping,
-                    };
-                }
-                if (commercialBuildingType.IsFlagSet(CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment))
-                {
-                    var randomizer = new Randomizer(buildingID);
-                    if (randomizer.Int32(100u) < num)
-                    {
+                    case CommercialBuildingType.None:
+                        __result = TransferManager.TransferReason.None;
+                        return false;
+
+                    case CommercialBuildingType.Entertainment:
                         __result = randomizer.Int32(4u) switch
                         {
                             0 => TransferManager.TransferReason.Entertainment,
@@ -189,9 +174,9 @@ namespace RealTime.Patches.BuildingAIPatches
                             3 => TransferManager.TransferReason.EntertainmentD,
                             _ => TransferManager.TransferReason.Entertainment,
                         };
-                    }
-                    else
-                    {
+                        return false;
+
+                    case CommercialBuildingType.Shopping:
                         __result = randomizer.Int32(8u) switch
                         {
                             0 => TransferManager.TransferReason.Shopping,
@@ -204,9 +189,36 @@ namespace RealTime.Patches.BuildingAIPatches
                             7 => TransferManager.TransferReason.ShoppingH,
                             _ => TransferManager.TransferReason.Shopping,
                         };
-                    }    
+                        return false;
+
+                    case CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment:
+                        __result = randomizer.Int32(100u) < num
+                            ? randomizer.Int32(4u) switch
+                            {
+                                0 => TransferManager.TransferReason.Entertainment,
+                                1 => TransferManager.TransferReason.EntertainmentB,
+                                2 => TransferManager.TransferReason.EntertainmentC,
+                                3 => TransferManager.TransferReason.EntertainmentD,
+                                _ => TransferManager.TransferReason.Entertainment,
+                            }
+                            : randomizer.Int32(8u) switch
+                            {
+                                0 => TransferManager.TransferReason.Shopping,
+                                1 => TransferManager.TransferReason.ShoppingB,
+                                2 => TransferManager.TransferReason.ShoppingC,
+                                3 => TransferManager.TransferReason.ShoppingD,
+                                4 => TransferManager.TransferReason.ShoppingE,
+                                5 => TransferManager.TransferReason.ShoppingF,
+                                6 => TransferManager.TransferReason.ShoppingG,
+                                7 => TransferManager.TransferReason.ShoppingH,
+                                _ => TransferManager.TransferReason.Shopping,
+                            };
+                        __result = TransferManager.TransferReason.None;
+                        return false;
+
+                    default:
+                        return false;
                 }
-                return false;
             }
             return true;  
         }

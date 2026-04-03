@@ -8,7 +8,6 @@ namespace RealTime.Patches
     using System.Runtime.CompilerServices;
     using System.Text;
     using ColossalFramework;
-    using ColossalFramework.Globalization;
     using ColossalFramework.Threading;
     using ColossalFramework.UI;
     using HarmonyLib;
@@ -25,6 +24,7 @@ namespace RealTime.Patches
     using SkyTools.Localization;
     using SkyTools.Tools;
     using UnityEngine;
+    using static DistrictPark;
 
     /// <summary>
     /// A static class that provides the patch objects for the world info panel game methods.
@@ -853,7 +853,11 @@ namespace RealTime.Patches
                 // show commercial building type dropdown only for generic commercial buildings that are not hotels
                 if (BuildingManagerConnection.IsAllowedCommercialBuildingType(building) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(building))
                 {
-                    m_commercialBuildingTypeDropdown.selectedIndex = (int)CommercialBuildingTypesManager.GetCommercialBuildingType(building);
+                    int commericalBuildingType = (int)CommercialBuildingTypesManager.GetCommercialBuildingType(building);
+                    if(commericalBuildingType != m_commercialBuildingTypeDropdown.selectedIndex)
+                    {
+                        m_commercialBuildingTypeDropdown.selectedIndex = commericalBuildingType;
+                    }
                     m_commercialBuildingTypeDropdown.Show();
                 }
                 else
@@ -930,7 +934,7 @@ namespace RealTime.Patches
                     var level = m_zonedBuildingWorldInfoPanel.Find("Level");
                     if(level != null)
                     {
-                        m_commercialBuildingTypeDropdown.relativePosition = new Vector2(180f, level.relativePosition.y + 5f);
+                        m_commercialBuildingTypeDropdown.relativePosition = new Vector2(level.relativePosition.x + 130f, level.relativePosition.y + 5f);
                     }
                     m_commercialBuildingTypeDropdown.Hide();
                 }
@@ -1027,6 +1031,10 @@ namespace RealTime.Patches
                     // add disabled missing sprite
                     dropdownFrequency.disabledBgSprite = "OptionsDropboxDisabled";
                     dropdownAutoOccur.disabledBgSprite = "OptionsDropboxDisabled";
+
+                    // update disabled text color to white
+                    dropdownFrequency.disabledTextColor = Color.white;
+                    dropdownAutoOccur.disabledTextColor = Color.white;
 
                     // get y positions of dropdown and label
                     float dropdownDayY = dropdownDay.relativePosition.y;
@@ -1139,9 +1147,17 @@ namespace RealTime.Patches
                         var dropDownAutoOccur_action = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownAutoOccur");
                         var dropDownHour_action = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
                         var dropDownMinute_action = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
-                        
-                        dropDownHour_action.selectedIndex = eventTimeSchedules[scheduleIndex].StartHour;
-                        dropDownMinute_action.selectedIndex = eventTimeSchedules[scheduleIndex].StartMinute;
+
+                        int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
+                        int startMonth = scheduleData[scheduleIndex].m_startMonth + 1;
+                        int startDay = scheduleData[scheduleIndex].m_startDay + 1;
+                        int startHour = eventTimeSchedules[scheduleIndex].StartHour;
+                        int startMinute = eventTimeSchedules[scheduleIndex].StartMinute;
+                        var startDateTime = new DateTime(year, startMonth, startDay, startHour, startMinute, 0);
+                        var newDateTime = AdjustEventStartTime(startDateTime);
+
+                        dropDownHour_action.selectedIndex = newDateTime.Hour;
+                        dropDownMinute_action.selectedIndex = newDateTime.Minute;
                         dropDownFrequency_action.selectedIndex = eventTimeSchedules[scheduleIndex].Frequency;
                         dropDownAutoOccur_action.selectedIndex = eventTimeSchedules[scheduleIndex].AutoOccur ? 1 : 0;
 
@@ -1204,12 +1220,6 @@ namespace RealTime.Patches
                     var dateTime = new DateTime(year, month, day, hour, minute, 0);
                     dayOfWeek.text = GetDayOfWeekLocalized(dateTime);
 
-                    var newDateTime = AdjustEventStartTime(dateTime);
-                    EventRouteTimeManager.SetEventTimeScheduleHour(___m_eventRouteID, scheduleIndex, (byte)newDateTime.Hour);
-                    EventRouteTimeManager.SetEventTimeScheduleMinute(___m_eventRouteID, scheduleIndex, (byte)newDateTime.Minute);
-                    dropDownHour.selectedIndex = newDateTime.Hour;
-                    dropDownMinute.selectedIndex = newDateTime.Minute;
-
                     dropdownFrequency.tooltip = localizationProvider.Translate(TranslationKeys.RaceDayDropDownFrequencyTooltip);
                     dropdownAutoOccur.tooltip = localizationProvider.Translate(TranslationKeys.RaceDayDropDownAutoOccurTooltip);
 
@@ -1267,33 +1277,59 @@ namespace RealTime.Patches
                 }
                 var buffer = Singleton<EventManager>.instance.m_eventRoutes.m_buffer;
                 var scheduleData = buffer[___m_eventRouteID].m_scheduleData;
-                var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(___m_eventRouteID);
-                var heading = __instance.Find<UILabel>("Heading");
-                int num4 = (num == 0) ? 1 : 0;
+                var now = Singleton<SimulationManager>.instance.m_currentGameTime;
+
                 for (int j = 0; j < 5; j++)
                 {
-                    int scheduleIndex2 = scheduledEvents[j + num4].m_scheduleIndex;
-                    var info2 = scheduleData[scheduleIndex2].Info;
-                    if(info2 == null)
+                    ClearNextEventPanel(___m_PanelNextEvent[j]);
+                }
+
+                int startIndex = (num == 0) ? 1 : 0;
+                int visibleRow = 0;
+                for (int index = startIndex; index < scheduledEvents.Length && visibleRow < 5; index++)
+                {
+                    var scheduled = scheduledEvents[index];
+
+                    if (scheduled.m_startDate <= DateTime.MinValue)
                     {
-                        ___m_PanelNextEvent[j].isVisible = false;
-                        heading?.text = "";
                         continue;
                     }
-                    bool autoOccur = eventTimeSchedules[scheduleIndex2].AutoOccur;
-                    if(!autoOccur)
+
+                    if (scheduled.m_startDate < now)
                     {
-                        ___m_PanelNextEvent[j].isVisible = false;
-                        heading?.text = "";
+                        continue;
                     }
-                    else
+
+                    int scheduleIndex = scheduledEvents[index].m_scheduleIndex;
+
+                    if (scheduleIndex < 0 || scheduleIndex >= buffer[___m_eventRouteID].m_scheduleCount)
                     {
-                        ___m_PanelNextEvent[j].isVisible = true;
-                        var uILabel = ___m_PanelNextEvent[j].Find<UILabel>("Date");
-                        uILabel.text = scheduledEvents[j + num4].m_startDate.ToString("dd/MM/yyyy HH:mm");
-                        heading?.text = Locale.Get("RACEEVENTWORLDINFOPANEL_UPCOMING_EVENTS");
+                        continue;
                     }
+
+                    var info = scheduleData[scheduleIndex].Info;
+                    if (info == null)
+                    {
+                        continue;
+                    }
+
+                    var panel = ___m_PanelNextEvent[visibleRow];
+                    panel.isVisible = true;
+
+                    var dateLabel = panel.Find<UILabel>("Date");
+                    var nameLabel = panel.Find<UILabel>("Name");
+                    var costLabel = panel.Find<UILabel>("Cost");
+
+                    dateLabel?.text = scheduled.m_startDate.ToString("dd/MM/yyyy HH:mm");
+                    nameLabel?.text = scheduleData[scheduleIndex].Name;
+
+                    var raceEventAI = info.GetEventAI() as RaceEventAI;
+                    var tierInfo = raceEventAI != null ? raceEventAI.GetTierInfo(scheduleData[scheduleIndex].m_tier) : default;
+                    costLabel?.text = LocaleFormatter.FormatCurrency(-tierInfo.m_prizePool);
+
+                    visibleRow++;
                 }
+
             }
 
             [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "CreateNewEvent")]
@@ -1448,8 +1484,8 @@ namespace RealTime.Patches
                 var buffer = Singleton<EventManager>.instance.m_eventRoutes.m_buffer;
                 var scheduleData = buffer[routeID].m_scheduleData;
                 int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
-                int startDay = scheduleData[scheduleIndex].m_startDay + 1;
                 int startMonth = scheduleData[scheduleIndex].m_startMonth + 1;
+                int startDay = scheduleData[scheduleIndex].m_startDay + 1;
                 int startMinute = eventTimeSchedules[scheduleIndex].StartMinute;
 
                 byte startHour = eventTimeSchedules[scheduleIndex].StartHour;
@@ -1527,8 +1563,8 @@ namespace RealTime.Patches
                 var buffer = Singleton<EventManager>.instance.m_eventRoutes.m_buffer;
                 var scheduleData = buffer[routeID].m_scheduleData;
                 int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
-                int startDay = scheduleData[scheduleIndex].m_startDay + 1;
                 int startMonth = scheduleData[scheduleIndex].m_startMonth + 1;
+                int startDay = scheduleData[scheduleIndex].m_startDay + 1;
                 int startHour = eventTimeSchedules[scheduleIndex].StartHour;
 
                 byte startMinute = eventTimeSchedules[scheduleIndex].StartMinute;
@@ -1569,6 +1605,19 @@ namespace RealTime.Patches
                 string dayName = dateTime.DayOfWeek.ToString();
                 string keyToTranslate = "RaceDayLabelDayOfWeek" + dayName;
                 return localizationProvider.Translate(keyToTranslate);
+            }
+
+            private static void ClearNextEventPanel(UIComponent panel)
+            {
+                panel.isVisible = false;
+
+                var date = panel.Find<UILabel>("Date");
+                var name = panel.Find<UILabel>("Name");
+                var cost = panel.Find<UILabel>("Cost");
+
+                date?.text = string.Empty;
+                name?.text = string.Empty;
+                cost?.text = string.Empty;
             }
         }
 

@@ -8,6 +8,7 @@ namespace RealTime.Patches
     using RealTime.CustomAI;
     using RealTime.GameConnection;
     using RealTime.Managers;
+    using UnityEngine;
 
     [HarmonyPatch]
     internal static class EventManagerPatch
@@ -115,8 +116,10 @@ namespace RealTime.Patches
                 __result = false;
                 return false;
             }
-            bool flag = false;
-            int num = schedule.Length;
+            Array.Clear(schedule, 0, schedule.Length);
+
+            int count = 0;
+            int capacity = schedule.Length;
             var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(eventRouteIndex);
             var scheduleData = ___m_eventRoutes.m_buffer[eventRouteIndex].m_scheduleData;
             for (int i = 0; i < ___m_eventRoutes.m_buffer[eventRouteIndex].m_scheduleCount; i++)
@@ -126,60 +129,48 @@ namespace RealTime.Patches
                     continue;
                 }
                 var dateTime = CalculateNextEvent(Singleton<SimulationManager>.instance.m_currentGameTime, scheduleData[i].m_startDay + 1, scheduleData[i].m_startMonth + 1, eventTimeSchedules[i].StartHour, eventTimeSchedules[i].StartMinute);
-                int j = 0;
-                if (!eventTimeSchedules[i].AutoOccur)
+
+                int occurrences = eventTimeSchedules[i].AutoOccur ? capacity : 1;
+
+                for (int k = 0; k < occurrences; k++)
                 {
-                    num = 1;
-                }
-                for (int k = 0; k < num; k++)
-                {
-                    if (j >= num)
+                    if (count >= capacity)
                     {
                         break;
                     }
-                    if (!flag)
+
+                    int insertPos = 0;
+                    while (insertPos < count && schedule[insertPos].m_startDate < dateTime)
                     {
-                        ref var reference = ref schedule[k];
-                        reference = new EventRouteData.EventRouteSchedule
-                        {
-                            m_startDate = dateTime,
-                            m_scheduleIndex = i
-                        };
+                        insertPos++;
                     }
-                    else
+
+                    for (int shift = Math.Min(count, capacity - 1); shift > insertPos; shift--)
                     {
-                        for (; j < num && schedule[j].m_startDate < dateTime; j++)
-                        {
-                        }
-                        if (j < num)
-                        {
-                            for (int num2 = num - 1; num2 > j; num2--)
-                            {
-                                ref var reference2 = ref schedule[num2];
-                                reference2 = schedule[num2 - 1];
-                            }
-                            ref var reference3 = ref schedule[j];
-                            reference3 = new EventRouteData.EventRouteSchedule
-                            {
-                                m_startDate = dateTime,
-                                m_scheduleIndex = i
-                            };
-                        }
+                        schedule[shift] = schedule[shift - 1];
                     }
+
+                    schedule[insertPos] = new EventRouteData.EventRouteSchedule
+                    {
+                        m_startDate = dateTime,
+                        m_scheduleIndex = i
+                    };
+
+                    count++;
+
                     if (eventTimeSchedules[i].Frequency == 0)
                     {
-                        // daily
+                        // weekly default
                         dateTime = dateTime.AddDays(7);
                     }
                     else if (eventTimeSchedules[i].Frequency == 1)
                     {
-                        // weekly default
+                        // daily
                         dateTime = dateTime.AddDays(1);
                     }
                 }
-                flag = true;
             }
-            __result = flag;
+            __result = count > 0;
             return false;
         }
 

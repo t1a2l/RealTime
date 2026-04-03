@@ -3,7 +3,6 @@ namespace RealTime.Patches.BuildingAIPatches
     using System;
     using System.Runtime.CompilerServices;
     using ColossalFramework;
-    using ColossalFramework.Math;
     using HarmonyLib;
     using RealTime.Core;
     using RealTime.CustomAI;
@@ -254,7 +253,10 @@ namespace RealTime.Patches.BuildingAIPatches
             {
                 AcademicYearManager.DeleteAcademicYearData(buildingID);
             }
-
+            if (CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
+            {
+                CommercialBuildingTypesManager.RemoveCommercialBuildingType(buildingID);
+            }
             ResourceSlowdownManager.GarbageAccumulator[buildingID] = 0f;
             ResourceSlowdownManager.MailAccumulator[buildingID] = 0f;
         }

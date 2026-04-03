@@ -1033,8 +1033,8 @@ namespace RealTime.Patches
                     dropdownAutoOccur.disabledBgSprite = "OptionsDropboxDisabled";
 
                     // update disabled text color to white
-                    dropdownFrequency.disabledTextColor = Color.white;
-                    dropdownAutoOccur.disabledTextColor = Color.white;
+                    dropdownFrequency.disabledColor = new Color32(128, 128, 128, 160);
+                    dropdownAutoOccur.disabledColor = new Color32(128, 128, 128, 160);
 
                     // get y positions of dropdown and label
                     float dropdownDayY = dropdownDay.relativePosition.y;

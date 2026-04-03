@@ -42,6 +42,12 @@ namespace RealTime.Serializer
 
             var citizens = citizenMgr.m_citizens.m_buffer;
 
+            if (residentSchedules.Length < citizens.Length)
+            {
+                Debug.LogError($"RealTime CitizenSchedule OnSaveData failed: residentSchedules.Length={residentSchedules.Length}, citizens.Length={citizens.Length}");
+                return;
+            }
+
             StorageData.WriteUInt16(iCITIZEN_SCHEDULE_DATA_VERSION, Data);
 
             int savedCount = 0;
@@ -59,7 +65,7 @@ namespace RealTime.Serializer
 
             StorageData.WriteInt32(savedCount, Data);
 
-            for (ushort citizenId = 0; citizenId < citizens.Length; citizenId++)
+            for (uint citizenId = 0; citizenId < citizens.Length; citizenId++)
             {
                 var flags = citizens[citizenId].m_flags;
                 if ((flags & Citizen.Flags.Created) == 0 || (flags & Citizen.Flags.DummyTraffic) != 0)
@@ -71,7 +77,7 @@ namespace RealTime.Serializer
 
                 StorageData.WriteUInt32(uiTUPLE_START, Data);
 
-                StorageData.WriteUInt16(citizenId, Data);
+                StorageData.WriteUInt32(citizenId, Data);
 
                 StorageData.WriteInt32((int)schedule.CurrentState, Data);
                 StorageData.WriteInt32((int)schedule.Hint, Data);
@@ -132,7 +138,7 @@ namespace RealTime.Serializer
                 {
                     CheckStartTuple($"Buffer({i})", iCitizenScheduleVersion, Data, ref iIndex);
 
-                    ushort citizenId = StorageData.ReadUInt16(Data, ref iIndex);
+                    uint citizenId = StorageData.ReadUInt32(Data, ref iIndex);
                     if (citizenId >= residentSchedules.Length)
                     {
                         throw new InvalidDataException($"Citizen id {citizenId} is outside resident schedule buffer.");

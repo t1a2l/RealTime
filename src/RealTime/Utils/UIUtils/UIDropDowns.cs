@@ -15,32 +15,24 @@ namespace RealTime.Utils.UIUtils
         /// <param name="text">Text label.</param>
         /// <param name="width">Dropdown menu width, excluding label (default 220f).</param>
         /// <param name="height">Dropdown button height (default 25f).</param>
+        /// <param name="labelXpos">Label relative x position.</param>
+        /// <param name="labelYpos">Label relative y position.</param>
         /// <param name="itemTextScale">Text scaling (default 0.7f).</param>
         /// <param name="itemHeight">Dropdown menu item height (default 20).</param>
         /// <param name="itemVertPadding">Dropdown menu item vertical text padding (default 8).</param>
-        /// <param name="accomodateLabel">True (default) to move menu to accomodate text label width, false otherwise.</param>
         /// <param name="tooltip">Tooltip, if any.</param>
         /// <returns>New dropdown menu with an attached text label and enclosing panel.</returns>
-        public static UIDropDown AddLabelledDropDown(UIComponent parent, float xPos, float yPos, string name, string text, string tooltip = null, float width = 220f, float height = 25f, float itemTextScale = 0.7f, int itemHeight = 20, int itemVertPadding = 8, bool accomodateLabel = true)
+        public static UIDropDown AddLabelledDropDown(UIComponent parent, float xPos, float yPos, string name, string text, string tooltip = null, float width = 220f, float height = 24f,float labelXpos = 0f, float labelYpos = -20f, float itemTextScale = 0.875f, int itemHeight = 24, int itemVertPadding = 7)
         {
             // Create dropdown.
             var dropDown = AddDropDown(parent, xPos, yPos, name, tooltip, width, height, itemTextScale, itemHeight, itemVertPadding);
 
             // Add label.
             var label = dropDown.AddUIComponent<UILabel>();
-            label.textScale = 0.8f;
+            label.textScale = 0.8125f;
             label.text = text;
-
-            // Get width and position.
-            float labelWidth = label.width + 10f;
-
-            label.relativePosition = new Vector2(-labelWidth, (height - label.height) / 2f);
-
-            // Move dropdown to accomodate label if that setting is set.
-            if (accomodateLabel)
-            {
-                dropDown.relativePosition += new Vector3(labelWidth, 0f);
-            }
+            label.textAlignment = UIHorizontalAlignment.Left;
+            label.relativePosition = new Vector2(labelXpos, labelYpos);
 
             return dropDown;
         }
@@ -59,31 +51,31 @@ namespace RealTime.Utils.UIUtils
         /// <param name="itemVertPadding">Dropdown menu item vertical text padding (default 8).</param>
         /// <param name="tooltip">Tooltip, if any.</param>
         /// <returns>New dropdown menu *without* an attached text label or enclosing panel.</returns>
-        public static UIDropDown AddDropDown(UIComponent parent, float xPos, float yPos, string name, string tooltip = null, float width = 220f, float height = 25f, float itemTextScale = 0.7f, int itemHeight = 20, int itemVertPadding = 8)
+        public static UIDropDown AddDropDown(UIComponent parent, float xPos, float yPos, string name, string tooltip = null, float width = 220f, float height = 25f, float itemTextScale = 0.875f, int itemHeight = 24, int itemVertPadding = 7)
         {
             // Create dropdown menu.
             var dropDown = parent.AddUIComponent<UIDropDown>();
             dropDown.atlas = TextureUtils.GetAtlas("Ingame");
             dropDown.name = name;
-            dropDown.normalBgSprite = "TextFieldPanel";
-            dropDown.disabledBgSprite = "TextFieldPanelDisabled";
-            dropDown.hoveredBgSprite = "TextFieldPanelHovered";
-            dropDown.focusedBgSprite = "TextFieldPanelHovered";
+            dropDown.normalBgSprite = "OptionsDropbox";
+            dropDown.disabledBgSprite = "OptionsDropboxDisabled";
+            dropDown.hoveredBgSprite = "OptionsDropboxHovered";
+            dropDown.focusedBgSprite = "OptionsDropboxHovered";
             dropDown.foregroundSpriteMode = UIForegroundSpriteMode.Stretch;
-            dropDown.listBackground = "TextFieldPanel";
+            dropDown.listBackground = "OptionsDropboxListbox";
             dropDown.itemHover = "ListItemHover";
             dropDown.itemHighlight = "ListItemHighlight";
             dropDown.color = Color.white;
             dropDown.popupColor = Color.white;
-            dropDown.textColor = Color.black;
-            dropDown.popupTextColor = Color.black;
-            dropDown.disabledColor = Color.black;
-            dropDown.font = UIFonts.SemiBold;
-            dropDown.zOrder = 1;
+            dropDown.textColor = Color.white;
+            dropDown.popupTextColor = Color.gray;
+            dropDown.disabledColor = Color.white;
+            dropDown.font = UIFonts.GetUIFont("OpenSans-Regular");
+            dropDown.zOrder = 2;
             dropDown.verticalAlignment = UIVerticalAlignment.Middle;
-            dropDown.horizontalAlignment = UIHorizontalAlignment.Left;
-            dropDown.textFieldPadding = new RectOffset(8, 0, itemVertPadding, 0);
-            dropDown.itemPadding = new RectOffset(14, 0, itemVertPadding, 0);
+            dropDown.horizontalAlignment = UIHorizontalAlignment.Center;
+            dropDown.textFieldPadding = new RectOffset(14, 40, itemVertPadding, 0);
+            dropDown.itemPadding = new RectOffset(14, 14, 0, 0);
 
             dropDown.relativePosition = new Vector2(xPos, yPos);
 
@@ -93,25 +85,7 @@ namespace RealTime.Utils.UIUtils
             dropDown.listHeight = 500;
             dropDown.itemHeight = itemHeight;
             dropDown.textScale = itemTextScale;
-
-            // Create dropdown button.
-            var button = dropDown.AddUIComponent<UIButton>();
-            dropDown.triggerButton = button;
-            button.size = dropDown.size;
-            button.text = string.Empty;
-            button.relativePosition = new Vector2(0f, 0f);
-            button.textVerticalAlignment = UIVerticalAlignment.Middle;
-            button.textHorizontalAlignment = UIHorizontalAlignment.Left;
-            button.normalFgSprite = "IconDownArrow";
-            button.hoveredFgSprite = "IconDownArrowHovered";
-            button.pressedFgSprite = "IconDownArrowPressed";
-            button.focusedFgSprite = "IconDownArrowFocused";
-            button.disabledFgSprite = "IconDownArrowDisabled";
-            button.spritePadding = new RectOffset(3, 3, 3, 3);
-            button.foregroundSpriteMode = UIForegroundSpriteMode.Fill;
-            button.horizontalAlignment = UIHorizontalAlignment.Right;
-            button.verticalAlignment = UIVerticalAlignment.Middle;
-            button.zOrder = 0;
+            dropDown.triggerButton = dropDown;
 
             // Add tooltip.
             if (tooltip != null)

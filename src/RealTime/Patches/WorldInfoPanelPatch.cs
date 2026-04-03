@@ -853,6 +853,7 @@ namespace RealTime.Patches
                 // show commercial building type dropdown only for generic commercial buildings that are not hotels
                 if (BuildingManagerConnection.IsAllowedCommercialBuildingType(building) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(building))
                 {
+                    m_commercialBuildingTypeDropdown.selectedIndex = (int)CommercialBuildingTypesManager.GetCommercialBuildingType(building);
                     m_commercialBuildingTypeDropdown.Show();
                 }
                 else
@@ -908,17 +909,12 @@ namespace RealTime.Patches
                     {
                         Debug.Log("couldn't find ZonedBuildingWorldInfoPanel components");
                     }
+                    s_hotelLabel.Hide();
                 }
 
                 if (m_commercialBuildingTypeDropdown == null)
                 {
-                    var situationLabel = m_zonedBuildingWorldInfoPanel.Find("WorkSituation");
-                    var workerLabel = m_zonedBuildingWorldInfoPanel.Find("HighlyEducatedWorkers");
-                    if (situationLabel != null && workerLabel != null)
-                    {
-                        m_commercialBuildingTypeDropdown.absolutePosition = new Vector2(situationLabel.absolutePosition.x + 200f, workerLabel.absolutePosition.y + 25f);
-                    }
-                    m_commercialBuildingTypeDropdown = UIDropDowns.AddLabelledDropDown(m_zonedBuildingWorldInfoPanel.component, 133f, 19.5f, "CommercialBuildingTypeDropdown", "select type", "select commercial buildign type", 100f, 20f);
+                    m_commercialBuildingTypeDropdown = UIDropDowns.AddLabelledDropDown(m_zonedBuildingWorldInfoPanel.component, 133f, 19.5f, "CommercialBuildingTypeDropdown", "Store Type", "select commercial building store type", 180f, 24f);
                     m_commercialBuildingTypeDropdown.textColor = new Color32(255, 255, 255, 255);
                     m_commercialBuildingTypeDropdown.disabledTextColor = new Color32(142, 142, 142, 255);
                     m_commercialBuildingTypeDropdown.items = [
@@ -931,6 +927,12 @@ namespace RealTime.Patches
                         "All"                             // Index 6
                     ];
                     m_commercialBuildingTypeDropdown.eventSelectedIndexChanged += OnCommercialBuildingTypeDropdownIndexChanged;
+                    var level = m_zonedBuildingWorldInfoPanel.Find("Level");
+                    if(level != null)
+                    {
+                        m_commercialBuildingTypeDropdown.relativePosition = new Vector2(180f, level.relativePosition.y + 5f);
+                    }
+                    m_commercialBuildingTypeDropdown.Hide();
                 }
             }
 
@@ -1163,7 +1165,7 @@ namespace RealTime.Patches
 
             [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "OnSetTarget")]
             [HarmonyPostfix]
-            private static void OnSetTarget(RaceEventWorldInfoPanel __instance, ref UITemplateList<UIPanel> ___m_EventConfigs)
+            private static void OnSetTarget(RaceEventWorldInfoPanel __instance, ref ushort ___m_eventRouteID, ref UITemplateList<UIPanel> ___m_EventConfigs)
             {
                 for (int i = 0; i < 4; i++)
                 {
@@ -1201,6 +1203,12 @@ namespace RealTime.Patches
 
                     var dateTime = new DateTime(year, month, day, hour, minute, 0);
                     dayOfWeek.text = GetDayOfWeekLocalized(dateTime);
+
+                    var newDateTime = AdjustEventStartTime(dateTime);
+                    EventRouteTimeManager.SetEventTimeScheduleHour(___m_eventRouteID, scheduleIndex, (byte)newDateTime.Hour);
+                    EventRouteTimeManager.SetEventTimeScheduleMinute(___m_eventRouteID, scheduleIndex, (byte)newDateTime.Minute);
+                    dropDownHour.selectedIndex = newDateTime.Hour;
+                    dropDownMinute.selectedIndex = newDateTime.Minute;
 
                     dropdownFrequency.tooltip = localizationProvider.Translate(TranslationKeys.RaceDayDropDownFrequencyTooltip);
                     dropdownAutoOccur.tooltip = localizationProvider.Translate(TranslationKeys.RaceDayDropDownAutoOccurTooltip);

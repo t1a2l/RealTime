@@ -15,7 +15,7 @@ namespace RealTime.Utils.UIUtils
             return label;
         }
 
-        public static UILabel CreatePositionedLabel(UIComponent parent, float xPos, float yPos, string name, string text, float width = -1f, float textScale = 1.0f, UIHorizontalAlignment alignment = UIHorizontalAlignment.Left)
+        public static UILabel CreatePositionedLabel(UIComponent parent, float xPos, float yPos, string name, string text, float width = -1f, float textScale = 0.8125f, UIHorizontalAlignment alignment = UIHorizontalAlignment.Left)
         {
             // Add label.
             var label = parent.AddUIComponent<UILabel>();

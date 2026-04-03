@@ -302,6 +302,8 @@ namespace RealTime.CustomAI
             return serviceFactory(residentSchedules);
         }
 
+        public CitizenSchedule[] GetResidentSchedules() => residentSchedules ?? throw new InvalidOperationException("residentSchedules is not initialized.");
+
         /// <summary>Apply loadedSchedules to the residentSchedules array.</summary>
         public void ApplyLoadedSchedules(CitizenSchedule[] loadedSchedules)
         {

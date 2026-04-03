@@ -231,6 +231,7 @@ namespace RealTime.Core
             if (core != null)
             {
                 Log.Info("The 'Real Time' mod stops.");
+                core.Stop();
                 core = null;
             }
 

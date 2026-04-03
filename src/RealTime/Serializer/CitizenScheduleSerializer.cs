@@ -4,6 +4,7 @@ namespace RealTime.Serializer
 {
     using System;
     using System.IO;
+    using ColossalFramework;
     using RealTime.CustomAI;
     using UnityEngine;
 
@@ -17,17 +18,37 @@ namespace RealTime.Serializer
         internal static CitizenSchedule[] residentSchedules;
         internal static Citizen[] citizens;
 
+        /// <summary>Gets or sets the custom AI object for resident citizens.</summary>
+        internal static RealTimeResidentAI<ResidentAI, Citizen> RealTimeResidentAI { get; set; }
+
         public static void SaveData(FastList<byte> Data)
         {
             Debug.Log("RealTime CitizenSchedule OnSaveData - Start");
 
-            int recordCount = CitizenManager.instance.m_citizens.m_buffer.Length;
+            if (RealTimeResidentAI == null)
+            {
+                Debug.LogError("RealTime CitizenSchedule OnSaveData failed: RealTimeResidentAI is null.");
+                return;
+            }
+
+            var citizenMgr = Singleton<CitizenManager>.instance;
+
+            if (citizenMgr == null)
+            {
+                Debug.LogError("RealTime CitizenSchedule OnSaveData failed: CitizenManager is null.");
+                return;
+            }
+
+            int recordCount = citizenMgr.m_citizens.m_buffer.Length;
+
+            var residentSchedules = RealTimeResidentAI.GetResidentSchedules();
+
             citizens = CitizenManager.instance.m_citizens.m_buffer;
 
             StorageData.WriteUInt16(iCITIZEN_SCHEDULE_DATA_VERSION, Data);
             StorageData.WriteInt32(recordCount, Data);
 
-            for (ushort citizenId = 0; citizenId < citizens.Length; ++citizenId)
+            for (ushort citizenId = 0; citizenId < citizens.Length; citizenId++)
             {
                 ref var schedule = ref residentSchedules[citizenId];
 

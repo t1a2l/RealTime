@@ -83,16 +83,7 @@ namespace RealTime.Serializer
 
                     EventRouteTimeManager.TimeSchedules.Add(EventRouteID, eventTimeSchedule);
 
-                    //if end go to next item in the manager
-                    // if not end read another number and then read the end
-                    uint maybeEndTuple = StorageData.ReadUInt32(Data, ref iIndex);
-
-                    if (maybeEndTuple != uiTUPLE_END)
-                    {
-                        StorageData.ReadUInt32(Data, ref iIndex);
-
-                        CheckEndTuple($"Buffer({i})", iEventRouteTimeVersion, Data, ref iIndex);
-                    }
+                    CheckEndTuple($"Buffer({i})", iEventRouteTimeVersion, Data, ref iIndex);
                 }
             }
         }

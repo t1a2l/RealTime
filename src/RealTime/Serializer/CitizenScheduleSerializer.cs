@@ -134,7 +134,7 @@ namespace RealTime.Serializer
                 residentSchedules = new CitizenSchedule[citizenMgr.m_citizens.m_size];
                 int recordCount = StorageData.ReadInt32(Data, ref iIndex);
 
-                for (int i = 0; i < recordCount; ++i)
+                for (int i = 0; i < recordCount; i++)
                 {
                     CheckStartTuple($"Buffer({i})", iCitizenScheduleVersion, Data, ref iIndex);
 
@@ -181,9 +181,7 @@ namespace RealTime.Serializer
                     schedule.UpdateWorkShift(workShift, workShiftStartHour, workShiftEndHour, worksOnWeekends);
                     schedule.UpdateSchoolClass(schoolClass, schoolClassStartHour, schoolClassEndHour);
 
-                    if (schedule.WorkShift != WorkShift.Unemployed
-                        && schedule.WorkShift != WorkShift.Event
-                        && citizens[citizenId].m_workBuilding != 0)
+                    if (schedule.WorkShift != WorkShift.Unemployed && schedule.WorkShift != WorkShift.Event && citizens[citizenId].m_workBuilding != 0)
                     {
                         schedule.UpdateWorkShiftHours(schedule.WorkShift, citizens[citizenId].m_workBuilding);
                     }

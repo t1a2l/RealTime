@@ -104,7 +104,7 @@ namespace RealTime.Serializer
             {
                 for (int j = 0; j != UInt16Array.GetLength(1); j++)
                 {
-                    StorageData.WriteUInt16(UInt16Array[i, j], Data);
+                    WriteUInt16(UInt16Array[i, j], Data);
                 }
             }
         }
@@ -238,6 +238,7 @@ namespace RealTime.Serializer
         public static DateTime ReadDateTime(byte[] Data, ref int Index)
         {
             var myDateTime = DateTime.FromBinary(BitConverter.ToInt64(Data, Index));
+            Index += 8;
             return myDateTime;
         }
     }

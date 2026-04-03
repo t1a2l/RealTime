@@ -74,16 +74,7 @@ namespace RealTime.Serializer
 
                     FireBurnTimeManager.FireBurnTime.Add(BuildingId, burnTime);
 
-                    //if end go to next item in the manager
-                    // if not end read another number and then read the end
-                    uint maybeEndTuple = StorageData.ReadUInt32(Data, ref iIndex);
-
-                    if (maybeEndTuple != uiTUPLE_END)
-                    {
-                        StorageData.ReadUInt32(Data, ref iIndex);
-
-                        CheckEndTuple($"Buffer({i})", iFireBurnStartTimeVersion, Data, ref iIndex);
-                    }
+                    CheckEndTuple($"Buffer({i})", iFireBurnStartTimeVersion, Data, ref iIndex);
                 }
             }
         }

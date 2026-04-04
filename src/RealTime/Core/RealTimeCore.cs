@@ -42,6 +42,7 @@ namespace RealTime.Core
 
         public static bool ApplyCitizenPatch = false;
         public static bool ApplyBuildingPatch = false;
+        public static bool ApplyRealisticPopulationButtonPatch = false;
 
         private RealTimeCore(
             TimeAdjustment timeAdjustment,
@@ -353,6 +354,16 @@ namespace RealTime.Core
             else
             {
                 isCombinedAIEnabled = false;
+            }
+
+            if (compatibility.IsAnyModActive(WorkshopMods.RealisticPopulation2))
+            {
+                ApplyRealisticPopulationButtonPatch = true;
+                Log.Info("The 'Real Time' mod detected RealisticPopulation2 and will change its button position.");
+            }
+            else
+            {
+                ApplyRealisticPopulationButtonPatch = false;
             }
         }
 

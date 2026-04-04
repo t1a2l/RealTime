@@ -57,5 +57,8 @@ namespace RealTime.Core
 
         /// <summary>The Workshop ID of the 'AdvancedOutsideConnections' mod.</summary>
         public const ulong AdvancedOutsideConnections = 2053500739ul;
+
+        /// <summary>The Workshop ID of the 'RealisticPopulation2' mod.</summary>
+        public const ulong RealisticPopulation2 = 2025147082ul;
     }
 }

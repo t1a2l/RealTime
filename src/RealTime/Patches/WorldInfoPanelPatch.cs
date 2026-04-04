@@ -12,6 +12,7 @@ namespace RealTime.Patches
     using ColossalFramework.UI;
     using HarmonyLib;
     using RealTime.Config;
+    using RealTime.Core;
     using RealTime.CustomAI;
     using RealTime.Events;
     using RealTime.Events.Storage;
@@ -791,6 +792,8 @@ namespace RealTime.Patches
 
             private static bool s_updatingDropdown;
 
+            private static UIButton m_realisticPopulationButton;
+
             [HarmonyPatch(typeof(ZonedBuildingWorldInfoPanel), "OnSetTarget")]
             [HarmonyPostfix]
             public static void OnSetTarget()
@@ -798,6 +801,11 @@ namespace RealTime.Patches
                 if (s_hotelLabel == null || m_commercialBuildingTypeDropdown == null)
                 {
                     CreateUI();
+                }
+
+                if (RealTimeCore.ApplyRealisticPopulationButtonPatch && m_realisticPopulationButton != null)
+                {
+                    m_realisticPopulationButton.relativePosition = new Vector2(280f, 80f);
                 }
 
                 // Currently selected building.
@@ -844,6 +852,18 @@ namespace RealTime.Patches
                 if (m_zonedBuildingWorldInfoPanel == null)
                 {
                     return;
+                }
+
+                if(RealTimeCore.ApplyRealisticPopulationButtonPatch && m_realisticPopulationButton == null)
+                {
+                    foreach (var child in m_zonedBuildingWorldInfoPanel.component.components)
+                    {
+                        if (child is UIButton button && button.text.Trim() == "Realistic Population")
+                        {
+                            m_realisticPopulationButton = button;
+                            break;
+                        }
+                    }
                 }
 
                 if (s_hotelLabel == null)

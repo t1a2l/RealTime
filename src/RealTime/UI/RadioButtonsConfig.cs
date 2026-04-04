@@ -15,7 +15,8 @@ namespace RealTime.UI
             ClearBuildingsWorkTimePrefabs,
             ClearBuildingWorkTimeGlobalSettings,
             ResetBuildingsGarbageBuffer,
-            ResetBuildingsMailBuffer
+            ResetBuildingsMailBuffer,
+            ResetBuildingsCrimeBuffer
         }
 
         public ModeType SelectedMode
@@ -124,6 +125,18 @@ namespace RealTime.UI
                 if (value)
                 {
                     SelectedMode = ModeType.ResetBuildingsMailBuffer;
+                }
+            }
+        }
+
+        public bool IsResetBuildingsCrimeBufferMode
+        {
+            get => SelectedMode == ModeType.ResetBuildingsCrimeBuffer;
+            set
+            {
+                if (value)
+                {
+                    SelectedMode = ModeType.ResetBuildingsCrimeBuffer;
                 }
             }
         }

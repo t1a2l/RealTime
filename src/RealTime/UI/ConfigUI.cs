@@ -29,6 +29,7 @@ namespace RealTime.UI
         private const string ClearBuildingWorkTimeGlobalSettingsId = "ClearBuildingWorkTimeGlobalSettings";
         private const string ResetBuildingsGarbageBufferId = "ResetBuildingsGarbageBuffer";
         private const string ResetBuildingsMailBufferId = "ResetBuildingsMailBuffer";
+        private const string ResetBuildingsCrimeBufferId = "ResetBuildingsCrimeBuffer";
         private const string ExecuteSelectedActionId = "ExecuteSelectedAction";
         private const string ClearActionsGroupTitleId = "ClearActionsGroupTitle";
         private const string ToolsId = "Tools";
@@ -54,7 +55,8 @@ namespace RealTime.UI
             { RadioButtonsConfig.ModeType.ClearBuildingsWorkTimePrefabs, ClearBuildingsWorkTimePrefabsId },
             { RadioButtonsConfig.ModeType.ClearBuildingWorkTimeGlobalSettings, ClearBuildingWorkTimeGlobalSettingsId },
             { RadioButtonsConfig.ModeType.ResetBuildingsGarbageBuffer, ResetBuildingsGarbageBufferId },
-            { RadioButtonsConfig.ModeType.ResetBuildingsMailBuffer, ResetBuildingsMailBufferId }
+            { RadioButtonsConfig.ModeType.ResetBuildingsMailBuffer, ResetBuildingsMailBufferId },
+            { RadioButtonsConfig.ModeType.ResetBuildingsCrimeBuffer, ResetBuildingsCrimeBufferId }
         };
 
 
@@ -273,6 +275,9 @@ namespace RealTime.UI
                 case RadioButtonsConfig.ModeType.ResetBuildingsMailBuffer:
                     ResetBuildingsMailBuffer();
                     break;
+                case RadioButtonsConfig.ModeType.ResetBuildingsCrimeBuffer:
+                    ResetBuildingsCrimeBuffer();
+                    break;
                 default:
                     return;
             }
@@ -343,6 +348,8 @@ namespace RealTime.UI
         private void ResetBuildingsGarbageBuffer() => ResourceSlowdownManager.ResetAllGarbage();
 
         private void ResetBuildingsMailBuffer() => ResourceSlowdownManager.ResetAllMail();
+
+        private void ResetBuildingsCrimeBuffer() => ResourceSlowdownManager.ResetAllCrime();
 
         private void ConfigProviderChanged(object sender, EventArgs e) => RefreshAllItems();
 

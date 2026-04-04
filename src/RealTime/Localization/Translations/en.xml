@@ -33,6 +33,7 @@
   <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsText" value="This will clear all worktime settings of all the types of all the buildings across all saves! are you sure?" />
   <translation id="ResetBuildingsGarbageBuffer" value="Reset All Buildings Garbage buffer" />
   <translation id="ResetBuildingsMailBuffer" value="Reset All Buildings Mail buffer" />
+  <translation id="ResetBuildingsCrimeBuffer" value="Reset All Buildings Crime buffer" />
   <translation id="ExecuteSelectedAction" value="Execute Selected Action" />
   <translation id="ClearActionsGroupTitle" value="Clear Actions" />
 

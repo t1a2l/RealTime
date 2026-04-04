@@ -95,5 +95,19 @@ namespace RealTime.Managers
                 }
             }
         }
+
+        public static void ResetAllCrime()
+        {
+            var buildingManager = Singleton<BuildingManager>.instance;
+            var buildings = buildingManager.m_buildings.m_buffer;
+
+            for (ushort i = 0; i < buildings.Length; i++)
+            {
+                if ((buildings[i].m_flags & Building.Flags.Created) != 0)
+                {
+                    buildings[i].m_crimeBuffer = 0;
+                }
+            }
+        }
     }
 }

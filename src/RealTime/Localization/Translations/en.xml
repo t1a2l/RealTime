@@ -57,10 +57,12 @@
   <translation id="UseSlowAgingTooltip" value="If enabled, 1 game day means 1 citizen's life year. If disabled, 1 game day means 10 (at time speed 6) to 340 (at time speed 1) life years." />
   <translation id="IsWeekendEnabled" value="Enable Weekends" />
   <translation id="IsWeekendEnabledTooltip" value="Cims don't go to work or school on weekends" />
-  <translation id="IsBreakfastTimeEnabled" value="Enable Breakfast time" />
-  <translation id="IsBreakfastTimeEnabledTooltip" value="Cims should go out at morning for food" />
-  <translation id="IsLunchTimeEnabled" value="Enable Lunch time" />
-  <translation id="IsLunchTimeEnabledTooltip" value="Cims should go out at noon for food" />
+  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchool" value="Enable Breakfast before work or school" />
+  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchoolTooltip" value="Should cims go out for breakfast before work or school" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="Enable Lunch during work or school" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="Should cims go out for lunch during work or school" />
+  <translation id="IsSupperTimeEnabledAfterWorkOrSchool" value="Enable Supper after work or school" />
+  <translation id="IsSupperTimeEnabledAfterWorkOrSchoolTooltip" value="Should cims go out for supper after work or school" />
   <translation id="StopConstructionAtNight" value="Pause the building construction and upgrade at night time" />
   <translation id="StopConstructionAtNightTooltip" value="The construction site workers need to sleep too" />
   <translation id="ConstructionSpeed" value="Construction speed" />
@@ -91,10 +93,12 @@
   <translation id="NightShiftQuotaTooltip" value="The percentage of the citizens that work a night shift" />
   <translation id="ContinuousNightShiftQuota" value="Continuous Night shift workers" />
   <translation id="ContinuousNightShiftQuotaTooltip" value="The percentage of the citizens that work a continuous night shift" />
-  <translation id="BreakfastQuota" value="Breakfast probability" />
-  <translation id="BreakfastQuotaTooltip" value="The percentage of the Cims that will go out for breakfast" />
-  <translation id="LunchQuota" value="Lunch probability" />
-  <translation id="LunchQuotaTooltip" value="The percentage of the Cims that will go out for lunch" />
+  <translation id="BreakfastBeforeWorkOrSchoolQuota" value="Breakfast before work or school probability" />
+  <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="The percentage of the Cims that will go out for breakfast before work or school" />
+  <translation id="LunchDuringWorkOrSchoolQuota" value="Lunch during work or school probability" />
+  <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="The percentage of the Cims that will go out for lunch during work or school" />
+  <translation id="SupperAfterWorkOrSchoolQuota" value="Supper after work or school probability" />
+  <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="The percentage of the Cims that will go out for supper after work or school" />
   <translation id="LocalBuildingSearchQuota" value="Local shopping ratio" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="The percentage of the population that will search for local shopping" />
   <translation id="ShoppingForFunQuota" value="Shopping for fun" />
@@ -235,10 +239,12 @@
   <translation id="CurrentState.Visiting" value="Visiting" />
   <translation id="ScheduledAction.GoToShelter" value="Go to shelter" />
   <translation id="CurrentState.InShelter" value="At shelter" />
-  <translation id="ScheduledAction.GoToBreakfast" value="Go to eat breakfast" />
-  <translation id="CurrentState.Breakfast" value="Eating breakfast" />
-  <translation id="ScheduledAction.GoToLunch" value="Go to eat lunch" />
-  <translation id="CurrentState.Lunch" value="Eating lunch" />
+  <translation id="ScheduledAction.GoToEat" value="Go to eat" />
+  <translation id="CurrentState.EatMeal" value="Eating " />
+  <translation id="ScheduledMealType.Breakfast" value="breakfast" />
+  <translation id="ScheduledMealType.Lunch" value="lunch" />
+  <translation id="ScheduledMealType.Supper" value="supper" />
+  <translation id="ScheduledMealType.Other" value="a snack" />
   <translation id="WorkShift.First" value="1st work shift" />
   <translation id="WorkShift.Second" value="2nd work shift" />
   <translation id="WorkShift.Night" value="Night work shift" />

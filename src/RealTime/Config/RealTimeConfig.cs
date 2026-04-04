@@ -169,28 +169,28 @@ namespace RealTime.Config
         public uint ContinuousNightShiftQuota { get; set; }
 
         /// <summary>
-        /// Gets or sets the percentage of the Cims that will go out for breakfast.
+        /// Gets or sets the percentage of the Cims that will go out for breakfast before work or school.
         /// Valid values are 0..100.
         /// </summary>
         [ConfigItem("2Quotas", 3)]
         [ConfigItemSlider(0, 100)]
-        public uint BreakfastQuota { get; set; }
+        public uint BreakfastBeforeWorkOrSchoolQuota { get; set; }
 
         /// <summary>
-        /// Gets or sets the percentage of the Cims that will go out for lunch.
+        /// Gets or sets the percentage of the Cims that will go out for lunch during work or school.
         /// Valid values are 0..100.
         /// </summary>
         [ConfigItem("2Quotas", 4)]
         [ConfigItemSlider(0, 100)]
-        public uint LunchQuota { get; set; }
+        public uint LunchDuringWorkOrSchoolQuota { get; set; }
 
         /// <summary>
-        /// Gets or sets the percentage of the Cims that will go out for supper.
+        /// Gets or sets the percentage of the Cims that will go out for supper after work or school.
         /// Valid values are 0..100.
         /// </summary>
         [ConfigItem("2Quotas", 5)]
         [ConfigItemSlider(0, 100)]
-        public uint SupperQuota { get; set; }
+        public uint SupperAfterWorkOrSchoolQuota { get; set; }
 
         /// <summary>
         /// Gets or sets the percentage of the population that will search locally for buildings.
@@ -314,25 +314,25 @@ namespace RealTime.Config
         public float WorkEnd { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether Cims should go out at morning for food.
+        /// Gets or sets a value indicating whether Cims should go out for breakfast before work or schoo.
         /// </summary>
         [ConfigItem("4Time", 4)]
         [ConfigItemCheckBox]
-        public bool IsBreakfastTimeEnabled { get; set; }
+        public bool IsBreakfastTimeEnabledBeforeWorkOrSchool { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether Cims should go out at lunch for food.
+        /// Gets or sets a value indicating whether Cims should go out for lunch during work or school
         /// </summary>
         [ConfigItem("4Time", 5)]
         [ConfigItemCheckBox]
-        public bool IsLunchTimeEnabled { get; set; }
+        public bool IsLunchTimeEnabledDuringWorkOrSchool { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether Cims should go out at evening for food.
+        /// Gets or sets a value indicating whether Cims should go out for supper after work or school.
         /// </summary>
         [ConfigItem("4Time", 6)]
         [ConfigItemCheckBox]
-        public bool IsSupperTimeEnabled { get; set; }
+        public bool IsSupperTimeEnabledAfterWorkOrSchool { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the Cims go out for lunch.
@@ -681,9 +681,9 @@ namespace RealTime.Config
             NightShiftQuota = FastMath.Clamp(NightShiftQuota, 1u, 25u);
             ContinuousNightShiftQuota = FastMath.Clamp(ContinuousNightShiftQuota, 1u, 25u);
 
-            BreakfastQuota = FastMath.Clamp(BreakfastQuota, 0u, 100u);
-            LunchQuota = FastMath.Clamp(LunchQuota, 0u, 100u);
-            SupperQuota = FastMath.Clamp(SupperQuota, 0u, 100u);
+            BreakfastBeforeWorkOrSchoolQuota = FastMath.Clamp(BreakfastBeforeWorkOrSchoolQuota, 0u, 100u);
+            LunchDuringWorkOrSchoolQuota = FastMath.Clamp(LunchDuringWorkOrSchoolQuota, 0u, 100u);
+            SupperAfterWorkOrSchoolQuota = FastMath.Clamp(SupperAfterWorkOrSchoolQuota, 0u, 100u);
             LocalBuildingSearchQuota = FastMath.Clamp(LocalBuildingSearchQuota, 0u, 100u);
             ShoppingForFunQuota = FastMath.Clamp(ShoppingForFunQuota, 0u, 50u);
             OnTimeQuota = FastMath.Clamp(OnTimeQuota, 0u, 100u);
@@ -781,9 +781,9 @@ namespace RealTime.Config
             VirtualCitizens = VirtualCitizensLevel.Vanilla;
             UseSlowAging = true;
             IsWeekendEnabled = true;
-            IsBreakfastTimeEnabled = true;
-            IsLunchTimeEnabled = true;
-            IsSupperTimeEnabled = false;
+            IsBreakfastTimeEnabledBeforeWorkOrSchool = true;
+            IsLunchTimeEnabledDuringWorkOrSchool = true;
+            IsSupperTimeEnabledAfterWorkOrSchool = false;
 
             StopConstructionAtNight = true;
             ConstructionSpeed = 50;
@@ -801,9 +801,9 @@ namespace RealTime.Config
             NightShiftQuota = 6;
             ContinuousNightShiftQuota = 6;
 
-            BreakfastQuota = 20;
-            LunchQuota = 80;
-            SupperQuota = 20;
+            BreakfastBeforeWorkOrSchoolQuota = 20;
+            LunchDuringWorkOrSchoolQuota = 80;
+            SupperAfterWorkOrSchoolQuota = 20;
             LocalBuildingSearchQuota = 60;
             ShoppingForFunQuota = 30;
             OnTimeQuota = 80;

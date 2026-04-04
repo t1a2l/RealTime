@@ -373,30 +373,30 @@ namespace RealTime.CustomAI
 
             if (mealType == MealType.Breakfast)
             {
-                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, BreakfastQuota is {config.BreakfastQuota}");
-                if (!config.IsBreakfastTimeEnabled)
+                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, BreakfastQuota is {config.BreakfastBeforeWorkOrSchoolQuota}");
+                if (!config.IsBreakfastTimeEnabledBeforeWorkOrSchool)
                 {
                     return false;
                 }
-                return randomizer.ShouldOccur(config.BreakfastQuota);
+                return randomizer.ShouldOccur(config.BreakfastBeforeWorkOrSchoolQuota);
             }
             else if (mealType == MealType.Lunch)
             {
-                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, LunchQuota is {config.LunchQuota}");
-                if (!config.IsLunchTimeEnabled)
+                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, LunchQuota is {config.LunchDuringWorkOrSchoolQuota}");
+                if (!config.IsLunchTimeEnabledDuringWorkOrSchool)
                 {
                     return false;
                 }
-                return randomizer.ShouldOccur(config.LunchQuota);
+                return randomizer.ShouldOccur(config.LunchDuringWorkOrSchoolQuota);
             }
             else if (mealType == MealType.Supper)
             {
-                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, SupperQuota is {config.SupperQuota}");
-                if (!config.IsSupperTimeEnabled)
+                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, SupperQuota is {config.SupperAfterWorkOrSchoolQuota}");
+                if (!config.IsSupperTimeEnabledAfterWorkOrSchool)
                 {
                     return false;
                 }
-                return randomizer.ShouldOccur(config.SupperQuota);
+                return randomizer.ShouldOccur(config.SupperAfterWorkOrSchoolQuota);
             }
 
             return false;

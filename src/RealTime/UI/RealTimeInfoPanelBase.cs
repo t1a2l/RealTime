@@ -135,6 +135,14 @@ namespace RealTime.UI
             if (schedule.LastScheduledState != ResidentState.Unknown)
             {
                 string action = localizationProvider.Translate(ScheduledAction + "." + schedule.LastScheduledState.ToString());
+                if(schedule.ScheduledMealType != MealType.None)
+                {
+                    string mealType = localizationProvider.Translate("ScheduledMealType." + schedule.ScheduledMealType.ToString());
+                    if (!string.IsNullOrEmpty(mealType))
+                    {
+                        action += $" {mealType}";
+                    }
+                }
                 if (!string.IsNullOrEmpty(action))
                 {
                     info.Append(localizationProvider.Translate(ScheduledAction)).Append(": ").Append(action);
@@ -160,6 +168,14 @@ namespace RealTime.UI
             if (schedule.CurrentState != ResidentState.Unknown)
             {
                 string action = localizationProvider.Translate(CurrentState + "." + schedule.CurrentState.ToString());
+                if (schedule.ScheduledMealType != MealType.None)
+                {
+                    string mealType = localizationProvider.Translate("ScheduledMealType." + schedule.ScheduledMealType.ToString());
+                    if (!string.IsNullOrEmpty(mealType))
+                    {
+                        action += $" {mealType}";
+                    }
+                }
                 if (!string.IsNullOrEmpty(action))
                 {
                     if (info.Length > 0)

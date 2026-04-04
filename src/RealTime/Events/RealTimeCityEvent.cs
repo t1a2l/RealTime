@@ -45,7 +45,7 @@ namespace RealTime.Events
         /// <param name="attendeesCount">The current attendees count of this city event.</param>
         public RealTimeCityEvent(CityEventTemplate eventTemplate, int attendeesCount) : this(eventTemplate)
         {
-            this.AttendeesCount = attendeesCount;
+            AttendeesCount = attendeesCount;
         }
 
         public int AttendeesCount { get; private set; }

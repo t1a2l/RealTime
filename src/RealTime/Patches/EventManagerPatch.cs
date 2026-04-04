@@ -101,7 +101,6 @@ namespace RealTime.Patches
             return true;
         }
 
-
         [HarmonyPatch(typeof(EventManager), "PopulateRouteSchedule")]
         [HarmonyPrefix]
         public static bool PopulateRouteSchedule(RaceEventWorldInfoPanel __instance, ushort eventRouteIndex, DateTime startDate, EventRouteData.EventRouteSchedule[] schedule, ref FastList<EventRouteData> ___m_eventRoutes, ref bool __result)

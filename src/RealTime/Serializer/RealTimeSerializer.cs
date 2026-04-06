@@ -16,6 +16,7 @@ namespace RealTime.Serializer
         public const ushort DataVersion = 2;
         public const string DataID = "RealTime";
         public static ushort SaveGameFileVersion;
+        private const ushort SeparateCitizenScheduleVersion = 2;
 
         public static RealTimeSerializer instance = null;
         private ISerializableData m_serializableData = null;
@@ -30,107 +31,95 @@ namespace RealTime.Serializer
         {
             try
             {
-                if (m_serializableData != null)
-                {
-                    byte[] Data = m_serializableData.LoadData(DataID);
-                    if (Data != null && Data.Length > 0)
-                    {
-                        int Index = 0;
-
-                        SaveGameFileVersion = StorageData.ReadUInt16(Data, ref Index);
-
-                        Debug.Log("RealTime LoadData - DataID: " + DataID + "; Data length: " + Data.Length.ToString() + "; Data Version: " + SaveGameFileVersion);
-
-                        if (SaveGameFileVersion <= DataVersion)
-                        {
-                            while (Index < Data.Length)
-                            {
-                                CheckStartTuple("FireBurnStartTimeSerializer", SaveGameFileVersion, Data, ref Index);
-                                FireBurnTimeSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
-                                CheckEndTuple("FireBurnStartTimeSerializer", SaveGameFileVersion, Data, ref Index);
-
-                                if (Index == Data.Length)
-                                {
-                                    break;
-                                }
-
-                                CheckStartTuple("BuildingWorkTimeSerializer", SaveGameFileVersion, Data, ref Index);
-                                BuildingWorkTimeSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
-                                CheckEndTuple("BuildingWorkTimeSerializer", SaveGameFileVersion, Data, ref Index);
-
-                                if (Index == Data.Length)
-                                {
-                                    break;
-                                }
-
-                                CheckStartTuple("GraduationSerializer", SaveGameFileVersion, Data, ref Index);
-                                AcademicYearSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
-                                CheckEndTuple("GraduationSerializer", SaveGameFileVersion, Data, ref Index);
-
-                                if (Index == Data.Length)
-                                {
-                                    break;
-                                }
-
-                                CheckStartTuple("GarbageSlowdownSerializer", SaveGameFileVersion, Data, ref Index);
-                                ResourceSlowdownSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
-                                CheckEndTuple("GarbageSlowdownSerializer", SaveGameFileVersion, Data, ref Index);
-
-                                if (Index == Data.Length)
-                                {
-                                    break;
-                                }
-
-                                CheckStartTuple("EventRouteTimeSerializer", SaveGameFileVersion, Data, ref Index);
-                                EventRouteTimeSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
-                                CheckEndTuple("EventRouteTimeSerializer", SaveGameFileVersion, Data, ref Index);
-
-                                if (Index == Data.Length)
-                                {
-                                    break;
-                                }
-
-                                CheckStartTuple("CommercialBuildingTypesSerializer", SaveGameFileVersion, Data, ref Index);
-                                CommercialBuildingTypesSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
-                                CheckEndTuple("CommercialBuildingTypesSerializer", SaveGameFileVersion, Data, ref Index);
-
-                                if(SaveGameFileVersion >= DataVersion)
-                                {
-                                    if (Index == Data.Length)
-                                    {
-                                        break;
-                                    }
-
-                                    CheckStartTuple("CitizenScheduleSerializer", SaveGameFileVersion, Data, ref Index);
-                                    CitizenScheduleSerializer.LoadData(SaveGameFileVersion, Data, ref Index);
-                                    CheckEndTuple("CitizenScheduleSerializer", SaveGameFileVersion, Data, ref Index);
-                                    break;
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            string sMessage = "This saved game was saved with a newer version of RealTime.\r\n";
-                            sMessage += "\r\n";
-                            sMessage += "Unable to load settings.\r\n";
-                            sMessage += "\r\n";
-                            sMessage += "Saved game data version: " + SaveGameFileVersion + "\r\n";
-                            sMessage += "MOD data version: " + DataVersion + "\r\n";
-                            Debug.Log(sMessage);
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("Data is null");
-                    }
-                }
-                else
+                if (m_serializableData == null)
                 {
                     Debug.Log("m_serializableData is null");
+                    return;
+                }
+
+                byte[] data = m_serializableData.LoadData(DataID);
+
+                if (data == null || data.Length == 0)
+                {
+                    Debug.Log("Data is null");
+
+                    return;
+                }
+
+                int Index = 0;
+                SaveGameFileVersion = StorageData.ReadUInt16(data, ref Index);
+
+                Debug.Log("RealTime LoadData - DataID: " + DataID + "; Data length: " + data.Length.ToString() + "; Data Version: " + SaveGameFileVersion);
+
+                if (SaveGameFileVersion > DataVersion)
+                {
+                    string sMessage = "This saved game was saved with a newer version of RealTime.\r\n";
+                    sMessage += "\r\n";
+                    sMessage += "Unable to load settings.\r\n";
+                    sMessage += "\r\n";
+                    sMessage += "Saved game data version: " + SaveGameFileVersion + "\r\n";
+                    sMessage += "MOD data version: " + DataVersion + "\r\n";
+                    Debug.Log(sMessage);
+                    return;
+                }
+
+
+                while (Index < data.Length)
+                {
+                    CheckStartTuple("FireBurnStartTimeSerializer", SaveGameFileVersion, data, ref Index);
+                    FireBurnTimeSerializer.LoadData(SaveGameFileVersion, data, ref Index);
+                    CheckEndTuple("FireBurnStartTimeSerializer", SaveGameFileVersion, data, ref Index);
+
+                    if (Index == data.Length)
+                    {
+                        break;
+                    }
+
+                    CheckStartTuple("BuildingWorkTimeSerializer", SaveGameFileVersion, data, ref Index);
+                    BuildingWorkTimeSerializer.LoadData(SaveGameFileVersion, data, ref Index);
+                    CheckEndTuple("BuildingWorkTimeSerializer", SaveGameFileVersion, data, ref Index);
+
+                    if (Index == data.Length)
+                    {
+                        break;
+                    }
+
+                    CheckStartTuple("GraduationSerializer", SaveGameFileVersion, data, ref Index);
+                    AcademicYearSerializer.LoadData(SaveGameFileVersion, data, ref Index);
+                    CheckEndTuple("GraduationSerializer", SaveGameFileVersion, data, ref Index);
+
+                    if (Index == data.Length)
+                    {
+                        break;
+                    }
+
+                    CheckStartTuple("GarbageSlowdownSerializer", SaveGameFileVersion, data, ref Index);
+                    ResourceSlowdownSerializer.LoadData(SaveGameFileVersion, data, ref Index);
+                    CheckEndTuple("GarbageSlowdownSerializer", SaveGameFileVersion, data, ref Index);
+
+                    if (Index == data.Length)
+                    {
+                        break;
+                    }
+
+                    CheckStartTuple("EventRouteTimeSerializer", SaveGameFileVersion, data, ref Index);
+                    EventRouteTimeSerializer.LoadData(SaveGameFileVersion, data, ref Index);
+                    CheckEndTuple("EventRouteTimeSerializer", SaveGameFileVersion, data, ref Index);
+
+                    if (Index == data.Length)
+                    {
+                        break;
+                    }
+
+                    CheckStartTuple("CommercialBuildingTypesSerializer", SaveGameFileVersion, data, ref Index);
+                    CommercialBuildingTypesSerializer.LoadData(SaveGameFileVersion, data, ref Index);
+                    CheckEndTuple("CommercialBuildingTypesSerializer", SaveGameFileVersion, data, ref Index);
+                    break;
+                }
+
+                if (SaveGameFileVersion >= SeparateCitizenScheduleVersion)
+                {
+                    CitizenScheduleSerializer.LoadData(m_serializableData);
                 }
             }
             catch (Exception ex)
@@ -184,9 +173,7 @@ namespace RealTime.Serializer
                     StorageData.WriteUInt32(uiTUPLE_END, Data);
 
                     // citizen schedules
-                    StorageData.WriteUInt32(uiTUPLE_START, Data);
-                    CitizenScheduleSerializer.SaveData(Data);
-                    StorageData.WriteUInt32(uiTUPLE_END, Data);
+                    CitizenScheduleSerializer.SaveData(m_serializableData);
 
                     BuildingWorkTimeGlobalConfig.Config.Serialize();
 

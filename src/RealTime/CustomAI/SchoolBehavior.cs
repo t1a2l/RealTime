@@ -93,7 +93,14 @@ namespace RealTime.CustomAI
         /// <returns><c>true</c> if the citizen should go to school; otherwise, <c>false</c>.</returns>
         public bool ShouldScheduleGoToSchool(ref CitizenSchedule schedule)
         {
-            Log.Debug(LogCategory.Schedule, $"  - current status is {schedule.CurrentState}");
+            if(schedule.CurrentState == ResidentState.EatMeal)
+            {
+                Log.Debug(LogCategory.Schedule, $"  - current status is {schedule.CurrentState} and the meal type is {schedule.LastScheduledMealType}");
+            }
+            else
+            {
+                Log.Debug(LogCategory.Schedule, $"  - current status is {schedule.CurrentState}");
+            }
 
             if (schedule.CurrentState == ResidentState.AtSchool)
             {

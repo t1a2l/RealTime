@@ -437,7 +437,7 @@ namespace RealTime.CustomAI
 
                 if (ScheduleMeal(ref schedule, ref citizen, localOnly: false))
                 {
-                    Log.Debug(LogCategory.Schedule, $"  - Schedule meal, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
+                    Log.Debug(LogCategory.Schedule, $"  - Schedule meal, meal type is {schedule.ScheduledMealType}, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
                     return true;
                 }
 
@@ -526,12 +526,12 @@ namespace RealTime.CustomAI
                     return;
 
                 case ResidentState.GoToMeal when schedule.CurrentState != ResidentState.EatMeal:
-                    if (schedule.WorkStatus == WorkStatus.None)
+                    if (schedule.WorkBuilding != 0 && schedule.WorkStatus == WorkStatus.Working)
                     {
                         DoScheduledWorkMeal(ref schedule, instance, citizenId, ref citizen);
                         executed = true;
                     }
-                    else if (schedule.SchoolStatus == SchoolStatus.None)
+                    else if (schedule.SchoolBuilding != 0 && schedule.SchoolStatus == SchoolStatus.Studying)
                     {
                         DoScheduledSchoolMeal(ref schedule, instance, citizenId, ref citizen);
                         executed = true;

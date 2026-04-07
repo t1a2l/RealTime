@@ -140,7 +140,7 @@ namespace RealTime.CustomAI
                 if (mealPlace != 0)
                 {
 #if DEBUG
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going for breakfast from {currentBuilding} to {mealPlace}");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going for before work breakfast from {currentBuilding} to {mealPlace}");
 #endif
                     var departureTime = workBehavior.ScheduleGoToWorkTime(ref schedule, mealPlace, simulationCycle);
                     schedule.Schedule(ResidentState.GoToWork, departureTime);
@@ -148,7 +148,7 @@ namespace RealTime.CustomAI
                 else
                 {
 #if DEBUG
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} wanted to go for breakfast from {currentBuilding}, but there were no buildings close enough or open");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} wanted to go for before work breakfast from {currentBuilding}, but there were no buildings close enough or open");
 #endif
                     var departureTime = workBehavior.ScheduleGoToWorkTime(ref schedule, currentBuilding, simulationCycle);
                     schedule.Schedule(ResidentState.GoToWork, departureTime);
@@ -159,14 +159,14 @@ namespace RealTime.CustomAI
                 if (mealPlace != 0)
                 {
 #if DEBUG
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going for lunch from {currentBuilding} to {mealPlace}");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going for during work lunch from {currentBuilding} to {mealPlace}");
 #endif
                     workBehavior.ScheduleReturnFromMeal(ref schedule);
                 }
                 else
                 {
 #if DEBUG
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} wanted to go for lunch from {currentBuilding}, but there were no buildings close enough or open");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} wanted to go for during work lunch from {currentBuilding}, but there were no buildings close enough or open");
 #endif
                     var citizenAge = CitizenProxy.GetAge(ref citizen);
                     workBehavior.ScheduleReturnFromWork(citizenId, ref schedule, citizenAge);
@@ -177,13 +177,13 @@ namespace RealTime.CustomAI
                 if (mealPlace != 0)
                 {
 #if DEBUG
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going for supper from {currentBuilding} to {mealPlace}");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going for after work supper from {currentBuilding} to {mealPlace}");
 #endif
                 }
                 else
                 {
 #if DEBUG
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} wanted to go for supper from {currentBuilding}, but there were no buildings close enough or open");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} wanted to go for after work supper from {currentBuilding}, but there were no buildings close enough or open");
 #endif
                 }
             }

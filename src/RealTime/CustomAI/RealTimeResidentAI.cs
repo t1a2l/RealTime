@@ -136,7 +136,14 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} is in state {schedule.CurrentState} and the scheduled state is {schedule.ScheduledState} and the last scheduled state is {schedule.LastScheduledState}");
+            if (schedule.CurrentState == ResidentState.EatMeal)
+            {
+                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} is in state {schedule.CurrentState} and the scheduled state is {schedule.ScheduledState} and the meal type is {schedule.ScheduledMealType} and the last scheduled state is {schedule.LastScheduledState} and the last scheduled meal type is {schedule.LastScheduledMealType}");
+            }
+            else
+            {
+                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} is in state {schedule.CurrentState} and the scheduled state is {schedule.ScheduledState} and the last scheduled state is {schedule.LastScheduledState}");
+            }
             bool updated = schedule.ScheduledState != ResidentState.GoToShelter && schedule.CurrentState != ResidentState.InShelter && UpdateCitizenSchedule(ref schedule, citizenId, ref citizen);
             ExecuteCitizenSchedule(ref schedule, instance, citizenId, ref citizen, updated);
         }

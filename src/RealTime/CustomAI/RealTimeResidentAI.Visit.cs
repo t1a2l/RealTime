@@ -159,7 +159,7 @@ namespace RealTime.CustomAI
                 {
                     entertainmentReason = TransferManager.TransferReason.ChildCare;
                 }
-                else if (citizenAge == Citizen.AgeGroup.Senior && Random.ShouldOccur(Constants.SeniorElderCareVisitChance))
+                else if (citizenAge == Citizen.AgeGroup.Senior && Random.ShouldOccur(SeniorElderCareVisitChance))
                 {
                     entertainmentReason = TransferManager.TransferReason.ElderCare;
                 }
@@ -359,7 +359,6 @@ namespace RealTime.CustomAI
             return RescheduleVisit(ref schedule, citizenId, ref citizen, currentBuilding, noReschedule);
         }
 
-
         private bool ScheduleMeal(ref CitizenSchedule schedule, ref TCitizen citizen, bool localOnly)
         {
             if (!Random.ShouldOccur(spareTimeBehavior.GetEatingOutChance(CitizenProxy.GetAge(ref citizen))))
@@ -376,11 +375,9 @@ namespace RealTime.CustomAI
             return true;
         }
 
-
-
         private bool DoScheduledMeal(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            // Shopping was already scheduled last time, but the citizen is still at school/work or in shelter.
+            // Meal was already scheduled last time, but the citizen is still at school/work or in shelter.
             // This can occur when the game's transfer manager can't find any activity for the citizen.
             // In that case, move back home.
             if ((schedule.ScheduledState == ResidentState.GoToWork || schedule.CurrentState == ResidentState.AtWork
@@ -399,14 +396,14 @@ namespace RealTime.CustomAI
 
                 if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule))
                 {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for food");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for the purpose of eating {schedule.LastScheduledMealType}");
                     return true;
                 }
 
                 ushort mealPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, CommercialBuildingType.Food);
                 if (mealPlace == 0)
                 {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go to eat a meal, but didn't find a local meal place");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go to eat a {schedule.LastScheduledMealType} meal, but didn't find a local meal place");
                     return false;
                 }
 
@@ -415,7 +412,7 @@ namespace RealTime.CustomAI
                     schedule.Hint = ScheduleHint.NoMealAnyMore;
                 }
 
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} going to eat a meal at a local meal place {mealPlace}");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} going to eat a {schedule.LastScheduledMealType} meal at a local meal place {mealPlace}");
                 return true;
             }
 
@@ -431,7 +428,7 @@ namespace RealTime.CustomAI
             {
                 if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule) && !buildingAI.IsBuildingClosingSoon(currentBuilding))
                 {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for food");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for the purpose of eating {schedule.LastScheduledMealType}");
                     return true;
                 }
 
@@ -441,7 +438,7 @@ namespace RealTime.CustomAI
 #if DEBUG
             else
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues eating in the same place.");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues eating {schedule.LastScheduledMealType} in the same place.");
             }
 #endif
 
@@ -450,10 +447,12 @@ namespace RealTime.CustomAI
 
         private bool ScheduleVisiting(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
-            if(RealTimeCore.isCombinedAIEnabled && GoToPostOfficeOrBank == null)
+            if (!RealTimeCore.isCombinedAIEnabled)
             {
-                GoToPostOfficeOrBank = AccessTools.MethodDelegate<GoToPostOfficeOrBankDelegate>(AccessTools.TypeByName("CombinedAIS.Managers.BankPostOfficeManager").GetMethod("GoToPostOfficeOrBank", BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static), null, false);
+                return false;
             }
+
+            GoToPostOfficeOrBank ??= AccessTools.MethodDelegate<GoToPostOfficeOrBankDelegate>(AccessTools.TypeByName("CombinedAIS.Managers.BankPostOfficeManager").GetMethod("GoToPostOfficeOrBank", BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static), null, false);
 
             if (WeatherInfo.IsBadWeather || GoToPostOfficeOrBank == null)
             {

@@ -58,6 +58,9 @@ namespace RealTime.CustomAI
         /// <summary>Gets the citizen's next scheduled meal type.</summary>
         public MealType ScheduledMealType { get; private set; }
 
+        /// <summary>Gets the citizen's previous scheduled meal type.</summary>
+        public MealType LastScheduledMealType { get; private set; }
+
         /// <summary>
         /// Gets the travel time (in hours) from citizen's home to the work building. The maximum value is
         /// determined by the <see cref="MaxTravelTime"/> constant.
@@ -163,6 +166,7 @@ namespace RealTime.CustomAI
             LastScheduledState = ScheduledState;
             ScheduledState = nextState;
             ScheduledStateTime = nextStateTime;
+            LastScheduledMealType = ScheduledMealType;
             ScheduledMealType = mealType;
         }
 
@@ -174,6 +178,7 @@ namespace RealTime.CustomAI
             LastScheduledState = ScheduledState;
             ScheduledState = nextState;
             ScheduledStateTime = default;
+            LastScheduledMealType = ScheduledMealType;
             ScheduledMealType = mealType;
         }
 
@@ -181,12 +186,13 @@ namespace RealTime.CustomAI
         /// <param name="scheduledState">The citizen's schedule state.</param>
         /// <param name="lastScheduledState">The citizen's last schedule state.</param>
         /// <param name="scheduledStateTime">The citizen's schedule state time.</param>
-        public void UpdateScheduleState(ResidentState scheduledState, ResidentState lastScheduledState, DateTime scheduledStateTime, MealType mealType)
+        public void UpdateScheduleState(ResidentState scheduledState, ResidentState lastScheduledState, DateTime scheduledStateTime, MealType mealType, MealType lastScheduledMealType)
         {
             ScheduledState = scheduledState;
             LastScheduledState = lastScheduledState;
             ScheduledStateTime = scheduledStateTime;
             ScheduledMealType = mealType;
+            LastScheduledMealType = lastScheduledMealType;
         }
 
         /// <summary>Updates the travel time to work for this citizen.</summary>

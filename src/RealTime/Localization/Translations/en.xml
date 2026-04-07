@@ -240,7 +240,7 @@
   <translation id="CurrentState.Visiting" value="Visiting" />
   <translation id="ScheduledAction.GoToShelter" value="Go to shelter" />
   <translation id="CurrentState.InShelter" value="At shelter" />
-  <translation id="ScheduledAction.GoToEat" value="Go to eat" />
+  <translation id="ScheduledAction.GoToMeal" value="Go to eat" />
   <translation id="CurrentState.EatMeal" value="Eating " />
   <translation id="ScheduledMealType.Breakfast" value="breakfast" />
   <translation id="ScheduledMealType.Lunch" value="lunch" />

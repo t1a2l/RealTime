@@ -184,6 +184,7 @@ namespace RealTime.Serializer
                     var lastScheduledState = (ResidentState)StorageData.ReadInt32(chunkBytes, ref index);
                     var scheduledStateTime = StorageData.ReadDateTime(chunkBytes, ref index);
                     var scheduledMealType = (MealType)StorageData.ReadInt32(chunkBytes, ref index);
+                    var lastScheduledMealType = (MealType)StorageData.ReadInt32(chunkBytes, ref index);
                     float travelTimeToWork = StorageData.ReadFloat(chunkBytes, ref index);
                     float travelTimeToSchool = StorageData.ReadFloat(chunkBytes, ref index);
 
@@ -196,7 +197,7 @@ namespace RealTime.Serializer
                     float schoolClassStartHour = StorageData.ReadFloat(chunkBytes, ref index);
                     float schoolClassEndHour = StorageData.ReadFloat(chunkBytes, ref index);
 
-                    schedule.UpdateScheduleState(scheduledState, lastScheduledState, scheduledStateTime, scheduledMealType);
+                    schedule.UpdateScheduleState(scheduledState, lastScheduledState, scheduledStateTime, scheduledMealType, lastScheduledMealType);
                     schedule.UpdateTravelTimeToWork(travelTimeToWork);
                     schedule.UpdateTravelTimeToSchool(travelTimeToSchool);
                     schedule.UpdateWorkShift(workShift, workShiftStartHour, workShiftEndHour, worksOnWeekends);
@@ -268,6 +269,7 @@ namespace RealTime.Serializer
             StorageData.WriteInt32((int)schedule.LastScheduledState, Data);
             StorageData.WriteDateTime(schedule.ScheduledStateTime, Data);
             StorageData.WriteInt32((int)schedule.ScheduledMealType, Data);
+            StorageData.WriteInt32((int)schedule.LastScheduledMealType, Data);
             StorageData.WriteFloat(schedule.TravelTimeToWork, Data);
             StorageData.WriteFloat(schedule.TravelTimeToSchool, Data);
 

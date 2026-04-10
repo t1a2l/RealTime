@@ -15,17 +15,16 @@ namespace RealTime.Patches
     using RealTime.Core;
     using RealTime.CustomAI;
     using RealTime.Events;
-    using RealTime.Events.Storage;
     using RealTime.GameConnection;
     using RealTime.Localization;
     using RealTime.Managers;
+    using RealTime.Simulation;
     using RealTime.UI;
     using RealTime.Utils;
     using RealTime.Utils.UIUtils;
     using SkyTools.Localization;
     using SkyTools.Tools;
     using UnityEngine;
-    using static DistrictPark;
 
     /// <summary>
     /// A static class that provides the patch objects for the world info panel game methods.
@@ -58,7 +57,10 @@ namespace RealTime.Patches
         public static RealTimeConfig RealTimeConfig { get; set; }
 
         /// <summary>Gets or sets the mod localization.</summary>
-        public static ILocalizationProvider localizationProvider { get; set; }
+        public static ILocalizationProvider LocalizationProvider { get; set; }
+
+        /// <summary>Gets or sets the time adjustment simulation class instance.</summary>
+        internal static TimeAdjustment TimeAdjustment { get; set; }
 
         /// <summary>car parking buildings.</summary>
         private static readonly string[] CarParkingBuildings = ["parking", "garage", "car park", "Parking", "Car Port", "Garage", "Car Park"];
@@ -392,8 +394,8 @@ namespace RealTime.Patches
                         panelHeight = 40f;
                     }
 
-                    CityServiceOperationHoursPanel.UpdateData(panelHeight, localizationProvider);
-                    CityServiceOperationHoursCheckBoxPanel.UpdateData(checkBoxXposition, checkBoxYposition, localizationProvider, CityServiceOperationHoursPanel);
+                    CityServiceOperationHoursPanel.UpdateData(panelHeight, LocalizationProvider);
+                    CityServiceOperationHoursCheckBoxPanel.UpdateData(checkBoxXposition, checkBoxYposition, LocalizationProvider, CityServiceOperationHoursPanel);
 
                     OperationHoursUIVisibility(buildingID, CityServiceOperationHoursPanel, CityServiceOperationHoursCheckBoxPanel, checkBoxXposition, checkBoxYposition);
                 }
@@ -420,8 +422,8 @@ namespace RealTime.Patches
                     checkBoxYposition = 0f;
                     panelHeight = 0f;
 
-                    UniqueFactoryOperationHoursPanel.UpdateData(panelHeight, localizationProvider);
-                    UniqueFactoryOperationHoursCheckBoxPanel.UpdateData(checkBoxXposition, checkBoxYposition, localizationProvider, UniqueFactoryOperationHoursPanel);
+                    UniqueFactoryOperationHoursPanel.UpdateData(panelHeight, LocalizationProvider);
+                    UniqueFactoryOperationHoursCheckBoxPanel.UpdateData(checkBoxXposition, checkBoxYposition, LocalizationProvider, UniqueFactoryOperationHoursPanel);
 
                     OperationHoursUIVisibility(buildingID, UniqueFactoryOperationHoursPanel, UniqueFactoryOperationHoursCheckBoxPanel, checkBoxXposition, checkBoxYposition);
                 }
@@ -453,8 +455,8 @@ namespace RealTime.Patches
                         checkBoxYposition = 550f;
                     }
 
-                    WarehouseOperationHoursPanel.UpdateData(panelHeight, localizationProvider);
-                    WarehouseOperationHoursCheckBoxPanel.UpdateData(checkBoxXposition, checkBoxYposition, localizationProvider, WarehouseOperationHoursPanel);
+                    WarehouseOperationHoursPanel.UpdateData(panelHeight, LocalizationProvider);
+                    WarehouseOperationHoursCheckBoxPanel.UpdateData(checkBoxXposition, checkBoxYposition, LocalizationProvider, WarehouseOperationHoursPanel);
 
                     OperationHoursUIVisibility(buildingID, WarehouseOperationHoursPanel, WarehouseOperationHoursCheckBoxPanel, checkBoxXposition, checkBoxYposition);
                 }
@@ -481,8 +483,8 @@ namespace RealTime.Patches
                     checkBoxYposition = 6f;
                     panelHeight = 0f;
 
-                    ZonedBuildingOperationHoursPanel.UpdateData(panelHeight, localizationProvider);
-                    ZonedBuildingOperationHoursCheckBoxPanel.UpdateData(checkBoxXposition, checkBoxYposition, localizationProvider, ZonedBuildingOperationHoursPanel);
+                    ZonedBuildingOperationHoursPanel.UpdateData(panelHeight, LocalizationProvider);
+                    ZonedBuildingOperationHoursCheckBoxPanel.UpdateData(checkBoxXposition, checkBoxYposition, LocalizationProvider, ZonedBuildingOperationHoursPanel);
 
                     OperationHoursUIVisibility(buildingID, ZonedBuildingOperationHoursPanel, ZonedBuildingOperationHoursCheckBoxPanel, checkBoxXposition, checkBoxYposition);
                 }
@@ -670,8 +672,8 @@ namespace RealTime.Patches
 
                 if (m_endYearButton == null)
                 {
-                    string endYearButtonText = localizationProvider.Translate(TranslationKeys.AcademicYearEndYearButtonText);
-                    string endYearButtonTooltipText = localizationProvider.Translate(TranslationKeys.AcademicYearEndYearButtonTooltip);
+                    string endYearButtonText = LocalizationProvider.Translate(TranslationKeys.AcademicYearEndYearButtonText);
+                    string endYearButtonTooltipText = LocalizationProvider.Translate(TranslationKeys.AcademicYearEndYearButtonTooltip);
                     m_endYearButton = UIButtons.CreateButton(buttonPanels, 133f, 19.5f, "EndYear", endYearButtonText, endYearButtonTooltipText);
                     m_endYearButton.textVerticalAlignment = UIVerticalAlignment.Top;
                     m_endYearButton.relativePosition = new Vector2(150f, 22.5f);
@@ -697,8 +699,8 @@ namespace RealTime.Patches
 
                 //if(m_openUserEventCreationPanelButton == null)
                 //{
-                //    string eventButtonText = localizationProvider.Translate(TranslationKeys.VanillaEventSelectEventButton);
-                //    string eventButtonTooltipText = localizationProvider.Translate(TranslationKeys.VanillaEventSelectEventButtonTooltip);
+                //    string eventButtonText = LocalizationProvider.Translate(TranslationKeys.VanillaEventSelectEventButton);
+                //    string eventButtonTooltipText = LocalizationProvider.Translate(TranslationKeys.VanillaEventSelectEventButtonTooltip);
                 //    m_openUserEventCreationPanelButton = UIButtons.CreateButton(buttonPanels, 133f, 19.5f, "OpenUserEventCreationPanelButton", eventButtonText, eventButtonTooltipText, 100f, 20f);
                 //    m_openUserEventCreationPanelButton.textVerticalAlignment = UIVerticalAlignment.Top;
                 //    m_openUserEventCreationPanelButton.relativePosition = new Vector2(150f, 22.5f);
@@ -955,6 +957,7 @@ namespace RealTime.Patches
                     // day of the week label and value
                     var dayOfWeek = UnityEngine.Object.Instantiate(labelDay.gameObject, labelDay.parent.transform).GetComponent<UILabel>();
                     var labelDayOfWeek = UnityEngine.Object.Instantiate(labelDay.gameObject, labelDay.parent.transform).GetComponent<UILabel>();
+                    var labelOverlapWarning = UnityEngine.Object.Instantiate(labelDay.gameObject, labelDay.parent.transform).GetComponent<UILabel>();
 
                     // add disabled missing sprite
                     dropdownFrequency.disabledBgSprite = "OptionsDropboxDisabled";
@@ -991,7 +994,8 @@ namespace RealTime.Patches
                     // day of the week label and value relative positions
                     dayOfWeek.relativePosition = new Vector3(105f, 105f);
                     labelDayOfWeek.relativePosition = new Vector3(0f, 105f);
-                    
+                    labelOverlapWarning.relativePosition = new Vector3(200f, 105f);
+
                     // new dropdowns names
                     dropdownHour.name = "DropdownHour";
                     dropdownMinute.name = "DropdownMinute";
@@ -1006,6 +1010,7 @@ namespace RealTime.Patches
                     // day of the week label and value names
                     dayOfWeek.name = "DayOfWeek";
                     labelDayOfWeek.name = "LabelDayOfWeek";
+                    labelOverlapWarning.name = "LabelOverlapWarning";
 
                     // new dropdowns labels texts
                     labelHour.text = "";
@@ -1017,6 +1022,8 @@ namespace RealTime.Patches
                     dayOfWeek.textAlignment = UIHorizontalAlignment.Left;
                     labelDayOfWeek.text = "";
                     labelDayOfWeek.textAlignment = UIHorizontalAlignment.Left;
+                    labelOverlapWarning.text = "";
+                    labelOverlapWarning.textAlignment = UIHorizontalAlignment.Left;
 
                     // day of the week label width
                     dayOfWeek.width = 100f;
@@ -1091,7 +1098,7 @@ namespace RealTime.Patches
 
                         dropDownHour_action.isEnabled = flag2;
                         dropDownMinute_action.isEnabled = flag2;
-                        dropDownFrequency_action.isEnabled = flag2;
+                        dropDownFrequency_action.isEnabled = flag2 && eventTimeSchedules[scheduleIndex].AutoOccur;
                         dropDownAutoOccur_action.isEnabled = flag2;
 
                         dropDownHour_action.parent?.isEnabled = flag2;
@@ -1121,22 +1128,22 @@ namespace RealTime.Patches
                     var dropDownMinute = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
                     var dayOfWeek = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("DayOfWeek");
 
-                    dropDownDay.tooltip = localizationProvider.Translate(TranslationKeys.RaceDayDropDownDateTimeTooltip);
-                    dropDownMonth.tooltip = localizationProvider.Translate(TranslationKeys.RaceDayDropDownDateTimeTooltip);
-                    dropDownHour.tooltip = localizationProvider.Translate(TranslationKeys.RaceDayDropDownDateTimeTooltip);
-                    dropDownMinute.tooltip = localizationProvider.Translate(TranslationKeys.RaceDayDropDownDateTimeTooltip);
+                    dropDownDay.tooltip = LocalizationProvider.Translate(TranslationKeys.RaceDayDropDownDateTimeTooltip);
+                    dropDownMonth.tooltip = LocalizationProvider.Translate(TranslationKeys.RaceDayDropDownDateTimeTooltip);
+                    dropDownHour.tooltip = LocalizationProvider.Translate(TranslationKeys.RaceDayDropDownDateTimeTooltip);
+                    dropDownMinute.tooltip = LocalizationProvider.Translate(TranslationKeys.RaceDayDropDownDateTimeTooltip);
 
                     var dropdownFrequency = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownFrequency");
                     var dropdownAutoOccur = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownAutoOccur");
 
                     dropdownFrequency?.items = [
-                        localizationProvider.Translate(TranslationKeys.RaceDayDropDownWeeklyFrequency),
-                        localizationProvider.Translate(TranslationKeys.RaceDayDropDownDailyFrequency)
+                        LocalizationProvider.Translate(TranslationKeys.RaceDayDropDownWeeklyFrequency),
+                        LocalizationProvider.Translate(TranslationKeys.RaceDayDropDownDailyFrequency)
                     ];
 
                     dropdownAutoOccur?.items = [
-                            localizationProvider.Translate(TranslationKeys.RaceDayDropDownDisableAutoOccur),
-                            localizationProvider.Translate(TranslationKeys.RaceDayDropDownEnableAutoOccur)
+                            LocalizationProvider.Translate(TranslationKeys.RaceDayDropDownDisableAutoOccur),
+                            LocalizationProvider.Translate(TranslationKeys.RaceDayDropDownEnableAutoOccur)
                     ];
 
                     int year = Singleton<SimulationManager>.instance.m_currentGameTime.Year;
@@ -1148,18 +1155,18 @@ namespace RealTime.Patches
                     var dateTime = new DateTime(year, month, day, hour, minute, 0);
                     dayOfWeek.text = GetDayOfWeekLocalized(dateTime);
 
-                    dropdownFrequency.tooltip = localizationProvider.Translate(TranslationKeys.RaceDayDropDownFrequencyTooltip);
-                    dropdownAutoOccur.tooltip = localizationProvider.Translate(TranslationKeys.RaceDayDropDownAutoOccurTooltip);
+                    dropdownFrequency.tooltip = LocalizationProvider.Translate(TranslationKeys.RaceDayDropDownFrequencyTooltip);
+                    dropdownAutoOccur.tooltip = LocalizationProvider.Translate(TranslationKeys.RaceDayDropDownAutoOccurTooltip);
 
                     var labelHour = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("LabelHour");
                     var labelMinute = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("LabelMinute");
                     var labelAutoOccur = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("LabelAutoOccur");
                     var labelDayOfWeek = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("LabelDayOfWeek");
 
-                    labelHour?.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelHour);
-                    labelMinute?.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelMinute);
-                    labelAutoOccur?.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelAutoOccur);
-                    labelDayOfWeek?.text = localizationProvider.Translate(TranslationKeys.RaceDayLabelDayOfWeek);
+                    labelHour?.text = LocalizationProvider.Translate(TranslationKeys.RaceDayLabelHour);
+                    labelMinute?.text = LocalizationProvider.Translate(TranslationKeys.RaceDayLabelMinute);
+                    labelAutoOccur?.text = LocalizationProvider.Translate(TranslationKeys.RaceDayLabelAutoOccur);
+                    labelDayOfWeek?.text = LocalizationProvider.Translate(TranslationKeys.RaceDayLabelDayOfWeek);
                 }
                 
             }
@@ -1279,16 +1286,22 @@ namespace RealTime.Patches
                             {
                                 return;
                             }
-                            var dateTime = Singleton<SimulationManager>.instance.m_currentGameTime;
+                            var candidate = AdjustEventStartTime(Singleton<SimulationManager>.instance.m_currentGameTime);
+                            int retries = 0;
+                            while (HasScheduleConflict(m_eventRouteID, scheduleCount, candidate) && retries++ < 32)
+                            {
+                                candidate = candidate.AddHours(8);
+                                candidate = AdjustEventStartTime(candidate);
+                            }
                             buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_scheduleID = ++Singleton<EventManager>.instance.m_eventScheduleCount;
                             buffer[m_eventRouteID].m_scheduleData[scheduleCount].Info = m_allowedEventInfos[0];
-                            buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_startDay = (byte)(dateTime.Day - 1);
-                            buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_startMonth = (byte)(dateTime.Month - 1);
+                            buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_startDay = (byte)(candidate.Day - 1);
+                            buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_startMonth = (byte)(candidate.Month - 1);
                             buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_laps = 1;
                             buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_ticketPrice = 100;
                             buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_flags = EventRouteData.EventScheduleFlags.Suspended;
-                            EventRouteTimeManager.SetEventTimeScheduleHour(m_eventRouteID, scheduleCount, (byte)dateTime.Hour);
-                            EventRouteTimeManager.SetEventTimeScheduleMinute(m_eventRouteID, scheduleCount, (byte)dateTime.Minute);
+                            EventRouteTimeManager.SetEventTimeScheduleHour(m_eventRouteID, scheduleCount, (byte)candidate.Hour);
+                            EventRouteTimeManager.SetEventTimeScheduleMinute(m_eventRouteID, scheduleCount, (byte)candidate.Minute);
                             EventRouteTimeManager.SetEventTimeScheduleFrequency(m_eventRouteID, scheduleCount, 0); // weekly default
                             EventRouteTimeManager.SetEventTimeScheduleAutoOccur(m_eventRouteID, scheduleCount, true); // auto occur by default
                             buffer[m_eventRouteID].m_scheduleCount++;
@@ -1302,6 +1315,17 @@ namespace RealTime.Patches
                     }
                 });
                 return false;
+            }
+
+            [HarmonyPatch(typeof(RaceEventWorldInfoPanel), "OnScheduleCancel")]
+            [HarmonyPostfix]
+            private static void OnScheduleCancel(RaceEventWorldInfoPanel __instance, int scheduleIndex, ref ushort ___m_eventRouteID)
+            {
+                var eventTimeSchedules = EventRouteTimeManager.GetEventTimeSchedules(___m_eventRouteID);
+
+                eventTimeSchedules[scheduleIndex] = default;
+
+                EventRouteTimeManager.SetEventTimeSchedule(___m_eventRouteID, eventTimeSchedules);
             }
 
             [HarmonyReversePatch]
@@ -1355,6 +1379,18 @@ namespace RealTime.Patches
                     }
                     var startDateTime = new DateTime(year, startMonth, b + 1, startHour, startMinute, 0);
                     var newDateTime = AdjustEventStartTime(startDateTime);
+                    var labelOverlapWarning = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("LabelOverlapWarning");
+                    var buttonStartNow = ___m_EventConfigs.items[scheduleIndex].Find<UIButton>("ButtonStartNow");
+                    if (HasScheduleConflict(___m_eventRouteID, scheduleIndex, newDateTime))
+                    {
+                        labelOverlapWarning.text = LocalizationProvider.Translate(TranslationKeys.RaceDayScheduleOverlapWarning);
+                        buttonStartNow.isEnabled = false;
+                    }
+                    else
+                    {
+                        labelOverlapWarning.text = "";
+                        buttonStartNow.isEnabled = true;
+                    } 
                     string newDayOfWeek = GetDayOfWeekLocalized(newDateTime);
                     var uIDropDownHour = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
                     var uIDropDownMinute = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
@@ -1393,6 +1429,18 @@ namespace RealTime.Patches
                     RefreshEventSchedule(__instance);
                     var startDateTime = new DateTime(year, b + 1, startDay, startHour, startMinute, 0);
                     var newDateTime = AdjustEventStartTime(startDateTime);
+                    var labelOverlapWarning = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("LabelOverlapWarning");
+                    var buttonStartNow = ___m_EventConfigs.items[scheduleIndex].Find<UIButton>("ButtonStartNow");
+                    if (HasScheduleConflict(___m_eventRouteID, scheduleIndex, newDateTime))
+                    {
+                        labelOverlapWarning.text = LocalizationProvider.Translate(TranslationKeys.RaceDayScheduleOverlapWarning);
+                        buttonStartNow.isEnabled = false;
+                    }
+                    else
+                    {
+                        labelOverlapWarning.text = "";
+                        buttonStartNow.isEnabled = true;
+                    }
                     string newDayOfWeek = GetDayOfWeekLocalized(newDateTime);
                     var uIDropDownHour = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
                     var uIDropDownMinute = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
@@ -1422,6 +1470,18 @@ namespace RealTime.Patches
                 {
                     var startDateTime = new DateTime(year, startMonth, startDay, b, startMinute, 0);
                     var newDateTime = AdjustEventStartTime(startDateTime);
+                    var labelOverlapWarning = eventConfigs.items[scheduleIndex].Find<UILabel>("LabelOverlapWarning");
+                    var buttonStartNow = eventConfigs.items[scheduleIndex].Find<UIButton>("ButtonStartNow");
+                    if (HasScheduleConflict(routeID, scheduleIndex, newDateTime))
+                    {
+                        labelOverlapWarning.text = LocalizationProvider.Translate(TranslationKeys.RaceDayScheduleOverlapWarning);
+                        buttonStartNow.isEnabled = false;
+                    }
+                    else
+                    {
+                        labelOverlapWarning.text = "";
+                        buttonStartNow.isEnabled = true;
+                    }
                     EventRouteTimeManager.SetEventTimeScheduleHour(routeID, scheduleIndex, (byte)newDateTime.Hour);
                     RefreshEventSchedule(instance);
                     var uIDropDownHour = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
@@ -1435,33 +1495,38 @@ namespace RealTime.Patches
             {
                 var result = eventStartTime;
 
-                float earliestHour;
-                float latestHour;
-                float hour = result.Hour;
-                float minute = result.Minute;
+                while (true)
+                {
+                    float earliestHour;
+                    float latestHour;
 
-                if (RealTimeConfig.IsWeekendEnabled && result.IsWeekend())
-                {
-                    earliestHour = RealTimeConfig.EarliestHourEventStartWeekend;
-                    latestHour = RealTimeConfig.LatestHourEventStartWeekend;
-                }
-                else
-                {
-                    earliestHour = RealTimeConfig.EarliestHourEventStartWeekday;
-                    latestHour = RealTimeConfig.LatestHourEventStartWeekday;
-                }
+                    if (RealTimeConfig.IsWeekendEnabled && result.IsWeekend())
+                    {
+                        earliestHour = RealTimeConfig.EarliestHourEventStartWeekend;
+                        latestHour = RealTimeConfig.LatestHourEventStartWeekend;
+                    }
+                    else
+                    {
+                        earliestHour = RealTimeConfig.EarliestHourEventStartWeekday;
+                        latestHour = RealTimeConfig.LatestHourEventStartWeekday;
+                    }
 
-                if (result.Hour >= latestHour)
-                {
-                    hour = latestHour;
-                    minute = 0;
-                }
-                else if (result.Hour < earliestHour)
-                {
-                    hour = earliestHour;
-                }
+                    var earliest = TimeSpan.FromHours(earliestHour);
+                    var latest = TimeSpan.FromHours(latestHour);
+                    var current = result.TimeOfDay;
 
-                return new DateTime(eventStartTime.Year, eventStartTime.Month, eventStartTime.Day, (int)hour, (int)minute, 0);
+                    if (current < earliest)
+                    {
+                        return result.Date + earliest;
+                    }
+
+                    if (current <= latest)
+                    {
+                        return result;
+                    }
+
+                    result = result.Date.AddDays(1);
+                }
             }
 
             private static void OnScheduleFrequencyChanged(int scheduleIndex, int value, RaceEventWorldInfoPanel instance)
@@ -1501,6 +1566,18 @@ namespace RealTime.Patches
                 {
                     var startDateTime = new DateTime(year, startMonth, startDay, startHour, b, 0);
                     var newDateTime = AdjustEventStartTime(startDateTime);
+                    var labelOverlapWarning = eventConfigs.items[scheduleIndex].Find<UILabel>("LabelOverlapWarning");
+                    var buttonStartNow = eventConfigs.items[scheduleIndex].Find<UIButton>("ButtonStartNow");
+                    if (HasScheduleConflict(routeID, scheduleIndex, newDateTime))
+                    {
+                        labelOverlapWarning.text = LocalizationProvider.Translate(TranslationKeys.RaceDayScheduleOverlapWarning);
+                        buttonStartNow.isEnabled = false;
+                    }
+                    else
+                    {
+                        labelOverlapWarning.text = "";
+                        buttonStartNow.isEnabled = true;
+                    }
                     var uIDropDown = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
                     EventRouteTimeManager.SetEventTimeScheduleMinute(routeID, scheduleIndex, (byte)newDateTime.Minute);
                     RefreshEventSchedule(instance);
@@ -1532,7 +1609,7 @@ namespace RealTime.Patches
             {
                 string dayName = dateTime.DayOfWeek.ToString();
                 string keyToTranslate = "RaceDayLabelDayOfWeek" + dayName;
-                return localizationProvider.Translate(keyToTranslate);
+                return LocalizationProvider.Translate(keyToTranslate);
             }
 
             private static void ClearNextEventPanel(UIComponent panel)
@@ -1547,7 +1624,51 @@ namespace RealTime.Patches
                 name?.text = string.Empty;
                 cost?.text = string.Empty;
             }
+
         }
+
+        public static bool HasScheduleConflict(ushort routeID, int editedScheduleIndex, DateTime candidateStart)
+        {
+            ref var route = ref Singleton<EventManager>.instance.m_eventRoutes.m_buffer[routeID];
+
+            // Check current real event
+            ushort currentEventId = route.m_event;
+            if (currentEventId != 0)
+            {
+                ref var ev = ref Singleton<EventManager>.instance.m_events.m_buffer[currentEventId];
+                var currentStart = TimeAdjustment.GetOriginalTime(ev.m_startFrame);
+
+                if (Overlaps(candidateStart, candidateStart + TimeSpan.FromHours(7), currentStart, currentStart + TimeSpan.FromHours(7)))
+                {
+                    return true;
+                }
+            }
+
+            // Check future scheduled starts
+            var scheduledEvents = route.m_scheduledEvents;
+            for (int i = 0; i < scheduledEvents.Length; i++)
+            {
+                var scheduled = scheduledEvents[i];
+                if (scheduled.m_startDate == DateTime.MinValue)
+                {
+                    continue;
+                }
+
+                if (scheduled.m_scheduleIndex == editedScheduleIndex)
+                {
+                    continue;
+                }
+
+                if (Overlaps(candidateStart, candidateStart + TimeSpan.FromHours(7), scheduled.m_startDate, scheduled.m_startDate + TimeSpan.FromHours(7)))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool Overlaps(DateTime aStart, DateTime aEnd, DateTime bStart, DateTime bEnd) => aStart < bEnd && aEnd > bStart;
 
     }
 }

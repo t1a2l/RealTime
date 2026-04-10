@@ -181,17 +181,20 @@ namespace RealTime.Core
 
             SimulationHandler.Statistics = statistics;
 
+            EventManagerPatch.TimeAdjustment = timeAdjustment;
+
             PlayerBuildingAIPatch.localizationProvider = localizationProvider;
             PrivateBuildingAIPatch.localizationProvider = localizationProvider;
             PrisonerAIPatch.localizationProvider = localizationProvider;
 
-            WorldInfoPanelPatch.CitizenInfoPanel = CustomCitizenInfoPanel.Enable(ResidentAIPatch.RealTimeResidentAI, localizationProvider);
-            WorldInfoPanelPatch.VehicleInfoPanel = CustomVehicleInfoPanel.Enable(ResidentAIPatch.RealTimeResidentAI, localizationProvider);
-            WorldInfoPanelPatch.CampusWorldInfoPanel = CustomCampusWorldInfoPanel.Enable(localizationProvider, configProvider.Configuration);
-            WorldInfoPanelPatch.localizationProvider = localizationProvider;
-
             UIFastListIncentives.localizationProvider = localizationProvider;
             UserEventCreationPanel.Configure(configProvider.Configuration, localizationProvider);
+
+            WorldInfoPanelPatch.CampusWorldInfoPanel = CustomCampusWorldInfoPanel.Enable(localizationProvider, configProvider.Configuration);
+            WorldInfoPanelPatch.CitizenInfoPanel = CustomCitizenInfoPanel.Enable(ResidentAIPatch.RealTimeResidentAI, localizationProvider);
+            WorldInfoPanelPatch.LocalizationProvider = localizationProvider;
+            WorldInfoPanelPatch.TimeAdjustment = timeAdjustment;
+            WorldInfoPanelPatch.VehicleInfoPanel = CustomVehicleInfoPanel.Enable(ResidentAIPatch.RealTimeResidentAI, localizationProvider);
 
             AwakeSleepSimulation.Install(configProvider.Configuration);
 
@@ -247,6 +250,7 @@ namespace RealTime.Core
             EventAIPatch.RealTimeBuildingAI = null;
             EventAIPatch.RealTimeConfig = null;
             EventManagerPatch.RealTimeBuildingAI = null;
+            EventManagerPatch.TimeAdjustment = null;
             EventManagerPatch.TimeInfo = null;
             HumanAIPatch.RealTimeBuildingAI = null;
             HumanAIPatch.RealTimeResidentAI = null;
@@ -268,12 +272,14 @@ namespace RealTime.Core
             TouristAIPatch.TimeInfo = null;
             TransferManagerPatch.RealTimeBuildingAI = null;
             VehicleAIPatch.RealTimeBuildingAI = null;
+            WorldInfoPanelPatch.LocalizationProvider = null;
             WorldInfoPanelPatch.RealTimeBuildingAI = null;
             WorldInfoPanelPatch.RealTimeResidentAI = null;
             WorldInfoPanelPatch.RealTimeConfig = null;
             WorldInfoPanelPatch.RealTimeEventManager = null;
+            WorldInfoPanelPatch.TimeAdjustment = null;
             WorldInfoPanelPatch.TimeInfo = null;
-
+            
             vanillaEvents.Revert();
 
             timeAdjustment.Disable();

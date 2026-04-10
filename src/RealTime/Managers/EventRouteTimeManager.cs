@@ -61,7 +61,7 @@ namespace RealTime.Managers
             SetEventTimeSchedule(eventRouteID, eventTimeSchedule);
         }
 
-        private static void SetEventTimeSchedule(ushort eventRouteID, EventTimeSchedule[] eventTimeSchedule) => TimeSchedules[eventRouteID] = eventTimeSchedule;
+        public static void SetEventTimeSchedule(ushort eventRouteID, EventTimeSchedule[] eventTimeSchedule) => TimeSchedules[eventRouteID] = eventTimeSchedule;
 
         public static void RemoveEventTimeSchedule(ushort eventRouteID) => TimeSchedules.Remove(eventRouteID);
     }

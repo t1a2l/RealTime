@@ -277,6 +277,9 @@ namespace RealTime.Localization
         /// <summary>The key for race day label day of week saturday.</summary>
         public const string RaceDayLabelDayOfWeekSaturday = "RaceDayLabelDayOfWeekSaturday";
 
+        /// <summary>The key for race day schedule overlap warning.</summary>
+        public const string RaceDayScheduleOverlapWarning = "RaceDayScheduleOverlapWarning";
+
         // --------------------------------------------------------------------------------------------------
 
         /// --------------------------------- Vanilla Events Keys -------------------------------------------

@@ -332,6 +332,7 @@
   <translation id="RaceDayLabelDayOfWeekThursday" value="Thursday" />
   <translation id="RaceDayLabelDayOfWeekFriday" value="Friday" />
   <translation id="RaceDayLabelDayOfWeekSaturday" value="Saturday" />
+  <translation id="RaceDayScheduleOverlapWarning" value="Overlap!" />
 
   <translation id="VanillaEventSelectionLabelTitle" value="Events:" />
   <translation id="VanillaEventSelectEventButton" value="Event Info" />

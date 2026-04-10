@@ -264,10 +264,11 @@ namespace RealTime.Patches.BuildingAIPatches
 
         private static bool IsComplexBuilding(ushort buildingID, ref Building data)
         {
-            if (data.Info.m_buildingAI is RaceBuildingAI ||
+            if (data.Info.m_buildingAI is RaceStartBuildingAI ||
                 data.Info.m_buildingAI is MainCampusBuildingAI ||
                 data.Info.m_buildingAI is MainIndustryBuildingAI ||
                 data.Info.m_buildingAI is AirportEntranceAI ||
+                data.Info.m_buildingAI is ParkGateAI ||
                 data.m_eventIndex != 0) // Event buildings
             {
                 return true;

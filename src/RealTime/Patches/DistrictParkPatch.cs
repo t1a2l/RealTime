@@ -13,7 +13,6 @@ namespace RealTime.Patches
     using SkyTools.Tools;
     using RealTime.Config;
     using RealTime.Managers;
-    using ICities;
 
     /// <summary>
     /// A static class that provides the patch objects for the Park Life DLC related methods.
@@ -315,11 +314,7 @@ namespace RealTime.Patches
             int randomChanceModifier = randomizer.Int32(0, Singleton<DistrictManager>.instance.m_properties.m_parkProperties.m_campusProperties.m_randomChanceModifier);
             float winProbability = __instance.GetWinProbability(randomChanceModifier);
             int num = randomizer.Int32(10000u);
-            if ((float)num < winProbability * 100f)
-            {
-                return true;
-            }
-            return false;
+            return (float)num < winProbability * 100f;
         }
 
         private static void CreatePartyReturner(ushort buildingID, ref Building data, byte campus)

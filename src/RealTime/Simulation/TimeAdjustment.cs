@@ -9,12 +9,15 @@ namespace RealTime.Simulation
     /// <summary>
     /// Manages the customized time adjustment. This class depends on the <see cref="SimulationManager"/> class.
     /// </summary>
-    internal sealed class TimeAdjustment
+    /// <remarks>Initializes a new instance of the <see cref="TimeAdjustment"/> class.</remarks>
+    /// <param name="config">The configuration to run with.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+    internal sealed class TimeAdjustment(RealTimeConfig config)
     {
         private const int RealtimeSpeed = 23;
-        private readonly uint vanillaFramesPerDay;
-        private readonly TimeSpan vanillaTimePerFrame;
-        private readonly RealTimeConfig config;
+        private readonly uint vanillaFramesPerDay = SimulationManager.DAYTIME_FRAMES;
+        private readonly TimeSpan vanillaTimePerFrame = SimulationManager.instance.m_timePerFrame;
+        private readonly RealTimeConfig config = config ?? throw new ArgumentNullException(nameof(config));
 
         private uint dayTimeSpeed;
         private uint nightTimeSpeed;
@@ -22,16 +25,6 @@ namespace RealTime.Simulation
         private bool isNightEnabled;
         private TimeSpan originalTimePerFrame;
         private long originalTimeOffsetTicks;
-
-        /// <summary>Initializes a new instance of the <see cref="TimeAdjustment"/> class.</summary>
-        /// <param name="config">The configuration to run with.</param>
-        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
-        public TimeAdjustment(RealTimeConfig config)
-        {
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
-            vanillaFramesPerDay = SimulationManager.DAYTIME_FRAMES;
-            vanillaTimePerFrame = SimulationManager.instance.m_timePerFrame;
-        }
 
         /// <summary>Enables the customized time adjustment.</summary>
         /// <param name="setDefaultTime"><c>true</c> to initialize the game time to a default value (real world date and city wake up hour);
@@ -90,7 +83,7 @@ namespace RealTime.Simulation
         /// This method can be used to convert frame-based times after time adjustments.</summary>
         /// <param name="frameIndex">A frame index representing a time point.</param>
         /// <returns>A <see cref="DateTime"/> object for the specified <paramref name="frameIndex"/>.</returns>
-        public DateTime GetOriginalTime(uint frameIndex) => new DateTime(frameIndex * originalTimePerFrame.Ticks + originalTimeOffsetTicks);
+        public DateTime GetOriginalTime(uint frameIndex) => new(frameIndex * originalTimePerFrame.Ticks + originalTimeOffsetTicks);
 
         /// <summary>Updates the sun position by recalculating the relative day time.</summary>
         public void UpdateSunPosition()

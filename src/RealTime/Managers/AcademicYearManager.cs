@@ -63,7 +63,9 @@ namespace RealTime.Managers
         public static float CalculateHoursSinceLastYearEnded(ushort buildingID)
         {
             var academicYearData = GetAcademicYearData(buildingID);
-            return (SimulationManager.instance.m_currentFrameIndex - academicYearData.ActualAcademicYearEndFrame) * SimulationManager.DAYTIME_FRAME_TO_HOUR;
+            uint currentFrame = SimulationManager.instance.m_currentFrameIndex;
+            uint endFrame = academicYearData.ActualAcademicYearEndFrame;
+            return currentFrame < endFrame ? 0f : (currentFrame - endFrame) * SimulationManager.DAYTIME_FRAME_TO_HOUR;
         }
 
         // dont start or end academic year if night time or weekend or the hour is not between 9 am and 10 am

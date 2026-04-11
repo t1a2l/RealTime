@@ -8,7 +8,7 @@ namespace RealTime.Patches
     using RealTime.CustomAI;
 
     [HarmonyPatch]
-    internal class EventAIPatch
+    internal static class EventAIPatch
     {
         /// <summary>Gets or sets the custom AI object for buildings.</summary>
         public static RealTimeBuildingAI RealTimeBuildingAI { get; set; }
@@ -30,37 +30,48 @@ namespace RealTime.Patches
             return false;
         }
 
+        [HarmonyPatch(typeof(EventAI), "GetPrepareStartFrame")]
+        [HarmonyPrefix]
+        public static void GetPrepareStartFrame(EventAI __instance, ushort eventID, ref EventData data)
+        {
+            if (__instance.m_info.GetAI() is AcademicYearAI)
+            {
+                __instance.m_prepareDuration = 0;
+            }
+            if (__instance.m_info.GetAI() is RaceEventAI)
+            {
+                __instance.m_prepareDuration = 2f;
+            }
+        }
+
         [HarmonyPatch(typeof(EventAI), "CalculateExpireFrame")]
         [HarmonyPrefix]
-        private static void CalculateExpireFrame(EventAI __instance, uint startFrame) => UpdateAcademicYear(__instance);
-
-        [HarmonyPatch(typeof(AcademicYearAI), "GetYearProgress")]
-        [HarmonyPrefix]
-        private static void GetYearProgress(EventAI __instance, ushort eventID, ref EventData data) => UpdateAcademicYear(__instance);
-
-        [HarmonyPatch(typeof(EventAI), "GetDebugString")]
-        [HarmonyPrefix]
-        private static void GetDebugString(EventAI __instance, ushort eventID, ref EventData data) => UpdateAcademicYear(__instance);
-
-        [HarmonyPatch(typeof(EventAI), "GetDaysLeft")]
-        [HarmonyPrefix]
-        private static void GetDaysLeft(EventAI __instance, ushort eventID, ref EventData data) => UpdateAcademicYear(__instance);
+        public static void CalculateExpireFrame(EventAI __instance, uint startFrame)
+        {
+            if (__instance.m_info.GetAI() is AcademicYearAI)
+            {
+                __instance.m_eventDuration = RealTimeConfig.AcademicYearLength * 24f;
+                __instance.m_disorganizeDuration = 0;
+            }
+        }
 
         [HarmonyPatch(typeof(EventAI), "GetDisorganizingEndFrame")]
         [HarmonyPrefix]
-        private static void GetDisorganizingEndFrame(EventAI __instance, ushort eventID, ref EventData data) => UpdateAcademicYear(__instance);
+        public static void GetDisorganizingEndFrame(EventAI __instance, ushort eventID, ref EventData data)
+        {
+            if (__instance.m_info.GetAI() is AcademicYearAI)
+            {
+                __instance.m_disorganizeDuration = 0;
+            }
+        }
 
         [HarmonyPatch(typeof(EventAI), "GetEndFrame")]
         [HarmonyPrefix]
-        private static void GetEndFrame(EventAI __instance, ushort eventID, ref EventData data) => UpdateAcademicYear(__instance);
-
-        private static void UpdateAcademicYear(EventAI instance)
+        public static void GetEndFrame(EventAI __instance, ushort eventID, ref EventData data)
         {
-            if(instance.m_info.GetAI() is AcademicYearAI)
+            if (__instance.m_info.GetAI() is AcademicYearAI)
             {
-                instance.m_prepareDuration = 0;
-                instance.m_disorganizeDuration = 0;
-                instance.m_eventDuration = RealTimeConfig.AcademicYearLength * 24f;
+                __instance.m_eventDuration = RealTimeConfig.AcademicYearLength * 24f;
             }
         }
     }

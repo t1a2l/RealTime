@@ -7,8 +7,9 @@ namespace RealTime.UI
     using System.ComponentModel;
     using System.Linq;
     using System.Reflection;
+    using ColossalFramework;
     using RealTime.Config;
-    using RealTime.Core;
+    using RealTime.Events;
     using RealTime.Managers;
     using RealTime.Patches;
     using SkyTools.Configuration;
@@ -27,6 +28,7 @@ namespace RealTime.UI
         private const string ClearFireBurnTimeManagerId = "ClearFireBurnTimeManager";
         private const string ClearBuildingsWorkTimePrefabsId = "ClearBuildingsWorkTimePrefabs";
         private const string ClearBuildingWorkTimeGlobalSettingsId = "ClearBuildingWorkTimeGlobalSettings";
+        private const string ClearAllEventsId = "ClearAllEvents";
         private const string ResetBuildingsGarbageBufferId = "ResetBuildingsGarbageBuffer";
         private const string ResetBuildingsMailBufferId = "ResetBuildingsMailBuffer";
         private const string ResetBuildingsCrimeBufferId = "ResetBuildingsCrimeBuffer";
@@ -40,6 +42,8 @@ namespace RealTime.UI
         private string ConfirmPanelClearBuildingsWorkTimePrefabsTextId;
         private string ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitleId;
         private string ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTextId;
+        private string ConfirmPanelClearAllEventsTitleId;
+        private string ConfirmPanelClearAllEventsTextId;
 
         private readonly ConfigurationProvider<RealTimeConfig> configProvider;
         private readonly IEnumerable<IViewItem> viewItems;
@@ -54,11 +58,13 @@ namespace RealTime.UI
             { RadioButtonsConfig.ModeType.ClearFireBurnTimeManager, ClearFireBurnTimeManagerId },
             { RadioButtonsConfig.ModeType.ClearBuildingsWorkTimePrefabs, ClearBuildingsWorkTimePrefabsId },
             { RadioButtonsConfig.ModeType.ClearBuildingWorkTimeGlobalSettings, ClearBuildingWorkTimeGlobalSettingsId },
+            { RadioButtonsConfig.ModeType.ClearAllEvents, ClearAllEventsId },
             { RadioButtonsConfig.ModeType.ResetBuildingsGarbageBuffer, ResetBuildingsGarbageBufferId },
             { RadioButtonsConfig.ModeType.ResetBuildingsMailBuffer, ResetBuildingsMailBufferId },
             { RadioButtonsConfig.ModeType.ResetBuildingsCrimeBuffer, ResetBuildingsCrimeBufferId }
         };
 
+        public static RealTimeEventManager RealTimeEventManager { get; set; }
 
         private ConfigUI(ConfigurationProvider<RealTimeConfig> configProvider, IEnumerable<IViewItem> viewItems)
         {
@@ -165,6 +171,8 @@ namespace RealTime.UI
             ConfirmPanelClearBuildingsWorkTimePrefabsTextId = localizationProvider.Translate("ConfirmPanelClearBuildingsWorkTimePrefabsText");
             ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitleId = localizationProvider.Translate("ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitle");
             ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTextId = localizationProvider.Translate("ConfirmPanelClearBuildingsWorkTimeGlobalSettingsText");
+            ConfirmPanelClearAllEventsTitleId = localizationProvider.Translate("ConfirmPanelClearAllEventsTitle");
+            ConfirmPanelClearAllEventsTextId = localizationProvider.Translate("ConfirmPanelClearAllEventsText");
         }
 
         private static void CreateViewItems(ConfigurationProvider<RealTimeConfig> configProvider, IViewItemFactory itemFactory, ICollection<IViewItem> viewItems)
@@ -269,6 +277,9 @@ namespace RealTime.UI
                 case RadioButtonsConfig.ModeType.ClearBuildingWorkTimeGlobalSettings:
                     ClearBuildingWorkTimeGlobalSettings();
                     break;
+                case RadioButtonsConfig.ModeType.ClearAllEvents:
+                    ClearAllEvents();
+                    break;
                 case RadioButtonsConfig.ModeType.ResetBuildingsGarbageBuffer:
                     ResetBuildingsGarbageBuffer();
                     break;
@@ -345,6 +356,17 @@ namespace RealTime.UI
             BuildingWorkTimeGlobalConfig.Config.BuildingWorkTimeGlobalSettings.Clear();
         });
 
+        public void ClearAllEvents() =>
+            ConfirmPanel.ShowModal(ConfirmPanelClearAllEventsTitleId, ConfirmPanelClearAllEventsTextId, (comp, ret) =>
+            {
+                if (ret != 1)
+                {
+                    return;
+                }
+
+                ClearAllEventsFun();
+            });
+
         private void ResetBuildingsGarbageBuffer() => ResourceSlowdownManager.ResetAllGarbage();
 
         private void ResetBuildingsMailBuffer() => ResourceSlowdownManager.ResetAllMail();
@@ -359,6 +381,32 @@ namespace RealTime.UI
             {
                 item.Refresh();
             }
+        }
+
+        private void ClearAllEventsFun()
+        {
+            var eventManager = Singleton<EventManager>.instance;
+            if (eventManager == null)
+            {
+                return;
+            }
+
+            // Work backwards to avoid index shifts
+            for (int i = eventManager.m_events.m_size - 1; i >= 1; --i)
+            {
+                ushort eventId = (ushort)i;
+                ref var ev = ref eventManager.m_events.m_buffer[eventId];
+
+                // Skip already-dead events
+                if (ev.m_flags == EventData.Flags.None || ev.Info == null || ev.Info.GetAI() is AcademicYearAI)
+                {
+                    continue;
+                }
+
+                eventManager.ReleaseEvent(eventId);
+            }
+
+            RealTimeEventManager?.ClearAllActiveAndUpcomingEvents();
         }
     }
 }

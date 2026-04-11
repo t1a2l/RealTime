@@ -204,6 +204,8 @@ namespace RealTime.Core
                 result.storageData.Add(schedulesStorage);
             }
 
+            ConfigUI.RealTimeEventManager = eventManager;
+
             result.storageData.Add(eventManager);
             if (StorageBase.CurrentLevelStorage != null)
             {

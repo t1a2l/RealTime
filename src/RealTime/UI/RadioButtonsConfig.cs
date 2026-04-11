@@ -14,6 +14,7 @@ namespace RealTime.UI
             ClearFireBurnTimeManager,
             ClearBuildingsWorkTimePrefabs,
             ClearBuildingWorkTimeGlobalSettings,
+            ClearAllEvents,
             ResetBuildingsGarbageBuffer,
             ResetBuildingsMailBuffer,
             ResetBuildingsCrimeBuffer
@@ -101,6 +102,18 @@ namespace RealTime.UI
                 if (value)
                 {
                     SelectedMode = ModeType.ClearBuildingWorkTimeGlobalSettings;
+                }
+            }
+        }
+
+        public bool IsClearAllEventsMode
+        {
+            get => SelectedMode == ModeType.ClearAllEvents;
+            set
+            {
+                if (value)
+                {
+                    SelectedMode = ModeType.ClearAllEvents;
                 }
             }
         }

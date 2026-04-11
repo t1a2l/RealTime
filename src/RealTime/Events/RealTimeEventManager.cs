@@ -300,6 +300,13 @@ namespace RealTime.Events
             }
         }
 
+
+        public void ClearAllActiveAndUpcomingEvents()
+        {
+            activeEvents.Clear();
+            upcomingEvents.Clear();
+        }
+
         private static ICityEvent FindEventByBuildingId(List<ICityEvent> cityEvents, ushort buildingId)
         {
             for (int i = 0; i < cityEvents.Count; ++i)

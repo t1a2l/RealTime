@@ -31,6 +31,9 @@
   <translation id="ClearBuildingWorkTimeGlobalSettings" value="Clear Buildings Types Global Settings" />
   <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitle" value="Clear All BuildingsWorkTime Global Settings" />
   <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsText" value="This will clear all worktime settings of all the types of all the buildings across all saves! are you sure?" />
+  <translation id="ClearAllEvents" value="Clear All Events" />
+  <translation id="ConfirmPanelClearAllEventsTitle" value="Clear All Events" />
+  <translation id="ConfirmPanelClearAllEventsText" value="This will clear all events from the event manager in game! cannot be undone! are you sure? (will not clear academic year)" />
   <translation id="ResetBuildingsGarbageBuffer" value="Reset All Buildings Garbage buffer" />
   <translation id="ResetBuildingsMailBuffer" value="Reset All Buildings Mail buffer" />
   <translation id="ResetBuildingsCrimeBuffer" value="Reset All Buildings Crime buffer" />

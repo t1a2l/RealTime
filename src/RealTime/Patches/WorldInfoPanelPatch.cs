@@ -1031,7 +1031,7 @@ namespace RealTime.Patches
 
                     // new dropdown items
                     dropdownHour.items = [.. Enumerable.Range(0, 24).Select(i => i.ToString("D2"))];
-                    dropdownMinute.items = [.. Enumerable.Range(0, 60).Select(i => i.ToString("D2"))];
+                    dropdownMinute.items = ["00", "15", "30", "45"];
 
                     // new dropdown event changes
                     dropdownHour.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)

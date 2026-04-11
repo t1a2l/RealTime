@@ -202,16 +202,35 @@ namespace RealTime.Patches
 
         private static bool HasConflictWithCurrentEvent(ushort eventRouteIndex, DateTime candidate)
         {
+            if (Singleton<EventManager>.instance == null || eventRouteIndex >= Singleton<EventManager>.instance.m_eventRoutes.m_size)
+            {
+                return false;
+            }
+
+
             ref var route = ref Singleton<EventManager>.instance.m_eventRoutes.m_buffer[eventRouteIndex];
             ushort currentEventId = route.m_event;
 
-            if (currentEventId == 0)
+            if (currentEventId == 0 || currentEventId >= Singleton<EventManager>.instance.m_events.m_size)
             {
                 return false;
             }
 
             ref var ev = ref Singleton<EventManager>.instance.m_events.m_buffer[currentEventId];
-            var currentStart = TimeAdjustment.GetOriginalTime(ev.m_startFrame);
+            if (ev.Info?.m_eventAI == null || ev.m_startFrame == 0)
+            {
+                return false;
+            }
+
+            DateTime currentStart;
+            try
+            {
+                currentStart = TimeAdjustment.GetOriginalTime(ev.m_startFrame);
+            }
+            catch
+            {
+                return false;
+            }
 
             var candidateEnd = candidate.AddHours(7);
             var currentEnd = currentStart.AddHours(7);

@@ -127,10 +127,18 @@ namespace RealTime.GameConnection
                 return false;
             }
 
+            float duration = eventData.Info.m_eventAI.m_eventDuration;
+
+            if (eventData.Info?.m_eventAI is RaceEventAI && eventData.m_raceEventData != null
+                && eventData.m_raceEventData.m_eventEndFrame > eventData.m_startFrame)
+            {
+                duration = (eventData.m_raceEventData.m_eventEndFrame - eventData.m_startFrame) / SimulationManager.DAYTIME_HOUR_TO_FRAME;
+            }
+
             eventInfo = new VanillaEventInfo(
                 eventData.m_building,
                 eventData.StartTime,
-                eventData.Info.m_eventAI.m_eventDuration,
+                duration,
                 eventData.m_ticketPrice / 100f);
             return true;
         }

@@ -2,11 +2,15 @@ namespace RealTime.Patches
 {
     using System;
     using HarmonyLib;
+    using RealTime.Events;
     using UnityEngine;
 
     [HarmonyPatch]
     internal static class RaceEventAIPatch
     {
+        /// <summary>Gets or sets the game events data.</summary>
+        public static RealTimeEventManager RealTimeEventManager { get; set; }
+
         [HarmonyPatch(typeof(RaceEventAI), "CalculateExpireFrame")]
         [HarmonyPrefix]
         public static bool CalculateExpireFrame(RaceEventAI __instance, uint startFrame, ref uint __result)
@@ -31,6 +35,9 @@ namespace RealTime.Patches
         public static bool GetEndFrame(RaceEventAI __instance, ushort eventID, ref EventData data)
         {
             data.m_raceEventData.m_eventEndFrame = __instance is ParadeAI paradeAI ? GetParadeEndFrame(paradeAI, ref data) : GetRaceEndFrame(ref data);
+            var raceEvent = RealTimeEventManager.GetCityEvent(eventID);
+            float duration = (data.m_raceEventData.m_eventEndFrame - data.m_startFrame) / SimulationManager.DAYTIME_HOUR_TO_FRAME;
+            raceEvent?.SetDuration(duration);
             return false;
         }
 

@@ -80,9 +80,14 @@ namespace RealTime.Events
             _ => 0,
         };
 
+        /// <summary>When overridden in derived classes, set the city event duration.</summary>
+        public abstract void SetDuration(float duration);
+
         /// <summary>When overridden in derived classes, calculates the city event duration.</summary>
         /// ///
         /// <returns>This city event duration in hours.</returns>
         protected abstract float GetDuration();
+
+       
     }
 }

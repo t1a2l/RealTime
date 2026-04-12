@@ -6,6 +6,7 @@ namespace RealTime.Events
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Xml.Serialization;
     using ColossalFramework;
     using RealTime.Config;
@@ -455,11 +456,23 @@ namespace RealTime.Events
                 }
             }
 
-            var newStartTime = EnsureUniqueStartTime(startTime);
-            if (newStartTime != startTime)
+            bool adjustStartTime = true;
+
+            ref var eventData = ref EventManager.instance.m_events.m_buffer[eventId];
+            if (eventData.Info?.m_eventAI is RaceEventAI || eventData.Info?.m_type == EventManager.EventType.RaceOrParade)
             {
-                startTime = newStartTime;
-                eventManager.SetStartTime(eventId, startTime);
+                adjustStartTime = false;
+                Log.Debug(LogCategory.Events, timeInfo.Now, "Skipping time adjustment for race/parade event");
+            }
+
+            if(adjustStartTime)
+            {
+                var newStartTime = EnsureUniqueStartTime(startTime);
+                if (newStartTime != startTime)
+                {
+                    startTime = newStartTime;
+                    eventManager.SetStartTime(eventId, startTime);
+                }
             }
 
             var newEvent = new VanillaEvent(eventId, eventInfo.Duration, eventInfo.TicketPrice, eventManager);

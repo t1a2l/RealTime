@@ -134,7 +134,7 @@ namespace RealTime.Patches
                 }
                 var dateTime = CalculateNextEvent(Singleton<SimulationManager>.instance.m_currentGameTime, scheduleData[i].m_startDay + 1, scheduleData[i].m_startMonth + 1, eventTimeSchedules[i].StartHour, eventTimeSchedules[i].StartMinute);
 
-                int occurrences = eventTimeSchedules[i].AutoOccur ? capacity : 1;
+                int occurrences = eventTimeSchedules[i].AutoOccur ? capacity : HasExistingOccurrence(eventRouteIndex, i, ref ___m_eventRoutes) ? 0 : 1;
 
                 for (int k = 0; k < occurrences; k++)
                 {
@@ -248,6 +248,55 @@ namespace RealTime.Patches
                 var existingEnd = existingStart.AddHours(7);
 
                 if (candidate < existingEnd && candidateEnd > existingStart)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool HasExistingOccurrence(ushort eventRouteIndex, int scheduleIndex, ref FastList<EventRouteData> m_eventRoutes)
+        {
+            var events = Singleton<EventManager>.instance.m_events;
+            ref var route = ref m_eventRoutes.m_buffer[eventRouteIndex];
+            ref var scheduleData = ref route.m_scheduleData[scheduleIndex];
+
+            for (ushort i = 1; i < events.m_size; i++)
+            {
+                ref var ev = ref events.m_buffer[i];
+
+                // Skip non-live events
+                if ((ev.m_flags & (EventData.Flags.Preparing | EventData.Flags.Ready | EventData.Flags.Active)) == 0)
+                {
+                    continue;
+                }
+
+                if ((ev.m_flags & (EventData.Flags.Cancelled | EventData.Flags.Completed | EventData.Flags.Deleted | EventData.Flags.Expired)) != 0)
+                {
+                    continue;
+                }
+
+                // Skip academic year
+                if (ev.Info?.m_type == EventManager.EventType.AcademicYear)
+                {
+                    continue;
+                }
+
+                // Route building match
+                if (ev.m_building != route.m_startBuilding)
+                {
+                    continue;
+                }
+
+                // Race/parade events only
+                if (ev.m_raceEventData == null)
+                {
+                    continue;
+                }
+
+                // Exact schedule ID match
+                if (ev.m_raceEventData.m_scheduleID == scheduleData.m_scheduleID)
                 {
                     return true;
                 }

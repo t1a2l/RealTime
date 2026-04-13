@@ -2,481 +2,491 @@
 <language id="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="Warnung" />
-  <translation id="RestrictedModeMessage" value="Real Time funktioniert im eingeschränkten Modus. Einige Funktionen sind nicht verfügbar. Die Ursache liegt entweder an einem technischen Problem einer third-party Bibliothek oder an einer Mod-Inkompatibilität. Für Unterstützung zeigen Sie dem Entwickler das Log-File von Cities:Skylines." />
-  <translation id="ModNotWorkingMessage" value="Oh je! Etwas ist schief gelaufen - die Mod 'Real Time' kann nicht aktiviert werden. Bitte zeigen Sie das Log-File von Cities:Skylines dem Entwickler." />
-  <translation id="IncompatibleModsFoundMessage" value="Real Time etdeckte zumindest eine inkompatible Mod (oder teilweise inkompatible). Es wird empfohlen, davon abzumelden. Weiterspielen ist auf eigenes Risiko möglich, etwas könnte dabei aber nicht funktionieren oder das Spiel könnte abstürzen." />
+  <translation id="RestrictedModeMessage" value="Real Time läuft im eingeschränkten Modus. Einige Funktionen sind deaktiviert. Dies liegt an einem technischen Problem mit einer Drittanbieter-Bibliothek oder einer Mod-Inkompatibilität. Wenn du Hilfe benötigst, teile bitte deine Log-Datei mit dem Entwickler der Mod." />
+  <translation id="ModNotWorkingMessage" value="Hoppla! Etwas ist schiefgelaufen – die Mod 'Real Time' konnte nicht aktiviert werden. Bitte teile deine Log-Datei mit dem Entwickler der Mod." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time hat mindestens eine inkompatible (oder teilweise inkompatible) Mod erkannt. Es wird empfohlen, diese zu deabonnieren. Die Fortsetzung erfolgt auf eigene Gefahr; es könnten Fehlfunktionen oder Abstürze auftreten." />
   <translation id="Minutes" value="Min." />
 
-  <translation id="Tools" value="Tools" />
-  <translation id="ShowIncompatibilityNotifications" value="Zeige Inkompatibilitäts-Notifikationen mit anderen Mods" />
-  <translation id="UseEnglishUSFormats" value="USA-Format für Datum und Uhrzeit für die Englische Spache" />
-  <translation id="UseEnglishUSFormatsTooltip" value="Das Spiel muss neu gestartet werden, um die Änderungen dieser Option zu übernehmen" />
-  <translation id="DebugMode" value="Debug Mode" />
-  <translation id="DebugModeTooltip" value="Enables extra data and settings for debugging" />
-  <translation id="LoggingMode" value="Logging Mode" />
-  <translation id="LoggingModeTooltip" value="Allow extra logging for debugging" />
-  <translation id="AdvancedLoggingMode" value="Advanced Logging Mode" />
-  <translation id="AdvancedLoggingModeTooltip" value="Allow advanced logging for debugging" />
-  <translation id="ResetToDefaults" value="Alle Optionen zurücksetzen" />
+  <translation id="Tools" value="Werkzeuge" />
+  <translation id="ShowIncompatibilityNotifications" value="Benachrichtigungen über Mod-Inkompatibilitäten anzeigen" />
+  <translation id="UseEnglishUSFormats" value="US-Zeit- und Datumsformat bei englischer Sprache verwenden" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Das Ändern des Zeitformats erfordert einen Neustart des Spiels" />
+  <translation id="DebugMode" value="Debug-Modus" />
+  <translation id="DebugModeTooltip" value="Aktiviert zusätzliche Debug-Daten und Einstellungen" />
+  <translation id="LoggingMode" value="Logging-Modus" />
+  <translation id="LoggingModeTooltip" value="Ermöglicht das Schreiben zusätzlicher Debug-Logs" />
+  <translation id="AdvancedLoggingMode" value="Erweiterter Logging-Modus" />
+  <translation id="AdvancedLoggingModeTooltip" value="Ermöglicht sehr detailliertes Schreiben von Debug-Logs" />
+  <translation id="ResetToDefaults" value="Auf Standardwerte zurücksetzen" />
   <translation id="UseForNewGames" value="Aktuelle Einstellungen für neue Spiele verwenden" />
-  <translation id="ClearStuckCitizensSchedule" value="Clear All Stuck Citizens Schedule" />
-  <translation id="ClearStuckTouristsInHotels" value="Clear All Stuck Tourists in Hotels" />
-  <translation id="ClearStuckCitizensInClosedBuildings" value="Clear All Stuck Citizens in Closed Buildings" />
-  <translation id="ClearFireBurnTimeManager" value="Clear Fire Burn Time" />
-  <translation id="ConfirmPanelClearFireBurnTimeManagerTitle" value="Clear FireBurnTime" />
-  <translation id="ConfirmPanelClearFireBurnTimeManagerText" value="This will clear all fire burns happening in the city! are you sure?" />
-  <translation id="ClearBuildingsWorkTimePrefabs" value="Clear Buildings Types Settings" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsTitle" value="Clear All BuildingsWorkTime Types" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsText" value="This will clear all worktime settings of all the types of all the buildings in this save! are you sure?" />
-  <translation id="ClearBuildingWorkTimeGlobalSettings" value="Clear Buildings Types Global Settings" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitle" value="Clear All BuildingsWorkTime Global Settings" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsText" value="This will clear all worktime settings of all the types of all the buildings across all saves! are you sure?" />
-  <translation id="ResetBuildingsGarbageBuffer" value="Reset All Buildings Garbage buffer" />
-  <translation id="ResetBuildingsMailBuffer" value="Reset All Buildings Mail buffer" />
-  <translation id="ExecuteSelectedAction" value="Execute Selected Action" />
-  <translation id="ClearActionsGroupTitle" value="Clear Actions" />
+  <translation id="ClearStuckCitizensSchedule" value="Zeitplan blockierter Bürger löschen" />
+  <translation id="ClearStuckTouristsInHotels" value="Blockierte Touristen in Hotels löschen" />
+  <translation id="ClearStuckCitizensInClosedBuildings" value="Bürger in geschlossenen Gebäuden löschen" />
+  <translation id="ClearFireBurnTimeManager" value="Branddauer-Manager zurücksetzen" />
+  <translation id="ConfirmPanelClearFireBurnTimeManagerTitle" value="FireBurnTime zurücksetzen" />
+  <translation id="ConfirmPanelClearFireBurnTimeManagerText" value="Alle aktuellen Brände in der Stadt werden sofort gelöscht! Fortfahren?" />
+  <translation id="ClearBuildingsWorkTimePrefabs" value="Gebäudetyp-Einstellungen löschen" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsTitle" value="BuildingsWorkTime Prefabs löschen" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsText" value="Alle Arbeitszeit-Einstellungen für Gebäudetypen in diesem Spielstand werden gelöscht! Fortfahren?" />
+  <translation id="ClearBuildingWorkTimeGlobalSettings" value="Globale Gebäudetyp-Einstellungen löschen" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitle" value="Globale BuildingsWorkTime löschen" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsText" value="Alle globalen Arbeitszeit-Einstellungen für Gebäudetypen (für alle Spielstände) werden gelöscht! Fortfahren?" />
+  <translation id="ClearAllEvents" value="Alle Ereignisse löschen" />
+  <translation id="ConfirmPanelClearAllEventsTitle" value="Alle Ereignisse löschen" />
+  <translation id="ConfirmPanelClearAllEventsText" value="Alle Ereignisse werden aus dem Ereignis-Manager gelöscht! Dies kann nicht rückgängig gemacht werden. Fortfahren? (Akademisches Jahr wird nicht zurückgesetzt)" />
+  <translation id="ResetBuildingsGarbageBuffer" value="Müllansammlung aller Gebäude zurücksetzen" />
+  <translation id="ResetBuildingsMailBuffer" value="Postansammlung aller Gebäude zurücksetzen" />
+  <translation id="ResetBuildingsCrimeBuffer" value="Kriminalitätsansammlung aller Gebäude zurücksetzen" />
+  <translation id="ExecuteSelectedAction" value="Ausgewählte Aktion ausführen" />
+  <translation id="ClearActionsGroupTitle" value="Bereinigungsaktionen" />
 
   <translation id="1General" value="Allgemein" />
-  <translation id="0Time" value="Zeitoptionen" />
-  <translation id="1Other" value="Andere Optionen" />
-  <translation id="WakeUpHour" value="City wacht auf" />
-  <translation id="WakeUpHourTooltip" value="Die meisten Einwohner fangen an aufzuwachen. Die Budgets und die Zeitgeschwindigkeit schalten auf 'Tag' um!" />
-  <translation id="GoToSleepHour" value="City geht schlafen" />
-  <translation id="GoToSleepHourTooltip" value="Die meisten Einwohner gehen schlafen. Die Budgets und die Zeitgeschwindigkeit schalten auf 'Nacht' um!" />
-  <translation id="DayTimeSpeed" value="Zeitgeschw. (Tag)" />
-  <translation id="DayTimeSpeedTooltip" value="Die Zeitgeschwindigkeit am Tag. '1' ist sehr langsam - fast in Echtzeit!" />
-  <translation id="NightTimeSpeed" value="Zeitgeschw. (Nacht)" />
-  <translation id="NightTimeSpeedTooltip" value="Die Zeitgeschwindigkeit in der Nacht. '1' ist sehr langsam - fast in Echtzeit!" />
+  <translation id="0Time" value="Zeit-Einstellungen" />
+  <translation id="1Other" value="Sonstiges" />
+  <translation id="WakeUpHour" value="Aufwachzeit der Stadt" />
+  <translation id="WakeUpHourTooltip" value="Die Zeit, zu der die meisten Bürger aufwachen. Budget und Zeitgeschwindigkeit wechseln in den 'Tag'-Modus." />
+  <translation id="GoToSleepHour" value="Schlafenszeit der Stadt" />
+  <translation id="GoToSleepHourTooltip" value="Die Zeit, zu der die meisten Bürger schlafen gehen. Budget und Zeitgeschwindigkeit wechseln in den 'Nacht'-Modus." />
+  <translation id="DayTimeSpeed" value="Zeitgeschwindigkeit (Tag)" />
+  <translation id="DayTimeSpeedTooltip" value="Die Geschwindigkeit des Zeitablaufs während des Tages. '1' ist sehr langsam, fast Echtzeit." />
+  <translation id="NightTimeSpeed" value="Zeitgeschwindigkeit (Nacht)" />
+  <translation id="NightTimeSpeedTooltip" value="Die Geschwindigkeit des Zeitablaufs während der Nacht. '1' ist sehr langsam, fast Echtzeit." />
   <translation id="IsDynamicDayLengthEnabled" value="Dynamische Tageslänge" />
-  <translation id="IsDynamicDayLengthEnabledTooltip" value="Die Tageslänge hängt von der Lanschdschaft der Karte und von der Jahrezeit ab." />
-  <translation id="VirtualCitizens" value="Simulation der Einwohner (real und virtuell)" />
-  <translation id="VirtualCitizensTooltip" value="Wählen sie 'Alle' aus für eine reale Stadt (aber max 65.535 Einw.) oder 'Original' bei schwachem PC oder großer Stadt" />
-  <translation id="VirtualCitizens.None" value="Alle Einwohner sind real" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="Die Tageslänge hängt vom Kartenthema und dem Datum ab. Im Winter sind die Tage kürzer als im Sommer." />
+  <translation id="VirtualCitizens" value="Bürger-Simulationsmodus (real und virtuell)" />
+  <translation id="VirtualCitizensTooltip" value="Wähle 'Alle' für eine echte Stadt (max. 65.535) oder 'Vanilla', wenn der PC langsam oder die Stadt riesig ist." />
+  <translation id="VirtualCitizens.None" value="Alle Bürger als real simulieren" />
   <translation id="VirtualCitizens.Vanilla" value="Wie im Originalspiel" />
-  <translation id="UseSlowAging" value="Bessere Altern und Geburtenrate" />
-  <translation id="UseSlowAgingTooltip" value="Wenn aktiviert, 1 Tag im Spiel bedeutet 1 Jahr für Cims. Wenn deaktiviert, 1 Tag im Spiel bedeutet 10 (bei Zeitgeschw. 6) bis 340 (bei Zeitgeschw. 1) Jahre für Cims." />
-  <translation id="IsWeekendEnabled" value="Wochenende aktiv" />
-  <translation id="IsWeekendEnabledTooltip" value="Cims gehen an den Wochenenden nicht in die Schule oder zur Arbeit" />
-  <translation id="IsBreakfastTimeEnabled" value="Enable Breakfast time" />
-  <translation id="IsBreakfastTimeEnabledTooltip" value="Cims should go out at morning for food" />
-  <translation id="IsLunchTimeEnabled" value="Enable Lunch time" />
-  <translation id="IsLunchTimeEnabledTooltip" value="Cims should go out at noon for food" />
-  <translation id="StopConstructionAtNight" value="Neubau und Gebäude-Upgrade nachts pausieren" />
-  <translation id="StopConstructionAtNightTooltip" value="Bauarbeiter wollen auch schlafen" />
+  <translation id="UseSlowAging" value="Verbessertes Altern und Geburtenrate" />
+  <translation id="UseSlowAgingTooltip" value="Wenn aktiviert, entspricht 1 Spieltag 1 Lebensjahr. Wenn deaktiviert, entspricht 1 Tag ca. 10–340 Jahren." />
+  <translation id="IsWeekendEnabled" value="Wochenenden aktivieren" />
+  <translation id="IsWeekendEnabledTooltip" value="Bürger gehen am Wochenende nicht zur Arbeit oder zur Schule." />
+  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchool" value="Frühstück vor Arbeit/Schule aktivieren" />
+  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchoolTooltip" value="Bestimmt, ob Bürger vor ihren Aktivitäten frühstücken gehen." />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="Mittagspause während Arbeit/Schule aktivieren" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="Bestimmt, ob Bürger während der Arbeitszeit zum Mittagessen ausgehen." />
+  <translation id="IsSupperTimeEnabledAfterWorkOrSchool" value="Abendessen nach Arbeit/Schule aktivieren" />
+  <translation id="IsSupperTimeEnabledAfterWorkOrSchoolTooltip" value="Bestimmt, ob Bürger nach der Arbeit zum Abendessen ausgehen." />
+  <translation id="StopConstructionAtNight" value="Bauarbeiten und Upgrades nachts stoppen" />
+  <translation id="StopConstructionAtNightTooltip" value="Bauarbeiter müssen nachts auch schlafen." />
   <translation id="ConstructionSpeed" value="Baugeschwindigkeit" />
-  <translation id="ConstructionSpeedTooltip" value="Geschwindigkeit des Neubaus und des Gebäude-Upgrades" />
-  <translation id="SwitchOffLightsAtNight" value="Gebäude schalten nachts das Licht aus" />
-  <translation id="SwitchOffLightsAtNightTooltip" value="Wohngebäude schalten das Licht aus, wenn die meisten Einwohner schlafen, andere Gebäude und Parks - wenn dort keiner arbeitet" />
-  <translation id="SwitchOffLightsMaxHeight" value="Hohe Gebäude schalten das Licht nicht aus" />
-  <translation id="SwitchOffLightsMaxHeightTooltip" value="Gebäude schalten nachts das Licht nicht aus, wenn ihre Höhe größer als dieser Wert ist" />
-  <translation id="CanAbandonJourney" value="Besseres Verhalten im Stau und beim Warten von ÖPNV" />
-  <translation id="CanAbandonJourneyTooltip" value="Wenn aktiviert, Einwohner können Fahrten abbrechen, wenn sie zu lang im Stau sind oder auf den öffentlichen Verkehr warten" />
-  <translation id="RealisticFires" value="Realistic Fires last between 30 minutes to 4 hours at random" />
-  <translation id="RealisticFiresTooltip" value="If enabled, fires will take between 30 minutes to 4 hours to be extinguished" />
-  <translation id="WorkForceMatters" value="Building must have workers to operate" />
-  <translation id="WorkForceMattersTooltip" value="If enabled, buildings without workers in it will become closed and not give service" />
-  <translation id="GarbageSlowDown" value="Garbage Accumulation" />
-  <translation id="GarbageSlowDownTooltip" value="min (0.05) is very slow (Bi-weekly) and max (1.0) is normal daily - default is weekly (0.15)" />
-  <translation id="MailSlowDown" value="Mail Accumulation" />
-  <translation id="MailSlowDownTooltip" value="min (0.1) is very slow (weekly) and max (1.0) is normal daily - default is every 3 days (0.3)" />
-  <translation id="WeeklyCommericalDeliveries" value="Commerical building will receive goods delivery once a week" />
-  <translation id="WeeklyCommericalDeliveriesTooltip" value="If enabled, commerical buildings will have bigger goods buffer that will allow them to get goods only once a week" />
-  <translation id="DummyTrafficBehavior" value="Make the dummy traffic capacity more light" />
-  <translation id="DummyTrafficBehaviorTooltip" value="If enabled, dummy traffic is more reasonable to the mod gameplay" />
+  <translation id="ConstructionSpeedTooltip" value="Geschwindigkeit, mit der Gebäude gebaut oder verbessert werden." />
+  <translation id="SwitchOffLightsAtNight" value="Gebäudebeleuchtung nachts ausschalten" />
+  <translation id="SwitchOffLightsAtNightTooltip" value="Wohngebäude schalten das Licht aus, wenn Bürger schlafen; andere Gebäude, wenn niemand dort arbeitet." />
+  <translation id="SwitchOffLightsMaxHeight" value="Lichter in hohen Gebäuden anlassen" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="Wohn-, Gewerbe- und Bürogebäude, die höher als dieser Wert sind, schalten nachts das Licht nicht aus." />
+  <translation id="CanAbandonJourney" value="Besseres Verhalten bei Stau und Wartezeiten" />
+  <translation id="CanAbandonJourneyTooltip" value="Bürger können ihre Reise abbrechen, wenn sie zu lange im Stau stehen oder auf den ÖPNV warten." />
+  <translation id="RealisticFires" value="Realistische Brände (Dauer 30m - 4h)" />
+  <translation id="RealisticFiresTooltip" value="Wenn aktiviert, dauert das Löschen eines Brandes zufällig zwischen 30 Minuten und 4 Stunden." />
+  <translation id="WorkForceMatters" value="Belegschaft für Betrieb erforderlich" />
+  <translation id="WorkForceMattersTooltip" value="Ein Gebäude stellt den Betrieb vorübergehend ein, wenn sich keine Mitarbeiter darin befinden." />
+  <translation id="GarbageSlowDown" value="Müllansammlungsrate" />
+  <translation id="GarbageSlowDownTooltip" value="Min (0.05) alle zwei Wochen, Max (1.0) täglich. Standard (0.15) wöchentlich." />
+  <translation id="MailSlowDown" value="Postansammlungsrate" />
+  <translation id="MailSlowDownTooltip" value="Min (0.1) wöchentlich, Max (1.0) täglich. Standard (0.3) alle 3 Tage." />
+  <translation id="WeeklyCommericalDeliveries" value="Wöchentliche Warenlieferungen" />
+  <translation id="WeeklyCommericalDeliveriesTooltip" value="Gewerbegebäude benötigen nur noch eine Lieferung pro Woche durch größere Lagerkapazitäten." />
+  <translation id="DummyTrafficBehavior" value="Optimierung des Durchgangsverkehrs" />
+  <translation id="DummyTrafficBehaviorTooltip" value="Passt den Verkehr, der die Stadt nur durchquert, an die Simulation der Mod an." />
 
-  <translation id="2Quotas" value="Wahrscheinlichkeit" />
-  <translation id="SecondShiftQuota" value="Zweite Schicht" />
-  <translation id="SecondShiftQuotaTooltip" value="Anteil der Cims, die in der zweiten Schicht arbeiten" />
-  <translation id="NightShiftQuota" value="Nachtschicht" />
-  <translation id="NightShiftQuotaTooltip" value="Anteil der Cims, die in der Nachtschicht arbeiten" />
-  <translation id="ContinuousNightShiftQuota" value="Continuous Night shift workers" />
-  <translation id="ContinuousNightShiftQuotaTooltip" value="The percentage of the citizens that work a continuous night shift" />
-  <translation id="BreakfastQuota" value="Breakfast probability" />
-  <translation id="BreakfastQuotaTooltip" value="The percentage of the Cims that will go out for breakfast" />
-  <translation id="LunchQuota" value="Lunch probability" />
-  <translation id="LunchQuotaTooltip" value="The percentage of the Cims that will go out for lunch" />
-  <translation id="LocalBuildingSearchQuota" value="Lokale Einkäufe" />
-  <translation id="LocalBuildingSearchQuotaTooltip" value="Anteil der Cims, die fürs Einkaufen Geschäfte in der Nähe suchen" />
-  <translation id="ShoppingForFunQuota" value="Einkaufen zum Spaß" />
-  <translation id="ShoppingForFunQuotaTooltip" value="Anteil der Cims, die auch dann einkaufen gehen, wenn sie eigentlich nichts brauchen" />
-  <translation id="OnTimeQuota" value="Keine Überstunden" />
-  <translation id="OnTimeQuotaTooltip" value="Anteil der Cims, die keine Überstunden machen und pünktlich zur und von der Arbeit gehen" />
-  <translation id="OpenLowCommercialAtNightQuota" value="Open low commercial buildings at night percentage" />
-  <translation id="OpenLowCommercialAtNightQuotaTooltip" value="The percentage of the low commercial buildings that will stay open at night" />
-  <translation id="OpenCommercialSecondShiftQuota" value="Open commercial buildings for second shift percentage" />
-  <translation id="OpenCommercialSecondShiftQuotaTooltip" value="The percentage of the commerical buildings that will stay open for a second shift" />
-  <translation id="OpenCommercialAtWeekendsQuota" value="Open commercial buildings at weekends percentage" />
-  <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="The percentage of the commercial buildings that will stay open at weekends" />
-  <translation id="NightClassQuota" value="Night School students" />
-  <translation id="NightClassQuotaTooltip" value="The percentage of the citizens that go to night school" />
+  <translation id="2Quotas" value="Quoten / Wahrscheinlichkeiten" />
+  <translation id="SecondShiftQuota" value="Quote für Spätschicht" />
+  <translation id="SecondShiftQuotaTooltip" value="Prozentsatz der Bürger, die in der Spätschicht arbeiten." />
+  <translation id="NightShiftQuota" value="Quote für Nachtschicht" />
+  <translation id="NightShiftQuotaTooltip" value="Prozentsatz der Bürger, die in der Nachtschicht arbeiten." />
+  <translation id="ContinuousNightShiftQuota" value="Quote für permanente Nachtschicht" />
+  <translation id="ContinuousNightShiftQuotaTooltip" value="Prozentsatz der Bürger, die dauerhaft nachts arbeiten." />
+  <translation id="BreakfastBeforeWorkOrSchoolQuota" value="Wahrscheinlichkeit Frühstück vor Arbeit" />
+  <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="Prozentsatz der Bürger, die vor der Schule/Arbeit frühstücken gehen." />
+  <translation id="LunchDuringWorkOrSchoolQuota" value="Wahrscheinlichkeit Mittagessen" />
+  <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="Prozentsatz der Bürger, die während der Schule/Arbeit Mittagessen gehen." />
+  <translation id="SupperAfterWorkOrSchoolQuota" value="Wahrscheinlichkeit Abendessen nach Arbeit" />
+  <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="Prozentsatz der Bürger, die nach der Schule/Arbeit Abendessen gehen." />
+  <translation id="LocalBuildingSearchQuota" value="Quote für lokale Einkäufe" />
+  <translation id="LocalBuildingSearchQuotaTooltip" value="Prozentsatz der Bürger, die bevorzugt in ihrer Nähe einkaufen." />
+  <translation id="ShoppingForFunQuota" value="Shopping zum Vergnügen" />
+  <translation id="ShoppingForFunQuotaTooltip" value="Bürger gehen zum Vergnügen einkaufen, auch wenn sie keine Waren benötigen." />
+  <translation id="OnTimeQuota" value="Pünktlichkeitsquote" />
+  <translation id="OnTimeQuotaTooltip" value="Prozentsatz der Bürger, die exakt pünktlich zur Arbeit erscheinen oder sie verlassen." />
+  <translation id="OpenLowCommercialAtNightQuota" value="Kleine Geschäfte nachts offen" />
+  <translation id="OpenLowCommercialAtNightQuotaTooltip" value="Prozentsatz der kleinen Gewerbegebiete, die nachts geöffnet haben." />
+  <translation id="OpenCommercialSecondShiftQuota" value="Gewerbe in Spätschicht offen" />
+  <translation id="OpenCommercialSecondShiftQuotaTooltip" value="Prozentsatz der Geschäfte, die auch am Nachmittag/Abend geöffnet haben." />
+  <translation id="OpenCommercialAtWeekendsQuota" value="Gewerbe am Wochenende offen" />
+  <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="Prozentsatz der Geschäfte, die am Wochenende geöffnet haben." />
+  <translation id="NightClassQuota" value="Quote für Abendschule" />
+  <translation id="NightClassQuotaTooltip" value="Prozentsatz der Bürger, die nachts die Schule/Universität besuchen." />
 
   <translation id="3Events" value="Ereignisse" />
-  <translation id="AreEventsEnabled" value="Zusätzliche Ereignisse" />
-  <translation id="AreEventsEnabledTooltip" value="Wenn deaktiviert, nur Ereignisse aus dem Originalspiel können stattfinden" />
-  <translation id="EarliestHourEventStartWeekday" value="Frühester Beginn unter der Woche" />
-  <translation id="EarliestHourEventStartWeekdayTooltip" value="Der früheste Zeitpunkt, wann ein Ereignis am Tag unter der Woche beginnen kann" />
-  <translation id="LatestHourEventStartWeekday" value="Spätester Beginn unter der Woche" />
-  <translation id="LatestHourEventStartWeekdayTooltip" value="Der späteste Zeitpunkt, wann ein Ereignis am Tag unter der Woche beginnen kann" />
-  <translation id="EarliestHourEventStartWeekend" value="Frühester Beginn am Wochenende" />
-  <translation id="EarliestHourEventStartWeekendTooltip" value="Der früheste Zeitpunkt, wann ein Ereignis am Wochenendtag beginnen kann" />
-  <translation id="LatestHourEventStartWeekend" value="Spätester Beginn am Wochenende" />
-  <translation id="LatestHourEventStartWeekendTooltip" value="Der späteste Zeitpunkt, wann ein Ereignis am Wochenendtag beginnen kann" />
+  <translation id="AreEventsEnabled" value="Benutzerdefinierte Ereignisse aktivieren" />
+  <translation id="AreEventsEnabledTooltip" value="Wenn deaktiviert, finden nur die Standard-Ereignisse des Spiels statt." />
+  <translation id="EarliestHourEventStartWeekday" value="Frühester Beginn (Wochentag)" />
+  <translation id="EarliestHourEventStartWeekdayTooltip" value="Die früheste Zeit, zu der ein Ereignis unter der Woche beginnen kann." />
+  <translation id="LatestHourEventStartWeekday" value="Spätester Beginn (Wochentag)" />
+  <translation id="LatestHourEventStartWeekdayTooltip" value="Die späteste Zeit, zu der ein Ereignis unter der Woche beginnen kann." />
+  <translation id="EarliestHourEventStartWeekend" value="Frühester Beginn (Wochenende)" />
+  <translation id="EarliestHourEventStartWeekendTooltip" value="Die früheste Zeit, zu der ein Ereignis am Wochenende beginnen kann." />
+  <translation id="LatestHourEventStartWeekend" value="Spätester Beginn (Wochenende)" />
+  <translation id="LatestHourEventStartWeekendTooltip" value="Die späteste Zeit, zu der ein Ereignis am Wochenende beginnen kann." />
 
-  <translation id="4Time" value="Zeiten" />
+  <translation id="4Time" value="Zeitplan" />
   <translation id="MaxOvertime" value="Max. Überstunden" />
-  <translation id="MaxOvertimeTooltip" value="Die maximahle Anzahl der Überstunden für die Cims - sie gehen früher zur Arbeit und bleiben dort länger" />
+  <translation id="MaxOvertimeTooltip" value="Bürger können früher kommen oder länger bei der Arbeit bleiben." />
   <translation id="SchoolBegin" value="Schulbeginn" />
-  <translation id="SchoolBeginTooltip" value="Die Zeit wann die Schule beginnt - Kinder sind in der Schule" />
+  <translation id="SchoolBeginTooltip" value="Zeit, zu der der Unterricht beginnt." />
   <translation id="SchoolEnd" value="Schulende" />
-  <translation id="SchoolEndTooltip" value="Die Zeit wann die Schule endet - Kinder kehren aus der Schule zurück" />
+  <translation id="SchoolEndTooltip" value="Zeit, zu der die Schüler nach Hause gehen." />
   <translation id="WorkBegin" value="Arbeitsbeginn" />
-  <translation id="WorkBeginTooltip" value="Beginn der Arbeitszeit - erwachsene Cims gehen zur Arbeit oder studieren" />
+  <translation id="WorkBeginTooltip" value="Zeit, zu der die Arbeit oder die Universität beginnt." />
   <translation id="WorkEnd" value="Arbeitsende" />
-  <translation id="WorkEndTooltip" value="Ende der Arbeitszeit - erwachsene Cims verlassen Arbeitsstätten und Universität" />
-  <translation id="LunchBegin" value="Mittagspause" />
-  <translation id="LunchBeginTooltip" value="Beginn der Mittagszeit - Cims machen eine Pause und gehen essen" />
-  <translation id="LunchEnd" value="Ende der Mittagspause" />
-  <translation id="LunchEndTooltip" value="Ende der Mittagspause - Cims kehren zur Arbeit zurück" />
-  <translation id="MaxVacationLength" value="Max. Urlaubstage" />
-  <translation id="MaxVacationLengthTooltip" value="Wie viele Tage maximal können Cims im Urlaub sein. Setzen Sie den Wert auf 0, um Urlaub zu deaktivieren." />
-  <translation id="AcademicYearLength" value="Academic Year days (Requires The Campus DLC)"/>
-  <translation id="AcademicYearLengthTooltip" value="how long an academic year will take. Default is 7 days." />
-  <translation id="TogaPartyLength" value="Toga Party hours (Requires The Campus DLC)" />
-  <translation id="TogaPartyLengthTooltip" value="how long a toga party will last. Default is 8 hours." />
+  <translation id="WorkEndTooltip" value="Zeit, zu der die Arbeit oder die Universität endet." />
+  <translation id="LunchBegin" value="Beginn Mittagspause" />
+  <translation id="LunchBeginTooltip" value="Zeit, zu der Bürger zum Mittagessen ausgehen." />
+  <translation id="LunchEnd" value="Ende Mittagspause" />
+  <translation id="LunchEndTooltip" value="Zeit, zu der Bürger vom Mittagessen zurückkehren." />
+  <translation id="MaxVacationLength" value="Max. Urlaubsdauer" />
+  <translation id="MaxVacationLengthTooltip" value="Maximale Anzahl an Urlaubstagen. Auf 0 setzen, um Urlaub zu deaktivieren." />
+  <translation id="AcademicYearLength" value="Dauer akad. Jahr (Campus DLC)"/>
+  <translation id="AcademicYearLengthTooltip" value="Dauer eines akademischen Jahres in Tagen. Standard: 7 Tage." />
+  <translation id="TogaPartyLength" value="Dauer Toga-Party (Campus DLC)" />
+  <translation id="TogaPartyLengthTooltip" value="Dauer einer Toga-Party in Stunden. Standard: 8 Stunden." />
 
-  <translation id="5BuildingService" value="Building Services" />
-  <translation id="0Garbage" value="Garbage operation hours" />
-  <translation id="1Mail" value="Mail operation hours" />
-  <translation id="2Other" value="Park Maintainace operation hours" />
-  <translation id="GarbageResidentialStartHour" value="Residential start hour" />
-  <translation id="GarbageResidentialStartHourTooltip" value="The daytime when garbage services starts to operate in residential areas" />
-  <translation id="GarbageResidentialEndHour" value="Residential end hour" />
-  <translation id="GarbageResidentialEndHourTooltip" value="The daytime when garbage services stop to operate in residential areas" />
-  <translation id="GarbageCommercialStartHour" value="Commercial start hour" />
-  <translation id="GarbageCommercialStartHourTooltip" value="The daytime when garbage services starts to operate in commercial areas" />
-  <translation id="GarbageCommercialEndHour" value="Commercial end hour" />
-  <translation id="GarbageCommercialEndHourTooltip" value="The daytime when garbage services stop to operate in commercial areas" />
-  <translation id="GarbageIndustrialStartHour" value="Industrial start hour" />
-  <translation id="GarbageIndustrialStartHourTooltip" value="The daytime when garbage services starts to operate in industrial areas" />
-  <translation id="GarbageIndustrialEndHour" value="Industrial end hour" />
-  <translation id="GarbageIndustrialEndHourTooltip" value="The daytime when garbage services stop to operate in industrial areas" />
-  <translation id="GarbageOfficeStartHour" value="Office start hour" />
-  <translation id="GarbageOfficeStartHourTooltip" value="The daytime when garbage services starts to operate in office areas" />
-  <translation id="GarbageOfficeEndHour" value="Office end hour" />
-  <translation id="GarbageOfficeEndHourTooltip" value="The daytime when garbage services stop to operate in office areas" />
-  <translation id="GarbageOtherStartHour" value="Other start hour" />
-  <translation id="GarbageOtherStartHourTooltip" value="The daytime when garbage services starts to operate in other areas" />
-  <translation id="GarbageOtherEndHour" value="Other end hour" />
-  <translation id="GarbageOtherEndHourTooltip" value="The daytime when garbage services stop to operate in other areas" />
+  <translation id="5BuildingService" value="Gebäudeservice" />
+  <translation id="0Garbage" value="Müllabfuhr-Zeiten" />
+  <translation id="1Mail" value="Postservice-Zeiten" />
+  <translation id="2Other" value="Parkpflege-Zeiten" />
+  <translation id="GarbageResidentialStartHour" value="Wohngebiete Beginn" />
+  <translation id="GarbageResidentialStartHourTooltip" value="Beginn der Müllabfuhr in Wohngebieten." />
+  <translation id="GarbageResidentialEndHour" value="Wohngebiete Ende" />
+  <translation id="GarbageResidentialEndHourTooltip" value="Ende der Müllabfuhr in Wohngebieten." />
+  <translation id="GarbageCommercialStartHour" value="Gewerbe Beginn" />
+  <translation id="GarbageCommercialStartHourTooltip" value="Beginn der Müllabfuhr in Gewerbegebieten." />
+  <translation id="GarbageCommercialEndHour" value="Gewerbe Ende" />
+  <translation id="GarbageCommercialEndHourTooltip" value="Ende der Müllabfuhr in Gewerbegebieten." />
+  <translation id="GarbageIndustrialStartHour" value="Industrie Beginn" />
+  <translation id="GarbageIndustrialStartHourTooltip" value="Beginn der Müllabfuhr in Industriegebieten." />
+  <translation id="GarbageIndustrialEndHour" value="Industrie Ende" />
+  <translation id="GarbageIndustrialEndHourTooltip" value="Ende der Müllabfuhr in Industriegebieten." />
+  <translation id="GarbageOfficeStartHour" value="Büros Beginn" />
+  <translation id="GarbageOfficeStartHourTooltip" value="Beginn der Müllabfuhr in Bürogebieten." />
+  <translation id="GarbageOfficeEndHour" value="Büros Ende" />
+  <translation id="GarbageOfficeEndHourTooltip" value="Ende der Müllabfuhr in Bürogebieten." />
+  <translation id="GarbageOtherStartHour" value="Andere Beginn" />
+  <translation id="GarbageOtherStartHourTooltip" value="Beginn der Müllabfuhr in anderen Bereichen." />
+  <translation id="GarbageOtherEndHour" value="Andere Ende" />
+  <translation id="GarbageOtherEndHourTooltip" value="Ende der Müllabfuhr in anderen Bereichen." />
 
-  <translation id="MailResidentialStartHour" value="Residential start hour" />
-  <translation id="MailResidentialStartHourTooltip" value="The daytime when mail services starts to operate in residential areas" />
-  <translation id="MailResidentialEndHour" value="Residential end hour" />
-  <translation id="MailResidentialEndHourTooltip" value="The daytime when mail services stop to operate in residential areas" />
-  <translation id="MailCommercialStartHour" value="Commercial start hour" />
-  <translation id="MailCommercialStartHourTooltip" value="The daytime when mail services starts to operate in commercial areas" />
-  <translation id="MailCommercialEndHour" value="Commercial end hour" />
-  <translation id="MailCommercialEndHourTooltip" value="The daytime when mail services stop to operate in commercial areas" />
-  <translation id="MailIndustrialStartHour" value="industrial start hour" />
-  <translation id="MailIndustrialStartHourTooltip" value="The daytime when mail services starts to operate in industrial areas" />
-  <translation id="MailIndustrialEndHour" value="Industrial end hour" />
-  <translation id="MailIndustrialEndHourTooltip" value="The daytime when mail services stop to operate in industrial areas" />
-  <translation id="MailOfficeStartHour" value="Office start hour" />
-  <translation id="MailOfficeStartHourTooltip" value="The daytime when mail services starts to operate in office areas" />
-  <translation id="MailOfficeEndHour" value="Office end hour" />
-  <translation id="MailOfficeEndHourTooltip" value="The daytime when mail services stop to operate in office areas" />
-  <translation id="MailOtherStartHour" value="Other start hour" />
-  <translation id="MailOtherStartHourTooltip" value="The daytime when mail services starts to operate in other areas" />
-  <translation id="MailOtherEndHour" value="Other end hour" />
-  <translation id="MailOtherEndHourTooltip" value="The daytime when mail services stop to operate in other areas" />
+  <translation id="MailResidentialStartHour" value="Post Wohngebiete Beginn" />
+  <translation id="MailResidentialStartHourTooltip" value="Beginn des Postservice in Wohngebieten." />
+  <translation id="MailResidentialEndHour" value="Post Wohngebiete Ende" />
+  <translation id="MailResidentialEndHourTooltip" value="Ende des Postservice in Wohngebieten." />
+  <translation id="MailCommercialStartHour" value="Post Gewerbe Beginn" />
+  <translation id="MailCommercialStartHourTooltip" value="Beginn des Postservice in Gewerbegebieten." />
+  <translation id="MailCommercialEndHour" value="Post Gewerbe Ende" />
+  <translation id="MailCommercialEndHourTooltip" value="Ende des Postservice in Gewerbegebieten." />
+  <translation id="MailIndustrialStartHour" value="Post Industrie Beginn" />
+  <translation id="MailIndustrialStartHourTooltip" value="Beginn des Postservice in Industriegebieten." />
+  <translation id="MailIndustrialEndHour" value="Post Industrie Ende" />
+  <translation id="MailIndustrialEndHourTooltip" value="Ende des Postservice in Industriegebieten." />
+  <translation id="MailOfficeStartHour" value="Post Büros Beginn" />
+  <translation id="MailOfficeStartHourTooltip" value="Beginn des Postservice in Bürogebieten." />
+  <translation id="MailOfficeEndHour" value="Post Büros Ende" />
+  <translation id="MailOfficeEndHourTooltip" value="Ende des Postservice in Bürogebieten." />
+  <translation id="MailOtherStartHour" value="Post Andere Beginn" />
+  <translation id="MailOtherStartHourTooltip" value="Beginn des Postservice in anderen Bereichen." />
+  <translation id="MailOtherEndHour" value="Post Andere Ende" />
+  <translation id="MailOtherEndHourTooltip" value="Ende des Postservice in anderen Bereichen." />
 
-  <translation id="ParkMaintenanceStartHour" value="Park Maintenance start hour" />
-  <translation id="ParkMaintenanceStartHourTooltip" value="The daytime when park maintenance services starts to operate" />
-  <translation id="ParkMaintenanceEndHour" value="Park Maintenance end hour" />
-  <translation id="ParkMaintenanceEndHourTooltip" value="The daytime when park maintenance services stop to operate" />
+  <translation id="ParkMaintenanceStartHour" value="Parkpflege Beginn" />
+  <translation id="ParkMaintenanceStartHourTooltip" value="Beginn der Parkpflegearbeiten." />
+  <translation id="ParkMaintenanceEndHour" value="Parkpflege Ende" />
+  <translation id="ParkMaintenanceEndHourTooltip" value="Ende der Parkpflegearbeiten." />
 
-  <translation id="6RoadService" value="Road Services" />
-  <translation id="0MaintenanceSnow" value=" Maintenance and Snow operation hours" />
-  <translation id="MaintenanceSnowRoadsSmallStartHour" value="Small roads start hour" />
-  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for small roads" />
-  <translation id="MaintenanceSnowRoadsSmallEndHour" value="Small roads end hour" />
-  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for small roads" />
-  <translation id="MaintenanceSnowRoadsMediumStartHour" value="Medium roads start hour" />
-  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for medium roads" />
-  <translation id="MaintenanceSnowRoadsMediumEndHour" value="Medium roads end hour" />
-  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for medium roads" />
-  <translation id="MaintenanceSnowRoadsLargeStartHour" value="Large roads start hour" />
-  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for large roads" />
-  <translation id="MaintenanceSnowRoadsLargeEndHour" value="Large roads end hour" />
-  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for large roads" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="Highway roads start hour" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for highway roads" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="Highway roads end hour" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for highway roads" />
-  <translation id="MaintenanceSnowRoadsOtherStartHour" value="Other roads start hour" />
-  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for other roads" />
-  <translation id="MaintenanceSnowRoadsOtherEndHour" value="Other roads end hour" />
-  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for other roads" />
+  <translation id="6RoadService" value="Straßendienst" />
+  <translation id="0MaintenanceSnow" value=" Wartung und Schneeräumung" />
+  <translation id="MaintenanceSnowRoadsSmallStartHour" value="Kleine Straßen: Beginn" />
+  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="Beginn der Wartung auf kleinen Straßen." />
+  <translation id="MaintenanceSnowRoadsSmallEndHour" value="Kleine Straßen: Ende" />
+  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="Ende der Wartung auf kleinen Straßen." />
+  <translation id="MaintenanceSnowRoadsMediumStartHour" value="Mittlere Straßen: Beginn" />
+  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="Beginn der Wartung auf mittleren Straßen." />
+  <translation id="MaintenanceSnowRoadsMediumEndHour" value="Mittlere Straßen: Ende" />
+  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="Ende der Wartung auf mittleren Straßen." />
+  <translation id="MaintenanceSnowRoadsLargeStartHour" value="Große Straßen: Beginn" />
+  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="Beginn der Wartung auf großen Straßen." />
+  <translation id="MaintenanceSnowRoadsLargeEndHour" value="Große Straßen: Ende" />
+  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="Ende der Wartung auf großen Straßen." />
+  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="Autobahnen: Beginn" />
+  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="Beginn der Wartung auf Autobahnen." />
+  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="Autobahnen: Ende" />
+  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="Ende der Wartung auf Autobahnen." />
+  <translation id="MaintenanceSnowRoadsOtherStartHour" value="Andere Straßen: Beginn" />
+  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="Beginn der Wartung auf anderen Straßentypen." />
+  <translation id="MaintenanceSnowRoadsOtherEndHour" value="Andere Straßen: Ende" />
+  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="Ende der Wartung auf anderen Straßentypen." />
 
-  <translation id="ScheduledAction" value="Now" />
-  <translation id="CurrentState" value="State" />
-  <translation id="NextScheduledAction" value="Until" />
-  <translation id="ScheduledAction.GoHome" value="Go home" />
-  <translation id="CurrentState.AtHome" value="At home" />
-  <translation id="ScheduledAction.GoToSchool" value="Go to school" />
-  <translation id="CurrentState.AtSchool" value="At school" />
-  <translation id="ScheduledAction.GoToWork" value="Go to work" />
-  <translation id="CurrentState.AtWork" value="At work" />
-  <translation id="ScheduledAction.GoShopping" value="Go shopping" />
-  <translation id="CurrentState.Shopping" value="Shopping" />
-  <translation id="ScheduledAction.GoToRelaxg" value="Go relaxing" />
-  <translation id="CurrentState.Relaxing" value="Relaxing" />
-  <translation id="ScheduledAction.GoToVisit" value="Go visit" />
-  <translation id="CurrentState.Visiting" value="Visiting" />
-  <translation id="ScheduledAction.GoToShelter" value="Go to shelter" />
-  <translation id="CurrentState.InShelter" value="At shelter" />
-  <translation id="ScheduledAction.GoToBreakfast" value="Go to eat breakfast" />
-  <translation id="CurrentState.Breakfast" value="Eating breakfast" />
-  <translation id="ScheduledAction.GoToLunch" value="Go to eat lunch" />
-  <translation id="CurrentState.Lunch" value="Eating lunch" />
-  <translation id="WorkShift.First" value="1. Schicht" />
-  <translation id="WorkShift.Second" value="2. Schicht" />
+  <translation id="ScheduledAction" value="Aktuelle Aktion" />
+  <translation id="CurrentState" value="Status" />
+  <translation id="NextScheduledAction" value="Endet in" />
+  <translation id="ScheduledAction.GoHome" value="Nach Hause gehen" />
+  <translation id="CurrentState.AtHome" value="Zuhause" />
+  <translation id="ScheduledAction.GoToSchool" value="Zur Schule gehen" />
+  <translation id="CurrentState.AtSchool" value="In der Schule" />
+  <translation id="ScheduledAction.GoToWork" value="Zur Arbeit gehen" />
+  <translation id="CurrentState.AtWork" value="Bei der Arbeit" />
+  <translation id="ScheduledAction.GoShopping" value="Einkaufen gehen" />
+  <translation id="CurrentState.Shopping" value="Einkaufen" />
+  <translation id="ScheduledAction.GoToRelaxg" value="Entspannen gehen" />
+  <translation id="CurrentState.Relaxing" value="Entspannen" />
+  <translation id="ScheduledAction.GoToVisit" value="Besuchen gehen" />
+  <translation id="CurrentState.Visiting" value="Zu Besuch" />
+  <translation id="ScheduledAction.GoToShelter" value="In den Schutzraum gehen" />
+  <translation id="CurrentState.InShelter" value="Im Schutzraum" />
+  <translation id="ScheduledAction.GoToMeal" value="Essen gehen" />
+  <translation id="CurrentState.EatMeal" value="Essen (" />
+  <translation id="ScheduledMealType.Breakfast" value="Frühstück" />
+  <translation id="ScheduledMealType.Lunch" value="Mittagessen" />
+  <translation id="ScheduledMealType.Supper" value="Abendessen" />
+  <translation id="ScheduledMealType.Other" value="Imbiss" />
+  <translation id="WorkShift.First" value="Frühschicht" />
+  <translation id="WorkShift.Second" value="Spätschicht" />
   <translation id="WorkShift.Night" value="Nachtschicht" />
-  <translation id="WorkShift.ContinuousDay" value="Continuous day work shift" />
-  <translation id="WorkShift.ContinuousNight" value="Continuous night work shift" />
-  <translation id="WorkShift.Event" value="Event work shift" />
-  <translation id="WorkStatus.OnVacation" value="(Urlaub: {0} Tage)" />
+  <translation id="WorkShift.ContinuousDay" value="Tag-Dauerschicht" />
+  <translation id="WorkShift.ContinuousNight" value="Nacht-Dauerschicht" />
+  <translation id="WorkShift.Event" value="Ereignisschicht" />
+  <translation id="WorkStatus.OnVacation" value="(Im Urlaub: noch {0} Tage)" />
 
-  <translation id="AcademicYear.DaysLeft" value="Endet in {0} Tagen" />
-  <translation id="AcademicYear.HoursLeft" value="Endet in {0} Stunde(n)" />
-  <translation id="AcademicYear.EndsSoon" value="Endet in weniger als 1 Stunde" />
-  <translation id="AcademicYear.StartDelay" value="Not starting because of night time or weekend" />
-  <translation id="AcademicYear.EndDelay" value="Not ending because of night time or weekend" />
-  <translation id="AcademicYear.HoursUntil" value="Starts in {0} hour(s)" />
-  <translation id="AcademicYear.StartsSoon" value="Starts in less than 1 hour" />
-  <translation id="AcademicYearEndYearButtonText" value="End Academic Year" />
-  <translation id="AcademicYearEndYearButtonTooltip" value="allow ending the academic year on weekdays between 9:00 and 10:00" />
+  <translation id="AcademicYear.DaysLeft" value="noch {0} Tage" />
+  <translation id="AcademicYear.HoursLeft" value="noch {0} Std." />
+  <translation id="AcademicYear.EndsSoon" value="Endet in weniger als 1 Std." />
+  <translation id="AcademicYear.StartDelay" value="Wartet auf Ende der Nacht/Wochenende zum Start" />
+  <translation id="AcademicYear.EndDelay" value="Wartet auf Ende der Nacht/Wochenende zum Abschluss" />
+  <translation id="AcademicYear.HoursUntil" value="Beginnt in {0} Std." />
+  <translation id="AcademicYear.StartsSoon" value="Beginnt bald" />
+  <translation id="AcademicYearEndYearButtonText" value="Akademisches Jahr beenden" />
+  <translation id="AcademicYearEndYearButtonTooltip" value="Ermöglicht das manuelle Beenden des akademischen Jahres zwischen 9 und 10 Uhr an Wochentagen." />
 
-  <translation id="OperationHoursSettingsCheckBox" value="Settings" />
-  <translation id="OperationHoursSettingsCheckBoxTooltip" value="Change building operation hours" />
-  <translation id="SettingsTitle" value="Adjust Operation Hours" />
-  <translation id="WorkAtNight" value="Work At Night" />
-  <translation id="WorkAtNightTooltip" value="The building will work 24 hours" />
-  <translation id="WorkAtWeekands" value="Work At Weekands" />
-  <translation id="WorkAtWeekandsTooltip" value="The building will work at weekends" />
-  <translation id="HasExtendedWorkShift" value="Has Extended Work Shift" />
-  <translation id="HasExtendedWorkShiftTooltip" value="The morning shift will start when the city wakes up or the earlist a citizen will wake up the lowest between them. cant have continuous shift" />
-  <translation id="HasContinuousWorkShift" value="Has Continuous Work Shift" />
-  <translation id="HasContinuousWorkShiftTooltip" value="The building will work from 8(am) to 20(8pm), if works at night, there will be two shifts 8-20 and 20-8. cant have extended shift" />
-  <translation id="IgnorePolicy" value="Ignore District Policies" />
-  <translation id="IgnorePolicyTooltip" value="The building will ignore any restirctions from district policies" />
-  <translation id="ShiftCountTitle" value="Select the number of shifts" />
-  <translation id="ShiftCountTooltip" value="work at night and not continuous = 3, continuous = 1, work at night and continuous = 2, else = 1-2" />
-  <translation id="SaveBuildingSettings" value="Save building settings" />
-  <translation id="SaveBuildingSettingsTooltip" value="First priority - will override prefab and global settings and create a specific work time for this building" />
-  <translation id="ReturnToDefault" value="Back to default" />
-  <translation id="ReturnToDefaultTooltip" value="Will not delete the record just set a default flag on it - you need to clear settings for this building to get the prefab or global settings" />
-  <translation id="ApplyPrefabSettings" value="Apply type settings" />
-  <translation id="ApplyPrefabSettingsTooltip" value="Apply work time settings to this building according to building type in this save" />
-  <translation id="ApplyGlobalSettings" value="Apply global settings" />
-  <translation id="ApplyGlobalSettingsTooltip" value="Apply work time settings to this building according to building type across all saves" />
-  <translation id="SetPrefabSettings" value="Set new type" />
-  <translation id="SetPrefabSettingsTooltip" value="This will update all building records of this type to the current work time of this building in this save" />
-  <translation id="SetGlobalSettings" value="Set new global" />
-  <translation id="SetGlobalSettingsTooltip" value="This will update all building records of this type to the current work time of this building across all saves" />
-  <translation id="DeletePrefabSettings" value="Delete existing type" />
-  <translation id="DeletePrefabSettingsTooltip" value="This will delete all building records of this type and return them back to default in this save" />
-  <translation id="DeleteGlobalSettings" value="Delete existing global" />
-  <translation id="DeleteGlobalSettingsTooltip" value="This will delete all building records of this type and return them back to default across all saves" />
-  <translation id="UnlockSettings" value="Unlock settings" />
-  <translation id="UnlockSettingsTooltip" value="Unlock edit settings" />
-  <translation id="DefaultSettingsStatus" value="This Building is using default settings" />
-  <translation id="BuildingSettingsStatus" value="This Building is using his own settings" />
-  <translation id="PrefabSettingsStatus" value="This Building is using type settings" />
-  <translation id="GlobalSettingsStatus" value="This Building is using global settings" />
-  <translation id="LockUnlockChangesTooltip" value="If Locked - type and global settings has no affect on this building" />
-  <translation id="ConfirmPanelSetPrefabTitle" value="Set Type Settings" />
-  <translation id="ConfirmPanelSetPrefabText" value="This will update all the buildings work hours of this type to the current work time settings in this save!" />
-  <translation id="ConfirmPanelSetGlobalTitle" value="Set Global Settings" />
-  <translation id="ConfirmPanelSetGlobalText" value="This will update all the buildings work hours of this type to the current work time settings across all saves!" />
-  <translation id="ConfirmPanelDeletePrefabTitle" value="Delete Type Settings" />
-  <translation id="ConfirmPanelDeletePrefabText" value="This will remove all the buildings work hours of this type back to default settings in this save!" />
-  <translation id="ConfirmPanelDeleteGlobalTitle" value="Delete Global Settings" />
-  <translation id="ConfirmPanelDeleteGlobalText" value="This will remove all the buildings work hours of this type back to default settings across all saves!" />
-  <translation id="ClosedBuilding" value="Closed" />
-  <translation id="ServingTimeAt" value="Serving time in " />
+  <translation id="OperationHoursSettingsCheckBox" value="Einstellungen" />
+  <translation id="OperationHoursSettingsCheckBoxTooltip" value="Betriebszeiten für dieses Gebäude ändern" />
+  <translation id="SettingsTitle" value="Betriebszeiten anpassen" />
+  <translation id="WorkAtNight" value="Nachtarbeit" />
+  <translation id="WorkAtNightTooltip" value="Gebäude ist rund um die Uhr in Betrieb." />
+  <translation id="WorkAtWeekands" value="Wochenendarbeit" />
+  <translation id="WorkAtWeekandsTooltip" value="Gebäude ist auch am Wochenende in Betrieb." />
+  <translation id="HasExtendedWorkShift" value="Verlängerte Schicht" />
+  <translation id="HasExtendedWorkShiftTooltip" value="Schicht beginnt mit der Aufwachzeit der Stadt. Inkompatibel mit 'Dauerschicht'." />
+  <translation id="HasContinuousWorkShift" value="Dauerschicht" />
+  <translation id="HasContinuousWorkShiftTooltip" value="Gebäude ist von 8 bis 20 Uhr in Betrieb. Mit Nachtarbeit zwei Schichten (8–20, 20–8). Inkompatibel mit 'Verlängerte Schicht'." />
+  <translation id="IgnorePolicy" value="Stadtviertel-Richtlinie ignorieren" />
+  <translation id="IgnorePolicyTooltip" value="Gebäude ignoriert Beschränkungen durch Richtlinien." />
+  <translation id="ShiftCountTitle" value="Anzahl der Schichten" />
+  <translation id="ShiftCountTooltip" value="Nacht + Standard = 3; Dauerschicht = 1; Nacht + Dauerschicht = 2; Sonstige = 1–2" />
+  <translation id="SaveBuildingSettings" value="Gebäudeeinstellungen speichern" />
+  <translation id="SaveBuildingSettingsTooltip" value="Höchste Priorität – überschreibt globale und Prefab-Einstellungen für dieses spezifische Gebäude." />
+  <translation id="ReturnToDefault" value="Auf Standard zurücksetzen" />
+  <translation id="ReturnToDefaultTooltip" value="Setzt das Gebäude zurück, sodass wieder globale oder Prefab-Einstellungen verwendet werden." />
+  <translation id="ApplyPrefabSettings" value="Prefab-Einstellungen anwenden" />
+  <translation id="ApplyPrefabSettingsTooltip" value="Wendet die für diesen Gebäudetyp in diesem Spielstand gespeicherten Zeiten an." />
+  <translation id="ApplyGlobalSettings" value="Globale Einstellungen anwenden" />
+  <translation id="ApplyGlobalSettingsTooltip" value="Wendet die global für diesen Gebäudetyp gespeicherten Zeiten an." />
+  <translation id="SetPrefabSettings" value="Als Prefab festlegen" />
+  <translation id="SetPrefabSettingsTooltip" value="Aktualisiert alle Gebäude dieses Typs in diesem Spielstand mit diesen Zeiten." />
+  <translation id="SetGlobalSettings" value="Als Global festlegen" />
+  <translation id="SetGlobalSettingsTooltip" value="Aktualisiert alle Gebäude dieses Typs in allen Spielständen mit diesen Zeiten." />
+  <translation id="DeletePrefabSettings" value="Prefab-Einstellungen löschen" />
+  <translation id="DeletePrefabSettingsTooltip" value="Löscht die Prefab-Einstellungen für diesen Gebäudetyp in diesem Spielstand." />
+  <translation id="DeleteGlobalSettings" value="Globale Einstellungen löschen" />
+  <translation id="DeleteGlobalSettingsTooltip" value="Löscht die globalen Einstellungen für diesen Gebäudetyp." />
+  <translation id="UnlockSettings" value="Entsperren" />
+  <translation id="UnlockSettingsTooltip" value="Schaltet die Bearbeitung der Einstellungen frei." />
+  <translation id="DefaultSettingsStatus" value="Gebäude verwendet Standardeinstellungen." />
+  <translation id="BuildingSettingsStatus" value="Gebäude verwendet eigene Einstellungen." />
+  <translation id="PrefabSettingsStatus" value="Gebäude verwendet Gebäudetyp-Einstellungen (Prefab)." />
+  <translation id="GlobalSettingsStatus" value="Gebäude verwendet globale Einstellungen." />
+  <translation id="LockUnlockChangesTooltip" value="Wenn gesperrt, wirken sich globale oder Typänderungen nicht auf dieses Gebäude aus." />
+  <translation id="ConfirmPanelSetPrefabTitle" value="Als Prefab festlegen" />
+  <translation id="ConfirmPanelSetPrefabText" value="Alle Gebäude dieses Typs in diesem Spielstand werden aktualisiert!" />
+  <translation id="ConfirmPanelSetGlobalTitle" value="Als Global festlegen" />
+  <translation id="ConfirmPanelSetGlobalText" value="Alle Gebäude dieses Typs in allen Spielständen werden aktualisiert!" />
+  <translation id="ConfirmPanelDeletePrefabTitle" value="Prefab löschen" />
+  <translation id="ConfirmPanelDeletePrefabText" value="Alle Gebäude dieses Typs in diesem Spielstand werden auf Standard zurückgesetzt!" />
+  <translation id="ConfirmPanelDeleteGlobalTitle" value="Global löschen" />
+  <translation id="ConfirmPanelDeleteGlobalText" value="Alle Gebäude dieses Typs in allen Spielständen werden auf Standard zurückgesetzt!" />
+  <translation id="ClosedBuilding" value="Geschlossen" />
+  <translation id="ServingTimeAt" value="Haftstrafe in: " />
 
-  <translation id="RaceDayLabelHour" value="Hour" />
-  <translation id="RaceDayLabelFrequency" value="Frequency" />
-  <translation id="RaceDayLabelMinute" value="Minute" />
-  <translation id="RaceDayLabelAutoOccur" value="AutoOccur" />
-  <translation id="RaceDayDropDownWeeklyFrequency" value="Weekly" />
-  <translation id="RaceDayDropDownDailyFrequency" value="Daily" />
-  <translation id="RaceDayDropDownDisableAutoOccur" value="Disable" />
-  <translation id="RaceDayDropDownEnableAutoOccur" value="Enable" />
-  <translation id="RaceDayDropDownDateTimeTooltip" value="Specify the datetime you wish this event to occur on each day/week. If an Event overlaps another event it may cancel out the later one, so avoid setting them close together in the day/week" />
-  <translation id="RaceDayDropDownFrequencyTooltip" value="Specify the frequency you wish this event to occur on (daily/weekly)" />
-  <translation id="RaceDayDropDownAutoOccurTooltip" value="Specify if you want this event to re-occur on a daily/weekly bases" />
-  <translation id="RaceDayLabelDayOfWeek" value="Day Of Week:" />
-  <translation id="RaceDayLabelDayOfWeekSunday" value="Sunday" />
-  <translation id="RaceDayLabelDayOfWeekMonday" value="Monday" />
-  <translation id="RaceDayLabelDayOfWeekTuesday" value="Tuesday" />
-  <translation id="RaceDayLabelDayOfWeekWednesday" value="Wednesday" />
-  <translation id="RaceDayLabelDayOfWeekThursday" value="Thursday" />
-  <translation id="RaceDayLabelDayOfWeekFriday" value="Friday" />
-  <translation id="RaceDayLabelDayOfWeekSaturday" value="Saturday" />
+  <translation id="RaceDayLabelHour" value="Std." />
+  <translation id="RaceDayLabelFrequency" value="Häufigkeit" />
+  <translation id="RaceDayLabelMinute" value="Min." />
+  <translation id="RaceDayLabelAutoOccur" value="Auto-Start" />
+  <translation id="RaceDayDropDownWeeklyFrequency" value="Wöchentlich" />
+  <translation id="RaceDayDropDownDailyFrequency" value="Täglich" />
+  <translation id="RaceDayDropDownDisableAutoOccur" value="Deaktiviert" />
+  <translation id="RaceDayDropDownEnableAutoOccur" value="Aktiviert" />
+  <translation id="RaceDayDropDownDateTimeTooltip" value="Zeit des Ereignisses festlegen. Überschneidungen vermeiden." />
+  <translation id="RaceDayDropDownFrequencyTooltip" value="Häufigkeit des Ereignisses festlegen." />
+  <translation id="RaceDayDropDownAutoOccurTooltip" value="Wenn aktiviert, startet das Ereignis automatisch in dem Intervall." />
+  <translation id="RaceDayLabelDayOfWeek" value="Wochentag:" />
+  <translation id="RaceDayLabelDayOfWeekSunday" value="Sonntag" />
+  <translation id="RaceDayLabelDayOfWeekMonday" value="Montag" />
+  <translation id="RaceDayLabelDayOfWeekTuesday" value="Dienstag" />
+  <translation id="RaceDayLabelDayOfWeekWednesday" value="Mittwoch" />
+  <translation id="RaceDayLabelDayOfWeekThursday" value="Donnerstag" />
+  <translation id="RaceDayLabelDayOfWeekFriday" value="Freitag" />
+  <translation id="RaceDayLabelDayOfWeekSaturday" value="Samstag" />
+  <translation id="RaceDayScheduleOverlapWarning" value="Zeitplan-Überschneidung!" />
 
-  <translation id="VanillaEventSelectionLabelTitle" value="Events:" />
-  <translation id="VanillaEventSelectEventButton" value="Event Info" />
-  <translation id="VanillaEventSelectEventButtonTooltip" value="Select the event to create" />
-  <translation id="VanillaEventTotalAmountLabel" value="Event cost" />
-  <translation id="VanillaEventTotalAmountLabelTooltip" value="The total cost to create this event" />
-  <translation id="VanillaEventTotalIncomeLabel" value="Max profit" />
-  <translation id="VanillaEventTotalIncomeLabelTooltip" value="The maximum profits you can receive if the event is 100% successful and all incentives are used" />
-  <translation id="VanillaEventCreateButton" value="Create" />
-  <translation id="VanillaEventCreateButtonTooltip" value="Create the event" />
-  <translation id="VanillaEventDayDropDownLabel" value="Day" />
-  <translation id="VanillaEventDayDropDownLabelTooltip" value="The day of the month to start the event" />
-  <translation id="VanillaEventMonthDropDownLabel" value="Month" />
-  <translation id="VanillaEventMonthDropDownLabelTooltip" value="The month to start the event" />
-  <translation id="VanillaEventHourDropDownLabel" value="Hour" />
-  <translation id="VanillaEventHourDropDownLabelTooltip" value="The Hour to start the event" />
-  <translation id="VanillaEventMinuteDropDownLabel" value="Minute" />
-  <translation id="VanillaEventMinuteDropDownLabelTooltip" value="the minute to start the event" />
+  <translation id="VanillaEventSelectionLabelTitle" value="Ereignis:" />
+  <translation id="VanillaEventSelectEventButton" value="Ereignis-Info" />
+  <translation id="VanillaEventTotalAmountLabel" value="Gesamtkosten" />
+  <translation id="VanillaEventTotalAmountLabelTooltip" value="Kosten für die Ausrichtung des Ereignisses." />
+  <translation id="VanillaEventTotalIncomeLabel" value="Max. Einnahmen" />
+  <translation id="VanillaEventTotalIncomeLabelTooltip" value="Mögliche Einnahmen bei 100 % Erfolg." />
+  <translation id="VanillaEventCreateButton" value="Erstellen" />
+  <translation id="VanillaEventCreateButtonTooltip" value="Ereignis erstellen." />
+  <translation id="VanillaEventDayDropDownLabel" value="Tag" />
+  <translation id="VanillaEventDayDropDownLabelTooltip" value="Starttag des Ereignisses." />
+  <translation id="VanillaEventMonthDropDownLabel" value="Monat" />
+  <translation id="VanillaEventMonthDropDownLabelTooltip" value="Startmonat des Ereignisses." />
+  <translation id="VanillaEventHourDropDownLabel" value="Std." />
+  <translation id="VanillaEventHourDropDownLabelTooltip" value="Stunde des Starts." />
+  <translation id="VanillaEventMinuteDropDownLabel" value="Min." />
+  <translation id="VanillaEventMinuteDropDownLabelTooltip" value="Minute des Starts." />
   <translation id="VanillaEventTicketSliderLabel" value="Tickets" />
-  <translation id="VanillaEventTicketSliderLabelTooltip" value="Increase or decrease the number of tickets available for this venue" />
-  <translation id="VanillaEventCostsLabel" value="BUY" />
-  <translation id="VanillaEventReturnsLabel" value="SELL" />
-  <translation id="VanillaEventUpcomingShowBtn" value="Upcoming Events" />
-  <translation id="VanillaEventUpcomingHideBtn" value="Hide Upcoming" />
-  
+  <translation id="VanillaEventTicketSliderLabelTooltip" value="Anzahl der zum Verkauf stehenden Tickets ändern." />
+  <translation id="VanillaEventCostsLabel" value="KOSTEN" />
+  <translation id="VanillaEventReturnsLabel" value="EINNAHMEN" />
+  <translation id="VanillaEventUpcomingShowBtn" value="Anstehende" />
+  <translation id="VanillaEventUpcomingHideBtn" value="Ausblenden" />
+
   <overrides type="Units">
-    <translation id="AIINFO_COAL_STORED" value="Kohle gespeichert für {0} × {unit}"/>
+    <translation id="AIINFO_COAL_STORED" value="Kohlevorrat: {0} × {unit}"/>
     <translation id="AIINFO_CUMULATIVEUPKEEP" value="Unterhalt: {0} + {1} / {unit} / Zelle"/>
-    <translation id="AIINFO_DECEASED_PROCESSED" value="Verarbeitete Verstorbene letzte {unit}: {0}"/>
-    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="Letzte {unit} produzierter Strom: {0} MW"/>
-    <translation id="AIINFO_FIRES_EXTINGUISHED" value="Gelöschte Feuer letzte {unit}: {0}"/>
-    <translation id="AIINFO_OIL_STORED" value="Öl gespeichert für {0} × {unit}"/>
-    <translation id="AIINFO_PASSENGERS_SERVICED" value="Bediente Passagiere letzte {unit}: {0}"/>
+    <translation id="AIINFO_DECEASED_PROCESSED" value="Verstorbene letzte {unit}: {0}"/>
+    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="Stromerzeugung letzte {unit}: {0} MW"/>
+    <translation id="AIINFO_FIRES_EXTINGUISHED" value="Gelöschte Brände letzte {unit}: {0}"/>
+    <translation id="AIINFO_OIL_STORED" value="Ölvorrat: {0} × {unit}"/>
+    <translation id="AIINFO_PASSENGERS_SERVICED" value="Beförderte Passagiere letzte {unit}: {0}"/>
     <translation id="AIINFO_PATIENTS_TREATED" value="Behandelte Patienten letzte {unit}: {0}"/>
-    <translation id="AIINFO_POLE_UPKEEP" value="Unterhalt: {0} Strommast / {unit}"/>
-    <translation id="AIINFO_PROCESSING_RATE" value="Verarbeitungsleistung: {0} / {unit}"/>
+    <translation id="AIINFO_POLE_UPKEEP" value="Unterhalt: {0} / Mast / {unit}"/>
+    <translation id="AIINFO_PROCESSING_RATE" value="Verarbeitungsrate: {0} / {unit}"/>
     <translation id="AIINFO_TOURISTS" value="Touristen letzte {unit}: {0}"/>
     <translation id="AIINFO_UPKEEP" value="Unterhalt: {0} / {unit}"/>
     <translation id="AIINFO_UPKEEPPERCELL" value="Unterhalt: {0} / {unit} / Zelle"/>
     <translation id="AIINFO_VISITORS" value="Besucher letzte {unit}: {0}"/>
-    <translation id="AIINFO_WATER_CONSUMPTION" value="Wasser: {0} m³/{unit}"/>
-    <translation id="AIINFO_WATER_INTAKE" value="Durchflussrate: {0} m³/{unit}"/>
-    <translation id="AIINFO_WATER_OUTLET" value="Abflussrate: {0} m³/{unit}"/>
-    <translation id="AIINFO_WATER_STORED" value="Wasser gespeichert für {0} × {unit}"/>
+    <translation id="AIINFO_WATER_CONSUMPTION" value="Wasserverbrauch: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_INTAKE" value="Pumpkapazität: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_OUTLET" value="Abwasserkapazität: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_STORED" value="Wasservorrat: {0} × {unit}"/>
     <translation id="AINFO_WATER_IO_CAPACITY" value="Betriebsrate: {0:N0} m³/{unit}"/>
     <translation id="DATETIME_WEEK" value="{unit}"/>
     <translation id="DATETIME_WEEKLOWERCASE" value="{unit}"/>
     <translation id="DATETIME_WEEKS" value="× {unit}"/>
     <translation id="DISTRICT_TOURISTS" value="Touristenbesuche&#10;letzte {unit}:"/>
-    <translation id="EXPENSES_TT_EDUCATION" value="Ausgaben für Bildung letzte {unit}"/>
-    <translation id="EXPENSES_TT_ELECTRICITY" value="Ausgaben für Stromdienste letzte {unit}"/>
-    <translation id="EXPENSES_TT_FIRE" value="Ausgaben für Feuerwehr letzte {unit}"/>
-    <translation id="EXPENSES_TT_FIRE_ND" value="Notfalldienstausgaben letzte {unit}"/>
-    <translation id="EXPENSES_TT_GARBAGE" value="Ausgaben für Mülldienste letzte {unit}"/>
-    <translation id="EXPENSES_TT_HEALTHCARE" value="Ausgaben für Gesundheitswesen letzte {unit}"/>
-    <translation id="EXPENSES_TT_LOANS" value="Ausgaben für Darlehen letzte {unit}"/>
-    <translation id="EXPENSES_TT_MONUMENTS" value="Ausgaben für Einzigartige Gebäude letzte {unit}"/>
-    <translation id="EXPENSES_TT_PARK" value="Ausgaben für Parks, Plätze und Landschaftsbau letzte {unit}"/>
-    <translation id="EXPENSES_TT_POLICE" value="Ausgaben für Polizei letzte {unit}"/>
-    <translation id="EXPENSES_TT_POLICIES" value="Ausgaben für Richtlinien letzte {unit}"/>
-    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="Nahverkehrsausgaben letzte {unit}"/>
-    <translation id="EXPENSES_TT_ROADS" value="Ausgaben für Straßendienste letzte {unit}"/>
+    <translation id="EXPENSES_TT_EDUCATION" value="Bildungsausgaben letzte {unit}"/>
+    <translation id="EXPENSES_TT_ELECTRICITY" value="Stromausgaben letzte {unit}"/>
+    <translation id="EXPENSES_TT_FIRE" value="Feuerwehrausgaben letzte {unit}"/>
+    <translation id="EXPENSES_TT_FIRE_ND" value="Ausgaben für Katastrophenschutz letzte {unit}"/>
+    <translation id="EXPENSES_TT_GARBAGE" value="Müllabfuhrausgaben letzte {unit}"/>
+    <translation id="EXPENSES_TT_HEALTHCARE" value="Gesundheitsausgaben letzte {unit}"/>
+    <translation id="EXPENSES_TT_LOANS" value="Kreditausgaben letzte {unit}"/>
+    <translation id="EXPENSES_TT_MONUMENTS" value="Ausgaben für einzigartige Gebäude letzte {unit}"/>
+    <translation id="EXPENSES_TT_PARK" value="Ausgaben für Parks und Plätze letzte {unit}"/>
+    <translation id="EXPENSES_TT_POLICE" value="Polizeiausgaben letzte {unit}"/>
+    <translation id="EXPENSES_TT_POLICIES" value="Richtlinienausgaben letzte {unit}"/>
+    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="ÖPNV-Ausgaben letzte {unit}"/>
+    <translation id="EXPENSES_TT_ROADS" value="Straßenunterhaltsausgaben letzte {unit}"/>
     <translation id="EXPENSES_TT_TOTAL" value="Gesamtausgaben letzte {unit}"/>
-    <translation id="EXPENSES_TT_WATER" value="Ausgaben für Wasser- und Abwasserdienste letzte {unit}"/>
-    <translation id="EXPENSES_TT_WATER_WW" value="Ausgaben für Wasser-, Abwasser- und Heizungsdienste letzte {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="Einnahmen von Bürgern letzte {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALHIGH" value="Einnahmen von dicht besiedelten Gewerbegebieten letzte {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALLOW" value="Einnahmen von gering besiedelten Gewerbegebieten letzte {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALSPEC" value="Einnahmen durch Spezialisierungen letzte {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALTOTAL" value="Einnahmen von Gewerbegebieten letzte {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALTOURIST" value="Einnahmen von Touristen letzte {unit}"/>
-    <translation id="INCOME_TT_INDUSTRIAL" value="Einnahmen von Industriegebieten letzte {unit}"/>
-    <translation id="INCOME_TT_OFFICE" value="Einnahmen von Bürogebieten letzte {unit}"/>
-    <translation id="INCOME_TT_PARKAREAS" value="Parkgebietseinnahmen letzte {unit}"/>
-    <translation id="INCOME_TT_RESIDENTIALHIGH" value="Einnahmen von dicht besiedelten Wohngebieten letzte {unit}"/>
-    <translation id="INCOME_TT_RESIDENTIALLOW" value="Einnahmen von gering besiedelten Wohngebieten letzte {unit}"/>
-    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="Einnahmen von Wohngebieten letzte {unit}"/>
+    <translation id="EXPENSES_TT_WATER" value="Wasser- und Abwasserausgaben letzte {unit}"/>
+    <translation id="EXPENSES_TT_WATER_WW" value="Wasser-, Abwasser- und Heizungsausgaben letzte {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="Gewerbeeinnahmen (Bürger) letzte {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALHIGH" value="Gewerbeeinnahmen (hohe Dichte) letzte {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALLOW" value="Gewerbeeinnahmen (geringe Dichte) letzte {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALSPEC" value="Spezialisierte Gewerbeeinnahmen letzte {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALTOTAL" value="Gewerbeeinnahmen gesamt letzte {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALTOURIST" value="Gewerbeeinnahmen (Touristen) letzte {unit}"/>
+    <translation id="INCOME_TT_INDUSTRIAL" value="Industrieeinnahmen letzte {unit}"/>
+    <translation id="INCOME_TT_OFFICE" value="Büroeinnahmen letzte {unit}"/>
+    <translation id="INCOME_TT_PARKAREAS" value="Einnahmen aus Parkgebieten letzte {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALHIGH" value="Wohneinnahmen (hohe Dichte) letzte {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALLOW" value="Wohneinnahmen (geringe Dichte) letzte {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="Wohneinnahmen gesamt letzte {unit}"/>
     <translation id="INCOME_TT_TOTAL" value="Gesamteinnahmen letzte {unit}"/>
-    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="Gesamteinnahmen aus dem Tourismus letzte {unit}"/>
-    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="Gesamteinnahmen aus Wohngebieten letzte {unit}"/>
-    <translation id="INCOME_TT_TOTAL_WORK" value="Gesamteinnahmen aus Industrie- und Bürogebieten letzte {unit}"/>
-    <translation id="INCOME_TT_PUBLICTRANSPORT" value="Nahverkehrseinnahmen letzte {unit}"/>
+    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="Tourismus-Gesamteinnahmen letzte {unit}"/>
+    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="Wohngebiets-Gesamteinnahmen letzte {unit}"/>
+    <translation id="INCOME_TT_TOTAL_WORK" value="Industrie- und Büro-Gesamteinnahmen letzte {unit}"/>
+    <translation id="INCOME_TT_PUBLICTRANSPORT" value="ÖPNV-Gesamteinnahmen letzte {unit}"/>
     <translation id="INFO_CONNECTIONS_TOURISTSTOTAL" value="Touristenbesuche letzte {unit}: {0:N0}"/>
-    <translation id="INFO_CRIMERATE_CRIMES" value="In der letzten {unit} verhaftete Verbrecher:"/>
-    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="Besucher in Parks &amp; Plätzen pro {unit}: {0:N0}"/>
-    <translation id="INFO_ENTERTAINMENT_UBVISIT" value="Besucher in Einzigartigen Gebäuden pro {unit}: {0:N0}"/>
-    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="Müllverbrennungsanlagen-Kapazität: {0} Einheiten/{unit}"/>
-    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="Müllproduktion: {0} Einheiten/{unit}"/>
-    <translation id="INFO_POPULATION_BIRTHS" value="{0:N0} Geburten / {unit}"/>
-    <translation id="INFO_POPULATION_DEATHS" value="{0:N0} Tode / {unit}"/>
-    <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0} pro {unit}"/>
-    <translation id="INFO_RES_FORESTAMOUNT" value="{0} Einheiten/{unit}"/>
-    <translation id="INFO_RES_FORESTUSED" value="{0} Einheiten/{unit}"/>
-    <translation id="INFO_RES_OILUSED" value="{0} Einheiten/{unit}"/>
-    <translation id="INFO_RES_OREUSED" value="{0} Einheiten/{unit}"/>
+    <translation id="INFO_CRIMERATE_CRIMES" value="Verhaftungen letzte {unit}:"/>
+    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="Besucher in Parks und auf Plätzen pro {unit}: {0:N0}"/>
+    <translation id="INFO_ENTERTAINMENT_UBVISIT" value="Besucher in einzigartigen Gebäuden pro {unit}: {0:N0}"/>
+    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="Müllverbrennungskapazität: {0:N0} Einheiten / {unit}"/>
+    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="Müllproduktion: {0:N0} Einheiten / {unit}"/>
+    <translation id="INFO_POPULATION_BIRTHS" value="Geburten pro {unit}: {0:N0}"/>
+    <translation id="INFO_POPULATION_DEATHS" value="Sterbefälle pro {unit}: {0:N0}"/>
+    <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0:N0} pro {unit}"/>
+    <translation id="INFO_RES_FORESTAMOUNT" value="{0} Einheiten / {unit}"/>
+    <translation id="INFO_RES_FORESTUSED" value="{0} Einheiten / {unit}"/>
+    <translation id="INFO_RES_OILUSED" value="{0} Einheiten / {unit}"/>
+    <translation id="INFO_RES_OREUSED" value="{0} Einheiten / {unit}"/>
     <translation id="INFO_WATER_CONSUMPTION" value="Wasserverbrauch: {0:N0} m³/{unit}"/>
-    <translation id="INFO_WATER_PRODUCTION" value="Wasser-Pumpkapazität: {0:N0} m³/{unit}"/>
-    <translation id="INFO_WATER_SEWAGEACCUMULATION" value="Abwasserproduktion: {0:N0} m³/{unit}"/>
-    <translation id="INFO_WATER_SEWAGECAPACITY" value="Abwasser-Entleerungskapazität: {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_PRODUCTION" value="Wasserkapazität: {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGEACCUMULATION" value="Abwasseraufkommen: {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGECAPACITY" value="Abwasserkapazität: {0:N0} m³/{unit}"/>
     <translation id="LOAN_WEEKLYCOST" value="Kosten letzte {unit}"/>
-    <translation id="MAIN_MONEYDELTA" value="Einnahmen letzte {unit}"/>
+    <translation id="MAIN_MONEYDELTA" value="Bilanz letzte {unit}"/>
     <translation id="MAIN_POPULATIONDELTA" value="Veränderung letzte {unit}"/>
-    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="Erfüllen Sie {1} × {unit} lang {0} Anforderungen"/>
-    <translation id="MILESTONE_COMBINED_TIME_DESC" value="{0} × {unit} lang unterhalten"/>
-    <translation id="PARKINFOPANEL_CURRENTVISITORS" value="Besucher letze {unit}: {0}"/>
+    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="{0} Bedingungen erfüllt für {1} × {unit}"/>
+    <translation id="MILESTONE_COMBINED_TIME_DESC" value="Beibehalten für {0} × {unit}"/>
+    <translation id="PARKINFOPANEL_CURRENTVISITORS" value="Besucher letzte {unit}: {0}"/>
     <translation id="PARKINFOPANEL_INCOME" value="Einnahmen: {0} / {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="Gesamteinnahmen aus dem Nahverkehr letzte {unit}"/>
-    <translation id="STADIUMINFO7" value="Siege/Spiele der letzten 12 × {unit}:"/>
+    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="Gesamtgewinn ÖPNV letzte {unit}"/>
+    <translation id="STADIUMINFO7" value="Siege/Spiele letzte 12 × {unit}:"/>
     <translation id="STADIUMINFO9" value="Einnahmen letzte {unit}:"/>
-    <translation id="TOOL_WATER_ESTIMATE" value="Geschätzte Produktion: {0:N0} m³/{unit}"/>
-    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="Besucher letzte {unit}: {0} Einwohner, {1} Touristen"/>
-    <translation id="TRANSPORT_LINE_PASSENGERS" value="Passagiere letzte {unit}: {0} Einwohner, {1} Touristen"/>
-    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="Produktion: {0:N0} pro {unit}"/>
-    <translation id="AIINFO_POST_SORTING_RATE" value="Sortierrate: {0:N0} Briefe pro {unit}"/>
-    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="Kostenpflichtige Fahrzeuge letzte {unit}: {0:N0}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="Einnahmen aus abgegrenzter Industrie und Industriegebieten letzte {unit}"/>
-    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="Ausgaben für das Industriegebiet pro {unit}"/>
-    <translation id="INCOME_TT_ROADTOLLS" value="Einnahmen aus Straßenzöllen pro {unit}"/>
-    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="Gesamteinnahmen aus der Maut letzte {unit}"/>
-    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="Beschaffung pro {unit}"/>
-    <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="Kosten durch den Import des Rohstoffs pro {unit}"/>
-    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="Verkauf pro {unit}"/>
-    <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="Einnahmen aus dem Verkauf des Rohstoffs pro {unit}"/>
-    <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="Profit pro {unit}"/>
+    <translation id="TOOL_WATER_ESTIMATE" value="Geschätzte Erzeugung: {0:N0} m³/{unit}"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="Besucher letzte {unit}: {0} Bürger, {1} Touristen"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS" value="Passagiere letzte {unit}: {0} Bürger, {1} Touristen"/>
+    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="Produktionsrate: {0:N0} Einheiten / {unit}"/>
+    <translation id="AIINFO_POST_SORTING_RATE" value="Sortierrate: {0:N0} pro {unit}"/>
+    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="Fahrzeuge an Mautstellen letzte {unit}: {0:N0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="Einnahmen aus Industriegebieten und -bereichen letzte {unit}"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="Industriebereichs-Ausgaben pro {unit}"/>
+    <translation id="INCOME_TT_ROADTOLLS" value="Straßenmauteinnahmen pro {unit}"/>
+    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="Gesamtmauteinnahmen letzte {unit}"/>
+    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="Anschaffungen pro {unit}"/>
+    <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="Kosten für Ressourcenimporte pro {unit}"/>
+    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="Ausstoß pro {unit}"/>
+    <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="Einnahmen aus Ressourcenverkäufen pro {unit}"/>
+    <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="Gewinn pro {unit}"/>
     <translation id="INDUSTRYPANEL_WEEKLYPRODUCTION" value="{0} / {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="Gesamtprofit aus Industriegebieten pro {unit}"/>
-    <translation id="TOOL_EXTRACTION_ESTIMATE" value="Geschätzte Produktion: {0:N0} Einheiten pro {unit}"/>
-    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="Rohstoffwert zur Herstellung des Endprodukts pro {unit}"/>
-    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="Wert der Fabrikproduktion pro {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="Gesamtgewinn Industriebereiche pro {unit}"/>
+    <translation id="TOOL_EXTRACTION_ESTIMATE" value="Geschätzter Abbau: {0:N0} Einheiten / {unit}"/>
+    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="Ressourcenwert für Endprodukte pro {unit}"/>
+    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="Fabrik-Produktionswert pro {unit}"/>
     <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="Einnahmen letzte {unit}"/>
-    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="Ausgaben für die Rohstoffbeschaffung pro {unit}"/>
-    <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="Produktion: {0:N0} per {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="Kosten: {0} / arena / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="Kosten: {0} / coach / {unit}"/>
-    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="Abschlüsse dieses Lehrjahr: {0}"/>
-    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="Kosten: {0} / Angestellter / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="Kosten letzte {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="Trainerstab#10;Mehr Mitarbeiter im Trainerstab erhöhen die Wahrscheinlichkeit eines Sieges in den Unisportspielen. Der Effekt#10;wirkt nicht sofort, sondern steigt von +0% bis +1% pro Mitarbeiter über das gesamte Lehrjahr."/>
-    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Gesamteinnahmen vom Campus letzte {unit}"/>
-    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Ausgaben für Einzigartige Gebäude und Sport-Arenas letzte {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Einnahmen vom Campus letzte {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="Einnahmen aus Industrie und Fischfang letzte {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="Einnahmen vom Fischfang letzte {unit}"/>
-    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="Ausgaben für Industrie und Fischfang letzte {unit}"/>
-    <translation id="EXPENSES_TT_FISHING" value="Ausgaben für Fischfang letzte {unit}"/>
-    <translation id="AIINFO_FISH_SOLD" value="Fischverkäufe letzte {unit}: {0}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="Einnahmen von den Industriegebieten und der Fischindustrie letzte {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="Ausgaben für die Industriegebiete und die Fischindustrie letzte {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="Ausgaben für die Fischindustrie letzte {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="Einnahmen von der Fischindustrie letzte {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="Gesamtprofit von den Industriegebieten und der Fischindustrie letzte {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="Fischindustrie-Profit insgesamt letzte {unit}"/>
+    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="Ressourcen-Anschaffungskosten pro {unit}"/>
+    <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="Produktion: {0:N0} / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="Kosten: {0} / Arena / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="Kosten: {0} / Trainer / {unit}"/>
+    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="Absolventen dieses akademische Jahr: {0}"/>
+    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="Kosten: {0} / Personal / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="Ausgaben letzte {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="Trainerstab#10;Die Einstellung von mehr Trainern erhöht die Siegchancen. Der Effekt baut sich über das akademische Jahr auf."/>
+    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Gesamtgewinn Campusbereiche letzte {unit}"/>
+    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Ausgaben für einzigartige Gebäude und Arenen letzte {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Einnahmen aus Campusbereichen letzte {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="Einnahmen aus Industriebereichen und Fischerei letzte {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="Einnahmen aus Fischerei letzte {unit}"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="Industriebereichs- und Fischereiausgaben letzte {unit}"/>
+    <translation id="EXPENSES_TT_FISHING" value="Fischereiausgaben letzte {unit}"/>
+    <translation id="AIINFO_FISH_SOLD" value="Verkaufter Fisch letzte {unit}: {0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="Einnahmen aus Industriebereichen und Fischereiindustrie letzte {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="Industriebereichs- und Fischereiindustrie-Ausgaben letzte {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="Fischereiindustrie-Ausgaben letzte {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="Einnahmen aus der Fischereiindustrie letzte {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="Gesamtgewinn Industriebereiche und Fischereiindustrie letzte {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="Gesamtgewinn Fischereiindustrie letzte {unit}"/>
     <translation id="INFO_HEALTH_CHILDCARE_BIRTHRATE" value="Geburtenrate: {0} / {unit}"/>
   </overrides>
 

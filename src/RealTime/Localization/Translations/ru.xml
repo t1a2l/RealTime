@@ -2,482 +2,492 @@
 <language id="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="Предупреждение" />
-  <translation id="RestrictedModeMessage" value="Real Time работает в ограниченном режиме. Некоторые функции недоступны. Причина этого может быть в технических проблемах сторонней библиотеки или несовместимости с другими модами. Если требуется помощь, покажите лог-файл игры разработчику мода." />
-  <translation id="ModNotWorkingMessage" value="Упс! Что-то пошло не так - мод 'Real Time' не может быть активирован. Пожалуйста, покажите лог-файл игры разработчику мода." />
-  <translation id="IncompatibleModsFoundMessage" value="Real Time обнаружил как минимум один несовместимый мод (или частично несовместимый). Рекомендуется отписаться от всех несовместимых модов. Можно продолжить играть на свой собственный риск, но что-то может не работать или игра может вылетать." />
+  <translation id="RestrictedModeMessage" value="Real Time работает в ограниченном режиме. Часть функционала отключена. Это вызвано технической проблемой со сторонней библиотекой или несовместимостью модов. Если вам нужна помощь, пожалуйста, отправьте файл лога игры разработчику мода." />
+  <translation id="ModNotWorkingMessage" value="Ой! Что-то пошло не так — мод «Real Time» не удалось активировать. Пожалуйста, отправьте файл лога игры разработчику мода." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time обнаружил как минимум один несовместимый (или частично несовместимый) мод. Рекомендуется отписаться от них. Вы можете продолжить на свой страх и риск, если понимаете, что делаете, но в этом случае возможна некорректная работа или даже вылет игры." />
   <translation id="Minutes" value="мин." />
 
-  <translation id="Tools" value="Утилиты" />
-  <translation id="ShowIncompatibilityNotifications" value="Показывать сообщения о несовместимости с другими модами" />
-  <translation id="UseEnglishUSFormats" value="Использовать формат даты/времени как в США для английского языка" />
-  <translation id="UseEnglishUSFormatsTooltip" value="Необходимо перезапустить игру, чтобы изменения этой опции вступили в силу" />
-  <translation id="DebugMode" value="Debug Mode" />
-  <translation id="DebugModeTooltip" value="Enables extra data and settings for debugging" />
-  <translation id="LoggingMode" value="Logging Mode" />
-  <translation id="LoggingModeTooltip" value="Allow extra logging for debugging" />
-  <translation id="AdvancedLoggingMode" value="Advanced Logging Mode" />
-  <translation id="AdvancedLoggingModeTooltip" value="Allow advanced logging for debugging" />
-  <translation id="ResetToDefaults" value="Вернуть опции по умолчанию" />
-  <translation id="UseForNewGames" value="Использовать текущие настройки для новых игр" />
-  <translation id="ClearStuckCitizensSchedule" value="Clear All Stuck Citizens Schedule" />
-  <translation id="ClearStuckTouristsInHotels" value="Clear All Stuck Tourists in Hotels" />
-  <translation id="ClearStuckCitizensInClosedBuildings" value="Clear All Stuck Citizens in Closed Buildings" />
-  <translation id="ClearFireBurnTimeManager" value="Clear Fire Burn Time" />
-  <translation id="ConfirmPanelClearFireBurnTimeManagerTitle" value="Clear FireBurnTime" />
-  <translation id="ConfirmPanelClearFireBurnTimeManagerText" value="This will clear all fire burns happening in the city! are you sure?" />
-  <translation id="ClearBuildingsWorkTimePrefabs" value="Clear Buildings Types Settings" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsTitle" value="Clear All BuildingsWorkTime Types" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsText" value="This will clear all worktime settings of all the types of all the buildings in this save! are you sure?" />
-  <translation id="ClearBuildingWorkTimeGlobalSettings" value="Clear Buildings Types Global Settings" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitle" value="Clear All BuildingsWorkTime Global Settings" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsText" value="This will clear all worktime settings of all the types of all the buildings across all saves! are you sure?" />
-  <translation id="ResetBuildingsGarbageBuffer" value="Reset All Buildings Garbage buffer" />
-  <translation id="ResetBuildingsMailBuffer" value="Reset All Buildings Mail buffer" />
-  <translation id="ExecuteSelectedAction" value="Execute Selected Action" />
-  <translation id="ClearActionsGroupTitle" value="Clear Actions" />
+  <translation id="Tools" value="Инструменты" />
+  <translation id="ShowIncompatibilityNotifications" value="Показывать уведомления о несовместимости модов" />
+  <translation id="UseEnglishUSFormats" value="Использовать формат времени и даты США (с английским языком)" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Изменение формата времени требует перезапуска игры" />
+  <translation id="DebugMode" value="Режим отладки" />
+  <translation id="DebugModeTooltip" value="Включает дополнительные данные и настройки для отладки" />
+  <translation id="LoggingMode" value="Режим ведения логов" />
+  <translation id="LoggingModeTooltip" value="Разрешить дополнительное ведение логов для отладки" />
+  <translation id="AdvancedLoggingMode" value="Расширенный режим логов" />
+  <translation id="AdvancedLoggingModeTooltip" value="Разрешить расширенное ведение логов для отладки" />
+  <translation id="ResetToDefaults" value="Сбросить всё по умолчанию" />
+  <translation id="UseForNewGames" value="Использовать текущие значения для новых игр" />
+  <translation id="ClearStuckCitizensSchedule" value="Сбросить расписание всех застрявших жителей" />
+  <translation id="ClearStuckTouristsInHotels" value="Сбросить всех застрявших туристов в отелях" />
+  <translation id="ClearStuckCitizensInClosedBuildings" value="Сбросить всех застрявших жителей в закрытых зданиях" />
+  <translation id="ClearFireBurnTimeManager" value="Сбросить время горения пожаров" />
+  <translation id="ConfirmPanelClearFireBurnTimeManagerTitle" value="Сбросить время горения" />
+  <translation id="ConfirmPanelClearFireBurnTimeManagerText" value="Это обнулит все текущие пожары в городе! Вы уверены?" />
+  <translation id="ClearBuildingsWorkTimePrefabs" value="Очистить настройки типов зданий" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsTitle" value="Очистить настройки времени работы для всех типов" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsText" value="Это удалит настройки времени работы для всех типов зданий в этом сохранении! Вы уверены?" />
+  <translation id="ClearBuildingWorkTimeGlobalSettings" value="Очистить глобальные настройки типов зданий" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitle" value="Очистить все глобальные настройки времени работы" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsText" value="Это удалит настройки времени работы для всех типов зданий во всех сохранениях! Вы уверены?" />
+  <translation id="ClearAllEvents" value="Очистить все события" />
+  <translation id="ConfirmPanelClearAllEventsTitle" value="Очистить все события" />
+  <translation id="ConfirmPanelClearAllEventsText" value="Это удалит все события из менеджера событий игры! Это действие нельзя отменить! Вы уверены? (Учебный год не будет сброшен)" />
+  <translation id="ResetBuildingsGarbageBuffer" value="Сбросить мусорные буферы всех зданий" />
+  <translation id="ResetBuildingsMailBuffer" value="Сбросить почтовые буферы всех зданий" />
+  <translation id="ResetBuildingsCrimeBuffer" value="Сбросить криминальные буферы всех зданий" />
+  <translation id="ExecuteSelectedAction" value="Выполнить выбранное действие" />
+  <translation id="ClearActionsGroupTitle" value="Действия по очистке" />
 
-  <translation id="1General" value="Основные" />
-  <translation id="0Time" value="Настройки времени" />
-  <translation id="1Other" value="Другие настройки" />
+  <translation id="1General" value="Общее" />
+  <translation id="0Time" value="Параметры времени" />
+  <translation id="1Other" value="Другие параметры" />
   <translation id="WakeUpHour" value="Город просыпается" />
-  <translation id="WakeUpHourTooltip" value="Время, когда большинство жителей начинают просыпаться. Бюджеты и скорость времени переходят в режим 'день'!" />
-  <translation id="GoToSleepHour" value="Город ложится спать" />
-  <translation id="GoToSleepHourTooltip" value="Время, когда большинство жителей ложатся спать. Бюджеты и скорость времени переходят в режим 'ночь'!" />
+  <translation id="WakeUpHourTooltip" value="Время, когда большинство жителей начинают просыпаться. Бюджеты и скорость времени переключаются в «дневной» режим!" />
+  <translation id="GoToSleepHour" value="Город засыпает" />
+  <translation id="GoToSleepHourTooltip" value="Время, когда большинство жителей ложатся спать. Бюджеты и скорость времени переключаются в «ночной» режим!" />
   <translation id="DayTimeSpeed" value="Скорость времени (день)" />
-  <translation id="DayTimeSpeedTooltip" value="Скорость течения времени днём. '1' очень медленно - почти реальное время!" />
+  <translation id="DayTimeSpeedTooltip" value="Скорость течения времени днем. «1» — очень медленно, почти реальное время!" />
   <translation id="NightTimeSpeed" value="Скорость времени (ночь)" />
-  <translation id="NightTimeSpeedTooltip" value="Скорость течения времени ночью. '1' очень медленно - почти реальное время!" />
-  <translation id="IsDynamicDayLengthEnabled" value="Динамическая долгота дня" />
-  <translation id="IsDynamicDayLengthEnabledTooltip" value="Долгота дня завист от темы карты и от времени года. Зимой дни короче, чем летом." />
-  <translation id="VirtualCitizens" value="Метод симуляции жителей (реальных и виртуальных)" />
-  <translation id="VirtualCitizensTooltip" value="Выберите 'Все' для реального города (но макс. 65.535 жителей) или 'Оригинально', если компьютер малопроизводительный" />
-  <translation id="VirtualCitizens.None" value="Все жители города реальные" />
+  <translation id="NightTimeSpeedTooltip" value="Скорость течения времени ночью. «1» — очень медленно, почти реальное время!" />
+  <translation id="IsDynamicDayLengthEnabled" value="Динамическая длина дня" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="Длина дня зависит от темы карты и дня года. Зимой дни короче, чем летом." />
+  <translation id="VirtualCitizens" value="Режим симуляции жителей (реальные и виртуальные)" />
+  <translation id="VirtualCitizensTooltip" value="Выберите «Все» для реалистичного города (макс. 65.535 жителей), выберите «Ванильный», если у вас слабый ПК или город очень большой" />
+  <translation id="VirtualCitizens.None" value="Все жители реальны" />
   <translation id="VirtualCitizens.Vanilla" value="Как в оригинальной игре" />
-  <translation id="UseSlowAging" value="Улучшенные взросление и рождаемость" />
-  <translation id="UseSlowAgingTooltip" value="Если активировано, 1 день в игре означает 1 год в жизни жителей. Если выключено, 1 день в игре означает от 10 (при скорости времени 6) до 340 (при скорости 1) лет жизни." />
+  <translation id="UseSlowAging" value="Улучшенное старение и рождаемость" />
+  <translation id="UseSlowAgingTooltip" value="Если включено, 1 игровой день равен 1 году жизни. Если выключено, 1 день равен от 10 (скорость 6) до 340 (скорость 1) лет жизни." />
   <translation id="IsWeekendEnabled" value="Включить выходные" />
-  <translation id="IsWeekendEnabledTooltip" value="Жители не ходят в школу и на работу по выходным" />
-  <translation id="IsBreakfastTimeEnabled" value="Enable Breakfast time" />
-  <translation id="IsBreakfastTimeEnabledTooltip" value="Cims should go out at morning for food" />
-  <translation id="IsLunchTimeEnabled" value="Enable Lunch time" />
-  <translation id="IsLunchTimeEnabledTooltip" value="Cims should go out at noon for food" />
-  <translation id="StopConstructionAtNight" value="Приостановить стройку и улучшение зданий ночью" />
-  <translation id="StopConstructionAtNightTooltip" value="Строители тоже хотят поспать" />
-  <translation id="ConstructionSpeed" value="Скорость постройки" />
-  <translation id="ConstructionSpeedTooltip" value="Скорость постройки и улучшения зданий" />
-  <translation id="SwitchOffLightsAtNight" value="Здания выключают свет ночью" />
-  <translation id="SwitchOffLightsAtNightTooltip" value="Жилые здания выключают свет, когла большинство жителей спят, другие здания и парки - когда там никто не работает" />
+  <translation id="IsWeekendEnabledTooltip" value="Жители не ходят на работу или в школу по выходным" />
+  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchool" value="Включить завтрак перед работой/учебой" />
+  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchoolTooltip" value="Должны ли жители выходить на завтрак перед работой или школой" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="Включить обед во время работы/учебы" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="Должны ли жители выходить на обед во время работы или школы" />
+  <translation id="IsSupperTimeEnabledAfterWorkOrSchool" value="Включить ужин после работы/учебы" />
+  <translation id="IsSupperTimeEnabledAfterWorkOrSchoolTooltip" value="Должны ли жители выходить на ужин после работы или школы" />
+  <translation id="StopConstructionAtNight" value="Приостанавливать стройку и улучшение зданий ночью" />
+  <translation id="StopConstructionAtNightTooltip" value="Рабочим на стройке тоже нужно спать" />
+  <translation id="ConstructionSpeed" value="Скорость строительства" />
+  <translation id="ConstructionSpeedTooltip" value="Скорость возведения и улучшения зданий" />
+  <translation id="SwitchOffLightsAtNight" value="Выключать свет в зданиях ночью" />
+  <translation id="SwitchOffLightsAtNightTooltip" value="В жилых домах свет гаснет, когда жители спят, в остальных — когда там никто не работает" />
   <translation id="SwitchOffLightsMaxHeight" value="Не выключать свет в высоких зданиях" />
-  <translation id="SwitchOffLightsMaxHeightTooltip" value="Жилые, коммерческие и офисные здания не выключают свет ночью, если их высота больше этого значения" />
-  <translation id="CanAbandonJourney" value="Улучшенное поведение в пробках и при ожидании транспорта" />
-  <translation id="CanAbandonJourneyTooltip" value="Если активировано, жители могут отменять свои поездки, если долго находятся в пробке или ждут общественного транспорта" />
-  <translation id="RealisticFires" value="Realistic Fires last between 30 minutes to 4 hours at random" />
-  <translation id="RealisticFiresTooltip" value="If enabled, fires will take between 30 minutes to 4 hours to be extinguished" />
-  <translation id="WorkForceMatters" value="Building must have workers to operate" />
-  <translation id="WorkForceMattersTooltip" value="If enabled, buildings without workers in it will become closed and not give service" />
-  <translation id="GarbageSlowDown" value="Garbage Accumulation" />
-  <translation id="GarbageSlowDownTooltip" value="min (0.05) is very slow (Bi-weekly) and max (1.0) is normal daily - default is weekly (0.15)" />
-  <translation id="MailSlowDown" value="Mail Accumulation" />
-  <translation id="MailSlowDownTooltip" value="min (0.1) is very slow (weekly) and max (1.0) is normal daily - default is every 3 days (0.3)" />
-  <translation id="WeeklyCommericalDeliveries" value="Commerical building will receive goods delivery once a week" />
-  <translation id="WeeklyCommericalDeliveriesTooltip" value="If enabled, commerical buildings will have bigger goods buffer that will allow them to get goods only once a week" />
-  <translation id="DummyTrafficBehavior" value="Make the dummy traffic capacity more light" />
-  <translation id="DummyTrafficBehaviorTooltip" value="If enabled, dummy traffic is more reasonable to the mod gameplay" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="Жилые, коммерческие и офисные здания выше этого значения не будут отключать свет ночью" />
+  <translation id="CanAbandonJourney" value="Улучшенное поведение в пробках и ожидании транспорта" />
+  <translation id="CanAbandonJourneyTooltip" value="Если включено, жители могут отменить поездку, если слишком долго стоят в пробке или ждут транспорт" />
+  <translation id="RealisticFires" value="Реалистичные пожары (случайно от 30 мин. до 4 часов)" />
+  <translation id="RealisticFiresTooltip" value="Если включено, тушение пожаров будет занимать от 30 минут до 4 часов" />
+  <translation id="WorkForceMatters" value="Для работы здания необходимы сотрудники" />
+  <translation id="WorkForceMattersTooltip" value="Если включено, здания без рабочих внутри будут закрываться и перестанут предоставлять услуги" />
+  <translation id="GarbageSlowDown" value="Накопление мусора" />
+  <translation id="GarbageSlowDownTooltip" value="мин (0.05) — очень медленно (раз в две недели), макс (1.0) — ежедневно. По умолчанию (0.15) — раз в неделю." />
+  <translation id="MailSlowDown" value="Накопление почты" />
+  <translation id="MailSlowDownTooltip" value="мин (0.1) — очень медленно (раз в неделю), макс (1.0) — ежедневно. По умолчанию (0.3) — раз в 3 дня." />
+  <translation id="WeeklyCommericalDeliveries" value="Еженедельная доставка товаров в магазины" />
+  <translation id="WeeklyCommericalDeliveriesTooltip" value="Если включено, коммерческие здания будут иметь больший буфер товаров, что позволит им получать поставки раз в неделю" />
+  <translation id="DummyTrafficBehavior" value="Облегчить транзитный трафик" />
+  <translation id="DummyTrafficBehaviorTooltip" value="Если включено, транзитный трафик становится более сбалансированным под геймплей мода" />
 
   <translation id="2Quotas" value="Вероятности" />
-  <translation id="SecondShiftQuota" value="Вторая смена" />
+  <translation id="SecondShiftQuota" value="Рабочие второй смены" />
   <translation id="SecondShiftQuotaTooltip" value="Процент жителей, работающих во вторую смену" />
-  <translation id="NightShiftQuota" value="Ночная смена" />
+  <translation id="NightShiftQuota" value="Рабочие ночной смены" />
   <translation id="NightShiftQuotaTooltip" value="Процент жителей, работающих в ночную смену" />
-  <translation id="ContinuousNightShiftQuota" value="Continuous Night shift workers" />
-  <translation id="ContinuousNightShiftQuotaTooltip" value="The percentage of the citizens that work a continuous night shift" />
-  <translation id="BreakfastQuota" value="Breakfast probability" />
-  <translation id="BreakfastQuotaTooltip" value="The percentage of the Cims that will go out for breakfast" />
-  <translation id="LunchQuota" value="Lunch probability" />
-  <translation id="LunchQuotaTooltip" value="The percentage of the Cims that will go out for lunch" />
-  <translation id="LocalBuildingSearchQuota" value="Покупки поблизости" />
-  <translation id="LocalBuildingSearchQuotaTooltip" value="Процент жителей, которые будут искать магазины поблизости" />
-  <translation id="ShoppingForFunQuota" value="Покупки как развлечение" />
-  <translation id="ShoppingForFunQuotaTooltip" value="Процент жителей, которые будут ходить за покупками, даже если им не нужны никакие товары" />
-  <translation id="OnTimeQuota" value="Без сверхурочных" />
-  <translation id="OnTimeQuotaTooltip" value="Процент жителей, которые будут ходить на работу без сверхурочных" />
-  <translation id="OpenLowCommercialAtNightQuota" value="Open low commercial buildings at night percentage" />
-  <translation id="OpenLowCommercialAtNightQuotaTooltip" value="The percentage of the low commercial buildings that will stay open at night" />
-  <translation id="OpenCommercialSecondShiftQuota" value="Open commercial buildings for second shift percentage" />
-  <translation id="OpenCommercialSecondShiftQuotaTooltip" value="The percentage of the commerical buildings that will stay open for a second shift" />
-  <translation id="OpenCommercialAtWeekendsQuota" value="Open commercial buildings at weekends percentage" />
-  <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="The percentage of the commercial buildings that will stay open at weekends" />
-  <translation id="NightClassQuota" value="Night School students" />
-  <translation id="NightClassQuotaTooltip" value="The percentage of the citizens that go to night school" />
+  <translation id="ContinuousNightShiftQuota" value="Постоянные ночные рабочие" />
+  <translation id="ContinuousNightShiftQuotaTooltip" value="Процент жителей, работающих в непрерывную ночную смену" />
+  <translation id="BreakfastBeforeWorkOrSchoolQuota" value="Вероятность завтрака перед работой/учебой" />
+  <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="Процент жителей, которые пойдут завтракать вне дома перед работой или школой" />
+  <translation id="LunchDuringWorkOrSchoolQuota" value="Вероятность обеда во время работы/учебы" />
+  <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="Процент жителей, которые пойдут обедать вне дома во время работы или школы" />
+  <translation id="SupperAfterWorkOrSchoolQuota" value="Вероятность ужина после работы/учебы" />
+  <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="Процент жителей, которые пойдут ужинать вне дома после работы или школы" />
+  <translation id="LocalBuildingSearchQuota" value="Доля местных покупок" />
+  <translation id="LocalBuildingSearchQuotaTooltip" value="Процент населения, который будет искать магазины поблизости" />
+  <translation id="ShoppingForFunQuota" value="Шоппинг ради удовольствия" />
+  <translation id="ShoppingForFunQuotaTooltip" value="Процент населения, который пойдет за покупками ради развлечения, даже если им ничего не нужно" />
+  <translation id="OnTimeQuota" value="Коэффициент пунктуальности" />
+  <translation id="OnTimeQuotaTooltip" value="Процент жителей, которые приходят на работу и уходят с нее вовремя" />
+  <translation id="OpenLowCommercialAtNightQuota" value="Процент малых магазинов, открытых ночью" />
+  <translation id="OpenLowCommercialAtNightQuotaTooltip" value="Процент коммерческих зданий низкой плотности, которые будут оставаться открытыми ночью" />
+  <translation id="OpenCommercialSecondShiftQuota" value="Процент магазинов со второй сменой" />
+  <translation id="OpenCommercialSecondShiftQuotaTooltip" value="Процент коммерческих зданий, которые будут работать во вторую смену" />
+  <translation id="OpenCommercialAtWeekendsQuota" value="Процент магазинов, открытых в выходные" />
+  <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="Процент коммерческих зданий, которые будут открыты по выходным" />
+  <translation id="NightClassQuota" value="Студенты вечерней школы" />
+  <translation id="NightClassQuotaTooltip" value="Процент жителей, посещающих вечернюю школу" />
 
-  <translation id="3Events" value="Мероприятия" />
-  <translation id="AreEventsEnabled" value="Активировать дополнительные события" />
-  <translation id="AreEventsEnabledTooltip" value="Если выключено, то только события из оригинальной игры могут проходить в городе" />
-  <translation id="EarliestHourEventStartWeekday" value="Самое раннее по будням" />
-  <translation id="EarliestHourEventStartWeekdayTooltip" value="Самое раннее время, когда мероприятие может начаться в будний день" />
-  <translation id="LatestHourEventStartWeekday" value="Самое позднее по будням" />
-  <translation id="LatestHourEventStartWeekdayTooltip" value="Самое позднее время, когда мероприятие может начаться в будний день" />
-  <translation id="EarliestHourEventStartWeekend" value="Самое раннее по вых." />
-  <translation id="EarliestHourEventStartWeekendTooltip" value="Самое раннее время, когда мероприятие может начаться в выходной день" />
-  <translation id="LatestHourEventStartWeekend" value="Самое позднее по вых." />
-  <translation id="LatestHourEventStartWeekendTooltip" value="Самое позднее время, когда мероприятие может начаться в выходной день" />
+  <translation id="3Events" value="События" />
+  <translation id="AreEventsEnabled" value="Включить пользовательские события" />
+  <translation id="AreEventsEnabledTooltip" value="Если отключено, в городе могут происходить только стандартные события игры" />
+  <translation id="EarliestHourEventStartWeekday" value="Самое раннее событие (будни)" />
+  <translation id="EarliestHourEventStartWeekdayTooltip" value="Самое раннее время начала события в будний день" />
+  <translation id="LatestHourEventStartWeekday" value="Самое позднее событие (будни)" />
+  <translation id="LatestHourEventStartWeekdayTooltip" value="Самое позднее время начала события в будний день" />
+  <translation id="EarliestHourEventStartWeekend" value="Самое раннее событие (выходные)" />
+  <translation id="EarliestHourEventStartWeekendTooltip" value="Самое раннее время начала события в выходной день" />
+  <translation id="LatestHourEventStartWeekend" value="Самое позднее событие (выходные)" />
+  <translation id="LatestHourEventStartWeekendTooltip" value="Самое позднее время начала события в выходной день" />
 
   <translation id="4Time" value="Время" />
-  <translation id="MaxOvertime" value="Макс. сверхурочные" />
-  <translation id="MaxOvertimeTooltip" value="Максимальные сверхурочные для жителей - они придут на работу раньше и уйдут позже" />
-  <translation id="SchoolBegin" value="Начало учеб. дня" />
-  <translation id="SchoolBeginTooltip" value="Время начала занятий в школе - дети будут учиться" />
-  <translation id="SchoolEnd" value="Конец учеб. дня" />
-  <translation id="SchoolEndTooltip" value="Время окончания занятий в школе - дети покинут школу" />
-  <translation id="WorkBegin" value="Начало рабочей смены" />
-  <translation id="WorkBeginTooltip" value="Время начала рабочей смены - жители будут на работе или в университете" />
-  <translation id="WorkEnd" value="Оконч. рабочей смены" />
-  <translation id="WorkEndTooltip" value="Время окончания рабочей смены - жители покинут рабочие места или университет" />
+  <translation id="MaxOvertime" value="Макс. переработка" />
+  <translation id="MaxOvertimeTooltip" value="Максимальное время переработки — жители приходят раньше или задерживаются дольше" />
+  <translation id="SchoolBegin" value="Начало занятий" />
+  <translation id="SchoolBeginTooltip" value="Час начала занятий — юные жители должны быть в школе" />
+  <translation id="SchoolEnd" value="Конец занятий" />
+  <translation id="SchoolEndTooltip" value="Час, когда дети возвращаются из школы" />
+  <translation id="WorkBegin" value="Начало работы" />
+  <translation id="WorkBeginTooltip" value="Час начала работы — взрослые жители должны быть на работе или в университете" />
+  <translation id="WorkEnd" value="Конец работы" />
+  <translation id="WorkEndTooltip" value="Час, когда взрослые возвращаются с работы или из университета" />
   <translation id="LunchBegin" value="Начало обеда" />
-  <translation id="LunchBeginTooltip" value="Начало обеденного времени - жители пойдут пообедать" />
+  <translation id="LunchBeginTooltip" value="Время, когда жители уходят на обед" />
   <translation id="LunchEnd" value="Конец обеда" />
-  <translation id="LunchEndTooltip" value="Конец обеденного времени - жители вернутся с обеда на работу" />
-  <translation id="MaxVacationLength" value="Максимум дней отпуска" />
-  <translation id="MaxVacationLengthTooltip" value="Сколько дней отпуска горожане могут максимально взять. Установите 0, чтобы отключить отпуска." />
-  <translation id="AcademicYearLength" value="Academic Year days (Requires The Campus DLC)"/>
-  <translation id="AcademicYearLengthTooltip" value="how long an academic year will take. Default is 7 days." />
-  <translation id="TogaPartyLength" value="Toga Party hours (Requires The Campus DLC)" />
-  <translation id="TogaPartyLengthTooltip" value="how long a toga party will last. Default is 8 hours." />
+  <translation id="LunchEndTooltip" value="Время, когда жители возвращаются с обеда на работу" />
+  <translation id="MaxVacationLength" value="Макс. дней отпуска" />
+  <translation id="MaxVacationLengthTooltip" value="Как долго жители могут быть в отпуске. Установите 0, чтобы отключить отпуска." />
+  <translation id="AcademicYearLength" value="Длительность учебного года (Требует DLC Campus)"/>
+  <translation id="AcademicYearLengthTooltip" value="Сколько длится учебный год. По умолчанию 7 дней." />
+  <translation id="TogaPartyLength" value="Длительность тога-вечеринки (Требует DLC Campus)" />
+  <translation id="TogaPartyLengthTooltip" value="Сколько длится тога-вечеринка. По умолчанию 8 часов." />
 
-  <translation id="5BuildingService" value="Building Services" />
-  <translation id="0Garbage" value="Garbage operation hours" />
-  <translation id="1Mail" value="Mail operation hours" />
-  <translation id="2Other" value="Park Maintainace operation hours" />
-  <translation id="GarbageResidentialStartHour" value="Residential start hour" />
-  <translation id="GarbageResidentialStartHourTooltip" value="The daytime when garbage services starts to operate in residential areas" />
-  <translation id="GarbageResidentialEndHour" value="Residential end hour" />
-  <translation id="GarbageResidentialEndHourTooltip" value="The daytime when garbage services stop to operate in residential areas" />
-  <translation id="GarbageCommercialStartHour" value="Commercial start hour" />
-  <translation id="GarbageCommercialStartHourTooltip" value="The daytime when garbage services starts to operate in commercial areas" />
-  <translation id="GarbageCommercialEndHour" value="Commercial end hour" />
-  <translation id="GarbageCommercialEndHourTooltip" value="The daytime when garbage services stop to operate in commercial areas" />
-  <translation id="GarbageIndustrialStartHour" value="Industrial start hour" />
-  <translation id="GarbageIndustrialStartHourTooltip" value="The daytime when garbage services starts to operate in industrial areas" />
-  <translation id="GarbageIndustrialEndHour" value="Industrial end hour" />
-  <translation id="GarbageIndustrialEndHourTooltip" value="The daytime when garbage services stop to operate in industrial areas" />
-  <translation id="GarbageOfficeStartHour" value="Office start hour" />
-  <translation id="GarbageOfficeStartHourTooltip" value="The daytime when garbage services starts to operate in office areas" />
-  <translation id="GarbageOfficeEndHour" value="Office end hour" />
-  <translation id="GarbageOfficeEndHourTooltip" value="The daytime when garbage services stop to operate in office areas" />
-  <translation id="GarbageOtherStartHour" value="Other start hour" />
-  <translation id="GarbageOtherStartHourTooltip" value="The daytime when garbage services starts to operate in other areas" />
-  <translation id="GarbageOtherEndHour" value="Other end hour" />
-  <translation id="GarbageOtherEndHourTooltip" value="The daytime when garbage services stop to operate in other areas" />
+  <translation id="5BuildingService" value="Городские службы" />
+  <translation id="0Garbage" value="Часы вывоза мусора" />
+  <translation id="1Mail" value="Часы работы почты" />
+  <translation id="2Other" value="Часы обслуживания парков" />
+  <translation id="GarbageResidentialStartHour" value="Жилые зоны: начало" />
+  <translation id="GarbageResidentialStartHourTooltip" value="Время начала работы мусоровозов в жилых районах" />
+  <translation id="GarbageResidentialEndHour" value="Жилые зоны: конец" />
+  <translation id="GarbageResidentialEndHourTooltip" value="Время окончания работы мусоровозов в жилых районах" />
+  <translation id="GarbageCommercialStartHour" value="Коммерция: начало" />
+  <translation id="GarbageCommercialStartHourTooltip" value="Время начала работы мусоровозов в коммерческих зонах" />
+  <translation id="GarbageCommercialEndHour" value="Коммерция: конец" />
+  <translation id="GarbageCommercialEndHourTooltip" value="Время окончания работы мусоровозов в коммерческих зонах" />
+  <translation id="GarbageIndustrialStartHour" value="Промзоны: начало" />
+  <translation id="GarbageIndustrialStartHourTooltip" value="Время начала работы мусоровозов в промышленных зонах" />
+  <translation id="GarbageIndustrialEndHour" value="Промзоны: конец" />
+  <translation id="GarbageIndustrialEndHourTooltip" value="Время окончания работы мусоровозов в промышленных зонах" />
+  <translation id="GarbageOfficeStartHour" value="Офисы: начало" />
+  <translation id="GarbageOfficeStartHourTooltip" value="Время начала работы мусоровозов в офисных центрах" />
+  <translation id="GarbageOfficeEndHour" value="Офисы: конец" />
+  <translation id="GarbageOfficeEndHourTooltip" value="Время окончания работы мусоровозов в офисных центрах" />
+  <translation id="GarbageOtherStartHour" value="Прочие зоны: начало" />
+  <translation id="GarbageOtherStartHourTooltip" value="Время начала работы мусоровозов в других зонах" />
+  <translation id="GarbageOtherEndHour" value="Прочие зоны: конец" />
+  <translation id="GarbageOtherEndHourTooltip" value="Время окончания работы мусоровозов в других зонах" />
 
-  <translation id="MailResidentialStartHour" value="Residential start hour" />
-  <translation id="MailResidentialStartHourTooltip" value="The daytime when mail services starts to operate in residential areas" />
-  <translation id="MailResidentialEndHour" value="Residential end hour" />
-  <translation id="MailResidentialEndHourTooltip" value="The daytime when mail services stop to operate in residential areas" />
-  <translation id="MailCommercialStartHour" value="Commercial start hour" />
-  <translation id="MailCommercialStartHourTooltip" value="The daytime when mail services starts to operate in commercial areas" />
-  <translation id="MailCommercialEndHour" value="Commercial end hour" />
-  <translation id="MailCommercialEndHourTooltip" value="The daytime when mail services stop to operate in commercial areas" />
-  <translation id="MailIndustrialStartHour" value="industrial start hour" />
-  <translation id="MailIndustrialStartHourTooltip" value="The daytime when mail services starts to operate in industrial areas" />
-  <translation id="MailIndustrialEndHour" value="Industrial end hour" />
-  <translation id="MailIndustrialEndHourTooltip" value="The daytime when mail services stop to operate in industrial areas" />
-  <translation id="MailOfficeStartHour" value="Office start hour" />
-  <translation id="MailOfficeStartHourTooltip" value="The daytime when mail services starts to operate in office areas" />
-  <translation id="MailOfficeEndHour" value="Office end hour" />
-  <translation id="MailOfficeEndHourTooltip" value="The daytime when mail services stop to operate in office areas" />
-  <translation id="MailOtherStartHour" value="Other start hour" />
-  <translation id="MailOtherStartHourTooltip" value="The daytime when mail services starts to operate in other areas" />
-  <translation id="MailOtherEndHour" value="Other end hour" />
-  <translation id="MailOtherEndHourTooltip" value="The daytime when mail services stop to operate in other areas" />
+  <translation id="MailResidentialStartHour" value="Жилые зоны: начало" />
+  <translation id="MailResidentialStartHourTooltip" value="Время начала работы почты в жилых районах" />
+  <translation id="MailResidentialEndHour" value="Жилые зоны: конец" />
+  <translation id="MailResidentialEndHourTooltip" value="Время окончания работы почты в жилых районах" />
+  <translation id="MailCommercialStartHour" value="Коммерция: начало" />
+  <translation id="MailCommercialStartHourTooltip" value="Время начала работы почты в коммерческих зонах" />
+  <translation id="MailCommercialEndHour" value="Коммерция: конец" />
+  <translation id="MailCommercialEndHourTooltip" value="Время окончания работы почты в коммерческих зонах" />
+  <translation id="MailIndustrialStartHour" value="Промзоны: начало" />
+  <translation id="MailIndustrialStartHourTooltip" value="Время начала работы почты в промышленных зонах" />
+  <translation id="MailIndustrialEndHour" value="Промзоны: конец" />
+  <translation id="MailIndustrialEndHourTooltip" value="Время окончания работы почты в промышленных зонах" />
+  <translation id="MailOfficeStartHour" value="Офисы: начало" />
+  <translation id="MailOfficeStartHourTooltip" value="Время начала работы почты в офисных центрах" />
+  <translation id="MailOfficeEndHour" value="Офисы: конец" />
+  <translation id="MailOfficeEndHourTooltip" value="Время окончания работы почты в офисных центрах" />
+  <translation id="MailOtherStartHour" value="Прочие зоны: начало" />
+  <translation id="MailOtherStartHourTooltip" value="Время начала работы почты в других зонах" />
+  <translation id="MailOtherEndHour" value="Прочие зоны: конец" />
+  <translation id="MailOtherEndHourTooltip" value="Время окончания работы почты в других зонах" />
 
-  <translation id="ParkMaintenanceStartHour" value="Park Maintenance start hour" />
-  <translation id="ParkMaintenanceStartHourTooltip" value="The daytime when park maintenance services starts to operate" />
-  <translation id="ParkMaintenanceEndHour" value="Park Maintenance end hour" />
-  <translation id="ParkMaintenanceEndHourTooltip" value="The daytime when park maintenance services stop to operate" />
+  <translation id="ParkMaintenanceStartHour" value="Обслуживание парков: начало" />
+  <translation id="ParkMaintenanceStartHourTooltip" value="Время начала работы служб обслуживания парков" />
+  <translation id="ParkMaintenanceEndHour" value="Обслуживание парков: конец" />
+  <translation id="ParkMaintenanceEndHourTooltip" value="Время окончания работы служб обслуживания парков" />
 
-  <translation id="6RoadService" value="Road Services" />
-  <translation id="0MaintenanceSnow" value=" Maintenance and Snow operation hours" />
-  <translation id="MaintenanceSnowRoadsSmallStartHour" value="Small roads start hour" />
-  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for small roads" />
-  <translation id="MaintenanceSnowRoadsSmallEndHour" value="Small roads end hour" />
-  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for small roads" />
-  <translation id="MaintenanceSnowRoadsMediumStartHour" value="Medium roads start hour" />
-  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for medium roads" />
-  <translation id="MaintenanceSnowRoadsMediumEndHour" value="Medium roads end hour" />
-  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for medium roads" />
-  <translation id="MaintenanceSnowRoadsLargeStartHour" value="Large roads start hour" />
-  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for large roads" />
-  <translation id="MaintenanceSnowRoadsLargeEndHour" value="Large roads end hour" />
-  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for large roads" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="Highway roads start hour" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for highway roads" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="Highway roads end hour" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for highway roads" />
-  <translation id="MaintenanceSnowRoadsOtherStartHour" value="Other roads start hour" />
-  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for other roads" />
-  <translation id="MaintenanceSnowRoadsOtherEndHour" value="Other roads end hour" />
-  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for other roads" />
+  <translation id="6RoadService" value="Дорожные службы" />
+  <translation id="0MaintenanceSnow" value=" Часы уборки снега и ремонта" />
+  <translation id="MaintenanceSnowRoadsSmallStartHour" value="Малые дороги: начало" />
+  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="Время начала обслуживания малых дорог" />
+  <translation id="MaintenanceSnowRoadsSmallEndHour" value="Малые дороги: конец" />
+  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="Время окончания обслуживания малых дорог" />
+  <translation id="MaintenanceSnowRoadsMediumStartHour" value="Средние дороги: начало" />
+  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="Время начала обслуживания средних дорог" />
+  <translation id="MaintenanceSnowRoadsMediumEndHour" value="Средние дороги: конец" />
+  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="Время окончания обслуживания средних дорог" />
+  <translation id="MaintenanceSnowRoadsLargeStartHour" value="Большие дороги: начало" />
+  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="Время начала обслуживания больших дорог" />
+  <translation id="MaintenanceSnowRoadsLargeEndHour" value="Большие дороги: конец" />
+  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="Время окончания обслуживания больших дорог" />
+  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="Шоссе: начало" />
+  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="Время начала обслуживания автомагистралей" />
+  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="Шоссе: конец" />
+  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="Время окончания обслуживания автомагистралей" />
+  <translation id="MaintenanceSnowRoadsOtherStartHour" value="Прочие дороги: начало" />
+  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="Время начала обслуживания прочих типов дорог" />
+  <translation id="MaintenanceSnowRoadsOtherEndHour" value="Прочие дороги: конец" />
+  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="Время окончания обслуживания прочих типов дорог" />
 
-  <translation id="ScheduledAction" value="Now" />
-  <translation id="CurrentState" value="State" />
-  <translation id="NextScheduledAction" value="Until" />
-  <translation id="ScheduledAction.GoHome" value="Go home" />
-  <translation id="CurrentState.AtHome" value="At home" />
-  <translation id="ScheduledAction.GoToSchool" value="Go to school" />
-  <translation id="CurrentState.AtSchool" value="At school" />
-  <translation id="ScheduledAction.GoToWork" value="Go to work" />
-  <translation id="CurrentState.AtWork" value="At work" />
-  <translation id="ScheduledAction.GoShopping" value="Go shopping" />
-  <translation id="CurrentState.Shopping" value="Shopping" />
-  <translation id="ScheduledAction.GoToRelaxg" value="Go relaxing" />
-  <translation id="CurrentState.Relaxing" value="Relaxing" />
-  <translation id="ScheduledAction.GoToVisit" value="Go visit" />
-  <translation id="CurrentState.Visiting" value="Visiting" />
-  <translation id="ScheduledAction.GoToShelter" value="Go to shelter" />
-  <translation id="CurrentState.InShelter" value="At shelter" />
-  <translation id="ScheduledAction.GoToBreakfast" value="Go to eat breakfast" />
-  <translation id="CurrentState.Breakfast" value="Eating breakfast" />
-  <translation id="ScheduledAction.GoToLunch" value="Go to eat lunch" />
-  <translation id="CurrentState.Lunch" value="Eating lunch" />
-  <translation id="WorkShift.First" value="Первая смена" />
-  <translation id="WorkShift.Second" value="Вторая смена" />
+  <translation id="ScheduledAction" value="Сейчас" />
+  <translation id="CurrentState" value="Состояние" />
+  <translation id="NextScheduledAction" value="До" />
+  <translation id="ScheduledAction.GoHome" value="Домой" />
+  <translation id="CurrentState.AtHome" value="Дома" />
+  <translation id="ScheduledAction.GoToSchool" value="В школу" />
+  <translation id="CurrentState.AtSchool" value="В школе" />
+  <translation id="ScheduledAction.GoToWork" value="На работу" />
+  <translation id="CurrentState.AtWork" value="На работе" />
+  <translation id="ScheduledAction.GoShopping" value="За покупками" />
+  <translation id="CurrentState.Shopping" value="В магазине" />
+  <translation id="ScheduledAction.GoToRelaxg" value="Отдыхать" />
+  <translation id="CurrentState.Relaxing" value="Отдыхает" />
+  <translation id="ScheduledAction.GoToVisit" value="В гости" />
+  <translation id="CurrentState.Visiting" value="В гостях" />
+  <translation id="ScheduledAction.GoToShelter" value="В убежище" />
+  <translation id="CurrentState.InShelter" value="В убежище" />
+  <translation id="ScheduledAction.GoToMeal" value="Поесть" />
+  <translation id="CurrentState.EatMeal" value="Ест " />
+  <translation id="ScheduledMealType.Breakfast" value="завтрак" />
+  <translation id="ScheduledMealType.Lunch" value="обед" />
+  <translation id="ScheduledMealType.Supper" value="ужин" />
+  <translation id="ScheduledMealType.Other" value="перекус" />
+  <translation id="WorkShift.First" value="1-я смена" />
+  <translation id="WorkShift.Second" value="2-я смена" />
   <translation id="WorkShift.Night" value="Ночная смена" />
-  <translation id="WorkShift.ContinuousDay" value="Continuous day work shift" />
-  <translation id="WorkShift.ContinuousNight" value="Continuous night work shift" />
-  <translation id="WorkShift.Event" value="Event work shift" />
+  <translation id="WorkShift.ContinuousDay" value="Дневная (непр.)" />
+  <translation id="WorkShift.ContinuousNight" value="Ночная (непр.)" />
+  <translation id="WorkShift.Event" value="Смена события" />
   <translation id="WorkStatus.OnVacation" value="(отпуск: {0} дн.)" />
 
-  <translation id="AcademicYear.DaysLeft" value="Заканчивается через {0} дн." />
-  <translation id="AcademicYear.HoursLeft" value="Заканчивается через {0} ч." />
-  <translation id="AcademicYear.EndsSoon" value="Заканчивается менее чем через 1 час" />
-  <translation id="AcademicYear.StartDelay" value="Not starting because of night time or weekend" />
-  <translation id="AcademicYear.EndDelay" value="Not ending because of night time or weekend" />
-  <translation id="AcademicYear.HoursUntil" value="Starts in {0} hour(s)" />
-  <translation id="AcademicYear.StartsSoon" value="Starts in less than 1 hour" />
-  <translation id="AcademicYearEndYearButtonText" value="End Academic Year" />
-  <translation id="AcademicYearEndYearButtonTooltip" value="allow ending the academic year on weekdays between 9:00 and 10:00" />
+  <translation id="AcademicYear.DaysLeft" value="Закончится через {0} дн." />
+  <translation id="AcademicYear.HoursLeft" value="Закончится через {0} час(ов)" />
+  <translation id="AcademicYear.EndsSoon" value="Закончится менее чем через час" />
+  <translation id="AcademicYear.StartDelay" value="Ожидание утра или будней" />
+  <translation id="AcademicYear.EndDelay" value="Ожидание утра или будней" />
+  <translation id="AcademicYear.HoursUntil" value="Начнется через {0} час(ов)" />
+  <translation id="AcademicYear.StartsSoon" value="Начнется менее чем через час" />
+  <translation id="AcademicYearEndYearButtonText" value="Завершить учебный год" />
+  <translation id="AcademicYearEndYearButtonTooltip" value="Позволяет завершить учебный год в будни между 9:00 и 10:00" />
 
-  <translation id="OperationHoursSettingsCheckBox" value="Settings" />
-  <translation id="OperationHoursSettingsCheckBoxTooltip" value="Change building operation hours" />
-  <translation id="SettingsTitle" value="Adjust Operation Hours" />
-  <translation id="WorkAtNight" value="Work At Night" />
-  <translation id="WorkAtNightTooltip" value="The building will work 24 hours" />
-  <translation id="WorkAtWeekands" value="Work At Weekands" />
-  <translation id="WorkAtWeekandsTooltip" value="The building will work at weekends" />
-  <translation id="HasExtendedWorkShift" value="Has Extended Work Shift" />
-  <translation id="HasExtendedWorkShiftTooltip" value="The morning shift will start when the city wakes up or the earlist a citizen will wake up the lowest between them. cant have continuous shift" />
-  <translation id="HasContinuousWorkShift" value="Has Continuous Work Shift" />
-  <translation id="HasContinuousWorkShiftTooltip" value="The building will work from 8(am) to 20(8pm), if works at night, there will be two shifts 8-20 and 20-8. cant have extended shift" />
-  <translation id="IgnorePolicy" value="Ignore District Policies" />
-  <translation id="IgnorePolicyTooltip" value="The building will ignore any restirctions from district policies" />
-  <translation id="ShiftCountTitle" value="Select the number of shifts" />
-  <translation id="ShiftCountTooltip" value="work at night and not continuous = 3, continuous = 1, work at night and continuous = 2, else = 1-2" />
-  <translation id="SaveBuildingSettings" value="Save building settings" />
-  <translation id="SaveBuildingSettingsTooltip" value="First priority - will override prefab and global settings and create a specific work time for this building" />
-  <translation id="ReturnToDefault" value="Back to default" />
-  <translation id="ReturnToDefaultTooltip" value="Will not delete the record just set a default flag on it - you need to clear settings for this building to get the prefab or global settings" />
-  <translation id="ApplyPrefabSettings" value="Apply type settings" />
-  <translation id="ApplyPrefabSettingsTooltip" value="Apply work time settings to this building according to building type in this save" />
-  <translation id="ApplyGlobalSettings" value="Apply global settings" />
-  <translation id="ApplyGlobalSettingsTooltip" value="Apply work time settings to this building according to building type across all saves" />
-  <translation id="SetPrefabSettings" value="Set new type" />
-  <translation id="SetPrefabSettingsTooltip" value="This will update all building records of this type to the current work time of this building in this save" />
-  <translation id="SetGlobalSettings" value="Set new global" />
-  <translation id="SetGlobalSettingsTooltip" value="This will update all building records of this type to the current work time of this building across all saves" />
-  <translation id="DeletePrefabSettings" value="Delete existing type" />
-  <translation id="DeletePrefabSettingsTooltip" value="This will delete all building records of this type and return them back to default in this save" />
-  <translation id="DeleteGlobalSettings" value="Delete existing global" />
-  <translation id="DeleteGlobalSettingsTooltip" value="This will delete all building records of this type and return them back to default across all saves" />
-  <translation id="UnlockSettings" value="Unlock settings" />
-  <translation id="UnlockSettingsTooltip" value="Unlock edit settings" />
-  <translation id="DefaultSettingsStatus" value="This Building is using default settings" />
-  <translation id="BuildingSettingsStatus" value="This Building is using his own settings" />
-  <translation id="PrefabSettingsStatus" value="This Building is using type settings" />
-  <translation id="GlobalSettingsStatus" value="This Building is using global settings" />
-  <translation id="LockUnlockChangesTooltip" value="If Locked - type and global settings has no affect on this building" />
-  <translation id="ConfirmPanelSetPrefabTitle" value="Set Type Settings" />
-  <translation id="ConfirmPanelSetPrefabText" value="This will update all the buildings work hours of this type to the current work time settings in this save!" />
-  <translation id="ConfirmPanelSetGlobalTitle" value="Set Global Settings" />
-  <translation id="ConfirmPanelSetGlobalText" value="This will update all the buildings work hours of this type to the current work time settings across all saves!" />
-  <translation id="ConfirmPanelDeletePrefabTitle" value="Delete Type Settings" />
-  <translation id="ConfirmPanelDeletePrefabText" value="This will remove all the buildings work hours of this type back to default settings in this save!" />
-  <translation id="ConfirmPanelDeleteGlobalTitle" value="Delete Global Settings" />
-  <translation id="ConfirmPanelDeleteGlobalText" value="This will remove all the buildings work hours of this type back to default settings across all saves!" />
-  <translation id="ClosedBuilding" value="Closed" />
-  <translation id="ServingTimeAt" value="Serving time in " />
+  <translation id="OperationHoursSettingsCheckBox" value="Настройки" />
+  <translation id="OperationHoursSettingsCheckBoxTooltip" value="Изменить часы работы здания" />
+  <translation id="SettingsTitle" value="Настройка часов работы" />
+  <translation id="WorkAtNight" value="Работа ночью" />
+  <translation id="WorkAtNightTooltip" value="Здание будет работать 24 часа" />
+  <translation id="WorkAtWeekands" value="Работа в выходные" />
+  <translation id="WorkAtWeekandsTooltip" value="Здание будет работать по выходным" />
+  <translation id="HasExtendedWorkShift" value="Расширенная смена" />
+  <translation id="HasExtendedWorkShiftTooltip" value="Утренняя смена начнется с пробуждением города. Несовместимо с непрерывной сменой." />
+  <translation id="HasContinuousWorkShift" value="Непрерывная смена" />
+  <translation id="HasContinuousWorkShiftTooltip" value="Здание работает с 8:00 до 20:00. Если разрешена работа ночью — две смены: 8-20 и 20-8. Несовместимо с расширенной сменой." />
+  <translation id="IgnorePolicy" value="Игнорировать политики района" />
+  <translation id="IgnorePolicyTooltip" value="Здание будет игнорировать любые ограничения из политик района" />
+  <translation id="ShiftCountTitle" value="Количество смен" />
+  <translation id="ShiftCountTooltip" value="Ночь + не непрерывно = 3; непрерывно = 1; Ночь + непрерывно = 2; иначе = 1-2" />
+  <translation id="SaveBuildingSettings" value="Сохранить настройки здания" />
+  <translation id="SaveBuildingSettingsTooltip" value="Приоритет №1 — перезапишет типовые и глобальные настройки специально для этого здания" />
+  <translation id="ReturnToDefault" value="Вернуть по умолчанию" />
+  <translation id="ReturnToDefaultTooltip" value="Сброс флага — нужно очистить настройки, чтобы применились типовые или глобальные" />
+  <translation id="ApplyPrefabSettings" value="Применить настройки типа" />
+  <translation id="ApplyPrefabSettingsTooltip" value="Применить время работы согласно типу здания в этом сохранении" />
+  <translation id="ApplyGlobalSettings" value="Применить глоб. настройки" />
+  <translation id="ApplyGlobalSettingsTooltip" value="Применить время работы согласно типу здания во всех сохранениях" />
+  <translation id="SetPrefabSettings" value="Назначить для типа" />
+  <translation id="SetPrefabSettingsTooltip" value="Обновит настройки для всех зданий этого типа в данном сохранении" />
+  <translation id="SetGlobalSettings" value="Назначить глобально" />
+  <translation id="SetGlobalSettingsTooltip" value="Обновит настройки для всех зданий этого типа во всех сохранениях" />
+  <translation id="DeletePrefabSettings" value="Удалить настройки типа" />
+  <translation id="DeletePrefabSettingsTooltip" value="Удалит настройки для этого типа и вернет их к значениям по умолчанию в этом сохранении" />
+  <translation id="DeleteGlobalSettings" value="Удалить глоб. настройки" />
+  <translation id="DeleteGlobalSettingsTooltip" value="Удалит настройки для этого типа и вернет их к значениям по умолчанию во всех сохранениях" />
+  <translation id="UnlockSettings" value="Разблокировать" />
+  <translation id="UnlockSettingsTooltip" value="Разблокировать редактирование настроек" />
+  <translation id="DefaultSettingsStatus" value="Это здание использует настройки по умолчанию" />
+  <translation id="BuildingSettingsStatus" value="Это здание использует собственные настройки" />
+  <translation id="PrefabSettingsStatus" value="Это здание использует настройки типа" />
+  <translation id="GlobalSettingsStatus" value="Это здание использует глобальные настройки" />
+  <translation id="LockUnlockChangesTooltip" value="Если заблокировано — настройки типа и глобальные настройки не влияют на это здание" />
+  <translation id="ConfirmPanelSetPrefabTitle" value="Установить настройки типа" />
+  <translation id="ConfirmPanelSetPrefabText" value="Это обновит рабочие часы всех зданий этого типа в текущем сохранении!" />
+  <translation id="ConfirmPanelSetGlobalTitle" value="Установить глоб. настройки" />
+  <translation id="ConfirmPanelSetGlobalText" value="Это обновит рабочие часы всех зданий этого типа во всех сохранениях!" />
+  <translation id="ConfirmPanelDeletePrefabTitle" value="Удалить настройки типа" />
+  <translation id="ConfirmPanelDeletePrefabText" value="Это вернет все здания этого типа в текущем сохранении к настройкам по умолчанию!" />
+  <translation id="ConfirmPanelDeleteGlobalTitle" value="Удалить глоб. настройки" />
+  <translation id="ConfirmPanelDeleteGlobalText" value="Это вернет все здания этого типа во всех сохранениях к настройкам по умолчанию!" />
+  <translation id="ClosedBuilding" value="Закрыто" />
+  <translation id="ServingTimeAt" value="Срок в " />
 
-  <translation id="RaceDayLabelHour" value="Hour" />
-  <translation id="RaceDayLabelFrequency" value="Frequency" />
-  <translation id="RaceDayLabelMinute" value="Minute" />
-  <translation id="RaceDayLabelAutoOccur" value="AutoOccur" />
-  <translation id="RaceDayDropDownWeeklyFrequency" value="Weekly" />
-  <translation id="RaceDayDropDownDailyFrequency" value="Daily" />
-  <translation id="RaceDayDropDownDisableAutoOccur" value="Disable" />
-  <translation id="RaceDayDropDownEnableAutoOccur" value="Enable" />
-  <translation id="RaceDayDropDownDateTimeTooltip" value="Specify the datetime you wish this event to occur on each day/week. If an Event overlaps another event it may cancel out the later one, so avoid setting them close together in the day/week" />
-  <translation id="RaceDayDropDownFrequencyTooltip" value="Specify the frequency you wish this event to occur on (daily/weekly)" />
-  <translation id="RaceDayDropDownAutoOccurTooltip" value="Specify if you want this event to re-occur on a daily/weekly bases" />
-  <translation id="RaceDayLabelDayOfWeek" value="Day Of Week:" />
-  <translation id="RaceDayLabelDayOfWeekSunday" value="Sunday" />
-  <translation id="RaceDayLabelDayOfWeekMonday" value="Monday" />
-  <translation id="RaceDayLabelDayOfWeekTuesday" value="Tuesday" />
-  <translation id="RaceDayLabelDayOfWeekWednesday" value="Wednesday" />
-  <translation id="RaceDayLabelDayOfWeekThursday" value="Thursday" />
-  <translation id="RaceDayLabelDayOfWeekFriday" value="Friday" />
-  <translation id="RaceDayLabelDayOfWeekSaturday" value="Saturday" />
+  <translation id="RaceDayLabelHour" value="Час" />
+  <translation id="RaceDayLabelFrequency" value="Частота" />
+  <translation id="RaceDayLabelMinute" value="Минута" />
+  <translation id="RaceDayLabelAutoOccur" value="Автоповтор" />
+  <translation id="RaceDayDropDownWeeklyFrequency" value="Еженедельно" />
+  <translation id="RaceDayDropDownDailyFrequency" value="Ежедневно" />
+  <translation id="RaceDayDropDownDisableAutoOccur" value="Отключить" />
+  <translation id="RaceDayDropDownEnableAutoOccur" value="Включить" />
+  <translation id="RaceDayDropDownDateTimeTooltip" value="Укажите время начала события. Избегайте накладок с другими событиями." />
+  <translation id="RaceDayDropDownFrequencyTooltip" value="Укажите частоту повторения события (ежедневно/еженедельно)" />
+  <translation id="RaceDayDropDownAutoOccurTooltip" value="Укажите, должно ли событие повторяться автоматически" />
+  <translation id="RaceDayLabelDayOfWeek" value="День недели:" />
+  <translation id="RaceDayLabelDayOfWeekSunday" value="Воскресенье" />
+  <translation id="RaceDayLabelDayOfWeekMonday" value="Понедельник" />
+  <translation id="RaceDayLabelDayOfWeekTuesday" value="Вторник" />
+  <translation id="RaceDayLabelDayOfWeekWednesday" value="Среда" />
+  <translation id="RaceDayLabelDayOfWeekThursday" value="Четверг" />
+  <translation id="RaceDayLabelDayOfWeekFriday" value="Пятница" />
+  <translation id="RaceDayLabelDayOfWeekSaturday" value="Суббота" />
+  <translation id="RaceDayScheduleOverlapWarning" value="Накладка!" />
 
-  <translation id="VanillaEventSelectionLabelTitle" value="Events:" />
-  <translation id="VanillaEventSelectEventButton" value="Event Info" />
-  <translation id="VanillaEventSelectEventButtonTooltip" value="Select the event to create" />
-  <translation id="VanillaEventTotalAmountLabel" value="Event cost" />
-  <translation id="VanillaEventTotalAmountLabelTooltip" value="The total cost to create this event" />
-  <translation id="VanillaEventTotalIncomeLabel" value="Max profit" />
-  <translation id="VanillaEventTotalIncomeLabelTooltip" value="The maximum profits you can receive if the event is 100% successful and all incentives are used" />
-  <translation id="VanillaEventCreateButton" value="Create" />
-  <translation id="VanillaEventCreateButtonTooltip" value="Create the event" />
-  <translation id="VanillaEventDayDropDownLabel" value="Day" />
-  <translation id="VanillaEventDayDropDownLabelTooltip" value="The day of the month to start the event" />
-  <translation id="VanillaEventMonthDropDownLabel" value="Month" />
-  <translation id="VanillaEventMonthDropDownLabelTooltip" value="The month to start the event" />
-  <translation id="VanillaEventHourDropDownLabel" value="Hour" />
-  <translation id="VanillaEventHourDropDownLabelTooltip" value="The Hour to start the event" />
-  <translation id="VanillaEventMinuteDropDownLabel" value="Minute" />
-  <translation id="VanillaEventMinuteDropDownLabelTooltip" value="the minute to start the event" />
-  <translation id="VanillaEventTicketSliderLabel" value="Tickets" />
-  <translation id="VanillaEventTicketSliderLabelTooltip" value="Increase or decrease the number of tickets available for this venue" />
-  <translation id="VanillaEventCostsLabel" value="BUY" />
-  <translation id="VanillaEventReturnsLabel" value="SELL" />
-  <translation id="VanillaEventUpcomingShowBtn" value="Upcoming Events" />
-  <translation id="VanillaEventUpcomingHideBtn" value="Hide Upcoming" />
+  <translation id="VanillaEventSelectionLabelTitle" value="События:" />
+  <translation id="VanillaEventSelectEventButton" value="Инфо" />
+  <translation id="VanillaEventTotalAmountLabel" value="Стоимость" />
+  <translation id="VanillaEventTotalAmountLabelTooltip" value="Общая стоимость создания события" />
+  <translation id="VanillaEventTotalIncomeLabel" value="Макс. доход" />
+  <translation id="VanillaEventTotalIncomeLabelTooltip" value="Максимальная прибыль при 100% успехе" />
+  <translation id="VanillaEventCreateButton" value="Создать" />
+  <translation id="VanillaEventCreateButtonTooltip" value="Создать событие" />
+  <translation id="VanillaEventDayDropDownLabel" value="День" />
+  <translation id="VanillaEventDayDropDownLabelTooltip" value="День месяца для начала события" />
+  <translation id="VanillaEventMonthDropDownLabel" value="Месяц" />
+  <translation id="VanillaEventMonthDropDownLabelTooltip" value="Месяц для начала события" />
+  <translation id="VanillaEventHourDropDownLabel" value="Час" />
+  <translation id="VanillaEventHourDropDownLabelTooltip" value="Час для начала события" />
+  <translation id="VanillaEventMinuteDropDownLabel" value="Минута" />
+  <translation id="VanillaEventMinuteDropDownLabelTooltip" value="Минута для начала события" />
+  <translation id="VanillaEventTicketSliderLabel" value="Билеты" />
+  <translation id="VanillaEventTicketSliderLabelTooltip" value="Изменить количество доступных билетов" />
+  <translation id="VanillaEventCostsLabel" value="КУПИТЬ" />
+  <translation id="VanillaEventReturnsLabel" value="ПРОДАТЬ" />
+  <translation id="VanillaEventUpcomingShowBtn" value="Предстоящие" />
+  <translation id="VanillaEventUpcomingHideBtn" value="Скрыть" />
 
   <overrides type="Units">
-    <translation id="AIINFO_COAL_STORED" value="Запасов угля на {0} × {unit}"/>
-    <translation id="AIINFO_CUMULATIVEUPKEEP" value="Содержание: {0} + {1} / {unit} / клетка"/>
-    <translation id="AIINFO_DECEASED_PROCESSED" value="Покойников захоронено за {unit}: {0}"/>
-    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="Выработка электричества ({unit}): {0} МВт"/>
-    <translation id="AIINFO_FIRES_EXTINGUISHED" value="Потушено пожаров за {unit}: {0}"/>
-    <translation id="AIINFO_OIL_STORED" value="Запасов нефти на {0} × {unit}"/>
-    <translation id="AIINFO_PASSENGERS_SERVICED" value="Обслужено пассажиров за {unit}: {0}"/>
-    <translation id="AIINFO_PATIENTS_TREATED" value="Пациентов вылечено зв {unit}: {0}"/>
+    <translation id="AIINFO_COAL_STORED" value="Угля хватит на {0} × {unit}"/>
+    <translation id="AIINFO_CUMULATIVEUPKEEP" value="Содержание: {0} + {1} / {unit} / клетку"/>
+    <translation id="AIINFO_DECEASED_PROCESSED" value="Усопших обработано за {unit}: {0}"/>
+    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="Энергии произведено за {unit}: {0} МВт"/>
+    <translation id="AIINFO_FIRES_EXTINGUISHED" value="Пожаров потушено за {unit}: {0}"/>
+    <translation id="AIINFO_OIL_STORED" value="Нефти хватит на {0} × {unit}"/>
+    <translation id="AIINFO_PASSENGERS_SERVICED" value="Пассажиров обслужено за {unit}: {0}"/>
+    <translation id="AIINFO_PATIENTS_TREATED" value="Пациентов вылечено за {unit}: {0}"/>
     <translation id="AIINFO_POLE_UPKEEP" value="Содержание: {0} / столб / {unit}"/>
     <translation id="AIINFO_PROCESSING_RATE" value="Скорость обработки: {0} / {unit}"/>
     <translation id="AIINFO_TOURISTS" value="Туристов за {unit}: {0}"/>
-    <translation id="AIINFO_UPKEEP" value="Уход: {0} / {unit}"/>
-    <translation id="AIINFO_UPKEEPPERCELL" value="Содержание: {0} / {unit} / клетка"/>
-    <translation id="AIINFO_VISITORS" value="Посетителей за {unit}: {0}"/>
+    <translation id="AIINFO_UPKEEP" value="Содержание: {0} / {unit}"/>
+    <translation id="AIINFO_UPKEEPPERCELL" value="Содержание: {0} / {unit} / клетку"/>
+    <translation id="AIINFO_VISITORS" value="Посетителей за {unit}: {0} "/>
     <translation id="AIINFO_WATER_CONSUMPTION" value="Вода: {0} м³/{unit}"/>
-    <translation id="AIINFO_WATER_INTAKE" value="Скорость забора: {0} м³/{unit}"/>
-    <translation id="AIINFO_WATER_OUTLET" value="Скорость стока: {0} м³/{unit}"/>
-    <translation id="AIINFO_WATER_STORED" value="Запасов воды на {0} × {unit}"/>
-    <translation id="AINFO_WATER_IO_CAPACITY" value="Производительность: {0:N0} м³/{unit}"/>
+    <translation id="AIINFO_WATER_INTAKE" value="Мощность насосов: {0} м³/{unit}"/>
+    <translation id="AIINFO_WATER_OUTLET" value="Мощность слива: {0} м³/{unit}"/>
+    <translation id="AIINFO_WATER_STORED" value="Воды хватит на {0} × {unit}"/>
+    <translation id="AINFO_WATER_IO_CAPACITY" value="Эффективность: {0:N0} м³/{unit}"/>
     <translation id="DATETIME_WEEK" value="{unit}"/>
     <translation id="DATETIME_WEEKLOWERCASE" value="{unit}"/>
     <translation id="DATETIME_WEEKS" value="× {unit}"/>
-    <translation id="DISTRICT_TOURISTS" value="Туристов за&#10;{unit}:"/>
-    <translation id="EXPENSES_TT_EDUCATION" value="Расходы за {unit} на образование"/>
-    <translation id="EXPENSES_TT_ELECTRICITY" value="Расходы за {unit} на энергетику"/>
-    <translation id="EXPENSES_TT_FIRE" value="Расходы за {unit} на пожарную службу"/>
-    <translation id="EXPENSES_TT_FIRE_ND" value="Расходы за {unit} на аварийные службы"/>
-    <translation id="EXPENSES_TT_GARBAGE" value="Расходы за {unit} на утилизацию отходов"/>
-    <translation id="EXPENSES_TT_HEALTHCARE" value="Расходы за {unit} на здравоохранение"/>
-    <translation id="EXPENSES_TT_LOANS" value="Расходы за {unit} на выплату кредитов"/>
-    <translation id="EXPENSES_TT_MONUMENTS" value="Расходы за {unit} на уникальные сооружения"/>
-    <translation id="EXPENSES_TT_PARK" value="Расходы за {unit} на парки, площади и рельеф"/>
-    <translation id="EXPENSES_TT_POLICE" value="Расходы за {unit} на полицию"/>
-    <translation id="EXPENSES_TT_POLICIES" value="Расходы за {unit} на политики"/>
-    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="Расходы за {unit} на общественный транспорт"/>
-    <translation id="EXPENSES_TT_ROADS" value="Расходы за {unit} на дороги"/>
-    <translation id="EXPENSES_TT_TOTAL" value="Суммарные расходы за {unit}"/>
-    <translation id="EXPENSES_TT_WATER" value="Расходы за {unit} на водопровод и канализацию"/>
-    <translation id="EXPENSES_TT_WATER_WW" value="Расходы за {unit} на водопровод, отопление и канализацию"/>
-    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="Доходы за {unit} от горожан в коммерческих зонах"/>
-    <translation id="INCOME_TT_COMMERCIALHIGH" value="Доходы за {unit} от коммерческих зон высокой плотности"/>
-    <translation id="INCOME_TT_COMMERCIALLOW" value="Доходы за {unit} от коммерческих зон низкой плотности"/>
-    <translation id="INCOME_TT_COMMERCIALSPEC" value="Доходы за {unit} от специализаций коммерческих зон"/>
-    <translation id="INCOME_TT_COMMERCIALTOTAL" value="Доходы за {unit} от коммерческих зон"/>
-    <translation id="INCOME_TT_COMMERCIALTOURIST" value="Доходы за {unit} от туристов в коммерческих зонах"/>
-    <translation id="INCOME_TT_INDUSTRIAL" value="Доходы за {unit} от промышленных зон"/>
-    <translation id="INCOME_TT_OFFICE" value="Доходы за {unit} от деловых зон"/>
-    <translation id="INCOME_TT_PARKAREAS" value="Доход за {unit} парка"/>
-    <translation id="INCOME_TT_RESIDENTIALHIGH" value="Доходы за {unit} от жилых зон высокой плотности"/>
-    <translation id="INCOME_TT_RESIDENTIALLOW" value="Доходы за {unit} от жилых зон низкой плотности"/>
-    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="Доходы за {unit} от жилых зон"/>
-    <translation id="INCOME_TT_TOTAL" value="Суммарные доходы за {unit}"/>
-    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="Суммарный доход за {unit} от туризма"/>
-    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="Суммарные доходы за {unit} от жилых зон"/>
-    <translation id="INCOME_TT_TOTAL_WORK" value="Суммарные доходы за {unit} от промышленных и деловых зон"/>
-    <translation id="INCOME_TT_PUBLICTRANSPORT" value="Доходы за {unit} от общественного транспорта"/>
-    <translation id="INFO_CONNECTIONS_TOURISTSTOTAL" value="Туристов за {unit}: {0:N0}"/>
+    <translation id="DISTRICT_TOURISTS" value="Визиты туристов&#10;за {unit}:"/>
+    <translation id="EXPENSES_TT_EDUCATION" value="Расходы на образование за {unit}"/>
+    <translation id="EXPENSES_TT_ELECTRICITY" value="Расходы на электроснабжение за {unit}"/>
+    <translation id="EXPENSES_TT_FIRE" value="Расходы на пожарную службу за {unit}"/>
+    <translation id="EXPENSES_TT_FIRE_ND" value="Расходы на службу спасения за {unit}"/>
+    <translation id="EXPENSES_TT_GARBAGE" value="Расходы на вывоз мусора за {unit}"/>
+    <translation id="EXPENSES_TT_HEALTHCARE" value="Расходы на здравоохранение за {unit}"/>
+    <translation id="EXPENSES_TT_LOANS" value="Выплаты по займам за {unit}"/>
+    <translation id="EXPENSES_TT_MONUMENTS" value="Расходы на уникальные здания за {unit}"/>
+    <translation id="EXPENSES_TT_PARK" value="Расходы на парки и ландшафт за {unit}"/>
+    <translation id="EXPENSES_TT_POLICE" value="Расходы на полицию за {unit}"/>
+    <translation id="EXPENSES_TT_POLICIES" value="Расходы на политики за {unit}"/>
+    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="Расходы на общественный транспорт за {unit}"/>
+    <translation id="EXPENSES_TT_ROADS" value="Расходы на дорожную службу за {unit}"/>
+    <translation id="EXPENSES_TT_TOTAL" value="Общие расходы за {unit}"/>
+    <translation id="EXPENSES_TT_WATER" value="Расходы на водопровод и канализацию за {unit}"/>
+    <translation id="EXPENSES_TT_WATER_WW" value="Расходы на водоснабжение и отопление за {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="Доход от покупок жителей за {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALHIGH" value="Доход от плотной коммерции за {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALLOW" value="Доход от малой коммерции за {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALSPEC" value="Доход от специализаций за {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALTOTAL" value="Общий коммерческий доход за {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALTOURIST" value="Доход от покупок туристов за {unit}"/>
+    <translation id="INCOME_TT_INDUSTRIAL" value="Доход от промышленности за {unit}"/>
+    <translation id="INCOME_TT_OFFICE" value="Доход от офисов за {unit}"/>
+    <translation id="INCOME_TT_PARKAREAS" value="Доход от парковых зон за {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALHIGH" value="Доход от плотного жилья за {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALLOW" value="Доход от малого жилья за {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="Общий доход от жилых зон за {unit}"/>
+    <translation id="INCOME_TT_TOTAL" value="Общий доход за {unit}"/>
+    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="Общий доход от туризма за {unit}"/>
+    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="Общий доход от жилых зон за {unit}"/>
+    <translation id="INCOME_TT_TOTAL_WORK" value="Общий доход от промзон и офисов за {unit}"/>
+    <translation id="INCOME_TT_PUBLICTRANSPORT" value="Доход от транспорта за {unit}"/>
+    <translation id="INFO_CONNECTIONS_TOURISTSTOTAL" value="Визиты туристов за {unit}: {0:N0}"/>
     <translation id="INFO_CRIMERATE_CRIMES" value="Преступников арестовано за {unit}:"/>
-    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="Посетителей парков и площадей, за {unit}: {0:N0}"/>
-    <translation id="INFO_ENTERTAINMENT_UBVISIT" value="Посетителей уникальных сооружений, за {unit}: {0:N0}"/>
-    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="Макс. объемы переработки мусора: {0:N0} ед. / {unit}"/>
-    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="Производство отходов: {0:N0} ед. за {unit}"/>
-    <translation id="INFO_POPULATION_BIRTHS" value="Рождений за {unit}: {0:N0}"/>
-    <translation id="INFO_POPULATION_DEATHS" value="Смертей за {unit}: {0:N0}"/>
+    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="Посетителей парков за {unit}: {0:N0}"/>
+    <translation id="INFO_ENTERTAINMENT_UBVISIT" value="Посетителей уникальных зданий за {unit}: {0:N0}"/>
+    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="Мощность переработки мусора: {0:N0} ед. / {unit}"/>
+    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="Производство мусора: {0:N0} ед. / {unit}"/>
+    <translation id="INFO_POPULATION_BIRTHS" value="{0:N0} рождений / {unit}"/>
+    <translation id="INFO_POPULATION_DEATHS" value="{0:N0} смертей / {unit}"/>
     <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0:N0} за {unit}"/>
-    <translation id="INFO_RES_FORESTAMOUNT" value="{0} ед. за {unit}"/>
-    <translation id="INFO_RES_FORESTUSED" value="{0} ед. за {unit}"/>
-    <translation id="INFO_RES_OILUSED" value="{0} ед. за {unit}"/>
-    <translation id="INFO_RES_OREUSED" value="{0} ед. за {unit}"/>
-    <translation id="INFO_WATER_CONSUMPTION" value="Водопотребление: {0:N0} м³/{unit}"/>
-    <translation id="INFO_WATER_PRODUCTION" value="Производительность водопровода: {0:N0} м³/{unit}"/>
-    <translation id="INFO_WATER_SEWAGEACCUMULATION" value="Производительность канализации: {0:N0} м³/{unit}"/>
-    <translation id="INFO_WATER_SEWAGECAPACITY" value="Дренажная емкость канализации: {0:N0} м³/{unit}"/>
-    <translation id="LOAN_WEEKLYCOST" value="Выплата за {unit}"/>
-    <translation id="MAIN_MONEYDELTA" value="Доход за {unit}"/>
+    <translation id="INFO_RES_FORESTAMOUNT" value="{0} ед./{unit}"/>
+    <translation id="INFO_RES_FORESTUSED" value="{0} ед./{unit}"/>
+    <translation id="INFO_RES_OILUSED" value="{0} ед./{unit}"/>
+    <translation id="INFO_RES_OREUSED" value="{0} ед./{unit}"/>
+    <translation id="INFO_WATER_CONSUMPTION" value="Потребление воды: {0:N0} м³/{unit}"/>
+    <translation id="INFO_WATER_PRODUCTION" value="Мощность насосов: {0:N0} м³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGEACCUMULATION" value="Объем сточных вод: {0:N0} м³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGECAPACITY" value="Мощность канализации: {0:N0} м³/{unit}"/>
+    <translation id="LOAN_WEEKLYCOST" value="Выплаты за {unit}"/>
+    <translation id="MAIN_MONEYDELTA" value="Прибыль за {unit}"/>
     <translation id="MAIN_POPULATIONDELTA" value="Изменение за {unit}"/>
-    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="Выполнить требования ({0}) за {1} × {unit}"/>
-    <translation id="MILESTONE_COMBINED_TIME_DESC" value="Поддерживать в течение {0} × {unit}"/>
+    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="Выполнить {0} требований за {1} × {unit}"/>
+    <translation id="MILESTONE_COMBINED_TIME_DESC" value="Удерживать в течение {0} × {unit}"/>
     <translation id="PARKINFOPANEL_CURRENTVISITORS" value="Посетителей за {unit}: {0}"/>
-    <translation id="PARKINFOPANEL_INCOME" value="Доход: {0} за {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="Суммарные доходы за {unit} от общественного транспорта"/>
-    <translation id="STADIUMINFO7" value="Побед/матчей за последние 12 {unit}:"/>
+    <translation id="PARKINFOPANEL_INCOME" value="Доход: {0} / {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="Общая прибыль от транспорта за {unit}"/>
+    <translation id="STADIUMINFO7" value="Побед/матчей за последние 12 × {unit}:"/>
     <translation id="STADIUMINFO9" value="Доход за {unit}:"/>
-    <translation id="TOOL_WATER_ESTIMATE" value="Ожидаемая производительность: {0:N0} м³/{unit}"/>
-    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="Посетителей за {unit}: {0} местных жителей, {1} туристов"/>
-    <translation id="TRANSPORT_LINE_PASSENGERS" value="Пассажиры за {unit}: горожан – {0}, туристов – {1}"/>
-    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="Производство: {0:N0} ед. за {unit}"/>
-    <translation id="AIINFO_POST_SORTING_RATE" value="Сортировка: {0:N0} почтовых отправлений за {unit}"/>
-    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="Заплативших машин за {unit}: {0:N0}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="Доход от индустриальных зон и областей за последние {unit}"/>
-    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="Расходы на индустриальные области за {unit}"/>
+    <translation id="TOOL_WATER_ESTIMATE" value="Ожидаемое пр-во: {0:N0} м³/{unit}"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="Посетителей за {unit}: {0} жит., {1} тур."/>
+    <translation id="TRANSPORT_LINE_PASSENGERS" value="Пассажиров за {unit}: {0} жит., {1} тур."/>
+    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="Темп производства: {0:N0} ед. за {unit}"/>
+    <translation id="AIINFO_POST_SORTING_RATE" value="Темп сортировки: {0:N0} писем за {unit}"/>
+    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="Машин оплатило за {unit}: {0:N0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="Доход от промзон и индустриальных районов за {unit}"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="Расходы индустриальных районов за {unit}"/>
     <translation id="INCOME_TT_ROADTOLLS" value="Доход от платных дорог за {unit}"/>
-    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="Всего доход от платных дорог за последние {unit}"/>
-    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="Поступление за {unit}"/>
+    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="Общий доход от сборов на дорогах за {unit}"/>
+    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="Приобретение за {unit}"/>
     <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="Стоимость импорта ресурсов за {unit}"/>
-    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="Выработка за {unit}"/>
+    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="Выпуск продукции за {unit}"/>
     <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="Доход от продажи ресурсов за {unit}"/>
     <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="Прибыль за {unit}"/>
     <translation id="INDUSTRYPANEL_WEEKLYPRODUCTION" value="{0} / {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="Всего прибыль от индустриальных зон за {unit}"/>
-    <translation id="TOOL_EXTRACTION_ESTIMATE" value="Расчётное производство: {0:N0} ед. за {unit}"/>
-    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="Ценность ресурсов, использованных для производства конечного продукта за {unit}"/>
-    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="Ценность производимого продукта за {unit}"/>
-    <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="Доход за посл. {unit}"/>
-    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="Затраты на добычу ресурсов за {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="Общая прибыль индустр. районов за {unit}"/>
+    <translation id="TOOL_EXTRACTION_ESTIMATE" value="Ожидаемая добыча: {0:N0} ед. за {unit}"/>
+    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="Стоимость ресурсов для производства за {unit}"/>
+    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="Стоимость продукции фабрики за {unit}"/>
+    <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="Доход за {unit}"/>
+    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="Расходы на закупку ресурсов за {unit}"/>
     <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="Производство: {0:N0} за {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="Стоимость: {0} / арена / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="Стоимость: {0} / тренер / {unit}"/>
-    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="Выпускников в этом учебном году: {0}"/>
-    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="Стоимость: {0} / работник / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="Цена: {0} / арена / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="Цена: {0} / тренер / {unit}"/>
+    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="Выпускников в этом уч. году: {0}"/>
+    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="Цена: {0} / персонал / {unit}"/>
     <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="Расходы за {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="Тренерский штаб#10;Найм большего количество тренеров повышает вероятность побед в университетских спортивных состязаниях. Этот эффект#10;не проявляется мгновенно, а постепенно увеличивается от +0% до +1% за каждого тренера в течение всего учебного года."/>
-    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Всего доход от кампусов за {unit}"/>
-    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Расход на уникальные сооружения и спортивные арены за {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="Тренерский состав#10;Найм персонала повышает шансы на победу. Эффект нарастает постепенно в течение учебного года."/>
+    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Прибыль кампусов за {unit}"/>
+    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Расходы на уник. здания и спорт. арены за {unit}"/>
     <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Доход от кампусов за {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="Доход от промышленных районов и рыболовства за {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="Доход от индустрии и рыболовства за {unit}"/>
     <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="Доход от рыболовства за {unit}"/>
-    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="Расходы на промышленные районы и рыболовство за {unit}"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="Расходы индустрии и рыболовства за {unit}"/>
     <translation id="EXPENSES_TT_FISHING" value="Расходы на рыболовство за {unit}"/>
-    <translation id="AIINFO_FISH_SOLD" value="Продано рыбы за {unit}: {0}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="Доход от промышленных районов и рыболовства за {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="Расходы на содержание промышленных районов и рыболовства за {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="Расходы на содержание рыбной промышленности за {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="Доход от рыбной промышленности за {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="Общая прибыль от промышленных районов и рыбной промышленности за {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="Общая прибыль от рыбной промышленности за {unit}"/>
-    <translation id="INFO_HEALTH_CHILDCARE_BIRTHRATE" value="Уровень рождаемости: {0} / {unit}"/>
+    <translation id="AIINFO_FISH_SOLD" value="Рыбы продано за {unit}: {0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="Доход от индустрии и рыболовства за {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="Расходы индустрии и рыболовства за {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="Расходы рыбной промышленности за {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="Доход рыбной промышленности за {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="Общая прибыль индустрии и рыболовства за {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="Общая прибыль рыбной промышленности за {unit}"/>
+    <translation id="INFO_HEALTH_CHILDCARE_BIRTHRATE" value="Рождаемость: {0} / {unit}"/>
   </overrides>
 
 </language>

@@ -1,484 +1,493 @@
-<?xml version="1.0" encoding="utf-8"?>
-<language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="ja">
+<?xml version="1.0" encoding="utf-8" ?>
+<language id="ja" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-  <translation id="Warning" value="警告"/>
-  <translation id="RestrictedModeMessage" value="Real Time が制限モードで動作しています。いくつかの機能が無効化されています。これは、サードパーティライブラリの技術的な問題または mod の互換性がないためです。ヘルプが必要な場合は、ゲームのログファイルを mod の開発者に送ってください。"/>
-  <translation id="ModNotWorkingMessage" value="おっと! 何か変ですね - 'Real Time' mod を起動することができませんでした。ゲームのログファイルを mod の開発者に送ってもらえませんか。"/>
-  <translation id="IncompatibleModsFoundMessage" value="Real Time は、互換性がない (あるいは部分的に互換性がない) mod が少なくともひとつあることを検出しました。それらの mod のサブスクライブを解除して下さい。どのような不具合があるかわかっているなら、自己責任で続けることができますが、正常に動作しなかったり、ゲームがクラッシュしたりするかもしれません。"/>
-  <translation id="Minutes" value="分"/>
+  <translation id="Warning" value="警告" />
+  <translation id="RestrictedModeMessage" value="Real Timeは制限モードで動作しています。一部の機能が無効になっています。これはサードパーティ製ライブラリの技術的な問題、またはModの互換性の欠如が原因です。サポートが必要な場合は、ゲームのログファイルをModの開発者に共有してください。" />
+  <translation id="ModNotWorkingMessage" value="申し訳ありません。問題が発生しました。「Real Time」Modを有効化できませんでした。ゲームのログファイルをModの開発者に共有してください。" />
+  <translation id="IncompatibleModsFoundMessage" value="Real Timeは、1つ以上の互換性のない（または部分的に互換性のない）Modを検出しました。それらをサブスクライブ解除することをお勧めします。自己責任で続行することも可能ですが、正常に動作しなかったり、ゲームがクラッシュしたりする可能性があります。" />
+  <translation id="Minutes" value="分" />
 
-  <translation id="Tools" value="ツール"/>
-  <translation id="ShowIncompatibilityNotifications" value="非互換 mod 通知を表示"/>
-  <translation id="UseEnglishUSFormats" value="英語の場合は米国の日付/時刻形式を使用"/>
-  <translation id="UseEnglishUSFormatsTooltip" value="時刻表示形式の変更にはゲームの再起動が必要です"/>
-  <translation id="DebugMode" value="Debug Mode" />
-  <translation id="DebugModeTooltip" value="Enables extra data and settings for debugging" />
-  <translation id="LoggingMode" value="Logging Mode" />
-  <translation id="LoggingModeTooltip" value="Allow extra logging for debugging" />
-  <translation id="AdvancedLoggingMode" value="Advanced Logging Mode" />
-  <translation id="AdvancedLoggingModeTooltip" value="Allow advanced logging for debugging" />
-  <translation id="ResetToDefaults" value="すべてデフォルトにリセット"/>
-  <translation id="UseForNewGames" value="現在の値を新規ゲームに適用"/>
-  <translation id="ClearStuckCitizensSchedule" value="Clear All Stuck Citizens Schedule" />
-  <translation id="ClearStuckTouristsInHotels" value="Clear All Stuck Tourists in Hotels" />
-  <translation id="ClearStuckCitizensInClosedBuildings" value="Clear All Stuck Citizens in Closed Buildings" />
-  <translation id="ClearFireBurnTimeManager" value="Clear Fire Burn Time" />
-  <translation id="ConfirmPanelClearFireBurnTimeManagerTitle" value="Clear FireBurnTime" />
-  <translation id="ConfirmPanelClearFireBurnTimeManagerText" value="This will clear all fire burns happening in the city! are you sure?" />
-  <translation id="ClearBuildingsWorkTimePrefabs" value="Clear Buildings Types Settings" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsTitle" value="Clear All BuildingsWorkTime Types" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsText" value="This will clear all worktime settings of all the types of all the buildings in this save! are you sure?" />
-  <translation id="ClearBuildingWorkTimeGlobalSettings" value="Clear Buildings Types Global Settings" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitle" value="Clear All BuildingsWorkTime Global Settings" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsText" value="This will clear all worktime settings of all the types of all the buildings across all saves! are you sure?" />
-  <translation id="ResetBuildingsGarbageBuffer" value="Reset All Buildings Garbage buffer" />
-  <translation id="ResetBuildingsMailBuffer" value="Reset All Buildings Mail buffer" />
-  <translation id="ExecuteSelectedAction" value="Execute Selected Action" />
-  <translation id="ClearActionsGroupTitle" value="Clear Actions" />
+  <translation id="Tools" value="ツール" />
+  <translation id="ShowIncompatibilityNotifications" value="Modの互換性に関する通知を表示する" />
+  <translation id="UseEnglishUSFormats" value="英語使用時に米国式の時間と日付形式を使用する" />
+  <translation id="UseEnglishUSFormatsTooltip" value="時間形式の変更を反映するには、ゲームの再起動が必要です" />
+  <translation id="DebugMode" value="デバッグモード" />
+  <translation id="DebugModeTooltip" value="追加のデバッグデータと設定を有効にします" />
+  <translation id="LoggingMode" value="ロギングモード" />
+  <translation id="LoggingModeTooltip" value="追加のデバッグログの出力を許可します" />
+  <translation id="AdvancedLoggingMode" value="高度なロギングモード" />
+  <translation id="AdvancedLoggingModeTooltip" value="より詳細なデバッグログの出力を許可します" />
+  <translation id="ResetToDefaults" value="デフォルトにリセット" />
+  <translation id="UseForNewGames" value="現在の設定を新しいゲームに使用する" />
+  <translation id="ClearStuckCitizensSchedule" value="スタックした市民のスケジュールを消去" />
+  <translation id="ClearStuckTouristsInHotels" value="ホテルでスタックした観光客を消去" />
+  <translation id="ClearStuckCitizensInClosedBuildings" value="閉鎖された建物内でスタックした市民を消去" />
+  <translation id="ClearFireBurnTimeManager" value="火災継続時間マネージャーを消去" />
+  <translation id="ConfirmPanelClearFireBurnTimeManagerTitle" value="FireBurnTimeをリセット" />
+  <translation id="ConfirmPanelClearFireBurnTimeManagerText" value="これにより、街のすべての火災が即座に消し止められます！よろしいですか？" />
+  <translation id="ClearBuildingsWorkTimePrefabs" value="建物タイプ別の設定を消去" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsTitle" value="すべてのBuildingsWorkTimeプレハブを消去" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsText" value="このセーブデータ内のすべての建物タイプ別勤務時間設定が削除されます！よろしいですか？" />
+  <translation id="ClearBuildingWorkTimeGlobalSettings" value="建物タイプのグローバル設定を消去" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitle" value="グローバルなBuildingsWorkTimeを消去" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsText" value="すべてのセーブデータに適用されている、建物タイプ別の勤務時間設定が削除されます！よろしいですか？" />
+  <translation id="ClearAllEvents" value="すべてのイベントを消去" />
+  <translation id="ConfirmPanelClearAllEventsTitle" value="すべてのイベントを消去" />
+  <translation id="ConfirmPanelClearAllEventsText" value="イベントマネージャーからすべてのイベントが削除されます！この操作は元に戻せません。よろしいですか？（学年度はリセットされません）" />
+  <translation id="ResetBuildingsGarbageBuffer" value="全建物のゴミ蓄積量をリセット" />
+  <translation id="ResetBuildingsMailBuffer" value="全建物の郵便物蓄積量をリセット" />
+  <translation id="ResetBuildingsCrimeBuffer" value="全建物の犯罪蓄積量をリセット" />
+  <translation id="ExecuteSelectedAction" value="選択したアクションを実行" />
+  <translation id="ClearActionsGroupTitle" value="消去アクション" />
 
-  <translation id="1General" value="一般"/>
-  <translation id="0Time" value="時間オプション"/>
-  <translation id="1Other" value="その他のオプション"/>
-  <translation id="WakeUpHour" value="都市が目覚める時"/>
-  <translation id="WakeUpHourTooltip" value="多くの市民が起床し始める時間。予算と時間の進む速度が「日中」モードへ切り替わります！"/>
-  <translation id="GoToSleepHour" value="都市が眠りにつく時"/>
-  <translation id="GoToSleepHourTooltip" value="多くの市民が床につき始める時間。予算と時間の進む速度が「夜間」モードに切り替わります！"/>
-  <translation id="DayTimeSpeed" value="時間が進む速度 (日中)"/>
-  <translation id="DayTimeSpeedTooltip" value="日中に経過する時間の早さです。「1」にすると、とても遅く、実際の時間とほとんど変わりません！"/>
-  <translation id="NightTimeSpeed" value="時間が進む速度 (夜間)"/>
-  <translation id="NightTimeSpeedTooltip" value="夜間に経過する時間の早さです。「1」にすると、とても遅く、実際の時間とほとんど変わりません！"/>
-  <translation id="IsDynamicDayLengthEnabled" value="一日の長さを動的に変更"/>
-  <translation id="IsDynamicDayLengthEnabledTooltip" value="一日の長さは、マップテーマと日付により異なります。冬は夏より昼が短くなります。"/>
-  <translation id="VirtualCitizens" value="市民のシミュレーション (リアルとバーチャル)"/>
-  <translation id="VirtualCitizensTooltip" value="リアルな都市 (ただし、市民は最大 65,535人) をシミュレートするには「すべて」を選択し、PCの性能がそれほどでないか、都市が巨大なら、「バニラ」を選択して下さい"/>
-  <translation id="VirtualCitizens.None" value="すべての市民がリアル"/>
-  <translation id="VirtualCitizens.Vanilla" value="バニラと同じ"/>
-  <translation id="UseSlowAging" value="老化速度の最適化"/>
-  <translation id="UseSlowAgingTooltip" value="有効にすると、ゲーム内の1日は市民の1年となります。無効にすると、ゲーム内の1日は10年（時間の速さ6）〜340年（時間の速さ1）となります。"/>
-  <translation id="IsWeekendEnabled" value="週末を有効にする"/>
-  <translation id="IsWeekendEnabledTooltip" value="週末には市民が通勤通学しなくなります"/>
-  <translation id="IsBreakfastTimeEnabled" value="Enable Breakfast time" />
-  <translation id="IsBreakfastTimeEnabledTooltip" value="Cims should go out at morning for food" />
-  <translation id="IsLunchTimeEnabled" value="Enable Lunch time" />
-  <translation id="IsLunchTimeEnabledTooltip" value="Cims should go out at noon for food" />
-  <translation id="StopConstructionAtNight" value="夜間はビルの建築やアップグレードを中断する"/>
-  <translation id="StopConstructionAtNightTooltip" value="建築現場の労働者も就寝しなくてはなりません"/>
-  <translation id="ConstructionSpeed" value="建築速度"/>
-  <translation id="ConstructionSpeedTooltip" value="建物の建築やアップグレードの速度"/>
-  <translation id="SwitchOffLightsAtNight" value="夜間は建物の照明をつけない"/>
-  <translation id="SwitchOffLightsAtNightTooltip" value="市民が睡眠をとっている時間の住宅や、誰もそこで活動していない時間の建物、公園の照明を消します"/>
-  <translation id="SwitchOffLightsMaxHeight" value="高い建物の照明は点けたままにする"/>
-  <translation id="SwitchOffLightsMaxHeightTooltip" value="この値よりも高い住宅、商業施設、オフィスは夜間に消灯しません"/>
-  <translation id="CanAbandonJourney" value="渋滞と公共交通待機時の振る舞い改善"/>
-  <translation id="CanAbandonJourneyTooltip" value="有効の場合、市民は長時間交通渋滞や公共交通機関を待たされた際に移動を諦めることができます。"/>
-  <translation id="RealisticFires" value="Realistic Fires last between 30 minutes to 4 hours at random" />
-  <translation id="RealisticFiresTooltip" value="If enabled, fires will take between 30 minutes to 4 hours to be extinguished" />
-  <translation id="WorkForceMatters" value="Building must have workers to operate" />
-  <translation id="WorkForceMattersTooltip" value="If enabled, buildings without workers in it will become closed and not give service" />
-  <translation id="GarbageSlowDown" value="Garbage Accumulation" />
-  <translation id="GarbageSlowDownTooltip" value="min (0.05) is very slow (Bi-weekly) and max (1.0) is normal daily - default is weekly (0.15)" />
-  <translation id="MailSlowDown" value="Mail Accumulation" />
-  <translation id="MailSlowDownTooltip" value="min (0.1) is very slow (weekly) and max (1.0) is normal daily - default is every 3 days (0.3)" />
-  <translation id="WeeklyCommericalDeliveries" value="Commerical building will receive goods delivery once a week" />
-  <translation id="WeeklyCommericalDeliveriesTooltip" value="If enabled, commerical buildings will have bigger goods buffer that will allow them to get goods only once a week" />
-  <translation id="DummyTrafficBehavior" value="Make the dummy traffic capacity more light" />
-  <translation id="DummyTrafficBehaviorTooltip" value="If enabled, dummy traffic is more reasonable to the mod gameplay" />
+  <translation id="1General" value="全般" />
+  <translation id="0Time" value="時間パラメータ" />
+  <translation id="1Other" value="その他のパラメータ" />
+  <translation id="WakeUpHour" value="街の起床時間" />
+  <translation id="WakeUpHourTooltip" value="ほとんどの市民が起き始める時間。予算と時間の経過速度が「昼間」モードに切り替わります。" />
+  <translation id="GoToSleepHour" value="街の就寝時間" />
+  <translation id="GoToSleepHourTooltip" value="ほとんどの市民が寝る時間。予算と時間の経過速度が「夜間」モードに切り替わります。" />
+  <translation id="DayTimeSpeed" value="時間の速度（昼間）" />
+  <translation id="DayTimeSpeedTooltip" value="昼間の時間の進み方。 「1」は非常に遅く、現実の時間に近くなります。" />
+  <translation id="NightTimeSpeed" value="時間の速度（夜間）" />
+  <translation id="NightTimeSpeedTooltip" value="夜間の時間の進み方。 「1」は非常に遅く、現実の時間に近くなります。" />
+  <translation id="IsDynamicDayLengthEnabled" value="ダイナミックな一日の長さ" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="マップのテーマと日付によって一日の長さが変化します。冬は夏よりも日が短くなります。" />
+  <translation id="VirtualCitizens" value="市民シミュレーションモード（実在と仮想）" />
+  <translation id="VirtualCitizensTooltip" value="リアルな街を求めるなら「すべて」（最大65,535人）、PCスペックが低い場合や非常に大きな街の場合は「バニラ」を選択してください。" />
+  <translation id="VirtualCitizens.None" value="すべての市民を実在としてシミュレート" />
+  <translation id="VirtualCitizens.Vanilla" value="バニラ（通常版）と同様" />
+  <translation id="UseSlowAging" value="改善された加齢と出生率" />
+  <translation id="UseSlowAgingTooltip" value="有効にすると、ゲーム内の1日が1歳に対応します。無効にすると、1日は約10〜340歳分に相当します。" />
+  <translation id="IsWeekendEnabled" value="週末を有効にする" />
+  <translation id="IsWeekendEnabledTooltip" value="週末は市民が仕事や学校に行かなくなります" />
+  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchool" value="仕事/学校前の朝食時間を有効にする" />
+  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchoolTooltip" value="市民が仕事前に朝食を食べるために外出するかどうか" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="仕事/学校中の昼食時間を有効にする" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="市民が仕事中に昼食を食べるために外出するかどうか" />
+  <translation id="IsSupperTimeEnabledAfterWorkOrSchool" value="仕事/学校後の夕食時間を有効にする" />
+  <translation id="IsSupperTimeEnabledAfterWorkOrSchoolTooltip" value="市民が仕事から帰る前に夕食のために外出するかどうか" />
+  <translation id="StopConstructionAtNight" value="夜間の建設と建物のアップグレードを停止" />
+  <translation id="StopConstructionAtNightTooltip" value="建設作業員も夜は眠る必要があります" />
+  <translation id="ConstructionSpeed" value="建設速度" />
+  <translation id="ConstructionSpeedTooltip" value="建物の建設およびアップグレード速度" />
+  <translation id="SwitchOffLightsAtNight" value="夜間に建物の照明を消す" />
+  <translation id="SwitchOffLightsAtNightTooltip" value="市民が寝ると住宅の明かりが消え、他の建物は作業員がいない時に消灯します" />
+  <translation id="SwitchOffLightsMaxHeight" value="高層ビルの照明を消さない" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="この高さ以上の住宅、商業、オフィスビルは夜間も消灯しません" />
+  <translation id="CanAbandonJourney" value="渋滞や待ち時間への対応を改善" />
+  <translation id="CanAbandonJourneyTooltip" value="有効にすると、渋滞に巻き込まれたり公共交通機関を待ちすぎたりした市民が、移動を諦めることがあります" />
+  <translation id="RealisticFires" value="現実的な火災（30分〜4時間持続）" />
+  <translation id="RealisticFiresTooltip" value="有効にすると、火災の消火に30分から4時間の範囲でランダムな時間がかかります" />
+  <translation id="WorkForceMatters" value="建物の動作に作業員を必要とする" />
+  <translation id="WorkForceMattersTooltip" value="有効にすると、建物内に作業員がいない場合、建物は閉鎖されサービスを停止します" />
+  <translation id="GarbageSlowDown" value="ゴミの蓄積速度" />
+  <translation id="GarbageSlowDownTooltip" value="最小(0.05)は隔週、最大(1.0)は毎日。デフォルト(0.15)は毎週。" />
+  <translation id="MailSlowDown" value="郵便物の蓄積速度" />
+  <translation id="MailSlowDownTooltip" value="最小(0.1)は毎週、最大(1.0)は毎日。デフォルト(0.3)は3日ごと。" />
+  <translation id="WeeklyCommericalDeliveries" value="商業施設の週次配送" />
+  <translation id="WeeklyCommericalDeliveriesTooltip" value="有効にすると、商業施設の商品のバッファが増え、週に1回の配送で済むようになります" />
+  <translation id="DummyTrafficBehavior" value="通過交通量を調整" />
+  <translation id="DummyTrafficBehaviorTooltip" value="有効にすると、街を通過するだけの交通（ダミートラフィック）がModの挙動に合わせて調整されます" />
 
-  <translation id="2Quotas" value="確率"/>
-  <translation id="SecondShiftQuota" value="掛け持ちの労働者"/>
-  <translation id="SecondShiftQuotaTooltip" value="掛け持ちで働く市民の割合"/>
-  <translation id="NightShiftQuota" value="夜勤の労働者"/>
-  <translation id="NightShiftQuotaTooltip" value="夜勤で働く市民の割合"/>
-  <translation id="ContinuousNightShiftQuota" value="Continuous Night shift workers" />
-  <translation id="ContinuousNightShiftQuotaTooltip" value="The percentage of the citizens that work a continuous night shift" />
-  <translation id="BreakfastQuota" value="Breakfast probability" />
-  <translation id="BreakfastQuotaTooltip" value="The percentage of the Cims that will go out for breakfast" />
-  <translation id="LunchQuota" value="Lunch probability" />
-  <translation id="LunchQuotaTooltip" value="The percentage of the Cims that will go out for lunch" />
-  <translation id="LocalBuildingSearchQuota" value="地元で買い物をする人の割合"/>
-  <translation id="LocalBuildingSearchQuotaTooltip" value="地元で買い物をする住民の割合"/>
-  <translation id="ShoppingForFunQuota" value="娯楽としての買い物"/>
-  <translation id="ShoppingForFunQuotaTooltip" value="商品が必要でなくとも買い物を楽しむためだけに外出する住民の割合"/>
-  <translation id="OnTimeQuota" value="定時出退勤者の割合"/>
-  <translation id="OnTimeQuotaTooltip" value="定時に出社、退勤する市民の割合"/>
-  <translation id="OpenLowCommercialAtNightQuota" value="Open low commercial buildings at night percentage" />
-  <translation id="OpenLowCommercialAtNightQuotaTooltip" value="The percentage of the low commercial buildings that will stay open at night" />
-  <translation id="OpenCommercialSecondShiftQuota" value="Open commercial buildings for second shift percentage" />
-  <translation id="OpenCommercialSecondShiftQuotaTooltip" value="The percentage of the commerical buildings that will stay open for a second shift" />
-  <translation id="OpenCommercialAtWeekendsQuota" value="Open commercial buildings at weekends percentage" />
-  <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="The percentage of the commercial buildings that will stay open at weekends" />
-  <translation id="NightClassQuota" value="Night School students" />
-  <translation id="NightClassQuotaTooltip" value="The percentage of the citizens that go to night school" />
+  <translation id="2Quotas" value="割合 / 確率" />
+  <translation id="SecondShiftQuota" value="第2シフトの労働者" />
+  <translation id="SecondShiftQuotaTooltip" value="第2シフト（午後）で働く市民の割合" />
+  <translation id="NightShiftQuota" value="夜勤の労働者" />
+  <translation id="NightShiftQuotaTooltip" value="夜勤で働く市民の割合" />
+  <translation id="ContinuousNightShiftQuota" value="常駐夜勤の労働者" />
+  <translation id="ContinuousNightShiftQuotaTooltip" value="継続的な夜勤に従事する市民の割合" />
+  <translation id="BreakfastBeforeWorkOrSchoolQuota" value="仕事前の朝食確率" />
+  <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="仕事や学校の前に朝食に出かける市民の割合" />
+  <translation id="LunchDuringWorkOrSchoolQuota" value="仕事中の昼食確率" />
+  <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="仕事や学校の合間に昼食に出かける市民の割合" />
+  <translation id="SupperAfterWorkOrSchoolQuota" value="仕事後の夕食確率" />
+  <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="仕事や学校の後に夕食に出かける市民の割合" />
+  <translation id="LocalBuildingSearchQuota" value="地元での買い物率" />
+  <translation id="LocalBuildingSearchQuotaTooltip" value="住んでいる場所の近くで店を探そうとする市民の割合" />
+  <translation id="ShoppingForFunQuota" value="娯楽としての買い物" />
+  <translation id="ShoppingForFunQuotaTooltip" value="商品が必要なくても、娯楽のために買い物に行く市民の割合" />
+  <translation id="OnTimeQuota" value="定時行動率" />
+  <translation id="OnTimeQuotaTooltip" value="定時に出勤・退勤する市民の割合" />
+  <translation id="OpenLowCommercialAtNightQuota" value="夜間営業の低密度商業施設" />
+  <translation id="OpenLowCommercialAtNightQuotaTooltip" value="夜間も営業を続ける低密度商業施設の割合" />
+  <translation id="OpenCommercialSecondShiftQuota" value="第2シフト営業の商業施設" />
+  <translation id="OpenCommercialSecondShiftQuotaTooltip" value="午後（第2シフト）も営業する商業施設の割合" />
+  <translation id="OpenCommercialAtWeekendsQuota" value="週末営業の商業施設" />
+  <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="週末に営業する商業施設の割合" />
+  <translation id="NightClassQuota" value="夜間学校の生徒" />
+  <translation id="NightClassQuotaTooltip" value="夜間に学校に通う市民の割合" />
 
-  <translation id="3Events" value="イベント"/>
-  <translation id="AreEventsEnabled" value="カスタムイベントを有効にする"/>
-  <translation id="AreEventsEnabledTooltip" value="無効の場合、デフォルトのイベントだけが都市で発生します"/>
-  <translation id="EarliestHourEventStartWeekday" value="平日イベントの最速時刻"/>
-  <translation id="EarliestHourEventStartWeekdayTooltip" value="平日に発生する可能性があるイベントの一番早い発生時刻"/>
-  <translation id="LatestHourEventStartWeekday" value="平日イベントの最終時刻"/>
-  <translation id="LatestHourEventStartWeekdayTooltip" value="平日に発生する可能性があるイベントの一番遅い時刻"/>
-  <translation id="EarliestHourEventStartWeekend" value="週末イベントの最速時刻"/>
-  <translation id="EarliestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番早い時刻"/>
-  <translation id="LatestHourEventStartWeekend" value="週末イベントの最終時刻"/>
-  <translation id="LatestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番遅い時刻"/>
+  <translation id="3Events" value="イベント" />
+  <translation id="AreEventsEnabled" value="カスタムイベントを有効にする" />
+  <translation id="AreEventsEnabledTooltip" value="無効にすると、バニラのイベントのみが開催されます" />
+  <translation id="EarliestHourEventStartWeekday" value="開始可能最速時間（平日）" />
+  <translation id="EarliestHourEventStartWeekdayTooltip" value="平日にイベントが開始される最も早い時間" />
+  <translation id="LatestHourEventStartWeekday" value="開始可能最遅時間（平日）" />
+  <translation id="LatestHourEventStartWeekdayTooltip" value="平日にイベントが開始される最も遅い時間" />
+  <translation id="EarliestHourEventStartWeekend" value="開始可能最速時間（週末）" />
+  <translation id="EarliestHourEventStartWeekendTooltip" value="週末にイベントが開始される最も早い時間" />
+  <translation id="LatestHourEventStartWeekend" value="開始可能最遅時間（週末）" />
+  <translation id="LatestHourEventStartWeekendTooltip" value="週末にイベントが開始される最も遅い時間" />
 
-  <translation id="4Time" value="時間"/>
-  <translation id="MaxOvertime" value="最長時間外労働"/>
-  <translation id="MaxOvertimeTooltip" value="市民の時間外労働の最長時間です。市民はより早く仕事に来るか、より遅くまで仕事をします。"/>
-  <translation id="SchoolBegin" value="学校の始業時刻"/>
-  <translation id="SchoolBeginTooltip" value="学校の日中始業時刻です。若い市民は登校している必要があります。"/>
-  <translation id="SchoolEnd" value="学校の終業時刻"/>
-  <translation id="SchoolEndTooltip" value="若い市民が日中下校する時刻です。"/>
-  <translation id="WorkBegin" value="労働の始業時刻"/>
-  <translation id="WorkBeginTooltip" value="労働を開始する日中の時刻です。成人の市民は職場か大学にいる必要があります。"/>
-  <translation id="WorkEnd" value="労働の終業時刻"/>
-  <translation id="WorkEndTooltip" value="成人の市民が職場か大学から帰る日中の時刻です。"/>
-  <translation id="LunchBegin" value="昼食の開始時刻"/>
-  <translation id="LunchBeginTooltip" value="市民が昼食を食べに外出する日中の時刻です。"/>
-  <translation id="LunchEnd" value="昼食の終了時刻"/>
-  <translation id="LunchEndTooltip" value="市民が昼食から戻って仕事を再開する日中の時刻"/>
-  <translation id="MaxVacationLength" value="最大休暇日数"/>
-  <translation id="MaxVacationLengthTooltip" value="市民がどれだけ休暇を取れるかを設定します。0 を設定すれば、休暇はなしになります。"/>
-  <translation id="AcademicYearLength" value="Academic Year days (Requires The Campus DLC)"/>
-  <translation id="AcademicYearLengthTooltip" value="how long an academic year will take. Default is 7 days." />
-  <translation id="TogaPartyLength" value="Toga Party hours (Requires The Campus DLC)" />
-  <translation id="TogaPartyLengthTooltip" value="how long a toga party will last. Default is 8 hours." />
+  <translation id="4Time" value="タイムスケジュール" />
+  <translation id="MaxOvertime" value="最大残業時間" />
+  <translation id="MaxOvertimeTooltip" value="最大残業時間。市民は早く出勤したり、遅く退勤したりすることがあります" />
+  <translation id="SchoolBegin" value="登校時間" />
+  <translation id="SchoolBeginTooltip" value="授業開始時間。学生はこの時間までに学校にいる必要があります" />
+  <translation id="SchoolEnd" value="下校時間" />
+  <translation id="SchoolEndTooltip" value="学生が帰宅する時間" />
+  <translation id="WorkBegin" value="勤務開始時間" />
+  <translation id="WorkBeginTooltip" value="仕事や大学の講義が始まる時間" />
+  <translation id="WorkEnd" value="勤務終了時間" />
+  <translation id="WorkEndTooltip" value="仕事や大学の講義が終わる時間" />
+  <translation id="LunchBegin" value="昼食開始時間" />
+  <translation id="LunchBeginTooltip" value="市民が昼食のために外出を始める時間" />
+  <translation id="LunchEnd" value="昼食終了時間" />
+  <translation id="LunchEndTooltip" value="市民が昼食から戻る時間" />
+  <translation id="MaxVacationLength" value="最大休暇期間" />
+  <translation id="MaxVacationLengthTooltip" value="市民が休暇を取る最大日数。0に設定すると休暇は無効になります" />
+  <translation id="AcademicYearLength" value="学年度の長さ (Campus DLCが必要)"/>
+  <translation id="AcademicYearLengthTooltip" value="1学年度が続く日数。デフォルトは7日です" />
+  <translation id="TogaPartyLength" value="トガパーティーの持続時間 (Campus DLCが必要)" />
+  <translation id="TogaPartyLengthTooltip" value="トガパーティーが開催される時間。デフォルトは8時間です" />
 
-  <translation id="5BuildingService" value="Building Services" />
-  <translation id="0Garbage" value="Garbage operation hours" />
-  <translation id="1Mail" value="Mail operation hours" />
-  <translation id="2Other" value="Park Maintainace operation hours" />
-  <translation id="GarbageResidentialStartHour" value="Residential start hour" />
-  <translation id="GarbageResidentialStartHourTooltip" value="The daytime when garbage services starts to operate in residential areas" />
-  <translation id="GarbageResidentialEndHour" value="Residential end hour" />
-  <translation id="GarbageResidentialEndHourTooltip" value="The daytime when garbage services stop to operate in residential areas" />
-  <translation id="GarbageCommercialStartHour" value="Commercial start hour" />
-  <translation id="GarbageCommercialStartHourTooltip" value="The daytime when garbage services starts to operate in commercial areas" />
-  <translation id="GarbageCommercialEndHour" value="Commercial end hour" />
-  <translation id="GarbageCommercialEndHourTooltip" value="The daytime when garbage services stop to operate in commercial areas" />
-  <translation id="GarbageIndustrialStartHour" value="Industrial start hour" />
-  <translation id="GarbageIndustrialStartHourTooltip" value="The daytime when garbage services starts to operate in industrial areas" />
-  <translation id="GarbageIndustrialEndHour" value="Industrial end hour" />
-  <translation id="GarbageIndustrialEndHourTooltip" value="The daytime when garbage services stop to operate in industrial areas" />
-  <translation id="GarbageOfficeStartHour" value="Office start hour" />
-  <translation id="GarbageOfficeStartHourTooltip" value="The daytime when garbage services starts to operate in office areas" />
-  <translation id="GarbageOfficeEndHour" value="Office end hour" />
-  <translation id="GarbageOfficeEndHourTooltip" value="The daytime when garbage services stop to operate in office areas" />
-  <translation id="GarbageOtherStartHour" value="Other start hour" />
-  <translation id="GarbageOtherStartHourTooltip" value="The daytime when garbage services starts to operate in other areas" />
-  <translation id="GarbageOtherEndHour" value="Other end hour" />
-  <translation id="GarbageOtherEndHourTooltip" value="The daytime when garbage services stop to operate in other areas" />
+  <translation id="5BuildingService" value="建物サービス" />
+  <translation id="0Garbage" value="ゴミ回収時間" />
+  <translation id="1Mail" value="郵便サービス時間" />
+  <translation id="2Other" value="公園維持管理時間" />
+  <translation id="GarbageResidentialStartHour" value="住宅区：開始" />
+  <translation id="GarbageResidentialStartHourTooltip" value="住宅区でゴミ収集車が活動を開始する時間" />
+  <translation id="GarbageResidentialEndHour" value="住宅区：終了" />
+  <translation id="GarbageResidentialEndHourTooltip" value="住宅区でゴミ収集車が活動を終了する時間" />
+  <translation id="GarbageCommercialStartHour" value="商業区：開始" />
+  <translation id="GarbageCommercialStartHourTooltip" value="商業区でゴミ収集車が活動を開始する時間" />
+  <translation id="GarbageCommercialEndHour" value="商業区：終了" />
+  <translation id="GarbageCommercialEndHourTooltip" value="商業区でゴミ収集車が活動を終了する時間" />
+  <translation id="GarbageIndustrialStartHour" value="工業区：開始" />
+  <translation id="GarbageIndustrialStartHourTooltip" value="工業区でゴミ収集車が活動を開始する時間" />
+  <translation id="GarbageIndustrialEndHour" value="工業区：終了" />
+  <translation id="GarbageIndustrialEndHourTooltip" value="工業区でゴミ収集車が活動を終了する時間" />
+  <translation id="GarbageOfficeStartHour" value="オフィス区：開始" />
+  <translation id="GarbageOfficeStartHourTooltip" value="オフィス区でゴミ収集車が活動を開始する時間" />
+  <translation id="GarbageOfficeEndHour" value="オフィス区：終了" />
+  <translation id="GarbageOfficeEndHourTooltip" value="オフィス区でゴミ収集車が活動を終了する時間" />
+  <translation id="GarbageOtherStartHour" value="その他：開始" />
+  <translation id="GarbageOtherStartHourTooltip" value="その他の施設でゴミ収集車が活動を開始する時間" />
+  <translation id="GarbageOtherEndHour" value="その他：終了" />
+  <translation id="GarbageOtherEndHourTooltip" value="その他の施設でゴミ収集車が活動を終了する時間" />
 
-  <translation id="MailResidentialStartHour" value="Residential start hour" />
-  <translation id="MailResidentialStartHourTooltip" value="The daytime when mail services starts to operate in residential areas" />
-  <translation id="MailResidentialEndHour" value="Residential end hour" />
-  <translation id="MailResidentialEndHourTooltip" value="The daytime when mail services stop to operate in residential areas" />
-  <translation id="MailCommercialStartHour" value="Commercial start hour" />
-  <translation id="MailCommercialStartHourTooltip" value="The daytime when mail services starts to operate in commercial areas" />
-  <translation id="MailCommercialEndHour" value="Commercial end hour" />
-  <translation id="MailCommercialEndHourTooltip" value="The daytime when mail services stop to operate in commercial areas" />
-  <translation id="MailIndustrialStartHour" value="industrial start hour" />
-  <translation id="MailIndustrialStartHourTooltip" value="The daytime when mail services starts to operate in industrial areas" />
-  <translation id="MailIndustrialEndHour" value="Industrial end hour" />
-  <translation id="MailIndustrialEndHourTooltip" value="The daytime when mail services stop to operate in industrial areas" />
-  <translation id="MailOfficeStartHour" value="Office start hour" />
-  <translation id="MailOfficeStartHourTooltip" value="The daytime when mail services starts to operate in office areas" />
-  <translation id="MailOfficeEndHour" value="Office end hour" />
-  <translation id="MailOfficeEndHourTooltip" value="The daytime when mail services stop to operate in office areas" />
-  <translation id="MailOtherStartHour" value="Other start hour" />
-  <translation id="MailOtherStartHourTooltip" value="The daytime when mail services starts to operate in other areas" />
-  <translation id="MailOtherEndHour" value="Other end hour" />
-  <translation id="MailOtherEndHourTooltip" value="The daytime when mail services stop to operate in other areas" />
+  <translation id="MailResidentialStartHour" value="郵便(住宅)：開始" />
+  <translation id="MailResidentialStartHourTooltip" value="住宅区で郵便サービスが活動を開始する時間" />
+  <translation id="MailResidentialEndHour" value="郵便(住宅)：終了" />
+  <translation id="MailResidentialEndHourTooltip" value="住宅区で郵便サービスが活動を終了する時間" />
+  <translation id="MailCommercialStartHour" value="郵便(商業)：開始" />
+  <translation id="MailCommercialStartHourTooltip" value="商業区で郵便サービスが活動を開始する時間" />
+  <translation id="MailCommercialEndHour" value="郵便(商業)：終了" />
+  <translation id="MailCommercialEndHourTooltip" value="商業区で郵便サービスが活動を終了する時間" />
+  <translation id="MailIndustrialStartHour" value="郵便(工業)：開始" />
+  <translation id="MailIndustrialStartHourTooltip" value="工業区で郵便サービスが活動を開始する時間" />
+  <translation id="MailIndustrialEndHour" value="郵便(工業)：終了" />
+  <translation id="MailIndustrialEndHourTooltip" value="工業区で郵便サービスが活動を終了する時間" />
+  <translation id="MailOfficeStartHour" value="郵便(オフィス)：開始" />
+  <translation id="MailOfficeStartHourTooltip" value="オフィス区で郵便サービスが活動を開始する時間" />
+  <translation id="MailOfficeEndHour" value="郵便(オフィス)：終了" />
+  <translation id="MailOfficeEndHourTooltip" value="オフィス区で郵便サービスが活動を終了する時間" />
+  <translation id="MailOtherStartHour" value="郵便(その他)：開始" />
+  <translation id="MailOtherStartHourTooltip" value="その他の施設で郵便サービスが活動を開始する時間" />
+  <translation id="MailOtherEndHour" value="郵便(その他)：終了" />
+  <translation id="MailOtherEndHourTooltip" value="その他の施設で郵便サービスが活動を終了する時間" />
 
-  <translation id="ParkMaintenanceStartHour" value="Park Maintenance start hour" />
-  <translation id="ParkMaintenanceStartHourTooltip" value="The daytime when park maintenance services starts to operate" />
-  <translation id="ParkMaintenanceEndHour" value="Park Maintenance end hour" />
-  <translation id="ParkMaintenanceEndHourTooltip" value="The daytime when park maintenance services stop to operate" />
+  <translation id="ParkMaintenanceStartHour" value="公園管理：開始" />
+  <translation id="ParkMaintenanceStartHourTooltip" value="公園の維持管理サービスが活動を開始する時間" />
+  <translation id="ParkMaintenanceEndHour" value="公園管理：終了" />
+  <translation id="ParkMaintenanceEndHourTooltip" value="公園の維持管理サービスが活動を終了する時間" />
 
-  <translation id="6RoadService" value="Road Services" />
-  <translation id="0MaintenanceSnow" value=" Maintenance and Snow operation hours" />
-  <translation id="MaintenanceSnowRoadsSmallStartHour" value="Small roads start hour" />
-  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for small roads" />
-  <translation id="MaintenanceSnowRoadsSmallEndHour" value="Small roads end hour" />
-  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for small roads" />
-  <translation id="MaintenanceSnowRoadsMediumStartHour" value="Medium roads start hour" />
-  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for medium roads" />
-  <translation id="MaintenanceSnowRoadsMediumEndHour" value="Medium roads end hour" />
-  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for medium roads" />
-  <translation id="MaintenanceSnowRoadsLargeStartHour" value="Large roads start hour" />
-  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for large roads" />
-  <translation id="MaintenanceSnowRoadsLargeEndHour" value="Large roads end hour" />
-  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for large roads" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="Highway roads start hour" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for highway roads" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="Highway roads end hour" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for highway roads" />
-  <translation id="MaintenanceSnowRoadsOtherStartHour" value="Other roads start hour" />
-  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for other roads" />
-  <translation id="MaintenanceSnowRoadsOtherEndHour" value="Other roads end hour" />
-  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for other roads" />
+  <translation id="6RoadService" value="道路サービス" />
+  <translation id="0MaintenanceSnow" value=" 道路維持管理と除雪の時間" />
+  <translation id="MaintenanceSnowRoadsSmallStartHour" value="小規模道路：開始" />
+  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="小規模道路で維持管理・除雪を開始する時間" />
+  <translation id="MaintenanceSnowRoadsSmallEndHour" value="小規模道路：終了" />
+  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="小規模道路で維持管理・除雪を終了する時間" />
+  <translation id="MaintenanceSnowRoadsMediumStartHour" value="中規模道路：開始" />
+  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="中規模道路で維持管理・除雪を開始する時間" />
+  <translation id="MaintenanceSnowRoadsMediumEndHour" value="中規模道路：終了" />
+  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="中規模道路で維持管理・除雪を終了する時間" />
+  <translation id="MaintenanceSnowRoadsLargeStartHour" value="大規模道路：開始" />
+  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="大規模道路で維持管理・除雪を開始する時間" />
+  <translation id="MaintenanceSnowRoadsLargeEndHour" value="大規模道路：終了" />
+  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="大規模道路で維持管理・除雪を終了する時間" />
+  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="高速道路：開始" />
+  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="高速道路で維持管理・除雪を開始する時間" />
+  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="高速道路：終了" />
+  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="高速道路で維持管理・除雪を終了する時間" />
+  <translation id="MaintenanceSnowRoadsOtherStartHour" value="その他の道路：開始" />
+  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="その他の道路で維持管理・除雪を開始する時間" />
+  <translation id="MaintenanceSnowRoadsOtherEndHour" value="その他の道路：終了" />
+  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="その他の道路で維持管理・除雪を終了する時間" />
 
-  <translation id="ScheduledAction" value="Now" />
-  <translation id="CurrentState" value="State" />
-  <translation id="NextScheduledAction" value="Until" />
-  <translation id="ScheduledAction.GoHome" value="Go home" />
-  <translation id="CurrentState.AtHome" value="At home" />
-  <translation id="ScheduledAction.GoToSchool" value="Go to school" />
-  <translation id="CurrentState.AtSchool" value="At school" />
-  <translation id="ScheduledAction.GoToWork" value="Go to work" />
-  <translation id="CurrentState.AtWork" value="At work" />
-  <translation id="ScheduledAction.GoShopping" value="Go shopping" />
-  <translation id="CurrentState.Shopping" value="Shopping" />
-  <translation id="ScheduledAction.GoToRelaxg" value="Go relaxing" />
-  <translation id="CurrentState.Relaxing" value="Relaxing" />
-  <translation id="ScheduledAction.GoToVisit" value="Go visit" />
-  <translation id="CurrentState.Visiting" value="Visiting" />
-  <translation id="ScheduledAction.GoToShelter" value="Go to shelter" />
-  <translation id="CurrentState.InShelter" value="At shelter" />
-  <translation id="ScheduledAction.GoToBreakfast" value="Go to eat breakfast" />
-  <translation id="CurrentState.Breakfast" value="Eating breakfast" />
-  <translation id="ScheduledAction.GoToLunch" value="Go to eat lunch" />
-  <translation id="CurrentState.Lunch" value="Eating lunch" />
-  <translation id="WorkShift.First" value="日勤シフト"/>
-  <translation id="WorkShift.Second" value="準夜勤シフト"/>
-  <translation id="WorkShift.Night" value="深夜勤シフト"/>
-  <translation id="WorkShift.ContinuousDay" value="Continuous day work shift" />
-  <translation id="WorkShift.ContinuousNight" value="Continuous night work shift" />
-  <translation id="WorkShift.Event" value="Event work shift" />
-  <translation id="WorkStatus.OnVacation" value="（休暇: {0} 日）"/>
+  <translation id="ScheduledAction" value="現在の予定" />
+  <translation id="CurrentState" value="状態" />
+  <translation id="NextScheduledAction" value="予定終了まで" />
+  <translation id="ScheduledAction.GoHome" value="帰宅中" />
+  <translation id="CurrentState.AtHome" value="自宅" />
+  <translation id="ScheduledAction.GoToSchool" value="登校中" />
+  <translation id="CurrentState.AtSchool" value="学校" />
+  <translation id="ScheduledAction.GoToWork" value="出勤中" />
+  <translation id="CurrentState.AtWork" value="仕事中" />
+  <translation id="ScheduledAction.GoShopping" value="買い物中" />
+  <translation id="CurrentState.Shopping" value="買い物中" />
+  <translation id="ScheduledAction.GoToRelaxg" value="リラックス中" />
+  <translation id="CurrentState.Relaxing" value="休憩中" />
+  <translation id="ScheduledAction.GoToVisit" value="訪問中" />
+  <translation id="CurrentState.Visiting" value="訪問中" />
+  <translation id="ScheduledAction.GoToShelter" value="避難中" />
+  <translation id="CurrentState.InShelter" value="避難所" />
+  <translation id="ScheduledAction.GoToMeal" value="食事中" />
+  <translation id="CurrentState.EatMeal" value="食事（" />
+  <translation id="ScheduledMealType.Breakfast" value="朝食" />
+  <translation id="ScheduledMealType.Lunch" value="昼食" />
+  <translation id="ScheduledMealType.Supper" value="夕食" />
+  <translation id="ScheduledMealType.Other" value="軽食" />
+  <translation id="WorkShift.First" value="第1シフト" />
+  <translation id="WorkShift.Second" value="第2シフト" />
+  <translation id="WorkShift.Night" value="夜勤シフト" />
+  <translation id="WorkShift.ContinuousDay" value="常駐日勤" />
+  <translation id="WorkShift.ContinuousNight" value="常駐夜勤" />
+  <translation id="WorkShift.Event" value="イベントシフト" />
+  <translation id="WorkStatus.OnVacation" value="(休暇中：残り {0} 日)" />
 
-  <translation id="AcademicYear.DaysLeft" value="残り {0} 日"/>
-  <translation id="AcademicYear.HoursLeft" value="残り {0} 時間"/>
-  <translation id="AcademicYear.EndsSoon" value="残り 1 時間未満"/>
-  <translation id="AcademicYear.StartDelay" value="Not starting because of night time or weekend" />
-  <translation id="AcademicYear.EndDelay" value="Not ending because of night time or weekend" />
-  <translation id="AcademicYear.HoursUntil" value="Starts in {0} hour(s)" />
-  <translation id="AcademicYear.StartsSoon" value="Starts in less than 1 hour" />
-  <translation id="AcademicYearEndYearButtonText" value="End Academic Year" />
-  <translation id="AcademicYearEndYearButtonTooltip" value="allow ending the academic year on weekdays between 9:00 and 10:00" />
+  <translation id="AcademicYear.DaysLeft" value="残り {0} 日" />
+  <translation id="AcademicYear.HoursLeft" value="残り {0} 時間" />
+  <translation id="AcademicYear.EndsSoon" value="残り1時間未満" />
+  <translation id="AcademicYear.StartDelay" value="朝または平日の開始を待機中" />
+  <translation id="AcademicYear.EndDelay" value="朝または平日の終了を待機中" />
+  <translation id="AcademicYear.HoursUntil" value="{0} 時間後に開始" />
+  <translation id="AcademicYear.StartsSoon" value="まもなく開始" />
+  <translation id="AcademicYearEndYearButtonText" value="学年度を終了する" />
+  <translation id="AcademicYearEndYearButtonTooltip" value="平日の午前9時から10時の間に学年度を手動で終了できます" />
 
-  <translation id="OperationHoursSettingsCheckBox" value="Settings" />
-  <translation id="OperationHoursSettingsCheckBoxTooltip" value="Change building operation hours" />
-  <translation id="SettingsTitle" value="Adjust Operation Hours" />
-  <translation id="WorkAtNight" value="Work At Night" />
-  <translation id="WorkAtNightTooltip" value="The building will work 24 hours" />
-  <translation id="WorkAtWeekands" value="Work At Weekands" />
-  <translation id="WorkAtWeekandsTooltip" value="The building will work at weekends" />
-  <translation id="HasExtendedWorkShift" value="Has Extended Work Shift" />
-  <translation id="HasExtendedWorkShiftTooltip" value="The morning shift will start when the city wakes up or the earlist a citizen will wake up the lowest between them. cant have continuous shift" />
-  <translation id="HasContinuousWorkShift" value="Has Continuous Work Shift" />
-  <translation id="HasContinuousWorkShiftTooltip" value="The building will work from 8(am) to 20(8pm), if works at night, there will be two shifts 8-20 and 20-8. cant have extended shift" />
-  <translation id="IgnorePolicy" value="Ignore District Policies" />
-  <translation id="IgnorePolicyTooltip" value="The building will ignore any restirctions from district policies" />
-  <translation id="ShiftCountTitle" value="Select the number of shifts" />
-  <translation id="ShiftCountTooltip" value="work at night and not continuous = 3, continuous = 1, work at night and continuous = 2, else = 1-2" />
-  <translation id="SaveBuildingSettings" value="Save building settings" />
-  <translation id="SaveBuildingSettingsTooltip" value="First priority - will override prefab and global settings and create a specific work time for this building" />
-  <translation id="ReturnToDefault" value="Back to default" />
-  <translation id="ReturnToDefaultTooltip" value="Will not delete the record just set a default flag on it - you need to clear settings for this building to get the prefab or global settings" />
-  <translation id="ApplyPrefabSettings" value="Apply type settings" />
-  <translation id="ApplyPrefabSettingsTooltip" value="Apply work time settings to this building according to building type in this save" />
-  <translation id="ApplyGlobalSettings" value="Apply global settings" />
-  <translation id="ApplyGlobalSettingsTooltip" value="Apply work time settings to this building according to building type across all saves" />
-  <translation id="SetPrefabSettings" value="Set new type" />
-  <translation id="SetPrefabSettingsTooltip" value="This will update all building records of this type to the current work time of this building in this save" />
-  <translation id="SetGlobalSettings" value="Set new global" />
-  <translation id="SetGlobalSettingsTooltip" value="This will update all building records of this type to the current work time of this building across all saves" />
-  <translation id="DeletePrefabSettings" value="Delete existing type" />
-  <translation id="DeletePrefabSettingsTooltip" value="This will delete all building records of this type and return them back to default in this save" />
-  <translation id="DeleteGlobalSettings" value="Delete existing global" />
-  <translation id="DeleteGlobalSettingsTooltip" value="This will delete all building records of this type and return them back to default across all saves" />
-  <translation id="UnlockSettings" value="Unlock settings" />
-  <translation id="UnlockSettingsTooltip" value="Unlock edit settings" />
-  <translation id="DefaultSettingsStatus" value="This Building is using default settings" />
-  <translation id="BuildingSettingsStatus" value="This Building is using his own settings" />
-  <translation id="PrefabSettingsStatus" value="This Building is using type settings" />
-  <translation id="GlobalSettingsStatus" value="This Building is using global settings" />
-  <translation id="LockUnlockChangesTooltip" value="If Locked - type and global settings has no affect on this building" />
-  <translation id="ConfirmPanelSetPrefabTitle" value="Set Type Settings" />
-  <translation id="ConfirmPanelSetPrefabText" value="This will update all the buildings work hours of this type to the current work time settings in this save!" />
-  <translation id="ConfirmPanelSetGlobalTitle" value="Set Global Settings" />
-  <translation id="ConfirmPanelSetGlobalText" value="This will update all the buildings work hours of this type to the current work time settings across all saves!" />
-  <translation id="ConfirmPanelDeletePrefabTitle" value="Delete Type Settings" />
-  <translation id="ConfirmPanelDeletePrefabText" value="This will remove all the buildings work hours of this type back to default settings in this save!" />
-  <translation id="ConfirmPanelDeleteGlobalTitle" value="Delete Global Settings" />
-  <translation id="ConfirmPanelDeleteGlobalText" value="This will remove all the buildings work hours of this type back to default settings across all saves!" />
-  <translation id="ClosedBuilding" value="Closed" />
-  <translation id="ServingTimeAt" value="Serving time in " />
+  <translation id="OperationHoursSettingsCheckBox" value="設定" />
+  <translation id="OperationHoursSettingsCheckBoxTooltip" value="この建物の運営時間を変更します" />
+  <translation id="SettingsTitle" value="運営時間設定" />
+  <translation id="WorkAtNight" value="夜間運営" />
+  <translation id="WorkAtNightTooltip" value="建物を24時間稼働させます" />
+  <translation id="WorkAtWeekands" value="週末運営" />
+  <translation id="WorkAtWeekandsTooltip" value="週末も建物を稼働させます" />
+  <translation id="HasExtendedWorkShift" value="延長シフト" />
+  <translation id="HasExtendedWorkShiftTooltip" value="街が起きる時間にシフトを開始します。常駐シフトとは併用できません。" />
+  <translation id="HasContinuousWorkShift" value="常駐シフト" />
+  <translation id="HasContinuousWorkShiftTooltip" value="建物を8:00〜20:00に稼働させます。夜間運営が有効な場合、8-20と20-8の2交代制になります。延長シフトとは併用できません。" />
+  <translation id="IgnorePolicy" value="地区方針を無視" />
+  <translation id="IgnorePolicyTooltip" value="建物は地区方針による制限を無視します" />
+  <translation id="ShiftCountTitle" value="シフト数" />
+  <translation id="ShiftCountTooltip" value="夜間+非常駐=3、常駐=1、夜間+常駐=2、その他=1-2" />
+  <translation id="SaveBuildingSettings" value="建物の設定を保存" />
+  <translation id="SaveBuildingSettingsTooltip" value="最高優先度。タイプ設定やグローバル設定を上書きして、この建物に適用します" />
+  <translation id="ReturnToDefault" value="デフォルトに戻す" />
+  <translation id="ReturnToDefaultTooltip" value="リセット。個別設定を削除して、タイプ設定やグローバル設定を適用できるようにします" />
+  <translation id="ApplyPrefabSettings" value="タイプ設定を適用" />
+  <translation id="ApplyPrefabSettingsTooltip" value="このセーブデータにおける建物タイプ別の設定を適用します" />
+  <translation id="ApplyGlobalSettings" value="グローバル設定を適用" />
+  <translation id="ApplyGlobalSettingsTooltip" value="すべてのセーブデータにおける建物タイプ別の設定を適用します" />
+  <translation id="SetPrefabSettings" value="タイプ設定として保存" />
+  <translation id="SetPrefabSettingsTooltip" value="このセーブデータ内のこの建物タイプを持つすべての建物を更新します" />
+  <translation id="SetGlobalSettings" value="グローバル設定として保存" />
+  <translation id="SetGlobalSettingsTooltip" value="すべてのセーブデータ内のこの建物タイプを持つすべての建物を更新します" />
+  <translation id="DeletePrefabSettings" value="タイプ設定を削除" />
+  <translation id="DeletePrefabSettingsTooltip" value="このセーブデータのタイプ別レコードを削除し、デフォルトに戻します" />
+  <translation id="DeleteGlobalSettings" value="グローバル設定を削除" />
+  <translation id="DeleteGlobalSettingsTooltip" value="すべてのセーブデータのタイプ別レコードを削除し、デフォルトに戻します" />
+  <translation id="UnlockSettings" value="ロック解除" />
+  <translation id="UnlockSettingsTooltip" value="設定の編集を有効にします" />
+  <translation id="DefaultSettingsStatus" value="この建物はデフォルト設定を使用しています" />
+  <translation id="BuildingSettingsStatus" value="この建物は個別設定を使用しています" />
+  <translation id="PrefabSettingsStatus" value="この建物はタイプ設定を使用しています" />
+  <translation id="GlobalSettingsStatus" value="この建物はグローバル設定を使用しています" />
+  <translation id="LockUnlockChangesTooltip" value="ロック中：グローバル設定やタイプ設定の変更はこの建物に反映されません" />
+  <translation id="ConfirmPanelSetPrefabTitle" value="タイプ別時間を設定" />
+  <translation id="ConfirmPanelSetPrefabText" value="このセーブデータ内のこのタイプの全建物の時間が更新されます！" />
+  <translation id="ConfirmPanelSetGlobalTitle" value="グローバル時間を設定" />
+  <translation id="ConfirmPanelSetGlobalText" value="すべてのセーブデータ内のこのタイプの全建物の時間が更新されます！" />
+  <translation id="ConfirmPanelDeletePrefabTitle" value="タイプ別時間を削除" />
+  <translation id="ConfirmPanelDeletePrefabText" value="このセーブデータ内のこのタイプの全建物がデフォルトの時間に戻ります！" />
+  <translation id="ConfirmPanelDeleteGlobalTitle" value="グローバル時間を削除" />
+  <translation id="ConfirmPanelDeleteGlobalText" value="すべてのセーブデータ内のこのタイプの全建物がデフォルトの時間に戻ります！" />
+  <translation id="ClosedBuilding" value="閉鎖中" />
+  <translation id="ServingTimeAt" value="服役中： " />
 
-  <translation id="RaceDayLabelHour" value="Hour" />
-  <translation id="RaceDayLabelFrequency" value="Frequency" />
-  <translation id="RaceDayLabelMinute" value="Minute" />
-  <translation id="RaceDayLabelAutoOccur" value="AutoOccur" />
-  <translation id="RaceDayDropDownWeeklyFrequency" value="Weekly" />
-  <translation id="RaceDayDropDownDailyFrequency" value="Daily" />
-  <translation id="RaceDayDropDownDisableAutoOccur" value="Disable" />
-  <translation id="RaceDayDropDownEnableAutoOccur" value="Enable" />
-  <translation id="RaceDayDropDownDateTimeTooltip" value="Specify the datetime you wish this event to occur on each day/week. If an Event overlaps another event it may cancel out the later one, so avoid setting them close together in the day/week" />
-  <translation id="RaceDayDropDownFrequencyTooltip" value="Specify the frequency you wish this event to occur on (daily/weekly)" />
-  <translation id="RaceDayDropDownAutoOccurTooltip" value="Specify if you want this event to re-occur on a daily/weekly bases" />
-  <translation id="RaceDayLabelDayOfWeek" value="Day Of Week:" />
-  <translation id="RaceDayLabelDayOfWeekSunday" value="Sunday" />
-  <translation id="RaceDayLabelDayOfWeekMonday" value="Monday" />
-  <translation id="RaceDayLabelDayOfWeekTuesday" value="Tuesday" />
-  <translation id="RaceDayLabelDayOfWeekWednesday" value="Wednesday" />
-  <translation id="RaceDayLabelDayOfWeekThursday" value="Thursday" />
-  <translation id="RaceDayLabelDayOfWeekFriday" value="Friday" />
-  <translation id="RaceDayLabelDayOfWeekSaturday" value="Saturday" />
+  <translation id="RaceDayLabelHour" value="時" />
+  <translation id="RaceDayLabelFrequency" value="頻度" />
+  <translation id="RaceDayLabelMinute" value="分" />
+  <translation id="RaceDayLabelAutoOccur" value="自動発生" />
+  <translation id="RaceDayDropDownWeeklyFrequency" value="毎週" />
+  <translation id="RaceDayDropDownDailyFrequency" value="毎日" />
+  <translation id="RaceDayDropDownDisableAutoOccur" value="無効" />
+  <translation id="RaceDayDropDownEnableAutoOccur" value="有効" />
+  <translation id="RaceDayDropDownDateTimeTooltip" value="イベントの開始時間を指定します。他のイベントと重ならないようにしてください。" />
+  <translation id="RaceDayDropDownFrequencyTooltip" value="イベントの頻度を指定します（毎日/毎週）" />
+  <translation id="RaceDayDropDownAutoOccurTooltip" value="イベントを定期的に自動発生させるかどうかを指定します" />
+  <translation id="RaceDayLabelDayOfWeek" value="曜日：" />
+  <translation id="RaceDayLabelDayOfWeekSunday" value="日曜日" />
+  <translation id="RaceDayLabelDayOfWeekMonday" value="月曜日" />
+  <translation id="RaceDayLabelDayOfWeekTuesday" value="火曜日" />
+  <translation id="RaceDayLabelDayOfWeekWednesday" value="水曜日" />
+  <translation id="RaceDayLabelDayOfWeekThursday" value="木曜日" />
+  <translation id="RaceDayLabelDayOfWeekFriday" value="金曜日" />
+  <translation id="RaceDayLabelDayOfWeekSaturday" value="土曜日" />
+  <translation id="RaceDayScheduleOverlapWarning" value="スケジュールが重複しています！" />
 
-  <translation id="VanillaEventSelectionLabelTitle" value="Events:" />
-  <translation id="VanillaEventSelectEventButton" value="Event Info" />
-  <translation id="VanillaEventSelectEventButtonTooltip" value="Select the event to create" />
-  <translation id="VanillaEventTotalAmountLabel" value="Event cost" />
-  <translation id="VanillaEventTotalAmountLabelTooltip" value="The total cost to create this event" />
-  <translation id="VanillaEventTotalIncomeLabel" value="Max profit" />
-  <translation id="VanillaEventTotalIncomeLabelTooltip" value="The maximum profits you can receive if the event is 100% successful and all incentives are used" />
-  <translation id="VanillaEventCreateButton" value="Create" />
-  <translation id="VanillaEventCreateButtonTooltip" value="Create the event" />
-  <translation id="VanillaEventDayDropDownLabel" value="Day" />
-  <translation id="VanillaEventDayDropDownLabelTooltip" value="The day of the month to start the event" />
-  <translation id="VanillaEventMonthDropDownLabel" value="Month" />
-  <translation id="VanillaEventMonthDropDownLabelTooltip" value="The month to start the event" />
-  <translation id="VanillaEventHourDropDownLabel" value="Hour" />
-  <translation id="VanillaEventHourDropDownLabelTooltip" value="The Hour to start the event" />
-  <translation id="VanillaEventMinuteDropDownLabel" value="Minute" />
-  <translation id="VanillaEventMinuteDropDownLabelTooltip" value="the minute to start the event" />
-  <translation id="VanillaEventTicketSliderLabel" value="Tickets" />
-  <translation id="VanillaEventTicketSliderLabelTooltip" value="Increase or decrease the number of tickets available for this venue" />
-  <translation id="VanillaEventCostsLabel" value="BUY" />
-  <translation id="VanillaEventReturnsLabel" value="SELL" />
-  <translation id="VanillaEventUpcomingShowBtn" value="Upcoming Events" />
-  <translation id="VanillaEventUpcomingHideBtn" value="Hide Upcoming" />
+  <translation id="VanillaEventSelectionLabelTitle" value="イベント：" />
+  <translation id="VanillaEventSelectEventButton" value="詳細を表示" />
+  <translation id="VanillaEventTotalAmountLabel" value="イベント費用" />
+  <translation id="VanillaEventTotalAmountLabelTooltip" value="このイベントを開催するための総費用" />
+  <translation id="VanillaEventTotalIncomeLabel" value="最大収益" />
+  <translation id="VanillaEventTotalIncomeLabelTooltip" value="100%成功した場合の最大収益" />
+  <translation id="VanillaEventCreateButton" value="作成" />
+  <translation id="VanillaEventCreateButtonTooltip" value="イベントを作成します" />
+  <translation id="VanillaEventDayDropDownLabel" value="日" />
+  <translation id="VanillaEventDayDropDownLabelTooltip" value="開始する日" />
+  <translation id="VanillaEventMonthDropDownLabel" value="月" />
+  <translation id="VanillaEventMonthDropDownLabelTooltip" value="開始する月" />
+  <translation id="VanillaEventHourDropDownLabel" value="時" />
+  <translation id="VanillaEventHourDropDownLabelTooltip" value="開始する時間" />
+  <translation id="VanillaEventMinuteDropDownLabel" value="分" />
+  <translation id="VanillaEventMinuteDropDownLabelTooltip" value="開始する分" />
+  <translation id="VanillaEventTicketSliderLabel" value="チケット" />
+  <translation id="VanillaEventTicketSliderLabelTooltip" value="販売するチケットの枚数を変更します" />
+  <translation id="VanillaEventCostsLabel" value="費用" />
+  <translation id="VanillaEventReturnsLabel" value="利益" />
+  <translation id="VanillaEventUpcomingShowBtn" value="今後の予定" />
+  <translation id="VanillaEventUpcomingHideBtn" value="非表示" />
 
   <overrides type="Units">
-    <translation id="AIINFO_COAL_STORED" value="石炭貯蔵量 {0} × {unit}"/>
-    <translation id="AIINFO_CUMULATIVEUPKEEP" value="維持費: {0} + {1} / {unit} / セル"/>
-    <translation id="AIINFO_DECEASED_PROCESSED" value="遺体処理数: {0} / {unit}"/>
-    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="発電量: {0} MW / {unit}"/>
-    <translation id="AIINFO_FIRES_EXTINGUISHED" value="消火件数: {0} / {unit}"/>
-    <translation id="AIINFO_OIL_STORED" value="原油貯蔵量 {0} × {unit}"/>
-    <translation id="AIINFO_PASSENGERS_SERVICED" value="乗客数: {0} / {unit}"/>
-    <translation id="AIINFO_PATIENTS_TREATED" value="治療患者数: {0} / {unit}"/>
-    <translation id="AIINFO_POLE_UPKEEP" value="維持費: {0} / 柱 / {unit}"/>
-    <translation id="AIINFO_PROCESSING_RATE" value="処理能力: {0} 個 / {unit}"/>
-    <translation id="AIINFO_TOURISTS" value="観光客数: {0} / {unit}"/>
-    <translation id="AIINFO_UPKEEP" value="維持費: {0} / {unit}"/>
-    <translation id="AIINFO_UPKEEPPERCELL" value="維持費: {0} / {unit} / セル"/>
-    <translation id="AIINFO_VISITORS" value="訪問者数: {0} / {unit}"/>
-    <translation id="AIINFO_WATER_CONSUMPTION" value="水: {0} m³ / {unit}"/>
-    <translation id="AIINFO_WATER_INTAKE" value="揚水能力: {0} m³ / {unit}"/>
-    <translation id="AIINFO_WATER_OUTLET" value="排水能力: {0} m³ / {unit}"/>
-    <translation id="AIINFO_WATER_STORED" value="水貯蔵量 {0} × {unit}"/>
-    <translation id="AINFO_WATER_IO_CAPACITY" value="給排水可能量: {0:N0} m³ / {unit}"/>
+    <translation id="AIINFO_COAL_STORED" value="石炭： {0} × {unit}分"/>
+    <translation id="AIINFO_CUMULATIVEUPKEEP" value="維持費： {0} + {1} / {unit} / セル"/>
+    <translation id="AIINFO_DECEASED_PROCESSED" value="過去1 {unit}の死亡者処理数： {0}"/>
+    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="過去1 {unit}の発電量： {0} MW"/>
+    <translation id="AIINFO_FIRES_EXTINGUISHED" value="過去1 {unit}の消火数： {0}"/>
+    <translation id="AIINFO_OIL_STORED" value="石油： {0} × {unit}分"/>
+    <translation id="AIINFO_PASSENGERS_SERVICED" value="過去1 {unit}の利用者数： {0}"/>
+    <translation id="AIINFO_PATIENTS_TREATED" value="過去1 {unit}の治療患者数： {0}"/>
+    <translation id="AIINFO_POLE_UPKEEP" value="維持費： {0} / 電柱 / {unit}"/>
+    <translation id="AIINFO_PROCESSING_RATE" value="処理速度： {0} / {unit}"/>
+    <translation id="AIINFO_TOURISTS" value="過去1 {unit}の観光客数： {0}"/>
+    <translation id="AIINFO_UPKEEP" value="維持費： {0} / {unit}"/>
+    <translation id="AIINFO_UPKEEPPERCELL" value="維持費： {0} / {unit} / セル"/>
+    <translation id="AIINFO_VISITORS" value="過去1 {unit}の訪問者数： {0} "/>
+    <translation id="AIINFO_WATER_CONSUMPTION" value="水道： {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_INTAKE" value="取水能力： {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_OUTLET" value="排水能力： {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_STORED" value="水： {0} × {unit}分"/>
+    <translation id="AINFO_WATER_IO_CAPACITY" value="能力： {0:N0} m³/{unit}"/>
     <translation id="DATETIME_WEEK" value="{unit}"/>
     <translation id="DATETIME_WEEKLOWERCASE" value="{unit}"/>
     <translation id="DATETIME_WEEKS" value="× {unit}"/>
-    <translation id="DISTRICT_TOURISTS" value="{unit} あたりの&#10;観光客数:"/>
-    <translation id="EXPENSES_TT_EDUCATION" value="教育機関支出（ {unit} ）"/>
-    <translation id="EXPENSES_TT_ELECTRICITY" value="電気サービス支出（ {unit} ）"/>
-    <translation id="EXPENSES_TT_FIRE" value="消防機関支出（ {unit} ）"/>
-    <translation id="EXPENSES_TT_FIRE_ND" value="災害支援サービス関連支出（ {unit} ）"/>
-    <translation id="EXPENSES_TT_GARBAGE" value="ゴミ処理サービス支出（ {unit} ）"/>
-    <translation id="EXPENSES_TT_HEALTHCARE" value="医療機関支出（ {unit} ）"/>
-    <translation id="EXPENSES_TT_LOANS" value="融資返済額（ {unit} ）"/>
-    <translation id="EXPENSES_TT_MONUMENTS" value="ユニーク施設支出（ {unit} ）"/>
-    <translation id="EXPENSES_TT_PARK" value="公園・広場・修景関連支出（ {unit} ）"/>
-    <translation id="EXPENSES_TT_POLICE" value="警察機関支出（ {unit} ）"/>
-    <translation id="EXPENSES_TT_POLICIES" value="条例関連支出（ {unit} ）"/>
-    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="公共交通機関支出（ {unit} ）"/>
-    <translation id="EXPENSES_TT_ROADS" value="道路サービス支出（ {unit} ）"/>
-    <translation id="EXPENSES_TT_TOTAL" value="総支出（ {unit} ）"/>
-    <translation id="EXPENSES_TT_WATER" value="上下水道サービス支出（ {unit} ）"/>
-    <translation id="EXPENSES_TT_WATER_WW" value="上下水道・暖房サービス支出（ {unit} ）"/>
-    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="市民からの商業区画収入（ {unit} ）"/>
-    <translation id="INCOME_TT_COMMERCIALHIGH" value="高密度商業区画収入（ {unit} ）"/>
-    <translation id="INCOME_TT_COMMERCIALLOW" value="低密度商業区画収入（ {unit} ）"/>
-    <translation id="INCOME_TT_COMMERCIALSPEC" value="特化地区からの売上収入（ {unit} ）"/>
-    <translation id="INCOME_TT_COMMERCIALTOTAL" value="商業区画収入（ {unit} ）"/>
-    <translation id="INCOME_TT_COMMERCIALTOURIST" value="観光客からの商業区画収入（ {unit} ）"/>
-    <translation id="INCOME_TT_INDUSTRIAL" value="産業区画収入（ {unit} ）"/>
-    <translation id="INCOME_TT_OFFICE" value="オフィス区画収入（ {unit} ）"/>
-    <translation id="INCOME_TT_PARKAREAS" value="パークエリア収入（ {unit} ）"/>
-    <translation id="INCOME_TT_RESIDENTIALHIGH" value="高密度住宅区画収入（ {unit} ）"/>
-    <translation id="INCOME_TT_RESIDENTIALLOW" value="低密度住宅区画収入（ {unit} ）"/>
-    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="住宅区画収入（ {unit} ）"/>
-    <translation id="INCOME_TT_TOTAL" value="総収入（ {unit} ）"/>
-    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="商業区画からの総収入（ {unit} ）"/>
-    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="住宅区画からの総収入（ {unit} ）"/>
-    <translation id="INCOME_TT_TOTAL_WORK" value="産業・オフィス区画からの総収入（ {unit} ）"/>
-    <translation id="INCOME_TT_PUBLICTRANSPORT" value="公共交通機関収入（ {unit} ）"/>
-    <translation id="INFO_CONNECTIONS_TOURISTSTOTAL" value="{unit} あたりの観光客訪問数: {0:N0}"/>
-    <translation id="INFO_CRIMERATE_CRIMES" value="{unit} あたりの検挙者数:"/>
-    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="公園・広場の訪問者数: {0:N0} / {unit}"/>
-    <translation id="INFO_ENTERTAINMENT_UBVISIT" value="ユニーク施設の訪問者数: {0:N0} / {unit}"/>
-    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="廃棄物処理可容量: {0:N0} 個 / {unit}"/>
-    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="ゴミの排出量: {0:N0} 個 / {unit}"/>
-    <translation id="INFO_POPULATION_BIRTHS" value="出生 {0:N0} 人 / {unit}"/>
-    <translation id="INFO_POPULATION_DEATHS" value="死亡 {0:N0} 人 / {unit}"/>
-    <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0:N0} 人 / {unit}"/>
-    <translation id="INFO_RES_FORESTAMOUNT" value="{0} トン / {unit}"/>
-    <translation id="INFO_RES_FORESTUSED" value="{0} トン / {unit}"/>
-    <translation id="INFO_RES_OILUSED" value="{0} バレル / {unit}"/>
-    <translation id="INFO_RES_OREUSED" value="{0} トン / {unit}"/>
-    <translation id="INFO_WATER_CONSUMPTION" value="上水消費量: {0:N0} m³ / {unit}"/>
-    <translation id="INFO_WATER_PRODUCTION" value="最大揚水能力: {0:N0} m³ / {unit}"/>
-    <translation id="INFO_WATER_SEWAGEACCUMULATION" value="下水排出量: {0:N0} m³ / {unit}"/>
-    <translation id="INFO_WATER_SEWAGECAPACITY" value="最大下水処理能力: {0:N0} m³ / {unit}"/>
-    <translation id="LOAN_WEEKLYCOST" value="{unit} あたりの返済額"/>
-    <translation id="MAIN_MONEYDELTA" value="{unit} あたりの収入"/>
-    <translation id="MAIN_POPULATIONDELTA" value="{unit} あたりの変化"/>
-    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="{0} 個の条件を {1} × {unit} 間満たす"/>
-    <translation id="MILESTONE_COMBINED_TIME_DESC" value="{0} × {unit} 間維持する"/>
-    <translation id="PARKINFOPANEL_CURRENTVISITORS" value="来場者数: {0} / {unit}"/>
-    <translation id="PARKINFOPANEL_INCOME" value="収入: {0} / {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="公共交通機関からの総利益（ {unit} ）"/>
-    <translation id="STADIUMINFO7" value="過去 12 × {unit} の勝ち/対戦数:"/>
-    <translation id="STADIUMINFO9" value="収入（ {unit} ）:"/>
-    <translation id="TOOL_WATER_ESTIMATE" value="推定水量: {0:N0} m³ / {unit}"/>
-    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="来訪者数（ {unit} ）: 住民 {0} 人、観光客 {1} 人"/>
-    <translation id="TRANSPORT_LINE_PASSENGERS" value="乗客数（ {unit} ）: 住民 {0} 人、観光客 {1} 人"/>
-    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="生産量: {0:N0} 台 / {unit}"/>
-    <translation id="AIINFO_POST_SORTING_RATE" value="郵便物仕分け量: {0:N0} 束 / {unit}"/>
-    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="車両通行量: {0:N0} 台 / {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="産業区画と産業エリアからの収入（ {unit} ）"/>
-    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="産業エリアの費用（ {unit} ）"/>
-    <translation id="INCOME_TT_ROADTOLLS" value="通行料収入（ {unit} ）"/>
-    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="通行料の総収入（ {unit} ）"/>
-    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="獲得量（ {unit} ）"/>
-    <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="資源輸入コスト（ {unit} ）"/>
-    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="生産高（ {unit} ）"/>
-    <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="資源売却収入（ {unit} ）"/>
-    <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="利益（ {unit} ）"/>
+    <translation id="DISTRICT_TOURISTS" value="観光客の訪問&#10;過去1 {unit}:"/>
+    <translation id="EXPENSES_TT_EDUCATION" value="過去1 {unit}の教育支出"/>
+    <translation id="EXPENSES_TT_ELECTRICITY" value="過去1 {unit}の電力支出"/>
+    <translation id="EXPENSES_TT_FIRE" value="過去1 {unit}の消防支出"/>
+    <translation id="EXPENSES_TT_FIRE_ND" value="過去1 {unit}の災害対策支出"/>
+    <translation id="EXPENSES_TT_GARBAGE" value="過去1 {unit}のゴミ処理支出"/>
+    <translation id="EXPENSES_TT_HEALTHCARE" value="過去1 {unit}の医療支出"/>
+    <translation id="EXPENSES_TT_LOANS" value="過去1 {unit}のローン返済支出"/>
+    <translation id="EXPENSES_TT_MONUMENTS" value="過去1 {unit}のユニーク施設支出"/>
+    <translation id="EXPENSES_TT_PARK" value="過去1 {unit}の公園・緑地支出"/>
+    <translation id="EXPENSES_TT_POLICE" value="過去1 {unit}の警察支出"/>
+    <translation id="EXPENSES_TT_POLICIES" value="過去1 {unit}の方針支出"/>
+    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="過去1 {unit}の公共交通支出"/>
+    <translation id="EXPENSES_TT_ROADS" value="過去1 {unit}の道路支出"/>
+    <translation id="EXPENSES_TT_TOTAL" value="過去1 {unit}の総支出"/>
+    <translation id="EXPENSES_TT_WATER" value="過去1 {unit}の上下水道支出"/>
+    <translation id="EXPENSES_TT_WATER_WW" value="過去1 {unit}の上下水道・暖房支出"/>
+    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="過去1 {unit}の市民からの商業収入"/>
+    <translation id="INCOME_TT_COMMERCIALHIGH" value="過去1 {unit}の高密度商業収入"/>
+    <translation id="INCOME_TT_COMMERCIALLOW" value="過去1 {unit}の低密度商業収入"/>
+    <translation id="INCOME_TT_COMMERCIALSPEC" value="過去1 {unit}の特化商業収入"/>
+    <translation id="INCOME_TT_COMMERCIALTOTAL" value="過去1 {unit}の総商業収入"/>
+    <translation id="INCOME_TT_COMMERCIALTOURIST" value="過去1 {unit}の観光客からの商業収入"/>
+    <translation id="INCOME_TT_INDUSTRIAL" value="過去1 {unit}の工業収入"/>
+    <translation id="INCOME_TT_OFFICE" value="過去1 {unit}のオフィス収入"/>
+    <translation id="INCOME_TT_PARKAREAS" value="過去1 {unit}の公園エリア収入"/>
+    <translation id="INCOME_TT_RESIDENTIALHIGH" value="過去1 {unit}の高密度住宅収入"/>
+    <translation id="INCOME_TT_RESIDENTIALLOW" value="過去1 {unit}の低密度住宅収入"/>
+    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="過去1 {unit}の総住宅収入"/>
+    <translation id="INCOME_TT_TOTAL" value="過去1 {unit}の総収入"/>
+    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="過去1 {unit}の総観光収入"/>
+    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="過去1 {unit}の総住宅地区収入"/>
+    <translation id="INCOME_TT_TOTAL_WORK" value="過去1 {unit}の総工業・オフィス地区収入"/>
+    <translation id="INCOME_TT_PUBLICTRANSPORT" value="過去1 {unit}の公共交通収入"/>
+    <translation id="INFO_CONNECTIONS_TOURISTSTOTAL" value="過去1 {unit}の観光客訪問数： {0:N0}"/>
+    <translation id="INFO_CRIMERATE_CRIMES" value="過去1 {unit}の逮捕者数："/>
+    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="1 {unit}あたりの公園・広場訪問者数： {0:N0}"/>
+    <translation id="INFO_ENTERTAINMENT_UBVISIT" value="1 {unit}あたりのユニーク施設訪問者数： {0:N0}"/>
+    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="ゴミ焼却能力： {0:N0} / {unit}"/>
+    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="ゴミ排出量： {0:N0} / {unit}"/>
+    <translation id="INFO_POPULATION_BIRTHS" value="過去1 {unit}の出生数： {0:N0}"/>
+    <translation id="INFO_POPULATION_DEATHS" value="過去1 {unit}の死亡数： {0:N0}"/>
+    <translation id="INFO_PUBLICTRANSPORT_COUNT" value="1 {unit}あたり {0:N0} 人"/>
+    <translation id="INFO_RES_FORESTAMOUNT" value="{0} ユニット/{unit}"/>
+    <translation id="INFO_RES_FORESTUSED" value="{0} ユニット/{unit}"/>
+    <translation id="INFO_RES_OILUSED" value="{0} ユニット/{unit}"/>
+    <translation id="INFO_RES_OREUSED" value="{0} ユニット/{unit}"/>
+    <translation id="INFO_WATER_CONSUMPTION" value="水消費量： {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_PRODUCTION" value="取水能力： {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGEACCUMULATION" value="下水発生量： {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGECAPACITY" value="下水処理能力： {0:N0} m³/{unit}"/>
+    <translation id="LOAN_WEEKLYCOST" value="過去1 {unit}の費用"/>
+    <translation id="MAIN_MONEYDELTA" value="過去1 {unit}の収支"/>
+    <translation id="MAIN_POPULATIONDELTA" value="過去1 {unit}の人口変化"/>
+    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="{0} 個の要件を {1} × {unit}間満たす"/>
+    <translation id="MILESTONE_COMBINED_TIME_DESC" value="{0} × {unit}間維持"/>
+    <translation id="PARKINFOPANEL_CURRENTVISITORS" value="過去1 {unit}の訪問者数： {0}"/>
+    <translation id="PARKINFOPANEL_INCOME" value="収入： {0} / {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="過去1 {unit}の総公共交通利益"/>
+    <translation id="STADIUMINFO7" value="過去 12 × {unit}の勝利数/試合数："/>
+    <translation id="STADIUMINFO9" value="過去1 {unit}の収入："/>
+    <translation id="TOOL_WATER_ESTIMATE" value="推定生産量： {0:N0} m³/{unit}"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="過去1 {unit}の利用者数： 市民 {0}人、観光客 {1}人"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS" value="過去1 {unit}の乗客数： 市民 {0}人、観光客 {1}人"/>
+    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="生産速度： {0:N0} ユニット / {unit}"/>
+    <translation id="AIINFO_POST_SORTING_RATE" value="仕分け速度： {0:N0} 件 / {unit}"/>
+    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="過去1 {unit}の料金所利用車数： {0:N0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="過去1 {unit}の工業地区・産業エリア収入"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="1 {unit}あたりの産業エリア支出"/>
+    <translation id="INCOME_TT_ROADTOLLS" value="1 {unit}あたりの通行料収入"/>
+    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="過去1 {unit}の道路通行料総収入"/>
+    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="1 {unit}あたりの取得量"/>
+    <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="1 {unit}あたりの資源輸入費用"/>
+    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="1 {unit}あたりの産出量"/>
+    <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="1 {unit}あたりの資源販売収入"/>
+    <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="1 {unit}あたりの利益"/>
     <translation id="INDUSTRYPANEL_WEEKLYPRODUCTION" value="{0} / {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="産業エリアの総利益（ {unit} ）"/>
-    <translation id="TOOL_EXTRACTION_ESTIMATE" value="推定生産量: {0:N0} 台 / {unit}"/>
-    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="最終製品を製造するために使用される資源の価値（ {unit} ）"/>
-    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="工場出荷実績（ {unit} ）"/>
-    <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="{unit} あたりの収入"/>
-    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="資源獲得費用（ {unit} ）"/>
-    <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="製造: {0:N0} / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="コスト: {0} / 競技場 / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="コスト: {0} / コーチ / {unit}"/>
-    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="今年度の卒業生: {0}"/>
-    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="Cost: {0} / 研究員 / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="支出（ {unit} ）"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="コーチ#10;コーチを多く雇うと試合に勝つ確率が上がります。コーチの効果#10;はすぐにはでませんが、1学年度の間、コーチ一人あたりプラス0%から1%の効果があります。"/>
-    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="キャンパスエリアの合計収入（ {unit} ）"/>
-    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="ユニーク施設と大学の競技場の支出（ {unit} ）"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="キャンパスエリアからの収入（ {unit} ）"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="キャンパスエリアからの収入（ {unit} ）"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="産業エリアと水産業の収入（ {unit} ）"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="水産業の収入（ {unit} ）"/>
-    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="産業エリアと水産業の支出（ {unit} ）"/>
-    <translation id="EXPENSES_TT_FISHING" value="水産業支出（ {unit} ）"/>
-    <translation id="AIINFO_FISH_SOLD" value="魚介類販売量: {0} / {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="産業エリアと水産業による収入（ {unit} ）"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="産業エリアと水産業による支出（ {unit} ）"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="水産業による支出（ {unit} ）"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="水産業による収入（ {unit} ）"/>
-    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="産業エリアと水産業による収益（ {unit} ）"/>
-    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="水産業による収益（ {unit} ）"/>
-    <translation id="INFO_HEALTH_CHILDCARE_BIRTHRATE" value="出生率: {0} / {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="1 {unit}あたりの総産業エリア利益"/>
+    <translation id="TOOL_EXTRACTION_ESTIMATE" value="推定抽出量： {0:N0} ユニット / {unit}"/>
+    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="1 {unit}あたりの使用資源額"/>
+    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="1 {unit}あたりの工場生産額"/>
+    <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="過去1 {unit}の収入"/>
+    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="1 {unit}あたりの資源取得費用"/>
+    <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="生産： {0:N0} / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="費用： {0} / アリーナ / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="費用： {0} / コーチ / {unit}"/>
+    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="今学年度の卒業生： {0}"/>
+    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="費用： {0} / スタッフ / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="過去1 {unit}の支出"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="コーチ陣#10;コーチを雇うと勝率が上がります。効果は学年度を通じて徐々に蓄積されます。"/>
+    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="過去1 {unit}の総キャンパスエリア利益"/>
+    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="過去1 {unit}のユニーク施設・競技場支出"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="過去1 {unit}のキャンパスエリア収入"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="過去1 {unit}の産業エリア・漁業収入"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="過去1 {unit}の漁業収入"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="過去1 {unit}の産業エリア・漁業支出"/>
+    <translation id="EXPENSES_TT_FISHING" value="過去1 {unit}の漁業支出"/>
+    <translation id="AIINFO_FISH_SOLD" value="過去1 {unit}の魚販売数： {0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="過去1 {unit}の産業エリア・漁業収入"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="過去1 {unit}の産業エリア・漁業支出"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="過去1 {unit}の漁業支出"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="過去1 {unit}の漁業収入"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="過去1 {unit}の産業エリア・漁業総利益"/>
+    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="過去1 {unit}の漁業総利益"/>
+    <translation id="INFO_HEALTH_CHILDCARE_BIRTHRATE" value="出生率： {0} / {unit}"/>
   </overrides>
 
 </language>

@@ -56,9 +56,5 @@ namespace RealTime.Events
             Citizen.Happiness happiness,
             IRandomizer randomizer,
             ItemClass buildingClass);
-
-
-        /// <summary>Set the city event duration.</summary>
-        internal void SetDuration(float duration);
     }
 }

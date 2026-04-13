@@ -14,7 +14,7 @@ namespace RealTime.Events
     /// <param name="eventManager">An <see cref="IEventManagerConnection"/> reference.</param>
     internal sealed class VanillaEvent(ushort id, float duration, float ticketPrice, IEventManagerConnection eventManager) : CityEventBase
     {
-        private float duration = duration;
+        private readonly float duration = duration;
         private readonly float ticketPrice = ticketPrice;
         private readonly IEventManagerConnection eventManager = eventManager ?? throw new System.ArgumentNullException(nameof(eventManager));
 
@@ -48,9 +48,6 @@ namespace RealTime.Events
             Citizen.Happiness happiness,
             IRandomizer randomizer,
             ItemClass buildingClass) => ticketPrice <= GetCitizenBudgetForEvent(wealth, randomizer);
-
-        /// <summary>Set the city event duration.</summary>
-        public override void SetDuration(float duration) => this.duration = duration;
 
         /// <summary>Calculates the city event duration.</summary>
         /// <returns>This city event duration in hours.</returns>

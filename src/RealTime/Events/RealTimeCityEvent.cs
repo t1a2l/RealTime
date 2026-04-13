@@ -219,9 +219,6 @@ namespace RealTime.Events
             }
         }
 
-        /// <summary>Set the eventTemplate duration.</summary>
-        public override void SetDuration(float duration) => eventTemplate.Duration = duration;
-
         /// <summary>Calculates the city event duration.</summary>
         /// <returns>This city event duration in hours.</returns>
         protected override float GetDuration() => (float)eventTemplate.Duration;

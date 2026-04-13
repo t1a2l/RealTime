@@ -1092,7 +1092,7 @@ namespace RealTime.Patches
                         var newDateTime = AdjustEventStartTime(startDateTime);
 
                         dropDownHour_action.selectedIndex = newDateTime.Hour;
-                        dropDownMinute_action.selectedIndex = newDateTime.Minute;
+                        dropDownMinute_action.selectedIndex = GetMinuteIndex(newDateTime.Minute);
                         dropDownFrequency_action.selectedIndex = eventTimeSchedules[scheduleIndex].Frequency;
                         dropDownAutoOccur_action.selectedIndex = eventTimeSchedules[scheduleIndex].AutoOccur ? 1 : 0;
 
@@ -1396,7 +1396,7 @@ namespace RealTime.Patches
                     var uIDropDownMinute = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
                     var dayOfWeek = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("DayOfWeek");
                     uIDropDownHour.selectedIndex = newDateTime.Hour;
-                    uIDropDownMinute.selectedIndex = newDateTime.Minute;
+                    uIDropDownMinute.selectedIndex = GetMinuteIndex(newDateTime.Minute);
                     dayOfWeek.text = newDayOfWeek;
                 }
                 return false;
@@ -1446,7 +1446,7 @@ namespace RealTime.Patches
                     var uIDropDownMinute = ___m_EventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
                     var dayOfWeek = ___m_EventConfigs.items[scheduleIndex].Find<UILabel>("DayOfWeek");
                     uIDropDownHour.selectedIndex = newDateTime.Hour;
-                    uIDropDownMinute.selectedIndex = newDateTime.Minute;
+                    uIDropDownMinute.selectedIndex = GetMinuteIndex(newDateTime.Minute);
                     dayOfWeek.text = newDayOfWeek;
                 }
                 return false;
@@ -1487,7 +1487,7 @@ namespace RealTime.Patches
                     var uIDropDownHour = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownHour");
                     var uIDropDownMinute = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
                     uIDropDownHour.selectedIndex = newDateTime.Hour;
-                    uIDropDownMinute.selectedIndex = newDateTime.Minute;
+                    uIDropDownMinute.selectedIndex = GetMinuteIndex(newDateTime.Minute);
                 }
             }
 
@@ -1560,11 +1560,13 @@ namespace RealTime.Patches
                 int startDay = scheduleData[scheduleIndex].m_startDay + 1;
                 int startHour = eventTimeSchedules[scheduleIndex].StartHour;
 
+                var uIDropDown = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
                 byte startMinute = eventTimeSchedules[scheduleIndex].StartMinute;
                 byte b = (byte)value;
-                if (startMinute != b)
+                int minute = int.Parse(uIDropDown.items[b]);
+                if (startMinute != minute)
                 {
-                    var startDateTime = new DateTime(year, startMonth, startDay, startHour, b, 0);
+                    var startDateTime = new DateTime(year, startMonth, startDay, startHour, minute, 0);
                     var newDateTime = AdjustEventStartTime(startDateTime);
                     var labelOverlapWarning = eventConfigs.items[scheduleIndex].Find<UILabel>("LabelOverlapWarning");
                     var buttonStartNow = eventConfigs.items[scheduleIndex].Find<UIButton>("ButtonStartNow");
@@ -1578,10 +1580,10 @@ namespace RealTime.Patches
                         labelOverlapWarning.text = "";
                         buttonStartNow.isEnabled = true;
                     }
-                    var uIDropDown = eventConfigs.items[scheduleIndex].Find<UIDropDown>("DropdownMinute");
+                    
                     EventRouteTimeManager.SetEventTimeScheduleMinute(routeID, scheduleIndex, (byte)newDateTime.Minute);
                     RefreshEventSchedule(instance);
-                    uIDropDown.selectedIndex = newDateTime.Minute;
+                    uIDropDown.selectedIndex = GetMinuteIndex(newDateTime.Minute);
                 }
             }
 
@@ -1624,6 +1626,15 @@ namespace RealTime.Patches
                 name?.text = string.Empty;
                 cost?.text = string.Empty;
             }
+
+            private static int GetMinuteIndex(int minute) => minute switch
+            {
+                0 => 0,
+                15 => 1,
+                30 => 2,
+                45 => 3,
+                _ => 0
+            };
 
         }
 

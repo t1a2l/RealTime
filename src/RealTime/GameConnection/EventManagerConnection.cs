@@ -5,6 +5,7 @@ namespace RealTime.GameConnection
     using System;
     using System.Collections.Generic;
     using RealTime.Events;
+    using RealTime.Patches;
     using UnityEngine;
 
     /// <summary>
@@ -129,10 +130,13 @@ namespace RealTime.GameConnection
 
             float duration = eventData.Info.m_eventAI.m_eventDuration;
 
-            if (eventData.Info?.m_eventAI is RaceEventAI && eventData.m_raceEventData != null
-                && eventData.m_raceEventData.m_eventEndFrame > eventData.m_startFrame)
+            if (eventData.Info?.m_eventAI is RaceEventAI raceEventAI && eventData.m_raceEventData != null)
             {
-                duration = (eventData.m_raceEventData.m_eventEndFrame - eventData.m_startFrame) / SimulationManager.DAYTIME_HOUR_TO_FRAME;
+                uint computedEndFrame = raceEventAI is ParadeAI paradeAI ? RaceEventAIPatch.GetParadeEndFrame(paradeAI, ref eventData)
+                    : RaceEventAIPatch.GetRaceEndFrame(ref eventData);
+
+                eventData.m_raceEventData.m_eventEndFrame = computedEndFrame;  // set it!
+                duration = (computedEndFrame - eventData.m_startFrame) / SimulationManager.DAYTIME_HOUR_TO_FRAME;
             }
 
             eventInfo = new VanillaEventInfo(

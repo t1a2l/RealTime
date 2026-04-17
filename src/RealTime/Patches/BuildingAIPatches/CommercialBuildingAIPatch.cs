@@ -12,7 +12,6 @@ namespace RealTime.Patches.BuildingAIPatches
     using RealTime.CustomAI;
     using RealTime.GameConnection;
     using RealTime.Managers;
-    using RealTime.Simulation;
 
     [HarmonyPatch]
     internal static class CommercialBuildingAIPatch
@@ -71,7 +70,7 @@ namespace RealTime.Patches.BuildingAIPatches
 
         [HarmonyPatch(typeof(CommercialBuildingAI), "SimulationStepActive")]
         [HarmonyPrefix]
-        public static bool SimulationStepActivePrefix(ref Building buildingData, ref byte __state)
+        public static void SimulationStepActivePrefix(ref Building buildingData, ref byte __state)
         {
             __state = buildingData.m_outgoingProblemTimer;
             if (buildingData.m_customBuffer2 > 0)
@@ -80,8 +79,6 @@ namespace RealTime.Patches.BuildingAIPatches
                 // In that state, no visits are possible anymore, so the building gets stuck
                 --buildingData.m_customBuffer2;
             }
-
-            return true;
         }
 
         [HarmonyPatch(typeof(CommercialBuildingAI), "SimulationStepActive")]

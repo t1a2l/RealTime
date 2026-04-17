@@ -494,7 +494,8 @@ namespace RealTime.GameConnection
         }
 
         /// <summary>
-        /// Determines whether the building with specified ID is the main building of an Industrial or a Campus area.
+        /// Determines whether the building with specified ID is the main building of an Airport area, a Campus area, an Industrial
+        /// area, a park area or a race start area.
         /// </summary>
         /// <param name="buildingId">The building ID to check.</param>
         /// <returns>
@@ -510,7 +511,8 @@ namespace RealTime.GameConnection
 
             var buildingInfo = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info;
             var buildinAI = buildingInfo?.m_buildingAI;
-            return buildinAI is MainCampusBuildingAI || buildinAI is MainIndustryBuildingAI;
+            return buildinAI is AirportEntranceAI || buildinAI is MainCampusBuildingAI || buildinAI is MainIndustryBuildingAI ||
+                    buildinAI is ParkGateAI || buildinAI is RaceStartBuildingAI;
         }
 
         /// <summary>

@@ -231,7 +231,7 @@ namespace RealTime.Managers
             bool OpenAtNight = IsBuildingActiveAtNight(service, sub_service, level);
             bool OpenOnWeekends = IsBuildingActiveOnWeekend(service, sub_service, level);
 
-            if (BuildingManagerConnection.IsHotel(buildingID) || BuildingManagerConnection.IsAreaMainBuilding(buildingID)
+            if (BuildingManagerConnection.IsHotel(buildingID) || BuildingManagerConnection.IsAreaMainBuilding(buildingID) && ai is not ParkGateAI
                 || BuildingManagerConnection.IsWarehouseBuilding(buildingID) || BuildingManagerConnection.IsUniqueFactoryBuilding(buildingID))
             {
                 OpenAtNight = true;
@@ -365,7 +365,7 @@ namespace RealTime.Managers
                 // area main building works 24/7, universities work 2 shifts for night school support
                 case ItemClass.Service.PlayerEducation:
                 case ItemClass.Service.Education when level == ItemClass.Level.Level3:
-                    if (BuildingManagerConnection.IsAreaMainBuilding(buildingId) && (workTime.WorkShifts != 3 || !workTime.WorkAtNight || !workTime.WorkAtWeekands))
+                    if (BuildingManagerConnection.IsAreaMainBuilding(buildingId) && ai is not ParkGateAI && (workTime.WorkShifts != 3 || !workTime.WorkAtNight || !workTime.WorkAtWeekands))
                     {
                         workTime.WorkShifts = 3;
                         workTime.WorkAtNight = true;
@@ -375,7 +375,7 @@ namespace RealTime.Managers
                         workTime.IsDefault = true;
                         SetBuildingWorkTime(buildingId, workTime);
                     }
-                    else if (!BuildingManagerConnection.IsAreaMainBuilding(buildingId) && workTime.WorkShifts != 2)
+                    else if (!BuildingManagerConnection.IsAreaMainBuilding(buildingId) && ai is not ParkGateAI && workTime.WorkShifts != 2)
                     {
                         workTime.WorkShifts = 2;
                         workTime.WorkAtNight = false;
@@ -403,7 +403,7 @@ namespace RealTime.Managers
 
                 // open or close farming or forestry buildings according to the advanced automation policy, set 24/7 for main buildings
                 case ItemClass.Service.PlayerIndustry:
-                    if (BuildingManagerConnection.IsAreaMainBuilding(buildingId) && (workTime.WorkShifts != 3 || !workTime.WorkAtNight || !workTime.WorkAtWeekands))
+                    if (BuildingManagerConnection.IsAreaMainBuilding(buildingId) && ai is not ParkGateAI && (workTime.WorkShifts != 3 || !workTime.WorkAtNight || !workTime.WorkAtWeekands))
                     {
                         workTime.WorkShifts = 3;
                         workTime.WorkAtNight = true;
@@ -413,7 +413,7 @@ namespace RealTime.Managers
                         workTime.IsDefault = true;
                         SetBuildingWorkTime(buildingId, workTime);
                     }
-                    else if (!BuildingManagerConnection.IsAreaMainBuilding(buildingId) && workTime.IsDefault && workTime.WorkShifts != 3 && (BuildingManagerConnection.IsWarehouseBuilding(buildingId) || BuildingManagerConnection.IsUniqueFactoryBuilding(buildingId)))
+                    else if (!BuildingManagerConnection.IsAreaMainBuilding(buildingId) && ai is not ParkGateAI && workTime.IsDefault && workTime.WorkShifts != 3 && (BuildingManagerConnection.IsWarehouseBuilding(buildingId) || BuildingManagerConnection.IsUniqueFactoryBuilding(buildingId)))
                     {
                         workTime.WorkShifts = 3;
                         workTime.WorkAtNight = true;
@@ -422,7 +422,7 @@ namespace RealTime.Managers
                         workTime.HasContinuousWorkShift = false;
                         SetBuildingWorkTime(buildingId, workTime);
                     }
-                    else if (!BuildingManagerConnection.IsAreaMainBuilding(buildingId) && workTime.IsDefault && !workTime.IgnorePolicy && (subService == ItemClass.SubService.PlayerIndustryFarming || subService == ItemClass.SubService.PlayerIndustryForestry))
+                    else if (!BuildingManagerConnection.IsAreaMainBuilding(buildingId) && ai is not ParkGateAI && workTime.IsDefault && !workTime.IgnorePolicy && (subService == ItemClass.SubService.PlayerIndustryFarming || subService == ItemClass.SubService.PlayerIndustryForestry))
                     {
                         bool IsEssential = BuildingManagerConnection.IsEssentialIndustryBuilding(buildingId);
                         bool need_update1 = false;

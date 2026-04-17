@@ -4,7 +4,6 @@ namespace RealTime.Patches.BuildingAIPatches
     using System.Runtime.CompilerServices;
     using ColossalFramework;
     using HarmonyLib;
-    using RealTime.Core;
     using RealTime.CustomAI;
     using RealTime.GameConnection;
     using RealTime.Managers;
@@ -15,61 +14,6 @@ namespace RealTime.Patches.BuildingAIPatches
     {
         /// <summary>Gets or sets the custom AI object for buildings.</summary>
         public static RealTimeBuildingAI RealTimeBuildingAI { get; set; }
-
-        public struct Accumulator
-        {
-            public ushort Garbage;
-            public ushort Mail;
-        }
-
-        [HarmonyPatch(typeof(CommonBuildingAI), "HandleCommonConsumption",
-                [typeof(ushort), typeof(Building), typeof(Building.Frame), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(DistrictPolicies.Services), typeof(ushort)],
-                [ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal])]
-        [HarmonyPrefix]
-        public static void HandleCommonConsumptionPrefix(ushort buildingID, ref Building data, ref Building.Frame frameData, ref int electricityConsumption, ref int heatingConsumption, ref int waterConsumption, ref int sewageAccumulation, ref int garbageAccumulation, ref int mailAccumulation, int maxMail, DistrictPolicies.Services policies, ushort mainBuildingID, out Accumulator __state)
-        {
-            __state = new Accumulator
-            {
-                Garbage = data.m_garbageBuffer,
-                Mail = data.m_mailBuffer
-            };
-
-            // NEW: Detect Race Day / complex buildings and apply stronger slowdown
-            if (IsComplexBuilding(buildingID, ref data))
-            {
-                float complexMultiplier = 0.1f; // Extra slowdown for complexes
-
-                garbageAccumulation = (int)(garbageAccumulation * RealTimeMod.configProvider.Configuration.GarbageSlowDown * complexMultiplier);
-
-                mailAccumulation = (int)(mailAccumulation * RealTimeMod.configProvider.Configuration.MailSlowDown * complexMultiplier);
-            }
-        }
-
-        [HarmonyPatch(typeof(CommonBuildingAI), "HandleCommonConsumption",
-                [typeof(ushort), typeof(Building), typeof(Building.Frame), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(DistrictPolicies.Services), typeof(ushort)],
-                [ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Ref, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal])]
-        [HarmonyPostfix]
-        public static void HandleCommonConsumptionPostfix(ushort buildingID, ref Building data, ref Building.Frame frameData, ref int electricityConsumption, ref int heatingConsumption, ref int waterConsumption, ref int sewageAccumulation, ref int garbageAccumulation, ref int mailAccumulation, int maxMail, DistrictPolicies.Services policies, ushort mainBuildingID, Accumulator __state)
-        {
-            ResourceSlowdownManager.ApplyGarbageSlowdown(buildingID, ref data, __state.Garbage);
-            ResourceSlowdownManager.ApplyMailSlowdown(buildingID, ref data, __state.Mail);
-        }
-
-        [HarmonyPatch(typeof(CommonBuildingAI), "ModifyMaterialBuffer")]
-        [HarmonyPrefix]
-        public static void ModifyMaterialBufferPrefix(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int amountDelta)
-        {
-            // Only intercept garbage accumulation (positive delta)
-            if (material == TransferManager.TransferReason.Garbage && amountDelta > 0)
-            {
-                ResourceSlowdownManager.ModifyGarbageMaterialBuffer(buildingID, ref amountDelta);
-            }
-            // Only intercept mail accumulation (positive delta)
-            else if (material == TransferManager.TransferReason.Mail && amountDelta > 0)
-            {
-                ResourceSlowdownManager.ModifyMailMaterialBuffer(buildingID, ref amountDelta);
-            }
-        }
 
         [HarmonyPatch(typeof(CommonBuildingAI), "GetColor")]
         [HarmonyPostfix]
@@ -259,24 +203,6 @@ namespace RealTime.Patches.BuildingAIPatches
             }
             ResourceSlowdownManager.GarbageAccumulator[buildingID] = 0f;
             ResourceSlowdownManager.MailAccumulator[buildingID] = 0f;
-        }
-
-
-        private static bool IsComplexBuilding(ushort buildingID, ref Building data)
-        {
-            if (data.Info.m_buildingAI is RaceStartBuildingAI ||
-                data.Info.m_buildingAI is MainCampusBuildingAI ||
-                data.Info.m_buildingAI is MainIndustryBuildingAI ||
-                data.Info.m_buildingAI is AirportEntranceAI ||
-                data.Info.m_buildingAI is ParkGateAI ||
-                data.m_eventIndex != 0) // Event buildings
-            {
-                return true;
-            }
-
-            // Check for building complexes (mainBuilding != 0 && mainBuilding != buildingID)
-            // This catches recursive calls
-            return data.m_parentBuilding != 0 || data.m_children > 0;
         }
     }
 }

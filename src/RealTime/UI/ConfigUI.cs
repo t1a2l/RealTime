@@ -367,11 +367,11 @@ namespace RealTime.UI
                 ClearAllEventsFun();
             });
 
-        private void ResetBuildingsGarbageBuffer() => ResourceSlowdownManager.ResetAllGarbage();
+        private void ResetBuildingsGarbageBuffer() => ResetAll("Garbage");
 
-        private void ResetBuildingsMailBuffer() => ResourceSlowdownManager.ResetAllMail();
+        private void ResetBuildingsMailBuffer() => ResetAll("Mail");
 
-        private void ResetBuildingsCrimeBuffer() => ResourceSlowdownManager.ResetAllCrime();
+        private void ResetBuildingsCrimeBuffer() => ResetAll("Crime");
 
         private void ConfigProviderChanged(object sender, EventArgs e) => RefreshAllItems();
 
@@ -407,6 +407,31 @@ namespace RealTime.UI
             }
 
             RealTimeEventManager?.ClearAllActiveAndUpcomingEvents();
+        }
+
+        private void ResetAll(string type)
+        {
+            var buildingManager = Singleton<BuildingManager>.instance;
+            var buildings = buildingManager.m_buildings.m_buffer;
+
+            for (ushort i = 0; i < buildings.Length; i++)
+            {
+                if ((buildings[i].m_flags & Building.Flags.Created) != 0)
+                {
+                    switch (type)
+                    {
+                        case "Garbage":
+                            buildings[i].m_garbageBuffer = 0;
+                            break;
+                        case "Mail":
+                            buildings[i].m_mailBuffer = 0;
+                            break;
+                        case "Crime":
+                            buildings[i].m_crimeBuffer = 0;
+                            break;
+                    }
+                }
+            }
         }
     }
 }

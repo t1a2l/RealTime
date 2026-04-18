@@ -70,13 +70,6 @@ namespace RealTime.Patches
             {
                 mainBuildingId = GetMainBuildingId(ref data);
             }
-            else
-            {
-                if (data.Info.GetAI() is RaceStartBuildingAI)
-                {
-                    Debug.Log("Race start building garbage before: " + data.m_garbageBuffer);
-                }
-            }
 
             if (mainBuildingId != 0)
             {
@@ -97,17 +90,11 @@ namespace RealTime.Patches
 
         public static void Postfix(ushort buildingID, ref Building data, Accumulator __state)
         {
-            // Always slow the building itself
-            ResourceSlowdownManager.ApplyGarbageSlowdown(buildingID, ref data, __state.Garbage);
-            ResourceSlowdownManager.ApplyMailSlowdown(buildingID, ref data, __state.Mail);
-
-            if (data.Info.GetAI() is AirportEntranceAI || data.Info.GetAI() is RaceStartBuildingAI)
-            {
-               return;
-            }
-
+            // no main building slow building — apply slowdown to this building directly
             if (__state.MainBuildingId == 0)
             {
+                ResourceSlowdownManager.ApplyGarbageSlowdown(buildingID, ref data, __state.Garbage);
+                ResourceSlowdownManager.ApplyMailSlowdown(buildingID, ref data, __state.Mail);
                 return;
             }
 
@@ -115,10 +102,20 @@ namespace RealTime.Patches
 
             float multiplier;
 
-            if (mainBuildingData.Info.GetAI() is MainCampusBuildingAI)
+            if (mainBuildingData.Info?.GetAI() is RaceStartBuildingAI)
+            {
+                return;
+            }
+
+            if (mainBuildingData.Info?.GetAI() is MainCampusBuildingAI)
             {
                 // Campus main building — strongest suppression
                 multiplier = 0.02f;
+            }
+            else if (mainBuildingData.Info?.GetAI() is AirportEntranceAI)
+            {
+                // Airport entrance — strongest suppression
+                multiplier = 0.001f;
             }
             else
             {

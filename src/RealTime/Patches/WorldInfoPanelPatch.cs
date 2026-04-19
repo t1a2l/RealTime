@@ -1286,11 +1286,16 @@ namespace RealTime.Patches
                             {
                                 return;
                             }
-                            var candidate = AdjustEventStartTime(Singleton<SimulationManager>.instance.m_currentGameTime);
+
+                            var now = Singleton<SimulationManager>.instance.m_currentGameTime;
+                            var eventInfo = m_allowedEventInfos[0];
+
+                            var candidate = now.AddHours(RealTimeConfig.EventPreparationDuration);
+                            candidate = AdjustEventStartTime(candidate);
                             int retries = 0;
                             while (HasScheduleConflict(m_eventRouteID, scheduleCount, candidate) && retries++ < 32)
                             {
-                                candidate = candidate.AddHours(8);
+                                candidate = candidate.AddDays(1);
                                 candidate = AdjustEventStartTime(candidate);
                             }
                             buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_scheduleID = ++Singleton<EventManager>.instance.m_eventScheduleCount;
@@ -1491,44 +1496,6 @@ namespace RealTime.Patches
                 }
             }
 
-            private static DateTime AdjustEventStartTime(DateTime eventStartTime)
-            {
-                var result = eventStartTime;
-
-                while (true)
-                {
-                    float earliestHour;
-                    float latestHour;
-
-                    if (RealTimeConfig.IsWeekendEnabled && result.IsWeekend())
-                    {
-                        earliestHour = RealTimeConfig.EarliestHourEventStartWeekend;
-                        latestHour = RealTimeConfig.LatestHourEventStartWeekend;
-                    }
-                    else
-                    {
-                        earliestHour = RealTimeConfig.EarliestHourEventStartWeekday;
-                        latestHour = RealTimeConfig.LatestHourEventStartWeekday;
-                    }
-
-                    var earliest = TimeSpan.FromHours(earliestHour);
-                    var latest = TimeSpan.FromHours(latestHour);
-                    var current = result.TimeOfDay;
-
-                    if (current < earliest)
-                    {
-                        return result.Date + earliest;
-                    }
-
-                    if (current <= latest)
-                    {
-                        return result;
-                    }
-
-                    result = result.Date.AddDays(1);
-                }
-            }
-
             private static void OnScheduleFrequencyChanged(int scheduleIndex, int value, RaceEventWorldInfoPanel instance)
             {
                 ushort routeID = Traverse.Create(instance).Field("m_eventRouteID").GetValue<ushort>();
@@ -1636,6 +1603,44 @@ namespace RealTime.Patches
                 _ => 0
             };
 
+        }
+
+        public static DateTime AdjustEventStartTime(DateTime eventStartTime)
+        {
+            var result = eventStartTime;
+
+            while (true)
+            {
+                float earliestHour;
+                float latestHour;
+
+                if (RealTimeConfig.IsWeekendEnabled && result.IsWeekend())
+                {
+                    earliestHour = RealTimeConfig.EarliestHourEventStartWeekend;
+                    latestHour = RealTimeConfig.LatestHourEventStartWeekend;
+                }
+                else
+                {
+                    earliestHour = RealTimeConfig.EarliestHourEventStartWeekday;
+                    latestHour = RealTimeConfig.LatestHourEventStartWeekday;
+                }
+
+                var earliest = TimeSpan.FromHours(earliestHour);
+                var latest = TimeSpan.FromHours(latestHour);
+                var current = result.TimeOfDay;
+
+                if (current < earliest)
+                {
+                    return result.Date + earliest;
+                }
+
+                if (current <= latest)
+                {
+                    return result;
+                }
+
+                result = result.Date.AddDays(1);
+            }
         }
 
         public static bool HasScheduleConflict(ushort routeID, int editedScheduleIndex, DateTime candidateStart)

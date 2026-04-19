@@ -157,8 +157,9 @@
   <translation id="5Services" value="サービス" />
   <translation id="0Garbage" value="ゴミ収集の稼働時間" />
   <translation id="1Mail" value="郵便サービスの稼働時間" />
-  <translation id="2ParkMaintainace" value="公園の維持管理の稼働時間" />
-  <translation id="3MaintenanceSnow" value="維持管理および雪かきの稼働時間" />
+  <translation id="2ParkMaintenance" value="公園メンテナンスの稼働時間" />
+  <translation id="3RoadMaintenance" value="道路メンテナンスの稼働時間" />
+  <translation id="4Snow" value="除雪の稼働時間" />
   
   <translation id="GarbageResidentialStartHour" value="住宅区：開始" />
   <translation id="GarbageResidentialStartHourTooltip" value="住宅区でゴミ収集車が活動を開始する時間" />
@@ -207,27 +208,48 @@
   <translation id="ParkMaintenanceEndHour" value="公園管理：終了" />
   <translation id="ParkMaintenanceEndHourTooltip" value="公園の維持管理サービスが活動を終了する時間" />
 
-  <translation id="MaintenanceSnowRoadsSmallStartHour" value="小規模道路：開始" />
-  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="小規模道路で維持管理・除雪を開始する時間" />
-  <translation id="MaintenanceSnowRoadsSmallEndHour" value="小規模道路：終了" />
-  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="小規模道路で維持管理・除雪を終了する時間" />
-  <translation id="MaintenanceSnowRoadsMediumStartHour" value="中規模道路：開始" />
-  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="中規模道路で維持管理・除雪を開始する時間" />
-  <translation id="MaintenanceSnowRoadsMediumEndHour" value="中規模道路：終了" />
-  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="中規模道路で維持管理・除雪を終了する時間" />
-  <translation id="MaintenanceSnowRoadsLargeStartHour" value="大規模道路：開始" />
-  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="大規模道路で維持管理・除雪を開始する時間" />
-  <translation id="MaintenanceSnowRoadsLargeEndHour" value="大規模道路：終了" />
-  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="大規模道路で維持管理・除雪を終了する時間" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="高速道路：開始" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="高速道路で維持管理・除雪を開始する時間" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="高速道路：終了" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="高速道路で維持管理・除雪を終了する時間" />
-  <translation id="MaintenanceSnowRoadsOtherStartHour" value="その他の道路：開始" />
-  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="その他の道路で維持管理・除雪を開始する時間" />
-  <translation id="MaintenanceSnowRoadsOtherEndHour" value="その他の道路：終了" />
-  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="その他の道路で維持管理・除雪を終了する時間" />
-
+  <translation id="RoadMaintenanceRoadsSmallStartHour" value="小規模道路メンテナンス開始時間" />
+  <translation id="RoadMaintenanceRoadsSmallStartHourTooltip" value="小規模道路のメンテナンスサービスが活動を開始する時間" />
+  <translation id="RoadMaintenanceRoadsSmallEndHour" value="小規模道路メンテナンス終了時間" />
+  <translation id="RoadMaintenanceRoadsSmallEndHourTooltip" value="小規模道路のメンテナンスサービスが活動を終了する時間" />
+  <translation id="RoadMaintenanceRoadsMediumStartHour" value="中規模道路メンテナンス開始時間" />
+  <translation id="RoadMaintenanceRoadsMediumStartHourTooltip" value="中規模道路のメンテナンスサービスが活動を開始する時間" />
+  <translation id="RoadMaintenanceRoadsMediumEndHour" value="中規模道路メンテナンス終了時間" />
+  <translation id="RoadMaintenanceRoadsMediumEndHourTooltip" value="中規模道路のメンテナンスサービスが活動を終了する時間" />
+  <translation id="RoadMaintenanceRoadsLargeStartHour" value="大規模道路メンテナンス開始時間" />
+  <translation id="RoadMaintenanceRoadsLargeStartHourTooltip" value="大規模道路のメンテナンスサービスが活動を開始する時間" />
+  <translation id="RoadMaintenanceRoadsLargeEndHour" value="大規模道路メンテナンス終了時間" />
+  <translation id="RoadMaintenanceRoadsLargeEndHourTooltip" value="大規模道路のメンテナンスサービスが活動を終了する時間" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHour" value="高速道路メンテナンス開始時間" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHourTooltip" value="高速道路のメンテナンスサービスが活動を開始する時間" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHour" value="高速道路メンテナンス終了時間" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHourTooltip" value="高速道路のメンテナンスサービスが活動を終了する時間" />
+  <translation id="RoadMaintenanceRoadsOtherStartHour" value="その他の道路メンテナンス開始時間" />
+  <translation id="RoadMaintenanceRoadsOtherStartHourTooltip" value="その他の道路のメンテナンスサービスが活動を開始する時間" />
+  <translation id="RoadMaintenanceRoadsOtherEndHour" value="その他の道路メンテナンス終了時間" />
+  <translation id="RoadMaintenanceRoadsOtherEndHourTooltip" value="その他の道路のメンテナンスサービスが活動を終了する時間" />
+  
+  <translation id="SnowRoadsSmallStartHour" value="小規模道路の除雪開始時間" />
+  <translation id="SnowRoadsSmallStartHourTooltip" value="小規模道路の除雪サービスが活動を開始する時間" />
+  <translation id="SnowRoadsSmallEndHour" value="小規模道路の除雪終了時間" />
+  <translation id="SnowRoadsSmallEndHourTooltip" value="小規模道路の除雪サービスが活動を終了する時間" />
+  <translation id="SnowRoadsMediumStartHour" value="中規模道路の除雪開始時間" />
+  <translation id="SnowRoadsMediumStartHourTooltip" value="中規模道路の除雪サービスが活動を開始する時間" />
+  <translation id="SnowRoadsMediumEndHour" value="中規模道路の除雪終了時間" />
+  <translation id="SnowRoadsMediumEndHourTooltip" value="中規模道路の除雪サービスが活動を終了する時間" />
+  <translation id="SnowRoadsLargeStartHour" value="大規模道路の除雪開始時間" />
+  <translation id="SnowRoadsLargeStartHourTooltip" value="大規模道路の除雪サービスが活動を開始する時間" />
+  <translation id="SnowRoadsLargeEndHour" value="大規模道路の除雪終了時間" />
+  <translation id="SnowRoadsLargeEndHourTooltip" value="大規模道路の除雪サービスが活動を終了する時間" />
+  <translation id="SnowRoadsHighwayStartHour" value="高速道路の除雪開始時間" />
+  <translation id="SnowRoadsHighwayStartHourTooltip" value="高速道路の除雪サービスが活動を開始する時間" />
+  <translation id="SnowRoadsHighwayEndHour" value="高速道路の除雪終了時間" />
+  <translation id="SnowRoadsHighwayEndHourTooltip" value="高速道路の除雪サービスが活動を終了する時間" />
+  <translation id="SnowRoadsOtherStartHour" value="その他の道路の除雪開始時間" />
+  <translation id="SnowRoadsOtherStartHourTooltip" value="その他の道路の除雪サービスが活動を開始する時間" />
+  <translation id="SnowRoadsOtherEndHour" value="その他の道路の除雪終了時間" />
+  <translation id="SnowRoadsOtherEndHourTooltip" value="その他の道路の除雪サービスが活動を終了する時間" />
+  
   <translation id="ScheduledAction" value="現在の予定" />
   <translation id="CurrentState" value="状態" />
   <translation id="NextScheduledAction" value="予定終了まで" />

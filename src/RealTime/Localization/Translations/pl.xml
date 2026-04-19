@@ -157,8 +157,9 @@
   <translation id="5Services" value="Usługi" />
   <translation id="0Garbage" value="Godziny pracy usług wywozu śmieci" />
   <translation id="1Mail" value="Godziny pracy usług pocztowych" />
-  <translation id="2ParkMaintainace" value="Godziny pracy usług utrzymania parków" />
-  <translation id="3MaintenanceSnow" value="Godziny pracy usług utrzymania i odśnieżania" />
+  <translation id="2ParkMaintenance" value="Godziny pracy usług utrzymania parków" />
+  <translation id="3RoadMaintenance" value="Godziny pracy usług utrzymania dróg" />
+  <translation id="4Snow" value="Godziny pracy usług odśnieżania" />
   
   <translation id="GarbageResidentialStartHour" value="Strefa mieszkalna: Start" />
   <translation id="GarbageResidentialStartHourTooltip" value="Godzina rozpoczęcia pracy śmieciarek w strefach mieszkalnych" />
@@ -207,26 +208,47 @@
   <translation id="ParkMaintenanceEndHour" value="Utrzymanie parków: Koniec" />
   <translation id="ParkMaintenanceEndHourTooltip" value="Godzina zakończenia usług utrzymania parków" />
 
-  <translation id="MaintenanceSnowRoadsSmallStartHour" value="Małe drogi: Start" />
-  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="Godzina rozpoczęcia utrzymania na małych drogach" />
-  <translation id="MaintenanceSnowRoadsSmallEndHour" value="Małe drogi: Koniec" />
-  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="Godzina zakończenia utrzymania na małych drogach" />
-  <translation id="MaintenanceSnowRoadsMediumStartHour" value="Średnie drogi: Start" />
-  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="Godzina rozpoczęcia utrzymania na średnich drogach" />
-  <translation id="MaintenanceSnowRoadsMediumEndHour" value="Średnie drogi: Koniec" />
-  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="Godzina zakończenia utrzymania na średnich drogach" />
-  <translation id="MaintenanceSnowRoadsLargeStartHour" value="Duże drogi: Start" />
-  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="Godzina rozpoczęcia utrzymania na dużych drogach" />
-  <translation id="MaintenanceSnowRoadsLargeEndHour" value="Duże drogi: Koniec" />
-  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="Godzina zakończenia utrzymania na dużych drogach" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="Autostrady: Start" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="Godzina rozpoczęcia utrzymania na autostradach" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="Autostrady: Koniec" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="Godzina zakończenia utrzymania na autostradach" />
-  <translation id="MaintenanceSnowRoadsOtherStartHour" value="Inne drogi: Start" />
-  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="Godzina rozpoczęcia utrzymania na pozostałych typach dróg" />
-  <translation id="MaintenanceSnowRoadsOtherEndHour" value="Inne drogi: Koniec" />
-  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="Godzina zakończenia utrzymania na pozostałych typach dróg" />
+  <translation id="RoadMaintenanceRoadsSmallStartHour" value="Utrzymanie dróg (Małe): Start" />
+  <translation id="RoadMaintenanceRoadsSmallStartHourTooltip" value="Godzina rozpoczęcia usług utrzymania dróg dla małych dróg" />
+  <translation id="RoadMaintenanceRoadsSmallEndHour" value="Utrzymanie dróg (Małe): Koniec" />
+  <translation id="RoadMaintenanceRoadsSmallEndHourTooltip" value="Godzina zakończenia usług utrzymania dróg dla małych dróg" />
+  <translation id="RoadMaintenanceRoadsMediumStartHour" value="Utrzymanie dróg (Średnie): Start" />
+  <translation id="RoadMaintenanceRoadsMediumStartHourTooltip" value="Godzina rozpoczęcia usług utrzymania dróg dla średnich dróg" />
+  <translation id="RoadMaintenanceRoadsMediumEndHour" value="Utrzymanie dróg (Średnie): Koniec" />
+  <translation id="RoadMaintenanceRoadsMediumEndHourTooltip" value="Godzina zakończenia usług utrzymania dróg dla średnich dróg" />
+  <translation id="RoadMaintenanceRoadsLargeStartHour" value="Utrzymanie dróg (Duże): Start" />
+  <translation id="RoadMaintenanceRoadsLargeStartHourTooltip" value="Godzina rozpoczęcia usług utrzymania dróg dla dużych dróg" />
+  <translation id="RoadMaintenanceRoadsLargeEndHour" value="Utrzymanie dróg (Duże): Koniec" />
+  <translation id="RoadMaintenanceRoadsLargeEndHourTooltip" value="Godzina zakończenia usług utrzymania dróg dla dużych dróg" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHour" value="Utrzymanie dróg (Autostrady): Start" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHourTooltip" value="Godzina rozpoczęcia usług utrzymania dróg dla autostrad" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHour" value="Utrzymanie dróg (Autostrady): Koniec" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHourTooltip" value="Godzina zakończenia usług utrzymania dróg dla autostrad" />
+  <translation id="RoadMaintenanceRoadsOtherStartHour" value="Utrzymanie dróg (Inne): Start" />
+  <translation id="RoadMaintenanceRoadsOtherStartHourTooltip" value="Godzina rozpoczęcia usług utrzymania dróg dla innych dróg" />
+  <translation id="RoadMaintenanceRoadsOtherEndHour" value="Utrzymanie dróg (Inne): Koniec" />
+  <translation id="RoadMaintenanceRoadsOtherEndHourTooltip" value="Godzina zakończenia usług utrzymania dróg dla innych dróg" />
+  
+  <translation id="SnowRoadsSmallStartHour" value="Odśnieżanie dróg (Małe): Start" />
+  <translation id="SnowRoadsSmallStartHourTooltip" value="Godzina rozpoczęcia usług odśnieżania dla małych dróg" />
+  <translation id="SnowRoadsSmallEndHour" value="Odśnieżanie dróg (Małe): Koniec" />
+  <translation id="SnowRoadsSmallEndHourTooltip" value="Godzina zakończenia usług odśnieżania dla małych dróg" />
+  <translation id="SnowRoadsMediumStartHour" value="Odśnieżanie dróg (Średnie): Start" />
+  <translation id="SnowRoadsMediumStartHourTooltip" value="Godzina rozpoczęcia usług odśnieżania dla średnich dróg" />
+  <translation id="SnowRoadsMediumEndHour" value="Odśnieżanie dróg (Średnie): Koniec" />
+  <translation id="SnowRoadsMediumEndHourTooltip" value="Godzina zakończenia usług odśnieżania dla średnich dróg" />
+  <translation id="SnowRoadsLargeStartHour" value="Odśnieżanie dróg (Duże): Start" />
+  <translation id="SnowRoadsLargeStartHourTooltip" value="Godzina rozpoczęcia usług odśnieżania dla dużych dróg" />
+  <translation id="SnowRoadsLargeEndHour" value="Odśnieżanie dróg (Duże): Koniec" />
+  <translation id="SnowRoadsLargeEndHourTooltip" value="Godzina zakończenia usług odśnieżania dla dużych dróg" />
+  <translation id="SnowRoadsHighwayStartHour" value="Odśnieżanie dróg (Autostrady): Start" />
+  <translation id="SnowRoadsHighwayStartHourTooltip" value="Godzina rozpoczęcia usług odśnieżania dla autostrad" />
+  <translation id="SnowRoadsHighwayEndHour" value="Odśnieżanie dróg (Autostrady): Koniec" />
+  <translation id="SnowRoadsHighwayEndHourTooltip" value="Godzina zakończenia usług odśnieżania dla autostrad" />
+  <translation id="SnowRoadsOtherStartHour" value="Odśnieżanie dróg (Inne): Start" />
+  <translation id="SnowRoadsOtherStartHourTooltip" value="Godzina rozpoczęcia usług odśnieżania dla innych dróg" />
+  <translation id="SnowRoadsOtherEndHour" value="Odśnieżanie dróg (Inne): Koniec" />
+  <translation id="SnowRoadsOtherEndHourTooltip" value="Godzina zakończenia usług odśnieżania dla innych dróg" />
 
   <translation id="ScheduledAction" value="Obecnie" />
   <translation id="CurrentState" value="Stan" />

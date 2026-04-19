@@ -556,72 +556,142 @@ namespace RealTime.Config
         /// <summary>
         /// Gets or sets the daytime hour when the maintenance and snow service starts for small roads.
         /// </summary>
-        [ConfigItem("5Services", "3MaintenanceSnow", 0)]
+        [ConfigItem("5Services", "3RoadMaintenance", 0)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
-        public float MaintenanceSnowRoadsSmallStartHour { get; set; }
+        public float RoadMaintenanceRoadsSmallStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the maintenance and snow service ends for small roads.
+        /// Gets or sets the daytime hour when the road maintenance service ends for small roads.
         /// </summary>
-        [ConfigItem("5Services", "3MaintenanceSnow", 1)]
+        [ConfigItem("5Services", "3RoadMaintenance", 1)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
-        public float MaintenanceSnowRoadsSmallEndHour { get; set; }
+        public float RoadMaintenanceRoadsSmallEndHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the maintenance and snow service starts for medium roads.
+        /// Gets or sets the daytime hour when the road maintenance service starts for medium roads.
         /// </summary>
-        [ConfigItem("5Services", "3MaintenanceSnow", 2)]
+        [ConfigItem("5Services", "3RoadMaintenance", 2)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
-        public float MaintenanceSnowRoadsMediumStartHour { get; set; }
+        public float RoadMaintenanceRoadsMediumStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the maintenance and snow service ends for medium roads.
+        /// Gets or sets the daytime hour when the road maintenance service ends for medium roads.
         /// </summary>
-        [ConfigItem("5Services", "3MaintenanceSnow", 3)]
+        [ConfigItem("5Services", "3RoadMaintenance", 3)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
-        public float MaintenanceSnowRoadsMediumEndHour { get; set; }
+        public float RoadMaintenanceRoadsMediumEndHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the maintenance and snow service starts for large roads.
+        /// Gets or sets the daytime hour when the road maintenance service starts for large roads.
         /// </summary>
-        [ConfigItem("5Services", "3MaintenanceSnow", 4)]
+        [ConfigItem("5Services", "3RoadMaintenance", 4)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
-        public float MaintenanceSnowRoadsLargeStartHour { get; set; }
+        public float RoadMaintenanceRoadsLargeStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the maintenance and snow service ends for large roads.
+        /// Gets or sets the daytime hour when the road maintenance service ends for large roads.
         /// </summary>
-        [ConfigItem("5Services", "3MaintenanceSnow", 5)]
+        [ConfigItem("5Services", "3RoadMaintenance", 5)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
-        public float MaintenanceSnowRoadsLargeEndHour { get; set; }
+        public float RoadMaintenanceRoadsLargeEndHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the maintenance and snow service starts for highway roads.
+        /// Gets or sets the daytime hour when the road maintenance service starts for highway roads.
         /// </summary>
-        [ConfigItem("5Services", "3MaintenanceSnow", 6)]
+        [ConfigItem("5Services", "3RoadMaintenance", 6)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
-        public float MaintenanceSnowRoadsHighwayStartHour { get; set; }
+        public float RoadMaintenanceRoadsHighwayStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the maintenance and snow service ends for highway roads.
+        /// Gets or sets the daytime hour when the road maintenance service ends for highway roads.
         /// </summary>
-        [ConfigItem("5Services", "3MaintenanceSnow", 7)]
+        [ConfigItem("5Services", "3RoadMaintenance", 7)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
-        public float MaintenanceSnowRoadsHighwayEndHour { get; set; }
+        public float RoadMaintenanceRoadsHighwayEndHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the maintenance and snow service starts for other roads.
+        /// Gets or sets the daytime hour when the road maintenance service starts for other roads.
         /// </summary>
-        [ConfigItem("5Services", "3MaintenanceSnow", 8)]
+        [ConfigItem("5Services", "3RoadMaintenance", 8)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
-        public float MaintenanceSnowRoadsOtherStartHour { get; set; }
+        public float RoadMaintenanceRoadsOtherStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the maintenance and snow service ends for other roads.
+        /// Gets or sets the daytime hour when the road maintenance service ends for other roads.
         /// </summary>
-        [ConfigItem("5Services", "3MaintenanceSnow", 9)]
+        [ConfigItem("5Services", "3RoadMaintenance", 9)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
-        public float MaintenanceSnowRoadsOtherEndHour { get; set; }
+        public float RoadMaintenanceRoadsOtherEndHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the snow service starts for small roads.
+        /// </summary>
+        [ConfigItem("5Services", "4Snow", 0)]
+        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        public float SnowRoadsSmallStartHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the snow service ends for small roads.
+        /// </summary>
+        [ConfigItem("5Services", "4Snow", 1)]
+        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        public float SnowRoadsSmallEndHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the snow service starts for medium roads.
+        /// </summary>
+        [ConfigItem("5Services", "4Snow", 2)]
+        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        public float SnowRoadsMediumStartHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the snow service ends for medium roads.
+        /// </summary>
+        [ConfigItem("5Services", "4Snow", 3)]
+        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        public float SnowRoadsMediumEndHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the snow service starts for large roads.
+        /// </summary>
+        [ConfigItem("5Services", "4Snow", 4)]
+        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        public float SnowRoadsLargeStartHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the snow service ends for large roads.
+        /// </summary>
+        [ConfigItem("5Services", "4Snow", 5)]
+        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        public float SnowRoadsLargeEndHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the snow service starts for highway roads.
+        /// </summary>
+        [ConfigItem("5Services", "4Snow", 6)]
+        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        public float SnowRoadsHighwayStartHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the snow service ends for highway roads.
+        /// </summary>
+        [ConfigItem("5Services", "4Snow", 7)]
+        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        public float SnowRoadsHighwayEndHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the snow service starts for other roads.
+        /// </summary>
+        [ConfigItem("5Services", "4Snow", 8)]
+        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        public float SnowRoadsOtherStartHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the snow service ends for other roads.
+        /// </summary>
+        [ConfigItem("5Services", "4Snow", 9)]
+        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        public float SnowRoadsOtherEndHour { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the mod should show the incompatibility notifications.
@@ -761,20 +831,33 @@ namespace RealTime.Config
             ParkMaintenanceStartHour = FastMath.Clamp(ParkMaintenanceStartHour, 0f, 23.5f);
             ParkMaintenanceEndHour = FastMath.Clamp(ParkMaintenanceEndHour, 0f, 23.5f);
 
-            MaintenanceSnowRoadsSmallStartHour = FastMath.Clamp(MaintenanceSnowRoadsSmallStartHour, 0f, 23.5f);
-            MaintenanceSnowRoadsSmallEndHour = FastMath.Clamp(MaintenanceSnowRoadsSmallEndHour, 0f, 23.5f);
+            RoadMaintenanceRoadsSmallStartHour = FastMath.Clamp(RoadMaintenanceRoadsSmallStartHour, 0f, 23.5f);
+            RoadMaintenanceRoadsSmallEndHour = FastMath.Clamp(RoadMaintenanceRoadsSmallEndHour, 0f, 23.5f);
 
-            MaintenanceSnowRoadsMediumStartHour = FastMath.Clamp(MaintenanceSnowRoadsMediumStartHour, 0f, 23.5f);
-            MaintenanceSnowRoadsMediumEndHour = FastMath.Clamp(MaintenanceSnowRoadsMediumEndHour, 0f, 23.5f);
+            RoadMaintenanceRoadsMediumStartHour = FastMath.Clamp(RoadMaintenanceRoadsMediumStartHour, 0f, 23.5f);
+            RoadMaintenanceRoadsMediumEndHour = FastMath.Clamp(RoadMaintenanceRoadsMediumEndHour, 0f, 23.5f);
+            RoadMaintenanceRoadsLargeStartHour = FastMath.Clamp(RoadMaintenanceRoadsLargeStartHour, 0f, 23.5f);
+            RoadMaintenanceRoadsLargeEndHour = FastMath.Clamp(RoadMaintenanceRoadsLargeEndHour, 0f, 23.5f);
 
-            MaintenanceSnowRoadsLargeStartHour = FastMath.Clamp(MaintenanceSnowRoadsLargeStartHour, 0f, 23.5f);
-            MaintenanceSnowRoadsLargeEndHour = FastMath.Clamp(MaintenanceSnowRoadsLargeEndHour, 0f, 23.5f);
+            RoadMaintenanceRoadsHighwayStartHour = FastMath.Clamp(RoadMaintenanceRoadsHighwayStartHour, 0f, 23.5f);
+            RoadMaintenanceRoadsHighwayEndHour = FastMath.Clamp(RoadMaintenanceRoadsHighwayEndHour, 0f, 23.5f);
 
-            MaintenanceSnowRoadsHighwayStartHour = FastMath.Clamp(MaintenanceSnowRoadsHighwayStartHour, 0f, 23.5f);
-            MaintenanceSnowRoadsHighwayEndHour = FastMath.Clamp(MaintenanceSnowRoadsHighwayEndHour, 0f, 23.5f);
+            RoadMaintenanceRoadsOtherStartHour = FastMath.Clamp(RoadMaintenanceRoadsOtherStartHour, 0f, 23.5f);
+            RoadMaintenanceRoadsOtherEndHour = FastMath.Clamp(RoadMaintenanceRoadsOtherEndHour, 0f, 23.5f);
 
-            MaintenanceSnowRoadsOtherStartHour = FastMath.Clamp(MaintenanceSnowRoadsOtherStartHour, 0f, 23.5f);
-            MaintenanceSnowRoadsOtherEndHour = FastMath.Clamp(MaintenanceSnowRoadsOtherEndHour, 0f, 23.5f);
+            SnowRoadsSmallStartHour = FastMath.Clamp(SnowRoadsSmallStartHour, 0f, 23.5f);
+            SnowRoadsSmallEndHour = FastMath.Clamp(SnowRoadsSmallEndHour, 0f, 23.5f);
+
+            SnowRoadsMediumStartHour = FastMath.Clamp(SnowRoadsMediumStartHour, 0f, 23.5f);
+            SnowRoadsMediumEndHour = FastMath.Clamp(SnowRoadsMediumEndHour, 0f, 23.5f);
+            SnowRoadsLargeStartHour = FastMath.Clamp(SnowRoadsLargeStartHour, 0f, 23.5f);
+            SnowRoadsLargeEndHour = FastMath.Clamp(SnowRoadsLargeEndHour, 0f, 23.5f);
+
+            SnowRoadsHighwayStartHour = FastMath.Clamp(SnowRoadsHighwayStartHour, 0f, 23.5f);
+            SnowRoadsHighwayEndHour = FastMath.Clamp(SnowRoadsHighwayEndHour, 0f, 23.5f);
+
+            SnowRoadsOtherStartHour = FastMath.Clamp(SnowRoadsOtherStartHour, 0f, 23.5f);
+            SnowRoadsOtherEndHour = FastMath.Clamp(SnowRoadsOtherEndHour, 0f, 23.5f);
         }
 
         /// <summary>Resets all values to their defaults.</summary>
@@ -864,16 +947,27 @@ namespace RealTime.Config
             ParkMaintenanceStartHour = 0f;
             ParkMaintenanceEndHour = 0f;
 
-            MaintenanceSnowRoadsSmallStartHour = 0f;
-            MaintenanceSnowRoadsSmallEndHour = 0f;
-            MaintenanceSnowRoadsMediumStartHour = 0f;
-            MaintenanceSnowRoadsMediumEndHour = 0f;
-            MaintenanceSnowRoadsLargeStartHour = 0f;
-            MaintenanceSnowRoadsLargeEndHour = 0f;
-            MaintenanceSnowRoadsHighwayStartHour = 0f;
-            MaintenanceSnowRoadsHighwayEndHour = 0f;
-            MaintenanceSnowRoadsOtherStartHour = 0f;
-            MaintenanceSnowRoadsOtherEndHour = 0f;
+            RoadMaintenanceRoadsSmallStartHour = 0f;
+            RoadMaintenanceRoadsSmallEndHour = 0f;
+            RoadMaintenanceRoadsMediumStartHour = 0f;
+            RoadMaintenanceRoadsMediumEndHour = 0f;
+            RoadMaintenanceRoadsLargeStartHour = 0f;
+            RoadMaintenanceRoadsLargeEndHour = 0f;
+            RoadMaintenanceRoadsHighwayStartHour = 0f;
+            RoadMaintenanceRoadsHighwayEndHour = 0f;
+            RoadMaintenanceRoadsOtherStartHour = 0f;
+            RoadMaintenanceRoadsOtherEndHour = 0f;
+
+            SnowRoadsSmallStartHour = 0f;
+            SnowRoadsSmallEndHour = 0f;
+            SnowRoadsMediumStartHour = 0f;
+            SnowRoadsMediumEndHour = 0f;
+            SnowRoadsLargeStartHour = 0f;
+            SnowRoadsLargeEndHour = 0f;
+            SnowRoadsHighwayStartHour = 0f;
+            SnowRoadsHighwayEndHour = 0f;
+            SnowRoadsOtherStartHour = 0f;
+            SnowRoadsOtherEndHour = 0f;
 
             ShowIncompatibilityNotifications = true;
             DebugMode = false;

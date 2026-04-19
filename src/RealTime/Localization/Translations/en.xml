@@ -157,8 +157,9 @@
   <translation id="5Services" value="Services" />
   <translation id="0Garbage" value="Garbage operation hours" />
   <translation id="1Mail" value="Mail operation hours" />
-  <translation id="2ParkMaintainace" value="Park Maintainace operation hours" />
-  <translation id="3MaintenanceSnow" value=" Maintenance and Snow operation hours" />
+  <translation id="2ParkMaintenance" value="Park Maintenance operation hours" />
+  <translation id="3RoadMaintenance" value="Road Maintenance operation hours" />
+  <translation id="4Snow" value="Snow operation hours" />
   
   <translation id="GarbageResidentialStartHour" value="Residential start hour" />
   <translation id="GarbageResidentialStartHourTooltip" value="The daytime when garbage services starts to operate in residential areas" />
@@ -207,27 +208,48 @@
   <translation id="ParkMaintenanceEndHour" value="Park Maintenance end hour" />
   <translation id="ParkMaintenanceEndHourTooltip" value="The daytime when park maintenance services stop to operate" />
 
-  <translation id="MaintenanceSnowRoadsSmallStartHour" value="Small roads start hour" />
-  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for small roads" />
-  <translation id="MaintenanceSnowRoadsSmallEndHour" value="Small roads end hour" />
-  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for small roads" />
-  <translation id="MaintenanceSnowRoadsMediumStartHour" value="Medium roads start hour" />
-  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for medium roads" />
-  <translation id="MaintenanceSnowRoadsMediumEndHour" value="Medium roads end hour" />
-  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for medium roads" />
-  <translation id="MaintenanceSnowRoadsLargeStartHour" value="Large roads start hour" />
-  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for large roads" />
-  <translation id="MaintenanceSnowRoadsLargeEndHour" value="Large roads end hour" />
-  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for large roads" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="Highway roads start hour" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for highway roads" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="Highway roads end hour" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for highway roads" />
-  <translation id="MaintenanceSnowRoadsOtherStartHour" value="Other roads start hour" />
-  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for other roads" />
-  <translation id="MaintenanceSnowRoadsOtherEndHour" value="Other roads end hour" />
-  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="The daytime when maintenance and snow services stop to operate for other roads" />
-
+  <translation id="RoadMaintenanceRoadsSmallStartHour" value="Small roads start hour" />
+  <translation id="RoadMaintenanceRoadsSmallStartHourTooltip" value="The daytime when road maintenance services starts to operate for small roads" />
+  <translation id="RoadMaintenanceRoadsSmallEndHour" value="Small roads end hour" />
+  <translation id="RoadMaintenanceRoadsSmallEndHourTooltip" value="The daytime when road maintenance services stop to operate for small roads" />
+  <translation id="RoadMaintenanceRoadsMediumStartHour" value="Medium roads start hour" />
+  <translation id="RoadMaintenanceRoadsMediumStartHourTooltip" value="The daytime when road maintenance services starts to operate for medium roads" />
+  <translation id="RoadMaintenanceRoadsMediumEndHour" value="Medium roads end hour" />
+  <translation id="RoadMaintenanceRoadsMediumEndHourTooltip" value="The daytime when road maintenance services stop to operate for medium roads" />
+  <translation id="RoadMaintenanceRoadsLargeStartHour" value="Large roads start hour" />
+  <translation id="RoadMaintenanceRoadsLargeStartHourTooltip" value="The daytime when road maintenance services starts to operate for large roads" />
+  <translation id="RoadMaintenanceRoadsLargeEndHour" value="Large roads end hour" />
+  <translation id="RoadMaintenanceRoadsLargeEndHourTooltip" value="The daytime when road maintenance services stop to operate for large roads" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHour" value="Highway roads start hour" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHourTooltip" value="The daytime when road maintenance services starts to operate for highway roads" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHour" value="Highway roads end hour" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHourTooltip" value="The daytime when road maintenance services stop to operate for highway roads" />
+  <translation id="RoadMaintenanceRoadsOtherStartHour" value="Other roads start hour" />
+  <translation id="RoadMaintenanceRoadsOtherStartHourTooltip" value="The daytime when road maintenance services starts to operate for other roads" />
+  <translation id="RoadMaintenanceRoadsOtherEndHour" value="Other roads end hour" />
+  <translation id="RoadMaintenanceRoadsOtherEndHourTooltip" value="The daytime when road maintenance services stop to operate for other roads" />
+  
+  <translation id="SnowRoadsSmallStartHour" value="Small roads start hour" />
+  <translation id="SnowRoadsSmallStartHourTooltip" value="The daytime when snow services starts to operate for small roads" />
+  <translation id="SnowRoadsSmallEndHour" value="Small roads end hour" />
+  <translation id="SnowRoadsSmallEndHourTooltip" value="The daytime when snow services stop to operate for small roads" />
+  <translation id="SnowRoadsMediumStartHour" value="Medium roads start hour" />
+  <translation id="SnowRoadsMediumStartHourTooltip" value="The daytime when snow services starts to operate for medium roads" />
+  <translation id="SnowRoadsMediumEndHour" value="Medium roads end hour" />
+  <translation id="SnowRoadsMediumEndHourTooltip" value="The daytime when snow services stop to operate for medium roads" />
+  <translation id="SnowRoadsLargeStartHour" value="Large roads start hour" />
+  <translation id="SnowRoadsLargeStartHourTooltip" value="The daytime when snow services starts to operate for large roads" />
+  <translation id="SnowRoadsLargeEndHour" value="Large roads end hour" />
+  <translation id="SnowRoadsLargeEndHourTooltip" value="The daytime when snow services stop to operate for large roads" />
+  <translation id="SnowRoadsHighwayStartHour" value="Highway roads start hour" />
+  <translation id="SnowRoadsHighwayStartHourTooltip" value="The daytime when snow services starts to operate for highway roads" />
+  <translation id="SnowRoadsHighwayEndHour" value="Highway roads end hour" />
+  <translation id="SnowRoadsHighwayEndHourTooltip" value="The daytime when snow services stop to operate for highway roads" />
+  <translation id="SnowRoadsOtherStartHour" value="Other roads start hour" />
+  <translation id="SnowRoadsOtherStartHourTooltip" value="The daytime when snow services starts to operate for other roads" />
+  <translation id="SnowRoadsOtherEndHour" value="Other roads end hour" />
+  <translation id="SnowRoadsOtherEndHourTooltip" value="The daytime when snow services stop to operate for other roads" />
+  
   <translation id="ScheduledAction" value="Now" />
   <translation id="CurrentState" value="State" />
   <translation id="NextScheduledAction" value="Until" />

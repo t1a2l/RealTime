@@ -157,8 +157,9 @@
   <translation id="5Services" value="서비스" />
   <translation id="0Garbage" value="쓰레기 수거 운영 시간" />
   <translation id="1Mail" value="우편 서비스 운영 시간" />
-  <translation id="2ParkMaintainace" value="공원 유지 관리 운영 시간" />
-  <translation id="3MaintenanceSnow" value="유지 관리 및 제설 운영 시간" />
+  <translation id="2ParkMaintenance" value="공원 유지보수 운영 시간" />
+  <translation id="3RoadMaintenance" value="도로 유지보수 운영 시간" />
+  <translation id="4Snow" value="제설 작업 운영 시간" />
   
   <translation id="GarbageResidentialStartHour" value="주거 지역 시작 시간" />
   <translation id="GarbageResidentialStartHourTooltip" value="주거 지역에서 쓰레기 수거 차량이 운행을 시작하는 시간입니다." />
@@ -207,27 +208,48 @@
   <translation id="ParkMaintenanceEndHour" value="공원 관리 종료 시간" />
   <translation id="ParkMaintenanceEndHourTooltip" value="공원 관리 서비스가 운행을 종료하는 시간입니다." />
 
-  <translation id="MaintenanceSnowRoadsSmallStartHour" value="소형 도로 시작" />
-  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="소형 도로의 유지보수 및 제설 시작 시간입니다." />
-  <translation id="MaintenanceSnowRoadsSmallEndHour" value="소형 도로 종료" />
-  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="소형 도로의 유지보수 및 제설 종료 시간입니다." />
-  <translation id="MaintenanceSnowRoadsMediumStartHour" value="중형 도로 시작" />
-  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="중형 도로의 유지보수 및 제설 시작 시간입니다." />
-  <translation id="MaintenanceSnowRoadsMediumEndHour" value="중형 도로 종료" />
-  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="중형 도로의 유지보수 및 제설 종료 시간입니다." />
-  <translation id="MaintenanceSnowRoadsLargeStartHour" value="대형 도로 시작" />
-  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="대형 도로의 유지보수 및 제설 시작 시간입니다." />
-  <translation id="MaintenanceSnowRoadsLargeEndHour" value="대형 도로 종료" />
-  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="대형 도로의 유지보수 및 제설 종료 시간입니다." />
-  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="고속도로 시작" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="고속도로의 유지보수 및 제설 시작 시간입니다." />
-  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="고속도로 종료" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="고속도로의 유지보수 및 제설 종료 시간입니다." />
-  <translation id="MaintenanceSnowRoadsOtherStartHour" value="기타 도로 시작" />
-  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="기타 유형 도로의 유지보수 및 제설 시작 시간입니다." />
-  <translation id="MaintenanceSnowRoadsOtherEndHour" value="기타 도로 종료" />
-  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="기타 유형 도로의 유지보수 및 제설 종료 시간입니다." />
-
+  <translation id="RoadMaintenanceRoadsSmallStartHour" value="소규모 도로 유지보수 시작 시간" />
+  <translation id="RoadMaintenanceRoadsSmallStartHourTooltip" value="소규모 도로 유지보수 서비스가 운행을 시작하는 시간입니다." />
+  <translation id="RoadMaintenanceRoadsSmallEndHour" value="소규모 도로 유지보수 종료 시간" />
+  <translation id="RoadMaintenanceRoadsSmallEndHourTooltip" value="소규모 도로 유지보수 서비스가 운행을 종료하는 시간입니다." />
+  <translation id="RoadMaintenanceRoadsMediumStartHour" value="중규모 도로 유지보수 시작 시간" />
+  <translation id="RoadMaintenanceRoadsMediumStartHourTooltip" value="중규모 도로 유지보수 서비스가 운행을 시작하는 시간입니다." />
+  <translation id="RoadMaintenanceRoadsMediumEndHour" value="중규모 도로 유지보수 종료 시간" />
+  <translation id="RoadMaintenanceRoadsMediumEndHourTooltip" value="중규모 도로 유지보수 서비스가 운행을 종료하는 시간입니다." />
+  <translation id="RoadMaintenanceRoadsLargeStartHour" value="대규모 도로 유지보수 시작 시간" />
+  <translation id="RoadMaintenanceRoadsLargeStartHourTooltip" value="대규모 도로 유지보수 서비스가 운행을 시작하는 시간입니다." />
+  <translation id="RoadMaintenanceRoadsLargeEndHour" value="대규모 도로 유지보수 종료 시간" />
+  <translation id="RoadMaintenanceRoadsLargeEndHourTooltip" value="대규모 도로 유지보수 서비스가 운행을 종료하는 시간입니다." />
+  <translation id="RoadMaintenanceRoadsHighwayStartHour" value="고속도로 유지보수 시작 시간" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHourTooltip" value="고속도로 유지보수 서비스가 운행을 시작하는 시간입니다." />
+  <translation id="RoadMaintenanceRoadsHighwayEndHour" value="고속도로 유지보수 종료 시간" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHourTooltip" value="고속도로 유지보수 서비스가 운행을 종료하는 시간입니다." />
+  <translation id="RoadMaintenanceRoadsOtherStartHour" value="기타 도로 유지보수 시작 시간" />
+  <translation id="RoadMaintenanceRoadsOtherStartHourTooltip" value="기타 도로 유지보수 서비스가 운행을 시작하는 시간입니다." />
+  <translation id="RoadMaintenanceRoadsOtherEndHour" value="기타 도로 유지보수 종료 시간" />
+  <translation id="RoadMaintenanceRoadsOtherEndHourTooltip" value="기타 도로 유지보수 서비스가 운행을 종료하는 시간입니다." />
+  
+  <translation id="SnowRoadsSmallStartHour" value="소규모 도로 제설 시작 시간" />
+  <translation id="SnowRoadsSmallStartHourTooltip" value="소규모 도로 제설 서비스가 운행을 시작하는 시간입니다." />
+  <translation id="SnowRoadsSmallEndHour" value="소규모 도로 제설 종료 시간" />
+  <translation id="SnowRoadsSmallEndHourTooltip" value="소규모 도로 제설 서비스가 운행을 종료하는 시간입니다." />
+  <translation id="SnowRoadsMediumStartHour" value="중규모 도로 제설 시작 시간" />
+  <translation id="SnowRoadsMediumStartHourTooltip" value="중규모 도로 제설 서비스가 운행을 시작하는 시간입니다." />
+  <translation id="SnowRoadsMediumEndHour" value="중규모 도로 제설 종료 시간" />
+  <translation id="SnowRoadsMediumEndHourTooltip" value="중규모 도로 제설 서비스가 운행을 종료하는 시간입니다." />
+  <translation id="SnowRoadsLargeStartHour" value="대규모 도로 제설 시작 시간" />
+  <translation id="SnowRoadsLargeStartHourTooltip" value="대규모 도로 제설 서비스가 운행을 시작하는 시간입니다." />
+  <translation id="SnowRoadsLargeEndHour" value="대규모 도로 제설 종료 시간" />
+  <translation id="SnowRoadsLargeEndHourTooltip" value="대규모 도로 제설 서비스가 운행을 종료하는 시간입니다." />
+  <translation id="SnowRoadsHighwayStartHour" value="고속도로 제설 시작 시간" />
+  <translation id="SnowRoadsHighwayStartHourTooltip" value="고속도로 제설 서비스가 운행을 시작하는 시간입니다." />
+  <translation id="SnowRoadsHighwayEndHour" value="고속도로 제설 종료 시간" />
+  <translation id="SnowRoadsHighwayEndHourTooltip" value="고속도로 제설 서비스가 운행을 종료하는 시간입니다." />
+  <translation id="SnowRoadsOtherStartHour" value="기타 도로 제설 시작 시간" />
+  <translation id="SnowRoadsOtherStartHourTooltip" value="기타 도로 제설 서비스가 운행을 시작하는 시간입니다." />
+  <translation id="SnowRoadsOtherEndHour" value="기타 도로 제설 종료 시간" />
+  <translation id="SnowRoadsOtherEndHourTooltip" value="기타 도로 제설 서비스가 운행을 종료하는 시간입니다." />
+  
   <translation id="ScheduledAction" value="현재 일정" />
   <translation id="CurrentState" value="상태" />
   <translation id="NextScheduledAction" value="종료 예정" />

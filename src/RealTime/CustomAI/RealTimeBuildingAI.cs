@@ -730,13 +730,13 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>
-        /// Determines whether the segment with the specified ID is allowed to accept maintenance and snow services in this time of day.
+        /// Determines whether the segment with the specified ID is allowed to accept snow services in this time of day.
         /// </summary>
         /// <param name="segmentId">The segment ID to check.</param>
         /// <returns>
-        ///   <c>true</c> if the segment is allowed to accept maintenance and snow services in this time of day; otherwise, <c>false</c>.
+        ///   <c>true</c> if the segment is allowed to accept snow services in this time of day; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsMaintenanceSnowRoadServiceHours(ushort segmentId)
+        public bool IsSnowServiceHours(ushort segmentId)
         {
             if (segmentId == 0)
             {
@@ -750,20 +750,20 @@ namespace RealTime.CustomAI
             switch (road_info.category)
             {
                 case "RoadsSmall":
-                    if (config.MaintenanceSnowRoadsSmallStartHour == config.MaintenanceSnowRoadsSmallEndHour)
+                    if (config.SnowRoadsSmallStartHour == config.SnowRoadsSmallEndHour)
                     {
                         return true;
                     }
-                    if (config.MaintenanceSnowRoadsSmallStartHour < config.MaintenanceSnowRoadsSmallEndHour)
+                    if (config.SnowRoadsSmallStartHour < config.SnowRoadsSmallEndHour)
                     {
-                        if (currentHour >= config.MaintenanceSnowRoadsSmallStartHour && currentHour <= config.MaintenanceSnowRoadsSmallEndHour)
+                        if (currentHour >= config.SnowRoadsSmallStartHour && currentHour <= config.SnowRoadsSmallEndHour)
                         {
                             return true;
                         }
                     }
                     else
                     {
-                        if (config.MaintenanceSnowRoadsSmallStartHour <= currentHour || currentHour <= config.MaintenanceSnowRoadsSmallEndHour)
+                        if (config.SnowRoadsSmallStartHour <= currentHour || currentHour <= config.SnowRoadsSmallEndHour)
                         {
                             return true;
                         }
@@ -771,20 +771,20 @@ namespace RealTime.CustomAI
                     return false;
 
                 case "RoadsMedium":
-                    if (config.MaintenanceSnowRoadsMediumStartHour == config.MaintenanceSnowRoadsMediumEndHour)
+                    if (config.SnowRoadsMediumStartHour == config.SnowRoadsMediumEndHour)
                     {
                         return true;
                     }
-                    if (config.MaintenanceSnowRoadsMediumStartHour < config.MaintenanceSnowRoadsMediumEndHour)
+                    if (config.SnowRoadsMediumStartHour < config.SnowRoadsMediumEndHour)
                     {
-                        if (currentHour >= config.MaintenanceSnowRoadsMediumStartHour && currentHour <= config.MaintenanceSnowRoadsMediumEndHour)
+                        if (currentHour >= config.SnowRoadsMediumStartHour && currentHour <= config.SnowRoadsMediumEndHour)
                         {
                             return true;
                         }
                     }
                     else
                     {
-                        if (config.MaintenanceSnowRoadsMediumStartHour <= currentHour || currentHour <= config.MaintenanceSnowRoadsMediumEndHour)
+                        if (config.SnowRoadsMediumStartHour <= currentHour || currentHour <= config.SnowRoadsMediumEndHour)
                         {
                             return true;
                         }
@@ -792,20 +792,20 @@ namespace RealTime.CustomAI
                     return false;
 
                 case "RoadsLarge":
-                    if (config.MaintenanceSnowRoadsLargeStartHour == config.MaintenanceSnowRoadsLargeEndHour)
+                    if (config.SnowRoadsLargeStartHour == config.SnowRoadsLargeEndHour)
                     {
                         return true;
                     }
-                    if (config.MaintenanceSnowRoadsLargeStartHour < config.MaintenanceSnowRoadsLargeEndHour)
+                    if (config.SnowRoadsLargeStartHour < config.SnowRoadsLargeEndHour)
                     {
-                        if (currentHour >= config.MaintenanceSnowRoadsLargeStartHour && currentHour <= config.MaintenanceSnowRoadsLargeEndHour)
+                        if (currentHour >= config.SnowRoadsLargeStartHour && currentHour <= config.SnowRoadsLargeEndHour)
                         {
                             return true;
                         }
                     }
                     else
                     {
-                        if (config.MaintenanceSnowRoadsLargeStartHour <= currentHour || currentHour <= config.MaintenanceSnowRoadsLargeEndHour)
+                        if (config.SnowRoadsLargeStartHour <= currentHour || currentHour <= config.SnowRoadsLargeEndHour)
                         {
                             return true;
                         }
@@ -813,20 +813,20 @@ namespace RealTime.CustomAI
                     return false;
 
                 case "RoadsHighway":
-                    if (config.MaintenanceSnowRoadsHighwayStartHour == config.MaintenanceSnowRoadsHighwayEndHour)
+                    if (config.SnowRoadsHighwayStartHour == config.SnowRoadsHighwayEndHour)
                     {
                         return true;
                     }
-                    if (config.MaintenanceSnowRoadsHighwayStartHour < config.MaintenanceSnowRoadsHighwayEndHour)
+                    if (config.SnowRoadsHighwayStartHour < config.SnowRoadsHighwayEndHour)
                     {
-                        if (currentHour >= config.MaintenanceSnowRoadsHighwayStartHour && currentHour <= config.MaintenanceSnowRoadsHighwayEndHour)
+                        if (currentHour >= config.SnowRoadsHighwayStartHour && currentHour <= config.SnowRoadsHighwayEndHour)
                         {
                             return true;
                         }
                     }
                     else
                     {
-                        if (config.MaintenanceSnowRoadsHighwayStartHour <= currentHour || currentHour <= config.MaintenanceSnowRoadsHighwayEndHour)
+                        if (config.SnowRoadsHighwayStartHour <= currentHour || currentHour <= config.SnowRoadsHighwayEndHour)
                         {
                             return true;
                         }
@@ -834,20 +834,147 @@ namespace RealTime.CustomAI
                     return false;
 
                 default:
-                    if (config.MaintenanceSnowRoadsOtherStartHour == config.MaintenanceSnowRoadsOtherEndHour)
+                    if (config.SnowRoadsOtherStartHour == config.SnowRoadsOtherEndHour)
                     {
                         return true;
                     }
-                    if (config.MaintenanceSnowRoadsOtherStartHour < config.MaintenanceSnowRoadsOtherEndHour)
+                    if (config.SnowRoadsOtherStartHour < config.SnowRoadsOtherEndHour)
                     {
-                        if (currentHour >= config.MaintenanceSnowRoadsOtherStartHour && currentHour <= config.MaintenanceSnowRoadsOtherEndHour)
+                        if (currentHour >= config.SnowRoadsOtherStartHour && currentHour <= config.SnowRoadsOtherEndHour)
                         {
                             return true;
                         }
                     }
                     else
                     {
-                        if (config.MaintenanceSnowRoadsOtherStartHour <= currentHour || currentHour <= config.MaintenanceSnowRoadsOtherEndHour)
+                        if (config.SnowRoadsOtherStartHour <= currentHour || currentHour <= config.SnowRoadsOtherEndHour)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Determines whether the segment with the specified ID is allowed to accept road maintenance services in this time of day.
+        /// </summary>
+        /// <param name="segmentId">The segment ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the segment is allowed to accept road maintenance services in this time of day; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsRoadMaintenanceServiceHours(ushort segmentId)
+        {
+            if (segmentId == 0)
+            {
+                return true;
+            }
+
+            float currentHour = timeInfo.CurrentHour;
+
+            var road_info = Singleton<NetManager>.instance.m_segments.m_buffer[segmentId].Info;
+
+            switch (road_info.category)
+            {
+                case "RoadsSmall":
+                    if (config.RoadMaintenanceRoadsSmallStartHour == config.RoadMaintenanceRoadsSmallEndHour)
+                    {
+                        return true;
+                    }
+                    if (config.RoadMaintenanceRoadsSmallStartHour < config.RoadMaintenanceRoadsSmallEndHour)
+                    {
+                        if (currentHour >= config.RoadMaintenanceRoadsSmallStartHour && currentHour <= config.RoadMaintenanceRoadsSmallEndHour)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (config.RoadMaintenanceRoadsSmallStartHour <= currentHour || currentHour <= config.RoadMaintenanceRoadsSmallEndHour)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+
+                case "RoadsMedium":
+                    if (config.RoadMaintenanceRoadsMediumStartHour == config.RoadMaintenanceRoadsMediumEndHour)
+                    {
+                        return true;
+                    }
+                    if (config.RoadMaintenanceRoadsMediumStartHour < config.RoadMaintenanceRoadsMediumEndHour)
+                    {
+                        if (currentHour >= config.RoadMaintenanceRoadsMediumStartHour && currentHour <= config.RoadMaintenanceRoadsMediumEndHour)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (config.RoadMaintenanceRoadsMediumStartHour <= currentHour || currentHour <= config.RoadMaintenanceRoadsMediumEndHour)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+
+                case "RoadsLarge":
+                    if (config.RoadMaintenanceRoadsLargeStartHour == config.RoadMaintenanceRoadsLargeEndHour)
+                    {
+                        return true;
+                    }
+                    if (config.RoadMaintenanceRoadsLargeStartHour < config.RoadMaintenanceRoadsLargeEndHour)
+                    {
+                        if (currentHour >= config.RoadMaintenanceRoadsLargeStartHour && currentHour <= config.RoadMaintenanceRoadsLargeEndHour)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (config.RoadMaintenanceRoadsLargeStartHour <= currentHour || currentHour <= config.RoadMaintenanceRoadsLargeEndHour)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+
+                case "RoadsHighway":
+                    if (config.RoadMaintenanceRoadsHighwayStartHour == config.RoadMaintenanceRoadsHighwayEndHour)
+                    {
+                        return true;
+                    }
+                    if (config.RoadMaintenanceRoadsHighwayStartHour < config.RoadMaintenanceRoadsHighwayEndHour)
+                    {
+                        if (currentHour >= config.RoadMaintenanceRoadsHighwayStartHour && currentHour <= config.RoadMaintenanceRoadsHighwayEndHour)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (config.RoadMaintenanceRoadsHighwayStartHour <= currentHour || currentHour <= config.RoadMaintenanceRoadsHighwayEndHour)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+
+                default:
+                    if (config.RoadMaintenanceRoadsOtherStartHour == config.RoadMaintenanceRoadsOtherEndHour)
+                    {
+                        return true;
+                    }
+                    if (config.RoadMaintenanceRoadsOtherStartHour < config.RoadMaintenanceRoadsOtherEndHour)
+                    {
+                        if (currentHour >= config.RoadMaintenanceRoadsOtherStartHour && currentHour <= config.RoadMaintenanceRoadsOtherEndHour)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (config.RoadMaintenanceRoadsOtherStartHour <= currentHour || currentHour <= config.RoadMaintenanceRoadsOtherEndHour)
                         {
                             return true;
                         }

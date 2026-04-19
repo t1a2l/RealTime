@@ -76,12 +76,14 @@ namespace RealTime.Patches
 
             switch (material)
             {
-                case TransferManager.TransferReason.SortedMail: // post offices request to send then sorted mail
+                case TransferManager.TransferReason.SortedMail: // post offices request to send sorted mail
                     return RealTimeBuildingAI.IsMailHours(offer.Building);
 
-                case TransferManager.TransferReason.RoadMaintenance: // road segments request snow amd road maintenance
-                case TransferManager.TransferReason.Snow:
-                    return RealTimeBuildingAI.IsMaintenanceSnowRoadServiceHours(offer.NetSegment);
+                case TransferManager.TransferReason.RoadMaintenance: // road segments request road maintenance services
+                    return RealTimeBuildingAI.IsRoadMaintenanceServiceHours(offer.NetSegment);
+
+                case TransferManager.TransferReason.Snow: // road segments request snow services
+                    return RealTimeBuildingAI.IsSnowServiceHours(offer.NetSegment);
 
                 case TransferManager.TransferReason.ParkMaintenance: // park buildings request maintenance
                     return RealTimeBuildingAI.IsParkMaintenanceHours(offer.Building);

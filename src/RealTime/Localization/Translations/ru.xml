@@ -157,8 +157,9 @@
   <translation id="5Services" value="Услуги" />
   <translation id="0Garbage" value="Рабочие часы мусора" />
   <translation id="1Mail" value="Рабочие часы почты" />
-  <translation id="2ParkMaintainace" value="Рабочие часы обслуживания парков" />
-  <translation id="3MaintenanceSnow" value="Рабочие часы обслуживания и уборки снега" />
+  <translation id="2ParkMaintenance" value="Рабочие часы обслуживания парков" />
+  <translation id="3RoadMaintenance" value="Рабочие часы обслуживания дорог" />
+  <translation id="4Snow" value="Рабочие часы уборки снега" />
   
   <translation id="GarbageResidentialStartHour" value="Жилые зоны: начало" />
   <translation id="GarbageResidentialStartHourTooltip" value="Время начала работы мусоровозов в жилых районах" />
@@ -207,27 +208,48 @@
   <translation id="ParkMaintenanceEndHour" value="Обслуживание парков: конец" />
   <translation id="ParkMaintenanceEndHourTooltip" value="Время окончания работы служб обслуживания парков" />
 
-  <translation id="MaintenanceSnowRoadsSmallStartHour" value="Малые дороги: начало" />
-  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="Время начала обслуживания малых дорог" />
-  <translation id="MaintenanceSnowRoadsSmallEndHour" value="Малые дороги: конец" />
-  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="Время окончания обслуживания малых дорог" />
-  <translation id="MaintenanceSnowRoadsMediumStartHour" value="Средние дороги: начало" />
-  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="Время начала обслуживания средних дорог" />
-  <translation id="MaintenanceSnowRoadsMediumEndHour" value="Средние дороги: конец" />
-  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="Время окончания обслуживания средних дорог" />
-  <translation id="MaintenanceSnowRoadsLargeStartHour" value="Большие дороги: начало" />
-  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="Время начала обслуживания больших дорог" />
-  <translation id="MaintenanceSnowRoadsLargeEndHour" value="Большие дороги: конец" />
-  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="Время окончания обслуживания больших дорог" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="Шоссе: начало" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="Время начала обслуживания автомагистралей" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="Шоссе: конец" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="Время окончания обслуживания автомагистралей" />
-  <translation id="MaintenanceSnowRoadsOtherStartHour" value="Прочие дороги: начало" />
-  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="Время начала обслуживания прочих типов дорог" />
-  <translation id="MaintenanceSnowRoadsOtherEndHour" value="Прочие дороги: конец" />
-  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="Время окончания обслуживания прочих типов дорог" />
-
+  <translation id="RoadMaintenanceRoadsSmallStartHour" value="Обслуживание дорог (малые): начало" />
+  <translation id="RoadMaintenanceRoadsSmallStartHourTooltip" value="Время начала работы служб обслуживания дорог для малых дорог" />
+  <translation id="RoadMaintenanceRoadsSmallEndHour" value="Обслуживание дорог (малые): конец" />
+  <translation id="RoadMaintenanceRoadsSmallEndHourTooltip" value="Время окончания работы служб обслуживания дорог для малых дорог" />
+  <translation id="RoadMaintenanceRoadsMediumStartHour" value="Обслуживание дорог (средние): начало" />
+  <translation id="RoadMaintenanceRoadsMediumStartHourTooltip" value="Время начала работы служб обслуживания дорог для средних дорог" />
+  <translation id="RoadMaintenanceRoadsMediumEndHour" value="Обслуживание дорог (средние): конец" />
+  <translation id="RoadMaintenanceRoadsMediumEndHourTooltip" value="Время окончания работы служб обслуживания дорог для средних дорог" />
+  <translation id="RoadMaintenanceRoadsLargeStartHour" value="Обслуживание дорог (крупные): начало" />
+  <translation id="RoadMaintenanceRoadsLargeStartHourTooltip" value="Время начала работы служб обслуживания дорог для крупных дорог" />
+  <translation id="RoadMaintenanceRoadsLargeEndHour" value="Обслуживание дорог (крупные): конец" />
+  <translation id="RoadMaintenanceRoadsLargeEndHourTooltip" value="Время окончания работы служб обслуживания дорог для крупных дорог" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHour" value="Обслуживание дорог (шоссе): начало" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHourTooltip" value="Время начала работы служб обслуживания дорог для шоссе" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHour" value="Обслуживание дорог (шоссе): конец" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHourTooltip" value="Время окончания работы служб обслуживания дорог для шоссе" />
+  <translation id="RoadMaintenanceRoadsOtherStartHour" value="Обслуживание дорог (прочие): начало" />
+  <translation id="RoadMaintenanceRoadsOtherStartHourTooltip" value="Время начала работы служб обслуживания дорог для прочих дорог" />
+  <translation id="RoadMaintenanceRoadsOtherEndHour" value="Обслуживание дорог (прочие): конец" />
+  <translation id="RoadMaintenanceRoadsOtherEndHourTooltip" value="Время окончания работы служб обслуживания дорог для прочих дорог" />
+  
+  <translation id="SnowRoadsSmallStartHour" value="Обслуживание дорог (малые): начало" />
+  <translation id="SnowRoadsSmallStartHourTooltip" value="Время начала работы служб уборки снега для малых дорог" />
+  <translation id="SnowRoadsSmallEndHour" value="Обслуживание дорог (малые): конец" />
+  <translation id="SnowRoadsSmallEndHourTooltip" value="Время окончания работы служб уборки снега для малых дорог" />
+  <translation id="SnowRoadsMediumStartHour" value="Обслуживание дорог (средние): начало" />
+  <translation id="SnowRoadsMediumStartHourTooltip" value="Время начала работы служб уборки снега для средних дорог" />
+  <translation id="SnowRoadsMediumEndHour" value="Обслуживание дорог (средние): конец" />
+  <translation id="SnowRoadsMediumEndHourTooltip" value="Время окончания работы служб уборки снега для средних дорог" />
+  <translation id="SnowRoadsLargeStartHour" value="Обслуживание дорог (крупные): начало" />
+  <translation id="SnowRoadsLargeStartHourTooltip" value="Время начала работы служб уборки снега для крупных дорог" />
+  <translation id="SnowRoadsLargeEndHour" value="Обслуживание дорог (крупные): конец" />
+  <translation id="SnowRoadsLargeEndHourTooltip" value="Время окончания работы служб уборки снега для крупных дорог" />
+  <translation id="SnowRoadsHighwayStartHour" value="Обслуживание дорог (шоссе): начало" />
+  <translation id="SnowRoadsHighwayStartHourTooltip" value="Время начала работы служб уборки снега для шоссе" />
+  <translation id="SnowRoadsHighwayEndHour" value="Обслуживание дорог (шоссе): конец" />
+  <translation id="SnowRoadsHighwayEndHourTooltip" value="Время окончания работы служб уборки снега для шоссе" />
+  <translation id="SnowRoadsOtherStartHour" value="Обслуживание дорог (прочие): начало" />
+  <translation id="SnowRoadsOtherStartHourTooltip" value="Время начала работы служб уборки снега для прочих дорог" />
+  <translation id="SnowRoadsOtherEndHour" value="Обслуживание дорог (прочие): конец" />
+  <translation id="SnowRoadsOtherEndHourTooltip" value="Время окончания работы служб уборки снега для прочих дорог" />
+  
   <translation id="ScheduledAction" value="Сейчас" />
   <translation id="CurrentState" value="Состояние" />
   <translation id="NextScheduledAction" value="До" />

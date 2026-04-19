@@ -157,8 +157,9 @@
   <translation id="5Services" value="Услуги" />
   <translation id="0Garbage" value="Работно време на сметосъбиране" />
   <translation id="1Mail" value="Работно време на пощата" />
-  <translation id="2ParkMaintainace" value="Работно време на поддръжка на паркове" />
-  <translation id="3MaintenanceSnow" value="Работно време на поддръжка и снегопочистване" />
+  <translation id="2ParkMaintenance" value="Работно време на поддръжка на паркове" />
+  <translation id="3RoadMaintenance" value="Работно време на поддръжка на пътища" />
+  <translation id="4Snow" value="Работно време на снегопочистване" />
   
   <translation id="GarbageResidentialStartHour" value="Жилищни зони: начало" />
   <translation id="GarbageResidentialStartHourTooltip" value="Кога започват работа камионите за боклук в жилищните райони" />
@@ -207,27 +208,48 @@
   <translation id="ParkMaintenanceEndHour" value="Поддръжка на паркове: край" />
   <translation id="ParkMaintenanceEndHourTooltip" value="Кога приключва поддръжката на парковете" />
 
-  <translation id="MaintenanceSnowRoadsSmallStartHour" value="Малки пътища: начало" />
-  <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="Кога започва поддръжката на малките пътища" />
-  <translation id="MaintenanceSnowRoadsSmallEndHour" value="Малки пътища: край" />
-  <translation id="MaintenanceSnowRoadsSmallEndHourTooltip" value="Кога приключва поддръжката на малките пътища" />
-  <translation id="MaintenanceSnowRoadsMediumStartHour" value="Средни пътища: начало" />
-  <translation id="MaintenanceSnowRoadsMediumStartHourTooltip" value="Кога започва поддръжката на средните пътища" />
-  <translation id="MaintenanceSnowRoadsMediumEndHour" value="Средни пътища: край" />
-  <translation id="MaintenanceSnowRoadsMediumEndHourTooltip" value="Кога приключва поддръжката на средните пътища" />
-  <translation id="MaintenanceSnowRoadsLargeStartHour" value="Големи пътища: начало" />
-  <translation id="MaintenanceSnowRoadsLargeStartHourTooltip" value="Кога започва поддръжката на големите пътища" />
-  <translation id="MaintenanceSnowRoadsLargeEndHour" value="Големи пътища: край" />
-  <translation id="MaintenanceSnowRoadsLargeEndHourTooltip" value="Кога приключва поддръжката на големите пътища" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHour" value="Магистрали: начало" />
-  <translation id="MaintenanceSnowRoadsHighwayStartHourTooltip" value="Кога започва поддръжката на магистралите" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHour" value="Магистрали: край" />
-  <translation id="MaintenanceSnowRoadsHighwayEndHourTooltip" value="Кога приключва поддръжката на магистралите" />
-  <translation id="MaintenanceSnowRoadsOtherStartHour" value="Други пътища: начало" />
-  <translation id="MaintenanceSnowRoadsOtherStartHourTooltip" value="Кога започва поддръжката на другите видове пътища" />
-  <translation id="MaintenanceSnowRoadsOtherEndHour" value="Други пътища: край" />
-  <translation id="MaintenanceSnowRoadsOtherEndHourTooltip" value="Кога приключва поддръжката на другите видове пътища" />
-
+  <translation id="RoadMaintenanceRoadsSmallStartHour" value="Поддръжка на малки пътища: начало" />
+  <translation id="RoadMaintenanceRoadsSmallStartHourTooltip" value="Кога започва поддръжката на малките пътища" />
+  <translation id="RoadMaintenanceRoadsSmallEndHour" value="Поддръжка на малки пътища: край" />
+  <translation id="RoadMaintenanceRoadsSmallEndHourTooltip" value="Кога приключва поддръжката на малките пътища" />
+  <translation id="RoadMaintenanceRoadsMediumStartHour" value="Поддръжка на средни пътища: начало" />
+  <translation id="RoadMaintenanceRoadsMediumStartHourTooltip" value="Кога започва поддръжката на средните пътища" />
+  <translation id="RoadMaintenanceRoadsMediumEndHour" value="Поддръжка на средни пътища: край" />
+  <translation id="RoadMaintenanceRoadsMediumEndHourTooltip" value="Кога приключва поддръжката на средните пътища" />
+  <translation id="RoadMaintenanceRoadsLargeStartHour" value="Поддръжка на големи пътища: начало" />
+  <translation id="RoadMaintenanceRoadsLargeStartHourTooltip" value="Кога започва поддръжката на големите пътища" />
+  <translation id="RoadMaintenanceRoadsLargeEndHour" value="Поддръжка на големи пътища: край" />
+  <translation id="RoadMaintenanceRoadsLargeEndHourTooltip" value="Кога приключва поддръжката на големите пътища" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHour" value="Поддръжка на магистрали: начало" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHourTooltip" value="Кога започва поддръжката на магистралите" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHour" value="Поддръжка на магистрали: край" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHourTooltip" value="Кога приключва поддръжката на магистралите" />
+  <translation id="RoadMaintenanceRoadsOtherStartHour" value="Поддръжка на други пътища: начало" />
+  <translation id="RoadMaintenanceRoadsOtherStartHourTooltip" value="Кога започва поддръжката на други пътища" />
+  <translation id="RoadMaintenanceRoadsOtherEndHour" value="Поддръжка на други пътища: край" />
+  <translation id="RoadMaintenanceRoadsOtherEndHourTooltip" value="Кога приключва поддръжката на други пътища" />
+  
+  <translation id="SnowRoadsSmallStartHour" value="Поддръжка на малки пътища: начало" />
+  <translation id="SnowRoadsSmallStartHourTooltip" value="Кога започва поддръжката на малките пътища" />
+  <translation id="SnowRoadsSmallEndHour" value="Поддръжка на малки пътища: край" />
+  <translation id="SnowRoadsSmallEndHourTooltip" value="Кога приключва поддръжката на малките пътища" />
+  <translation id="SnowRoadsMediumStartHour" value="Поддръжка на средни пътища: начало" />
+  <translation id="SnowRoadsMediumStartHourTooltip" value="Кога започва поддръжката на средните пътища" />
+  <translation id="SnowRoadsMediumEndHour" value="Поддръжка на средни пътища: край" />
+  <translation id="SnowRoadsMediumEndHourTooltip" value="Кога приключва поддръжката на средните пътища" />
+  <translation id="SnowRoadsLargeStartHour" value="Поддръжка на големи пътища: начало" />
+  <translation id="SnowRoadsLargeStartHourTooltip" value="Кога започва поддръжката на големите пътища" />
+  <translation id="SnowRoadsLargeEndHour" value="Поддръжка на големи пътища: край" />
+  <translation id="SnowRoadsLargeEndHourTooltip" value="Кога приключва поддръжката на големите пътища" />
+  <translation id="SnowRoadsHighwayStartHour" value="Поддръжка на магистрали: начало" />
+  <translation id="SnowRoadsHighwayStartHourTooltip" value="Кога започва поддръжката на магистралите" />
+  <translation id="SnowRoadsHighwayEndHour" value="Поддръжка на магистрали: край" />
+  <translation id="SnowRoadsHighwayEndHourTooltip" value="Кога приключва поддръжката на магистралите" />
+  <translation id="SnowRoadsOtherStartHour" value="Поддръжка на други пътища: начало" />
+  <translation id="SnowRoadsOtherStartHourTooltip" value="Кога започва поддръжката на други пътища" />
+  <translation id="SnowRoadsOtherEndHour" value="Поддръжка на други пътища: край" />
+  <translation id="SnowRoadsOtherEndHourTooltip" value="Кога приключва поддръжката на други пътища" />
+  
   <translation id="ScheduledAction" value="Сега" />
   <translation id="CurrentState" value="Състояние" />
   <translation id="NextScheduledAction" value="До" />

@@ -129,6 +129,8 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="เวลาเช้าที่สุดที่เหตุการณ์จะเริ่มขึ้นในวันหยุดสุดสัปดาห์" />
   <translation id="LatestHourEventStartWeekend" value="เหตุการณ์เริ่มช้าที่สุด (วันหยุด)" />
   <translation id="LatestHourEventStartWeekendTooltip" value="เวลาดึกที่สุดที่เหตุการณ์จะเริ่มขึ้นในวันหยุดสุดสัปดาห์" />
+  <translation id="EventPreparationDuration" value="ระยะเวลาการเตรียมเหตุการณ์" />
+  <translation id="EventPreparationDurationTooltip" value="ระยะเวลาของช่วงการเตรียมเหตุการณ์" />
 
   <translation id="4Time" value="เวลา" />
   <translation id="MaxOvertime" value="การทำงานล่วงเวลาสูงสุด" />
@@ -152,10 +154,12 @@
   <translation id="TogaPartyLength" value="ระยะเวลาปาร์ตี้โทก้า (ต้องมี Campus DLC)" />
   <translation id="TogaPartyLengthTooltip" value="ระยะเวลาของปาร์ตี้โทก้า ค่าเริ่มต้นคือ 8 ชั่วโมง" />
 
-  <translation id="5BuildingService" value="บริการของเมือง" />
-  <translation id="0Garbage" value="เวลาเก็บขยะ" />
-  <translation id="1Mail" value="เวลาบริการไปรษณีย์" />
-  <translation id="2Other" value="เวลาบำรุงรักษาสวนสาธารณะ" />
+  <translation id="5Services" value="บริการ" />
+  <translation id="0Garbage" value="เวลาทำงานของบริการขยะ" />
+  <translation id="1Mail" value="เวลาทำงานของบริการไปรษณีย์" />
+  <translation id="2ParkMaintainace" value="เวลาทำงานของการบำรุงรักษาสวนสาธารณะ" />
+  <translation id="3MaintenanceSnow" value="เวลาทำงานของการบำรุงรักษาและการเก็บหิมะ" />
+  
   <translation id="GarbageResidentialStartHour" value="เขตที่พักอาศัย: เริ่ม" />
   <translation id="GarbageResidentialStartHourTooltip" value="เวลาที่รถขยะเริ่มทำงานในเขตที่พักอาศัย" />
   <translation id="GarbageResidentialEndHour" value="เขตที่พักอาศัย: สิ้นสุด" />
@@ -203,8 +207,6 @@
   <translation id="ParkMaintenanceEndHour" value="บำรุงรักษาสวน: สิ้นสุด" />
   <translation id="ParkMaintenanceEndHourTooltip" value="เวลาสิ้นสุดบริการบำรุงรักษาสวนสาธารณะ" />
 
-  <translation id="6RoadService" value="บริการถนน" />
-  <translation id="0MaintenanceSnow" value=" เวลาเก็บกวาดหิมะและซ่อมบำรุง" />
   <translation id="MaintenanceSnowRoadsSmallStartHour" value="ถนนขนาดเล็ก: เริ่ม" />
   <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="เวลาเริ่มบำรุงรักษาถนนขนาดเล็ก" />
   <translation id="MaintenanceSnowRoadsSmallEndHour" value="ถนนขนาดเล็ก: สิ้นสุด" />

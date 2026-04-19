@@ -129,6 +129,8 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="Най-ранният час за започване на събитие през уикенда" />
   <translation id="LatestHourEventStartWeekend" value="Най-късно събитие (уикенд)" />
   <translation id="LatestHourEventStartWeekendTooltip" value="Най-късният час за започване на събитие през уикенда" />
+  <translation id="EventPreparationDuration" value="Продължителност на подготовката на събитието" />
+  <translation id="EventPreparationDurationTooltip" value="Продължителността на периода на подготовка на събитието" />
 
   <translation id="4Time" value="Време" />
   <translation id="MaxOvertime" value="Максимален извънреден труд" />
@@ -152,10 +154,12 @@
   <translation id="TogaPartyLength" value="Продължителност на тога парти (изисква Campus DLC)" />
   <translation id="TogaPartyLengthTooltip" value="Колко трае тога партито. По подразбиране е 8 часа." />
 
-  <translation id="5BuildingService" value="Градски услуги" />
-  <translation id="0Garbage" value="Часове за сметоизвозване" />
-  <translation id="1Mail" value="Часове за пощенски услуги" />
-  <translation id="2Other" value="Часове за поддръжка на паркове" />
+  <translation id="5Services" value="Услуги" />
+  <translation id="0Garbage" value="Работно време на сметосъбиране" />
+  <translation id="1Mail" value="Работно време на пощата" />
+  <translation id="2ParkMaintainace" value="Работно време на поддръжка на паркове" />
+  <translation id="3MaintenanceSnow" value="Работно време на поддръжка и снегопочистване" />
+  
   <translation id="GarbageResidentialStartHour" value="Жилищни зони: начало" />
   <translation id="GarbageResidentialStartHourTooltip" value="Кога започват работа камионите за боклук в жилищните райони" />
   <translation id="GarbageResidentialEndHour" value="Жилищни зони: край" />
@@ -203,8 +207,6 @@
   <translation id="ParkMaintenanceEndHour" value="Поддръжка на паркове: край" />
   <translation id="ParkMaintenanceEndHourTooltip" value="Кога приключва поддръжката на парковете" />
 
-  <translation id="6RoadService" value="Пътни услуги" />
-  <translation id="0MaintenanceSnow" value=" Часове за снегопочистване и ремонт" />
   <translation id="MaintenanceSnowRoadsSmallStartHour" value="Малки пътища: начало" />
   <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="Кога започва поддръжката на малките пътища" />
   <translation id="MaintenanceSnowRoadsSmallEndHour" value="Малки пътища: край" />

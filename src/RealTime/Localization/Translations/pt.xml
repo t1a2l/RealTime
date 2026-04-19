@@ -129,6 +129,8 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="O horário mais cedo em que um evento pode começar em um dia de fim de semana" />
   <translation id="LatestHourEventStartWeekend" value="Evento mais tarde nos fins de semana" />
   <translation id="LatestHourEventStartWeekendTooltip" value="O horário mais tarde em que um evento pode começar em um dia de fim de semana" />
+  <translation id="EventPreparationDuration" value="Duração da preparação do evento" />
+  <translation id="EventPreparationDurationTooltip" value="A duração do período de preparação do evento" />
 
   <translation id="4Time" value="Tempo" />
   <translation id="MaxOvertime" value="Hora Extra Máx." />
@@ -152,10 +154,12 @@
   <translation id="TogaPartyLength" value="Duração da Festa de Toga (Requer DLC Campus)" />
   <translation id="TogaPartyLengthTooltip" value="Quanto tempo dura uma festa de toga. O padrão é 8 horas." />
 
-  <translation id="5BuildingService" value="Serviços dos Prédios" />
-  <translation id="0Garbage" value="Horário de coleta de lixo" />
-  <translation id="1Mail" value="Horário de serviço de correio" />
-  <translation id="2Other" value="Horário de manutenção de parques" />
+  <translation id="5Services" value="Serviços" />
+  <translation id="0Garbage" value="Horário de operação do serviço de lixo" />
+  <translation id="1Mail" value="Horário de operação do serviço de correio" />
+  <translation id="2ParkMaintainace" value="Horário de operação da manutenção de parques" />
+  <translation id="3MaintenanceSnow" value="Horário de operação da manutenção e neve" />
+  
   <translation id="GarbageResidentialStartHour" value="Início em áreas residenciais" />
   <translation id="GarbageResidentialStartHourTooltip" value="Horário em que os serviços de lixo começam a operar em áreas residenciais" />
   <translation id="GarbageResidentialEndHour" value="Fim em áreas residenciais" />
@@ -203,8 +207,6 @@
   <translation id="ParkMaintenanceEndHour" value="Fim da manutenção de parques" />
   <translation id="ParkMaintenanceEndHourTooltip" value="Horário em que os serviços de manutenção de parques param de operar" />
 
-  <translation id="6RoadService" value="Serviços Rodoviários" />
-  <translation id="0MaintenanceSnow" value=" Horário de manutenção e neve" />
   <translation id="MaintenanceSnowRoadsSmallStartHour" value="Início em estradas pequenas" />
   <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="Início da manutenção e remoção de neve em estradas pequenas" />
   <translation id="MaintenanceSnowRoadsSmallEndHour" value="Fim em estradas pequenas" />

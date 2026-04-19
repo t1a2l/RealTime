@@ -129,6 +129,8 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="Die früheste Zeit, zu der ein Ereignis am Wochenende beginnen kann." />
   <translation id="LatestHourEventStartWeekend" value="Spätester Beginn (Wochenende)" />
   <translation id="LatestHourEventStartWeekendTooltip" value="Die späteste Zeit, zu der ein Ereignis am Wochenende beginnen kann." />
+  <translation id="EventPreparationDuration" value="Dauer der Ereignisvorbereitung" />
+  <translation id="EventPreparationDurationTooltip" value="Die Dauer des Ereignisvorbereitungszeitraums" />
 
   <translation id="4Time" value="Zeitplan" />
   <translation id="MaxOvertime" value="Max. Überstunden" />
@@ -152,10 +154,12 @@
   <translation id="TogaPartyLength" value="Dauer Toga-Party (Campus DLC)" />
   <translation id="TogaPartyLengthTooltip" value="Dauer einer Toga-Party in Stunden. Standard: 8 Stunden." />
 
-  <translation id="5BuildingService" value="Gebäudeservice" />
-  <translation id="0Garbage" value="Müllabfuhr-Zeiten" />
-  <translation id="1Mail" value="Postservice-Zeiten" />
-  <translation id="2Other" value="Parkpflege-Zeiten" />
+  <translation id="5Services" value="Dienstleistungen" />
+  <translation id="0Garbage" value="Arbeitszeit Müllabfuhr" />
+  <translation id="1Mail" value="Arbeitszeit Post" />
+  <translation id="2ParkMaintainace" value="Arbeitszeit Parkwartung" />
+  <translation id="3MaintenanceSnow" value="Arbeitszeit Wartung und Schneeräumung" />
+    
   <translation id="GarbageResidentialStartHour" value="Wohngebiete Beginn" />
   <translation id="GarbageResidentialStartHourTooltip" value="Beginn der Müllabfuhr in Wohngebieten." />
   <translation id="GarbageResidentialEndHour" value="Wohngebiete Ende" />
@@ -203,8 +207,6 @@
   <translation id="ParkMaintenanceEndHour" value="Parkpflege Ende" />
   <translation id="ParkMaintenanceEndHourTooltip" value="Ende der Parkpflegearbeiten." />
 
-  <translation id="6RoadService" value="Straßendienst" />
-  <translation id="0MaintenanceSnow" value=" Wartung und Schneeräumung" />
   <translation id="MaintenanceSnowRoadsSmallStartHour" value="Kleine Straßen: Beginn" />
   <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="Beginn der Wartung auf kleinen Straßen." />
   <translation id="MaintenanceSnowRoadsSmallEndHour" value="Kleine Straßen: Ende" />

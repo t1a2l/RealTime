@@ -129,6 +129,8 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="Самое раннее время начала события в выходной день" />
   <translation id="LatestHourEventStartWeekend" value="Самое позднее событие (выходные)" />
   <translation id="LatestHourEventStartWeekendTooltip" value="Самое позднее время начала события в выходной день" />
+  <translation id="EventPreparationDuration" value="Длительность подготовки события" />
+  <translation id="EventPreparationDurationTooltip" value="Длительность периода подготовки события" />
 
   <translation id="4Time" value="Время" />
   <translation id="MaxOvertime" value="Макс. переработка" />
@@ -152,10 +154,12 @@
   <translation id="TogaPartyLength" value="Длительность тога-вечеринки (Требует DLC Campus)" />
   <translation id="TogaPartyLengthTooltip" value="Сколько длится тога-вечеринка. По умолчанию 8 часов." />
 
-  <translation id="5BuildingService" value="Городские службы" />
-  <translation id="0Garbage" value="Часы вывоза мусора" />
-  <translation id="1Mail" value="Часы работы почты" />
-  <translation id="2Other" value="Часы обслуживания парков" />
+  <translation id="5Services" value="Услуги" />
+  <translation id="0Garbage" value="Рабочие часы мусора" />
+  <translation id="1Mail" value="Рабочие часы почты" />
+  <translation id="2ParkMaintainace" value="Рабочие часы обслуживания парков" />
+  <translation id="3MaintenanceSnow" value="Рабочие часы обслуживания и уборки снега" />
+  
   <translation id="GarbageResidentialStartHour" value="Жилые зоны: начало" />
   <translation id="GarbageResidentialStartHourTooltip" value="Время начала работы мусоровозов в жилых районах" />
   <translation id="GarbageResidentialEndHour" value="Жилые зоны: конец" />
@@ -203,8 +207,6 @@
   <translation id="ParkMaintenanceEndHour" value="Обслуживание парков: конец" />
   <translation id="ParkMaintenanceEndHourTooltip" value="Время окончания работы служб обслуживания парков" />
 
-  <translation id="6RoadService" value="Дорожные службы" />
-  <translation id="0MaintenanceSnow" value=" Часы уборки снега и ремонта" />
   <translation id="MaintenanceSnowRoadsSmallStartHour" value="Малые дороги: начало" />
   <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="Время начала обслуживания малых дорог" />
   <translation id="MaintenanceSnowRoadsSmallEndHour" value="Малые дороги: конец" />

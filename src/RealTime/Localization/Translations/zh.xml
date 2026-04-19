@@ -129,6 +129,8 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="周末中事件可能开始的最早时间" />
   <translation id="LatestHourEventStartWeekend" value="最晚事件开始时间 (周末)" />
   <translation id="LatestHourEventStartWeekendTooltip" value="周末中事件可能开始的最晚时间" />
+  <translation id="EventPreparationDuration" value="事件准备持续时间" />
+  <translation id="EventPreparationDurationTooltip" value="事件准备阶段的持续时间" />
 
   <translation id="4Time" value="时间日程" />
   <translation id="MaxOvertime" value="最大加班时间" />
@@ -152,10 +154,12 @@
   <translation id="TogaPartyLength" value="托加聚会时长 (需要校园 DLC)" />
   <translation id="TogaPartyLengthTooltip" value="托加聚会的持续时长。默认为 8 小时。" />
 
-  <translation id="5BuildingService" value="城市服务" />
+  <translation id="5Services" value="服务" />
   <translation id="0Garbage" value="垃圾收集时间" />
   <translation id="1Mail" value="邮政服务时间" />
-  <translation id="2Other" value="公园维护时间" />
+  <translation id="2ParkMaintainace" value="公园维护时间" />
+  <translation id="3MaintenanceSnow" value=" 清雪与道路维护时间" />
+  
   <translation id="GarbageResidentialStartHour" value="住宅区：开始时间" />
   <translation id="GarbageResidentialStartHourTooltip" value="垃圾车开始在住宅区工作的时间" />
   <translation id="GarbageResidentialEndHour" value="住宅区：结束时间" />
@@ -203,8 +207,6 @@
   <translation id="ParkMaintenanceEndHour" value="公园维护：结束时间" />
   <translation id="ParkMaintenanceEndHourTooltip" value="公园维护服务停止的时间" />
 
-  <translation id="6RoadService" value="道路服务" />
-  <translation id="0MaintenanceSnow" value=" 清雪与道路维护时间" />
   <translation id="MaintenanceSnowRoadsSmallStartHour" value="小型道路：开始时间" />
   <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="维护服务开始在小型道路工作的时间" />
   <translation id="MaintenanceSnowRoadsSmallEndHour" value="小型道路：结束时间" />

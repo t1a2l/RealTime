@@ -129,6 +129,8 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="L'heure la plus tôt à laquelle un événement peut commencer le week-end." />
   <translation id="LatestHourEventStartWeekend" value="Heure début max. (week-end)" />
   <translation id="LatestHourEventStartWeekendTooltip" value="L'heure la plus tardive à laquelle un événement peut commencer le week-end." />
+  <translation id="EventPreparationDuration" value="Durée de préparation de l'événement" />
+  <translation id="EventPreparationDurationTooltip" value="La durée de la période de préparation de l'événement" />
 
   <translation id="4Time" value="Programmation horaire" />
   <translation id="MaxOvertime" value="Heures suppl. max" />
@@ -152,10 +154,12 @@
   <translation id="TogaPartyLength" value="Durée Toga Party (DLC Campus)" />
   <translation id="TogaPartyLengthTooltip" value="Durée d'une Toga Party. Par défaut : 8 heures." />
 
-  <translation id="5BuildingService" value="Services bâtiments" />
-  <translation id="0Garbage" value="Heures ramassage déchets" />
-  <translation id="1Mail" value="Heures service postal" />
-  <translation id="2Other" value="Heures entretien parcs" />
+  <translation id="5Services" value="Services" />
+  <translation id="0Garbage" value="Heures de fonctionnement de la collecte des déchets" />
+  <translation id="1Mail" value="Heures de fonctionnement du service postal" />
+  <translation id="2ParkMaintainace" value="Heures de fonctionnement de l'entretien des parcs" />
+  <translation id="3MaintenanceSnow" value="Heures de fonctionnement de l'entretien et de la neige" />
+
   <translation id="GarbageResidentialStartHour" value="Début résidentiel" />
   <translation id="GarbageResidentialStartHourTooltip" value="Début d'activité des bennes à ordures en zone résidentielle." />
   <translation id="GarbageResidentialEndHour" value="Fin résidentiel" />
@@ -203,8 +207,6 @@
   <translation id="ParkMaintenanceEndHour" value="Fin entretien parcs" />
   <translation id="ParkMaintenanceEndHourTooltip" value="Fin d'activité des services d'entretien des parcs." />
 
-  <translation id="6RoadService" value="Services routiers" />
-  <translation id="0MaintenanceSnow" value=" Heures entretien routes et déneigement" />
   <translation id="MaintenanceSnowRoadsSmallStartHour" value="Petites routes : Début" />
   <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="Début entretien/déneigement sur les petites routes." />
   <translation id="MaintenanceSnowRoadsSmallEndHour" value="Petites routes : Fin" />

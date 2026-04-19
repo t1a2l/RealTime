@@ -129,6 +129,8 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="주말에 이벤트가 시작될 수 있는 가장 이른 시간입니다." />
   <translation id="LatestHourEventStartWeekend" value="주말 이벤트 시작 가능 최대 시간" />
   <translation id="LatestHourEventStartWeekendTooltip" value="주말에 이벤트가 시작될 수 있는 가장 늦은 시간입니다." />
+  <translation id="EventPreparationDuration" value="이벤트 준비 기간" />
+  <translation id="EventPreparationDurationTooltip" value="이벤트 준비 기간의 길이입니다." />
 
   <translation id="4Time" value="시간 스케줄" />
   <translation id="MaxOvertime" value="최대 연장 근무" />
@@ -152,10 +154,12 @@
   <translation id="TogaPartyLength" value="토가 파티 지속 시간 (캠퍼스 DLC 필요)" />
   <translation id="TogaPartyLengthTooltip" value="토가 파티가 지속되는 시간입니다. 기본값은 8시간입니다." />
 
-  <translation id="5BuildingService" value="건물 서비스" />
-  <translation id="0Garbage" value="쓰레기 수거 시간" />
-  <translation id="1Mail" value="우편 서비스 시간" />
-  <translation id="2Other" value="공원 관리 시간" />
+  <translation id="5Services" value="서비스" />
+  <translation id="0Garbage" value="쓰레기 수거 운영 시간" />
+  <translation id="1Mail" value="우편 서비스 운영 시간" />
+  <translation id="2ParkMaintainace" value="공원 유지 관리 운영 시간" />
+  <translation id="3MaintenanceSnow" value="유지 관리 및 제설 운영 시간" />
+  
   <translation id="GarbageResidentialStartHour" value="주거 지역 시작 시간" />
   <translation id="GarbageResidentialStartHourTooltip" value="주거 지역에서 쓰레기 수거 차량이 운행을 시작하는 시간입니다." />
   <translation id="GarbageResidentialEndHour" value="주거 지역 종료 시간" />
@@ -203,8 +207,6 @@
   <translation id="ParkMaintenanceEndHour" value="공원 관리 종료 시간" />
   <translation id="ParkMaintenanceEndHourTooltip" value="공원 관리 서비스가 운행을 종료하는 시간입니다." />
 
-  <translation id="6RoadService" value="도로 서비스" />
-  <translation id="0MaintenanceSnow" value=" 도로 유지보수 및 제설 시간" />
   <translation id="MaintenanceSnowRoadsSmallStartHour" value="소형 도로 시작" />
   <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="소형 도로의 유지보수 및 제설 시작 시간입니다." />
   <translation id="MaintenanceSnowRoadsSmallEndHour" value="소형 도로 종료" />

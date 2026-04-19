@@ -129,6 +129,8 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="週末にイベントが開始される最も早い時間" />
   <translation id="LatestHourEventStartWeekend" value="開始可能最遅時間（週末）" />
   <translation id="LatestHourEventStartWeekendTooltip" value="週末にイベントが開始される最も遅い時間" />
+  <translation id="EventPreparationDuration" value="イベント準備期間の長さ" />
+  <translation id="EventPreparationDurationTooltip" value="イベント準備期間の長さ" />
 
   <translation id="4Time" value="タイムスケジュール" />
   <translation id="MaxOvertime" value="最大残業時間" />
@@ -152,10 +154,12 @@
   <translation id="TogaPartyLength" value="トガパーティーの持続時間 (Campus DLCが必要)" />
   <translation id="TogaPartyLengthTooltip" value="トガパーティーが開催される時間。デフォルトは8時間です" />
 
-  <translation id="5BuildingService" value="建物サービス" />
-  <translation id="0Garbage" value="ゴミ回収時間" />
-  <translation id="1Mail" value="郵便サービス時間" />
-  <translation id="2Other" value="公園維持管理時間" />
+  <translation id="5Services" value="サービス" />
+  <translation id="0Garbage" value="ゴミ収集の稼働時間" />
+  <translation id="1Mail" value="郵便サービスの稼働時間" />
+  <translation id="2ParkMaintainace" value="公園の維持管理の稼働時間" />
+  <translation id="3MaintenanceSnow" value="維持管理および雪かきの稼働時間" />
+  
   <translation id="GarbageResidentialStartHour" value="住宅区：開始" />
   <translation id="GarbageResidentialStartHourTooltip" value="住宅区でゴミ収集車が活動を開始する時間" />
   <translation id="GarbageResidentialEndHour" value="住宅区：終了" />
@@ -203,8 +207,6 @@
   <translation id="ParkMaintenanceEndHour" value="公園管理：終了" />
   <translation id="ParkMaintenanceEndHourTooltip" value="公園の維持管理サービスが活動を終了する時間" />
 
-  <translation id="6RoadService" value="道路サービス" />
-  <translation id="0MaintenanceSnow" value=" 道路維持管理と除雪の時間" />
   <translation id="MaintenanceSnowRoadsSmallStartHour" value="小規模道路：開始" />
   <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="小規模道路で維持管理・除雪を開始する時間" />
   <translation id="MaintenanceSnowRoadsSmallEndHour" value="小規模道路：終了" />

@@ -129,6 +129,8 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="The earliest time when an event can start on a weekend day" />
   <translation id="LatestHourEventStartWeekend" value="Latest weekend event" />
   <translation id="LatestHourEventStartWeekendTooltip" value="The latest time when an event can start on a weekend day" />
+  <translation id="EventPreparationDuration" value="Event preparation duration" />
+  <translation id="EventPreparationDurationTooltip" value="The duration of the event preparation period" />
 
   <translation id="4Time" value="Time" />
   <translation id="MaxOvertime" value="Max. Overtime" />
@@ -152,10 +154,12 @@
   <translation id="TogaPartyLength" value="Toga Party hours (Requires The Campus DLC)" />
   <translation id="TogaPartyLengthTooltip" value="how long a toga party will last. Default is 8 hours." />
   
-  <translation id="5BuildingService" value="Building Services" />
+  <translation id="5Services" value="Services" />
   <translation id="0Garbage" value="Garbage operation hours" />
   <translation id="1Mail" value="Mail operation hours" />
-  <translation id="2Other" value="Park Maintainace operation hours" />
+  <translation id="2ParkMaintainace" value="Park Maintainace operation hours" />
+  <translation id="3MaintenanceSnow" value=" Maintenance and Snow operation hours" />
+  
   <translation id="GarbageResidentialStartHour" value="Residential start hour" />
   <translation id="GarbageResidentialStartHourTooltip" value="The daytime when garbage services starts to operate in residential areas" />
   <translation id="GarbageResidentialEndHour" value="Residential end hour" />
@@ -203,8 +207,6 @@
   <translation id="ParkMaintenanceEndHour" value="Park Maintenance end hour" />
   <translation id="ParkMaintenanceEndHourTooltip" value="The daytime when park maintenance services stop to operate" />
 
-  <translation id="6RoadService" value="Road Services" />
-  <translation id="0MaintenanceSnow" value=" Maintenance and Snow operation hours" />
   <translation id="MaintenanceSnowRoadsSmallStartHour" value="Small roads start hour" />
   <translation id="MaintenanceSnowRoadsSmallStartHourTooltip" value="The daytime when maintenance and snow services starts to operate for small roads" />
   <translation id="MaintenanceSnowRoadsSmallEndHour" value="Small roads end hour" />

@@ -4,6 +4,7 @@ namespace RealTime.Patches
     using ColossalFramework;
     using HarmonyLib;
     using RealTime.Managers;
+    using SkyTools.Tools;
     using UnityEngine;
 
     [HarmonyPatch]
@@ -32,7 +33,7 @@ namespace RealTime.Patches
                 if (route.m_scheduleData[i].m_scheduleID == scheduleId && !eventTimeSchedules[i].AutoOccur)
                 {
                     Singleton<EventManager>.instance.SuspendScheduledEvent(eventRouteIndex, i);
-                    Debug.Log($"Suspended non-auto schedule {i} (ID={scheduleId}) for route {eventRouteIndex}");
+                    Log.Debug(LogCategory.Events, $"RealTime: Suspended non-auto schedule {i} (ID={scheduleId}) for route {eventRouteIndex}");
                     break;
                 }
             }
@@ -42,9 +43,11 @@ namespace RealTime.Patches
         [HarmonyPrefix]
         public static bool GetDisorganizingEndFrame(RaceEventAI __instance, ushort eventID, ref EventData data, ref uint __result)
         {
-            uint eventEndFrame = __instance is ParadeAI paradeAI ? GetParadeEndFrame(paradeAI, ref data) : GetRaceEndFrame(ref data);
-            uint num = (uint)Mathf.RoundToInt(1f * SimulationManager.DAYTIME_HOUR_TO_FRAME);
-            __result = eventEndFrame + num;
+            uint durationFrames = __instance is ParadeAI paradeAI ? GetParadeDurationFrames(paradeAI, ref data) : GetRaceDurationFrames(ref data);
+
+            uint eventEndFrame = data.m_startFrame + durationFrames;
+            uint disorganizeFrames = (uint)Mathf.RoundToInt(1f * SimulationManager.DAYTIME_HOUR_TO_FRAME);
+            __result = eventEndFrame + disorganizeFrames;
             return false;
         }
 
@@ -52,11 +55,13 @@ namespace RealTime.Patches
         [HarmonyPrefix]
         public static bool GetEndFrame(RaceEventAI __instance, ushort eventID, ref EventData data, ref uint __result)
         {
-            __result = __instance is ParadeAI paradeAI ? GetParadeEndFrame(paradeAI, ref data) : GetRaceEndFrame(ref data);
+            uint durationFrames = __instance is ParadeAI paradeAI ? GetParadeDurationFrames(paradeAI, ref data) : GetRaceDurationFrames(ref data);
+
+            __result = data.m_startFrame + durationFrames;
             return false;
         }
 
-        public static uint GetRaceEndFrame(ref EventData data)
+        public static uint GetRaceDurationFrames(ref EventData data)
         {
             float totalDistance = 0f;
             for (int i = 1; i < data.m_raceEventData.m_trackPathLength; i++)
@@ -84,7 +89,7 @@ namespace RealTime.Patches
 
             if (validSpeedCount > 0)
             {
-                representativeSpeed /= validSpeedCount; // average racer speed
+                representativeSpeed /= validSpeedCount;
             }
             else
             {
@@ -99,24 +104,19 @@ namespace RealTime.Patches
 
             representativeSpeed = Mathf.Max(representativeSpeed, 0.05f);
 
-            // Travel time in frames directly, since speed is already units/frame
             float travelFrames = totalRaceUnits / representativeSpeed;
-
-            // Add overhead: race start spread + finish grace
-            float startBufferFrames = 0.10f * SimulationManager.DAYTIME_HOUR_TO_FRAME;   // 6 min
-            float finishBufferFrames = 0.25f * SimulationManager.DAYTIME_HOUR_TO_FRAME;  // 15 min
+            float startBufferFrames = 0.10f * SimulationManager.DAYTIME_HOUR_TO_FRAME;
+            float finishBufferFrames = 0.25f * SimulationManager.DAYTIME_HOUR_TO_FRAME;
 
             uint totalDuration = (uint)Mathf.CeilToInt(travelFrames + startBufferFrames + finishBufferFrames);
 
-            uint minFrames = (uint)Mathf.RoundToInt(0.5f * SimulationManager.DAYTIME_HOUR_TO_FRAME); // 30 min minimum
-            uint maxFrames = (uint)Mathf.RoundToInt(6f * SimulationManager.DAYTIME_HOUR_TO_FRAME);   // 6 hour cap
+            uint minFrames = (uint)Mathf.RoundToInt(0.5f * SimulationManager.DAYTIME_HOUR_TO_FRAME);
+            uint maxFrames = (uint)Mathf.RoundToInt(6f * SimulationManager.DAYTIME_HOUR_TO_FRAME);
 
-            uint finalDuration = (uint)Mathf.Clamp(totalDuration, minFrames, maxFrames);
-
-            return data.m_startFrame + finalDuration;
+            return (uint)Mathf.Clamp(totalDuration, minFrames, maxFrames);
         }
 
-        public static uint GetParadeEndFrame(ParadeAI instance, ref EventData data)
+        public static uint GetParadeDurationFrames(ParadeAI instance, ref EventData data)
         {
             float totalDistanceUnits = 0f;
             for (int i = 1; i < data.m_raceEventData.m_trackPathLength; i++)
@@ -125,32 +125,23 @@ namespace RealTime.Patches
             }
 
             float speed = Mathf.Max(instance.m_paradeSpeed, 0.01f);
-
             int racerCount = Mathf.Max(1, data.m_raceEventData.m_racerCount);
 
-            // How long the first float needs to travel the full route
             float leadTravelFrames = totalDistanceUnits / speed;
-
-            // Approximate time between spawning one group and the next
             float avgFloatLength = 1.5f;
             float spawnIntervalFrames = (instance.m_groupSpacing + avgFloatLength) / speed;
-
-            // Time until the LAST group is spawned
             float tailSpawnFrames = (racerCount - 1) * spawnIntervalFrames;
 
-            // Extra grace so the last float fully reaches the target before despawn
             float finishBufferFrames = Mathf.Max(
-                0.25f * SimulationManager.DAYTIME_HOUR_TO_FRAME,   // 15 minutes
-                2f * spawnIntervalFrames);                         // or two extra spacing intervals
+                0.25f * SimulationManager.DAYTIME_HOUR_TO_FRAME,
+                2f * spawnIntervalFrames);
 
             uint totalDuration = (uint)Mathf.CeilToInt(
-                leadTravelFrames +
-                tailSpawnFrames +
-                finishBufferFrames);
+                leadTravelFrames + tailSpawnFrames + finishBufferFrames);
 
             uint maxFrames = (uint)Mathf.RoundToInt(4f * SimulationManager.DAYTIME_HOUR_TO_FRAME);
 
-            return data.m_startFrame + Math.Min(totalDuration, maxFrames);
+            return Math.Min(totalDuration, maxFrames);
         }
     }
 }

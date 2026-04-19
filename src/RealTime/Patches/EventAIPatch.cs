@@ -38,9 +38,9 @@ namespace RealTime.Patches
             {
                 __instance.m_prepareDuration = 0;
             }
-            if (__instance.m_info.GetAI() is RaceEventAI)
+            else 
             {
-                __instance.m_prepareDuration = 2f;
+                __instance.m_prepareDuration = RealTimeConfig.EventPreparationDuration;
             }
         }
 

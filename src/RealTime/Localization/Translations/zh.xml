@@ -90,34 +90,40 @@
   <translation id="DummyTrafficBehavior" value="过境交通平衡" />
   <translation id="DummyTrafficBehaviorTooltip" value="如果开启，过境交通将针对模组的玩法进行更好的平衡" />
 
-  <translation id="2Quotas" value="配额 / 概率" />
+  <translation id="2Quotas" value="Probabilities" />
+  <translation id="0WorkAndSchoolQuotas" value="Work And School Probabilities" />
+  <translation id="1OtherQuotas" value="Other Citizen Probabilities" />
+  <translation id="2BuildingQuotas" value="Building Probabilities" />
+
+  <translation id="OnTimeQuota" value="准点率" />
+  <translation id="OnTimeQuotaTooltip" value="能够准时上下班的市民比例" />
   <translation id="SecondShiftQuota" value="二班制员工" />
   <translation id="SecondShiftQuotaTooltip" value="在第二班次工作的市民比例" />
   <translation id="NightShiftQuota" value="三班制 (夜班) 员工" />
   <translation id="NightShiftQuotaTooltip" value="在夜班工作的市民比例" />
   <translation id="ContinuousNightShiftQuota" value="持续夜班员工" />
   <translation id="ContinuousNightShiftQuotaTooltip" value="在持续夜班工作的市民比例" />
+  <translation id="NightClassQuota" value="夜校学生比例" />
+  <translation id="NightClassQuotaTooltip" value="参加夜校学习的市民比例" />
   <translation id="BreakfastBeforeWorkOrSchoolQuota" value="工作/上学前吃早餐的概率" />
   <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="市民在去上班或上学前会出去吃早餐的比例" />
   <translation id="LunchDuringWorkOrSchoolQuota" value="工作/上学期间吃午餐的概率" />
   <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="市民在工作或上学期间会出去吃午餐的比例" />
   <translation id="SupperAfterWorkOrSchoolQuota" value="工作/上学后吃晚餐的概率" />
   <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="市民在工作或上学后会出去吃晚餐的比例" />
+  
   <translation id="LocalBuildingSearchQuota" value="本地购物率" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="人口中会寻找附近商店购物的比例" />
   <translation id="ShoppingForFunQuota" value="休闲购物率" />
   <translation id="ShoppingForFunQuotaTooltip" value="即使没有需求，人口中也会为了娱乐去购物的比例" />
-  <translation id="OnTimeQuota" value="准点率" />
-  <translation id="OnTimeQuotaTooltip" value="能够准时上下班的市民比例" />
+  
   <translation id="OpenLowCommercialAtNightQuota" value="夜间营业的小型商店比例" />
   <translation id="OpenLowCommercialAtNightQuotaTooltip" value="在夜间保持营业的低密度商业建筑比例" />
   <translation id="OpenCommercialSecondShiftQuota" value="二班制商店比例" />
   <translation id="OpenCommercialSecondShiftQuotaTooltip" value="运行第二班次的商业建筑比例" />
   <translation id="OpenCommercialAtWeekendsQuota" value="周末营业商店比例" />
   <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="在周末保持营业的商业建筑比例" />
-  <translation id="NightClassQuota" value="夜校学生比例" />
-  <translation id="NightClassQuotaTooltip" value="参加夜校学习的市民比例" />
-
+  
   <translation id="3Events" value="事件" />
   <translation id="AreEventsEnabled" value="启用自定义事件" />
   <translation id="AreEventsEnabledTooltip" value="如果禁用，城市中只会发生游戏的标准事件" />

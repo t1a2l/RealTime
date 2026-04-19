@@ -90,33 +90,39 @@
   <translation id="DummyTrafficBehavior" value="Облегчить транзитный трафик" />
   <translation id="DummyTrafficBehaviorTooltip" value="Если включено, транзитный трафик становится более сбалансированным под геймплей мода" />
 
-  <translation id="2Quotas" value="Вероятности" />
+  <translation id="2Quotas" value="Probabilities" />
+  <translation id="0WorkAndSchoolQuotas" value="Work And School Probabilities" />
+  <translation id="1OtherQuotas" value="Other Citizen Probabilities" />
+  <translation id="2BuildingQuotas" value="Building Probabilities" />
+
+  <translation id="OnTimeQuota" value="Коэффициент пунктуальности" />
+  <translation id="OnTimeQuotaTooltip" value="Процент жителей, которые приходят на работу и уходят с нее вовремя" />
   <translation id="SecondShiftQuota" value="Рабочие второй смены" />
   <translation id="SecondShiftQuotaTooltip" value="Процент жителей, работающих во вторую смену" />
   <translation id="NightShiftQuota" value="Рабочие ночной смены" />
   <translation id="NightShiftQuotaTooltip" value="Процент жителей, работающих в ночную смену" />
   <translation id="ContinuousNightShiftQuota" value="Постоянные ночные рабочие" />
   <translation id="ContinuousNightShiftQuotaTooltip" value="Процент жителей, работающих в непрерывную ночную смену" />
+  <translation id="NightClassQuota" value="Студенты вечерней школы" />
+  <translation id="NightClassQuotaTooltip" value="Процент жителей, посещающих вечернюю школу" />
   <translation id="BreakfastBeforeWorkOrSchoolQuota" value="Вероятность завтрака перед работой/учебой" />
   <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="Процент жителей, которые пойдут завтракать вне дома перед работой или школой" />
   <translation id="LunchDuringWorkOrSchoolQuota" value="Вероятность обеда во время работы/учебы" />
   <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="Процент жителей, которые пойдут обедать вне дома во время работы или школы" />
   <translation id="SupperAfterWorkOrSchoolQuota" value="Вероятность ужина после работы/учебы" />
   <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="Процент жителей, которые пойдут ужинать вне дома после работы или школы" />
+  
   <translation id="LocalBuildingSearchQuota" value="Доля местных покупок" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="Процент населения, который будет искать магазины поблизости" />
   <translation id="ShoppingForFunQuota" value="Шоппинг ради удовольствия" />
   <translation id="ShoppingForFunQuotaTooltip" value="Процент населения, который пойдет за покупками ради развлечения, даже если им ничего не нужно" />
-  <translation id="OnTimeQuota" value="Коэффициент пунктуальности" />
-  <translation id="OnTimeQuotaTooltip" value="Процент жителей, которые приходят на работу и уходят с нее вовремя" />
+  
   <translation id="OpenLowCommercialAtNightQuota" value="Процент малых магазинов, открытых ночью" />
   <translation id="OpenLowCommercialAtNightQuotaTooltip" value="Процент коммерческих зданий низкой плотности, которые будут оставаться открытыми ночью" />
   <translation id="OpenCommercialSecondShiftQuota" value="Процент магазинов со второй сменой" />
   <translation id="OpenCommercialSecondShiftQuotaTooltip" value="Процент коммерческих зданий, которые будут работать во вторую смену" />
   <translation id="OpenCommercialAtWeekendsQuota" value="Процент магазинов, открытых в выходные" />
   <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="Процент коммерческих зданий, которые будут открыты по выходным" />
-  <translation id="NightClassQuota" value="Студенты вечерней школы" />
-  <translation id="NightClassQuotaTooltip" value="Процент жителей, посещающих вечернюю школу" />
 
   <translation id="3Events" value="События" />
   <translation id="AreEventsEnabled" value="Включить пользовательские события" />

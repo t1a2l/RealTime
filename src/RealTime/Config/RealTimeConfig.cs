@@ -145,10 +145,19 @@ namespace RealTime.Config
         public bool DummyTrafficBehavior { get; set; }
 
         /// <summary>
+        /// Gets or sets the percentage of the Cims that will go to and leave their work or school.
+        /// on time (no overtime!).
+        /// Valid values are 0..100.
+        /// </summary>
+        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 0)]
+        [ConfigItemSlider(0, 100)]
+        public uint OnTimeQuota { get; set; }
+
+        /// <summary>
         /// Gets or sets a value that determines the percentage of the Cims that will work a second shift.
         /// Valid values are 1..8.
         /// </summary>
-        [ConfigItem("2Quotas", 0)]
+        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 1)]
         [ConfigItemSlider(1, 25)]
         public uint SecondShiftQuota { get; set; }
 
@@ -156,7 +165,7 @@ namespace RealTime.Config
         /// Gets or sets a value that determines the percentage of the Cims that will work a night shift.
         /// Valid values are 1..8.
         /// </summary>
-        [ConfigItem("2Quotas", 1)]
+        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 2)]
         [ConfigItemSlider(1, 25)]
         public uint NightShiftQuota { get; set; }
 
@@ -164,15 +173,23 @@ namespace RealTime.Config
         /// Gets or sets a value that determines the percentage of the Cims that will work a continuous night shift.
         /// Valid values are 1..8.
         /// </summary>
-        [ConfigItem("2Quotas", 2)]
+        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 3)]
         [ConfigItemSlider(1, 25)]
         public uint ContinuousNightShiftQuota { get; set; }
+
+        /// <summary>
+        /// Gets or sets the percentage of the Cims that will go to night class.
+        /// Valid values are 0..100.
+        /// </summary>
+        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 4)]
+        [ConfigItemSlider(0, 100)]
+        public uint NightClassQuota { get; set; }
 
         /// <summary>
         /// Gets or sets the percentage of the Cims that will go out for breakfast before work or school.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 3)]
+        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 5)]
         [ConfigItemSlider(0, 100)]
         public uint BreakfastBeforeWorkOrSchoolQuota { get; set; }
 
@@ -180,7 +197,7 @@ namespace RealTime.Config
         /// Gets or sets the percentage of the Cims that will go out for lunch during work or school.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 4)]
+        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 6)]
         [ConfigItemSlider(0, 100)]
         public uint LunchDuringWorkOrSchoolQuota { get; set; }
 
@@ -188,7 +205,7 @@ namespace RealTime.Config
         /// Gets or sets the percentage of the Cims that will go out for supper after work or school.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 5)]
+        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 7)]
         [ConfigItemSlider(0, 100)]
         public uint SupperAfterWorkOrSchoolQuota { get; set; }
 
@@ -196,7 +213,7 @@ namespace RealTime.Config
         /// Gets or sets the percentage of the population that will search locally for buildings.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 6)]
+        [ConfigItem("2Quotas", "1OtherQuotas", 0)]
         [ConfigItemSlider(0, 100)]
         public uint LocalBuildingSearchQuota { get; set; }
 
@@ -204,52 +221,36 @@ namespace RealTime.Config
         /// Gets or sets the percentage of the Cims that will go shopping just for fun without needing to buy something.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 7)]
+        [ConfigItem("2Quotas", "1OtherQuotas", 1)]
         [ConfigItemSlider(0, 50)]
         public uint ShoppingForFunQuota { get; set; }
 
         /// <summary>
-        /// Gets or sets the percentage of the Cims that will go to and leave their work or school
+        /// Gets or sets the percentage of low commercial buildings that stay open at night.
         /// on time (no overtime!).
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 8)]
-        [ConfigItemSlider(0, 100)]
-        public uint OnTimeQuota { get; set; }
-
-        /// <summary>
-        /// Gets or sets the percentage of low commercial buildings that stay open at night
-        /// on time (no overtime!).
-        /// Valid values are 0..100.
-        /// </summary>
-        [ConfigItem("2Quotas", 9)]
+        [ConfigItem("2Quotas", "2BuildingQuotas", 0)]
         [ConfigItemSlider(0, 100)]
         public uint OpenLowCommercialAtNightQuota { get; set; }
 
         /// <summary>
-        /// Gets or sets the percentage of commercial buildings that stay open at weekends
+        /// Gets or sets the percentage of commercial buildings that will have a second shift.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 10)]
+        [ConfigItem("2Quotas", "2BuildingQuotas", 1)]
         [ConfigItemSlider(0, 100)]
         public uint OpenCommercialSecondShiftQuota { get; set; }
 
         /// <summary>
-        /// Gets or sets the percentage of commercial buildings that stay open at weekends
+        /// Gets or sets the percentage of commercial buildings that stay open at weekends.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 11)]
+        [ConfigItem("2Quotas", "2BuildingQuotas", 2)]
         [ConfigItemSlider(0, 100)]
         public uint OpenCommercialAtWeekendsQuota { get; set; }
 
-        /// <summary>
-        /// Gets or sets the percentage of the Cims that will go to night class.
-        /// Valid values are 0..100.
-        /// </summary>
-        [ConfigItem("2Quotas", 12)]
-        [ConfigItemSlider(0, 100)]
-        public uint NightClassQuota { get; set; }
-
+        
         /// <summary>
         /// Gets or sets a value indicating whether the custom events are enabled.
         /// </summary>

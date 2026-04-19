@@ -90,33 +90,39 @@
   <translation id="DummyTrafficBehavior" value="ปรับสมดุลรถทางผ่าน (Dummy Traffic)" />
   <translation id="DummyTrafficBehaviorTooltip" value="หากเปิดใช้งาน รถที่วิ่งผ่านเมืองจะถูกปรับสมดุลให้เข้ากับระบบการเล่นของม็อดนี้" />
 
-  <translation id="2Quotas" value="โควตา / ความน่าจะเป็น" />
+  <translation id="2Quotas" value="Probabilities" />
+  <translation id="0WorkAndSchoolQuotas" value="Work And School Probabilities" />
+  <translation id="1OtherQuotas" value="Other Citizen Probabilities" />
+  <translation id="2BuildingQuotas" value="Building Probabilities" />
+
+  <translation id="OnTimeQuota" value="อัตราความตรงต่อเวลา" />
+  <translation id="OnTimeQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่ไปทำงานและกลับบ้านตรงเวลา" />
   <translation id="SecondShiftQuota" value="พนักงานกะที่สอง" />
   <translation id="SecondShiftQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่ทำงานในกะที่สอง" />
   <translation id="NightShiftQuota" value="พนักงานกะกลางคืน" />
   <translation id="NightShiftQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่ทำงานในกะกลางคืน" />
   <translation id="ContinuousNightShiftQuota" value="พนักงานกะกลางคืนแบบต่อเนื่อง" />
   <translation id="ContinuousNightShiftQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่ทำงานกะกลางคืนแบบไม่หยุดพัก" />
+  <translation id="NightClassQuota" value="นักเรียนภาคค่ำ" />
+  <translation id="NightClassQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่เข้าเรียนในภาคค่ำ" />
   <translation id="BreakfastBeforeWorkOrSchoolQuota" value="ความน่าจะเป็นในการกินมื้อเช้าก่อนงาน/เรียน" />
   <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่จะออกไปกินมื้อเช้าข้างนอกก่อนไปทำงานหรือโรงเรียน" />
   <translation id="LunchDuringWorkOrSchoolQuota" value="ความน่าจะเป็นในการกินมื้อกลางวันระหว่างงาน/เรียน" />
   <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่จะออกไปกินมื้อกลางวันข้างนอกระหว่างเวลาทำงานหรือโรงเรียน" />
   <translation id="SupperAfterWorkOrSchoolQuota" value="ความน่าจะเป็นในการกินมื้อค่ำหลังงาน/เรียน" />
   <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่จะออกไปกินมื้อค่ำข้างนอกหลังเวลาทำงานหรือโรงเรียน" />
+  
   <translation id="LocalBuildingSearchQuota" value="อัตราการชอปปิงในท้องถิ่น" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่จะค้นหาร้านค้าในบริเวณใกล้เคียง" />
   <translation id="ShoppingForFunQuota" value="การชอปปิงเพื่อความบันเทิง" />
   <translation id="ShoppingForFunQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่จะออกไปชอปปิงเพื่อความสนุกแม้ว่าจะไม่ต้องการสินค้าใดๆ ก็ตาม" />
-  <translation id="OnTimeQuota" value="อัตราความตรงต่อเวลา" />
-  <translation id="OnTimeQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่ไปทำงานและกลับบ้านตรงเวลา" />
+  
   <translation id="OpenLowCommercialAtNightQuota" value="ร้านค้าขนาดเล็กที่เปิดตอนกลางคืน" />
   <translation id="OpenLowCommercialAtNightQuotaTooltip" value="เปอร์เซ็นต์ของอาคารพาณิชย์ความหนาแน่นต่ำที่จะเปิดทำการในเวลากลางคืน" />
   <translation id="OpenCommercialSecondShiftQuota" value="ร้านค้าที่เปิดกะที่สอง" />
   <translation id="OpenCommercialSecondShiftQuotaTooltip" value="เปอร์เซ็นต์ของอาคารพาณิชย์ที่จะทำงานในกะที่สอง" />
   <translation id="OpenCommercialAtWeekendsQuota" value="ร้านค้าที่เปิดในวันหยุดสุดสัปดาห์" />
   <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="เปอร์เซ็นต์ของอาคารพาณิชย์ที่จะเปิดทำการในวันหยุดสุดสัปดาห์" />
-  <translation id="NightClassQuota" value="นักเรียนภาคค่ำ" />
-  <translation id="NightClassQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่เข้าเรียนในภาคค่ำ" />
 
   <translation id="3Events" value="เหตุการณ์" />
   <translation id="AreEventsEnabled" value="เปิดใช้งานเหตุการณ์ที่กำหนดเอง" />

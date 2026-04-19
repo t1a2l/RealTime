@@ -90,33 +90,39 @@
   <translation id="DummyTrafficBehavior" value="통과 교통량 최적화" />
   <translation id="DummyTrafficBehaviorTooltip" value="활성화 시 도시를 통과하는 교통량이 모드 시뮬레이션에 맞춰 조정됩니다." />
 
-  <translation id="2Quotas" value="확률 설정" />
+  <translation id="2Quotas" value="Probabilities" />
+  <translation id="0WorkAndSchoolQuotas" value="Work And School Probabilities" />
+  <translation id="1OtherQuotas" value="Other Citizen Probabilities" />
+  <translation id="2BuildingQuotas" value="Building Probabilities" />
+
+  <translation id="OnTimeQuota" value="정시 출퇴근 비율" />
+  <translation id="OnTimeQuotaTooltip" value="정확한 시간에 출근하고 퇴근하는 시민의 비율입니다." />
   <translation id="SecondShiftQuota" value="2교대 근무자 비율" />
   <translation id="SecondShiftQuotaTooltip" value="오후 근무(2교대)를 하는 시민의 비율입니다." />
   <translation id="NightShiftQuota" value="야간 근무자 비율" />
   <translation id="NightShiftQuotaTooltip" value="야간 근무를 하는 시민의 비율입니다." />
   <translation id="ContinuousNightShiftQuota" value="상시 야간 근무자 비율" />
   <translation id="ContinuousNightShiftQuotaTooltip" value="지속적으로 야간 근무를 하는 시민의 비율입니다." />
+  <translation id="NightClassQuota" value="야간 수업 학생 비율" />
+  <translation id="NightClassQuotaTooltip" value="밤에 학교에 다니는 시민의 비율입니다." />
   <translation id="BreakfastBeforeWorkOrSchoolQuota" value="업무 전 아침 식사 확률" />
   <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="등교나 출근 전 아침을 먹으러 나가는 시민의 비율입니다." />
   <translation id="LunchDuringWorkOrSchoolQuota" value="업무 중 점심 식사 확률" />
   <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="근무 중 점심을 먹으러 나가는 시민의 비율입니다." />
   <translation id="SupperAfterWorkOrSchoolQuota" value="업무 후 저녁 식사 확률" />
   <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="근무 종료 후 저녁을 먹으러 나가는 시민의 비율입니다." />
+  
   <translation id="LocalBuildingSearchQuota" value="지역 상점 이용 비율" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="거주지 주변 상점을 우선적으로 이용하려는 시민의 비율입니다." />
   <translation id="ShoppingForFunQuota" value="여가용 쇼핑 확률" />
   <translation id="ShoppingForFunQuotaTooltip" value="상품이 필요하지 않아도 즐거움을 위해 쇼핑을 나가는 시민의 비율입니다." />
-  <translation id="OnTimeQuota" value="정시 출퇴근 비율" />
-  <translation id="OnTimeQuotaTooltip" value="정확한 시간에 출근하고 퇴근하는 시민의 비율입니다." />
+
   <translation id="OpenLowCommercialAtNightQuota" value="야간 운영 저밀도 상업지 비율" />
   <translation id="OpenLowCommercialAtNightQuotaTooltip" value="밤에도 문을 여는 저밀도 상업 건물의 비율입니다." />
   <translation id="OpenCommercialSecondShiftQuota" value="2교대 운영 상업지 비율" />
   <translation id="OpenCommercialSecondShiftQuotaTooltip" value="오후 근무 시간대에도 문을 여는 상업 건물의 비율입니다." />
   <translation id="OpenCommercialAtWeekendsQuota" value="주말 운영 상업지 비율" />
   <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="주말에도 운영하는 상업 건물의 비율입니다." />
-  <translation id="NightClassQuota" value="야간 수업 학생 비율" />
-  <translation id="NightClassQuotaTooltip" value="밤에 학교에 다니는 시민의 비율입니다." />
 
   <translation id="3Events" value="이벤트" />
   <translation id="AreEventsEnabled" value="커스텀 이벤트 활성화" />

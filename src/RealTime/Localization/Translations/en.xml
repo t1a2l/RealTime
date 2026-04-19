@@ -91,33 +91,39 @@
   <translation id="DummyTrafficBehaviorTooltip" value="If enabled, dummy traffic is more reasonable to the mod gameplay" />
   
   <translation id="2Quotas" value="Probabilities" />
+  <translation id="0WorkAndSchoolQuotas" value="Work And School Probabilities" />
+  <translation id="1OtherQuotas" value="Other Citizen Probabilities" />
+  <translation id="2BuildingQuotas" value="Building Probabilities" />
+
+  <translation id="OnTimeQuota" value="On-time ratio" />
+  <translation id="OnTimeQuotaTooltip" value="The percentage of the Cims that will go to and leave their work on time" />
   <translation id="SecondShiftQuota" value="Second shift workers" />
   <translation id="SecondShiftQuotaTooltip" value="The percentage of the citizens that work a second shift" />
   <translation id="NightShiftQuota" value="Night shift workers" />
   <translation id="NightShiftQuotaTooltip" value="The percentage of the citizens that work a night shift" />
   <translation id="ContinuousNightShiftQuota" value="Continuous Night shift workers" />
   <translation id="ContinuousNightShiftQuotaTooltip" value="The percentage of the citizens that work a continuous night shift" />
+  <translation id="NightClassQuota" value="Night School students" />
+  <translation id="NightClassQuotaTooltip" value="The percentage of the citizens that go to night school" />
   <translation id="BreakfastBeforeWorkOrSchoolQuota" value="Breakfast before work or school probability" />
   <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="The percentage of the Cims that will go out for breakfast before work or school" />
   <translation id="LunchDuringWorkOrSchoolQuota" value="Lunch during work or school probability" />
   <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="The percentage of the Cims that will go out for lunch during work or school" />
   <translation id="SupperAfterWorkOrSchoolQuota" value="Supper after work or school probability" />
   <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="The percentage of the Cims that will go out for supper after work or school" />
+  
   <translation id="LocalBuildingSearchQuota" value="Local shopping ratio" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="The percentage of the population that will search for local shopping" />
   <translation id="ShoppingForFunQuota" value="Shopping for fun" />
   <translation id="ShoppingForFunQuotaTooltip" value="The percentage of the population that will go shopping just for fun even when they don't need any goods" />
-  <translation id="OnTimeQuota" value="On-time ratio" />
-  <translation id="OnTimeQuotaTooltip" value="The percentage of the Cims that will go to and leave their work on time" />
-  <translation id="OpenLowCommercialAtNightQuota" value="Open low commercial buildings at night percentage" />
+  
+  <translation id="OpenLowCommercialAtNightQuota" value="Open low commercial buildings at night percentage" /> 
   <translation id="OpenLowCommercialAtNightQuotaTooltip" value="The percentage of the low commercial buildings that will stay open at night" />
   <translation id="OpenCommercialSecondShiftQuota" value="Open commercial buildings for second shift percentage" />
   <translation id="OpenCommercialSecondShiftQuotaTooltip" value="The percentage of the commerical buildings that will stay open for a second shift" />
   <translation id="OpenCommercialAtWeekendsQuota" value="Open commercial buildings at weekends percentage" />
   <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="The percentage of the commercial buildings that will stay open at weekends" />
-  <translation id="NightClassQuota" value="Night School students" />
-  <translation id="NightClassQuotaTooltip" value="The percentage of the citizens that go to night school" />
-  
+
   <translation id="3Events" value="Events" />
   <translation id="AreEventsEnabled" value="Enable custom events" />
   <translation id="AreEventsEnabledTooltip" value="If disabled, only vanilla game events can occur in the city" />

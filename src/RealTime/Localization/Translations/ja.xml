@@ -90,34 +90,40 @@
   <translation id="DummyTrafficBehavior" value="通過交通量を調整" />
   <translation id="DummyTrafficBehaviorTooltip" value="有効にすると、街を通過するだけの交通（ダミートラフィック）がModの挙動に合わせて調整されます" />
 
-  <translation id="2Quotas" value="割合 / 確率" />
+  <translation id="2Quotas" value="Probabilities" />
+  <translation id="0WorkAndSchoolQuotas" value="Work And School Probabilities" />
+  <translation id="1OtherQuotas" value="Other Citizen Probabilities" />
+  <translation id="2BuildingQuotas" value="Building Probabilities" />
+
+  <translation id="OnTimeQuota" value="定時行動率" />
+  <translation id="OnTimeQuotaTooltip" value="定時に出勤・退勤する市民の割合" />
   <translation id="SecondShiftQuota" value="第2シフトの労働者" />
   <translation id="SecondShiftQuotaTooltip" value="第2シフト（午後）で働く市民の割合" />
   <translation id="NightShiftQuota" value="夜勤の労働者" />
   <translation id="NightShiftQuotaTooltip" value="夜勤で働く市民の割合" />
   <translation id="ContinuousNightShiftQuota" value="常駐夜勤の労働者" />
   <translation id="ContinuousNightShiftQuotaTooltip" value="継続的な夜勤に従事する市民の割合" />
+  <translation id="NightClassQuota" value="夜間学校の生徒" />
+  <translation id="NightClassQuotaTooltip" value="夜間に学校に通う市民の割合" />
   <translation id="BreakfastBeforeWorkOrSchoolQuota" value="仕事前の朝食確率" />
   <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="仕事や学校の前に朝食に出かける市民の割合" />
   <translation id="LunchDuringWorkOrSchoolQuota" value="仕事中の昼食確率" />
   <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="仕事や学校の合間に昼食に出かける市民の割合" />
   <translation id="SupperAfterWorkOrSchoolQuota" value="仕事後の夕食確率" />
   <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="仕事や学校の後に夕食に出かける市民の割合" />
+  
   <translation id="LocalBuildingSearchQuota" value="地元での買い物率" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="住んでいる場所の近くで店を探そうとする市民の割合" />
   <translation id="ShoppingForFunQuota" value="娯楽としての買い物" />
   <translation id="ShoppingForFunQuotaTooltip" value="商品が必要なくても、娯楽のために買い物に行く市民の割合" />
-  <translation id="OnTimeQuota" value="定時行動率" />
-  <translation id="OnTimeQuotaTooltip" value="定時に出勤・退勤する市民の割合" />
+  
   <translation id="OpenLowCommercialAtNightQuota" value="夜間営業の低密度商業施設" />
   <translation id="OpenLowCommercialAtNightQuotaTooltip" value="夜間も営業を続ける低密度商業施設の割合" />
   <translation id="OpenCommercialSecondShiftQuota" value="第2シフト営業の商業施設" />
   <translation id="OpenCommercialSecondShiftQuotaTooltip" value="午後（第2シフト）も営業する商業施設の割合" />
   <translation id="OpenCommercialAtWeekendsQuota" value="週末営業の商業施設" />
   <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="週末に営業する商業施設の割合" />
-  <translation id="NightClassQuota" value="夜間学校の生徒" />
-  <translation id="NightClassQuotaTooltip" value="夜間に学校に通う市民の割合" />
-
+  
   <translation id="3Events" value="イベント" />
   <translation id="AreEventsEnabled" value="カスタムイベントを有効にする" />
   <translation id="AreEventsEnabledTooltip" value="無効にすると、バニラのイベントのみが開催されます" />

@@ -90,33 +90,40 @@
   <translation id="DummyTrafficBehavior" value="Tornar o tráfego de passagem mais leve" />
   <translation id="DummyTrafficBehaviorTooltip" value="Se ativado, o tráfego de passagem é ajustado para ser mais razoável com o gameplay do mod" />
 
-  <translation id="2Quotas" value="Probabilidades" />
+  <translation id="2Quotas" value="Probabilities" />
+  <translation id="0WorkAndSchoolQuotas" value="Work And School Probabilities" />
+  <translation id="1OtherQuotas" value="Other Citizen Probabilities" />
+  <translation id="2BuildingQuotas" value="Building Probabilities" />
+
+  <translation id="OnTimeQuota" value="Proporção de pontualidade" />
+  <translation id="OnTimeQuotaTooltip" value="Porcentagem de cidadãos que chegarão e sairão do trabalho no horário correto" />
   <translation id="SecondShiftQuota" value="Trabalhadores de segundo turno" />
   <translation id="SecondShiftQuotaTooltip" value="Porcentagem de cidadãos que trabalham no segundo turno" />
   <translation id="NightShiftQuota" value="Trabalhadores de turno da noite" />
   <translation id="NightShiftQuotaTooltip" value="Porcentagem de cidadãos que trabalham no turno da noite" />
   <translation id="ContinuousNightShiftQuota" value="Trabalhadores de turno da noite contínuo" />
   <translation id="ContinuousNightShiftQuotaTooltip" value="Porcentagem de cidadãos que trabalham em um turno da noite contínuo" />
+  <translation id="NightClassQuota" value="Estudantes de curso noturno" />
+  <translation id="NightClassQuotaTooltip" value="Porcentagem de cidadãos que frequentam a escola à noite" />
+  
   <translation id="BreakfastBeforeWorkOrSchoolQuota" value="Probabilidade de café da manhã antes do trabalho/escola" />
   <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="Porcentagem de cidadãos que sairão para tomar café antes do trabalho ou escola" />
   <translation id="LunchDuringWorkOrSchoolQuota" value="Probabilidade de almoço durante o trabalho/escola" />
   <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="Porcentagem de cidadãos que sairão para almoçar durante o trabalho ou escola" />
   <translation id="SupperAfterWorkOrSchoolQuota" value="Probabilidade de jantar após o trabalho/escola" />
   <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="Porcentagem de cidadãos que sairão para jantar após o trabalho ou escola" />
+  
   <translation id="LocalBuildingSearchQuota" value="Proporção de compras locais" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="Porcentagem da população que procurará por compras locais" />
   <translation id="ShoppingForFunQuota" value="Compras por diversão" />
   <translation id="ShoppingForFunQuotaTooltip" value="Porcentagem da população que irá às compras apenas por diversão, mesmo sem precisar de mercadorias" />
-  <translation id="OnTimeQuota" value="Proporção de pontualidade" />
-  <translation id="OnTimeQuotaTooltip" value="Porcentagem de cidadãos que chegarão e sairão do trabalho no horário correto" />
+ 
   <translation id="OpenLowCommercialAtNightQuota" value="Porcentagem de comércio de baixa densidade aberto à noite" />
   <translation id="OpenLowCommercialAtNightQuotaTooltip" value="Porcentagem de prédios comerciais de baixa densidade que permanecerão abertos à noite" />
   <translation id="OpenCommercialSecondShiftQuota" value="Porcentagem de comércio aberto para segundo turno" />
   <translation id="OpenCommercialSecondShiftQuotaTooltip" value="Porcentagem de prédios comerciais que permanecerão abertos para o segundo turno" />
   <translation id="OpenCommercialAtWeekendsQuota" value="Porcentagem de comércio aberto nos fins de semana" />
   <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="Porcentagem de prédios comerciais que permanecerão abertos nos fins de semana" />
-  <translation id="NightClassQuota" value="Estudantes de curso noturno" />
-  <translation id="NightClassQuotaTooltip" value="Porcentagem de cidadãos que frequentam a escola à noite" />
 
   <translation id="3Events" value="Eventos" />
   <translation id="AreEventsEnabled" value="Ativar eventos personalizados" />

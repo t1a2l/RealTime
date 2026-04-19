@@ -90,34 +90,40 @@
   <translation id="DummyTrafficBehavior" value="Optimisation du trafic de transit" />
   <translation id="DummyTrafficBehaviorTooltip" value="Si activé, le trafic traversant seulement la ville est ajusté pour correspondre à la simulation du Mod." />
 
-  <translation id="2Quotas" value="Quotas / Probabilités" />
+  <translation id="2Quotas" value="Probabilities" />
+  <translation id="0WorkAndSchoolQuotas" value="Work And School Probabilities" />
+  <translation id="1OtherQuotas" value="Other Citizen Probabilities" />
+  <translation id="2BuildingQuotas" value="Building Probabilities" />
+
+  <translation id="OnTimeQuota" value="Quota de ponctualité" />
+  <translation id="OnTimeQuotaTooltip" value="Pourcentage de citoyens commençant et finissant leurs activités exactement à l'heure." />
   <translation id="SecondShiftQuota" value="Quota du second shift" />
   <translation id="SecondShiftQuotaTooltip" value="Pourcentage de citoyens travaillant pendant l'après-midi." />
   <translation id="NightShiftQuota" value="Quota de nuit" />
   <translation id="NightShiftQuotaTooltip" value="Pourcentage de citoyens travaillant pendant la nuit." />
   <translation id="ContinuousNightShiftQuota" value="Quota de nuit continue" />
   <translation id="ContinuousNightShiftQuotaTooltip" value="Pourcentage de citoyens en service de nuit permanent." />
+  <translation id="NightClassQuota" value="Quota cours du soir" />
+  <translation id="NightClassQuotaTooltip" value="Pourcentage de citoyens allant à l'école pendant la nuit." />
   <translation id="BreakfastBeforeWorkOrSchoolQuota" value="Probabilité petit-déjeuner pré-travail" />
   <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="Pourcentage de citoyens sortant pour le petit-déjeuner avant l'école/travail." />
   <translation id="LunchDuringWorkOrSchoolQuota" value="Probabilité déjeuner pendant travail" />
   <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="Pourcentage de citoyens sortant déjeuner pendant l'école/travail." />
   <translation id="SupperAfterWorkOrSchoolQuota" value="Probabilité dîner post-travail" />
   <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="Pourcentage de citoyens sortant dîner après l'école/travail." />
+  
   <translation id="LocalBuildingSearchQuota" value="Quota recherche commerces locaux" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="Pourcentage de citoyens cherchant des commerces près de chez eux." />
   <translation id="ShoppingForFunQuota" value="Shopping pour le plaisir" />
   <translation id="ShoppingForFunQuotaTooltip" value="Pourcentage de citoyens allant faire du shopping pour le plaisir même sans besoin de marchandises." />
-  <translation id="OnTimeQuota" value="Quota de ponctualité" />
-  <translation id="OnTimeQuotaTooltip" value="Pourcentage de citoyens commençant et finissant leurs activités exactement à l'heure." />
+ 
   <translation id="OpenLowCommercialAtNightQuota" value="Comm. faible densité ouverts de nuit" />
   <translation id="OpenLowCommercialAtNightQuotaTooltip" value="Pourcentage de petits commerces restant ouverts la nuit." />
   <translation id="OpenCommercialSecondShiftQuota" value="Comm. ouverts au second shift" />
   <translation id="OpenCommercialSecondShiftQuotaTooltip" value="Pourcentage de commerces opérant aussi l'après-midi." />
   <translation id="OpenCommercialAtWeekendsQuota" value="Comm. ouverts le week-end" />
   <translation id="OpenCommercialAtWeekendsQuotaTooltip" value="Pourcentage de commerces ouvrant pendant le week-end." />
-  <translation id="NightClassQuota" value="Quota cours du soir" />
-  <translation id="NightClassQuotaTooltip" value="Pourcentage de citoyens allant à l'école pendant la nuit." />
-
+ 
   <translation id="3Events" value="Événements" />
   <translation id="AreEventsEnabled" value="Activer les événements personnalisés" />
   <translation id="AreEventsEnabledTooltip" value="Si désactivé, seuls les événements originaux du jeu auront lieu en ville." />

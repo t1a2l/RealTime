@@ -108,7 +108,7 @@ namespace RealTime.Patches
 
         [HarmonyPatch(typeof(EventManager), "PopulateRouteSchedule")]
         [HarmonyPrefix]
-        public static bool PopulateRouteSchedule(RaceEventWorldInfoPanel __instance, ushort eventRouteIndex, DateTime startDate, EventRouteData.EventRouteSchedule[] schedule, ref FastList<EventRouteData> ___m_eventRoutes, ref bool __result)
+        public static bool PopulateRouteSchedule(EventManager __instance, ushort eventRouteIndex, DateTime startDate, EventRouteData.EventRouteSchedule[] schedule, ref FastList<EventRouteData> ___m_eventRoutes, ref bool __result)
         {
             if ((___m_eventRoutes.m_buffer[eventRouteIndex].m_flags & EventRouteData.Flags.Created) == 0)
             {
@@ -134,13 +134,24 @@ namespace RealTime.Patches
                 }
                 var dateTime = CalculateNextEvent(Singleton<SimulationManager>.instance.m_currentGameTime, scheduleData[i].m_startDay + 1, scheduleData[i].m_startMonth + 1, eventTimeSchedules[i].StartHour, eventTimeSchedules[i].StartMinute);
 
-                int occurrences = eventTimeSchedules[i].AutoOccur ? capacity : HasExistingOccurrence(eventRouteIndex, i, ref ___m_eventRoutes) ? 0 : 1;
+                dateTime = WorldInfoPanelPatch.AdjustEventStartTime(dateTime);
+
+                int occurrences;
+                if (eventTimeSchedules[i].AutoOccur)
+                {
+                    occurrences = capacity;
+                }
+                else
+                {
+                    occurrences = HasExistingOccurrence(eventRouteIndex, i, ref ___m_eventRoutes) ? 0 : 1;
+                }
 
                 for (int k = 0; k < occurrences; k++)
                 {
                     while (HasConflictWithCurrentEvent(eventRouteIndex, dateTime) || HasConflictWithGeneratedSchedule(schedule, count, dateTime))
                     {
                         dateTime = eventTimeSchedules[i].Frequency == 0 ? dateTime.AddDays(7) : dateTime.AddDays(1);
+                        dateTime = WorldInfoPanelPatch.AdjustEventStartTime(dateTime);
                     }
 
                     int insertPos = 0;

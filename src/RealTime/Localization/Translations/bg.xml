@@ -90,10 +90,10 @@
   <translation id="DummyTrafficBehavior" value="Балансиране на транзитния трафик" />
   <translation id="DummyTrafficBehaviorTooltip" value="Ако е включено, транзитният трафик ще бъде по-добре балансиран за геймплея на мода" />
 
-  <translation id="2Quotas" value="Probabilities" />
-  <translation id="0WorkAndSchoolQuotas" value="Work And School Probabilities" />
-  <translation id="1OtherQuotas" value="Other Citizen Probabilities" />
-  <translation id="2BuildingQuotas" value="Building Probabilities" />
+  <translation id="2Quotas" value="Вероятности" />
+  <translation id="0WorkAndSchoolQuotas" value="Вероятности за работа и училище" />
+  <translation id="1OtherQuotas" value="Други вероятности за гражданите" />
+  <translation id="2BuildingQuotas" value="Вероятности за сгради" />
   
   <translation id="OnTimeQuota" value="Коефициент на точност" />
   <translation id="OnTimeQuotaTooltip" value="Процентът граждани, които пристигат и си тръгват от работа точно навреме" />

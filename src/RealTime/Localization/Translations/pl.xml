@@ -90,10 +90,10 @@
   <translation id="DummyTrafficBehavior" value="Zrównoważ ruch przejazdowy" />
   <translation id="DummyTrafficBehaviorTooltip" value="Jeśli włączone, ruch przejazdowy będzie lepiej dostosowany do mechaniki moda" />
 
-  <translation id="2Quotas" value="Probabilities" />
-  <translation id="0WorkAndSchoolQuotas" value="Work And School Probabilities" />
-  <translation id="1OtherQuotas" value="Other Citizen Probabilities" />
-  <translation id="2BuildingQuotas" value="Building Probabilities" />
+  <translation id="2Quotas" value="Prawdopodobieństwo" />
+  <translation id="0WorkAndSchoolQuotas" value="Prawdopodobieństwo pracy i szkoły" />
+  <translation id="1OtherQuotas" value="Inne prawdopodobieństwa mieszkańców" />
+  <translation id="2BuildingQuotas" value="Prawdopodobieństwo budynków" />
 
   <translation id="OnTimeQuota" value="Wskaźnik punktualności" />
   <translation id="OnTimeQuotaTooltip" value="Procent mieszkańców, którzy dotrą do pracy i opuszczą ją punktualnie" />

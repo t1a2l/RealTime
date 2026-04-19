@@ -90,10 +90,10 @@
   <translation id="DummyTrafficBehavior" value="통과 교통량 최적화" />
   <translation id="DummyTrafficBehaviorTooltip" value="활성화 시 도시를 통과하는 교통량이 모드 시뮬레이션에 맞춰 조정됩니다." />
 
-  <translation id="2Quotas" value="Probabilities" />
-  <translation id="0WorkAndSchoolQuotas" value="Work And School Probabilities" />
-  <translation id="1OtherQuotas" value="Other Citizen Probabilities" />
-  <translation id="2BuildingQuotas" value="Building Probabilities" />
+  <translation id="2Quotas" value="확률" />
+  <translation id="0WorkAndSchoolQuotas" value="직장 및 학교 확률" />
+  <translation id="1OtherQuotas" value="기타 시민 확률" />
+  <translation id="2BuildingQuotas" value="건물 확률" />
 
   <translation id="OnTimeQuota" value="정시 출퇴근 비율" />
   <translation id="OnTimeQuotaTooltip" value="정확한 시간에 출근하고 퇴근하는 시민의 비율입니다." />

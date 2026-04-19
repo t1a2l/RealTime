@@ -90,10 +90,10 @@
   <translation id="DummyTrafficBehavior" value="Tornar o tráfego de passagem mais leve" />
   <translation id="DummyTrafficBehaviorTooltip" value="Se ativado, o tráfego de passagem é ajustado para ser mais razoável com o gameplay do mod" />
 
-  <translation id="2Quotas" value="Probabilities" />
-  <translation id="0WorkAndSchoolQuotas" value="Work And School Probabilities" />
-  <translation id="1OtherQuotas" value="Other Citizen Probabilities" />
-  <translation id="2BuildingQuotas" value="Building Probabilities" />
+  <translation id="2Quotas" value="Probabilidades" />
+  <translation id="0WorkAndSchoolQuotas" value="Probabilidades de trabalho e escola" />
+  <translation id="1OtherQuotas" value="Outras probabilidades dos cidadãos" />
+  <translation id="2BuildingQuotas" value="Probabilidades dos edifícios" />
 
   <translation id="OnTimeQuota" value="Proporção de pontualidade" />
   <translation id="OnTimeQuotaTooltip" value="Porcentagem de cidadãos que chegarão e sairão do trabalho no horário correto" />

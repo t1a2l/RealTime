@@ -90,10 +90,10 @@
   <translation id="DummyTrafficBehavior" value="过境交通平衡" />
   <translation id="DummyTrafficBehaviorTooltip" value="如果开启，过境交通将针对模组的玩法进行更好的平衡" />
 
-  <translation id="2Quotas" value="Probabilities" />
-  <translation id="0WorkAndSchoolQuotas" value="Work And School Probabilities" />
-  <translation id="1OtherQuotas" value="Other Citizen Probabilities" />
-  <translation id="2BuildingQuotas" value="Building Probabilities" />
+  <translation id="2Quotas" value="概率" />
+  <translation id="0WorkAndSchoolQuotas" value="工作和学校概率" />
+  <translation id="1OtherQuotas" value="其他市民概率" />
+  <translation id="2BuildingQuotas" value="建筑概率" />
 
   <translation id="OnTimeQuota" value="准点率" />
   <translation id="OnTimeQuotaTooltip" value="能够准时上下班的市民比例" />

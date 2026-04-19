@@ -90,10 +90,10 @@
   <translation id="DummyTrafficBehavior" value="通過交通量を調整" />
   <translation id="DummyTrafficBehaviorTooltip" value="有効にすると、街を通過するだけの交通（ダミートラフィック）がModの挙動に合わせて調整されます" />
 
-  <translation id="2Quotas" value="Probabilities" />
-  <translation id="0WorkAndSchoolQuotas" value="Work And School Probabilities" />
-  <translation id="1OtherQuotas" value="Other Citizen Probabilities" />
-  <translation id="2BuildingQuotas" value="Building Probabilities" />
+  <translation id="2Quotas" value="確率" />
+  <translation id="0WorkAndSchoolQuotas" value="仕事と学校の確率" />
+  <translation id="1OtherQuotas" value="市民のその他の確率" />
+  <translation id="2BuildingQuotas" value="建物の確率" />
 
   <translation id="OnTimeQuota" value="定時行動率" />
   <translation id="OnTimeQuotaTooltip" value="定時に出勤・退勤する市民の割合" />

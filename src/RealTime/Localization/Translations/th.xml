@@ -90,10 +90,10 @@
   <translation id="DummyTrafficBehavior" value="ปรับสมดุลรถทางผ่าน (Dummy Traffic)" />
   <translation id="DummyTrafficBehaviorTooltip" value="หากเปิดใช้งาน รถที่วิ่งผ่านเมืองจะถูกปรับสมดุลให้เข้ากับระบบการเล่นของม็อดนี้" />
 
-  <translation id="2Quotas" value="Probabilities" />
-  <translation id="0WorkAndSchoolQuotas" value="Work And School Probabilities" />
-  <translation id="1OtherQuotas" value="Other Citizen Probabilities" />
-  <translation id="2BuildingQuotas" value="Building Probabilities" />
+  <translation id="2Quotas" value="ความน่าจะเป็น" />
+  <translation id="0WorkAndSchoolQuotas" value="ความน่าจะเป็นในการทำงานและการเรียน" />
+  <translation id="1OtherQuotas" value="ความน่าจะเป็นอื่นๆ ของพลเมือง" />
+  <translation id="2BuildingQuotas" value="ความน่าจะเป็นของอาคาร" />
 
   <translation id="OnTimeQuota" value="อัตราความตรงต่อเวลา" />
   <translation id="OnTimeQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่ไปทำงานและกลับบ้านตรงเวลา" />

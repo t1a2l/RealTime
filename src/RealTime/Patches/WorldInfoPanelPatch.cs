@@ -1609,6 +1609,11 @@ namespace RealTime.Patches
         {
             var result = eventStartTime;
 
+            if(RealTimeConfig == null)
+            {
+                return result;
+            }
+
             while (true)
             {
                 float earliestHour;

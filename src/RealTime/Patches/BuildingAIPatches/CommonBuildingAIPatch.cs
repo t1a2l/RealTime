@@ -60,7 +60,7 @@ namespace RealTime.Patches.BuildingAIPatches
                                 }
                             }
                             units = nextUnit;
-                            if (++num > 524288)
+                            if (++num > Singleton<CitizenManager>.instance.m_units.m_size)
                             {
                                 CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
                                 break;
@@ -135,7 +135,7 @@ namespace RealTime.Patches.BuildingAIPatches
                         }
                     }
                     num = instance.m_units.m_buffer[num].m_nextUnit;
-                    if (++num2 > 524288)
+                    if (++num2 > Singleton<CitizenManager>.instance.m_units.m_size)
                     {
                         CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
                         break;

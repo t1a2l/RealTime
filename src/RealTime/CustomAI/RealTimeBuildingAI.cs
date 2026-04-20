@@ -1517,7 +1517,7 @@ namespace RealTime.CustomAI
                     return true;
                 }
                 units = nextUnit;
-                if (++num > 524288)
+                if (++num > Singleton<CitizenManager>.instance.m_units.m_size)
                 {
                     CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
                     break;

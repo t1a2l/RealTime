@@ -13,6 +13,7 @@ namespace RealTime.Patches
         public ushort Crime;
         public ushort MainBuildingCrime;
         public ushort MainBuildingId;
+        public bool IsDirectCall;
     }
 
     [HarmonyPatch]
@@ -37,7 +38,6 @@ namespace RealTime.Patches
                 typeof(AirportEntranceAI),
                 typeof(CampusBuildingAI),
                 typeof(MainCampusBuildingAI),
-                typeof(CommonBuildingAI),
                 typeof(IndustryBuildingAI),
                 typeof(MainIndustryBuildingAI),
                 typeof(MuseumAI),
@@ -90,7 +90,8 @@ namespace RealTime.Patches
             {
                 Crime = data.m_crimeBuffer,
                 MainBuildingId = mainBuildingId,
-                MainBuildingCrime = mainCrime
+                MainBuildingCrime = mainCrime,
+                IsDirectCall = !isSubBuilding
             };
         }
 
@@ -105,7 +106,8 @@ namespace RealTime.Patches
             if (__state.MainBuildingId == 0)
             {
                 ResourceSlowdownManager.ApplyCrimeSlowdown(buildingID, ref data, __state.Crime);
-                if (data.Info?.GetAI() is not RaceStartBuildingAI)
+
+                if (__state.IsDirectCall && data.Info?.GetAI() is not RaceStartBuildingAI)
                 {
                     AddCrimeOffer(buildingID, ref data, citizenCount);
                 }

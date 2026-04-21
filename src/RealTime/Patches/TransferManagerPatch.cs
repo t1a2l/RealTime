@@ -102,8 +102,7 @@ namespace RealTime.Patches
         {
             ref var data = ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingId];
             var ai = data.Info?.GetAI();
-            if( ai is CommonBuildingAI  // covers growables
-                || ai is AirportEntranceAI
+            if( ai is AirportEntranceAI
                 || ai is ParkGateAI
                 || ai is MainCampusBuildingAI
                 || ai is MainIndustryBuildingAI

@@ -105,7 +105,7 @@ namespace RealTime.Patches
             // no main building slow building — apply slowdown to this building directly
             if (__state.MainBuildingId == 0)
             {
-                ResourceSlowdownManager.ApplyCrimeSlowdown(buildingID, ref data, __state.Crime);
+                ResourceSlowdownManager.ApplyCrimeSlowdown(buildingID, ref data, __state.Crime, 0.05f);
 
                 if (__state.IsDirectCall && data.Info?.GetAI() is not RaceStartBuildingAI)
                 {
@@ -116,7 +116,15 @@ namespace RealTime.Patches
 
             ref var mainBuildingData = ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[__state.MainBuildingId];
 
-            ResourceSlowdownManager.ApplyCrimeSlowdown(__state.MainBuildingId, ref mainBuildingData, __state.MainBuildingCrime);
+            float multiplier = 0.05f;
+
+            if (mainBuildingData.Info?.GetAI() is MainCampusBuildingAI)
+            {
+                // Campus main building — strongest suppression
+                multiplier = 0.02f;
+            }
+
+            ResourceSlowdownManager.ApplyCrimeSlowdown(__state.MainBuildingId, ref mainBuildingData, __state.MainBuildingCrime, multiplier);
         }
 
         private static ushort GetMainBuildingId(ref Building data)

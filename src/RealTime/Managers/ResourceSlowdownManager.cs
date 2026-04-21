@@ -1,5 +1,6 @@
 namespace RealTime.Managers
 {
+    using System.Collections.Generic;
     using RealTime.Core;
 
     public static class ResourceSlowdownManager
@@ -9,6 +10,8 @@ namespace RealTime.Managers
         public static readonly float[] MailAccumulator = new float[BuildingManager.MAX_BUILDING_COUNT];
 
         public static readonly float[] CrimeAccumulator = new float[BuildingManager.MAX_BUILDING_COUNT];
+
+        public static readonly HashSet<ushort> PendingCrimeDispatch = [];
 
         public static void ApplyGarbageSlowdown(ushort buildingID, ref Building buildingData, ushort garbageBefore, float multiplier = 1f)
         {

@@ -2,8 +2,10 @@
 
 namespace RealTime.Patches
 {
+    using ColossalFramework;
     using HarmonyLib;
     using RealTime.CustomAI;
+    using RealTime.Managers;
 
     /// <summary>
     /// A static class that provides the patch objects for the game's transfer manager.
@@ -60,6 +62,9 @@ namespace RealTime.Patches
                 case TransferManager.TransferReason.Garbage: // buildings sends outgoing offers for garbage
                     return RealTimeBuildingAI.IsGarbageHours(offer.Building);
 
+                case TransferManager.TransferReason.Crime: // buildings request police services
+                    return !IsManagedBuilding(offer.Building);
+
                 default:
                     return true;
             }
@@ -92,5 +97,24 @@ namespace RealTime.Patches
                     return true;
             }
         }
+
+        private static bool IsManagedBuilding(ushort buildingId)
+        {
+            ref var data = ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingId];
+            var ai = data.Info?.GetAI();
+            if( ai is CommonBuildingAI  // covers growables
+                || ai is AirportEntranceAI
+                || ai is ParkGateAI
+                || ai is MainCampusBuildingAI
+                || ai is MainIndustryBuildingAI
+                || ai is RaceStartBuildingAI)
+            {
+                ResourceSlowdownManager.PendingCrimeDispatch.Add(buildingId);
+                return true;
+            }
+            return false;
+            // sub-buildings don't dispatch police themselves so no need to list them
+        }
+
     }
 }

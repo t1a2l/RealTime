@@ -123,6 +123,7 @@ namespace RealTime.Serializer
 
                 Array.Clear(ResourceSlowdownManager.GarbageAccumulator, 0, ResourceSlowdownManager.GarbageAccumulator.Length);
                 Array.Clear(ResourceSlowdownManager.MailAccumulator, 0, ResourceSlowdownManager.MailAccumulator.Length);
+                Array.Clear(ResourceSlowdownManager.CrimeAccumulator, 0, ResourceSlowdownManager.CrimeAccumulator.Length);
 
                 // ----------- Read GarbageAccumulator data -----------
 
@@ -193,7 +194,7 @@ namespace RealTime.Serializer
                         CheckEndTuple($"Buffer({i})", iResourceSlowdownVersion, Data, ref iIndex);
                     }
 
-                    CheckEndTuple($"MailAccumulator End", iResourceSlowdownVersion, Data, ref iIndex);
+                    CheckEndTuple($"CrimeAccumulator End", iResourceSlowdownVersion, Data, ref iIndex);
                 }
             }
         }

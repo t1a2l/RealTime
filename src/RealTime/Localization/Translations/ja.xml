@@ -85,6 +85,8 @@
   <translation id="GarbageSlowDownTooltip" value="最小(0.05)は隔週、最大(1.0)は毎日。デフォルト(0.15)は毎週。" />
   <translation id="MailSlowDown" value="郵便物の蓄積速度" />
   <translation id="MailSlowDownTooltip" value="最小(0.1)は毎週、最大(1.0)は毎日。デフォルト(0.3)は3日ごと。" />
+  <translation id="CrimeSlowDown" value="犯罪の蓄積速度" />
+  <translation id="CrimeSlowDownTooltip" value="最小(0.1)は非常に遅い（週ごと）、最大(1.0)は通常の毎日 - デフォルトは3日ごと(0.3)" />
   <translation id="WeeklyCommericalDeliveries" value="商業施設の週次配送" />
   <translation id="WeeklyCommericalDeliveriesTooltip" value="有効にすると、商業施設の商品のバッファが増え、週に1回の配送で済むようになります" />
   <translation id="DummyTrafficBehavior" value="通過交通量を調整" />

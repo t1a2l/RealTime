@@ -85,6 +85,8 @@
   <translation id="GarbageSlowDownTooltip" value="min (0.05) — bardzo wolno (co dwa tygodnie), max (1.0) — codziennie. Domyślnie (0.15) — co tydzień." />
   <translation id="MailSlowDown" value="Tempo gromadzenia poczty" />
   <translation id="MailSlowDownTooltip" value="min (0.1) — bardzo wolno (co tydzień), max (1.0) — codziennie. Domyślnie (0.3) — co 3 dni." />
+  <translation id="CrimeSlowDown" value="Tempo gromadzenia przestępczości" />
+  <translation id="CrimeSlowDownTooltip" value="min (0.1) — bardzo wolno (co tydzień), max (1.0) — codziennie. Domyślnie (0.3) — co 3 dni." />
   <translation id="WeeklyCommericalDeliveries" value="Cotygodniowe dostawy komercyjne" />
   <translation id="WeeklyCommericalDeliveriesTooltip" value="Jeśli włączone, budynki handlowe będą miały większy bufor towarów, co pozwoli na dostawy raz w tygodniu" />
   <translation id="DummyTrafficBehavior" value="Zrównoważ ruch przejazdowy" />
@@ -292,7 +294,7 @@
   <translation id="AcademicYear.EndsSoon" value="Kończy się za niecałą godzinę" />
   <translation id="AcademicYear.StartDelay" value="Oczekiwanie na ranek lub dzień roboczy" />
   <translation id="AcademicYear.EndDelay" value="Oczekiwanie na ranek lub dzień roboczy" />
-  <translation id="AcademicYear.HoursUntil" value="" "Zaczyna się za {0} godz." />
+  <translation id="AcademicYear.HoursUntil" value="Zaczyna się za {0} godz." />
   <translation id="AcademicYear.StartsSoon" value="Zaczyna się za niecałą godzinę" />
   <translation id="AcademicYearEndYearButtonText" value="Zakończ rok akademicki" />
   <translation id="AcademicYearEndYearButtonTooltip" value="pozwala ręcznie zakończyć rok akademicki w dni robocze między 9:00 a 10:00" />

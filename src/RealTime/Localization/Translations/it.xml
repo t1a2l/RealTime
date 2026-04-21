@@ -85,6 +85,8 @@
   <translation id="GarbageSlowDownTooltip" value="Min(0.05) ogni due settimane, Max(1.0) giornaliero. Predefinito(0.15) è settimanale." />
   <translation id="MailSlowDown" value="Velocità accumulo posta" />
   <translation id="MailSlowDownTooltip" value="Min(0.1) settimanale, Max(1.0) giornaliero. Predefinito(0.3) è ogni 3 giorni." />
+  <translation id="CrimeSlowDown" value="Velocità accumulo crimine" />
+  <translation id="CrimeSlowDownTooltip" value="Min(0.1) molto lento (settimanale), Max(1.0) normale (giornaliero) - Predefinito ogni 3 giorni (0.3)" />
   <translation id="WeeklyCommericalDeliveries" value="Consegne commerciali settimanali" />
   <translation id="WeeklyCommericalDeliveriesTooltip" value="Se abilitato, gli edifici commerciali aumentano la scorta merci, richiedendo solo una consegna a settimana." />
   <translation id="DummyTrafficBehavior" value="Ottimizzazione traffico di transito" />

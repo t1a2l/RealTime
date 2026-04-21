@@ -124,23 +124,28 @@ namespace RealTime.Config
         [ConfigItemCheckBox]
         public bool WorkForceMatters { get; set; }
 
-        /// <summary>garbage accumulation rate default per week</summary>
+        /// <summary>garbage accumulation rate</summary>
         [ConfigItem("1General", "1Other", 9)]
         [ConfigItemSlider(0.05f, 1.0f, 0.05f, ValueType = SliderValueType.Default)]
         public float GarbageSlowDown { get; set; }
 
-        /// <summary>mail accumulation rate default per week</summary>
+        /// <summary>mail accumulation rate</summary>
         [ConfigItem("1General", "1Other", 10)]
         [ConfigItemSlider(0.1f, 1.0f, 0.05f, ValueType = SliderValueType.Default)]
         public float MailSlowDown { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether a commerical building will receive goods delivery once a week</summary>
+        /// <summary>crime accumulation rate</summary>
         [ConfigItem("1General", "1Other", 11)]
+        [ConfigItemSlider(0.1f, 1.0f, 0.05f, ValueType = SliderValueType.Default)]
+        public float CrimeSlowDown { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether a commerical building will receive goods delivery once a week</summary>
+        [ConfigItem("1General", "1Other", 12)]
         [ConfigItemCheckBox]
         public bool WeeklyCommericalDeliveries { get; set; }
 
         /// <summary>Gets or sets a value indicating whether the spare time behavior has affect on the dummy traffic ai </summary>
-        [ConfigItem("1General", "1Other", 12)]
+        [ConfigItem("1General", "1Other", 13)]
         [ConfigItemCheckBox]
         public bool DummyTrafficBehavior { get; set; }
 
@@ -250,7 +255,6 @@ namespace RealTime.Config
         [ConfigItemSlider(0, 100)]
         public uint OpenCommercialAtWeekendsQuota { get; set; }
 
-        
         /// <summary>
         /// Gets or sets a value indicating whether the custom events are enabled.
         /// </summary>
@@ -887,6 +891,7 @@ namespace RealTime.Config
             WorkForceMatters = false;
             GarbageSlowDown = 0.15f;
             MailSlowDown = 0.3f;
+            CrimeSlowDown = 0.2f;
             WeeklyCommericalDeliveries = true;
             DummyTrafficBehavior = true;
 

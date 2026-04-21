@@ -85,6 +85,8 @@
   <translation id="GarbageSlowDownTooltip" value="최소(0.05)는 격주, 최대(1.0)는 매일 축적됩니다. 기본값은 주간(0.15)입니다." />
   <translation id="MailSlowDown" value="우편물 축적 속도" />
   <translation id="MailSlowDownTooltip" value="최소(0.1)는 주간, 최대(1.0)는 매일 축적됩니다. 기본값은 3일(0.3)마다 축적됩니다." />
+  <translation id="CrimeSlowDown" value="범죄 축적 속도" />
+  <translation id="CrimeSlowDownTooltip" value="최소(0.1)는 매우 느림(주간), 최대(1.0)는 정상(일간) - 기본값은 3일(0.3)마다 축적됩니다." />
   <translation id="WeeklyCommericalDeliveries" value="상업 건물 주간 배송" />
   <translation id="WeeklyCommericalDeliveriesTooltip" value="활성화 시 상업 건물의 상품 보관량이 늘어나 일주일에 한 번만 배송을 받아도 운영이 가능해집니다." />
   <translation id="DummyTrafficBehavior" value="통과 교통량 최적화" />

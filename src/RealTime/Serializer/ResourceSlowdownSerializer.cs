@@ -12,7 +12,7 @@ namespace RealTime.Serializer
         private const uint uiTUPLE_START = 0xFEFEFEFE;
         private const uint uiTUPLE_END = 0xFAFAFAFA;
 
-        private const ushort iRESOURCE_SLOWDOWN_DATA_VERSION = 1;
+        private const ushort iRESOURCE_SLOWDOWN_DATA_VERSION = 2;
 
         public static void SaveData(FastList<byte> Data)
         {
@@ -81,6 +81,36 @@ namespace RealTime.Serializer
 
             StorageData.WriteUInt32(uiTUPLE_END, Data);
 
+            // ----------- Write out CrimeAccumulator data -----------
+
+            StorageData.WriteUInt32(uiTUPLE_START, Data);
+
+            int CrimeAccumulatorCount = 0;
+
+            for (int i = 0; i < ResourceSlowdownManager.CrimeAccumulator.Length; i++)
+            {
+                if (ResourceSlowdownManager.CrimeAccumulator[i] != 0f)
+                {
+                    CrimeAccumulatorCount++;
+                }
+            }
+
+            StorageData.WriteInt32(CrimeAccumulatorCount, Data);
+
+            // Write only non-zero entries (buildingID + value pairs)
+            for (ushort i = 0; i < ResourceSlowdownManager.CrimeAccumulator.Length; i++)
+            {
+                if (ResourceSlowdownManager.CrimeAccumulator[i] != 0f)
+                {
+                    StorageData.WriteUInt32(uiTUPLE_START, Data);
+                    StorageData.WriteUInt16(i, Data);
+                    StorageData.WriteFloat(ResourceSlowdownManager.CrimeAccumulator[i], Data);
+                    StorageData.WriteUInt32(uiTUPLE_END, Data);
+                }
+            }
+
+            StorageData.WriteUInt32(uiTUPLE_END, Data);
+
             Debug.Log("RealTime ResourceSlowdown OnSaveData - End");
         }
 
@@ -140,6 +170,31 @@ namespace RealTime.Serializer
 
                 CheckEndTuple($"MailAccumulator End", iResourceSlowdownVersion, Data, ref iIndex);
 
+                if(iResourceSlowdownVersion >= 2)
+                {
+                    // ----------- Read CrimeAccumulator data -----------
+
+                    CheckStartTuple($"CrimeAccumulator Start", iResourceSlowdownVersion, Data, ref iIndex);
+
+                    int CrimeAccumulator_Count = StorageData.ReadInt32(Data, ref iIndex);
+
+                    for (int i = 0; i < CrimeAccumulator_Count; i++)
+                    {
+                        CheckStartTuple($"Buffer({i})", iResourceSlowdownVersion, Data, ref iIndex);
+
+                        ushort BuildingId = StorageData.ReadUInt16(Data, ref iIndex);
+                        float value = StorageData.ReadFloat(Data, ref iIndex);
+
+                        if (BuildingId < ResourceSlowdownManager.CrimeAccumulator.Length)
+                        {
+                            ResourceSlowdownManager.CrimeAccumulator[BuildingId] = value;
+                        }
+
+                        CheckEndTuple($"Buffer({i})", iResourceSlowdownVersion, Data, ref iIndex);
+                    }
+
+                    CheckEndTuple($"MailAccumulator End", iResourceSlowdownVersion, Data, ref iIndex);
+                }
             }
         }
 

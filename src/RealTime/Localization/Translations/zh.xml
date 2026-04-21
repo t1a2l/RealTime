@@ -85,6 +85,8 @@
   <translation id="GarbageSlowDownTooltip" value="最小 (0.05) —— 极慢 (两周一次)，最大 (1.0) —— 每天。默认 (0.15) —— 每周一次。" />
   <translation id="MailSlowDown" value="邮件积累速度" />
   <translation id="MailSlowDownTooltip" value="最小 (0.1) —— 极慢 (每周一次)，最大 (1.0) —— 每天。默认 (0.3) —— 每 3 天一次。" />
+  <translation id="CrimeSlowDown" value="犯罪积累速度" />
+  <translation id="CrimeSlowDownTooltip" value="最小 (0.1) —— 极慢 (每周一次)，最大 (1.0) —— 每天。默认 (0.3) —— 每 3 天一次。" />
   <translation id="WeeklyCommericalDeliveries" value="每周商业送货" />
   <translation id="WeeklyCommericalDeliveriesTooltip" value="如果开启，商业建筑将拥有更大的商品容量，从而可以接受每周一次的送货" />
   <translation id="DummyTrafficBehavior" value="过境交通平衡" />

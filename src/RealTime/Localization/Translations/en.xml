@@ -85,6 +85,8 @@
   <translation id="GarbageSlowDownTooltip" value="min (0.05) is very slow (Bi-weekly) and max (1.0) is normal daily - default is weekly (0.15)" />
   <translation id="MailSlowDown" value="Mail Accumulation" />
   <translation id="MailSlowDownTooltip" value="min (0.1) is very slow (weekly) and max (1.0) is normal daily - default is every 3 days (0.3)" />
+  <translation id="CrimeSlowDown" value="Crime Accumulation" />
+  <translation id="CrimeSlowDownTooltip" value="min (0.1) is very slow (weekly) and max (1.0) is normal daily - default is every 3 days (0.3)" />
   <translation id="WeeklyCommericalDeliveries" value="Commerical building will receive goods delivery once a week" />
   <translation id="WeeklyCommericalDeliveriesTooltip" value="If enabled, commerical buildings will have bigger goods buffer that will allow them to get goods only once a week" />
   <translation id="DummyTrafficBehavior" value="Make the dummy traffic capacity more light" />

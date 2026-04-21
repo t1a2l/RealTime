@@ -85,6 +85,8 @@
   <translation id="GarbageSlowDownTooltip" value="мин (0.05) — очень медленно (раз в две недели), макс (1.0) — ежедневно. По умолчанию (0.15) — раз в неделю." />
   <translation id="MailSlowDown" value="Накопление почты" />
   <translation id="MailSlowDownTooltip" value="мин (0.1) — очень медленно (раз в неделю), макс (1.0) — ежедневно. По умолчанию (0.3) — раз в 3 дня." />
+  <translation id="CrimeSlowDown" value="Накопление преступлений" />
+  <translation id="CrimeSlowDownTooltip" value="мин (0.1) — очень медленно (раз в неделю), макс (1.0) — ежедневно. По умолчанию (0.3) — раз в 3 дня." />
   <translation id="WeeklyCommericalDeliveries" value="Еженедельная доставка товаров в магазины" />
   <translation id="WeeklyCommericalDeliveriesTooltip" value="Если включено, коммерческие здания будут иметь больший буфер товаров, что позволит им получать поставки раз в неделю" />
   <translation id="DummyTrafficBehavior" value="Облегчить транзитный трафик" />

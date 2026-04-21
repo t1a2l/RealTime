@@ -8,6 +8,8 @@ namespace RealTime.Managers
 
         public static readonly float[] MailAccumulator = new float[BuildingManager.MAX_BUILDING_COUNT];
 
+        public static readonly float[] CrimeAccumulator = new float[BuildingManager.MAX_BUILDING_COUNT];
+
         public static void ApplyGarbageSlowdown(ushort buildingID, ref Building buildingData, ushort garbageBefore, float multiplier = 1f)
         {
             ushort garbageProduced = (ushort)(buildingData.m_garbageBuffer - garbageBefore);
@@ -40,6 +42,22 @@ namespace RealTime.Managers
             MailAccumulator[buildingID] = accumulated - adjustedMail;
 
             buildingData.m_mailBuffer = (ushort)(mailBefore + adjustedMail);
+        }
+
+        public static void ApplyCrimeSlowdown(ushort buildingID, ref Building buildingData, ushort crimeBefore, float multiplier = 1f)
+        {
+            ushort crimeProduced = (ushort)(buildingData.m_crimeBuffer - crimeBefore);
+            if (crimeProduced == 0)
+            {
+                return;
+            }
+
+            float accumulated = CrimeAccumulator[buildingID];
+            accumulated += crimeProduced * RealTimeMod.configProvider.Configuration.CrimeSlowDown * multiplier;
+
+            ushort adjustedCrime = (ushort)accumulated;
+            CrimeAccumulator[buildingID] = accumulated - adjustedCrime;
+            buildingData.m_crimeBuffer = (ushort)(crimeBefore + adjustedCrime);
         }
     }
 }

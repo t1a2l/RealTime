@@ -5,21 +5,19 @@ namespace RealTime.Patches
     using ColossalFramework;
     using HarmonyLib;
     using RealTime.Managers;
-    using UnityEngine;
-    using static RealTime.Patches.HandleCommonConsumptionPatch;
+
+    public struct CommonConsumptionAccumulator
+    {
+        public ushort Garbage;
+        public ushort Mail;
+        public ushort MainBuildingGarbage;
+        public ushort MainBuildingMail;
+        public ushort MainBuildingId;
+    }
 
     [HarmonyPatch]
     public static class HandleCommonConsumptionPatch
     {
-        public struct Accumulator
-        {
-            public ushort Garbage;
-            public ushort Mail;
-            public ushort MainBuildingGarbage;
-            public ushort MainBuildingMail;
-            public ushort MainBuildingId;
-        }
-
         public static IEnumerable<MethodBase> TargetMethods()
         {
             var types = new[]
@@ -36,9 +34,9 @@ namespace RealTime.Patches
 
             var paramTypes = new[]
             {
-                typeof(ushort),
-                typeof(Building).MakeByRefType(),        // ref Building
-                typeof(Building.Frame).MakeByRefType(),  // ref Building.Frame
+                typeof(ushort),                          // ushort buildingID (NOT ref)
+                typeof(Building).MakeByRefType(),        // ref Building data
+                typeof(Building.Frame).MakeByRefType(),  // ref Building.Frame frameData
                 typeof(int).MakeByRefType(),             // ref int electricityConsumption
                 typeof(int).MakeByRefType(),             // ref int heatingConsumption
                 typeof(int).MakeByRefType(),             // ref int waterConsumption
@@ -59,7 +57,7 @@ namespace RealTime.Patches
             }
         }
 
-        public static void Prefix(ref Building data, out Accumulator __state, MethodBase __originalMethod)
+        public static void Prefix(ref Building data, out CommonConsumptionAccumulator __state, MethodBase __originalMethod)
         {
             bool isComplexBuilding = __originalMethod.DeclaringType != typeof(CommonBuildingAI);
             ushort mainBuildingId = 0;
@@ -78,7 +76,7 @@ namespace RealTime.Patches
                 mainMail = mb.m_mailBuffer;
             }
 
-            __state = new Accumulator
+            __state = new CommonConsumptionAccumulator
             {
                 Garbage = data.m_garbageBuffer,
                 Mail = data.m_mailBuffer,
@@ -88,7 +86,7 @@ namespace RealTime.Patches
             };
         }
 
-        public static void Postfix(ushort buildingID, ref Building data, Accumulator __state)
+        public static void Postfix(ushort buildingID, ref Building data, CommonConsumptionAccumulator __state)
         {
             // no main building slow building — apply slowdown to this building directly
             if (__state.MainBuildingId == 0)
@@ -172,9 +170,9 @@ namespace RealTime.Patches
         {
             var paramTypes = new[]
             {
-                typeof(ushort),
-                typeof(Building).MakeByRefType(),        // ref Building
-                typeof(Building.Frame).MakeByRefType(),  // ref Building.Frame
+                typeof(ushort),                          // ushort buildingID (NOT ref)
+                typeof(Building).MakeByRefType(),        // ref Building data
+                typeof(Building.Frame).MakeByRefType(),  // ref Building.Frame frameData
                 typeof(int).MakeByRefType(),             // ref int electricityConsumption
                 typeof(int).MakeByRefType(),             // ref int heatingConsumption
                 typeof(int).MakeByRefType(),             // ref int waterConsumption
@@ -182,14 +180,14 @@ namespace RealTime.Patches
                 typeof(int).MakeByRefType(),             // ref int garbageAccumulation
                 typeof(int).MakeByRefType(),             // ref int mailAccumulation
                 typeof(int),                             // int maxMail (NOT ref)
-                typeof(DistrictPolicies.Services),        // DistrictPolicies.Services (NOT ref)
+                typeof(DistrictPolicies.Services),       // DistrictPolicies.Services (NOT ref)
                 typeof(ushort)
             };
 
             return AccessTools.Method(typeof(CommonBuildingAI), "HandleCommonConsumption", paramTypes);
         }
 
-        public static void Prefix(ref Building data, out Accumulator __state, ushort mainBuildingID)
+        public static void Prefix(ref Building data, out CommonConsumptionAccumulator __state, ushort mainBuildingID)
         {
             ushort mainGarbage = 0;
             ushort mainMail = 0;
@@ -199,7 +197,7 @@ namespace RealTime.Patches
                 mainGarbage = mainBuilding.m_garbageBuffer;
                 mainMail = mainBuilding.m_mailBuffer;
             }
-            __state = new Accumulator
+            __state = new CommonConsumptionAccumulator
             {
                 Garbage = data.m_garbageBuffer,
                 Mail = data.m_mailBuffer,
@@ -209,7 +207,7 @@ namespace RealTime.Patches
             };
         }
 
-        public static void Postfix(Accumulator __state, ushort mainBuildingID)
+        public static void Postfix(CommonConsumptionAccumulator __state, ushort mainBuildingID)
         {
             if (mainBuildingID == 0)
             {

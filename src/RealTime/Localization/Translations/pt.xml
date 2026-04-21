@@ -85,6 +85,8 @@
   <translation id="GarbageSlowDownTooltip" value="mín (0.05) é muito lento (quinzenal) e máx (1.0) é diário normal - o padrão é semanal (0.15)" />
   <translation id="MailSlowDown" value="Acúmulo de Correspondência" />
   <translation id="MailSlowDownTooltip" value="mín (0.1) é muito lento (semanal) e máx (1.0) é diário normal - o padrão é a cada 3 dias (0.3)" />
+  <translation id="CrimeSlowDown" value="Acúmulo de Crime" />
+  <translation id="CrimeSlowDownTooltip" value="mín (0.1) é muito lento (semanal) e máx (1.0) é diário normal - o padrão é a cada 3 dias (0.3)" />
   <translation id="WeeklyCommericalDeliveries" value="Prédios comerciais recebem entregas uma vez por semana" />
   <translation id="WeeklyCommericalDeliveriesTooltip" value="Se ativado, prédios comerciais terão um buffer maior, permitindo receber mercadorias apenas uma vez por semana" />
   <translation id="DummyTrafficBehavior" value="Tornar o tráfego de passagem mais leve" />

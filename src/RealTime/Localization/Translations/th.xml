@@ -85,6 +85,8 @@
   <translation id="GarbageSlowDownTooltip" value="ต่ำสุด (0.05) — ช้ามาก (ทุกสองสัปดาห์), สูงสุด (1.0) — ทุกวัน ค่าเริ่มต้น (0.15) — สัปดาห์ละครั้ง" />
   <translation id="MailSlowDown" value="การสะสมจดหมาย" />
   <translation id="MailSlowDownTooltip" value="ต่ำสุด (0.1) — ช้ามาก (สัปดาห์ละครั้ง), สูงสุด (1.0) — ทุกวัน ค่าเริ่มต้น (0.3) — ทุก 3 วัน" />
+  <translation id="CrimeSlowDown" value="การสะสมอาชญากรรม" />
+  <translation id="CrimeSlowDownTooltip" value="ต่ำสุด (0.1) — ช้ามาก (สัปดาห์ละครั้ง), สูงสุด (1.0) — ทุกวัน ค่าเริ่มต้น (0.3) — ทุก 3 วัน" />
   <translation id="WeeklyCommericalDeliveries" value="การส่งสินค้าเข้าร้านค้าแบบรายสัปดาห์" />
   <translation id="WeeklyCommericalDeliveriesTooltip" value="หากเปิดใช้งาน อาคารพาณิชย์จะสามารถเก็บสินค้าได้มากขึ้น ทำให้รับการส่งสินค้าเพียงสัปดาห์ละครั้งได้" />
   <translation id="DummyTrafficBehavior" value="ปรับสมดุลรถทางผ่าน (Dummy Traffic)" />

@@ -85,6 +85,8 @@
   <translation id="GarbageSlowDownTooltip" value="Min (0.05) alle zwei Wochen, Max (1.0) täglich. Standard (0.15) wöchentlich." />
   <translation id="MailSlowDown" value="Postansammlungsrate" />
   <translation id="MailSlowDownTooltip" value="Min (0.1) wöchentlich, Max (1.0) täglich. Standard (0.3) alle 3 Tage." />
+  <translation id="CrimeSlowDown" value="Kriminalitätsansammlungsrate" />
+  <translation id="CrimeSlowDownTooltip" value="Min (0.1) sehr langsam (wöchentlich), Max (1.0) normal (täglich) - Standard alle 3 Tage (0.3)" />
   <translation id="WeeklyCommericalDeliveries" value="Wöchentliche Warenlieferungen" />
   <translation id="WeeklyCommericalDeliveriesTooltip" value="Gewerbegebäude benötigen nur noch eine Lieferung pro Woche durch größere Lagerkapazitäten." />
   <translation id="DummyTrafficBehavior" value="Optimierung des Durchgangsverkehrs" />

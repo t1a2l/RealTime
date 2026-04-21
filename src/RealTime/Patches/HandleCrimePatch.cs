@@ -23,7 +23,8 @@ namespace RealTime.Patches
             typeof(AirportEntranceAI),
             typeof(ParkGateAI),
             typeof(MainCampusBuildingAI),
-            typeof(MainIndustryBuildingAI)
+            typeof(MainIndustryBuildingAI),
+            typeof(RaceStartBuildingAI)
         ];
 
         public static IEnumerable<MethodBase> TargetMethods()
@@ -41,7 +42,8 @@ namespace RealTime.Patches
                 typeof(MainIndustryBuildingAI),
                 typeof(MuseumAI),
                 typeof(ParkBuildingAI),
-                typeof(ParkGateAI)
+                typeof(ParkGateAI),
+                typeof(RaceBuildingAI)
             };
 
             var paramTypes = new[]
@@ -62,7 +64,7 @@ namespace RealTime.Patches
             }
         }
 
-        public static void Prefix(ref Building data, out HandleCrimeAccumulator __state, MethodBase __originalMethod)
+        public static void Prefix(ushort buildingID, ref Building data, out HandleCrimeAccumulator __state, MethodBase __originalMethod)
         {
             var declaringType = __originalMethod.DeclaringType;
             bool isSubBuilding = declaringType != typeof(CommonBuildingAI) && !_mainBuildingTypes.Contains(declaringType);
@@ -71,12 +73,17 @@ namespace RealTime.Patches
 
             if (isSubBuilding)
             {
-                mainBuildingId = GetMainBuildingId(ref data);
-            }
+                mainBuildingId = data.Info?.GetAI() is RaceBuildingAI ? RaceBuildingAI.GetMainBuilding(buildingID, ref data) : GetMainBuildingId(ref data);
 
-            if (mainBuildingId != 0)
-            {
-                mainCrime = Singleton<BuildingManager>.instance.m_buildings.m_buffer[mainBuildingId].m_crimeBuffer;
+                if (mainBuildingId != 0)
+                {
+                    mainCrime = Singleton<BuildingManager>.instance.m_buildings.m_buffer[mainBuildingId].m_crimeBuffer;
+                }
+                else
+                {
+                    // Sentinel: sub-building with no main — let vanilla run, skip our logic
+                    mainBuildingId = ushort.MaxValue;
+                }
             }
 
             __state = new HandleCrimeAccumulator
@@ -89,67 +96,25 @@ namespace RealTime.Patches
 
         public static void Postfix(ushort buildingID, ref Building data, int citizenCount, HandleCrimeAccumulator __state)
         {
+            if (__state.MainBuildingId == ushort.MaxValue)
+            {
+                return;
+            }
+
             // no main building slow building — apply slowdown to this building directly
             if (__state.MainBuildingId == 0)
             {
                 ResourceSlowdownManager.ApplyCrimeSlowdown(buildingID, ref data, __state.Crime);
+                if (data.Info?.GetAI() is not RaceStartBuildingAI)
+                {
+                    AddCrimeOffer(buildingID, ref data, citizenCount);
+                }
                 return;
             }
 
             ref var mainBuildingData = ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[__state.MainBuildingId];
 
-            float multiplier;
-
-            if (mainBuildingData.Info?.GetAI() is RaceStartBuildingAI)
-            {
-                return;
-            }
-
-            if (mainBuildingData.Info?.GetAI() is MainCampusBuildingAI || mainBuildingData.Info?.GetAI() is MainIndustryBuildingAI)
-            {
-                // Campus main building — strongest suppression
-                multiplier = 0.02f;
-            }
-            else if (mainBuildingData.Info?.GetAI() is AirportEntranceAI)
-            {
-                // Airport entrance — strongest suppression
-                multiplier = 0.001f;
-            }
-            else
-            {
-                // Other complex main buildings (park gate, etc.)
-                multiplier = 0.08f;
-            }
-
-            ResourceSlowdownManager.ApplyCrimeSlowdown(__state.MainBuildingId, ref mainBuildingData, __state.MainBuildingCrime, multiplier);
-
-            if (citizenCount != 0 && mainBuildingData.m_crimeBuffer > citizenCount * 25 && ResourceSlowdownManager.PendingCrimeDispatch.Contains(__state.MainBuildingId))
-            {
-                ResourceSlowdownManager.PendingCrimeDispatch.Remove(__state.MainBuildingId);
-                int count = 0;
-                int cargo = 0;
-                int capacity = 0;
-                int outside = 0;
-                CalculateGuestVehicles(__state.MainBuildingId, ref mainBuildingData, TransferManager.TransferReason.Crime, ref count, ref cargo, ref capacity, ref outside);
-                int num = 0;
-
-                if(mainBuildingData.Info.GetAI() is AirportEntranceAI)
-                {
-                    num = (mainBuildingData.m_crimeBuffer >= citizenCount * 90) ? 5 : ((mainBuildingData.m_crimeBuffer >= citizenCount * 60) ? 3 : ((mainBuildingData.m_crimeBuffer < citizenCount * 25) ? 1 : 2));
-                }
-
-                if (count == num)
-                {
-                    var offer = new TransferManager.TransferOffer
-                    {
-                        Priority = mainBuildingData.m_crimeBuffer / Mathf.Max(1, citizenCount * 10),
-                        Building = __state.MainBuildingId,
-                        Position = mainBuildingData.m_position,
-                        Amount = 1
-                    };
-                    Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Crime, offer);
-                }
-            }
+            ResourceSlowdownManager.ApplyCrimeSlowdown(__state.MainBuildingId, ref mainBuildingData, __state.MainBuildingCrime);
         }
 
         private static ushort GetMainBuildingId(ref Building data)
@@ -188,96 +153,30 @@ namespace RealTime.Patches
             return mainBuildingId;
         }
 
-        private static void CalculateGuestVehicles(ushort buildingID, ref Building data, TransferManager.TransferReason material, ref int count, ref int cargo, ref int capacity, ref int outside)
+        private static void AddCrimeOffer(ushort buildingID, ref Building data, int citizenCount)
         {
-            var instance = Singleton<VehicleManager>.instance;
-            ushort num = data.m_guestVehicles;
-            int num2 = 0;
-            while (num != 0)
+            if (citizenCount != 0 && data.m_crimeBuffer > citizenCount * 25 && ResourceSlowdownManager.PendingCrimeDispatch.Contains(buildingID))
             {
-                if ((TransferManager.TransferReason)instance.m_vehicles.m_buffer[num].m_transferType == material)
-                {
-                    var info = instance.m_vehicles.m_buffer[num].Info;
-                    info.m_vehicleAI.GetSize(num, ref instance.m_vehicles.m_buffer[num], out var size, out var max);
-                    cargo += Mathf.Min(size, max);
-                    capacity += max;
-                    count++;
-                    if ((instance.m_vehicles.m_buffer[num].m_flags & (Vehicle.Flags.Importing | Vehicle.Flags.Exporting)) != 0)
-                    {
-                        outside++;
-                    }
-                }
-                num = instance.m_vehicles.m_buffer[num].m_nextGuestVehicle;
-                if (++num2 > 16384)
-                {
-                    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                    break;
-                }
-            }
-        }
-    }
-
-    // Separate patch for the RaceBuildingAI
-    [HarmonyPatch]
-    public static class RaceBuildingAIHandleCrimePatch
-    {
-        public static MethodBase TargetMethod()
-        {
-            var paramTypes = new[]
-            {
-                typeof(ushort),                          //  ushort buildingID (NOT ref)
-                typeof(Building).MakeByRefType(),        //  ref Building data
-                typeof(int),                             //  int crimeAccumulation (NOT ref)
-                typeof(int),                             //  int citizenCount (NOT ref)
-            };
-
-            return AccessTools.Method(typeof(RaceBuildingAI), "HandleCrime", paramTypes);
-        }
-
-        public static void Prefix(ushort buildingID, ref Building data, out HandleCrimeAccumulator __state)
-        {
-            ushort mainBuildingID = RaceBuildingAI.GetMainBuilding(buildingID, ref data);
-            ushort mainCrime = 0;
-
-            if (mainBuildingID != 0)
-            {
-                mainCrime = Singleton<BuildingManager>.instance.m_buildings.m_buffer[mainBuildingID].m_crimeBuffer;
-            }
-            __state = new HandleCrimeAccumulator
-            {
-                Crime = data.m_crimeBuffer,
-                MainBuildingId = mainBuildingID,
-                MainBuildingCrime = mainCrime
-            };
-        }
-
-        public static void Postfix(ushort buildingID, ref Building data, int citizenCount, HandleCrimeAccumulator __state)
-        {
-            if (__state.MainBuildingId == 0)
-            {
-                ResourceSlowdownManager.ApplyCrimeSlowdown(buildingID, ref data, __state.Crime);
-                return;
-            }
-
-            ref var mainBuildingData = ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[__state.MainBuildingId];
-
-            ResourceSlowdownManager.ApplyCrimeSlowdown(__state.MainBuildingId, ref mainBuildingData, __state.MainBuildingCrime, 0.001f);
-
-            if (citizenCount != 0 && mainBuildingData.m_crimeBuffer > citizenCount * 25 && ResourceSlowdownManager.PendingCrimeDispatch.Contains(__state.MainBuildingId))
-            {
-                ResourceSlowdownManager.PendingCrimeDispatch.Remove(__state.MainBuildingId);
+                ResourceSlowdownManager.PendingCrimeDispatch.Remove(buildingID);
                 int count = 0;
                 int cargo = 0;
                 int capacity = 0;
                 int outside = 0;
-                CalculateGuestVehicles(__state.MainBuildingId, ref mainBuildingData, TransferManager.TransferReason.Crime, ref count, ref cargo, ref capacity, ref outside);
-                if (count == 0)
+                CalculateGuestVehicles(buildingID, ref data, TransferManager.TransferReason.Crime, ref count, ref cargo, ref capacity, ref outside);
+                int num = 0;
+
+                if (data.Info.GetAI() is AirportEntranceAI)
+                {
+                    num = (data.m_crimeBuffer >= citizenCount * 90) ? 5 : ((data.m_crimeBuffer >= citizenCount * 60) ? 3 : ((data.m_crimeBuffer < citizenCount * 25) ? 1 : 2));
+                }
+
+                if (count == num)
                 {
                     var offer = new TransferManager.TransferOffer
                     {
-                        Priority = mainBuildingData.m_crimeBuffer / Mathf.Max(1, citizenCount * 10),
-                        Building = __state.MainBuildingId,
-                        Position = mainBuildingData.m_position,
+                        Priority = data.m_crimeBuffer / Mathf.Max(1, citizenCount * 10),
+                        Building = buildingID,
+                        Position = data.m_position,
                         Amount = 1
                     };
                     Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.Crime, offer);

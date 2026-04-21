@@ -47,7 +47,7 @@ namespace RealTime.Managers
             buildingData.m_mailBuffer = (ushort)(mailBefore + adjustedMail);
         }
 
-        public static void ApplyCrimeSlowdown(ushort buildingID, ref Building buildingData, ushort crimeBefore, float multiplier = 1f)
+        public static void ApplyCrimeSlowdown(ushort buildingID, ref Building buildingData, ushort crimeBefore)
         {
             ushort crimeProduced = (ushort)(buildingData.m_crimeBuffer - crimeBefore);
             if (crimeProduced == 0)
@@ -56,7 +56,7 @@ namespace RealTime.Managers
             }
 
             float accumulated = CrimeAccumulator[buildingID];
-            accumulated += crimeProduced * RealTimeMod.configProvider.Configuration.CrimeSlowDown * multiplier;
+            accumulated += crimeProduced * RealTimeMod.configProvider.Configuration.CrimeSlowDown;
 
             ushort adjustedCrime = (ushort)accumulated;
             CrimeAccumulator[buildingID] = accumulated - adjustedCrime;

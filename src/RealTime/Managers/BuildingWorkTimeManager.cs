@@ -179,7 +179,18 @@ namespace RealTime.Managers
         public static bool ShouldHaveBuildingWorkTime(ushort buildingID)
         {
             var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
+
+            if (building.Info == null)
+            {
+                return false;
+            }
+
             var ai = building.Info.GetAI();
+
+            if(ai == null)
+            {
+                return false;
+            }
 
             if (ai is DecorationBuildingAI || ai is OutsideConnectionAI || ai is WaterJunctionAI || ai is CableCarPylonAI ||
                 ai is IntersectionAI || ai is MonorailPylonAI || ai is PowerPoleAI || ai is WildlifeSpawnPointAI || ai is TsunamiBuoyAI ||

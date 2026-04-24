@@ -275,10 +275,24 @@ namespace RealTime.Patches
         private static void EndTogaParty(DistrictPark __instance, byte parkID)
         {
             var instance2 = Singleton<DistrictManager>.instance;
+
+            if(parkID == 0 || __instance.m_parkType == DistrictPark.ParkType.None || parkID >= instance2.m_parks.m_size || __instance.m_partyVenue == 0)
+            {
+                return;
+            }
+
             ref var campus = ref instance2.m_parks.m_buffer[parkID];
             campus.m_flags &= ~DistrictPark.Flags.TogaParty;
             var instance = Singleton<BuildingManager>.instance;
-            if (instance.m_buildings.m_buffer[__instance.m_partyVenue].Info.m_buildingAI is CampusBuildingAI)
+
+            var building = instance.m_buildings.m_buffer[__instance.m_partyVenue];
+
+            if(building.Info == null)
+            {
+                return;
+            }
+
+            if (building.Info.m_buildingAI is CampusBuildingAI)
             {
                 for (int i = 0; i < __instance.m_arrivedAtParty; i++)
                 {

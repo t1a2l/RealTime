@@ -1288,6 +1288,7 @@ namespace RealTime.Patches
                             }
 
                             var now = Singleton<SimulationManager>.instance.m_currentGameTime;
+                            now = new DateTime(now.Year, now.Month, now.Day, now.Hour, 0, 0);
                             var eventInfo = m_allowedEventInfos[0];
 
                             Log.Debug(LogCategory.Events, TimeInfo.Now, $"Creating new event for route {m_eventRouteID} with event {eventInfo.name} at game time {now:dd/MM/yyyy HH:mm}");

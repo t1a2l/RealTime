@@ -1290,14 +1290,22 @@ namespace RealTime.Patches
                             var now = Singleton<SimulationManager>.instance.m_currentGameTime;
                             var eventInfo = m_allowedEventInfos[0];
 
+                            Log.Debug(LogCategory.Events, TimeInfo.Now, $"Creating new event for route {m_eventRouteID} with event {eventInfo.name} at game time {now:dd/MM/yyyy HH:mm}");
+
                             var candidate = now.AddHours(RealTimeConfig.EventPreparationDuration);
+                            Log.Debug(LogCategory.Events, TimeInfo.Now, $"Initial candidate start time: {candidate:dd/MM/yyyy HH:mm}");
+
                             candidate = AdjustEventStartTime(candidate);
+                            Log.Debug(LogCategory.Events, TimeInfo.Now, $"Candidate start time after adjustment: {candidate:dd/MM/yyyy HH:mm}");
+
                             int retries = 0;
                             while (HasScheduleConflict(m_eventRouteID, scheduleCount, candidate) && retries++ < 32)
                             {
                                 candidate = candidate.AddDays(1);
                                 candidate = AdjustEventStartTime(candidate);
                             }
+                            Log.Debug(LogCategory.Events, TimeInfo.Now, $"Final candidate start time after conflict checks: {candidate:dd/MM/yyyy HH:mm} (retries: {retries})");
+
                             buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_scheduleID = ++Singleton<EventManager>.instance.m_eventScheduleCount;
                             buffer[m_eventRouteID].m_scheduleData[scheduleCount].Info = m_allowedEventInfos[0];
                             buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_startDay = (byte)(candidate.Day - 1);
@@ -1306,6 +1314,8 @@ namespace RealTime.Patches
                             buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_ticketPrice = 100;
                             buffer[m_eventRouteID].m_scheduleData[scheduleCount].m_flags = EventRouteData.EventScheduleFlags.Suspended;
                             EventRouteTimeManager.SetEventTimeScheduleHour(m_eventRouteID, scheduleCount, (byte)candidate.Hour);
+
+                            Log.Debug(LogCategory.Events, TimeInfo.Now, $"Set event minute to {(byte)candidate.Minute} for schedule index {scheduleCount}");
                             EventRouteTimeManager.SetEventTimeScheduleMinute(m_eventRouteID, scheduleCount, (byte)candidate.Minute);
                             EventRouteTimeManager.SetEventTimeScheduleFrequency(m_eventRouteID, scheduleCount, 0); // weekly default
                             EventRouteTimeManager.SetEventTimeScheduleAutoOccur(m_eventRouteID, scheduleCount, true); // auto occur by default

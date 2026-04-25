@@ -9,6 +9,7 @@ namespace RealTime.Patches
     using RealTime.GameConnection;
     using RealTime.Managers;
     using RealTime.Simulation;
+    using SkyTools.Tools;
 
     [HarmonyPatch]
     internal static class EventManagerPatch
@@ -132,9 +133,15 @@ namespace RealTime.Patches
                 {
                     continue;
                 }
+                Log.Debug(LogCategory.Events, TimeInfo.Now, $"Processing schedule {i} for event route {eventRouteIndex}, startDay: {scheduleData[i].m_startDay}, startMonth: {scheduleData[i].m_startMonth}, startHour: {eventTimeSchedules[i].StartHour}, startMinute: {eventTimeSchedules[i].StartMinute}");
+
                 var dateTime = CalculateNextEvent(Singleton<SimulationManager>.instance.m_currentGameTime, scheduleData[i].m_startDay + 1, scheduleData[i].m_startMonth + 1, eventTimeSchedules[i].StartHour, eventTimeSchedules[i].StartMinute);
 
+                Log.Debug(LogCategory.Events, TimeInfo.Now, $"Initial calculated dateTime for schedule {i}: {dateTime:dd/MM/yyyy HH:mm}");
+
                 dateTime = WorldInfoPanelPatch.AdjustEventStartTime(dateTime);
+
+                Log.Debug(LogCategory.Events, TimeInfo.Now, $"Adjusted dateTime for schedule {i}: {dateTime:dd/MM/yyyy HH:mm}");
 
                 int occurrences;
                 if (eventTimeSchedules[i].AutoOccur)

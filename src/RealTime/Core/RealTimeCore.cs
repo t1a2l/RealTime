@@ -274,14 +274,7 @@ namespace RealTime.Core
             TouristAIPatch.TimeInfo = null;
             TransferManagerPatch.RealTimeBuildingAI = null;
             VehicleAIPatch.RealTimeBuildingAI = null;
-            WorldInfoPanelPatch.LocalizationProvider = null;
-            WorldInfoPanelPatch.RealTimeBuildingAI = null;
-            WorldInfoPanelPatch.RealTimeResidentAI = null;
-            WorldInfoPanelPatch.RealTimeConfig = null;
-            WorldInfoPanelPatch.RealTimeEventManager = null;
-            WorldInfoPanelPatch.TimeAdjustment = null;
-            WorldInfoPanelPatch.TimeInfo = null;
-            
+
             vanillaEvents.Revert();
 
             timeAdjustment.Disable();
@@ -296,14 +289,21 @@ namespace RealTime.Core
 
             StorageBase.CurrentLevelStorage.GameSaving -= GameSaving;
 
+            WorldInfoPanelPatch.CampusWorldInfoPanel?.Disable();
+            WorldInfoPanelPatch.CampusWorldInfoPanel = null;
+
             WorldInfoPanelPatch.CitizenInfoPanel?.Disable();
             WorldInfoPanelPatch.CitizenInfoPanel = null;
 
+            WorldInfoPanelPatch.LocalizationProvider = null;
+            WorldInfoPanelPatch.RealTimeConfig = null;
+            WorldInfoPanelPatch.RealTimeEventManager = null;
+            WorldInfoPanelPatch.RealTimeResidentAI = null;
+            WorldInfoPanelPatch.TimeAdjustment = null;
+            WorldInfoPanelPatch.TimeInfo = null;
+
             WorldInfoPanelPatch.VehicleInfoPanel?.Disable();
             WorldInfoPanelPatch.VehicleInfoPanel = null;
-
-            WorldInfoPanelPatch.CampusWorldInfoPanel?.Disable();
-            WorldInfoPanelPatch.CampusWorldInfoPanel = null;
 
             isEnabled = false;
         }
@@ -487,7 +487,6 @@ namespace RealTime.Core
 
             VehicleAIPatch.RealTimeBuildingAI = realTimeBuildingAI;
 
-            WorldInfoPanelPatch.RealTimeBuildingAI = realTimeBuildingAI;
             WorldInfoPanelPatch.RealTimeResidentAI = realTimeResidentAI;
             WorldInfoPanelPatch.RealTimeConfig = config;
             WorldInfoPanelPatch.RealTimeEventManager = eventManager;

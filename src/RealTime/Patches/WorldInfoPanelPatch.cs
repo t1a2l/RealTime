@@ -32,35 +32,32 @@ namespace RealTime.Patches
     [HarmonyPatch]
     internal static class WorldInfoPanelPatch
     {
-        /// <summary>Gets or sets the custom AI object for buildings.</summary>
-        public static RealTimeBuildingAI RealTimeBuildingAI { get; set; }
-
-        /// <summary>Gets or sets the custom AI object for buildings.</summary>
-        public static RealTimeResidentAI<ResidentAI, Citizen> RealTimeResidentAI { get; set; }
+        /// <summary>Gets or sets the customized campus information panel.</summary>
+        public static CustomCampusWorldInfoPanel CampusWorldInfoPanel { get; set; }
 
         /// <summary>Gets or sets the customized citizen information panel.</summary>
         public static CustomCitizenInfoPanel CitizenInfoPanel { get; set; }
 
-        /// <summary>Gets or sets the customized vehicle information panel.</summary>
-        public static CustomVehicleInfoPanel VehicleInfoPanel { get; set; }
-
-        /// <summary>Gets or sets the customized campus information panel.</summary>
-        public static CustomCampusWorldInfoPanel CampusWorldInfoPanel { get; set; }
-
-        /// <summary>Gets or sets the timeInfo.</summary>
-        public static TimeInfo TimeInfo { get; set; }
-
-        /// <summary>Gets or sets the game events data.</summary>
-        public static RealTimeEventManager RealTimeEventManager { get; set; }
+        /// <summary>Gets or sets the mod localization.</summary>
+        public static ILocalizationProvider LocalizationProvider { get; set; }
 
         /// <summary>Gets or sets the mod configuration.</summary>
         public static RealTimeConfig RealTimeConfig { get; set; }
 
-        /// <summary>Gets or sets the mod localization.</summary>
-        public static ILocalizationProvider LocalizationProvider { get; set; }
+        /// <summary>Gets or sets the game events data.</summary>
+        public static RealTimeEventManager RealTimeEventManager { get; set; }
+
+        /// <summary>Gets or sets the custom AI object for buildings.</summary>
+        public static RealTimeResidentAI<ResidentAI, Citizen> RealTimeResidentAI { get; set; }
 
         /// <summary>Gets or sets the time adjustment simulation class instance.</summary>
         internal static TimeAdjustment TimeAdjustment { get; set; }
+
+        /// <summary>Gets or sets the timeInfo.</summary>
+        public static TimeInfo TimeInfo { get; set; }
+
+        /// <summary>Gets or sets the customized vehicle information panel.</summary>
+        public static CustomVehicleInfoPanel VehicleInfoPanel { get; set; }
 
         /// <summary>car parking buildings.</summary>
         private static readonly string[] CarParkingBuildings = ["parking", "garage", "car park", "Parking", "Car Port", "Garage", "Car Park"];

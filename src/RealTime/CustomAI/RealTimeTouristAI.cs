@@ -18,38 +18,30 @@ namespace RealTime.CustomAI
     /// <typeparam name="TAI">The type of the tourist AI.</typeparam>
     /// <typeparam name="TCitizen">The type of the citizen objects.</typeparam>
     /// <seealso cref="RealTimeHumanAIBase{TCitizen}" />
-    internal sealed class RealTimeTouristAI<TAI, TCitizen> : RealTimeHumanAIBase<TCitizen>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="RealTimeTouristAI{TAI, TCitizen}"/> class.
+    /// </remarks>
+    ///
+    /// <param name="config">The configuration to run with.</param>
+    /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
+    /// <param name="touristAI">A connection to game's tourist AI.</param>
+    /// <param name="eventManager">The custom event manager.</param>
+    /// <param name="spareTimeBehavior">A behavior that provides simulation info for the citizens spare time.</param>
+    ///
+    /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
+    internal sealed class RealTimeTouristAI<TAI, TCitizen>(
+        RealTimeConfig config,
+        GameConnections<TCitizen> connections,
+        TouristAIConnection<TAI, TCitizen> touristAI,
+        IRealTimeEventManager eventManager,
+        ISpareTimeBehavior spareTimeBehavior,
+        IRealTimeBuildingAI buildingAI) : RealTimeHumanAIBase<TCitizen>(config, connections, eventManager)
         where TAI : class
         where TCitizen : struct
     {
-        private readonly TouristAIConnection<TAI, TCitizen> touristAI;
-        private readonly ISpareTimeBehavior spareTimeBehavior;
-        private readonly IRealTimeBuildingAI buildingAI;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RealTimeTouristAI{TAI, TCitizen}"/> class.
-        /// </summary>
-        ///
-        /// <param name="config">The configuration to run with.</param>
-        /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
-        /// <param name="touristAI">A connection to game's tourist AI.</param>
-        /// <param name="eventManager">The custom event manager.</param>
-        /// <param name="spareTimeBehavior">A behavior that provides simulation info for the citizens spare time.</param>
-        ///
-        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
-        public RealTimeTouristAI(
-            RealTimeConfig config,
-            GameConnections<TCitizen> connections,
-            TouristAIConnection<TAI, TCitizen> touristAI,
-            IRealTimeEventManager eventManager,
-            ISpareTimeBehavior spareTimeBehavior,
-            IRealTimeBuildingAI buildingAI)
-            : base(config, connections, eventManager)
-        {
-            this.touristAI = touristAI ?? throw new ArgumentNullException(nameof(touristAI));
-            this.spareTimeBehavior = spareTimeBehavior ?? throw new ArgumentNullException(nameof(spareTimeBehavior));
-            this.buildingAI = buildingAI ?? throw new ArgumentNullException(nameof(buildingAI));
-        }
+        private readonly TouristAIConnection<TAI, TCitizen> touristAI = touristAI ?? throw new ArgumentNullException(nameof(touristAI));
+        private readonly ISpareTimeBehavior spareTimeBehavior = spareTimeBehavior ?? throw new ArgumentNullException(nameof(spareTimeBehavior));
+        private readonly IRealTimeBuildingAI buildingAI = buildingAI ?? throw new ArgumentNullException(nameof(buildingAI));
 
         private enum TouristTarget
         {
@@ -273,10 +265,15 @@ namespace RealTime.CustomAI
             if (Random.ShouldOccur(TouristEventChance) && !WeatherInfo.IsBadWeather)
             {
                 var cityEvent = GetEventToAttend(citizenId, ref citizen);
-                if (cityEvent != null && StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), cityEvent.BuildingId))
+                if (cityEvent != null)
                 {
-                    Log.Debug(LogCategory.Events, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} attending an event at {cityEvent.BuildingId}");
-                    return;
+                    ushort eventBuildingId = cityEvent.BuildingId;
+                    ushort eventStandId = GetEventStand(eventBuildingId);
+                    if(StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), eventStandId))
+                    {
+                        Log.Debug(LogCategory.Events, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} attending an event at {eventStandId}");
+                        return;
+                    }
                 }
             }
 

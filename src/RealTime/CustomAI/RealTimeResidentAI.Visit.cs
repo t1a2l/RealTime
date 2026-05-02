@@ -31,9 +31,10 @@ namespace RealTime.CustomAI
             if (cityEvent != null)
             {
                 ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-                var departureTime = cityEvent.StartTime.AddHours(-travelBehavior.GetEstimatedTravelTime(currentBuilding, cityEvent.BuildingId));
+                ushort eventBuilding = GetEventStand(cityEvent.BuildingId);
+                var departureTime = cityEvent.StartTime.AddHours(-travelBehavior.GetEstimatedTravelTime(currentBuilding, eventBuilding));
                 schedule.Schedule(ResidentState.GoToRelax, departureTime);
-                schedule.EventBuilding = cityEvent.BuildingId;
+                schedule.EventBuilding = eventBuilding;
                 schedule.Hint = ScheduleHint.AttendingEvent;
                 return true;
             }

@@ -160,6 +160,15 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>
+        /// Returns the building ID of the event stand for an ongoing or upcoming city event.
+        /// </summary>
+        ///
+        /// <param name="buildingId">The ID of the building to check.</param>
+        ///
+        /// <returns>The ID of the event stand, or the sent buildingId if none found.</returns>
+        protected ushort GetEventStand(ushort buildingId) => EventMgr.GetEventStand(buildingId);
+
+        /// <summary>
         /// Finds an evacuation place for the specified citizen.
         /// </summary>
         ///

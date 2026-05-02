@@ -38,5 +38,13 @@ namespace RealTime.Events
         /// in the specified building, or an empty list if none found.
         /// </returns>
         internal LinkedList<RealTimeCityEvent> GetUpcomingEventsForBuilding(ushort buildingId);
+
+        /// <summary>
+        /// Gets the id of the event stand for an ongoing or upcoming city event that takes place in a building
+        /// with specified ID.
+        /// </summary>
+        /// <param name="buildingId">The ID of a building to search events for.</param>
+        /// <returns>The ID of the event stand, or the sent buildingId if none found.</returns>
+        internal ushort GetEventStand(ushort buildingId);
     }
 }

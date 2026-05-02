@@ -596,6 +596,42 @@ namespace RealTime.Events
             return false;
         }
 
+        public ushort GetRandomStand(ushort buildingId)
+        {
+            ushort routeId = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_eventRouteIndex;
+
+            // Fallback if no route or no stands
+            if (routeId == 0)
+            {
+                return buildingId;
+            }
+
+            ref var route = ref EventManager.instance.m_eventRoutes.m_buffer[routeId];
+
+            // Check if stands exist and are populated
+            if (route.m_stands == null || route.m_stands.Count == 0)
+            {
+                return buildingId;
+            }
+
+            // Pick a random index
+            int randomIndex = UnityEngine.Random.Range(0, route.m_stands.Count);
+
+            // Get the element at that index
+            // HashSet doesn't have an indexer, so we use a simple loop
+            int i = 0;
+            foreach (ushort standId in route.m_stands)
+            {
+                if (i == randomIndex)
+                {
+                    return standId;
+                }
+                i++;
+            }
+
+            return buildingId; // Should not be reached
+        }
+
         public void AddEvent(ICityEvent ev, ushort buildingId, DateTime eventStartTime)
         {
             ev.Configure(buildingId, buildingManager.GetBuildingName(buildingId), eventStartTime);

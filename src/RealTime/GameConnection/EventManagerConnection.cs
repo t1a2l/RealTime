@@ -132,7 +132,7 @@ namespace RealTime.GameConnection
 
             if (eventData.Info?.m_eventAI is RaceEventAI raceEventAI && eventData.m_raceEventData != null)
             {
-                uint durationFrames = raceEventAI is ParadeAI paradeAI ? RaceEventAIPatch.GetParadeDurationFrames(paradeAI, ref eventData) : RaceEventAIPatch.GetRaceDurationFrames(ref eventData);
+                uint durationFrames = raceEventAI is ParadeAI paradeAI ? RaceEventAIPatch.GetParadeDurationFrames(paradeAI, ref eventData) : RaceEventAIPatch.GetRaceDurationFrames(raceEventAI, ref eventData);
                 duration = durationFrames / SimulationManager.DAYTIME_HOUR_TO_FRAME;
             }
 

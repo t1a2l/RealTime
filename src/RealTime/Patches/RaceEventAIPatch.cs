@@ -43,7 +43,7 @@ namespace RealTime.Patches
         [HarmonyPrefix]
         public static bool GetDisorganizingEndFrame(RaceEventAI __instance, ushort eventID, ref EventData data, ref uint __result)
         {
-            uint durationFrames = __instance is ParadeAI paradeAI ? GetParadeDurationFrames(paradeAI, ref data) : GetRaceDurationFrames(ref data);
+            uint durationFrames = __instance is ParadeAI paradeAI ? GetParadeDurationFrames(paradeAI, ref data) : GetRaceDurationFrames(__instance, ref data);
 
             uint eventEndFrame = data.m_startFrame + durationFrames;
             uint disorganizeFrames = (uint)Mathf.RoundToInt(1f * SimulationManager.DAYTIME_HOUR_TO_FRAME);
@@ -55,65 +55,30 @@ namespace RealTime.Patches
         [HarmonyPrefix]
         public static bool GetEndFrame(RaceEventAI __instance, ushort eventID, ref EventData data, ref uint __result)
         {
-            uint durationFrames = __instance is ParadeAI paradeAI ? GetParadeDurationFrames(paradeAI, ref data) : GetRaceDurationFrames(ref data);
+            uint durationFrames = __instance is ParadeAI paradeAI ? GetParadeDurationFrames(paradeAI, ref data) : GetRaceDurationFrames(__instance, ref data);
 
             __result = data.m_startFrame + durationFrames;
             return false;
         }
 
-        public static uint GetRaceDurationFrames(ref EventData data)
+        public static uint GetRaceDurationFrames(RaceEventAI instance, ref EventData data)
         {
-            float totalDistance = 0f;
-            for (int i = 1; i < data.m_raceEventData.m_trackPathLength; i++)
+            uint initialDuration = EstimateInitialRaceDurationFrames(instance, ref data);
+            uint currentFrame = Singleton<SimulationManager>.instance.m_currentFrameIndex;
+
+            if (currentFrame <= data.m_startFrame || data.m_raceEventData == null)
             {
-                totalDistance += Vector3.Distance(data.m_raceEventData.m_trackPath[i - 1], data.m_raceEventData.m_trackPath[i]);
+                return initialDuration;
             }
 
-            int lapCount = Mathf.Max(1, data.m_raceEventData.m_lapCount);
-            float totalRaceUnits = totalDistance * lapCount;
-
-            int racerCount = Mathf.Max(0, data.m_raceEventData.m_racerCount);
-
-            float representativeSpeed = 0f;
-            int validSpeedCount = 0;
-
-            for (int i = 0; i < racerCount; i++)
+            float progress = data.m_raceEventData.m_progress;
+            if (progress < 0.05f)
             {
-                float speed = data.m_raceEventData.m_racerData[i].m_maxSpeed;
-                if (speed > 0.01f)
-                {
-                    representativeSpeed += speed;
-                    validSpeedCount++;
-                }
+                return initialDuration;
             }
 
-            if (validSpeedCount > 0)
-            {
-                representativeSpeed /= validSpeedCount;
-            }
-            else
-            {
-                representativeSpeed = data.m_raceEventData.m_tier switch
-                {
-                    1 => 0.8f,
-                    2 => 1.2f,
-                    3 => 2.0f,
-                    _ => 1.5f,
-                };
-            }
-
-            representativeSpeed = Mathf.Max(representativeSpeed, 0.05f);
-
-            float travelFrames = totalRaceUnits / representativeSpeed;
-            float startBufferFrames = 0.10f * SimulationManager.DAYTIME_HOUR_TO_FRAME;
-            float finishBufferFrames = 0.25f * SimulationManager.DAYTIME_HOUR_TO_FRAME;
-
-            uint totalDuration = (uint)Mathf.CeilToInt(travelFrames + startBufferFrames + finishBufferFrames);
-
-            uint minFrames = (uint)Mathf.RoundToInt(0.5f * SimulationManager.DAYTIME_HOUR_TO_FRAME);
-            uint maxFrames = (uint)Mathf.RoundToInt(6f * SimulationManager.DAYTIME_HOUR_TO_FRAME);
-
-            return (uint)Mathf.Clamp(totalDuration, minFrames, maxFrames);
+            uint liveDuration = EstimateLiveRaceDurationFrames(ref data, currentFrame);
+            return liveDuration > 0 ? liveDuration : initialDuration;
         }
 
         public static uint GetParadeDurationFrames(ParadeAI instance, ref EventData data)
@@ -142,6 +107,50 @@ namespace RealTime.Patches
             uint maxFrames = (uint)Mathf.RoundToInt(4f * SimulationManager.DAYTIME_HOUR_TO_FRAME);
 
             return Math.Min(totalDuration, maxFrames);
+        }
+
+        private static uint EstimateInitialRaceDurationFrames(RaceEventAI instance, ref EventData data)
+        {
+            float totalDistance = 0f;
+            for (int i = 1; i < data.m_raceEventData.m_trackPathLength; i++)
+            {
+                totalDistance += Vector3.Distance(data.m_raceEventData.m_trackPath[i - 1], data.m_raceEventData.m_trackPath[i]);
+            }
+
+            int lapCount = Mathf.Max(1, data.m_raceEventData.m_lapCount);
+            float totalRaceUnits = totalDistance * lapCount;
+
+            float maxSpeed = Mathf.Max(instance.m_racerConfig.m_maxSpeed, 0.05f);
+
+            // Conservative pre-start estimate; tune this with testing.
+            float effectiveSpeed = maxSpeed * 0.08f;
+
+            float travelFrames = totalRaceUnits / effectiveSpeed;
+            float startBufferFrames = 0.10f * SimulationManager.DAYTIME_HOUR_TO_FRAME;
+            float finishBufferFrames = 0.25f * SimulationManager.DAYTIME_HOUR_TO_FRAME;
+
+            uint totalDuration = (uint)Mathf.CeilToInt(travelFrames + startBufferFrames + finishBufferFrames);
+
+            uint minFrames = (uint)Mathf.RoundToInt(0.5f * SimulationManager.DAYTIME_HOUR_TO_FRAME);
+            uint maxFrames = (uint)Mathf.RoundToInt(8f * SimulationManager.DAYTIME_HOUR_TO_FRAME);
+
+            return (uint)Mathf.Clamp(totalDuration, minFrames, maxFrames);
+        }
+
+        private static uint EstimateLiveRaceDurationFrames(ref EventData data, uint currentFrame)
+        {
+            uint elapsedFrames = currentFrame - data.m_startFrame;
+            float progress = data.m_raceEventData.m_progress;
+
+            if (progress <= 0.01f || elapsedFrames == 0)
+            {
+                return 0;
+            }
+
+            float estimatedTotalFrames = elapsedFrames / progress;
+
+            float finishBufferFrames = 0.10f * SimulationManager.DAYTIME_HOUR_TO_FRAME;
+            return (uint)Mathf.CeilToInt(estimatedTotalFrames + finishBufferFrames);
         }
     }
 }

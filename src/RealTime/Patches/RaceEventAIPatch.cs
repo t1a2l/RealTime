@@ -43,9 +43,7 @@ namespace RealTime.Patches
         [HarmonyPrefix]
         public static bool GetDisorganizingEndFrame(RaceEventAI __instance, ushort eventID, ref EventData data, ref uint __result)
         {
-            uint durationFrames = __instance is ParadeAI paradeAI ? GetParadeDurationFrames(paradeAI, ref data) : GetRaceDurationFrames(__instance, ref data);
-
-            uint eventEndFrame = data.m_startFrame + durationFrames;
+            uint eventEndFrame = data.m_raceEventData.m_eventEndFrame;
             uint disorganizeFrames = (uint)Mathf.RoundToInt(1f * SimulationManager.DAYTIME_HOUR_TO_FRAME);
             __result = eventEndFrame + disorganizeFrames;
             return false;

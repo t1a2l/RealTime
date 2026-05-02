@@ -1172,6 +1172,7 @@ namespace RealTime.Patches
             [HarmonyPostfix]
             private static void UpdatePastEvents(RaceEventWorldInfoPanel __instance, ref InstanceID ___m_InstanceID, ref UITemplateList<UIPanel> ___m_PastEventList)
             {
+                int num = 0;
                 if (___m_InstanceID.Building != 0)
                 {
                     ushort num2 = Singleton<BuildingManager>.instance.m_buildings.m_buffer[___m_InstanceID.Building].m_eventIndex;
@@ -1182,13 +1183,15 @@ namespace RealTime.Patches
                             num2 = Singleton<EventManager>.instance.m_events.m_buffer[num2].m_nextBuildingEvent;
                         }
                         ref var eventData = ref Singleton<EventManager>.instance.m_events.m_buffer[num2];
-                        for (int num4 = 0; num4 < ___m_PastEventList.items.Count; num4++)
+                        while (num2 != 0 && num < ___m_PastEventList.items.Count)
                         {
-                            var uIPanel2 = ___m_PastEventList.items[num4];
-                            var labelDate = uIPanel2.Find<UILabel>("LabelDate");
-                            labelDate.text = Singleton<SimulationManager>.instance.FrameToTime(eventData.m_startFrame).ToString("dd/MM/yyyy");
+                            var uIPanel = ___m_PastEventList.items[num];
+                            var labelDate = uIPanel.Find<UILabel>("LabelDate");
+                            labelDate.text = Singleton<SimulationManager>.instance.FrameToTime(eventData.m_startFrame).ToString("dd/MM/yyyy HH:mm");
+                            num2 = Singleton<EventManager>.instance.m_events.m_buffer[num2].m_nextBuildingEvent;
+                            num++;
                         }
-                    }   
+                    }
                 }
             }
 

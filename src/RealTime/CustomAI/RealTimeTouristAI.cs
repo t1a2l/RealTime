@@ -268,11 +268,15 @@ namespace RealTime.CustomAI
                 if (cityEvent != null)
                 {
                     ushort eventBuildingId = cityEvent.BuildingId;
-                    ushort eventStandId = GetEventStand(eventBuildingId);
-                    if(StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), eventStandId))
+                    eventBuildingId = GetEventStand(eventBuildingId);
+                    if(StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), eventBuildingId))
                     {
-                        Log.Debug(LogCategory.Events, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} attending an event at {eventStandId}");
+                        Log.Debug(LogCategory.Events, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} attending an event at {eventBuildingId}");
                         return;
+                    }
+                    else
+                    {
+                        Log.Debug(LogCategory.Events, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} wanted to go to an event at {eventBuildingId} but cant");
                     }
                 }
             }
@@ -507,16 +511,38 @@ namespace RealTime.CustomAI
 
         private bool StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort currentBuilding, ushort visitBuilding)
         {
+            if (visitBuilding == 0)
+            {
+                Log.Debug(LogCategory.Movement, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} visitBuilding is 0");
+                return false;
+            }
+
+            if (currentBuilding == visitBuilding)
+            {
+                Log.Debug(LogCategory.Movement, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} visitBuilding and currentBuilding are the same. Setting visit place.");
+                CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
+                CitizenProxy.SetLocation(ref citizen, Citizen.Location.Visit);
+                return true;
+            }
+
             CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
             if (CitizenProxy.GetVisitBuilding(ref citizen) == 0)
             {
-                // Building is full and doesn't accept visitors anymore
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} wanted to go to visitBuilding but it is full");
                 return false;
             }
 
             if (!touristAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding))
             {
                 CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
+                if (currentBuilding == 0)
+                {
+                    Log.Debug(LogCategory.Movement, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} wanted to StartMoving but currentBuilding is 0");
+                }
+                else
+                {
+                    Log.Debug(LogCategory.Movement, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} wanted to StartMoving but failed to Create a citizen instance");
+                }
                 return false;
             }
 

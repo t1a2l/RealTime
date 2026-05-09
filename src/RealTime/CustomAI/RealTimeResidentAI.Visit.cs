@@ -100,6 +100,10 @@ namespace RealTime.CustomAI
                         Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna attend an event at '{eventBuilding}', will return at {cityEvent.EndTime}");
                         return true;
                     }
+                    else
+                    {
+                        Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to go to an event at {eventBuilding} but cant");
+                    }
 
                     schedule.Schedule(ResidentState.Unknown);
                     return false;

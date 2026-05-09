@@ -171,6 +171,7 @@ namespace RealTime.CustomAI
         {
             if (visitBuilding == 0)
             {
+                Log.Debug(LogCategory.Movement, $"Citizen {GetCitizenDesc(citizenId, ref citizen)} visitBuilding is 0");
                 return false;
             }
 
@@ -178,6 +179,7 @@ namespace RealTime.CustomAI
 
             if (currentBuilding == visitBuilding)
             {
+                Log.Debug(LogCategory.Movement, $"Citizen {GetCitizenDesc(citizenId, ref citizen)} visitBuilding and currentBuilding are the same. Setting visit place.");
                 CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Visit);
                 return true;
@@ -186,13 +188,21 @@ namespace RealTime.CustomAI
             CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
             if (CitizenProxy.GetVisitBuilding(ref citizen) == 0)
             {
-                // Building is full and doesn't accept visitors anymore
+                Log.Debug(LogCategory.Movement, $"Citizen {GetCitizenDesc(citizenId, ref citizen)} wanted to go to visitBuilding but it is full");
                 return false;
             }
 
             if (!residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding))
             {
                 CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
+                if(currentBuilding == 0)
+                {
+                    Log.Debug(LogCategory.Movement, $"Citizen {GetCitizenDesc(citizenId, ref citizen)} wanted to StartMoving but currentBuilding is 0");
+                }
+                else
+                {
+                    Log.Debug(LogCategory.Movement, $"Citizen {GetCitizenDesc(citizenId, ref citizen)} wanted to StartMoving but failed to Create a citizen instance");
+                }  
                 return false;
             }
 

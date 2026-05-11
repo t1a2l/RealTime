@@ -212,7 +212,7 @@ namespace RealTime.Events
         public ushort GetEventStand(ushort buildingId)
         {
             ushort routeId = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_eventRouteIndex;
-
+            Log.Debug(LogCategory.Events, $"Getting event stand for building {buildingId}, route ID: {routeId}");
             // Fallback if no route or no stands
             if (routeId == 0)
             {
@@ -220,7 +220,7 @@ namespace RealTime.Events
             }
 
             ref var route = ref EventManager.instance.m_eventRoutes.m_buffer[routeId];
-
+            Log.Debug(LogCategory.Events, $"Event route stands count for building {buildingId}: {route.m_stands?.Count ?? 0}");
             // Check if stands exist and are populated
             if (route.m_stands == null || route.m_stands.Count == 0)
             {
@@ -228,8 +228,9 @@ namespace RealTime.Events
             }
 
             // Pick a random index
-            int randomIndex = UnityEngine.Random.Range(0, route.m_stands.Count);
-
+            var r = SimulationManager.instance.m_randomizer;
+            int randomIndex = r.Int32(0, route.m_stands.Count);
+            Log.Debug(LogCategory.Events, $"Random index for event stand: {randomIndex} (count: {route.m_stands.Count})");
             // Get the element at that index
             // HashSet doesn't have an indexer, so we use a simple loop
             int i = 0;
@@ -237,11 +238,13 @@ namespace RealTime.Events
             {
                 if (i == randomIndex)
                 {
+                    Log.Debug(LogCategory.Events, $"Selected event stand ID: {standId} for building {buildingId}");
                     return standId;
                 }
                 i++;
             }
 
+            Log.Debug(LogCategory.Events, $"Failed to get event stand for building {buildingId}, route ID: {routeId}");
             return buildingId; // Should not be reached
         }
 

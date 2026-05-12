@@ -213,11 +213,6 @@ namespace RealTime.Events
         {
             ushort routeId = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_eventRouteIndex;
             Log.Debug(LogCategory.Events, $"Getting event stand for building {buildingId}, route ID: {routeId}");
-            // Fallback if no route or no stands
-            if (routeId == 0)
-            {
-                return buildingId;
-            }
 
             ref var route = ref EventManager.instance.m_eventRoutes.m_buffer[routeId];
             Log.Debug(LogCategory.Events, $"Event route stands count for building {buildingId}: {route.m_stands?.Count ?? 0}");

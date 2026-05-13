@@ -629,7 +629,18 @@ namespace RealTime.Events
             if (cityEvent is VanillaEvent vanillaEvent)
             {
                 var eventFlags = eventManager.GetEventFlags(vanillaEvent.EventId);
-                return eventFlags == 0 || (eventFlags & (EventData.Flags.Cancelled | EventData.Flags.Deleted)) != 0;
+
+                if ((eventFlags & (EventData.Flags.Cancelled | EventData.Flags.Deleted)) != 0)
+                {
+                    return true;
+                }
+
+                if (eventFlags == 0 && cityEvent.StartTime < timeInfo.Now)
+                {
+                    return true;
+                }
+
+                return false;
             }
 
             return false;
@@ -748,5 +759,47 @@ namespace RealTime.Events
         }
 
         private void OnEventsChanged() => EventsChanged?.Invoke(this, EventArgs.Empty);
+
+        private void PreRegisterRaceAndParadeEvents()
+        {
+            for (ushort eventId = 0; eventId < EventManager.instance.m_events.m_size; ++eventId)
+            {
+                ref var data = ref EventManager.instance.m_events.m_buffer[eventId];
+                var info = data.Info;
+                if (info?.m_eventAI == null)
+                {
+                    continue;
+                }
+
+                bool isRaceOrParade = info.m_eventAI is RaceEventAI || info.m_type == EventManager.EventType.RaceOrParade;
+                if (!isRaceOrParade)
+                {
+                    continue;
+                }
+
+                // already tracked?
+                if (GetVanillaEvent(AllEvents, eventId, data.m_building) != null)
+                {
+                    continue;
+                }
+
+                // estimate: start = today at a reasonable hour, duration = 3h placeholder
+                var estimatedStart = AdjustEventStartTime(timeInfo.Now.Date, randomize: false);
+                var newEvent = new VanillaEvent(eventId, 3f, 0f, eventManager);
+                newEvent.Configure(data.m_building, buildingManager.GetBuildingName(data.m_building), estimatedStart);
+
+                var insertBefore = upcomingEvents.FirstOrDefaultNode(e => e.StartTime >= estimatedStart);
+                if (insertBefore == null)
+                {
+                    upcomingEvents.AddLast(newEvent);
+                }
+                else
+                {
+                    upcomingEvents.AddBefore(insertBefore, newEvent);
+                }
+
+                Log.Debug(LogCategory.Events, timeInfo.Now, $"Pre-registered race/parade event {eventId} for building {data.m_building}");
+            }
+        }
     }
 }

@@ -158,14 +158,19 @@ namespace RealTime.CustomAI
                 }
 
                 // 50 % chance to take it immediately, otherwise keep it as fallback
-                if (Random.GetRandomValue(100u) < 50u)
+                int randomValue = Random.GetRandomValue(100u);
+                Log.Debug(LogCategory.Events, $"Random event value for citizen {citizenId}: {randomValue}");
+
+                if (randomValue < 50u)
                 {
+                    Log.Debug(LogCategory.Events, $"Citizen {citizenId} decided to attend event at  {cityEvent.BuildingId}");
                     return cityEvent;
                 }
 
                 fallback ??= cityEvent;
             }
 
+            Log.Debug(LogCategory.Events, $"Citizen {citizenId} decided to {(fallback != null ? "keep the event as fallback" : "not attend any event")}");
             return fallback;
         }
 

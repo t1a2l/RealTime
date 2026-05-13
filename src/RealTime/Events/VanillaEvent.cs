@@ -4,6 +4,7 @@ namespace RealTime.Events
 {
     using RealTime.GameConnection;
     using RealTime.Simulation;
+    using SkyTools.Tools;
 
     /// <summary>A class for the default game city event.</summary>
     /// <seealso cref="CityEventBase"/>
@@ -42,31 +43,36 @@ namespace RealTime.Events
         public override bool TryAcceptAttendee(Citizen.AgeGroup age, Citizen.Gender gender, Citizen.Education education, Citizen.Wealth wealth,
             Citizen.Wellbeing wellbeing, Citizen.Happiness happiness, IRandomizer randomizer, ItemClass buildingClass)
         {
+            // capacity check
+            if (eventManager.HasFreeEventCapacity(BuildingId))
             {
-                // capacity check
-                if (eventManager.HasFreeEventCapacity(BuildingId))
-                {
-                    return false;
-                }
-
-                // budget check
-                if (ticketPrice > GetCitizenBudgetForEvent(wealth, randomizer))
-                {
-                    return false;
-                }
-
-                // age/event-type check
-                if (age == Citizen.AgeGroup.Child)
-                {
-                    string aiType = eventManager.GetEventAIType(EventId);
-                    if (aiType == "ConcertAI")
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
+                Log.Debug(LogCategory.Events, $"Event {BuildingId} has no free capacity.");
+                return false;
             }
+
+            // budget check
+            if (ticketPrice > GetCitizenBudgetForEvent(wealth, randomizer))
+            {
+                Log.Debug(LogCategory.Events, $"Citizen with wealth {wealth} cannot afford event ticket price {ticketPrice} in event {BuildingId}.");
+                return false;
+            }
+
+            string aiType = eventManager.GetEventAIType(EventId);
+            Log.Debug(LogCategory.Events, $"Event {BuildingId} has AI type {aiType}.");
+
+            // age/event-type check
+            if (age == Citizen.AgeGroup.Child)
+            {
+                if (aiType == "ConcertAI")
+                {
+                    Log.Debug(LogCategory.Events, $"Citizen with age {age} cannot attend event {BuildingId} with AI type {aiType}.");
+                    return false;
+                }
+            }
+
+            Log.Debug(LogCategory.Events, $"Citizen with age {age} can attend event {BuildingId}.");
+            return true;
+            
         }
 
         /// <summary>Calculates the city event duration.</summary>

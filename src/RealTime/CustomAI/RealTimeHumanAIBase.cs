@@ -147,16 +147,26 @@ namespace RealTime.CustomAI
             }
 
             var cityEvents = EventMgr.EventsToAttend;
+            ICityEvent fallback = null;
+
             for (int i = 0; i < cityEvents.Count; ++i)
             {
                 var cityEvent = cityEvents[i];
-                if (CanAttendEvent(citizenId, ref citizen, cityEvent))
+                if (!CanAttendEvent(citizenId, ref citizen, cityEvent))
+                {
+                    continue;
+                }
+
+                // 50 % chance to take it immediately, otherwise keep it as fallback
+                if (Random.GetRandomValue(100u) < 50u)
                 {
                     return cityEvent;
                 }
+
+                fallback ??= cityEvent;
             }
 
-            return null;
+            return fallback;
         }
 
         /// <summary>

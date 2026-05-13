@@ -191,5 +191,24 @@ namespace RealTime.GameConnection
             eventData.m_startFrame = SimulationManager.instance.TimeToFrame(startTime);
             eventData.m_expireFrame = eventData.m_startFrame + duration;
         }
+
+        /// <summary>Gets the AI type of a city event with specified ID.</summary>
+        /// <param name="eventId">The ID of the event to get the AI type of.</param>
+        /// <returns>The AI type of the event.</returns>
+        public string GetEventAIType(ushort eventId)
+        {
+            var info = EventManager.instance.m_events.m_buffer[eventId].Info;
+            return info?.m_eventAI?.GetType().Name ?? string.Empty;
+        }
+
+        /// <summary>Checks if a city event with specified ID has free capacity.</summary>
+        /// <param name="eventId">The ID of the event to check.</param>
+        /// <returns><c>true</c> if the event has free capacity; otherwise, <c>false</c>.</returns>
+        /// <returns>The AI type of the event.</returns>
+        public bool HasFreeEventCapacity(ushort buildingId)
+        {
+            ref var building = ref BuildingManager.instance.m_buildings.m_buffer[buildingId];
+            return building.GetNotFullCitizenUnit(CitizenUnit.Flags.Visit) != 0u;
+        }
     }
 }

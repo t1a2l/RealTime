@@ -39,15 +39,35 @@ namespace RealTime.Events
         /// <c>true</c> if the event attendee with specified properties is accepted and can attend
         /// this city event; otherwise, <c>false</c>.
         /// </returns>
-        public override bool TryAcceptAttendee(
-            Citizen.AgeGroup age,
-            Citizen.Gender gender,
-            Citizen.Education education,
-            Citizen.Wealth wealth,
-            Citizen.Wellbeing wellbeing,
-            Citizen.Happiness happiness,
-            IRandomizer randomizer,
-            ItemClass buildingClass) => ticketPrice <= GetCitizenBudgetForEvent(wealth, randomizer);
+        public override bool TryAcceptAttendee(Citizen.AgeGroup age, Citizen.Gender gender, Citizen.Education education, Citizen.Wealth wealth,
+            Citizen.Wellbeing wellbeing, Citizen.Happiness happiness, IRandomizer randomizer, ItemClass buildingClass)
+        {
+            {
+                // capacity check
+                if (eventManager.HasFreeEventCapacity(BuildingId))
+                {
+                    return false;
+                }
+
+                // budget check
+                if (ticketPrice > GetCitizenBudgetForEvent(wealth, randomizer))
+                {
+                    return false;
+                }
+
+                // age/event-type check
+                if (age == Citizen.AgeGroup.Child)
+                {
+                    string aiType = eventManager.GetEventAIType(EventId);
+                    if (aiType == "ConcertAI")
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
 
         /// <summary>Calculates the city event duration.</summary>
         /// <returns>This city event duration in hours.</returns>

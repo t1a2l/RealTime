@@ -42,5 +42,16 @@ namespace RealTime.GameConnection
         /// <param name="eventId">The ID of the event to change.</param>
         /// <param name="startTime">The new event start time.</param>
         internal void SetStartTime(ushort eventId, DateTime startTime);
+
+        /// <summary>Gets the AI type of a city event with specified ID.</summary>
+        /// <param name="eventId">The ID of the event to get the AI type of.</param>
+        /// <returns>The AI type of the event.</returns>
+        internal string GetEventAIType(ushort eventId);
+
+        /// <summary>Checks if a city event with specified ID has free capacity.</summary>
+        /// <param name="eventId">The ID of the event to check.</param>
+        /// <returns><c>true</c> if the event has free capacity; otherwise, <c>false</c>.</returns>
+        /// <returns>The AI type of the event.</returns>
+        internal bool HasFreeEventCapacity(ushort buildingId);
     }
 }

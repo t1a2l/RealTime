@@ -266,7 +266,7 @@ namespace RealTime.CustomAI
             {
                 ushort eventBuildingId = 0;
                 var cityEvent = GetEventToAttend(citizenId, ref citizen, ref eventBuildingId);
-                if (cityEvent != null)
+                if (cityEvent != null && eventBuildingId != 0)
                 {
                     if(StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), eventBuildingId))
                     {
@@ -277,6 +277,10 @@ namespace RealTime.CustomAI
                     {
                         Log.Debug(LogCategory.Events, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} wanted to go to an event at {eventBuildingId} but cant");
                     }
+                }
+                else
+                {
+                    Log.Debug(LogCategory.Events, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} wanted to go to an event but no valid event building was found");
                 }
             }
 

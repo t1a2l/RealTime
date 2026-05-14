@@ -102,6 +102,7 @@ namespace RealTime.Events
         /// <param name="happiness">The attendee happiness.</param>
         /// <param name="randomizer">A reference to the game's randomizer.</param>
         /// <param name="buildingClass">the class of the building the event is taking place in.</param>
+        /// <param name="targetBuilding">The building ID where the citizen can attend the event.</param>
         /// <returns>
         /// <c>true</c> if the event attendee with specified properties is accepted and can attend this city event;
         /// otherwise, <c>false</c>.
@@ -114,8 +115,11 @@ namespace RealTime.Events
             Citizen.Wellbeing wellbeing,
             Citizen.Happiness happiness,
             IRandomizer randomizer,
-            ItemClass buildingClass)
+            ItemClass buildingClass,
+            out ushort targetBuilding)
         {
+            targetBuilding = 0;
+
             if (AttendeesCount > eventTemplate.Capacity)
             {
                 return false;
@@ -170,6 +174,7 @@ namespace RealTime.Events
                 Singleton<EconomyManager>.instance.AddResource(EconomyManager.Resource.PublicIncome, entryFee, buildingClass);
             }
             AttendeesCount++;
+            targetBuilding = BuildingId;
 
             return true;
         }

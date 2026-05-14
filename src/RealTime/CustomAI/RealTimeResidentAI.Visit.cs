@@ -27,11 +27,11 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            var cityEvent = GetEventToAttend(citizenId, ref citizen);
+            ushort eventBuilding = 0;
+            var cityEvent = GetEventToAttend(citizenId, ref citizen, ref eventBuilding);
             if (cityEvent != null)
             {
                 ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-                ushort eventBuilding = GetEventStand(cityEvent.BuildingId);
                 var departureTime = cityEvent.StartTime.AddHours(-travelBehavior.GetEstimatedTravelTime(currentBuilding, eventBuilding));
                 schedule.Schedule(ResidentState.GoToRelax, departureTime);
                 schedule.EventBuilding = eventBuilding;

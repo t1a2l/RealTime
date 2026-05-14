@@ -138,7 +138,7 @@ namespace RealTime.CustomAI
         /// <param name="citizen">The citizen data reference.</param>
         ///
         /// <returns>The city event or null if none found.</returns>
-        protected ICityEvent GetEventToAttend(uint citizenId, ref TCitizen citizen)
+        protected ICityEvent GetEventToAttend(uint citizenId, ref TCitizen citizen, ref ushort targetBuildingId)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             if (EventMgr.GetEventState(currentBuilding, DateTime.MaxValue) == CityEventState.Ongoing)
@@ -152,7 +152,7 @@ namespace RealTime.CustomAI
             for (int i = 0; i < cityEvents.Count; ++i)
             {
                 var cityEvent = cityEvents[i];
-                if (!CanAttendEvent(citizenId, ref citizen, cityEvent))
+                if (!CanAttendEvent(citizenId, ref citizen, cityEvent, ref targetBuildingId))
                 {
                     continue;
                 }
@@ -173,15 +173,6 @@ namespace RealTime.CustomAI
             Log.Debug(LogCategory.Events, $"Citizen {citizenId} decided to {(fallback != null ? "keep the event as fallback" : "not attend any event")}");
             return fallback;
         }
-
-        /// <summary>
-        /// Returns the building ID of the event stand for an ongoing or upcoming city event.
-        /// </summary>
-        ///
-        /// <param name="buildingId">The ID of the building to check.</param>
-        ///
-        /// <returns>The ID of the event stand, or the sent buildingId if none found.</returns>
-        protected ushort GetEventStand(ushort buildingId) => EventMgr.GetEventStand(buildingId);
 
         /// <summary>
         /// Finds an evacuation place for the specified citizen.
@@ -259,7 +250,7 @@ namespace RealTime.CustomAI
             }
         }
 
-        private bool CanAttendEvent(uint citizenId, ref TCitizen citizen, ICityEvent cityEvent)
+        private bool CanAttendEvent(uint citizenId, ref TCitizen citizen, ICityEvent cityEvent, ref ushort targetBuildingId)
         {
             var age = CitizenProxy.GetAge(ref citizen);
             var gender = CitizenProxy.GetGender(citizenId);
@@ -270,7 +261,7 @@ namespace RealTime.CustomAI
 
             var buildingClass = BuildingMgr.GetBuildingClass(cityEvent.BuildingId);
 
-            return cityEvent.TryAcceptAttendee(age, gender, education, wealth, wellbeing, happiness, Random, buildingClass);
+            return cityEvent.TryAcceptAttendee(age, gender, education, wealth, wellbeing, happiness, Random, buildingClass, out targetBuildingId);
         }
     }
 }

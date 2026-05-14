@@ -2,6 +2,8 @@
 
 namespace RealTime.Events
 {
+    using System;
+    using System.Collections.Generic;
     using RealTime.GameConnection;
     using RealTime.Simulation;
     using SkyTools.Tools;
@@ -27,6 +29,11 @@ namespace RealTime.Events
         /// </summary>
         public override EventColor Color => eventManager.GetEventColor(EventId);
 
+        /// <summary>
+        /// Cache for the list of building IDs attending this city event, including the building ID this event takes place in.
+        /// </summary>
+        private HashSet<ushort> _attendanceBuildings;
+
         /// <summary>Accepts an event attendee with specified properties.</summary>
         /// <param name="age">The attendee age.</param>
         /// <param name="gender">The attendee gender.</param>
@@ -36,19 +43,15 @@ namespace RealTime.Events
         /// <param name="happiness">The attendee happiness.</param>
         /// <param name="randomizer">A reference to the game's randomizer.</param>
         /// <param name="buildingClass">the class of the building the event is taking place in.</param>
+        /// <param name="targetBuilding">The building ID where the citizen can attend the event.</param>
         /// <returns>
         /// <c>true</c> if the event attendee with specified properties is accepted and can attend
         /// this city event; otherwise, <c>false</c>.
         /// </returns>
         public override bool TryAcceptAttendee(Citizen.AgeGroup age, Citizen.Gender gender, Citizen.Education education, Citizen.Wealth wealth,
-            Citizen.Wellbeing wellbeing, Citizen.Happiness happiness, IRandomizer randomizer, ItemClass buildingClass)
+            Citizen.Wellbeing wellbeing, Citizen.Happiness happiness, IRandomizer randomizer, ItemClass buildingClass, out ushort targetBuilding)
         {
-            // capacity check
-            if (eventManager.HasFreeEventCapacity(BuildingId))
-            {
-                Log.Debug(LogCategory.Events, $"Event {BuildingId} has no free capacity.");
-                return false;
-            }
+            targetBuilding = 0;
 
             // budget check
             if (ticketPrice > GetCitizenBudgetForEvent(wealth, randomizer))
@@ -70,13 +73,54 @@ namespace RealTime.Events
                 }
             }
 
-            Log.Debug(LogCategory.Events, $"Citizen with age {age} can attend event {BuildingId}.");
-            return true;
+            // NEW: check capacity across all buildings (main + stands)
+            foreach (ushort buildingId in GetAttendanceBuildings())
+            {
+                if (eventManager.HasFreeEventCapacity(buildingId))
+                {
+                    Log.Debug(LogCategory.Events, $"Citizen can attend event {BuildingId} in building {buildingId}.");
+                    targetBuilding = buildingId;
+                    return true; // at least one building has space
+                }
+            }
+
+            Log.Debug(LogCategory.Events, $"Citizen cannot attend event {BuildingId} because all buildings are at full capacity.");
+            return false;
             
+        }
+
+        /// <summary>
+        /// Configures this event to take place in the specified building and at the specified start time.
+        /// </summary>
+        /// <param name="buildingId">The building ID this city event should take place in.</param>
+        /// <param name="buildingName">
+        /// The localized name of the building this city event should take place in.
+        /// </param>
+        /// <param name="startTime">The city event start time.</param>
+        public override void Configure(ushort buildingId, string buildingName, DateTime startTime)
+        {
+            base.Configure(buildingId, buildingName, startTime);
+            _attendanceBuildings = null; // invalidate cache
         }
 
         /// <summary>Calculates the city event duration.</summary>
         /// <returns>This city event duration in hours.</returns>
         protected override float GetDuration() => duration;
+
+        /// <summary> Gets the list of building IDs that are attending this city event, including the building ID this event takes place in.</summary>
+        /// <returns>A set of building IDs attending this city event.</returns>
+        public override HashSet<ushort> GetAttendanceBuildings()
+        {
+            if (_attendanceBuildings != null)
+            {
+                return _attendanceBuildings;
+            }
+
+            ushort routeId = BuildingManager.instance.m_buildings.m_buffer[BuildingId].m_eventRouteIndex;
+            var route = EventManager.instance.m_eventRoutes.m_buffer[routeId];
+
+            _attendanceBuildings = route.m_stands != null && route.m_stands.Count > 0 ? [.. route.m_stands, BuildingId] : [BuildingId];
+            return _attendanceBuildings;
+        }
     }
 }

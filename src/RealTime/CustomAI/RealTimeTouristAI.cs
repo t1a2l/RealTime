@@ -264,11 +264,10 @@ namespace RealTime.CustomAI
 
             if (Random.ShouldOccur(TouristEventChance) && !WeatherInfo.IsBadWeather)
             {
-                var cityEvent = GetEventToAttend(citizenId, ref citizen);
+                ushort eventBuildingId = 0;
+                var cityEvent = GetEventToAttend(citizenId, ref citizen, ref eventBuildingId);
                 if (cityEvent != null)
                 {
-                    ushort eventBuildingId = cityEvent.BuildingId;
-                    eventBuildingId = GetEventStand(eventBuildingId);
                     if(StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), eventBuildingId))
                     {
                         Log.Debug(LogCategory.Events, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} attending an event at {eventBuildingId}");

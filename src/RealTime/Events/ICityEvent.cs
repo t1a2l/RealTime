@@ -3,6 +3,7 @@
 namespace RealTime.Events
 {
     using System;
+    using System.Collections.Generic;
     using RealTime.Simulation;
 
     /// <summary>An interface for a city event that is taking place or being prepared.</summary>
@@ -42,7 +43,8 @@ namespace RealTime.Events
         /// <param name="wellbeing">The attendee wellbeing.</param>
         /// <param name="happiness">The attendee happiness.</param>
         /// <param name="randomizer">A reference to the game's randomizer.</param>
-        /// <param name="buildingClass">the class of the building the event is taking place in.</param>
+        /// <param name="buildingClass">The class of the building the event is taking place in.</param>
+        /// <param name="targetBuilding">The building ID where the citizen can attend the event.</param>
         /// <returns>
         /// <c>true</c> if the event attendee with specified properties is accepted and can attend
         /// this city event; otherwise, <c>false</c>.
@@ -55,6 +57,11 @@ namespace RealTime.Events
             Citizen.Wellbeing wellbeing,
             Citizen.Happiness happiness,
             IRandomizer randomizer,
-            ItemClass buildingClass);
+            ItemClass buildingClass,
+            out ushort targetBuilding);
+
+        /// <summary> Gets the list of building IDs that are attending this city event, including the building ID this event takes place in.</summary>
+        /// <returns>A set of building IDs attending this city event.</returns>
+        internal HashSet<ushort> GetAttendanceBuildings();
     }
 }

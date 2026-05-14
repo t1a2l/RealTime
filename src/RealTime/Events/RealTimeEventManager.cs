@@ -178,7 +178,21 @@ namespace RealTime.Events
                 return null;
             }
 
-            var activeEvent = FindEventByBuildingId(activeEvents, buildingId);
+            ushort eventId = buildingManager.GetEvent(buildingId);
+
+            if (eventId == 0)
+            {
+                return null;
+            }
+
+            var eventData = EventManager.instance.m_events.m_buffer[eventId];
+
+            if (eventData.m_building == 0)
+            {
+                return null;
+            }
+
+            var activeEvent = FindEventByBuildingId(activeEvents, eventData.m_building);
             if (activeEvent != null)
             {
                 return activeEvent;
@@ -192,7 +206,7 @@ namespace RealTime.Events
             var upcomingEvent = upcomingEvents.First;
             while (upcomingEvent != null)
             {
-                if (upcomingEvent.Value.BuildingId == buildingId)
+                if (upcomingEvent.Value.BuildingId == eventData.m_building)
                 {
                     return upcomingEvent.Value;
                 }

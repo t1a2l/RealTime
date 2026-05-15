@@ -1192,13 +1192,13 @@ namespace RealTime.Patches
                         {
                             num2 = Singleton<EventManager>.instance.m_events.m_buffer[num2].m_nextBuildingEvent;
                         }
-                        ref var eventData = ref Singleton<EventManager>.instance.m_events.m_buffer[num2];
                         while (num2 != 0 && num < ___m_PastEventList.items.Count)
                         {
+                            ref var eventData = ref Singleton<EventManager>.instance.m_events.m_buffer[num2];
                             var uIPanel = ___m_PastEventList.items[num];
                             var labelDate = uIPanel.Find<UILabel>("LabelDate");
                             labelDate.text = Singleton<SimulationManager>.instance.FrameToTime(eventData.m_startFrame).ToString("g", LocalizationProvider.CurrentCulture);
-                            num2 = Singleton<EventManager>.instance.m_events.m_buffer[num2].m_nextBuildingEvent;
+                            num2 = eventData.m_nextBuildingEvent;
                             num++;
                         }
                     }

@@ -4,6 +4,8 @@ namespace RealTime.Events
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using ColossalFramework;
     using RealTime.GameConnection;
     using RealTime.Simulation;
     using SkyTools.Tools;
@@ -73,8 +75,11 @@ namespace RealTime.Events
                 }
             }
 
+            var buildings = GetAttendanceBuildings().ToList();
+            buildings.Shuffle(Singleton<SimulationManager>.instance.m_randomizer);
+
             // NEW: check capacity across all buildings (main + stands)
-            foreach (ushort buildingId in GetAttendanceBuildings())
+            foreach (ushort buildingId in buildings)
             {
                 if (eventManager.HasFreeEventCapacity(buildingId))
                 {

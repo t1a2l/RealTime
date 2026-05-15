@@ -1060,6 +1060,15 @@ namespace RealTime.Patches
                         sliderLapCount.stepSize = 1f;
                     }
 
+                    var sliderTicketPrice = panel.Find<UISlider>("SliderTicketPrice");
+
+                    if (sliderTicketPrice != null)
+                    {
+                        sliderTicketPrice.minValue = 0f;
+                        sliderTicketPrice.maxValue = 100f;
+                        sliderTicketPrice.stepSize = 10f;
+                    }
+
                     var existingAction = panel.objectUserData as Action;
 
                     panel.objectUserData = (Action)delegate  // Chain: original + your logic

@@ -27,7 +27,7 @@ namespace RealTime.Events.Containers
             lblDate.textColor = new Color32(180, 180, 180, 255);
             lblDate.textScale = 0.7f;
             lblDate.relativePosition = new Vector3(8f, 4f);
-            lblDate.text = ev.StartTime.ToString("dd/MM/yyyy");
+            lblDate.text = ev.StartTime.ToString("g", loc.CurrentCulture);
 
             var lblName = row.AddUIComponent<UILabel>();
             lblName.name = "LabelEventName";

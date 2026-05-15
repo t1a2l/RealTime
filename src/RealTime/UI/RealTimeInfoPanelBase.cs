@@ -160,7 +160,7 @@ namespace RealTime.UI
                         info.AppendLine();
                     }
 
-                    info.Append(action).Append(": ").Append(schedule.ScheduledStateTime.ToString(localizationProvider.CurrentCulture));
+                    info.Append(action).Append(": ").Append(schedule.ScheduledStateTime.ToString("t", localizationProvider.CurrentCulture));
                     labelHeight += LineHeight;
                 }
             }
@@ -214,7 +214,7 @@ namespace RealTime.UI
             //        var now = timeInfo.Now;
             //        var workStartTime = now.FutureHour(schedule.WorkShiftStartHour);
 
-            //        info.Append(action).Append(": ").Append(workStartTime.ToString("dd/MM/yyyy HH:mm"));
+            //        info.Append(action).Append(": ").Append(workStartTime.ToString("g", LocalizationProvider.CurrentCulture));
             //        labelHeight += LineHeight;
             //    }
             //}
@@ -232,7 +232,7 @@ namespace RealTime.UI
             //        var now = timeInfo.Now;
             //        var workEndTime = now.FutureHour(schedule.WorkShiftEndHour);
 
-            //        info.Append(action).Append(": ").Append(workEndTime.ToString("dd/MM/yyyy HH:mm"));
+            //        info.Append(action).Append(": ").Append(workEndTime.ToString("g", LocalizationProvider.CurrentCulture));
             //        labelHeight += LineHeight;
             //    }
             //}

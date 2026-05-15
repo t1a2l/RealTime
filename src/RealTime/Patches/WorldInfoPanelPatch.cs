@@ -4,6 +4,7 @@ namespace RealTime.Patches
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Text;
@@ -132,7 +133,7 @@ namespace RealTime.Patches
                 {
                     if ((eventData.m_flags & EventData.Flags.Active) == 0 && (eventData.m_flags & EventData.Flags.Completed) == 0)
                     {
-                        ___m_nextMatchDate.text = data.StartTime.ToString("dd/MM/yyyy HH:mm");
+                        ___m_nextMatchDate.text = data.StartTime.ToString("g", LocalizationProvider.CurrentCulture);
                     }
                 }
 
@@ -148,7 +149,7 @@ namespace RealTime.Patches
                     if (num4 != 0)
                     {
                         data = Singleton<EventManager>.instance.m_events.m_buffer[num4];
-                        uILabel2.text = data.StartTime.ToString("dd/MM/yyyy HH:mm");
+                        uILabel2.text = data.StartTime.ToString("g", LocalizationProvider.CurrentCulture);
                     }
                 }
             }
@@ -176,7 +177,7 @@ namespace RealTime.Patches
                     if (num4 != 0)
                     {
                         currentEvent = Singleton<EventManager>.instance.m_events.m_buffer[num4];
-                        uILabel2.text = currentEvent.StartTime.ToString("dd/MM/yyyy HH:mm");
+                        uILabel2.text = currentEvent.StartTime.ToString("g", LocalizationProvider.CurrentCulture);
                     }
                 }
             }
@@ -189,7 +190,7 @@ namespace RealTime.Patches
                 {
                     if ((upcomingEvent.m_flags & EventData.Flags.Active) == 0 && (upcomingEvent.m_flags & EventData.Flags.Completed) == 0)
                     {
-                        ___m_nextMatchDate.text = currentEvent.StartTime.ToString("dd/MM/yyyy HH:mm");
+                        ___m_nextMatchDate.text = currentEvent.StartTime.ToString("g", LocalizationProvider.CurrentCulture);
                     }
                 }
             }
@@ -210,27 +211,27 @@ namespace RealTime.Patches
                 {
                     if (event_state == CityEventState.Upcoming)
                     {
-                        if (hotel_event.StartTime.Date < TimeInfo.Now.Date)
+                        if (hotel_event.StartTime.Date != TimeInfo.Now.Date)
                         {
-                            string event_start = hotel_event.StartTime.ToString("dd/MM/yyyy HH:mm");
+                            string event_start = hotel_event.StartTime.ToString("g", LocalizationProvider.CurrentCulture);
                             ___m_labelEventTimeLeft.text = "Event starts at " + event_start;
                         }
                         else
                         {
-                            string event_start = hotel_event.StartTime.ToString("HH:mm");
+                            string event_start = hotel_event.StartTime.ToString(LocalizationProvider.CurrentCulture.DateTimeFormat.ShortTimePattern, LocalizationProvider.CurrentCulture);
                             ___m_labelEventTimeLeft.text = "Event starts at " + event_start;
                         }
                     }
                     else if (event_state == CityEventState.Ongoing)
                     {
-                        if (TimeInfo.Now.Date < hotel_event.EndTime.Date)
+                        if (TimeInfo.Now.Date != hotel_event.EndTime.Date)
                         {
-                            string event_end = hotel_event.EndTime.ToString("dd/MM/yyyy HH:mm");
+                            string event_end = hotel_event.EndTime.ToString("g", LocalizationProvider.CurrentCulture);
                             ___m_labelEventTimeLeft.text = "Event ends at " + event_end;
                         }
                         else
                         {
-                            string event_end = hotel_event.EndTime.ToString("HH:mm");
+                            string event_end = hotel_event.EndTime.ToString(LocalizationProvider.CurrentCulture.DateTimeFormat.ShortTimePattern, LocalizationProvider.CurrentCulture);
                             ___m_labelEventTimeLeft.text = "Event ends at " + event_end;
                         }
                     }
@@ -266,13 +267,13 @@ namespace RealTime.Patches
                 var current_concert = RealTimeEventManager.GetCityEvent(concert.m_building);
                 if (current_concert != null)
                 {
-                    panel.Find<UILabel>("Date").text = current_concert.StartTime.ToString("dd/MM/yyyy HH:mm");
+                    panel.Find<UILabel>("Date").text = current_concert.StartTime.ToString("g", LocalizationProvider.CurrentCulture);
                 }
             }
 
             [HarmonyPatch(typeof(FestivalPanel), "RefreshFutureConcert")]
             [HarmonyPostfix]
-            private static void RefreshFutureConcert(UIPanel panel, EventManager.FutureEvent concert) => panel.Find<UILabel>("Date").text = concert.m_startTime.ToString("dd/MM/yyyy HH:mm");
+            private static void RefreshFutureConcert(UIPanel panel, EventManager.FutureEvent concert) => panel.Find<UILabel>("Date").text = concert.m_startTime.ToString("g", LocalizationProvider.CurrentCulture);
         }
 
         [HarmonyPatch]
@@ -1196,7 +1197,7 @@ namespace RealTime.Patches
                         {
                             var uIPanel = ___m_PastEventList.items[num];
                             var labelDate = uIPanel.Find<UILabel>("LabelDate");
-                            labelDate.text = Singleton<SimulationManager>.instance.FrameToTime(eventData.m_startFrame).ToString("dd/MM/yyyy HH:mm");
+                            labelDate.text = Singleton<SimulationManager>.instance.FrameToTime(eventData.m_startFrame).ToString("g", LocalizationProvider.CurrentCulture);
                             num2 = Singleton<EventManager>.instance.m_events.m_buffer[num2].m_nextBuildingEvent;
                             num++;
                         }
@@ -1212,12 +1213,12 @@ namespace RealTime.Patches
                 ushort num = Singleton<EventManager>.instance.m_eventRoutes.m_buffer[___m_eventRouteID].m_event;
                 if(num == 0)
                 {
-                    ___m_NextEventDate.text = scheduledEvents[0].m_startDate.ToString("dd/MM/yyyy HH:mm");
+                    ___m_NextEventDate.text = scheduledEvents[0].m_startDate.ToString("g", LocalizationProvider.CurrentCulture);
                 }
                 else
                 {
                     var dateTime = Singleton<SimulationManager>.instance.FrameToTime(Singleton<EventManager>.instance.m_events[num].m_startFrame);
-                    ___m_NextEventDate.text = dateTime.ToString("dd/MM/yyyy HH:mm");
+                    ___m_NextEventDate.text = dateTime.ToString("g", LocalizationProvider.CurrentCulture);
                 }
                 var buffer = Singleton<EventManager>.instance.m_eventRoutes.m_buffer;
                 var scheduleData = buffer[___m_eventRouteID].m_scheduleData;
@@ -1264,7 +1265,7 @@ namespace RealTime.Patches
                     var nameLabel = panel.Find<UILabel>("Name");
                     var costLabel = panel.Find<UILabel>("Cost");
 
-                    dateLabel?.text = scheduled.m_startDate.ToString("dd/MM/yyyy HH:mm");
+                    dateLabel?.text = scheduled.m_startDate.ToString("g", LocalizationProvider.CurrentCulture);
                     nameLabel?.text = scheduleData[scheduleIndex].Name;
 
                     var raceEventAI = info.GetEventAI() as RaceEventAI;

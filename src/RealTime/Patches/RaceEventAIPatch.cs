@@ -137,10 +137,15 @@ namespace RealTime.Patches
 
         private static uint EstimateLiveRaceDurationFrames(ref EventData data, uint currentFrame)
         {
+            if (data.m_raceEventData == null || data.m_startFrame == 0 || currentFrame <= data.m_startFrame)
+            {
+                return 0;
+            }
+
             uint elapsedFrames = currentFrame - data.m_startFrame;
             float progress = data.m_raceEventData.m_progress;
 
-            if (progress <= 0.01f || elapsedFrames == 0)
+            if (progress <= 0.01f)
             {
                 return 0;
             }

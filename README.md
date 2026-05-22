@@ -49,7 +49,7 @@ A mod for the Cities: Skylines game. Adjusts the time flow in the game to make i
 ## Distribution
 **Real Time** is published on Steam Workshop. To use **Real Time**, players need to subscribe to [this Steam Workshop item](https://steamcommunity.com/sharedfiles/filedetails/?id=3059406297).
 
-###❗[h2][b] Important: Version 2.7 is not backward compatible for saving. If you save your game under 2.7 and later try to load it using version 2.6, all citizen schedules will be lost. Please save your game in a NEW slot to preserve a backup of your 2.6 playthrough.
+###❗Important: Version 2.7 is not backward compatible for saving. If you save your game under 2.7 and later try to load it using version 2.6, all citizen schedules will be lost. Please save your game in a NEW slot to preserve a backup of your 2.6 playthrough.
 
 ## Update 2.7
 #### General

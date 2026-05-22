@@ -49,6 +49,40 @@ A mod for the Cities: Skylines game. Adjusts the time flow in the game to make i
 ## Distribution
 **Real Time** is published on Steam Workshop. To use **Real Time**, players need to subscribe to [this Steam Workshop item](https://steamcommunity.com/sharedfiles/filedetails/?id=3059406297).
 
+###❗[h2][b] Important: Version 2.7 is not backward compatible for saving. If you save your game under 2.7 and later try to load it using version 2.6, all citizen schedules will be lost. Please save your game in a NEW slot to preserve a backup of your 2.6 playthrough.
+
+## Update 2.7
+#### General
+* Cims can now choose to have breakfast, lunch, and supper throughout the day.  
+* Commercial buildings can now be configured as any combination of:  
+   o Food  
+   o Shopping  
+   o Entertainment  
+* Garbage, mail, and crime accumulation rates are now configurable per building.  
+* Streamlined and reorganized options menus for easier configuration.  
+
+#### Race DLC Enhancements
+* Improved event scheduler with support for:  
+   o Custom event start day, month, hour, and minute  
+   o Daily, weekly, or single-event scheduling  
+   o Configurable event preparation time  
+* RaceHQ maximum race duration increased to 25 laps.  
+* Maximum ticket price capped to 100.  
+* Visitor attendance probability is now influenced by ticket price.  
+* Visitors will prefer to remain at the event until conclusion 
+
+#### New Info Views & Tools
+* From Info Views → Population, select a building to highlight related Cims throughout the city. 
+  Color Indicators:
+    o Green — Residents  
+    o Blue — Workers  
+    o Magenta — Visitors  
+   o Yellow — Students  
+ This feature makes it easy to visualize how Cims interact with buildings and destinations. For 
+ example, selecting a transit station and then a park or monument can reveal citizens traveling to 
+ that location.
+* Reset Building Garbage Buffer via the tools in the options menu.
+
 ## Update 2.6
 #### School and Student-Related Features
 * Students and workers at campus will try to eat at the cafeteria for lunch.

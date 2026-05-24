@@ -480,7 +480,7 @@ namespace RealTime.GameConnection
         {
             var building = BuildingManager.instance.m_buildings.m_buffer[buildingId];
 
-            if (building.Info.m_class.m_service == ItemClass.Service.Commercial && building.Info.m_class.m_subService == ItemClass.SubService.CommercialTourist)
+            if (IsHotel(buildingId))
             {
                 return false;
             }

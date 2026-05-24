@@ -31,7 +31,7 @@ namespace RealTime.Managers
 
         internal static void RemoveCommercialBuildingType(ushort buildingID) => CommercialBuildingTypes.Remove(buildingID);
 
-        internal static void CommercialBuildingTypeDropdownVisibility(ushort buildingID, ref UIDropDown panel,  ref bool isUpdating)
+        internal static void CommercialBuildingTypeDropdownVisibility(ushort buildingID, ref UIDropDown panel, ref bool isUpdating)
         {
             if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && CommercialBuildingTypeExist(buildingID))
             {

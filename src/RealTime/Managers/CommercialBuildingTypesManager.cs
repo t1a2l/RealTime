@@ -66,12 +66,12 @@ namespace RealTime.Managers
                 panel.disabledTextColor = new Color32(142, 142, 142, 255);
                 panel.items = [
                     "Shopping",                       // Index 0
-                        "Entertainment",                  // Index 1
-                        "Food",                           // Index 2
-                        "Shopping & Entertainment",       // Index 3
-                        "Shopping & Food",                // Index 4
-                        "Entertainment & Food",           // Index 5
-                        "All"                             // Index 6
+                    "Entertainment",                  // Index 1
+                    "Food",                           // Index 2
+                    "Shopping & Entertainment",       // Index 3
+                    "Shopping & Food",                // Index 4
+                    "Entertainment & Food",           // Index 5
+                    "All"                             // Index 6
                 ];
                 panel.Hide();
             }

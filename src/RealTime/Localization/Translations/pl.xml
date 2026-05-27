@@ -34,11 +34,11 @@
   <translation id="ClearAllEvents" value="Wyczyść wszystkie wydarzenia" />
   <translation id="ConfirmPanelClearAllEventsTitle" value="Wyczyść wszystkie wydarzenia" />
   <translation id="ConfirmPanelClearAllEventsText" value="Czy na pewno chcesz usunięcia wszystkich wydarzeń z menedżera wydarzeń? Tego nie można cofnąć! Rok akademicki zostanie nietknięty." />
-  <translation id="ResetBuildingsGarbageBuffer" value="Wyczyść pamięć podręczną śmieci wszystkim budynkom" />
-  <translation id="ResetBuildingsMailBuffer" value="Wyczyść pamięć podręczną poczty wszystkim budynkom" />
-  <translation id="ResetBuildingsCrimeBuffer" value="Wyczyść pamięć podręczną przestępczości wszystkim budynkom" />
-  <translation id="ExecuteSelectedAction" value="Dokonaj wybranego czynu" />
-  <translation id="ClearActionsGroupTitle" value="Wyczyść czyny" />
+  <translation id="ResetBuildingsGarbageBuffer" value="Wyczyść nagromadzone śmieci wszystkim budynkom" />
+  <translation id="ResetBuildingsMailBuffer" value="Wyczyść nagromadzoną pocztę wszystkim budynkom" />
+  <translation id="ResetBuildingsCrimeBuffer" value="Wyczyść nagromadzonych przestępców wszystkim budynkom" />
+  <translation id="ExecuteSelectedAction" value="Dokonaj wybranych czynów" />
+  <translation id="ClearActionsGroupTitle" value="Wyczyść działania" />
 
   <translation id="1General" value="Ogólne" />
   <translation id="0Time" value="Czas" />
@@ -81,11 +81,11 @@
   <translation id="RealisticFiresTooltip" value="Jeśli włączone, gaszenie pożarów będzie trwało od 30 minut do 4 godzin" />
   <translation id="WorkForceMatters" value="Budynki obsługowe muszą mieć pracowników" />
   <translation id="WorkForceMattersTooltip" value="Jeśli włączone, budynki bez pracowników na miejscu zostaną zamknięte i przestaną świadczyć usługi." />
-  <translation id="GarbageSlowDown" value="Tempo nagromadzenia śmieci" />
+  <translation id="GarbageSlowDown" value="Gromadzenie śmieci" />
   <translation id="GarbageSlowDownTooltip" value="Min. (0,05) to co dwa tygodnie, maks. (1,0) to codziennie – domyślnie jest to co tydzień (0,15)." />
-  <translation id="MailSlowDown" value="Tempo gromadzenia poczty" />
+  <translation id="MailSlowDown" value="Gromadzenie poczty" />
   <translation id="MailSlowDownTooltip" value="Min. (0,1) to co tydzień, maks. (1,0) to codziennie – domyślnie jest to co trzy dni (0,3)." />
-  <translation id="CrimeSlowDown" value="Tempo gromadzenia przestępczości" />
+  <translation id="CrimeSlowDown" value="Gromadzenie przestępców" />
   <translation id="CrimeSlowDownTooltip" value="Min. (0,1) to co tydzień, maks. (1,0) to codziennie – domyślnie jest to co trzy dni (0,3)." />
   <translation id="WeeklyCommericalDeliveries" value="Cotygodniowe dostawy towarów do budynków handlowych" />
   <translation id="WeeklyCommericalDeliveriesTooltip" value="Jeśli włączone, budynki handlowe będą miały większą pojemność towarów, co pozwoli na dostawy tylko raz w tygodniu." />
@@ -157,9 +157,9 @@
   <translation id="LunchEndTooltip" value="Godzina powrotu mieszkaców z przerwy obiadowej do pracy." />
   <translation id="MaxVacationLength" value="Maksimum dni urlopu" />
   <translation id="MaxVacationLengthTooltip" value="Określa czas trwania urlopów mieszkańców. Ustaw na 0, żeby wyłączyć urlopy." />
-  <translation id="AcademicYearLength" value="Dni roku akademickiego (Wymaga dodatku “Campus”)"/>
+  <translation id="AcademicYearLength" value="Długość roku akademickiego (Dodatek “Campus”)"/>
   <translation id="AcademicYearLengthTooltip" value="Określa okres trwania roku akademickiego. Domyślnie jest to 7 dni." />
-  <translation id="TogaPartyLength" value="Długość imprezy w togach (Wymaga dodatku “Campus”)" />
+  <translation id="TogaPartyLength" value="Długość imprezy w togach (Dodatek “Campus”)" />
   <translation id="TogaPartyLengthTooltip" value="Określa okres trwania imprezy w strojach toga. Domyślnie 8 godzin." />
 
   <translation id="5Services" value="Usługi" />
@@ -229,7 +229,7 @@
   <translation id="RoadMaintenanceRoadsLargeEndHour" value="Koniec na dużych drogach" />
   <translation id="RoadMaintenanceRoadsLargeEndHourTooltip" value="Godzina zakończenia prac utrzymaniowych dużych dróg" />
   <translation id="RoadMaintenanceRoadsHighwayStartHour" value="Początek na autostradach" />
-  <translation id="RoadMaintenanceRoadsHighwayStartHourTooltip" Koniec="Godzina rozpoczęcia prac utrzymaniowych autostrad" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHourTooltip" value="Godzina rozpoczęcia prac utrzymaniowych autostrad" />
   <translation id="RoadMaintenanceRoadsHighwayEndHour" value="Koniec na autostradach" />
   <translation id="RoadMaintenanceRoadsHighwayEndHourTooltip" value="Godzina zakończenia prac utrzymaniowych autostrad" />
   <translation id="RoadMaintenanceRoadsOtherStartHour" value="Początek na innych drogach" />
@@ -250,7 +250,7 @@
   <translation id="SnowRoadsLargeEndHour" value="Koniec na dużych drogach" />
   <translation id="SnowRoadsLargeEndHourTooltip" value="Godzina zakończenia odśnieżania dużych dróg" />
   <translation id="SnowRoadsHighwayStartHour" value="Początek na autostradach" />
-  <translation id="SnowRoadsHighwayStartHourTooltip" Koniec="Godzina rozpoczęcia odśnieżania autostrad" />
+  <translation id="SnowRoadsHighwayStartHourTooltip" value="Godzina rozpoczęcia odśnieżania autostrad" />
   <translation id="SnowRoadsHighwayEndHour" value="Koniec na autostradach" />
   <translation id="SnowRoadsHighwayEndHourTooltip" value="Godzina zakończenia odśnieżania autostrad" />
   <translation id="SnowRoadsOtherStartHour" value="Początek na innych drogach" />
@@ -275,7 +275,7 @@
   <translation id="CurrentState.Visiting" value="Zwiedza" />
   <translation id="ScheduledAction.GoToShelter" value="Idzie do schronu" />
   <translation id="CurrentState.InShelter" value="W schronie" />
-  <translation id="ScheduledAction.GoToBreakfast" value="Idzie zjeść śniadanie" />
+  <translation id="ScheduledAction.GoToMeal" value="Idzie zjeść" />
   <translation id="CurrentState.EatMeal" value="Je " />
   <translation id="ScheduledMealType.Breakfast" value="śniadanie" />
   <translation id="ScheduledMealType.Lunch" value="drugie śniadanie" />

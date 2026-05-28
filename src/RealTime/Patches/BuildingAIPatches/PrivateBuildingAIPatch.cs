@@ -109,7 +109,7 @@ namespace RealTime.Patches.BuildingAIPatches
             }
             if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
             {
-                if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
+                if (buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
                 {
                     CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
                 }

@@ -66,50 +66,6 @@ namespace RealTime.Patches.BuildingAIPatches
             }
         }
 
-        [HarmonyPatch(typeof(PlayerBuildingAI), "BuildingLoaded")]
-        [HarmonyPrefix]
-        public static void BuildingLoaded(PlayerBuildingAI __instance, ushort buildingID, ref Building data)
-        {
-            if (!BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID) && BuildingWorkTimeManager.ShouldHaveBuildingWorkTime(buildingID))
-            {
-                var buildingInfo = data.Info;
-                BuildingWorkTimeManager.CreateBuildingWorkTime(buildingID, buildingInfo);
-
-                if (BuildingWorkTimeManager.PrefabExist(buildingInfo))
-                {
-                    var buildignPrefab = BuildingWorkTimeManager.GetPrefab(buildingInfo);
-                    UpdateBuildingSettings.SetBuildingToPrefab(buildingID, buildignPrefab);
-                }
-                else if (BuildingWorkTimeGlobalConfig.Config.GlobalSettingsExist(buildingInfo))
-                {
-                    var buildignGlobal = BuildingWorkTimeGlobalConfig.Config.GetGlobalSettings(buildingInfo);
-                    UpdateBuildingSettings.SetBuildingToGlobal(buildingID, buildignGlobal);
-                }
-
-                if (BuildingManagerConnection.IsHotel(buildingID) && !HotelManager.HotelExist(buildingID) && data.m_roomUsed < data.m_roomMax)
-                {
-                    HotelManager.AddHotel(buildingID);
-                }
-            }
-
-            if (data.Info.GetAI() is MainCampusBuildingAI && !AcademicYearManager.MainCampusBuildingExist(buildingID))
-            {
-                AcademicYearManager.CreateAcademicYearDataExistingCampus(buildingID);
-            }
-
-            if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
-            {
-                if(data.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
-                {
-                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
-                }
-                else
-                {
-                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
-                } 
-            }
-        }
-
         [HarmonyPatch(typeof(PlayerBuildingAI), "SimulationStepActive")]
         public static void SimulationStepActive(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
         {

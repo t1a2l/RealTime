@@ -12,9 +12,6 @@ namespace RealTime.CustomAI
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private delegate TransferManager.TransferReason GoToPostOfficeOrBankDelegate(Citizen.AgeGroup ageGroup);
-        private static GoToPostOfficeOrBankDelegate GoToPostOfficeOrBank;
-
         private bool ScheduleRelaxing(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
             var citizenAge = CitizenProxy.GetAge(ref citizen);
@@ -452,14 +449,12 @@ namespace RealTime.CustomAI
 
         private bool ScheduleVisiting(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
-            if (!RealTimeCore.isCombinedAIEnabled)
+            if (!RealTimeCore._combinedAISAvailable)
             {
                 return false;
             }
 
-            GoToPostOfficeOrBank ??= AccessTools.MethodDelegate<GoToPostOfficeOrBankDelegate>(AccessTools.TypeByName("CombinedAIS.Managers.BankPostOfficeManager").GetMethod("GoToPostOfficeOrBank", BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static), null, false);
-
-            if (WeatherInfo.IsBadWeather || GoToPostOfficeOrBank == null)
+            if (WeatherInfo.IsBadWeather)
             {
                 return false;
             }
@@ -484,11 +479,6 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            if (GoToPostOfficeOrBank == null)
-            {
-                return false;
-            }
-
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
 
             if (QuitVisit(citizenId, ref citizen, currentBuilding))
@@ -501,7 +491,12 @@ namespace RealTime.CustomAI
 
             if (schedule.ScheduledState != ResidentState.GoToVisit || schedule.CurrentState != ResidentState.Visiting || buildingAI.IsBuildingClosingSoon(currentBuilding))
             {
-                var reason = GoToPostOfficeOrBank(CitizenProxy.GetAge(ref citizen));
+                if (!RealTimeCore._combinedAISAvailable)
+                {
+                    return false;
+                }
+
+                var reason = RealTimeCore._goToPostOfficeOrBank(CitizenProxy.GetAge(ref citizen));
                 
                 schedule.FindVisitPlaceAttempts++;
 

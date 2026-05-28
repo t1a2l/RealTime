@@ -98,15 +98,18 @@ namespace RealTime.CustomAI
                 }
                 else
                 {
-                    if (!Config.WorkForceMatters)
-                    {
-                        workBehavior.ScheduleReturnFromWork(citizenId, ref schedule, CitizenProxy.GetAge(ref citizen));
-                        Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going from {currentBuilding} to work {schedule.WorkBuilding} and will leave work at {schedule.ScheduledStateTime:dd.MM.yy HH:mm}");
-                    }
-                    else
-                    {
-                        Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going from {currentBuilding} to work {schedule.WorkBuilding}");
-                    }
+                    workBehavior.ScheduleReturnFromWork(citizenId, ref schedule, CitizenProxy.GetAge(ref citizen));
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going from {currentBuilding} to work {schedule.WorkBuilding} and will leave work at {schedule.ScheduledStateTime:dd.MM.yy HH:mm}");
+
+                    //if (!Config.WorkForceMatters)
+                    //{
+                    //    workBehavior.ScheduleReturnFromWork(citizenId, ref schedule, CitizenProxy.GetAge(ref citizen));
+                    //    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going from {currentBuilding} to work {schedule.WorkBuilding} and will leave work at {schedule.ScheduledStateTime:dd.MM.yy HH:mm}");
+                    //}
+                    //else
+                    //{
+                    //    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going from {currentBuilding} to work {schedule.WorkBuilding}");
+                    //}
                 }
             }
             else
@@ -228,11 +231,11 @@ namespace RealTime.CustomAI
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} return from work because the building is currently closed");
                 return true;
             }
-            if (Config.WorkForceMatters && ShouldReturnFromWork(ref schedule, citizenId, ref citizen, currentBuilding))
-            {
-                workBehavior.ScheduleReturnFromWork(citizenId, ref schedule, CitizenProxy.GetAge(ref citizen));
-                return true;
-            }
+            //if (Config.WorkForceMatters && ShouldReturnFromWork(ref schedule, citizenId, ref citizen, currentBuilding))
+            //{
+            //    workBehavior.ScheduleReturnFromWork(citizenId, ref schedule, CitizenProxy.GetAge(ref citizen));
+            //    return true;
+            //}
 
             return false;
         }

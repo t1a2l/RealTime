@@ -1354,10 +1354,10 @@ namespace RealTime.CustomAI
             }
 
             // WorkForceMatters setting is enabled and no one at work - building will not work
-            if (config.WorkForceMatters && GetWorkersInBuilding(buildingId) == 0)
-            {
-                return false;
-            }
+            //if (config.WorkForceMatters && GetWorkersInBuilding(buildingId) == 0)
+            //{
+            //    return false;
+            //}
 
             float currentHour = timeInfo.CurrentHour;
             if (workTime.HasExtendedWorkShift)

@@ -360,10 +360,10 @@ namespace RealTime.CustomAI
 
 
             // nobody working or on the way to work, and building is essential service
-            if (workBuilding != 0 && IsEssentialService(workBuilding) && GetCitizensInWorkPlaceByShift(workBuilding, schedule.WorkShift) == 0 && Config.WorkForceMatters)
-            {
-                schedule.WorkStatus = WorkStatus.None;
-            }
+            //if (workBuilding != 0 && IsEssentialService(workBuilding) && GetCitizensInWorkPlaceByShift(workBuilding, schedule.WorkShift) == 0 && Config.WorkForceMatters)
+            //{
+            //    schedule.WorkStatus = WorkStatus.None;
+            //}
 
             if (schedule.ScheduledState != ResidentState.Unknown)
             {
@@ -648,10 +648,10 @@ namespace RealTime.CustomAI
                     return false;
                 }
                 // nobody working or on the way to work, and building is essential service and workforce matters
-                if (Config.WorkForceMatters && IsEssentialService(schedule.WorkBuilding) && GetCitizensInWorkPlaceByShift(schedule.WorkBuilding, schedule.WorkShift) == 0)
-                {
-                    return false;
-                }
+                //if (Config.WorkForceMatters && IsEssentialService(schedule.WorkBuilding) && GetCitizensInWorkPlaceByShift(schedule.WorkBuilding, schedule.WorkShift) == 0)
+                //{
+                //    return false;
+                //}
                 if (schedule.CurrentState == ResidentState.AtWork || schedule.CurrentState == ResidentState.EatMeal
                     || schedule.ScheduledState == ResidentState.GoToWork || schedule.ScheduledState == ResidentState.GoToMeal
                     || schedule.ScheduledState == ResidentState.GoShopping && schedule.Hint == ScheduleHint.LocalShoppingOnlyBeforeWork)

@@ -560,15 +560,6 @@ namespace RealTime.Patches
                 //}
 
                 // show commercial building type dropdown only for generic commercial buildings that are not hotels
-                if (BuildingManagerConnection.IsAllowedCommercialBuildingType(building) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(building))
-                {
-                    m_commercialBuildingTypeDropdown.Show();
-                }
-                else
-                {
-                    m_commercialBuildingTypeDropdown.Hide();
-                }
-
                 CommercialBuildingTypesManager.CommercialBuildingTypeDropdownVisibility(building, ref m_commercialBuildingTypeDropdown, ref s_updatingDropdown);
             }
 

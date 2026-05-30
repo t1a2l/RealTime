@@ -281,12 +281,7 @@
   <translation id="ScheduledMealType.Lunch" value="обяд" />
   <translation id="ScheduledMealType.Supper" value="вечеря" />
   <translation id="ScheduledMealType.Other" value="междинно хранене" />
-  <translation id="WorkShift.First" value="1-ва смяна" />
-  <translation id="WorkShift.Second" value="2-ра смяна" />
-  <translation id="WorkShift.Night" value="Нощна смяна" />
-  <translation id="WorkShift.ContinuousDay" value="Дневна (непрекъсната)" />
-  <translation id="WorkShift.ContinuousNight" value="Нощна (непрекъсната)" />
-  <translation id="WorkShift.Event" value="Смяна за събитие" />
+  <translation id="WorkShift.Assigned" value="assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(в отпуск: {0} дни)" />
 
   <translation id="AcademicYear.DaysLeft" value="Завършва след {0} дни" />

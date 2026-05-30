@@ -346,7 +346,7 @@ namespace RealTime.CustomAI
             ref var schedule = ref residentSchedules[citizenId];
 
             schedule.CurrentState = ResidentState.Unknown;
-            schedule.UpdateWorkShift(WorkShift.Unemployed, 0, 0, worksOnWeekends: false);
+            schedule.UpdateWorkShift(WorkShift.Unemployed, -1, 0, 0);
             schedule.UpdateSchoolClass(SchoolClass.NoSchool, 0, 0);
             schedule.UpdateTravelTimeToWork((DateTime)default);
             schedule.WorkBuilding = 0;

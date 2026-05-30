@@ -2,13 +2,11 @@
 
 namespace RealTime.CustomAI
 {
-    using HarmonyLib;
-    using System.Reflection;
     using SkyTools.Tools;
-    using static Constants;
     using RealTime.Core;
     using RealTime.Managers;
     using ColossalFramework;
+    using static Constants;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
@@ -16,7 +14,7 @@ namespace RealTime.CustomAI
         {
             var citizenAge = CitizenProxy.GetAge(ref citizen);
 
-            uint relaxChance = spareTimeBehavior.GetRelaxingChance(citizenAge, schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
+            uint relaxChance = spareTimeBehavior.GetRelaxingChance(citizenAge, GetCitizenStartHour(ref schedule), schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
             relaxChance = AdjustRelaxChance(relaxChance, ref citizen);
 
             if (!Random.ShouldOccur(relaxChance) || WeatherInfo.IsBadWeather)
@@ -134,6 +132,7 @@ namespace RealTime.CustomAI
 
             uint relaxChance = spareTimeBehavior.GetRelaxingChance(
                 CitizenProxy.GetAge(ref citizen),
+                GetCitizenStartHour(ref schedule),
                 schedule.WorkShift,
                 schedule.WorkStatus == WorkStatus.OnVacation);
 
@@ -577,7 +576,7 @@ namespace RealTime.CustomAI
             var age = CitizenProxy.GetAge(ref citizen);
             uint stayChance = schedule.CurrentState == ResidentState.Shopping
                 ? spareTimeBehavior.GetShoppingChance(age)
-                : spareTimeBehavior.GetRelaxingChance(age, schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
+                : spareTimeBehavior.GetRelaxingChance(age, GetCitizenStartHour(ref schedule), schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
 
             if (!Random.ShouldOccur(stayChance))
             {
@@ -661,6 +660,22 @@ namespace RealTime.CustomAI
                 ResidentState.Relaxing => type.IsFlagSet(CommercialBuildingType.Entertainment),
                 _ => false
             };
+        }
+
+        private float GetCitizenStartHour(ref CitizenSchedule schedule)
+        {
+            float starthour = -1;
+
+            if (schedule.WorkBuilding != 0)
+            {
+                starthour = schedule.WorkShiftStartHour;
+            }
+            else if (schedule.SchoolBuilding != 0)
+            {
+                starthour = schedule.SchoolClassStartHour;
+            }
+
+            return starthour;
         }
     }
 }

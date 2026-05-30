@@ -281,12 +281,7 @@
   <translation id="ScheduledMealType.Lunch" value="점심 식사" />
   <translation id="ScheduledMealType.Supper" value="저녁 식사" />
   <translation id="ScheduledMealType.Other" value="간식" />
-  <translation id="WorkShift.First" value="1교대 근무" />
-  <translation id="WorkShift.Second" value="2교대 근무" />
-  <translation id="WorkShift.Night" value="야간 근무" />
-  <translation id="WorkShift.ContinuousDay" value="상시 주간 근무" />
-  <translation id="WorkShift.ContinuousNight" value="상시 야간 근무" />
-  <translation id="WorkShift.Event" value="이벤트 근무" />
+  <translation id="WorkShift.Assigned" value="assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(휴가 중: {0}일 남음)" />
 
   <translation id="AcademicYear.DaysLeft" value="{0}일 남음" />

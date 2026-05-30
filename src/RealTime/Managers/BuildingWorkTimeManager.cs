@@ -2,11 +2,13 @@
 
 namespace RealTime.Managers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using ColossalFramework;
     using RealTime.Core;
     using RealTime.GameConnection;
+    using static RealTime.Managers.BuildingWorkTimeManager;
 
     internal static class BuildingWorkTimeManager
     {
@@ -20,28 +22,82 @@ namespace RealTime.Managers
 
         public struct WorkTime
         {
-            public bool WorkAtNight;
-            public bool WorkAtWeekands;
-            public bool HasExtendedWorkShift;
-            public bool HasContinuousWorkShift;
-            public int WorkShifts;
+            public DayOfWeek[] WorkDays;       // e.g. { Monday, Tuesday, Wednesday, Thursday, Friday }
+            public WorkShiftTime[] WorkShifts; // variable length, UI enforces a reasonable max
+
             public bool IsDefault;
             public bool IsPrefab;
             public bool IsGlobal;
             public bool IsLocked;
             public bool IgnorePolicy;
+
+            public readonly bool IsWorkingHour(float hour)
+            {
+                if (WorkShifts == null)
+                {
+                    return false;
+                }
+
+                foreach (var shift in WorkShifts)
+                {
+                    if (shift.ContainsHour(hour))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
         }
 
         public struct WorkTimePrefab
         {
             public string InfoName;
             public string BuildingAI;
-            public bool WorkAtNight;
-            public bool WorkAtWeekands;
-            public bool HasExtendedWorkShift;
-            public bool HasContinuousWorkShift;
             public bool IgnorePolicy;
-            public int WorkShifts;
+
+            public DayOfWeek[] WorkDays;
+            public WorkShiftTime[] WorkShifts;
+
+            public readonly bool IsWorkingHour(float hour)
+            {
+                if (WorkShifts == null)
+                {
+                    return false;
+                }
+
+                foreach (var shift in WorkShifts)
+                {
+                    if (shift.ContainsHour(hour))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        public struct WorkShiftTime
+        {
+            public float StartHour;   // e.g. 8.0f
+            public float EndHour;     // e.g. 17.0f — if EndHour < StartHour, wraps midnight
+
+            public readonly bool ContainsHour(float hour)
+            {
+                if (StartHour <= EndHour)
+                {
+                    return hour >= StartHour && hour < EndHour;
+                }
+
+                return hour >= StartHour || hour < EndHour; // overnight
+            }
+
+            public readonly void GetShiftHours(out float startHour, out float endHour)
+            {
+                startHour = StartHour;
+                endHour = EndHour;
+            }
         }
 
         public static void Init()
@@ -232,380 +288,87 @@ namespace RealTime.Managers
         public static WorkTime CreateDefaultBuildingWorkTime(ushort buildingID, BuildingInfo buildingInfo)
         {
             var service = buildingInfo.m_class.m_service;
-            var sub_service = buildingInfo.m_class.m_subService;
+            var subService = buildingInfo.m_class.m_subService;
             var level = buildingInfo.m_class.m_level;
             var ai = buildingInfo.m_buildingAI;
 
-            bool ExtendedWorkShift = HasExtendedFirstWorkShift(service, sub_service, level);
-            bool ContinuousWorkShift = HasContinuousWorkShift(service, sub_service, level, ExtendedWorkShift);
-
-            bool OpenAtNight = IsBuildingActiveAtNight(service, sub_service, level);
-            bool OpenOnWeekends = IsBuildingActiveOnWeekend(service, sub_service, level);
+            bool extendedShift = HasExtendedFirstWorkShift(service, subService, level);
+            bool continuousShift = HasContinuousWorkShift(service, subService, level, extendedShift);
 
             if (BuildingManagerConnection.IsHotel(buildingID) || BuildingManagerConnection.IsAreaMainBuilding(buildingID) && ai is not ParkGateAI
                 || BuildingManagerConnection.IsWarehouseBuilding(buildingID) || BuildingManagerConnection.IsUniqueFactoryBuilding(buildingID))
             {
-                OpenAtNight = true;
-                OpenOnWeekends = true;
+                return ShiftCountToWorkTime(buildingInfo, 3);
             }
-            else if (service == ItemClass.Service.Beautification && sub_service == ItemClass.SubService.BeautificationParks)
+            else if (service == ItemClass.Service.Beautification && subService == ItemClass.SubService.BeautificationParks)
             {
                 var position = BuildingManager.instance.m_buildings.m_buffer[buildingID].m_position;
                 byte parkId = DistrictManager.instance.GetPark(position);
                 if (parkId != 0 && (DistrictManager.instance.m_parks.m_buffer[parkId].m_parkPolicies & DistrictPolicies.Park.NightTours) != 0)
                 {
-                    OpenAtNight = true;
+                    return ShiftCountToWorkTime(buildingInfo, 3);
                 }
             }
-            else if (BuildingManagerConnection.IsEssentialIndustryBuilding(buildingID) && (sub_service == ItemClass.SubService.PlayerIndustryFarming || sub_service == ItemClass.SubService.PlayerIndustryForestry))
+            else if (BuildingManagerConnection.IsEssentialIndustryBuilding(buildingID) && (subService == ItemClass.SubService.PlayerIndustryFarming || subService == ItemClass.SubService.PlayerIndustryForestry))
             {
-                OpenAtNight = true;
+                return ShiftCountToWorkTime(buildingInfo, 3);
             }
             else if (BuildingManagerConnection.IsRecreationalCareBuilding(buildingID))
             {
-                OpenAtNight = false;
-                OpenOnWeekends = true;
-                ExtendedWorkShift = false;
-                ContinuousWorkShift = false;
+                return ShiftCountToWorkTime(buildingInfo, 2);
             }
-            else if (service == ItemClass.Service.Commercial && sub_service == ItemClass.SubService.CommercialLeisure && BuildingManagerConnection.IsBuildingNoiseRestricted(buildingID))
+            else if (service == ItemClass.Service.Commercial && subService == ItemClass.SubService.CommercialLeisure && BuildingManagerConnection.IsBuildingNoiseRestricted(buildingID))
             {
-                OpenAtNight = false;
+                return ShouldOccur(RealTimeMod.configProvider.Configuration.OpenCommercialSecondShiftQuota) ? ShiftCountToWorkTime(buildingInfo, 2) : ShiftCountToWorkTime(buildingInfo, 1);
             }
 
             if (CarParkingBuildings.Any(s => buildingInfo.name.Contains(s)))
             {
-                OpenAtNight = true;
-                OpenOnWeekends = true;
-                ExtendedWorkShift = false;
-                ContinuousWorkShift = false;
+                return ShiftCountToWorkTime(buildingInfo, 3);
             }
 
-            int WorkShifts = GetBuildingWorkShiftCount(service, sub_service, level, ai, OpenAtNight, ContinuousWorkShift);
-
-            var workTime = new WorkTime()
-            {
-                WorkAtNight = OpenAtNight,
-                WorkAtWeekands = OpenOnWeekends,
-                HasExtendedWorkShift = ExtendedWorkShift,
-                HasContinuousWorkShift = ContinuousWorkShift,
-                WorkShifts = WorkShifts,
-                IsDefault = true,
-                IsPrefab = false,
-                IsGlobal = false,
-                IsLocked = false,
-                IgnorePolicy = false
-            };
-
-            return workTime;
-        }
-
-        public static void UpdateBuildingWorkTime(ushort buildingId, WorkTime workTime)
-        {
-            var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingId];
-
-            var service = building.Info.m_class.m_service;
-            var subService = building.Info.m_class.m_subService;
-            var level = building.Info.m_class.m_level;
-            var ai = building.Info.m_buildingAI;
-
-            // update buildings 
             switch (service)
             {
-                case ItemClass.Service.Office when workTime.IsDefault && workTime.WorkShifts == 2:
-                    workTime.WorkShifts = 1;
-                    workTime.WorkAtNight = false;
-                    workTime.WorkAtWeekands = false;
-                    workTime.HasExtendedWorkShift = false;
-                    workTime.HasContinuousWorkShift = false;
-                    SetBuildingWorkTime(buildingId, workTime);
-                    return;
+                case ItemClass.Service.Office:
+                case ItemClass.Service.Education when level == ItemClass.Level.Level1 || level == ItemClass.Level.Level2:
+                case ItemClass.Service.PlayerIndustry
+                    when subService == ItemClass.SubService.PlayerIndustryForestry || subService == ItemClass.SubService.PlayerIndustryFarming:
+                case ItemClass.Service.Industrial
+                    when subService == ItemClass.SubService.IndustrialForestry || subService == ItemClass.SubService.IndustrialFarming:
+                case ItemClass.Service.PoliceDepartment when subService == ItemClass.SubService.PoliceDepartmentBank:
+                case ItemClass.Service.PublicTransport when subService == ItemClass.SubService.PublicTransportPost:
+                    return ShiftCountToWorkTime(buildingInfo, 1);
 
-                // transport stations and depots and garabage
-                case ItemClass.Service.PublicTransport when subService != ItemClass.SubService.PublicTransportPost:
-                case ItemClass.Service.Garbage:
-                    if (workTime.WorkAtNight == false)
-                    {
-                        workTime.WorkShifts = 3;
-                        workTime.WorkAtNight = true;
-                        workTime.WorkAtWeekands = true;
-                        workTime.HasExtendedWorkShift = false;
-                        workTime.HasContinuousWorkShift = false;
-                        SetBuildingWorkTime(buildingId, workTime);
-                    }
-                    return;
-
-                // set child care and elder care to close at night - other buildings open 24/7
-                case ItemClass.Service.HealthCare:
-                    if (level >= ItemClass.Level.Level4 && workTime.WorkAtNight == true)
-                    {
-                        workTime.WorkShifts = 2;
-                        workTime.WorkAtNight = false;
-                        workTime.WorkAtWeekands = true;
-                        workTime.HasExtendedWorkShift = false;
-                        workTime.HasContinuousWorkShift = false;
-                        workTime.IsDefault = true;
-                        SetBuildingWorkTime(buildingId, workTime);
-                    }
-                    else if (level < ItemClass.Level.Level4 && workTime.WorkAtNight == false)
-                    {
-                        workTime.WorkShifts = 2;
-                        workTime.WorkAtNight = true;
-                        workTime.WorkAtWeekands = true;
-                        workTime.HasExtendedWorkShift = false;
-                        workTime.HasContinuousWorkShift = true;
-                        workTime.IsDefault = true;
-                        SetBuildingWorkTime(buildingId, workTime);
-                    }
-                    return;
-
-                case ItemClass.Service.PoliceDepartment when subService != ItemClass.SubService.PoliceDepartmentBank:
-                case ItemClass.Service.FireDepartment:
-                    if (workTime.WorkAtNight == false)
-                    {
-                        workTime.WorkShifts = 2;
-                        workTime.WorkAtNight = true;
-                        workTime.WorkAtWeekands = true;
-                        workTime.HasExtendedWorkShift = false;
-                        workTime.HasContinuousWorkShift = true;
-                        workTime.IsDefault = true;
-                        SetBuildingWorkTime(buildingId, workTime);
-                    }
-                    return;
-
-                // area main building works 24/7, universities work 2 shifts for night school support
+                case ItemClass.Service.Beautification:
+                case ItemClass.Service.Monument:
+                case ItemClass.Service.Citizen:
+                case ItemClass.Service.VarsitySports:
                 case ItemClass.Service.PlayerEducation:
                 case ItemClass.Service.Education when level == ItemClass.Level.Level3:
-                    if (BuildingManagerConnection.IsAreaMainBuilding(buildingId) && ai is not ParkGateAI && (workTime.WorkShifts != 3 || !workTime.WorkAtNight || !workTime.WorkAtWeekands))
-                    {
-                        workTime.WorkShifts = 3;
-                        workTime.WorkAtNight = true;
-                        workTime.WorkAtWeekands = true;
-                        workTime.HasExtendedWorkShift = false;
-                        workTime.HasContinuousWorkShift = false;
-                        workTime.IsDefault = true;
-                        SetBuildingWorkTime(buildingId, workTime);
-                    }
-                    else if (!BuildingManagerConnection.IsAreaMainBuilding(buildingId) && ai is not ParkGateAI && workTime.WorkShifts != 2)
-                    {
-                        workTime.WorkShifts = 2;
-                        workTime.WorkAtNight = false;
-                        workTime.WorkAtWeekands = false;
-                        workTime.HasExtendedWorkShift = true;
-                        workTime.HasContinuousWorkShift = false;
-                        workTime.IsDefault = true;
-                        SetBuildingWorkTime(buildingId, workTime);
-                    }
-                    return;
-
-                // old elementary school and high school - update to 1 shift
-                case ItemClass.Service.Education when level == ItemClass.Level.Level1 || level == ItemClass.Level.Level2:
-                    if (workTime.WorkShifts == 2)
-                    {
-                        workTime.WorkShifts = 1;
-                        workTime.WorkAtNight = false;
-                        workTime.WorkAtWeekands = false;
-                        workTime.HasExtendedWorkShift = true;
-                        workTime.HasContinuousWorkShift = false;
-                        workTime.IsDefault = true;
-                        SetBuildingWorkTime(buildingId, workTime);
-                    }
-                    return;
-
-                // open or close farming or forestry buildings according to the advanced automation policy, set 24/7 for main buildings
-                case ItemClass.Service.PlayerIndustry:
-                    if (BuildingManagerConnection.IsAreaMainBuilding(buildingId) && ai is not ParkGateAI && (workTime.WorkShifts != 3 || !workTime.WorkAtNight || !workTime.WorkAtWeekands))
-                    {
-                        workTime.WorkShifts = 3;
-                        workTime.WorkAtNight = true;
-                        workTime.WorkAtWeekands = true;
-                        workTime.HasExtendedWorkShift = true;
-                        workTime.HasContinuousWorkShift = false;
-                        workTime.IsDefault = true;
-                        SetBuildingWorkTime(buildingId, workTime);
-                    }
-                    else if (!BuildingManagerConnection.IsAreaMainBuilding(buildingId) && ai is not ParkGateAI && workTime.IsDefault && workTime.WorkShifts != 3 && (BuildingManagerConnection.IsWarehouseBuilding(buildingId) || BuildingManagerConnection.IsUniqueFactoryBuilding(buildingId)))
-                    {
-                        workTime.WorkShifts = 3;
-                        workTime.WorkAtNight = true;
-                        workTime.WorkAtWeekands = true;
-                        workTime.HasExtendedWorkShift = true;
-                        workTime.HasContinuousWorkShift = false;
-                        SetBuildingWorkTime(buildingId, workTime);
-                    }
-                    else if (!BuildingManagerConnection.IsAreaMainBuilding(buildingId) && ai is not ParkGateAI && workTime.IsDefault && !workTime.IgnorePolicy && (subService == ItemClass.SubService.PlayerIndustryFarming || subService == ItemClass.SubService.PlayerIndustryForestry))
-                    {
-                        bool IsEssential = BuildingManagerConnection.IsEssentialIndustryBuilding(buildingId);
-                        bool need_update1 = false;
-                        if (IsEssential && workTime.WorkShifts != 3)
-                        {
-                            workTime.WorkShifts = 3;
-                            workTime.WorkAtNight = true;
-                            workTime.WorkAtWeekands = true;
-                            workTime.HasExtendedWorkShift = true;
-                            workTime.HasContinuousWorkShift = false;
-                            need_update1 = true;
-                        }
-                        else if (!IsEssential && workTime.WorkShifts != 2)
-                        {
-                            workTime.WorkShifts = 2;
-                            workTime.WorkAtNight = false;
-                            workTime.WorkAtWeekands = true;
-                            workTime.HasExtendedWorkShift = true;
-                            workTime.HasContinuousWorkShift = false;
-                            need_update1 = true;
-                        }
-                        if (need_update1)
-                        {
-                            SetBuildingWorkTime(buildingId, workTime);
-                        }
-                    }
-                    return;
-
-                // open or close park according to night tours check
-                case ItemClass.Service.Beautification when subService == ItemClass.SubService.BeautificationParks:
-                    var position = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position;
-                    byte parkId = DistrictManager.instance.GetPark(position);
-                    bool need_update = false;
-                    if (parkId != 0)
-                    {
-                        var park = DistrictManager.instance.m_parks.m_buffer[parkId];
-                        if ((park.m_parkPolicies & DistrictPolicies.Park.NightTours) != 0)
-                        {
-                            if (workTime.WorkShifts != 3)
-                            {
-                                workTime.WorkShifts = 3;
-                                workTime.WorkAtNight = true;
-                                workTime.WorkAtWeekands = true;
-                                workTime.HasExtendedWorkShift = true;
-                                workTime.HasContinuousWorkShift = false;
-                                workTime.IsDefault = true;
-                                need_update = true;
-                            }
-                        }
-                        else
-                        {
-                            if (workTime.WorkShifts != 2)
-                            {
-                                workTime.WorkShifts = 2;
-                                workTime.WorkAtNight = false;
-                                workTime.WorkAtWeekands = true;
-                                workTime.HasExtendedWorkShift = true;
-                                workTime.HasContinuousWorkShift = false;
-                                workTime.IsDefault = true;
-                                need_update = true;
-                            }
-                        }
-                    }
-                    if (need_update)
-                    {
-                        SetBuildingWorkTime(buildingId, workTime);
-                    }
-                    return;
-
+                case ItemClass.Service.Commercial when ShouldOccur(RealTimeMod.configProvider.Configuration.OpenCommercialSecondShiftQuota):
+                case ItemClass.Service.HealthCare when ai is SaunaAI:
                 case ItemClass.Service.Fishing when level == ItemClass.Level.Level1 && ai is MarketAI:
-                    if (workTime.IsDefault && workTime.WorkShifts == 1)
-                    {
-                        workTime.WorkShifts = 2;
-                        workTime.WorkAtNight = false;
-                        workTime.WorkAtWeekands = true;
-                        workTime.HasExtendedWorkShift = true;
-                        workTime.HasContinuousWorkShift = false;
-                        SetBuildingWorkTime(buildingId, workTime);
-                    }
-                    return;
+                    return ShiftCountToWorkTime(buildingInfo, 2);
 
-                case ItemClass.Service.Commercial when BuildingManagerConnection.IsHotel(buildingId):
-                case ItemClass.Service.Hotel when BuildingManagerConnection.IsHotel(buildingId):
-                    if (!workTime.WorkAtNight)
-                    {
-                        workTime.WorkShifts = 3;
-                        workTime.WorkAtNight = true;
-                        workTime.WorkAtWeekands = true;
-                        workTime.HasExtendedWorkShift = ShouldOccur(50);
-                        workTime.HasContinuousWorkShift = false;
-                        workTime.IsDefault = true;
-                        SetBuildingWorkTime(buildingId, workTime);
-                    }
-                    return;
-
-                case ItemClass.Service.Commercial when (subService == ItemClass.SubService.CommercialLeisure || subService == ItemClass.SubService.CommercialTourist) && !workTime.IgnorePolicy && workTime.IsDefault:
-                    bool isNoiseRestricted = BuildingManagerConnection.IsBuildingNoiseRestricted(buildingId);
-                    bool updated = false;
-                    if (isNoiseRestricted)
-                    {
-                        if (workTime.HasContinuousWorkShift)
-                        {
-                            if (workTime.WorkShifts == 2)
-                            {
-                                workTime.WorkShifts = 1;
-                                workTime.WorkAtNight = false;
-                                updated = true;
-                            }
-                        }
-                        else
-                        {
-                            if (workTime.WorkShifts == 3)
-                            {
-                                workTime.WorkShifts = 2;
-                                workTime.WorkAtNight = false;
-                                updated = true;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (workTime.HasContinuousWorkShift)
-                        {
-                            if (workTime.WorkShifts == 1)
-                            {
-                                workTime.WorkShifts = 2;
-                                workTime.WorkAtNight = true;
-                                updated = true;
-                            }
-                        }
-                        else
-                        {
-                            if (workTime.WorkShifts == 2)
-                            {
-                                workTime.WorkShifts = 3;
-                                workTime.WorkAtNight = true;
-                                updated = true;
-                            }
-                        }
-                    }
-                    if (updated)
-                    {
-                        SetBuildingWorkTime(buildingId, workTime);
-                    }
-                    return;
-
-                case ItemClass.Service.Water when ai is WaterFacilityAI waterFacilityAI && waterFacilityAI.RequireRoadAccess():
-                case ItemClass.Service.Electricity when ai is PowerPlantAI powerPlantAI && powerPlantAI.RequireRoadAccess():
-                    if (!workTime.WorkAtNight)
-                    {
-                        workTime.WorkShifts = 3;
-                        workTime.WorkAtNight = true;
-                        workTime.WorkAtWeekands = true;
-                        workTime.HasExtendedWorkShift = false;
-                        workTime.HasContinuousWorkShift = false;
-                        workTime.IsDefault = true;
-                        SetBuildingWorkTime(buildingId, workTime);
-                    }
-                    return;
-
+                case ItemClass.Service.Industrial:
+                case ItemClass.Service.Tourism:
+                case ItemClass.Service.Electricity:
+                case ItemClass.Service.Water:
+                case ItemClass.Service.HealthCare when level <= ItemClass.Level.Level3:
+                case ItemClass.Service.PoliceDepartment when subService != ItemClass.SubService.PoliceDepartmentBank:
+                case ItemClass.Service.FireDepartment:
+                case ItemClass.Service.PublicTransport when subService != ItemClass.SubService.PublicTransportPost:
+                case ItemClass.Service.Disaster:
+                case ItemClass.Service.Natural:
+                case ItemClass.Service.Garbage:
+                case ItemClass.Service.Road:
+                case ItemClass.Service.Hotel:
                 case ItemClass.Service.Race:
-                    if (!workTime.WorkAtNight)
-                    {
-                        workTime.WorkShifts = 3;
-                        workTime.WorkAtNight = true;
-                        workTime.WorkAtWeekands = true;
-                        workTime.HasExtendedWorkShift = false;
-                        workTime.HasContinuousWorkShift = false;
-                        workTime.IsDefault = true;
-                        SetBuildingWorkTime(buildingId, workTime);
-                    }
-                    return;
+                case ItemClass.Service.ServicePoint:
+                    return ShiftCountToWorkTime(buildingInfo, 3);
+
+                default:
+                    return ShiftCountToWorkTime(buildingInfo, 1);
             }
         }
 
@@ -629,46 +392,118 @@ namespace RealTime.Managers
             }
         }
 
-        private static bool ShouldOccur(uint probability) => SimulationManager.instance.m_randomizer.Int32(100u) < probability;
-
-        // has 3 normal shifts or 2 continous shifts
-        private static bool IsBuildingActiveAtNight(ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
+        public static WorkTime ShiftCountToWorkTime(BuildingInfo buildingInfo, int shiftCount)
         {
-            switch (subService)
+            var service = buildingInfo.m_class.m_service;
+            var subService = buildingInfo.m_class.m_subService;
+            var level = buildingInfo.m_class.m_level;
+
+            bool openOnWeekends = IsBuildingActiveOnWeekend(service, subService, level);
+            bool extendedShift = HasExtendedFirstWorkShift(service, subService, level);
+            bool continuousShift = HasContinuousWorkShift(service, subService, level, extendedShift);
+
+            DayOfWeek[] days;
+            if (openOnWeekends)
             {
-                case ItemClass.SubService.CommercialTourist:
-                case ItemClass.SubService.CommercialLeisure:
-                case ItemClass.SubService.CommercialLow when ShouldOccur(RealTimeMod.configProvider.Configuration.OpenLowCommercialAtNightQuota):
-                case ItemClass.SubService.IndustrialOil:
-                case ItemClass.SubService.IndustrialOre:
-                case ItemClass.SubService.PlayerIndustryOre:
-                case ItemClass.SubService.PlayerIndustryOil:
-                    return true;
+                days = [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday];
+            }
+            else
+            {
+                days = [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday];
             }
 
-            switch (service)
-            {
-                case ItemClass.Service.Industrial:
-                case ItemClass.Service.Tourism:
-                case ItemClass.Service.Electricity:
-                case ItemClass.Service.Water:
-                case ItemClass.Service.HealthCare when level <= ItemClass.Level.Level3:
-                case ItemClass.Service.PoliceDepartment when subService != ItemClass.SubService.PoliceDepartmentBank:
-                case ItemClass.Service.FireDepartment:
-                case ItemClass.Service.PublicTransport when subService != ItemClass.SubService.PublicTransportPost:
-                case ItemClass.Service.Disaster:
-                case ItemClass.Service.Natural:
-                case ItemClass.Service.Garbage:
-                case ItemClass.Service.Road:
-                case ItemClass.Service.Hotel:
-                case ItemClass.Service.Race:
-                case ItemClass.Service.ServicePoint:
-                    return true;
 
-                default:
-                    return false;
+            WorkShiftTime[] shifts;
+
+            if (shiftCount == 1)
+            {
+                shifts = continuousShift ? [new WorkShiftTime { StartHour = 8f, EndHour = 20f }] : [new WorkShiftTime { StartHour = extendedShift ? 7f : 8f, EndHour = 17f }];
             }
+            else if (shiftCount == 2)
+            {
+                shifts = continuousShift ? [new WorkShiftTime { StartHour = 8f, EndHour = 20f }, new WorkShiftTime { StartHour = 20f, EndHour = 8f }] :
+                    [new WorkShiftTime { StartHour = extendedShift ? 7f : 8f, EndHour = 17f }, new WorkShiftTime { StartHour = 17f, EndHour = 23f }];
+            }
+            else // shiftCount == 3
+            {
+                shifts =
+                [
+                    new WorkShiftTime { StartHour = 8f,  EndHour = 16f },
+                    new WorkShiftTime { StartHour = 16f, EndHour = 0f },
+                    new WorkShiftTime { StartHour = 0f,  EndHour = 8f  }
+                ];
+            }
+
+            return new WorkTime
+            {
+                WorkDays = days,
+                WorkShifts = shifts,
+                IsDefault = true,
+                IsPrefab = false,
+                IsGlobal = false,
+                IsLocked = false,
+                IgnorePolicy = false
+            };
         }
+
+        public static WorkTime LegacyToWorkTime(WorkTime workTime, bool openOnWeekends, bool extendedShift, bool continuousShift, int shiftCount)
+        {
+            workTime.WorkDays = GetWorkDays(openOnWeekends);
+            workTime.WorkShifts = GetShifts(extendedShift, continuousShift, shiftCount);
+
+            return workTime;
+        }
+
+        public static WorkTimePrefab LegacyToWorkTimePrefab(WorkTimePrefab workTime, bool openOnWeekends, bool extendedShift, bool continuousShift, int shiftCount)
+        {
+            workTime.WorkDays = GetWorkDays(openOnWeekends);
+            workTime.WorkShifts = GetShifts(extendedShift, continuousShift, shiftCount);
+
+            return workTime;
+        }
+
+        private static DayOfWeek[] GetWorkDays(bool openOnWeekends)
+        {
+            DayOfWeek[] days;
+            if (openOnWeekends)
+            {
+                days = [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday];
+            }
+            else
+            {
+                days = [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday];
+            }
+
+            return days;
+        }
+
+        private static WorkShiftTime[] GetShifts(bool extendedShift, bool continuousShift, int shiftCount)
+        {
+            WorkShiftTime[] shifts;
+
+            if (shiftCount == 1)
+            {
+                shifts = continuousShift ? [new WorkShiftTime { StartHour = 8f, EndHour = 20f }] : [new WorkShiftTime { StartHour = extendedShift ? 7f : 8f, EndHour = 17f }];
+            }
+            else if (shiftCount == 2)
+            {
+                shifts = continuousShift ? [new WorkShiftTime { StartHour = 8f, EndHour = 20f }, new WorkShiftTime { StartHour = 20f, EndHour = 8f }] :
+                    [new WorkShiftTime { StartHour = extendedShift ? 7f : 8f, EndHour = 17f }, new WorkShiftTime { StartHour = 17f, EndHour = 23f }];
+            }
+            else // shiftCount == 3
+            {
+                shifts =
+                [
+                    new WorkShiftTime { StartHour = 8f,  EndHour = 16f },
+                    new WorkShiftTime { StartHour = 16f, EndHour = 0f },
+                    new WorkShiftTime { StartHour = 0f,  EndHour = 8f  }
+                ];
+            }
+
+            return shifts;
+        }
+
+        private static bool ShouldOccur(uint probability) => SimulationManager.instance.m_randomizer.Int32(100u) < probability;
 
         private static bool IsBuildingActiveOnWeekend(ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
         {
@@ -746,45 +581,6 @@ namespace RealTime.Managers
 
                 default:
                     return false;
-            }
-        }
-
-        private static int GetBuildingWorkShiftCount(ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level, BuildingAI ai, bool activeAtNight, bool continuousWorkShift)
-        {
-            if (activeAtNight)
-            {
-                if (continuousWorkShift)
-                {
-                    return 2;
-                }
-                return 3;
-            }
-
-            switch (service)
-            {
-                case ItemClass.Service.Office:
-                case ItemClass.Service.Education when level == ItemClass.Level.Level1 || level == ItemClass.Level.Level2:
-                case ItemClass.Service.PlayerIndustry
-                    when subService == ItemClass.SubService.PlayerIndustryForestry || subService == ItemClass.SubService.PlayerIndustryFarming:
-                case ItemClass.Service.Industrial
-                    when subService == ItemClass.SubService.IndustrialForestry || subService == ItemClass.SubService.IndustrialFarming:
-                case ItemClass.Service.PoliceDepartment when subService == ItemClass.SubService.PoliceDepartmentBank:
-                case ItemClass.Service.PublicTransport when subService == ItemClass.SubService.PublicTransportPost:
-                    return 1;
-
-                case ItemClass.Service.Beautification:
-                case ItemClass.Service.Monument:
-                case ItemClass.Service.Citizen:
-                case ItemClass.Service.VarsitySports:
-                case ItemClass.Service.PlayerEducation:
-                case ItemClass.Service.Education when level == ItemClass.Level.Level3:
-                case ItemClass.Service.Commercial when ShouldOccur(RealTimeMod.configProvider.Configuration.OpenCommercialSecondShiftQuota):
-                case ItemClass.Service.HealthCare when ai is SaunaAI:
-                case ItemClass.Service.Fishing when level == ItemClass.Level.Level1 && ai is MarketAI:
-                    return 2;
-
-                default:
-                    return 1;
             }
         }
 

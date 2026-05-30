@@ -281,12 +281,7 @@
   <translation id="ScheduledMealType.Lunch" value="มื้อกลางวัน" />
   <translation id="ScheduledMealType.Supper" value="มื้อค่ำ" />
   <translation id="ScheduledMealType.Other" value="มื้อว่าง" />
-  <translation id="WorkShift.First" value="กะแรก" />
-  <translation id="WorkShift.Second" value="กะสอง" />
-  <translation id="WorkShift.Night" value="กะดึก" />
-  <translation id="WorkShift.ContinuousDay" value="กะกลางวันต่อเนื่อง" />
-  <translation id="WorkShift.ContinuousNight" value="กะกลางคืนต่อเนื่อง" />
-  <translation id="WorkShift.Event" value="กะพิเศษ" />
+  <translation id="WorkShift.Assigned" value="assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(ลาพักร้อน: {0} วัน)" />
 
   <translation id="AcademicYear.DaysLeft" value="เหลืออีก {0} วันจะจบปีการศึกษา" />

@@ -30,12 +30,10 @@ namespace RealTime.CustomAI
         /// Determines whether the building with the specified <paramref name="buildingId"/> is working or not
         /// </summary>
         /// <param name="buildingId">The building ID to check.</param>
-        /// <param name="timeBeforeWork">time before work the citizen can arrive without an issue.</param>
-        /// <param name="currentBuildingId">The building ID the citizen is currently in.</param>
         /// <returns>
         ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is working otherwise, <c>false</c>.
         /// </returns>
-        internal bool IsBuildingWorking(ushort buildingId, int timeBeforeWork = 0, ushort currentBuildingId = 0);
+        internal bool IsBuildingWorking(ushort buildingId);
 
         /// <summary>
         /// Get the number of workers currently working in the specified <paramref name="buildingId"/>
@@ -99,9 +97,10 @@ namespace RealTime.CustomAI
         /// Determines whether the building with the specified <paramref name="buildingId"/> is going to get closed in one houer or less
         /// </summary>
         /// <param name="buildingId">The building ID to check.</param>
+        /// <param name="timeBeforeClosing">The time before closing in hours, default is 2 hours.</param>
         /// <returns>
-        ///   <c>true</c> f the building with the specified <paramref name="buildingId"/> is going to get closed in one houer or less, <c>false</c>.
+        ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is going to get closed in the specified <paramref name="timeBeforeClosing"/> hours or less, <c>false</c>.
         /// </returns>
-        internal bool IsBuildingClosingSoon(ushort buildingId);
+        internal bool IsBuildingClosingSoon(ushort buildingId, int timeBeforeClosing = 2);
     }
 }

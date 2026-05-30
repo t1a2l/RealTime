@@ -56,7 +56,7 @@ namespace RealTime.CustomAI
             var age = CitizenProxy.GetAge(ref citizen);
             uint goingOutChance = schedule.ScheduledState == ResidentState.GoShopping
                 ? spareTimeBehavior.GetShoppingChance(age)
-                : spareTimeBehavior.GetRelaxingChance(age, schedule.WorkShift);
+                : spareTimeBehavior.GetRelaxingChance(age, schedule.WorkShiftStartHour, schedule.WorkShift);
 
             if (goingOutChance > 0)
             {

@@ -281,12 +281,7 @@
   <translation id="ScheduledMealType.Lunch" value="昼食" />
   <translation id="ScheduledMealType.Supper" value="夕食" />
   <translation id="ScheduledMealType.Other" value="軽食" />
-  <translation id="WorkShift.First" value="第1シフト" />
-  <translation id="WorkShift.Second" value="第2シフト" />
-  <translation id="WorkShift.Night" value="夜勤シフト" />
-  <translation id="WorkShift.ContinuousDay" value="常駐日勤" />
-  <translation id="WorkShift.ContinuousNight" value="常駐夜勤" />
-  <translation id="WorkShift.Event" value="イベントシフト" />
+  <translation id="WorkShift.Assigned" value="assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(休暇中：残り {0} 日)" />
 
   <translation id="AcademicYear.DaysLeft" value="残り {0} 日" />

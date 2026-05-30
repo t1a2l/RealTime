@@ -281,12 +281,7 @@
   <translation id="ScheduledMealType.Lunch" value="午餐" />
   <translation id="ScheduledMealType.Supper" value="晚餐" />
   <translation id="ScheduledMealType.Other" value="零食/宵夜" />
-  <translation id="WorkShift.First" value="第一班次" />
-  <translation id="WorkShift.Second" value="第二班次" />
-  <translation id="WorkShift.Night" value="夜班" />
-  <translation id="WorkShift.ContinuousDay" value="持续白班" />
-  <translation id="WorkShift.ContinuousNight" value="持续夜班" />
-  <translation id="WorkShift.Event" value="活动班次" />
+  <translation id="WorkShift.Assigned" value="assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(休假中：{0} 天)" />
 
   <translation id="AcademicYear.DaysLeft" value="还有 {0} 天结束" />

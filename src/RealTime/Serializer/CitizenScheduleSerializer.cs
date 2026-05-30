@@ -9,7 +9,7 @@ namespace RealTime.Serializer
 
     public class CitizenScheduleSerializer
     {
-        private const ushort iCITIZEN_SCHEDULE_DATA_VERSION = 1;
+        private const ushort iCITIZEN_SCHEDULE_DATA_VERSION = 2;
 
         private const uint uiTUPLE_START = 0xFEFEFEFE;
         private const uint uiTUPLE_END = 0xFAFAFAFA;
@@ -191,8 +191,19 @@ namespace RealTime.Serializer
                     var workShift = (WorkShift)StorageData.ReadInt32(chunkBytes, ref index);
                     float workShiftStartHour = StorageData.ReadFloat(chunkBytes, ref index);
                     float workShiftEndHour = StorageData.ReadFloat(chunkBytes, ref index);
-                    bool worksOnWeekends = StorageData.ReadBool(chunkBytes, ref index);
 
+                    int shiftIndex;
+                    if (chunkVersion >= 2)
+                    {
+                        shiftIndex = StorageData.ReadInt32(chunkBytes, ref index);
+                    }
+                    else
+                    {
+                        // In version 1, weekend work was stored as a boolean. In version 2, it's determined based on the building.
+                        bool _ = StorageData.ReadBool(chunkBytes, ref index);
+                        shiftIndex = -1; // Shift index is not available in version 1
+                    }
+                        
                     var schoolClass = (SchoolClass)StorageData.ReadInt32(chunkBytes, ref index);
                     float schoolClassStartHour = StorageData.ReadFloat(chunkBytes, ref index);
                     float schoolClassEndHour = StorageData.ReadFloat(chunkBytes, ref index);
@@ -200,14 +211,12 @@ namespace RealTime.Serializer
                     schedule.UpdateScheduleState(scheduledState, lastScheduledState, scheduledStateTime, scheduledMealType, lastScheduledMealType);
                     schedule.UpdateTravelTimeToWork(travelTimeToWork);
                     schedule.UpdateTravelTimeToSchool(travelTimeToSchool);
-                    schedule.UpdateWorkShift(workShift, workShiftStartHour, workShiftEndHour, worksOnWeekends);
+                    schedule.UpdateWorkShift(workShift, shiftIndex, workShiftStartHour, workShiftEndHour);
                     schedule.UpdateSchoolClass(schoolClass, schoolClassStartHour, schoolClassEndHour);
 
-                    if (schedule.WorkShift != WorkShift.Unemployed
-                        && schedule.WorkShift != WorkShift.Event
-                        && citizens[citizenId].m_workBuilding != 0)
+                    if (schedule.WorkShift == WorkShift.Assigned && citizens[citizenId].m_workBuilding != 0 && shiftIndex != -1)
                     {
-                        schedule.UpdateWorkShiftHours(schedule.WorkShift, citizens[citizenId].m_workBuilding);
+                        schedule.UpdateWorkShiftHours(schedule.WorkShift, shiftIndex, citizens[citizenId].m_workBuilding);
                     }
 
                     if (schedule.SchoolClass != SchoolClass.NoSchool)
@@ -276,7 +285,7 @@ namespace RealTime.Serializer
             StorageData.WriteInt32((int)schedule.WorkShift, Data);
             StorageData.WriteFloat(schedule.WorkShiftStartHour, Data);
             StorageData.WriteFloat(schedule.WorkShiftEndHour, Data);
-            StorageData.WriteBool(schedule.WorksOnWeekends, Data);
+            StorageData.WriteInt32(schedule.ShiftIndex, Data);
 
             StorageData.WriteInt32((int)schedule.SchoolClass, Data);
             StorageData.WriteFloat(schedule.SchoolClassStartHour, Data);

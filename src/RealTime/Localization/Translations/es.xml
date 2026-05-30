@@ -281,12 +281,7 @@
   <translation id="ScheduledMealType.Lunch" value="almuerzo" />
   <translation id="ScheduledMealType.Supper" value="cena" />
   <translation id="ScheduledMealType.Other" value="un tentempié" />
-  <translation id="WorkShift.First" value="1er turno" />
-  <translation id="WorkShift.Second" value="2º turno" />
-  <translation id="WorkShift.Night" value="Turno de noche" />
-  <translation id="WorkShift.ContinuousDay" value="Turno de día continuo" />
-  <translation id="WorkShift.ContinuousNight" value="Turno de noche continuo" />
-  <translation id="WorkShift.Event" value="Turno de evento" />
+  <translation id="WorkShift.Assigned" value="assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(vacaciones: {0} días)" />
 
   <translation id="AcademicYear.DaysLeft" value="Termina en {0} días" />

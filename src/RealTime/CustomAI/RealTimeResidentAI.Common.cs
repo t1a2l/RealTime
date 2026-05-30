@@ -3,6 +3,7 @@
 namespace RealTime.CustomAI
 {
     using System;
+    using System.Collections.Generic;
     using RealTime.Managers;
     using SkyTools.Tools;
     using static Constants;
@@ -325,9 +326,8 @@ namespace RealTime.CustomAI
                 if (schedule.WorkBuilding != workBuilding || workBuilding == 0 && schedule.WorkShift != WorkShift.Unemployed)
                 {
                     schedule.WorkBuilding = workBuilding;
-                    // for essential buildings
-                    var chosenWorkShift = SetWorkShift(workBuilding);
-                    workBehavior.UpdateWorkShift(ref schedule, CitizenProxy.GetAge(ref citizen), chosenWorkShift);   
+                    int chosenWorkShiftIndex = SetWorkShiftIndex(workBuilding);
+                    workBehavior.UpdateWorkShift(ref schedule, CitizenProxy.GetAge(ref citizen), chosenWorkShiftIndex);   
                     if (schedule.CurrentState == ResidentState.AtWork && schedule.ScheduledStateTime == default)
                     {
                         // When enabling for an existing game, the citizens that are working have no schedule yet
@@ -344,7 +344,7 @@ namespace RealTime.CustomAI
                         schedule.Schedule(ResidentState.Unknown);
                     }
 
-                    Log.Debug(LogCategory.Schedule, $"Updated work shifts for citizen {citizenId}: work shift {schedule.WorkShift}, {schedule.WorkShiftStartHour} - {schedule.WorkShiftEndHour}, weekends: {schedule.WorksOnWeekends}");
+                    Log.Debug(LogCategory.Schedule, $"Updated work shifts for citizen {citizenId}: work shift {schedule.ShiftIndex}, {schedule.WorkShiftStartHour} - {schedule.WorkShiftEndHour}");
                 }
             }
 
@@ -746,11 +746,11 @@ namespace RealTime.CustomAI
         }
 
         // set work shift to the shift with the minimum number of people 
-        public WorkShift SetWorkShift(ushort workBuildingId)
+        public int SetWorkShiftIndex(ushort workBuildingId)
         {
             if (workBuildingId == 0 || !IsEssentialService(workBuildingId))
             {
-                return WorkShift.Unemployed;
+                return -1;
             }
 
             uint[] workForce = buildingAI.GetBuildingWorkForce(workBuildingId);
@@ -763,7 +763,7 @@ namespace RealTime.CustomAI
             {
                 if (!BuildingWorkTimeManager.ShouldHaveBuildingWorkTime(workBuildingId))
                 {
-                    return WorkShift.Unemployed;
+                    return -1;
                 }
                 workTime = BuildingWorkTimeManager.CreateBuildingWorkTime(workBuildingId, building.Info);
             }
@@ -772,116 +772,37 @@ namespace RealTime.CustomAI
                 workTime = BuildingWorkTimeManager.GetBuildingWorkTime(workBuildingId);
             }
 
-            if (workTime.HasContinuousWorkShift)
+            if (workTime.WorkShifts == null || workTime.WorkShifts.Length == 0)
             {
-                int continuousDayShiftWorkers = 0;
-                int continuousNightShiftWorkers = 0;
+                return -1;
+            }
 
-                for (int i = 0; i < workForce.Length; i++)
+
+            // initialize one counter per shift, all starting at 0
+            int[] citizenPerShift = new int[workTime.WorkShifts.Length];
+
+            foreach (uint citizenId in workForce)
+            {
+                var schedule = GetCitizenSchedule(citizenId);
+                if (schedule.WorkShift == WorkShift.Assigned
+                    && schedule.ShiftIndex >= 0
+                    && schedule.ShiftIndex < citizenPerShift.Length)
                 {
-                    var citizen_schedule = GetCitizenSchedule(workForce[i]);
-                    switch (citizen_schedule.WorkShift)
-                    {
-                        case WorkShift.ContinuousDay:
-                            continuousDayShiftWorkers++;
-                            break;
-
-                        case WorkShift.ContinuousNight when workTime.WorkAtNight == true && workTime.WorkShifts == 2:
-                            continuousNightShiftWorkers++;
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-
-                if(workTime.WorkAtNight == true && workTime.WorkShifts == 2)
-                {
-                    int minShift = Math.Min(continuousDayShiftWorkers, continuousNightShiftWorkers);
-
-                    if (minShift == continuousNightShiftWorkers)
-                    {
-                        return WorkShift.ContinuousNight;
-                    }
-                    else
-                    {
-                        return WorkShift.ContinuousDay;
-                    }
-                }
-                else
-                {
-                    return WorkShift.ContinuousDay;
+                    citizenPerShift[schedule.ShiftIndex]++;
                 }
             }
-            else
+
+            // find the shift index with the fewest workers
+            int leastPopulatedIndex = 0;
+            for (int i = 1; i < citizenPerShift.Length; i++)
             {
-                int firstShiftWorkers = 0;
-                int secondShiftWorkers = 0;
-                int nightShiftWorkers = 0;
-
-                for (int i = 0; i < workForce.Length; i++)
+                if (citizenPerShift[i] < citizenPerShift[leastPopulatedIndex])
                 {
-                    var citizen_schedule = GetCitizenSchedule(workForce[i]);
-                    switch (citizen_schedule.WorkShift)
-                    {
-                        case WorkShift.First:
-                            firstShiftWorkers++;
-                            break;
-
-                        case WorkShift.Second when workTime.WorkShifts == 2 || workTime.WorkShifts == 3:
-                            secondShiftWorkers++;
-                            break;
-
-                        case WorkShift.Night when workTime.WorkAtNight == true && workTime.WorkShifts == 3:
-                            nightShiftWorkers++;
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-
-                if(workTime.WorkShifts == 1)
-                {
-                    return WorkShift.First;
-                }
-                else if (workTime.WorkShifts == 2)
-                {
-                    int minShift = Math.Min(firstShiftWorkers, secondShiftWorkers);
-                    if (minShift == firstShiftWorkers)
-                    {
-                        return WorkShift.First;
-                    }
-                    else 
-                    {
-                        return WorkShift.Second;
-                    }
-                }
-                else if (workTime.WorkShifts == 3 && workTime.WorkAtNight)
-                {
-                    int minShift = Math.Min(Math.Min(firstShiftWorkers, secondShiftWorkers), nightShiftWorkers);
-                    if (minShift == firstShiftWorkers)
-                    {
-                        return WorkShift.First;
-                    }
-                    else if (minShift == secondShiftWorkers)
-                    {
-                        return WorkShift.Second;
-                    }
-                    else if (minShift == nightShiftWorkers)
-                    {
-                        return WorkShift.Night;
-                    }
-                    else
-                    {
-                        return WorkShift.First;
-                    }
-                }
-                else
-                {
-                    return WorkShift.First;
+                    leastPopulatedIndex = i;
                 }
             }
+
+            return leastPopulatedIndex;
         }
     }
 }

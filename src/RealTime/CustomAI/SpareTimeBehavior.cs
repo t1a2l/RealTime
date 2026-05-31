@@ -114,13 +114,13 @@ namespace RealTime.CustomAI
         /// </summary>
         ///
         /// <param name="citizenAge">The age of the citizen to check.</param>
-        /// <param name="startHour">The citizen's assigned work shift start hour (ignored if the citizen is unemployed, default is 0).</param>
+        /// <param name="startHour">The citizen's assigned work shift start hour (ignored if the citizen is unemployed, default is -1).</param>
         /// <param name="workShift">The citizen's assigned work shift (default is <see cref="WorkShift.Unemployed"/>).</param>
         /// <param name="isOnVacation"><c>true</c> if the citizen is on vacation.</param>
         ///
         /// <returns>A percentage value in range of 0..100 that describes the probability whether
         /// a citizen with specified age would go relaxing on current time.</returns>
-        public uint GetRelaxingChance(Citizen.AgeGroup citizenAge, float startHour, WorkShift workShift = WorkShift.Unemployed,  bool isOnVacation = false)
+        public uint GetRelaxingChance(Citizen.AgeGroup citizenAge, float startHour = -1, WorkShift workShift = WorkShift.Unemployed,  bool isOnVacation = false)
         {
             if (isOnVacation)
             {
@@ -150,7 +150,7 @@ namespace RealTime.CustomAI
             if(config.DummyTrafficBehavior)
             {
                 // Using the relaxing chance of an adult as base value - seems to be reasonable.
-                int chance = (int)GetRelaxingChance(Citizen.AgeGroup.Adult, -1, WorkShift.Unemployed, false);
+                int chance = (int)GetRelaxingChance(Citizen.AgeGroup.Adult);
                 probability = probability * chance * chance / 10_000;
                 return probability;
             }

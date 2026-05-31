@@ -463,7 +463,7 @@ namespace RealTime.CustomAI
                 case TouristTarget.Party:
                 case TouristTarget.Relaxing:
                 case TouristTarget.VisitNature:
-                    return spareTimeBehavior.GetRelaxingChance(age, -1);
+                    return spareTimeBehavior.GetRelaxingChance(age);
 
                 case TouristTarget.BusinessAppointment:
                     return spareTimeBehavior.GetBusinessAppointmentChance(age);
@@ -575,7 +575,7 @@ namespace RealTime.CustomAI
             // Nighttime: Food 35%, Party 35%, Shopping 30%
             int shoppingWeight = (int)spareTimeBehavior.GetShoppingChance(age);
             int foodWeight = (int)spareTimeBehavior.GetEatingOutChance(age);
-            int entWeight = (int)spareTimeBehavior.GetRelaxingChance(age, -1);
+            int entWeight = (int)spareTimeBehavior.GetRelaxingChance(age);
 
             if (isNightTime)
             {

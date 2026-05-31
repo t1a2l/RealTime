@@ -463,7 +463,7 @@ namespace RealTime.CustomAI
                 case TouristTarget.Party:
                 case TouristTarget.Relaxing:
                 case TouristTarget.VisitNature:
-                    return spareTimeBehavior.GetRelaxingChance(age);
+                    return spareTimeBehavior.GetRelaxingChance(age, -1);
 
                 case TouristTarget.BusinessAppointment:
                     return spareTimeBehavior.GetBusinessAppointmentChance(age);

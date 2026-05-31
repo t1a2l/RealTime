@@ -575,7 +575,7 @@ namespace RealTime.CustomAI
             // Nighttime: Food 35%, Party 35%, Shopping 30%
             int shoppingWeight = (int)spareTimeBehavior.GetShoppingChance(age);
             int foodWeight = (int)spareTimeBehavior.GetEatingOutChance(age);
-            int entWeight = (int)spareTimeBehavior.GetRelaxingChance(age);
+            int entWeight = (int)spareTimeBehavior.GetRelaxingChance(age, -1);
 
             if (isNightTime)
             {

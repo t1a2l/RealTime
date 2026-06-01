@@ -8,9 +8,8 @@ namespace RealTime.Managers
     using ColossalFramework;
     using RealTime.Core;
     using RealTime.GameConnection;
-    using static RealTime.Managers.BuildingWorkTimeManager;
 
-    internal static class BuildingWorkTimeManager
+    public static class BuildingWorkTimeManager
     {
         public static Dictionary<ushort, WorkTime> BuildingsWorkTime;
 
@@ -98,6 +97,9 @@ namespace RealTime.Managers
                 startHour = StartHour;
                 endHour = EndHour;
             }
+
+            /// <summary>Returns true if this shift has a non-zero duration.</summary>
+            public readonly bool IsValid => StartHour != EndHour;
         }
 
         public static void Init()
@@ -462,7 +464,7 @@ namespace RealTime.Managers
             return workTime;
         }
 
-        private static DayOfWeek[] GetWorkDays(bool openOnWeekends)
+        public static DayOfWeek[] GetWorkDays(bool openOnWeekends)
         {
             DayOfWeek[] days;
             if (openOnWeekends)
@@ -477,7 +479,7 @@ namespace RealTime.Managers
             return days;
         }
 
-        private static WorkShiftTime[] GetShifts(bool extendedShift, bool continuousShift, int shiftCount)
+        public static WorkShiftTime[] GetShifts(bool extendedShift, bool continuousShift, int shiftCount)
         {
             WorkShiftTime[] shifts;
 

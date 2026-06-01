@@ -1,5 +1,7 @@
 namespace RealTime.UI
 {
+    using System;
+    using System.Collections.Generic;
     using ColossalFramework;
     using ColossalFramework.UI;
     using RealTime.Config;
@@ -13,33 +15,47 @@ namespace RealTime.UI
 
     internal class BuildingOperationHoursPanel : UIPanel
     {
-        private UIPanel m_innerPanel;
+        // ── Sub-panels ──────────────────────────────────────────────────
+        private UIPanel m_headerRow;          // title + status + lock btn
+        private UIPanel m_daysRow;            // 7 day toggle buttons
+        private UIPanel m_shiftsSummaryRow;   // read-only shift summary labels
+        private UIPanel m_actionRow;          // Save / Return / Apply buttons
+        private UIPanel m_dangerRow;          // Set/Delete Prefab/Global buttons
+
+        private UILabel m_activeDaysLabel;
+
+        // ── Day buttons (array, not 7 fields) ───────────────────────────
+        private readonly bool[] m_activeDays = new bool[7];
+
+        // ── Day buttons (array, not 7 fields) ───────────────────────────
+        private static readonly DayOfWeek[] DayOrder =
+        [
+            DayOfWeek.Sunday, DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday,
+            DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday
+        ];
+
+        private UIButton[] m_dayButtons; // indexed by DayOrder position
+
+        // ── Shift rows (array of row structs) ───────────────────────────
+        private ShiftRow[] m_shiftRows;  // up to MaxShifts = 5
+        private UIButton m_addShiftBtn;
+
+        // ── Header controls ─────────────────────────────────────────────
         private UILabel m_settingsTitle;
         private UILabel m_settingsStatus;
+        private UIPanel m_innerPanel;
+        internal UIButton m_unlockSettingsBtn;
+        internal UIButton m_lockUnlockChangesBtn;
 
-        internal UICheckBox m_workAtNight;
-        internal UICheckBox m_workAtWeekands;
-        internal UICheckBox m_hasExtendedWorkShift;
-        internal UICheckBox m_hasContinuousWorkShift;
-        internal UICheckBox m_ignorePolicy;
-
-        internal UILabel m_workShiftsLabel;
-        internal UISlider m_workShifts;
-        internal UILabel m_workShiftsCount;
-
+        // ── Action buttons ───────────────────────────────────────────────
         internal UIButton m_saveBuildingSettingsBtn;
         internal UIButton m_returnToDefaultBtn;
         internal UIButton m_applyPrefabSettingsBtn;
         internal UIButton m_applyGlobalSettingsBtn;
-
         internal UIButton m_setPrefabSettingsBtn;
         internal UIButton m_setGlobalSettingsBtn;
-
         internal UIButton m_deletePrefabSettingsBtn;
         internal UIButton m_deleteGlobalSettingsBtn;
-
-        internal UIButton m_unlockSettingsBtn;
-        internal UIButton m_lockUnlockChangesBtn;
 
         private string t_defaultSettingsStatus;
         private string t_buildingSettingsStatus;
@@ -54,6 +70,52 @@ namespace RealTime.UI
         private string t_confirmPanelDeleteGlobalTitle;
         private string t_confirmPanelDeleteGlobalText;
 
+        private static readonly string[] DayTranslationKeys =
+        {
+            TranslationKeys.Sunday,
+            TranslationKeys.Monday,
+            TranslationKeys.Tuesday,
+            TranslationKeys.Wednesday,
+            TranslationKeys.Thursday,
+            TranslationKeys.Friday,
+            TranslationKeys.Saturday
+        };
+
+        // ────────────────────────────────────────────────────────────────
+        //  Nested type: one shift row's worth of controls
+        // ────────────────────────────────────────────────────────────────
+        private sealed class ShiftRow
+        {
+            public UIPanel Panel;
+            public UILabel IndexLabel;   // "Shift 1", "Shift 2", etc.
+            public UITextField StartField;  // "08:00"
+            public UITextField EndField;    // "17:00"
+            public UIButton RemoveBtn;    // ×
+
+            public bool IsVisible
+            {
+                get => Panel.isVisible;
+                set => Panel.isVisible = value;
+            }
+
+            public BuildingWorkTimeManager.WorkShiftTime GetEntry() => new()
+            {
+                StartHour = ParseHour(StartField.text),
+                EndHour = ParseHour(EndField.text),
+            };
+
+            public void SetEntry(int index, BuildingWorkTimeManager.WorkShiftTime entry)
+            {
+                IndexLabel.text = $"Shift {index + 1}";
+                StartField.text = FormatHour(entry.StartHour);
+                EndField.text = FormatHour(entry.EndHour);
+                IsVisible = entry.IsValid;
+            }
+
+            private static float ParseHour(string s) => float.TryParse(s, out float h) ? h : 0f;
+            private static string FormatHour(float h) => $"{(int)h:D2}:{(int)(h % 1 * 60):D2}";
+        }
+
         public override void Awake()
         {
             base.Awake();
@@ -65,6 +127,18 @@ namespace RealTime.UI
             height = 470f;
             width = 510f;
 
+            CreateHeader();
+            CreateDaysRow();
+            CreateShiftRows();
+            CreateActionButtons();
+            CreateDangerButtons();
+
+            SetAllControlsToDisabled();
+        }
+
+        private void CreateHeader()
+        {
+            // ----------------------------------  settings ----------------------------------
             m_settingsTitle = UILabels.CreateLabel(this, "SettingsTitle", "", "");
             m_settingsTitle.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_settingsTitle.textAlignment = UIHorizontalAlignment.Center;
@@ -72,166 +146,126 @@ namespace RealTime.UI
             m_settingsTitle.relativePosition = new Vector3(130f, 20f);
             m_settingsTitle.textScale = 1.2f;
 
+
+            // status label that shows if the current settings are default, building specific, prefab specific or global specific
             m_settingsStatus = UILabels.CreateLabel(this, "SettingsStatus", "", "");
             m_settingsStatus.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_settingsStatus.textAlignment = UIHorizontalAlignment.Center;
             m_settingsStatus.textColor = new Color32(240, 190, 199, 255);
-            m_settingsStatus.relativePosition = new Vector3(110f, 95f);
+            m_settingsStatus.relativePosition = new Vector3(110f, 55f);
             m_settingsStatus.textScale = 0.9f;
 
-            m_workAtNight = UICheckBoxes.CreateCheckBox(this, "WorkAtNight", "", "", false);
-            m_workAtNight.width = 110f;
-            m_workAtNight.label.textColor = new Color32(185, 221, 254, 255);
-            m_workAtNight.label.textScale = 0.8125f;
-            m_workAtNight.relativePosition = new Vector3(30f, 130f);
-            m_workAtNight.eventCheckChanged += (component, value) =>
-            {
-                m_workAtNight.isChecked = value;
-                UpdateSlider();
-            };
-            
-            m_workAtWeekands = UICheckBoxes.CreateCheckBox(this, "WorkAtWeekands", "", "", false);
-            m_workAtWeekands.width = 110f;
-            m_workAtWeekands.label.textColor = new Color32(185, 221, 254, 255);
-            m_workAtWeekands.label.textScale = 0.8125f;   
-            m_workAtWeekands.relativePosition = new Vector3(30f, 170f);
-            m_workAtWeekands.eventCheckChanged += (component, value) => m_workAtWeekands.isChecked = value;
 
-            m_hasExtendedWorkShift = UICheckBoxes.CreateCheckBox(this, "HasExtendedWorkShift", "", "", false);
-            m_hasExtendedWorkShift.width = 110f;
-            m_hasExtendedWorkShift.label.textColor = new Color32(185, 221, 254, 255);
-            m_hasExtendedWorkShift.label.textScale = 0.8125f;
-            m_hasExtendedWorkShift.relativePosition = new Vector3(30f, 210f);
-            m_hasExtendedWorkShift.eventCheckChanged += (component, value) =>
-            {
-                m_hasExtendedWorkShift.isChecked = value;
-                if (m_hasExtendedWorkShift.isChecked)
-                {
-                    m_hasContinuousWorkShift.isChecked = false;
-                }
-                UpdateSlider();
-            };
-
-            m_hasContinuousWorkShift = UICheckBoxes.CreateCheckBox(this, "HasContinuousWorkShift", "", "", false);
-            m_hasContinuousWorkShift.width = 110f;
-            m_hasContinuousWorkShift.label.textColor = new Color32(185, 221, 254, 255);
-            m_hasContinuousWorkShift.label.textScale = 0.8125f;       
-            m_hasContinuousWorkShift.relativePosition = new Vector3(30f, 250f);
-            m_hasContinuousWorkShift.eventCheckChanged += (component, value) =>
-            {
-                m_hasContinuousWorkShift.isChecked = value;
-                if (m_hasContinuousWorkShift.isChecked)
-                {
-                    m_hasExtendedWorkShift.isChecked = false;
-                }
-                UpdateSlider();
-            };
-
-            m_ignorePolicy = UICheckBoxes.CreateCheckBox(this, "IgnorePolicy", "", "", false);
-            m_ignorePolicy.width = 110f;
-            m_ignorePolicy.label.textColor = new Color32(185, 221, 254, 255);
-            m_ignorePolicy.label.textScale = 0.8125f; 
-            m_ignorePolicy.relativePosition = new Vector3(30f, 290f);
-            m_ignorePolicy.eventCheckChanged += (component, value) =>
-            {
-                m_ignorePolicy.isChecked = value;
-                UpdateSlider();
-            };
-
+            // ----------------------------------  settings container ----------------------------------
             m_innerPanel = UIPanels.CreatePanel(this, "OperationHoursInnerPanel");
             m_innerPanel.backgroundSprite = "GenericPanelLight";
             m_innerPanel.color = new Color32(206, 206, 206, 255);
             m_innerPanel.size = new Vector2(235f, 66f);
             m_innerPanel.relativePosition = new Vector3(15f, 322f);
 
-            m_workShiftsLabel = UILabels.CreateLabel(m_innerPanel, "WorkShiftsTitle", "", "");
-            m_workShiftsLabel.font = UIFonts.GetUIFont("OpenSans-Regular");
-            m_workShiftsLabel.textAlignment = UIHorizontalAlignment.Center;
-            m_workShiftsLabel.relativePosition = new Vector3(10f, 10f);
 
-            m_workShifts = UISliders.CreateSlider(m_innerPanel, "ShiftCount", "", 1, 3, 1, 1);
-            m_workShifts.size = new Vector2(130f, 8f);
-            m_workShifts.relativePosition = new Vector3(25f, 48f);
-            m_workShifts.disabledColor = Color.black;
-            m_workShifts.eventValueChanged += (component, value) =>
-            {
-                if (m_workShiftsCount != null)
-                {
-                    if (value == -1)
-                    {
-                        value = 1;
-                    }
-                    m_workShiftsCount.text = value.ToString();
-                }
-            };
-
-            m_workShiftsCount = UILabels.CreateLabel(m_innerPanel, "OperationHoursInnerCount", "", "");
-            m_workShiftsCount.textAlignment = UIHorizontalAlignment.Right;
-            m_workShiftsCount.verticalAlignment = UIVerticalAlignment.Top;
-            m_workShiftsCount.textColor = new Color32(185, 221, 254, 255);
-            m_workShiftsCount.textScale = 1f;
-            m_workShiftsCount.autoSize = false;
-            m_workShiftsCount.size = new Vector2(30f, 16f);
-            m_workShiftsCount.relativePosition = new Vector3(150f, 44f);
-
-            m_saveBuildingSettingsBtn = UIButtons.CreateButton(this, 260f, 120f, "SaveBuildingSettings", "", "");
-            m_saveBuildingSettingsBtn.eventClicked += SaveBuildingSettings;
-
-            m_returnToDefaultBtn = UIButtons.CreateButton(this, 260f, 170f, "ReturnToDefault", "", "");
-            m_returnToDefaultBtn.eventClicked += ReturnToDefault;
-
-            m_applyPrefabSettingsBtn = UIButtons.CreateButton(this, 260f, 220f, "ApplyPrefabSettings", "", "");
-            m_applyPrefabSettingsBtn.eventClicked += ApplyPrefabSettings;
-
-            m_applyGlobalSettingsBtn = UIButtons.CreateButton(this, 260f, 270f, "ApplyGlobalSettings", "", "");
-            m_applyGlobalSettingsBtn.eventClicked += ApplyGlobalSettings;
-
-            m_setPrefabSettingsBtn = UIButtons.CreateButton(this, 260f, 320f, "SetPrefabSettings", "", "");
-            m_setPrefabSettingsBtn.eventClicked += SetPrefabSettings;
-
-            m_setGlobalSettingsBtn = UIButtons.CreateButton(this, 260f, 370f, "SetGlobalSettings", "", "");
-            m_setGlobalSettingsBtn.eventClicked += SetGlobalSettings;
-
-            m_deletePrefabSettingsBtn = UIButtons.CreateButton(this, 15f, 420f, "DeletePrefabSettings", "", "");
-            m_deletePrefabSettingsBtn.eventClicked += DeletePrefabSettings;
-
-            m_deleteGlobalSettingsBtn = UIButtons.CreateButton(this, 260f, 420f, "DeleteGlobalSettings", "", "");
-            m_deleteGlobalSettingsBtn.eventClicked += DeleteGlobalSettings;
-
-            m_unlockSettingsBtn = UIButtons.CreateButton(this, 130f, 55f, "UnlockSettings", "", "");
+            // unlock settings button
+            m_unlockSettingsBtn = UIButtons.CreateButton(this, 0f, 20f, "UnlockSettings", "", "", 100f);
             m_unlockSettingsBtn.eventClicked += UnlockSettings;
 
-            m_lockUnlockChangesBtn = UIButtons.CreateButton(this, 10f, 55f, "LockUnLockChanges", "", "", 32, 32);
 
+            // lock/unlock changes button
+            m_lockUnlockChangesBtn = UIButtons.CreateButton(this, 250f, 20f, "LockUnLockChanges", "", "", 32, 32);
             m_lockUnlockChangesBtn.atlas = TextureUtils.GetAtlas("LockButtonAtlas");
             m_lockUnlockChangesBtn.normalFgSprite = "UnLock";
             m_lockUnlockChangesBtn.disabledFgSprite = "UnLock";
             m_lockUnlockChangesBtn.focusedFgSprite = "UnLock";
             m_lockUnlockChangesBtn.hoveredFgSprite = "UnLock";
             m_lockUnlockChangesBtn.pressedFgSprite = "UnLock";
-
             m_lockUnlockChangesBtn.eventClicked += LockUnlockChanges;
-
-            m_workAtNight.Disable();
-            m_workAtWeekands.Disable();
-            m_hasExtendedWorkShift.Disable();
-            m_hasContinuousWorkShift.Disable();
-            m_ignorePolicy.Disable();
-            m_workShifts.Disable();
-
-            m_saveBuildingSettingsBtn.Disable();
-            m_returnToDefaultBtn.Disable();
-            m_applyPrefabSettingsBtn.Disable();
-            m_applyGlobalSettingsBtn.Disable();
-            m_setPrefabSettingsBtn.Disable();
-            m_setGlobalSettingsBtn.Disable();
-            m_deletePrefabSettingsBtn.Disable();
-            m_deleteGlobalSettingsBtn.Disable();
-
-            isVisible = false;
         }
 
-        public override void Start() => base.Start();
+        private void CreateDaysRow()
+        {
+            m_dayButtons = new UIButton[7];
+            for (int i = 0; i < DayOrder.Length; i++)
+            {
+                int idx = i; // capture for lambda
+                var day = DayOrder[i];
+                var btn = UIButtons.CreateButton(this, 10f + i * 70f, 120f, DayTranslationKeys[i].ToString(), "", "", 60f);
+
+                btn.normalBgSprite = "ButtonMenu";
+                btn.pressedBgSprite = "ButtonMenuFocused";
+                btn.focusedBgSprite = "ButtonMenuFocused";
+                btn.color = new Color32(100, 110, 140, 255);
+                btn.textColor = new Color32(80, 88, 120, 255);
+
+                btn.eventClicked += (c, _) =>
+                {
+                    m_activeDays[idx] = !m_activeDays[idx];
+                    ApplyToggleVisual((UIButton)c, m_activeDays[idx]);
+                    ((UIButton)c).stringUserData = m_activeDays[idx] ? "1" : "0";
+                };
+
+                m_dayButtons[idx] = btn;
+            }
+        }
+
+        private void CreateShiftRows()
+        {
+            m_shiftRows = new ShiftRow[5];
+            for (int i = 0; i < 5; i++)
+            {
+                float y = 180f + i * 36f;
+                var row = new ShiftRow
+                {
+                    Panel = UIPanels.CreatePanel(this, $"ShiftRow_{i}")
+                };
+                row.Panel.size = new Vector2(480f, 30f);
+                row.Panel.relativePosition = new Vector3(15f, y);
+
+                row.IndexLabel = UILabels.CreateLabel(row.Panel, $"ShiftLabel_{i}", "", "");
+                row.StartField = /* UITextField creation */ null;
+                row.EndField = /* UITextField creation */ null;
+                row.RemoveBtn = UIButtons.CreateButton(row.Panel, 440f, 0f, $"RemoveShift_{i}", "×", "", 28f);
+
+                int captured = i;
+                row.RemoveBtn.eventClicked += (_, __) => RemoveShift(captured);
+
+                row.IsVisible = false;  // hidden until AddShift is clicked
+                m_shiftRows[i] = row;
+            }
+
+            m_addShiftBtn = UIButtons.CreateButton(this, 15f, 180f + 5 * 36f, "AddShift", "+ Add Shift", "", 480f);
+            m_addShiftBtn.eventClicked += (_, __) => AddShift();
+        }
+
+        /* Save, ReturnToDefault, ApplyPrefab, ApplyGlobal */
+        private void CreateActionButtons()
+        {
+            m_saveBuildingSettingsBtn = UIButtons.CreateButton(this, 260f, 120f, "SaveBuildingSettings", "", "", 460f);
+            m_saveBuildingSettingsBtn.eventClicked += SaveBuildingSettings;
+
+            m_returnToDefaultBtn = UIButtons.CreateButton(this, 0f, 320f, "ReturnToDefault", "", "", 100f);
+            m_returnToDefaultBtn.eventClicked += ReturnToDefault;
+
+            m_applyPrefabSettingsBtn = UIButtons.CreateButton(this, 110f, 320f, "ApplyPrefabSettings", "", "", 100f);
+            m_applyPrefabSettingsBtn.eventClicked += ApplyPrefabSettings;
+
+            m_applyGlobalSettingsBtn = UIButtons.CreateButton(this, 220f, 320f, "ApplyGlobalSettings", "", "", 100f);
+            m_applyGlobalSettingsBtn.eventClicked += ApplyGlobalSettings;
+        }
+
+        /* SetPrefab, SetGlobal, DeletePrefab, DeleteGlobal */
+        private void CreateDangerButtons()
+        {
+            m_setPrefabSettingsBtn = UIButtons.CreateButton(this, 0f, 520f, "SetPrefabSettings", "", "");
+            m_setPrefabSettingsBtn.eventClicked += SetPrefabSettings;
+
+            m_setGlobalSettingsBtn = UIButtons.CreateButton(this, 240f, 520f, "SetGlobalSettings", "", "");
+            m_setGlobalSettingsBtn.eventClicked += SetGlobalSettings;
+
+            m_deletePrefabSettingsBtn = UIButtons.CreateButton(this, 0f, 720f, "DeletePrefabSettings", "", "");
+            m_deletePrefabSettingsBtn.eventClicked += DeletePrefabSettings;
+
+            m_deleteGlobalSettingsBtn = UIButtons.CreateButton(this, 240f, 720f, "DeleteGlobalSettings", "", "");
+            m_deleteGlobalSettingsBtn.eventClicked += DeleteGlobalSettings;
+        }
 
         public void UpdateData(float panelHeight, ILocalizationProvider localizationProvider)
         {
@@ -242,43 +276,43 @@ namespace RealTime.UI
         private void Translate(ILocalizationProvider localizationProvider)
         {
             m_settingsTitle.text = localizationProvider.Translate(TranslationKeys.SettingsTitle);
-            m_workAtNight.text = localizationProvider.Translate(TranslationKeys.WorkAtNight);
-            m_workAtNight.tooltip = localizationProvider.Translate(TranslationKeys.WorkAtNightTooltip);
-            m_workAtWeekands.text = localizationProvider.Translate(TranslationKeys.WorkAtWeekands);
-            m_workAtWeekands.tooltip = localizationProvider.Translate(TranslationKeys.WorkAtWeekandsTooltip);
-            m_hasExtendedWorkShift.text = localizationProvider.Translate(TranslationKeys.HasExtendedWorkShift);
-            m_hasExtendedWorkShift.tooltip = localizationProvider.Translate(TranslationKeys.HasExtendedWorkShiftTooltip);
-            m_hasContinuousWorkShift.text = localizationProvider.Translate(TranslationKeys.HasContinuousWorkShift);
-            m_hasContinuousWorkShift.tooltip = localizationProvider.Translate(TranslationKeys.HasContinuousWorkShiftTooltip);
-            m_ignorePolicy.text = localizationProvider.Translate(TranslationKeys.IgnorePolicy);
-            m_ignorePolicy.tooltip = localizationProvider.Translate(TranslationKeys.IgnorePolicyTooltip);
-            m_workShiftsLabel.text = localizationProvider.Translate(TranslationKeys.ShiftCountTitle);
-            m_workShifts.tooltip = localizationProvider.Translate(TranslationKeys.ShiftCountTooltip);
+
+            t_defaultSettingsStatus = localizationProvider.Translate(TranslationKeys.DefaultSettingsStatus);
+            t_buildingSettingsStatus = localizationProvider.Translate(TranslationKeys.BuildingSettingsStatus);
+            t_prefabSettingsStatus = localizationProvider.Translate(TranslationKeys.PrefabSettingsStatus);
+            t_globalSettingsStatus = localizationProvider.Translate(TranslationKeys.GlobalSettingsStatus);
+
+            m_unlockSettingsBtn.text = localizationProvider.Translate(TranslationKeys.UnlockSettings);
+            m_unlockSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.UnlockSettingsTooltip);
+            m_lockUnlockChangesBtn.tooltip = localizationProvider.Translate(TranslationKeys.LockUnlockChangesTooltip);
+
+            m_activeDaysLabel.text = localizationProvider.Translate(TranslationKeys.ActiveDays);
+
+            foreach (var btn in m_dayButtons)
+            {
+                btn.text = localizationProvider.Translate(btn.name);
+                btn.tooltip = localizationProvider.Translate(btn.name + "Tooltip");
+            }
 
             m_saveBuildingSettingsBtn.text = localizationProvider.Translate(TranslationKeys.SaveBuildingSettings);
             m_saveBuildingSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.SaveBuildingSettingsTooltip);
+
             m_returnToDefaultBtn.text = localizationProvider.Translate(TranslationKeys.ReturnToDefault);
             m_returnToDefaultBtn.tooltip = localizationProvider.Translate(TranslationKeys.ReturnToDefaultTooltip);
             m_applyPrefabSettingsBtn.text = localizationProvider.Translate(TranslationKeys.ApplyPrefabSettings);
             m_applyPrefabSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.ApplyPrefabSettingsTooltip);
             m_applyGlobalSettingsBtn.text = localizationProvider.Translate(TranslationKeys.ApplyGlobalSettings);
             m_applyGlobalSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.ApplyGlobalSettingsTooltip);
+
             m_setPrefabSettingsBtn.text = localizationProvider.Translate(TranslationKeys.SetPrefabSettings);
             m_setPrefabSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.SetPrefabSettingsTooltip);
             m_setGlobalSettingsBtn.text = localizationProvider.Translate(TranslationKeys.SetGlobalSettings);
             m_setGlobalSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.SetGlobalSettingsTooltip);
+
             m_deletePrefabSettingsBtn.text = localizationProvider.Translate(TranslationKeys.DeletePrefabSettings);
             m_deletePrefabSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.DeletePrefabSettingsTooltip);
             m_deleteGlobalSettingsBtn.text = localizationProvider.Translate(TranslationKeys.DeleteGlobalSettings);
             m_deleteGlobalSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.DeleteGlobalSettingsTooltip);
-            m_unlockSettingsBtn.text = localizationProvider.Translate(TranslationKeys.UnlockSettings);
-            m_unlockSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.UnlockSettingsTooltip);
-            m_lockUnlockChangesBtn.tooltip = localizationProvider.Translate(TranslationKeys.LockUnlockChangesTooltip);
-
-            t_defaultSettingsStatus = localizationProvider.Translate(TranslationKeys.DefaultSettingsStatus);
-            t_buildingSettingsStatus = localizationProvider.Translate(TranslationKeys.BuildingSettingsStatus);
-            t_prefabSettingsStatus = localizationProvider.Translate(TranslationKeys.PrefabSettingsStatus);
-            t_globalSettingsStatus = localizationProvider.Translate(TranslationKeys.GlobalSettingsStatus);
 
             t_confirmPanelSetPrefabTitle = localizationProvider.Translate(TranslationKeys.ConfirmPanelSetPrefabTitle);
             t_confirmPanelSetPrefabText = localizationProvider.Translate(TranslationKeys.ConfirmPanelSetPrefabText);
@@ -293,12 +327,10 @@ namespace RealTime.UI
 
         private void UnlockSettings(UIComponent c, UIMouseEventParameter eventParameter)
         {
-            m_workAtNight.Enable();
-            m_workAtWeekands.Enable();
-            m_hasExtendedWorkShift.Enable();
-            m_hasContinuousWorkShift.Enable();
-            m_ignorePolicy.Enable();
-            m_workShifts.Enable();
+            foreach (var btn in m_dayButtons)
+            {
+                btn.Enable();
+            }
 
             m_saveBuildingSettingsBtn.Enable();
             m_returnToDefaultBtn.Enable();
@@ -335,49 +367,6 @@ namespace RealTime.UI
             m_unlockSettingsBtn.Hide();
         }
 
-        private void UpdateSlider()
-        {
-            if (m_hasContinuousWorkShift.isChecked)
-            {
-                if (m_workAtNight.isChecked)
-                {
-                    m_workShifts.maxValue = 2;
-                    m_workShifts.minValue = 2;
-                    m_workShifts.value = 2;
-                    m_workShiftsCount.text = "2";
-                    m_workShifts.Disable();
-                }
-                else
-                {
-                    m_workShifts.maxValue = 1;
-                    m_workShifts.minValue = 1;
-                    m_workShiftsCount.text = "1";
-                    m_workShifts.value = 1;
-                    m_workShifts.Disable();
-                }
-            }
-            else
-            {
-                if (m_workAtNight.isChecked)
-                {
-                    m_workShifts.maxValue = 3;
-                    m_workShifts.minValue = 3;
-                    m_workShifts.value = 3;
-                    m_workShiftsCount.text = "3";
-                    m_workShifts.Disable();
-                }
-                else
-                {
-                    m_workShifts.maxValue = 2;
-                    m_workShifts.minValue = 1;
-                    if(!m_unlockSettingsBtn.isVisible)
-                    {
-                        m_workShifts.Enable();
-                    }
-                }
-            }
-        }
-
         public void RefreshData(ushort buildingID, BuildingWorkTimeManager.WorkTime buildingWorkTime)
         {
             var buildingInfo = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info;
@@ -385,52 +374,22 @@ namespace RealTime.UI
             if (!buildingWorkTime.IsPrefab && !buildingWorkTime.IsGlobal)
             {
                 m_settingsStatus.text = buildingWorkTime.IsDefault ? t_defaultSettingsStatus : t_buildingSettingsStatus;
-                m_workAtNight.isChecked = buildingWorkTime.WorkAtNight;
-                m_workAtWeekands.isChecked = buildingWorkTime.WorkAtWeekands;
-                m_hasExtendedWorkShift.isChecked = buildingWorkTime.HasExtendedWorkShift;
-                m_hasContinuousWorkShift.isChecked = buildingWorkTime.HasContinuousWorkShift;
-                m_ignorePolicy.isChecked = buildingWorkTime.IgnorePolicy;
-                m_workShifts.value = buildingWorkTime.WorkShifts;
-                m_workShiftsCount.text = buildingWorkTime.WorkShifts.ToString();
+                SetActiveDays(buildingWorkTime.WorkDays);
             }
             else if (BuildingWorkTimeManager.PrefabExist(buildingInfo) && buildingWorkTime.IsPrefab && !buildingWorkTime.IsLocked)
             {
                 var buildingWorkTimePrefab = BuildingWorkTimeManager.GetPrefab(buildingInfo);
 
                 m_settingsStatus.text = t_prefabSettingsStatus;
-                m_workAtNight.isChecked = buildingWorkTimePrefab.WorkAtNight;
-                m_workAtWeekands.isChecked = buildingWorkTimePrefab.WorkAtWeekands;
-                m_hasExtendedWorkShift.isChecked = buildingWorkTimePrefab.HasExtendedWorkShift;
-                m_hasContinuousWorkShift.isChecked = buildingWorkTimePrefab.HasContinuousWorkShift;
-                m_ignorePolicy.isChecked = buildingWorkTimePrefab.IgnorePolicy;
-                m_workShifts.value = buildingWorkTimePrefab.WorkShifts;
-                m_workShiftsCount.text = buildingWorkTimePrefab.WorkShifts.ToString();
+                SetActiveDays(buildingWorkTimePrefab.WorkDays);
             }
             else if(BuildingWorkTimeGlobalConfig.Config.GlobalSettingsExist(buildingInfo) && buildingWorkTime.IsGlobal && !buildingWorkTime.IsLocked)
             {
                 var buildingWorkTimeGlobal = BuildingWorkTimeGlobalConfig.Config.GetGlobalSettings(buildingInfo);
 
                 m_settingsStatus.text = t_globalSettingsStatus;
-                m_workAtNight.isChecked = buildingWorkTimeGlobal.WorkAtNight;
-                m_workAtWeekands.isChecked = buildingWorkTimeGlobal.WorkAtWeekands;
-                m_hasExtendedWorkShift.isChecked = buildingWorkTimeGlobal.HasExtendedWorkShift;
-                m_hasContinuousWorkShift.isChecked = buildingWorkTimeGlobal.HasContinuousWorkShift;
-                m_ignorePolicy.isChecked = buildingWorkTimeGlobal.IgnorePolicy;
-                m_workShifts.value = buildingWorkTimeGlobal.WorkShifts;
-                m_workShiftsCount.text = buildingWorkTimeGlobal.WorkShifts.ToString();
+                SetActiveDays(buildingWorkTimeGlobal.WorkDays);
             }
-
-            UpdateSlider();
-
-            m_workAtNight.relativePosition = new Vector3(30f, 130f);
-            m_workAtWeekands.relativePosition = new Vector3(30f, 170f);
-            m_hasExtendedWorkShift.relativePosition = new Vector3(30f, 210f);
-            m_hasContinuousWorkShift.relativePosition = new Vector3(30f, 250f);
-            m_ignorePolicy.relativePosition = new Vector3(30f, 290f);
-
-            m_workShiftsLabel.relativePosition = new Vector3(10f, 10f);
-            m_workShifts.relativePosition = new Vector3(25f, 48f);
-            m_workShiftsCount.relativePosition = new Vector3(150f, 44f);
 
             string spriteName = buildingWorkTime.IsLocked ? "Lock" : "UnLock";
 
@@ -465,6 +424,103 @@ namespace RealTime.UI
             BackToDefault(buildingID, buildingInfo);
         }
 
+        private void SetActiveDays(DayOfWeek[] workDays)
+        {
+            // reset all first
+            for (int i = 0; i < m_activeDays.Length; i++)
+            {
+                m_activeDays[i] = false;
+            }
+
+            foreach (var day in workDays)
+            {
+                int idx = Array.IndexOf(DayOrder, day);
+                if (idx >= 0)
+                {
+                    m_activeDays[idx] = true;
+                }
+            }
+
+            // sync button visuals
+            for (int i = 0; i < m_dayButtons.Length; i++)
+            {
+                m_dayButtons[i].stringUserData = m_activeDays[i] ? "1" : "0";
+                ApplyToggleVisual(m_dayButtons[i], m_activeDays[i]);
+            }
+        }
+
+        private DayOfWeek[] GetActiveDays()
+        {
+            var list = new List<DayOfWeek>();
+            for (int i = 0; i < m_activeDays.Length; i++)
+            {
+                if (m_activeDays[i])
+                {
+                    list.Add(DayOrder[i]);
+                }
+            }
+
+            return [.. list];
+        }
+
+        // ────────────────────────────────────────────────────────────────
+        //  Shift row helpers
+        // ────────────────────────────────────────────────────────────────
+        private void AddShift()
+        {
+            for (int i = 0; i < m_shiftRows.Length; i++)
+            {
+                if (!m_shiftRows[i].IsVisible)
+                {
+                    m_shiftRows[i].SetEntry(i, new BuildingWorkTimeManager.WorkShiftTime { StartHour = 8f, EndHour = 17f });
+                    m_shiftRows[i].IsVisible = true;
+                    m_addShiftBtn.isVisible = i < 4;
+                    return;
+                }
+            }
+        }
+
+        private void RemoveShift(int index)
+        {
+            m_shiftRows[index].IsVisible = false;
+            m_addShiftBtn.isVisible = true;
+            // compact: shift rows above index stay, just hide this one
+        }
+
+        private void SetAllControlsToDisabled()
+        {
+            foreach (var btn in m_dayButtons)
+            {
+                btn.Disable();
+            }
+
+            // action/danger buttons follow their own conditional logic
+            m_saveBuildingSettingsBtn.Disable();
+            m_returnToDefaultBtn.Disable();
+            m_applyPrefabSettingsBtn.Disable();
+            m_applyGlobalSettingsBtn.Disable();
+            m_setPrefabSettingsBtn.Disable();
+            m_setGlobalSettingsBtn.Disable();
+            m_deletePrefabSettingsBtn.Disable();
+            m_deleteGlobalSettingsBtn.Disable();
+        }
+
+        private void ApplyToggleVisual(UIButton btn, bool active)
+        {
+            if (active)
+            {
+                btn.normalBgSprite = "ButtonMenuFocused";
+                btn.color = new Color32(255, 255, 255, 255);
+                btn.textColor = new Color32(110, 203, 216, 255); // teal
+            }
+            else
+            {
+                btn.normalBgSprite = "ButtonMenu";
+                btn.color = new Color32(100, 110, 140, 255);
+                btn.textColor = new Color32(80, 88, 120, 255);
+            }
+        }
+
         private void SaveBuildingSettings(UIComponent c, UIMouseEventParameter eventParameter)
         {
             ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
@@ -477,13 +533,9 @@ namespace RealTime.UI
 
             var newBuildingSettings = new BuildingWorkTimeManager.WorkTime
             {
-                WorkAtNight = m_workAtNight.isChecked,
-                WorkAtWeekands = m_workAtWeekands.isChecked,
-                HasExtendedWorkShift = m_hasExtendedWorkShift.isChecked,
-                HasContinuousWorkShift = m_hasContinuousWorkShift.isChecked,
-                IgnorePolicy = m_ignorePolicy.isChecked,
-                WorkShifts = (int)m_workShifts.value,
-                IsLocked = is_locked
+                WorkDays = GetActiveDays(),
+                WorkShifts = [],
+                IsLocked = is_locked,
             };
 
             UpdateBuildingSettings.SaveNewSettings(buildingID, newBuildingSettings);
@@ -501,7 +553,7 @@ namespace RealTime.UI
             if (BuildingWorkTimeManager.PrefabExist(buildingInfo) && !buildingWorkTime.IsLocked)
             {
                 var prefabRecord = BuildingWorkTimeManager.GetPrefab(buildingInfo);
-                m_workAtNight.isChecked = prefabRecord.WorkAtNight;
+                m_workAtNight.isChecked = prefabRecord.WorkDays;
                 m_workAtWeekands.isChecked = prefabRecord.WorkAtWeekands;
                 m_hasExtendedWorkShift.isChecked = prefabRecord.HasExtendedWorkShift;
                 m_hasContinuousWorkShift.isChecked = prefabRecord.HasContinuousWorkShift;

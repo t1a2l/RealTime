@@ -82,41 +82,59 @@ namespace RealTime.Localization
         /// <summary>The key for the title of building work time settings panel.</summary>
         public const string SettingsTitle = "SettingsTitle";
 
-        /// <summary>The key for the work at night checkbox.</summary>
-        public const string WorkAtNight = "WorkAtNight";
+        /// <summary>The key for the active days label text.</summary>
+        public const string ActiveDays = "ActiveDays";
 
-        /// <summary>The key for the work at night checkbox tooltip.</summary>
-        public const string WorkAtNightTooltip = "WorkAtNightTooltip";
+        /// <summary>The key for the sunday button.</summary>
+        public const string Sunday = "Sunday";
 
-        /// <summary>The key for the work at weekends checkbox.</summary>
-        public const string WorkAtWeekands = "WorkAtWeekands";
+        /// <summary>The key for the sunday button tooltip.</summary>
+        public const string SundayTooltip = "SundayTooltip";
 
-        /// <summary>The key for the work at weekends checkbox tooltip.</summary>
-        public const string WorkAtWeekandsTooltip = "WorkAtWeekandsTooltip";
+        /// <summary>The key for the monday button.</summary>
+        public const string Monday = "Monday";
 
-        /// <summary>The key for the has extended work shift checkbox.</summary>
-        public const string HasExtendedWorkShift = "HasExtendedWorkShift";
+        /// <summary>The key for the monday button tooltip.</summary>
+        public const string MondayTooltip = "MondayTooltip";
 
-        /// <summary>The key for the has extended work shift checkbox tooltip.</summary>
-        public const string HasExtendedWorkShiftTooltip = "HasExtendedWorkShiftTooltip";
+        /// <summary>The key for the tuesday button.</summary>
+        public const string Tuesday = "Tuesday";
 
-        /// <summary>The key for the has continuous work shift checkbox.</summary>
-        public const string HasContinuousWorkShift = "HasContinuousWorkShift";
+        /// <summary>The key for the tuesday button tooltip.</summary>
+        public const string TuesdayTooltip = "TuesdayTooltip";
 
-        /// <summary>The key for the has continuous work shift checkbox tooltip.</summary>
-        public const string HasContinuousWorkShiftTooltip = "HasContinuousWorkShiftTooltip";
+        /// <summary>The key for the wednesday button.</summary>
+        public const string Wednesday = "Wednesday";
 
-        /// <summary>The key for the ignore policy checkbox.</summary>
-        public const string IgnorePolicy = "IgnorePolicy";
+        /// <summary>The key for the wednesday button tooltip.</summary>
+        public const string WednesdayTooltip = "WednesdayTooltip";
 
-        /// <summary>The key for the ignore policy checkbox tooltip.</summary>
-        public const string IgnorePolicyTooltip = "IgnorePolicyTooltip";
+        /// <summary>The key for the thursday button.</summary>
+        public const string Thursday = "Thursday";
 
-        /// <summary>The key for the title of the number of work shifts.</summary>
-        public const string ShiftCountTitle = "ShiftCountTitle";
+        /// <summary>The key for the thursday button tooltip.</summary>
+        public const string ThursdayTooltip = "ThursdayTooltip";
 
-        /// <summary>The key for the number of work shifts tooltip.</summary>
-        public const string ShiftCountTooltip = "ShiftCountTooltip";
+        /// <summary>The key for the friday button.</summary>
+        public const string Friday = "Friday";
+
+        /// <summary>The key for the friday button tooltip.</summary>
+        public const string FridayTooltip = "FridayTooltip";
+
+        /// <summary>The key for the saturday button.</summary>
+        public const string Saturday = "Saturday";
+
+        /// <summary>The key for the saturday button tooltip.</summary>
+        public const string SaturdayTooltip = "SaturdayTooltip";
+
+        /// <summary>The key for the shifts label.</summary>
+        public const string Shifts = "Shifts";
+
+        /// <summary>The key for the edit schedule button.</summary>
+        public const string EditSchedule = "EditSchedule";
+
+        /// <summary>The key for the edit schedule button tooltip.</summary>
+        public const string EditScheduleTooltip = "EditScheduleTooltip";
 
         /// <summary>The key for the save building settings button.</summary>
         public const string SaveBuildingSettings = "SaveBuildingSettings";

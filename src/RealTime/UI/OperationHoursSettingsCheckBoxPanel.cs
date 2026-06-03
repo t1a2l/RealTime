@@ -17,7 +17,7 @@ namespace RealTime.UI
             base.Awake();
 
             name = "OperationHoursSettingsCheckBoxPanel";
-            width = 230f;
+            width = 100f;
             height = 40f;
             autoLayout = false;
 

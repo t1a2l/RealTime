@@ -51,11 +51,10 @@ namespace RealTime.UI
             }
             else
             {
-                operationHoursPanel.m_workAtNight.Disable();
-                operationHoursPanel.m_workAtWeekands.Disable();
-                operationHoursPanel.m_hasExtendedWorkShift.Disable();
-                operationHoursPanel.m_hasContinuousWorkShift.Disable();
-                operationHoursPanel.m_workShifts.Disable();
+                foreach (var btn in operationHoursPanel.m_dayButtons)
+                {
+                    btn.Disable();
+                }
 
                 operationHoursPanel.m_saveBuildingSettingsBtn.Disable();
                 operationHoursPanel.m_returnToDefaultBtn.Disable();

@@ -147,8 +147,8 @@ namespace RealTime.UI
 
             CreateHeader();
             CreateDaysRow();
-            CreateShiftRows();
             CreateShiftsSummaryRow();
+            CreateShiftRows();
             CreateActionButtons();
             CreateDangerButtons();
 

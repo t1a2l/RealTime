@@ -36,5 +36,16 @@ namespace RealTime.Utils.UIUtils
 
             return m_uiPanel;
         }
+
+        public static UIPanel CreateRow(UIComponent parent, string name, float y, float h)
+        {
+            var row = CreatePanel(parent, name);
+            row.width = parent.width - 20f;
+            row.height = h;
+            row.relativePosition = new Vector3(10f, y);
+            row.autoLayout = false;
+            row.isVisible = true;
+            return row;
+        }
     }
 }

@@ -94,6 +94,16 @@ namespace RealTime.CustomAI
         internal ushort FindActiveCafeteria(ushort searchAreaCenterBuilding, float maxDistance);
 
         /// <summary>
+        /// Determines whether the building with the specified <paramref name="buildingId"/> is going to get closed in two hours or less
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <param name="timeBeforeOpening">The time before opening in hours, default is 1 hour.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is going to get opened in the specified <paramref name="timeBeforeOpening"/> hours or less, <c>false</c>.
+        /// </returns>
+        internal bool IsBuildingOpeningSoon(ushort buildingId, int timeBeforeOpening = 1);
+
+        /// <summary>
         /// Determines whether the building with the specified <paramref name="buildingId"/> is going to get closed in one houer or less
         /// </summary>
         /// <param name="buildingId">The building ID to check.</param>

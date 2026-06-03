@@ -1127,14 +1127,28 @@ namespace RealTime.CustomAI
         /// Determines whether the building with the specified <paramref name="buildingId"/> is going to get closed in two hours or less
         /// </summary>
         /// <param name="buildingId">The building ID to check.</param>
+        /// <param name="timeBeforeOpening">The time before opening in hours, default is 1 hour.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is going to get opened in the specified <paramref name="timeBeforeOpening"/> hours, <c>false</c>.
+        /// </returns>
+        public bool IsBuildingOpeningSoon(ushort buildingId, int timeBeforeOpening = 1)
+        {
+            var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
+            return workTime.IsWorkingHour(timeInfo.CurrentHour + timeBeforeOpening);
+        }
+
+        /// <summary>
+        /// Determines whether the building with the specified <paramref name="buildingId"/> is going to get closed in two hours or less
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
         /// <param name="timeBeforeClosing">The time before closing in hours, default is 2 hours.</param>
         /// <returns>
-        ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is going to get closed in the specified <paramref name="timeBeforeClosing"/> hours or less, <c>false</c>.
+        ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is going to get closed in the specified <paramref name="timeBeforeClosing"/> hours, <c>false</c>.
         /// </returns>
         public bool IsBuildingClosingSoon(ushort buildingId, int timeBeforeClosing = 2)
         {
             var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
-            return IsBuildingWorking(buildingId) && workTime.IsWorkingHour(timeInfo.CurrentHour + timeBeforeClosing);
+            return !workTime.IsWorkingHour(timeInfo.CurrentHour + timeBeforeClosing);
         }
 
         /// <summary>

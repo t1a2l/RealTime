@@ -227,7 +227,13 @@ namespace RealTime.CustomAI
 
         private bool RescheduleReturnFromWork(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen, ushort currentBuilding)
         {
-            if (!buildingAI.IsBuildingWorking(currentBuilding) || buildingAI.IsBuildingClosingSoon(currentBuilding, 1))
+            if (buildingAI.IsBuildingOpeningSoon(currentBuilding, 1))
+            {
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stay in work because the building is opening soon");
+                return false;
+            }
+
+            if (!buildingAI.IsBuildingWorking(currentBuilding))
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} return from work because the building is currently closed");
                 return true;

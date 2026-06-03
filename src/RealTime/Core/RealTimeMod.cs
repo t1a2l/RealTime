@@ -24,7 +24,6 @@ namespace RealTime.Core
     using SkyTools.Tools;
     using SkyTools.UI;
     using UnityEngine;
-    using static RenderManager;
 
     /// <summary>The main class of the Real Time mod.</summary>
     public class RealTimeMod : LoadingExtensionBase, IUserMod

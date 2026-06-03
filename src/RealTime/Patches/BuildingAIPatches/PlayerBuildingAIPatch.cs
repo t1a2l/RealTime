@@ -113,8 +113,6 @@ namespace RealTime.Patches.BuildingAIPatches
                     inst.InsertRange(i - 1, [
                         new(OpCodes.Call, IsBuildingWorkingInstance),
                             new(OpCodes.Ldarg_1),
-                            new(OpCodes.Ldc_I4_0),
-                            new(OpCodes.Ldc_I4_0),
                             new(OpCodes.Call, IsBuildingWorking),
                             new(OpCodes.Ldc_I4_0),
                             new(OpCodes.Ceq),

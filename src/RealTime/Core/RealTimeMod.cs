@@ -32,7 +32,7 @@ namespace RealTime.Core
         private const long WorkshopId = 3059406297;
         private const string NoWorkshopMessage = "Real Time can only run when subscribed to in Steam Workshop";
 
-        public static readonly string modVersion = "2.7";
+        public static readonly string modVersion = "2.8";
         private readonly string modPath = GetModPath();
 
 

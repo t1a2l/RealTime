@@ -47,7 +47,7 @@ namespace RealTime.UI
             operationHoursPanel.isVisible = value;
             if (operationHoursPanel.isVisible)
             {
-                operationHoursPanel.height = 470f;
+                operationHoursPanel.height = 580f;
             }
             else
             {
@@ -56,6 +56,7 @@ namespace RealTime.UI
                     btn.Disable();
                 }
 
+                operationHoursPanel.m_shiftsEditBtn.Disable();
                 operationHoursPanel.m_saveBuildingSettingsBtn.Disable();
                 operationHoursPanel.m_returnToDefaultBtn.Disable();
                 operationHoursPanel.m_applyPrefabSettingsBtn.Disable();
@@ -75,7 +76,7 @@ namespace RealTime.UI
 
             if (OperationHoursSettingsCheckBox.isChecked)
             {
-                buildingOperationHoursPanel.height = 470f;
+                buildingOperationHoursPanel.height = 580f;
                 buildingOperationHoursPanel.Show();
             }
         }

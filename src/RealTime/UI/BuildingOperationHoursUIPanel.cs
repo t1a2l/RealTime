@@ -180,11 +180,11 @@ namespace RealTime.UI
             opacity = 0.90f;
             isVisible = false;
             width = 510f;
-            height = 480f;
+            height = 580f;
             
             m_innerPanel = UIPanels.CreatePanel(this, "OperationHoursInnerPanel");
             m_innerPanel.color = new Color32(206, 206, 206, 255);
-            m_innerPanel.size = new Vector2(500f, 470f);
+            m_innerPanel.size = new Vector2(500f, 570f);
             m_innerPanel.relativePosition = new Vector3(5f, 5f);
 
             m_headerRow = UIPanels.CreateRow(m_innerPanel, "HeaderRow", 10f, 80f);
@@ -197,8 +197,8 @@ namespace RealTime.UI
             m_shiftsEditorPanel.relativePosition = new Vector3(width + 25f, 130f);
             m_shiftsEditorPanel.isVisible = false;
 
-            m_actionRow = UIPanels.CreateRow(m_innerPanel, "ActionRow", 300f, 80f);
-            m_dangerRow = UIPanels.CreateRow(m_innerPanel, "DangerRow", 390f, 80f);
+            m_actionRow = UIPanels.CreateRow(m_innerPanel, "ActionRow", 410f, 80f);
+            m_dangerRow = UIPanels.CreateRow(m_innerPanel, "DangerRow", 490f, 80f);
 
             CreateHeader();
             CreateDaysRow();
@@ -330,21 +330,20 @@ namespace RealTime.UI
 
             m_shiftsSummaryContainer = UIPanels.CreatePanel(m_shiftsSummaryRow, "ShiftsSummaryContainer");
             m_shiftsSummaryContainer.backgroundSprite = "GenericPanelDark";
-            m_shiftsSummaryContainer.size = new Vector2(240f, 150f);
-            m_shiftsSummaryContainer.relativePosition = new Vector3(5f, 10f);
-            m_shiftsSummaryContainer.isVisible = false;
+            m_shiftsSummaryContainer.size = new Vector2(460f, 150f);
+            m_shiftsSummaryContainer.relativePosition = new Vector3(10f, 30f);
 
             m_shiftSummaryRows = new ShiftSummaryRow[5];
 
             for (int i = 0; i < 5; i++)
             {
-                float y = 20 + i * 36f;
+                float y = 5 + i * 36f;
                 var row = new ShiftSummaryRow
                 {
                     Panel = UIPanels.CreatePanel(m_shiftsSummaryContainer, $"ShiftRow_{i + 1}")
                 };
                 row.Panel.size = new Vector2(220f, 30f);
-                row.Panel.relativePosition = new Vector3(80f, y);
+                row.Panel.relativePosition = new Vector3(60f, y);
 
                 row.IndexLabel = UILabels.CreateLabel(row.Panel, $"ShiftSummaryLabel_{i + 1}", "", "");
                 row.IndexLabel.relativePosition = new Vector3(30f, 6f);
@@ -352,21 +351,21 @@ namespace RealTime.UI
 
                 row.StartField = UILabels.CreateLabel(row.Panel, $"ShiftSummaryStart_{i + 1}", "", "");
                 row.StartField.size = new Vector2(70f, 24f);
-                row.StartField.relativePosition = new Vector3(85f, 6f);
+                row.StartField.relativePosition = new Vector3(110f, 6f);
 
                 row.Arrow = UILabels.CreateLabel(row.Panel, $"ShiftSummaryArrow_{i + 1}", "->", "");
                 row.Arrow.size = new Vector2(70f, 24f);
-                row.Arrow.relativePosition = new Vector3(140f, 6f);
+                row.Arrow.relativePosition = new Vector3(160f, 6f);
 
                 row.EndField = UILabels.CreateLabel(row.Panel, $"ShiftSummaryEnd_{i + 1}", "", "");
                 row.EndField.size = new Vector2(70f, 24f);
-                row.EndField.relativePosition = new Vector3(160f, 6f);
+                row.EndField.relativePosition = new Vector3(180f, 6f);
 
                 row.IsVisible = false;
                 m_shiftSummaryRows[i] = row;
             }
 
-            m_shiftsEditBtn = UIButtons.CreateButton(m_shiftsSummaryRow, 10f, 190f, "EditShifts", "", "", m_shiftsSummaryRow.width);
+            m_shiftsEditBtn = UIButtons.CreateButton(m_shiftsSummaryRow, 10f, 190f, "EditShifts", "", "", 460f);
             m_shiftsEditBtn.eventClicked += OpenShiftEditor;
         }
 
@@ -401,7 +400,7 @@ namespace RealTime.UI
             m_shiftsEditorLabel.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_shiftsEditorLabel.textAlignment = UIHorizontalAlignment.Left;
             m_shiftsEditorLabel.textColor = new Color32(255, 255, 255, 255);
-            m_shiftsEditorLabel.relativePosition = new Vector3(5f, 6f);
+            m_shiftsEditorLabel.relativePosition = new Vector3(15f, 10f);
             m_shiftsEditorLabel.textScale = 1.3f;
 
             m_shiftEditRows = new ShiftRow[5];
@@ -417,7 +416,7 @@ namespace RealTime.UI
                 row.Panel.relativePosition = new Vector3(0f, y);
 
                 row.IndexLabel = UILabels.CreateLabel(row.Panel, $"ShiftEditLabel_{i + 1}", $"Shift {i + 1}", "");
-                row.IndexLabel.relativePosition = new Vector3(0f, 6f);
+                row.IndexLabel.relativePosition = new Vector3(10f, 7f);
                 row.IndexLabel.width = 55f;
 
                 row.StartField = UITextFields.CreateTextField(row.Panel, $"ShiftEditStart_{i + 1}", "");
@@ -426,13 +425,13 @@ namespace RealTime.UI
 
                 row.Arrow = UILabels.CreateLabel(row.Panel, $"ShiftEditArrow_{i + 1}", "->", "");
                 row.Arrow.size = new Vector2(70f, 24f);
-                row.Arrow.relativePosition = new Vector3(140f, 6f);
+                row.Arrow.relativePosition = new Vector3(160f, 7f);
 
                 row.EndField = UITextFields.CreateTextField(row.Panel, $"ShiftEditEnd_{i + 1}", "");
                 row.EndField.size = new Vector2(70f, 24f);
-                row.EndField.relativePosition = new Vector3(160f, 3f);
+                row.EndField.relativePosition = new Vector3(180f, 3f);
 
-                row.RemoveBtn = UIButtons.CreateButton(row.Panel, 250f, 1f, $"RemoveShift_{i + 1}", "×", "", 28f);
+                row.RemoveBtn = UIButtons.CreateButton(row.Panel, 260f, 1f, $"RemoveShift_{i + 1}", "×", "", 28f);
                 int captured = i;
                 row.RemoveBtn.eventClicked += (_, __) => RemoveShift(captured);
 
@@ -440,14 +439,14 @@ namespace RealTime.UI
                 m_shiftEditRows[i] = row;
             }
 
-            m_addShiftBtn = UIButtons.CreateButton(m_shiftsEditorPanel, 0f, 5 * 36f, "AddShift", "+ Add Shift", "", 460f);
+            m_addShiftBtn = UIButtons.CreateButton(m_shiftsEditorPanel, 5f, 220f, "AddShift", "+ Add Shift", "", 280f);
             m_addShiftBtn.eventClicked += (_, __) => AddShift();
             
             m_ignorePolicy = UICheckBoxes.CreateCheckBox(m_shiftsEditorPanel, "IgnorePolicy", "", "", false);
             m_ignorePolicy.width = 110f;
             m_ignorePolicy.label.textColor = new Color32(185, 221, 254, 255);
             m_ignorePolicy.label.textScale = 0.8125f;
-            m_ignorePolicy.relativePosition = new Vector3(0f, 230f);
+            m_ignorePolicy.relativePosition = new Vector3(10f, 260f);
             m_ignorePolicy.eventCheckChanged += (component, value) => m_ignorePolicy.isChecked = value;
 
             RefreshShiftsSummary();
@@ -578,6 +577,7 @@ namespace RealTime.UI
 
             m_saveBuildingSettingsBtn.Enable();
             m_returnToDefaultBtn.Enable();
+            m_shiftsEditBtn.Enable();
 
             ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
             var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];

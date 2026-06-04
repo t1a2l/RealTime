@@ -338,6 +338,8 @@
   <translation id="AddShiftTooltip" value="Add a new work shift for this building" />
   <translation id="IgnorePolicy" value="Ignore District Policies" />
   <translation id="IgnorePolicyTooltip" value="The building will ignore any restirctions from district policies" />
+  <translation id="AccessAdvancedSettings" value="Access Advanced Settings" />
+  <translation id="AccessAdvancedSettingsTooltip" value="Open the advanced settings panel for this building" />
   <translation id="SaveBuildingSettings" value="Save building settings" />
   <translation id="SaveBuildingSettingsTooltip" value="First priority - will override prefab and global settings and create a specific work time for this building" />
   <translation id="ReturnToDefault" value="Back to default" />

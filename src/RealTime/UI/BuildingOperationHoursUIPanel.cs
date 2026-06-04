@@ -21,7 +21,9 @@ namespace RealTime.UI
         internal UIPanel m_shiftsSummaryRow;   // read-only shift summary labels
         internal UIPanel m_shiftsEditorPanel; // shift editor rows + add shift button
         internal UIPanel m_actionRow;          // Save / Return / Apply buttons
-        internal UIPanel m_dangerRow;          // Set/Delete Prefab/Global buttons
+        internal UIPanel m_advancedSettingsPanel;          // Set/Delete Prefab/Global buttons
+        internal UIButton m_accessAdvancedSettingsBtn; // opens the advanced settings panel (which contains the danger buttons on the right side of the main panel)
+        internal UIPanel m_dangerRow; // Set Prefab/Global and Delete Prefab/Global buttons
 
         // ─────────────────────────────────────────── Header controls ──────────────────────────────────────
         internal UILabel m_settingsTitle;
@@ -96,11 +98,7 @@ namespace RealTime.UI
             public UILabel Arrow;       // ->
             public UILabel EndField;    // "17:00"
 
-            public bool IsVisible
-            {
-                get => Panel.isVisible;
-                set => Panel.isVisible = value;
-            }
+            public bool IsActive;
 
             public BuildingWorkTimeManager.WorkShiftTime GetEntry() => new()
             {
@@ -113,7 +111,7 @@ namespace RealTime.UI
                 IndexLabel.text = $"Shift {index + 1}";
                 StartField.text = FormatHour(entry.StartHour);
                 EndField.text = FormatHour(entry.EndHour);
-                IsVisible = entry.IsValid;
+                IsActive = true;
             }
 
             private static float ParseHour(string s)
@@ -138,11 +136,7 @@ namespace RealTime.UI
             public UITextField EndField;    // "17:00"
             public UIButton RemoveBtn;    // ×
 
-            public bool IsVisible
-            {
-                get => Panel.isVisible;
-                set => Panel.isVisible = value;
-            }
+            public bool IsActive;
 
             public BuildingWorkTimeManager.WorkShiftTime GetEntry() => new()
             {
@@ -155,7 +149,7 @@ namespace RealTime.UI
                 IndexLabel.text = $"Shift {index + 1}";
                 StartField.text = FormatHour(entry.StartHour);
                 EndField.text = FormatHour(entry.EndHour);
-                IsVisible = entry.IsValid;
+                IsActive = true;
             }
 
             private static float ParseHour(string s)
@@ -194,11 +188,21 @@ namespace RealTime.UI
             m_shiftsEditorPanel = UIPanels.CreatePanel(this, "ShiftsEditorPanel");
             m_shiftsEditorPanel.backgroundSprite = "SubcategoriesPanel";
             m_shiftsEditorPanel.size = new Vector2(300f, 300f);
-            m_shiftsEditorPanel.relativePosition = new Vector3(width + 25f, 130f);
+            m_shiftsEditorPanel.relativePosition = new Vector3(width + 15f, 150f);
             m_shiftsEditorPanel.isVisible = false;
 
             m_actionRow = UIPanels.CreateRow(m_innerPanel, "ActionRow", 410f, 80f);
-            m_dangerRow = UIPanels.CreateRow(m_innerPanel, "DangerRow", 490f, 80f);
+
+            m_accessAdvancedSettingsBtn = UIButtons.CreateButton(m_innerPanel, 10f, 300f, "AccessAdvancedSettings", "", "", 460f);
+            m_accessAdvancedSettingsBtn.eventClicked += OpenAdvancedSettingsPanel;
+
+            m_advancedSettingsPanel = UIPanels.CreatePanel(this, "AdvancedSettings");
+            m_advancedSettingsPanel.backgroundSprite = "SubcategoriesPanel";
+            m_advancedSettingsPanel.size = new Vector2(460f, 80f);
+            m_advancedSettingsPanel.relativePosition = new Vector3(width + 15f, 460f);
+            m_advancedSettingsPanel.isVisible = false;
+
+            m_dangerRow = UIPanels.CreateRow(m_advancedSettingsPanel, "DangerRow", 0f, 80f);
 
             CreateHeader();
             CreateDaysRow();
@@ -361,13 +365,16 @@ namespace RealTime.UI
                 row.EndField.size = new Vector2(70f, 24f);
                 row.EndField.relativePosition = new Vector3(180f, 6f);
 
-                row.IsVisible = false;
+                row.IsActive = false;
+                row.Panel.isVisible = false;
                 m_shiftSummaryRows[i] = row;
             }
 
             m_shiftsEditBtn = UIButtons.CreateButton(m_shiftsSummaryRow, 10f, 190f, "EditShifts", "", "", 460f);
             m_shiftsEditBtn.eventClicked += OpenShiftEditor;
         }
+
+        private void OpenAdvancedSettingsPanel(UIComponent c, UIMouseEventParameter eventParameter) => m_advancedSettingsPanel.isVisible = !m_advancedSettingsPanel.isVisible;
 
         private void OpenShiftEditor(UIComponent c, UIMouseEventParameter eventParameter) => m_shiftsEditorPanel.isVisible = !m_shiftsEditorPanel.isVisible;
 
@@ -383,7 +390,7 @@ namespace RealTime.UI
             for(int i = 0; i < shifts.Length && i < m_shiftSummaryRows.Length; i++)
             {
                 m_shiftSummaryRows[i].SetEntry(i, shifts[i]);
-                m_shiftSummaryRows[i].IsVisible = true;
+                m_shiftSummaryRows[i].Panel.isVisible = true;
             }
         }
 
@@ -435,7 +442,9 @@ namespace RealTime.UI
                 int captured = i;
                 row.RemoveBtn.eventClicked += (_, __) => RemoveShift(captured);
 
-                row.IsVisible = false;  // hidden until AddShift is clicked
+                row.IsActive = false;  // hidden until AddShift is clicked
+                row.Panel.isVisible = false;
+
                 m_shiftEditRows[i] = row;
             }
 
@@ -536,6 +545,10 @@ namespace RealTime.UI
             m_ignorePolicy.text = localizationProvider.Translate(TranslationKeys.IgnorePolicy);
             m_ignorePolicy.tooltip = localizationProvider.Translate(TranslationKeys.IgnorePolicyTooltip);
 
+            // ──────────────────────────────────────── Advanced Settings button translation ─────────────────────────────────────────
+            m_accessAdvancedSettingsBtn.text = localizationProvider.Translate(TranslationKeys.AccessAdvancedSettings);
+            m_accessAdvancedSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.AccessAdvancedSettingsTooltip);
+
             // ──────────────────────────────────────── Action and Danger buttons translation ─────────────────────────────────────────
             m_saveBuildingSettingsBtn.text = localizationProvider.Translate(TranslationKeys.SaveBuildingSettings);
             m_saveBuildingSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.SaveBuildingSettingsTooltip);
@@ -578,6 +591,7 @@ namespace RealTime.UI
             m_saveBuildingSettingsBtn.Enable();
             m_returnToDefaultBtn.Enable();
             m_shiftsEditBtn.Enable();
+            m_accessAdvancedSettingsBtn.Enable();
 
             ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
             var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
@@ -679,7 +693,7 @@ namespace RealTime.UI
             // hide all rows first
             foreach (var row in m_shiftEditRows)
             {
-                row.IsVisible = false;
+                row.IsActive = false;
             }
 
             if (workShifts == null)
@@ -690,7 +704,7 @@ namespace RealTime.UI
             for (int i = 0; i < workShifts.Length && i < m_shiftEditRows.Length; i++)
             {
                 m_shiftEditRows[i].SetEntry(i, workShifts[i]);
-                m_shiftEditRows[i].IsVisible = true;
+                m_shiftEditRows[i].Panel.isVisible = true;
             }
 
             // only show add button if there's still room
@@ -703,7 +717,7 @@ namespace RealTime.UI
             var list = new List<BuildingWorkTimeManager.WorkShiftTime>();
             foreach (var row in m_shiftEditRows)
             {
-                if (row.IsVisible)
+                if (row.IsActive)
                 {
                     list.Add(row.GetEntry());
                 }
@@ -715,10 +729,10 @@ namespace RealTime.UI
         {
             for (int i = 0; i < m_shiftEditRows.Length; i++)
             {
-                if (!m_shiftEditRows[i].IsVisible)
+                if (!m_shiftEditRows[i].IsActive)
                 {
                     m_shiftEditRows[i].SetEntry(i, new BuildingWorkTimeManager.WorkShiftTime { StartHour = 8f, EndHour = 17f });
-                    m_shiftEditRows[i].IsVisible = true;
+                    m_shiftEditRows[i].Panel.isVisible = true;
                     m_addShiftBtn.isEnabled = i < 4;
                     RefreshShiftsSummary();
                     return;
@@ -728,7 +742,8 @@ namespace RealTime.UI
 
         private void RemoveShift(int index)
         {
-            m_shiftEditRows[index].IsVisible = false;
+            m_shiftEditRows[index].IsActive = false;
+            m_shiftEditRows[index].Panel.isVisible = false;
             m_addShiftBtn.isEnabled = true;
             // compact: shift rows above index stay, just hide this one
             RefreshShiftsSummary();
@@ -743,6 +758,7 @@ namespace RealTime.UI
 
             // action/danger buttons follow their own conditional logic
             m_shiftsEditBtn.Disable();
+            m_accessAdvancedSettingsBtn.Disable();
             m_saveBuildingSettingsBtn.Disable();
             m_returnToDefaultBtn.Disable();
             m_applyPrefabSettingsBtn.Disable();

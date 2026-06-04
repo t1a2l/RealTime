@@ -208,6 +208,12 @@ namespace RealTime.Localization
         /// <summary>The key for the save building settings button tooltip.</summary>
         public const string SaveBuildingSettingsTooltip = "SaveBuildingSettingsTooltip";
 
+        /// <summary>The key for the access advanced settings button.</summary>
+        public const string AccessAdvancedSettings = "AccessAdvancedSettings";
+
+        /// <summary>The key for the access advanced settings button tooltip.</summary>
+        public const string AccessAdvancedSettingsTooltip = "AccessAdvancedSettingsTooltip";
+
         /// <summary>The key for the return to default button.</summary>
         public const string ReturnToDefault = "ReturnToDefault";
 

@@ -57,6 +57,7 @@ namespace RealTime.UI
                 }
 
                 operationHoursPanel.m_shiftsEditBtn.Disable();
+                operationHoursPanel.m_accessAdvancedSettingsBtn.Disable();
                 operationHoursPanel.m_saveBuildingSettingsBtn.Disable();
                 operationHoursPanel.m_returnToDefaultBtn.Disable();
                 operationHoursPanel.m_applyPrefabSettingsBtn.Disable();

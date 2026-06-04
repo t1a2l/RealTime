@@ -42,6 +42,7 @@ namespace RealTime.UI
 
         // ─────────────────────────────────────────── Shifts Summary Panel ───────────────────────────────────────────
         internal UILabel m_shiftsSummaryLabel;
+        internal UIPanel m_shiftsSummaryContainer; // container for shift summary rows  
         internal ShiftSummaryRow[] m_shiftSummaryRows; // up to MaxShifts = 5
         internal UIButton m_shiftsEditBtn; // opens the shifts editor panel
 
@@ -115,7 +116,16 @@ namespace RealTime.UI
                 IsVisible = entry.IsValid;
             }
 
-            private static float ParseHour(string s) => float.TryParse(s, out float h) ? h : 0f;
+            private static float ParseHour(string s)
+            {
+                string[] parts = s.Split(':');
+                if (parts.Length == 2 && int.TryParse(parts[0], out int h) && int.TryParse(parts[1], out int m))
+                {
+                    return h + m / 60f;
+                }
+                return 0f;
+            }
+
             private static string FormatHour(float h) => $"{(int)h:D2}:{(int)(h % 1 * 60):D2}";
         }
 
@@ -124,6 +134,7 @@ namespace RealTime.UI
             public UIPanel Panel;
             public UILabel IndexLabel;   // "Shift 1", "Shift 2", etc.
             public UITextField StartField;  // "08:00"
+            public UILabel Arrow;       // ->
             public UITextField EndField;    // "17:00"
             public UIButton RemoveBtn;    // ×
 
@@ -147,7 +158,16 @@ namespace RealTime.UI
                 IsVisible = entry.IsValid;
             }
 
-            private static float ParseHour(string s) => float.TryParse(s, out float h) ? h : 0f;
+            private static float ParseHour(string s)
+            {
+                string[] parts = s.Split(':');
+                if (parts.Length == 2 && int.TryParse(parts[0], out int h) && int.TryParse(parts[1], out int m))
+                {
+                    return h + m / 60f;
+                }
+                return 0f;
+            }
+
             private static string FormatHour(float h) => $"{(int)h:D2}:{(int)(h % 1 * 60):D2}";
         }
 
@@ -163,7 +183,6 @@ namespace RealTime.UI
             height = 480f;
             
             m_innerPanel = UIPanels.CreatePanel(this, "OperationHoursInnerPanel");
-            m_innerPanel.backgroundSprite = "GenericPanelLight";
             m_innerPanel.color = new Color32(206, 206, 206, 255);
             m_innerPanel.size = new Vector2(500f, 470f);
             m_innerPanel.relativePosition = new Vector3(5f, 5f);
@@ -173,8 +192,9 @@ namespace RealTime.UI
             m_shiftsSummaryRow = UIPanels.CreateRow(m_innerPanel, "ShiftsSummaryRow", 180f, 30f);
 
             m_shiftsEditorPanel = UIPanels.CreatePanel(this, "ShiftsEditorPanel");
-            m_shiftsEditorPanel.size = new Vector2(460f, 220f);
-            m_shiftsEditorPanel.relativePosition = new Vector3(10f, 190f);
+            m_shiftsEditorPanel.backgroundSprite = "SubcategoriesPanel";
+            m_shiftsEditorPanel.size = new Vector2(300f, 300f);
+            m_shiftsEditorPanel.relativePosition = new Vector3(width + 25f, 130f);
             m_shiftsEditorPanel.isVisible = false;
 
             m_actionRow = UIPanels.CreateRow(m_innerPanel, "ActionRow", 300f, 80f);
@@ -232,10 +252,10 @@ namespace RealTime.UI
             m_settingsTitle = UILabels.CreateLabel(m_headerRow, "SettingsTitle", "", "");
             m_settingsTitle.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_settingsTitle.textAlignment = UIHorizontalAlignment.Left;
-            m_settingsTitle.textColor = new Color32(78, 184, 126, 255);
+            m_settingsTitle.textColor = new Color32(255, 255, 255, 255);
             m_settingsTitle.relativePosition = new Vector3(0f, 4f);
             m_settingsTitle.width = 220f;
-
+            m_settingsTitle.textScale = 1.3f;
 
             // status label that shows if the current settings are default, building specific, prefab specific or global specific
             m_settingsStatus = UILabels.CreateLabel(m_headerRow, "SettingsStatus", "", "");
@@ -246,7 +266,7 @@ namespace RealTime.UI
             m_settingsTitle.width = 220f;
 
             // unlock settings button
-            m_unlockSettingsBtn = UIButtons.CreateButton(m_headerRow, 300f, 0f, "UnlockSettings", "", "", 120f);
+            m_unlockSettingsBtn = UIButtons.CreateButton(m_headerRow, 300f, 3f, "UnlockSettings", "", "", 120f);
             m_unlockSettingsBtn.eventClicked += UnlockSettings;
 
             // lock/unlock changes button
@@ -265,10 +285,9 @@ namespace RealTime.UI
             m_activeDaysLabel = UILabels.CreateLabel(m_daysRow, "ActiveDays", "", "");
             m_activeDaysLabel.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_activeDaysLabel.textAlignment = UIHorizontalAlignment.Left;
-            m_activeDaysLabel.textColor = new Color32(78, 184, 126, 255);
+            m_activeDaysLabel.textColor = new Color32(255, 255, 255, 255);
             m_activeDaysLabel.relativePosition = new Vector3(5f, 6f);
-            m_activeDaysLabel.autoSize = true;
-            m_activeDaysLabel.textScale = 0.9f;
+            m_activeDaysLabel.textScale = 1.1f;
 
             m_dayButtons = new UIButton[DayOrder.Length];
 
@@ -305,43 +324,49 @@ namespace RealTime.UI
             m_shiftsSummaryLabel = UILabels.CreateLabel(m_shiftsSummaryRow, "ShiftsSummaryLabel", "", "");
             m_shiftsSummaryLabel.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_shiftsSummaryLabel.textAlignment = UIHorizontalAlignment.Left;
-            m_shiftsSummaryLabel.textColor = new Color32(240, 190, 199, 255);
+            m_shiftsSummaryLabel.textColor = new Color32(206, 206, 206, 255);
             m_shiftsSummaryLabel.relativePosition = new Vector3(5f, 6f);
-            m_shiftsSummaryLabel.width = m_shiftsSummaryRow.width;
-            m_shiftsSummaryLabel.autoHeight = true;
+            m_shiftsSummaryLabel.textScale = 1.1f;
+
+            m_shiftsSummaryContainer = UIPanels.CreatePanel(m_shiftsSummaryRow, "ShiftsSummaryContainer");
+            m_shiftsSummaryContainer.backgroundSprite = "GenericPanelDark";
+            m_shiftsSummaryContainer.size = new Vector2(240f, 150f);
+            m_shiftsSummaryContainer.relativePosition = new Vector3(5f, 10f);
+            m_shiftsSummaryContainer.isVisible = false;
 
             m_shiftSummaryRows = new ShiftSummaryRow[5];
 
             for (int i = 0; i < 5; i++)
             {
-                float y = 10 + i * 36f;
+                float y = 20 + i * 36f;
                 var row = new ShiftSummaryRow
                 {
-                    Panel = UIPanels.CreatePanel(m_shiftsEditorPanel, $"ShiftRow_{i}")
+                    Panel = UIPanels.CreatePanel(m_shiftsSummaryContainer, $"ShiftRow_{i + 1}")
                 };
-                row.Panel.size = new Vector2(460f, 30f);
-                row.Panel.relativePosition = new Vector3(0f, y);
+                row.Panel.size = new Vector2(220f, 30f);
+                row.Panel.relativePosition = new Vector3(80f, y);
 
-                row.IndexLabel = UILabels.CreateLabel(row.Panel, $"ShiftSummaryLabel_{i}", "", "");
-                row.IndexLabel.relativePosition = new Vector3(0f, 6f);
+                row.IndexLabel = UILabels.CreateLabel(row.Panel, $"ShiftSummaryLabel_{i + 1}", "", "");
+                row.IndexLabel.relativePosition = new Vector3(30f, 6f);
                 row.IndexLabel.width = 55f;
 
-                row.StartField = UILabels.CreateLabel(row.Panel, $"ShiftSummaryStart_{i}", "", "");
+                row.StartField = UILabels.CreateLabel(row.Panel, $"ShiftSummaryStart_{i + 1}", "", "");
                 row.StartField.size = new Vector2(70f, 24f);
-                row.StartField.relativePosition = new Vector3(65f, 3f);
+                row.StartField.relativePosition = new Vector3(85f, 6f);
 
-                row.Arrow = UILabels.CreateLabel(row.Panel, $"ShiftSummaryArrow_{i}", "->", "");
+                row.Arrow = UILabels.CreateLabel(row.Panel, $"ShiftSummaryArrow_{i + 1}", "->", "");
                 row.Arrow.size = new Vector2(70f, 24f);
-                row.Arrow.relativePosition = new Vector3(140f, 3f);
+                row.Arrow.relativePosition = new Vector3(140f, 6f);
 
-                row.EndField = UILabels.CreateLabel(row.Panel, $"ShiftSummaryEnd_{i}", "", "");
+                row.EndField = UILabels.CreateLabel(row.Panel, $"ShiftSummaryEnd_{i + 1}", "", "");
                 row.EndField.size = new Vector2(70f, 24f);
-                row.EndField.relativePosition = new Vector3(210f, 3f);
+                row.EndField.relativePosition = new Vector3(160f, 6f);
 
+                row.IsVisible = false;
                 m_shiftSummaryRows[i] = row;
             }
 
-            m_shiftsEditBtn = UIButtons.CreateButton(m_shiftsSummaryRow, 10f, 190f, "EditShifts", "", "", 250f);
+            m_shiftsEditBtn = UIButtons.CreateButton(m_shiftsSummaryRow, 10f, 190f, "EditShifts", "", "", m_shiftsSummaryRow.width);
             m_shiftsEditBtn.eventClicked += OpenShiftEditor;
         }
 
@@ -372,40 +397,42 @@ namespace RealTime.UI
 
         private void CreateShiftEditRows()
         {
-            m_shiftsEditorLabel = UILabels.CreateLabel(m_shiftsSummaryRow, "ShiftsEditorLabel", "", "");
+            m_shiftsEditorLabel = UILabels.CreateLabel(m_shiftsEditorPanel, "ShiftsEditorLabel", "", "");
             m_shiftsEditorLabel.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_shiftsEditorLabel.textAlignment = UIHorizontalAlignment.Left;
-            m_shiftsEditorLabel.textColor = new Color32(240, 190, 199, 255);
+            m_shiftsEditorLabel.textColor = new Color32(255, 255, 255, 255);
             m_shiftsEditorLabel.relativePosition = new Vector3(5f, 6f);
-            m_shiftsEditorLabel.width = m_shiftsSummaryRow.width;
-            m_shiftsEditorLabel.autoHeight = true;
+            m_shiftsEditorLabel.textScale = 1.3f;
 
             m_shiftEditRows = new ShiftRow[5];
 
             for (int i = 0; i < 5; i++)
             {
-                float y = 10 + i * 36f;
+                float y = 40 + i * 36f;
                 var row = new ShiftRow
                 {
-                    Panel = UIPanels.CreatePanel(m_shiftsEditorPanel, $"ShiftEditRow_{i}")
+                    Panel = UIPanels.CreatePanel(m_shiftsEditorPanel, $"ShiftEditRow_{i + 1}")
                 };
                 row.Panel.size = new Vector2(460f, 30f);
                 row.Panel.relativePosition = new Vector3(0f, y);
 
-                row.IndexLabel = UILabels.CreateLabel(row.Panel, $"ShiftEditLabel_{i}", $"Shift {i + 1}", "");
+                row.IndexLabel = UILabels.CreateLabel(row.Panel, $"ShiftEditLabel_{i + 1}", $"Shift {i + 1}", "");
                 row.IndexLabel.relativePosition = new Vector3(0f, 6f);
                 row.IndexLabel.width = 55f;
 
-                row.StartField = UITextFields.CreateTextField(row.Panel, $"ShiftEditStart_{i}", "");
+                row.StartField = UITextFields.CreateTextField(row.Panel, $"ShiftEditStart_{i + 1}", "");
                 row.StartField.size = new Vector2(70f, 24f);
-                row.StartField.relativePosition = new Vector3(65f, 3f);
+                row.StartField.relativePosition = new Vector3(85f, 3f);
 
-                row.EndField = UITextFields.CreateTextField(row.Panel, $"ShiftEditEnd_{i}", "");
+                row.Arrow = UILabels.CreateLabel(row.Panel, $"ShiftEditArrow_{i + 1}", "->", "");
+                row.Arrow.size = new Vector2(70f, 24f);
+                row.Arrow.relativePosition = new Vector3(140f, 6f);
+
+                row.EndField = UITextFields.CreateTextField(row.Panel, $"ShiftEditEnd_{i + 1}", "");
                 row.EndField.size = new Vector2(70f, 24f);
-                row.EndField.relativePosition = new Vector3(150f, 3f);
+                row.EndField.relativePosition = new Vector3(160f, 3f);
 
-                row.RemoveBtn = UIButtons.CreateButton(row.Panel, 430f, 1f, $"RemoveShift_{i}", "×", "", 28f);
-
+                row.RemoveBtn = UIButtons.CreateButton(row.Panel, 250f, 1f, $"RemoveShift_{i + 1}", "×", "", 28f);
                 int captured = i;
                 row.RemoveBtn.eventClicked += (_, __) => RemoveShift(captured);
 
@@ -420,7 +447,7 @@ namespace RealTime.UI
             m_ignorePolicy.width = 110f;
             m_ignorePolicy.label.textColor = new Color32(185, 221, 254, 255);
             m_ignorePolicy.label.textScale = 0.8125f;
-            m_ignorePolicy.relativePosition = new Vector3(0f, 210f);
+            m_ignorePolicy.relativePosition = new Vector3(0f, 230f);
             m_ignorePolicy.eventCheckChanged += (component, value) => m_ignorePolicy.isChecked = value;
 
             RefreshShiftsSummary();
@@ -715,6 +742,7 @@ namespace RealTime.UI
             }
 
             // action/danger buttons follow their own conditional logic
+            m_shiftsEditBtn.Disable();
             m_saveBuildingSettingsBtn.Disable();
             m_returnToDefaultBtn.Disable();
             m_applyPrefabSettingsBtn.Disable();

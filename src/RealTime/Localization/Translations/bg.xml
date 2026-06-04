@@ -294,52 +294,74 @@
   <translation id="AcademicYearEndYearButtonText" value="Завършване на учебната година" />
   <translation id="AcademicYearEndYearButtonTooltip" value="Позволява завършване на учебната година в делнични дни между 9:00 и 10:00" />
 
-  <translation id="OperationHoursSettingsCheckBox" value="Настройки" />
-  <translation id="OperationHoursSettingsCheckBoxTooltip" value="Промяна на работното време на сградата" />
-  <translation id="SettingsTitle" value="Настройка на работното време" />
-  <translation id="WorkAtNight" value="Работа през нощта" />
-  <translation id="WorkAtNightTooltip" value="Сградата ще работи денонощно" />
-  <translation id="WorkAtWeekands" value="Работа през уикенда" />
-  <translation id="WorkAtWeekandsTooltip" value="Сградата ще работи през почивните дни" />
-  <translation id="HasExtendedWorkShift" value="Удължена смяна" />
-  <translation id="HasExtendedWorkShiftTooltip" value="Смяната ще започне със събуждането на града. Несъвместимо с непрекъсната смяна." />
-  <translation id="HasContinuousWorkShift" value="Непрекъсната смяна" />
-  <translation id="HasContinuousWorkShiftTooltip" value="Сградата работи от 8:00 до 20:00. Ако нощната работа е разрешена — две смени: 8-20 и 20-8. Несъвместимо с удължена смяна." />
-  <translation id="IgnorePolicy" value="Игнориране на районните политики" />
-  <translation id="IgnorePolicyTooltip" value="Сградата ще игнорира всякакви ограничения от политиките на района" />
-  <translation id="ShiftCountTitle" value="Брой смени" />
-  <translation id="ShiftCountTooltip" value="Нощ + не непрекъснато = 3; непрекъснато = 1; Нощ + непрекъснато = 2; иначе = 1-2" />
-  <translation id="SaveBuildingSettings" value="Запазване на настройките на сградата" />
-  <translation id="SaveBuildingSettingsTooltip" value="Приоритет №1 — ще презапише типовите и глобалните настройки специално за тази сграда" />
-  <translation id="ReturnToDefault" value="Връщане по подразбиране" />
-  <translation id="ReturnToDefaultTooltip" value="Нулиране — трябва да изчистите настройките, за да се приложат типовите или глобалните" />
-  <translation id="ApplyPrefabSettings" value="Прилагане на настройки за типа" />
-  <translation id="ApplyPrefabSettingsTooltip" value="Прилагане на работното време според типа сграда в този запис" />
-  <translation id="ApplyGlobalSettings" value="Прилагане на глоб. настройки" />
-  <translation id="ApplyGlobalSettingsTooltip" value="Прилагане на работното време според типа сграда във всички записи" />
-  <translation id="SetPrefabSettings" value="Задаване за типа" />
-  <translation id="SetPrefabSettingsTooltip" value="Ще актуализира настройките за всички сгради от този тип в текущия запис" />
-  <translation id="SetGlobalSettings" value="Задаване глобално" />
-  <translation id="SetGlobalSettingsTooltip" value="Ще актуализира настройките за всички сгради от този тип във всички записи" />
-  <translation id="DeletePrefabSettings" value="Изтриване на настройки за типа" />
-  <translation id="DeletePrefabSettingsTooltip" value="Ще изтрие настройките за този тип и ще ги върне към стойностите по подразбиране в този запис" />
-  <translation id="DeleteGlobalSettings" value="Изтриване на глоб. настройки" />
-  <translation id="DeleteGlobalSettingsTooltip" value="Ще изтрие настройките за този тип и ще ги върне към стойностите по подразбиране във всички записи" />
-  <translation id="UnlockSettings" value="Отключване" />
-  <translation id="UnlockSettingsTooltip" value="Отключване на редактирането на настройките" />
-  <translation id="DefaultSettingsStatus" value="Тази сграда използва настройки по подразбиране" />
-  <translation id="BuildingSettingsStatus" value="Тази сграда използва собствени настройки" />
-  <translation id="PrefabSettingsStatus" value="Тази сграда използва настройки за типа" />
-  <translation id="GlobalSettingsStatus" value="Тази сграда използва глобални настройки" />
-  <translation id="LockUnlockChangesTooltip" value="Ако е заключено — настройките за типа и глобалните настройки не влияят на тази сграда" />
-  <translation id="ConfirmPanelSetPrefabTitle" value="Задаване настройки за типа" />
-  <translation id="ConfirmPanelSetPrefabText" value="Това ще актуализира работните часове на всички сгради от този тип в текущия запис!" />
-  <translation id="ConfirmPanelSetGlobalTitle" value="Задаване глоб. настройки" />
-  <translation id="ConfirmPanelSetGlobalText" value="Това ще актуализира работните часове на всички сгради от този тип във всички записи!" />
-  <translation id="ConfirmPanelDeletePrefabTitle" value="Изтриване настройки за типа" />
-  <translation id="ConfirmPanelDeletePrefabText" value="Това ще върне всички сгради от този тип в текущия запис към настройките по подразбиране!" />
-  <translation id="ConfirmPanelDeleteGlobalTitle" value="Изтриване глоб. настройки" />
-  <translation id="ConfirmPanelDeleteGlobalText" value="Това ще върне всички сгради от този тип във всички записи към настройките по подразбиране!" />
+  <translation id="OperationHoursSettingsCheckBox" value="Settings" />
+  <translation id="OperationHoursSettingsCheckBoxTooltip" value="Change building operation hours" />
+  <translation id="SettingsTitle" value="Adjust Operation Hours" />
+  <translation id="UnlockSettings" value="Unlock settings" />
+  <translation id="UnlockSettingsTooltip" value="Unlock edit settings" />
+  <translation id="LockUnlockChangesTooltip" value="If Locked - type and global settings has no affect on this building" />
+  <translation id="DefaultSettingsStatus" value="This Building is using default settings" />
+  <translation id="BuildingSettingsStatus" value="This Building is using his own settings" />
+  <translation id="PrefabSettingsStatus" value="This Building is using type settings" />
+  <translation id="GlobalSettingsStatus" value="This Building is using global settings" />
+  <translation id="ActiveDays" value="Active Days" />
+  <translation id="Monday" value="Monday" />
+  <translation id="MondayTooltip" value="Set monday as active/not active work day" />
+  <translation id="Tuesday" value="Tuesday" />
+  <translation id="TuesdayTooltip" value="Set tuesday as active/not active work day" />
+  <translation id="Wednesday" value="Wednesday" />
+  <translation id="WednesdayTooltip" value="Set wednesday as active/not active work day" />
+  <translation id="Thursday" value="Thursday" />
+  <translation id="ThursdayTooltip" value="Set thursday as active/not active work day" />
+  <translation id="Friday" value="Friday" />
+  <translation id="FridayTooltip" value="Set friday as active/not active work day" />
+  <translation id="Saturday" value="Saturday" />
+  <translation id="SaturdayTooltip" value="Set saturday as active/not active work day" />
+  <translation id="Sunday" value="Sunday" />
+  <translation id="SundayTooltip" value="Set sunday as active/not active work day" />
+  <translation id="ShiftsSummaryLabel" value="Shifts" />
+  <translation id="ShiftSummaryLabel_1" value="Shift 1" />
+  <translation id="ShiftSummaryLabel_2" value="Shift 2" />
+  <translation id="ShiftSummaryLabel_3" value="Shift 3" />
+  <translation id="ShiftSummaryLabel_4" value="Shift 4" />
+  <translation id="ShiftSummaryLabel_5" value="Shift 5" />
+  <translation id="EditShifts" value="Edit Shifts" />
+  <translation id="EditShiftsTooltip" value="Edit the work shifts for this building" />
+  <translation id="ShiftsEditorLabel" value="Edit Shifts" />
+  <translation id="ShiftEditorLabel_1" value="Shift 1" />
+  <translation id="ShiftEditorLabel_2" value="Shift 2" />
+  <translation id="ShiftEditorLabel_3" value="Shift 3" />
+  <translation id="ShiftEditorLabel_4" value="Shift 4" />
+  <translation id="ShiftEditorLabel_5" value="Shift 5" />
+  <translation id="AddShift" value="+ Add Shift" />
+  <translation id="AddShiftTooltip" value="Add a new work shift for this building" />
+  <translation id="IgnorePolicy" value="Ignore District Policies" />
+  <translation id="IgnorePolicyTooltip" value="The building will ignore any restirctions from district policies" />
+  <translation id="SaveBuildingSettings" value="Save building settings" />
+  <translation id="SaveBuildingSettingsTooltip" value="First priority - will override prefab and global settings and create a specific work time for this building" />
+  <translation id="ReturnToDefault" value="Back to default" />
+  <translation id="ReturnToDefaultTooltip" value="Will not delete the record just set a default flag on it - you need to clear settings for this building to get the prefab or global settings" />
+  <translation id="ApplyPrefabSettings" value="Apply type settings" />
+  <translation id="ApplyPrefabSettingsTooltip" value="Apply work time settings to this building according to building type in this save" />
+  <translation id="ApplyGlobalSettings" value="Apply global settings" />
+  <translation id="ApplyGlobalSettingsTooltip" value="Apply work time settings to this building according to building type across all saves" />
+  <translation id="SetPrefabSettings" value="Set new type" />
+  <translation id="SetPrefabSettingsTooltip" value="This will update all building records of this type to the current work time of this building in this save" />
+  <translation id="SetGlobalSettings" value="Set new global" />
+  <translation id="SetGlobalSettingsTooltip" value="This will update all building records of this type to the current work time of this building across all saves" />
+  <translation id="DeletePrefabSettings" value="Delete existing type" />
+  <translation id="DeletePrefabSettingsTooltip" value="This will delete all building records of this type and return them back to default in this save" />
+  <translation id="DeleteGlobalSettings" value="Delete existing global" />
+  <translation id="DeleteGlobalSettingsTooltip" value="This will delete all building records of this type and return them back to default across all saves" />
+  <translation id="ConfirmPanelSetPrefabTitle" value="Set Type Settings" />
+  <translation id="ConfirmPanelSetPrefabText" value="This will update all the buildings work hours of this type to the current work time settings in this save!" />
+  <translation id="ConfirmPanelSetGlobalTitle" value="Set Global Settings" />
+  <translation id="ConfirmPanelSetGlobalText" value="This will update all the buildings work hours of this type to the current work time settings across all saves!" />
+  <translation id="ConfirmPanelDeletePrefabTitle" value="Delete Type Settings" />
+  <translation id="ConfirmPanelDeletePrefabText" value="This will remove all the buildings work hours of this type back to default settings in this save!" />
+  <translation id="ConfirmPanelDeleteGlobalTitle" value="Delete Global Settings" />
+  <translation id="ConfirmPanelDeleteGlobalText" value="This will remove all the buildings work hours of this type back to default settings across all saves!" />
+  
   <translation id="ClosedBuilding" value="Затворено" />
   <translation id="ServingTimeAt" value="Време на престой в " />
 

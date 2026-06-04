@@ -23,7 +23,7 @@ namespace RealTime.UI
         internal UIPanel m_actionRow;          // Save / Return / Apply buttons
         internal UIPanel m_dangerRow;          // Set/Delete Prefab/Global buttons
 
-        // ── Header controls ─────────────────────────────────────────────
+        // ─────────────────────────────────────────── Header controls ──────────────────────────────────────
         internal UILabel m_settingsTitle;
         internal UILabel m_settingsStatus;
         internal UIPanel m_innerPanel;
@@ -36,26 +36,28 @@ namespace RealTime.UI
         internal UIButton[] m_dayButtons; // indexed by DayOrder position
         internal static readonly DayOfWeek[] DayOrder = // Define the order of days for consistent indexing
         [
-            DayOfWeek.Sunday, DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday,
-            DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday
+            DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday,
+            DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday
         ];
 
         // ─────────────────────────────────────────── Shifts Summary Panel ───────────────────────────────────────────
         internal UILabel m_shiftsSummaryLabel;
-        internal UIButton m_shiftsEditBtn;
+        internal ShiftSummaryRow[] m_shiftSummaryRows; // up to MaxShifts = 5
+        internal UIButton m_shiftsEditBtn; // opens the shifts editor panel
 
         // ─────────────────────────────────────────── Shifts Editor Panel ───────────────────────────────────────────
-        internal ShiftRow[] m_shiftRows;  // up to MaxShifts = 5
+        internal UILabel m_shiftsEditorLabel;
+        internal ShiftRow[] m_shiftEditRows;  // up to MaxShifts = 5
         internal UIButton m_addShiftBtn;
         internal UICheckBox m_ignorePolicy;
 
-        // ── Action buttons ───────────────────────────────────────────────
+        // ─────────────────────────────────────────── Action buttons ───────────────────────────────────────────────
         internal UIButton m_saveBuildingSettingsBtn;
         internal UIButton m_returnToDefaultBtn;
         internal UIButton m_applyPrefabSettingsBtn;
         internal UIButton m_applyGlobalSettingsBtn;
 
-        // ── Danger buttons ───────────────────────────────────────────────
+        // ─────────────────────────────────────────── Danger buttons ───────────────────────────────────────────────
         internal UIButton m_setPrefabSettingsBtn;
         internal UIButton m_setGlobalSettingsBtn;
         internal UIButton m_deletePrefabSettingsBtn;
@@ -76,14 +78,46 @@ namespace RealTime.UI
 
         internal static readonly string[] DayTranslationKeys =
         [
-            TranslationKeys.Sunday,
             TranslationKeys.Monday,
             TranslationKeys.Tuesday,
             TranslationKeys.Wednesday,
             TranslationKeys.Thursday,
             TranslationKeys.Friday,
-            TranslationKeys.Saturday
+            TranslationKeys.Saturday,
+            TranslationKeys.Sunday
         ];
+
+        internal class ShiftSummaryRow
+        {
+            public UIPanel Panel;
+            public UILabel IndexLabel;   // "Shift 1", "Shift 2", etc.
+            public UILabel StartField;  // "08:00"
+            public UILabel Arrow;       // ->
+            public UILabel EndField;    // "17:00"
+
+            public bool IsVisible
+            {
+                get => Panel.isVisible;
+                set => Panel.isVisible = value;
+            }
+
+            public BuildingWorkTimeManager.WorkShiftTime GetEntry() => new()
+            {
+                StartHour = ParseHour(StartField.text),
+                EndHour = ParseHour(EndField.text)
+            };
+
+            public void SetEntry(int index, BuildingWorkTimeManager.WorkShiftTime entry)
+            {
+                IndexLabel.text = $"Shift {index + 1}";
+                StartField.text = FormatHour(entry.StartHour);
+                EndField.text = FormatHour(entry.EndHour);
+                IsVisible = entry.IsValid;
+            }
+
+            private static float ParseHour(string s) => float.TryParse(s, out float h) ? h : 0f;
+            private static string FormatHour(float h) => $"{(int)h:D2}:{(int)(h % 1 * 60):D2}";
+        }
 
         internal class ShiftRow
         {
@@ -102,7 +136,7 @@ namespace RealTime.UI
             public BuildingWorkTimeManager.WorkShiftTime GetEntry() => new()
             {
                 StartHour = ParseHour(StartField.text),
-                EndHour = ParseHour(EndField.text),
+                EndHour = ParseHour(EndField.text)
             };
 
             public void SetEntry(int index, BuildingWorkTimeManager.WorkShiftTime entry)
@@ -138,7 +172,7 @@ namespace RealTime.UI
             m_daysRow = UIPanels.CreateRow(m_innerPanel, "DaysRow", 100f, 70f);
             m_shiftsSummaryRow = UIPanels.CreateRow(m_innerPanel, "ShiftsSummaryRow", 180f, 30f);
 
-            m_shiftsEditorPanel = UIPanels.CreatePanel(m_innerPanel, "ShiftsEditorPanel");
+            m_shiftsEditorPanel = UIPanels.CreatePanel(this, "ShiftsEditorPanel");
             m_shiftsEditorPanel.size = new Vector2(460f, 220f);
             m_shiftsEditorPanel.relativePosition = new Vector3(10f, 190f);
             m_shiftsEditorPanel.isVisible = false;
@@ -148,8 +182,8 @@ namespace RealTime.UI
 
             CreateHeader();
             CreateDaysRow();
-            CreateShiftsSummaryRow();
-            CreateShiftRows();
+            CreateShiftSummaryRows();
+            CreateShiftEditRows();
             CreateActionButtons();
             CreateDangerButtons();
 
@@ -266,17 +300,48 @@ namespace RealTime.UI
             }
         }
 
-        private void CreateShiftsSummaryRow()
+        private void CreateShiftSummaryRows()
         {
-            m_shiftsSummaryLabel = UILabels.CreateLabel(m_shiftsSummaryRow, "ShiftsSummaryLabel", "No shifts selected", "");
+            m_shiftsSummaryLabel = UILabels.CreateLabel(m_shiftsSummaryRow, "ShiftsSummaryLabel", "", "");
             m_shiftsSummaryLabel.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_shiftsSummaryLabel.textAlignment = UIHorizontalAlignment.Left;
             m_shiftsSummaryLabel.textColor = new Color32(240, 190, 199, 255);
-            m_shiftsSummaryLabel.relativePosition = new Vector3(0f, 6f);
+            m_shiftsSummaryLabel.relativePosition = new Vector3(5f, 6f);
             m_shiftsSummaryLabel.width = m_shiftsSummaryRow.width;
             m_shiftsSummaryLabel.autoHeight = true;
 
-            m_shiftsEditBtn = UIButtons.CreateButton(m_shiftsSummaryRow, 0f, 0f, "EditShifts", "", "", 140f);
+            m_shiftSummaryRows = new ShiftSummaryRow[5];
+
+            for (int i = 0; i < 5; i++)
+            {
+                float y = 10 + i * 36f;
+                var row = new ShiftSummaryRow
+                {
+                    Panel = UIPanels.CreatePanel(m_shiftsEditorPanel, $"ShiftRow_{i}")
+                };
+                row.Panel.size = new Vector2(460f, 30f);
+                row.Panel.relativePosition = new Vector3(0f, y);
+
+                row.IndexLabel = UILabels.CreateLabel(row.Panel, $"ShiftSummaryLabel_{i}", "", "");
+                row.IndexLabel.relativePosition = new Vector3(0f, 6f);
+                row.IndexLabel.width = 55f;
+
+                row.StartField = UILabels.CreateLabel(row.Panel, $"ShiftSummaryStart_{i}", "", "");
+                row.StartField.size = new Vector2(70f, 24f);
+                row.StartField.relativePosition = new Vector3(65f, 3f);
+
+                row.Arrow = UILabels.CreateLabel(row.Panel, $"ShiftSummaryArrow_{i}", "->", "");
+                row.Arrow.size = new Vector2(70f, 24f);
+                row.Arrow.relativePosition = new Vector3(140f, 3f);
+
+                row.EndField = UILabels.CreateLabel(row.Panel, $"ShiftSummaryEnd_{i}", "", "");
+                row.EndField.size = new Vector2(70f, 24f);
+                row.EndField.relativePosition = new Vector3(210f, 3f);
+
+                m_shiftSummaryRows[i] = row;
+            }
+
+            m_shiftsEditBtn = UIButtons.CreateButton(m_shiftsSummaryRow, 10f, 190f, "EditShifts", "", "", 250f);
             m_shiftsEditBtn.eventClicked += OpenShiftEditor;
         }
 
@@ -288,17 +353,14 @@ namespace RealTime.UI
 
             if (shifts == null || shifts.Length == 0)
             {
-                m_shiftsSummaryLabel.text = "No shifts selected";
                 return;
             }
 
-            var parts = new List<string>();
-            foreach (var shift in shifts)
+            for(int i = 0; i < shifts.Length && i < m_shiftSummaryRows.Length; i++)
             {
-                parts.Add($"{FormatHour(shift.StartHour)}-{FormatHour(shift.EndHour)}");
+                m_shiftSummaryRows[i].SetEntry(i, shifts[i]);
+                m_shiftSummaryRows[i].IsVisible = true;
             }
-
-            m_shiftsSummaryLabel.text = $"Selected shifts: {string.Join(", ", [.. parts])}";
         }
 
         private static string FormatHour(float h)
@@ -308,29 +370,37 @@ namespace RealTime.UI
             return $"{hour:D2}:{minute:D2}";
         }
 
-        private void CreateShiftRows()
+        private void CreateShiftEditRows()
         {
-            m_shiftRows = new ShiftRow[5];
+            m_shiftsEditorLabel = UILabels.CreateLabel(m_shiftsSummaryRow, "ShiftsEditorLabel", "", "");
+            m_shiftsEditorLabel.font = UIFonts.GetUIFont("OpenSans-Regular");
+            m_shiftsEditorLabel.textAlignment = UIHorizontalAlignment.Left;
+            m_shiftsEditorLabel.textColor = new Color32(240, 190, 199, 255);
+            m_shiftsEditorLabel.relativePosition = new Vector3(5f, 6f);
+            m_shiftsEditorLabel.width = m_shiftsSummaryRow.width;
+            m_shiftsEditorLabel.autoHeight = true;
+
+            m_shiftEditRows = new ShiftRow[5];
 
             for (int i = 0; i < 5; i++)
             {
-                float y = i * 36f;
+                float y = 10 + i * 36f;
                 var row = new ShiftRow
                 {
-                    Panel = UIPanels.CreatePanel(m_shiftsEditorPanel, $"ShiftRow_{i}")
+                    Panel = UIPanels.CreatePanel(m_shiftsEditorPanel, $"ShiftEditRow_{i}")
                 };
                 row.Panel.size = new Vector2(460f, 30f);
                 row.Panel.relativePosition = new Vector3(0f, y);
 
-                row.IndexLabel = UILabels.CreateLabel(row.Panel, $"ShiftLabel_{i}", $"Shift {i + 1}", "");
+                row.IndexLabel = UILabels.CreateLabel(row.Panel, $"ShiftEditLabel_{i}", $"Shift {i + 1}", "");
                 row.IndexLabel.relativePosition = new Vector3(0f, 6f);
                 row.IndexLabel.width = 55f;
 
-                row.StartField = UITextFields.CreateTextField(row.Panel, $"ShiftStart_{i}", "");
+                row.StartField = UITextFields.CreateTextField(row.Panel, $"ShiftEditStart_{i}", "");
                 row.StartField.size = new Vector2(70f, 24f);
                 row.StartField.relativePosition = new Vector3(65f, 3f);
 
-                row.EndField = UITextFields.CreateTextField(row.Panel, $"ShiftEnd_{i}", "");
+                row.EndField = UITextFields.CreateTextField(row.Panel, $"ShiftEditEnd_{i}", "");
                 row.EndField.size = new Vector2(70f, 24f);
                 row.EndField.relativePosition = new Vector3(150f, 3f);
 
@@ -340,7 +410,7 @@ namespace RealTime.UI
                 row.RemoveBtn.eventClicked += (_, __) => RemoveShift(captured);
 
                 row.IsVisible = false;  // hidden until AddShift is clicked
-                m_shiftRows[i] = row;
+                m_shiftEditRows[i] = row;
             }
 
             m_addShiftBtn = UIButtons.CreateButton(m_shiftsEditorPanel, 0f, 5 * 36f, "AddShift", "+ Add Shift", "", 460f);
@@ -394,17 +464,19 @@ namespace RealTime.UI
 
         private void Translate(ILocalizationProvider localizationProvider)
         {
+            // ─────────────────────────────────────────── Header translation ──────────────────────────────────────
             m_settingsTitle.text = localizationProvider.Translate(TranslationKeys.SettingsTitle);
+
+            m_unlockSettingsBtn.text = localizationProvider.Translate(TranslationKeys.UnlockSettings);
+            m_unlockSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.UnlockSettingsTooltip);
+            m_lockUnlockChangesBtn.tooltip = localizationProvider.Translate(TranslationKeys.LockUnlockChangesTooltip);
 
             t_defaultSettingsStatus = localizationProvider.Translate(TranslationKeys.DefaultSettingsStatus);
             t_buildingSettingsStatus = localizationProvider.Translate(TranslationKeys.BuildingSettingsStatus);
             t_prefabSettingsStatus = localizationProvider.Translate(TranslationKeys.PrefabSettingsStatus);
             t_globalSettingsStatus = localizationProvider.Translate(TranslationKeys.GlobalSettingsStatus);
 
-            m_unlockSettingsBtn.text = localizationProvider.Translate(TranslationKeys.UnlockSettings);
-            m_unlockSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.UnlockSettingsTooltip);
-            m_lockUnlockChangesBtn.tooltip = localizationProvider.Translate(TranslationKeys.LockUnlockChangesTooltip);
-
+            // ────────────────────────────────────────── Days row translation ─────────────────────────────────────────
             m_activeDaysLabel.text = localizationProvider.Translate(TranslationKeys.ActiveDays);
 
             foreach (var btn in m_dayButtons)
@@ -413,11 +485,37 @@ namespace RealTime.UI
                 btn.tooltip = localizationProvider.Translate(btn.name + "Tooltip");
             }
 
+            // ───────────────────────────────────────── Shifts summary translation ─────────────────────────────────────────
+            m_shiftsSummaryLabel.text = localizationProvider.Translate(TranslationKeys.ShiftsSummaryLabel);
+
+            foreach (var shift in m_shiftSummaryRows)
+            {
+                shift.IndexLabel.text = localizationProvider.Translate(shift.IndexLabel.name);
+            }
+
+            m_shiftsEditBtn.text = localizationProvider.Translate(TranslationKeys.EditShifts);
+            m_shiftsEditBtn.tooltip = localizationProvider.Translate(TranslationKeys.EditShiftsTooltip);
+
+            // ───────────────────────────────────────── Shifts editor translation ─────────────────────────────────────────
+            m_shiftsEditorLabel.text = localizationProvider.Translate(TranslationKeys.ShiftsEditorLabel);
+
+            foreach (var shift in m_shiftEditRows)
+            {
+                shift.IndexLabel.text = localizationProvider.Translate(shift.IndexLabel.name);
+            }
+
+            m_addShiftBtn.text = localizationProvider.Translate(TranslationKeys.AddShift);
+            m_addShiftBtn.tooltip = localizationProvider.Translate(TranslationKeys.AddShiftTooltip);
+
+            m_ignorePolicy.text = localizationProvider.Translate(TranslationKeys.IgnorePolicy);
+            m_ignorePolicy.tooltip = localizationProvider.Translate(TranslationKeys.IgnorePolicyTooltip);
+
+            // ──────────────────────────────────────── Action and Danger buttons translation ─────────────────────────────────────────
             m_saveBuildingSettingsBtn.text = localizationProvider.Translate(TranslationKeys.SaveBuildingSettings);
             m_saveBuildingSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.SaveBuildingSettingsTooltip);
-
             m_returnToDefaultBtn.text = localizationProvider.Translate(TranslationKeys.ReturnToDefault);
             m_returnToDefaultBtn.tooltip = localizationProvider.Translate(TranslationKeys.ReturnToDefaultTooltip);
+
             m_applyPrefabSettingsBtn.text = localizationProvider.Translate(TranslationKeys.ApplyPrefabSettings);
             m_applyPrefabSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.ApplyPrefabSettingsTooltip);
             m_applyGlobalSettingsBtn.text = localizationProvider.Translate(TranslationKeys.ApplyGlobalSettings);
@@ -552,7 +650,7 @@ namespace RealTime.UI
         private void SetActiveShifts(BuildingWorkTimeManager.WorkShiftTime[] workShifts)
         {
             // hide all rows first
-            foreach (var row in m_shiftRows)
+            foreach (var row in m_shiftEditRows)
             {
                 row.IsVisible = false;
             }
@@ -562,21 +660,21 @@ namespace RealTime.UI
                 return;
             }
 
-            for (int i = 0; i < workShifts.Length && i < m_shiftRows.Length; i++)
+            for (int i = 0; i < workShifts.Length && i < m_shiftEditRows.Length; i++)
             {
-                m_shiftRows[i].SetEntry(i, workShifts[i]);
-                m_shiftRows[i].IsVisible = true;
+                m_shiftEditRows[i].SetEntry(i, workShifts[i]);
+                m_shiftEditRows[i].IsVisible = true;
             }
 
             // only show add button if there's still room
-            m_addShiftBtn.isVisible = workShifts.Length < m_shiftRows.Length;
+            m_addShiftBtn.isVisible = workShifts.Length < m_shiftEditRows.Length;
             RefreshShiftsSummary();
         }
 
         private BuildingWorkTimeManager.WorkShiftTime[] GetActiveShifts()
         {
             var list = new List<BuildingWorkTimeManager.WorkShiftTime>();
-            foreach (var row in m_shiftRows)
+            foreach (var row in m_shiftEditRows)
             {
                 if (row.IsVisible)
                 {
@@ -588,13 +686,13 @@ namespace RealTime.UI
 
         private void AddShift()
         {
-            for (int i = 0; i < m_shiftRows.Length; i++)
+            for (int i = 0; i < m_shiftEditRows.Length; i++)
             {
-                if (!m_shiftRows[i].IsVisible)
+                if (!m_shiftEditRows[i].IsVisible)
                 {
-                    m_shiftRows[i].SetEntry(i, new BuildingWorkTimeManager.WorkShiftTime { StartHour = 8f, EndHour = 17f });
-                    m_shiftRows[i].IsVisible = true;
-                    m_addShiftBtn.isVisible = i < 4;
+                    m_shiftEditRows[i].SetEntry(i, new BuildingWorkTimeManager.WorkShiftTime { StartHour = 8f, EndHour = 17f });
+                    m_shiftEditRows[i].IsVisible = true;
+                    m_addShiftBtn.isEnabled = i < 4;
                     RefreshShiftsSummary();
                     return;
                 }
@@ -603,8 +701,8 @@ namespace RealTime.UI
 
         private void RemoveShift(int index)
         {
-            m_shiftRows[index].IsVisible = false;
-            m_addShiftBtn.isVisible = true;
+            m_shiftEditRows[index].IsVisible = false;
+            m_addShiftBtn.isEnabled = true;
             // compact: shift rows above index stay, just hide this one
             RefreshShiftsSummary();
         }

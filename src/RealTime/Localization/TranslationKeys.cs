@@ -82,14 +82,29 @@ namespace RealTime.Localization
         /// <summary>The key for the title of building work time settings panel.</summary>
         public const string SettingsTitle = "SettingsTitle";
 
+        /// <summary>The key for the unlock settings button.</summary>
+        public const string UnlockSettings = "UnlockSettings";
+
+        /// <summary>The key for the unlock settings button tooltip.</summary>
+        public const string UnlockSettingsTooltip = "UnlockSettingsTooltip";
+
+        /// <summary>The key for the lock/unlock changes button tooltip.</summary>
+        public const string LockUnlockChangesTooltip = "LockUnlockChangesTooltip";
+
+        /// <summary>The key for the default settings status.</summary>
+        public const string DefaultSettingsStatus = "DefaultSettingsStatus";
+
+        /// <summary>The key for the building settings status.</summary>
+        public const string BuildingSettingsStatus = "BuildingSettingsStatus";
+
+        /// <summary>The key for the prefab settings status.</summary>
+        public const string PrefabSettingsStatus = "PrefabSettingsStatus";
+
+        /// <summary>The key for the global settings status.</summary>
+        public const string GlobalSettingsStatus = "GlobalSettingsStatus";
+
         /// <summary>The key for the active days label text.</summary>
         public const string ActiveDays = "ActiveDays";
-
-        /// <summary>The key for the sunday button.</summary>
-        public const string Sunday = "Sunday";
-
-        /// <summary>The key for the sunday button tooltip.</summary>
-        public const string SundayTooltip = "SundayTooltip";
 
         /// <summary>The key for the monday button.</summary>
         public const string Monday = "Monday";
@@ -127,14 +142,65 @@ namespace RealTime.Localization
         /// <summary>The key for the saturday button tooltip.</summary>
         public const string SaturdayTooltip = "SaturdayTooltip";
 
-        /// <summary>The key for the shifts label.</summary>
-        public const string Shifts = "Shifts";
+        /// <summary>The key for the sunday button.</summary>
+        public const string Sunday = "Sunday";
 
-        /// <summary>The key for the edit schedule button.</summary>
-        public const string EditSchedule = "EditSchedule";
+        /// <summary>The key for the sunday button tooltip.</summary>
+        public const string SundayTooltip = "SundayTooltip";
 
-        /// <summary>The key for the edit schedule button tooltip.</summary>
-        public const string EditScheduleTooltip = "EditScheduleTooltip";
+        /// <summary>The key for the shifts summary label.</summary>
+        public const string ShiftsSummaryLabel = "ShiftsSummaryLabel";
+
+        /// <summary>The key for the shift summary label 1.</summary>
+        public const string ShiftSummaryLabel_1 = "ShiftSummaryLabel_1";
+
+        /// <summary>The key for the shift summary label 2.</summary>
+        public const string ShiftSummaryLabel_2 = "ShiftSummaryLabel_2";
+
+        /// <summary>The key for the shift summary label 3.</summary>
+        public const string ShiftSummaryLabel_3 = "ShiftSummaryLabel_3";
+
+        /// <summary>The key for the shift summary label 4.</summary>
+        public const string ShiftSummaryLabel_4 = "ShiftSummaryLabel_4";
+
+        /// <summary>The key for the shift summary label 5.</summary>
+        public const string ShiftSummaryLabel_5 = "ShiftSummaryLabel_5";
+
+        /// <summary>The key for the edit shifts button.</summary>
+        public const string EditShifts = "EditShifts";
+
+        /// <summary>The key for the edit shifts button tooltip.</summary>
+        public const string EditShiftsTooltip = "EditShiftsTooltip";
+
+        /// <summary>The key for the shifts editor label.</summary>
+        public const string ShiftsEditorLabel = "ShiftsEditorLabel";
+
+        /// <summary>The key for the shift edit label 1.</summary>
+        public const string ShiftEditLabel_1 = "ShiftEditLabel_1";
+
+        /// <summary>The key for the shift edit label 2.</summary>
+        public const string ShiftEditLabel_2 = "ShiftEditLabel_2";
+
+        /// <summary>The key for the shift edit label 3.</summary>
+        public const string ShiftEditLabel_3 = "ShiftEditLabel_3";
+
+        /// <summary>The key for the shift edit label 4.</summary>
+        public const string ShiftEditLabel_4 = "ShiftEditLabel_4";
+
+        /// <summary>The key for the shift edit label 5.</summary>
+        public const string ShiftEditLabel_5 = "ShiftEditLabel_5";
+
+        /// <summary>The key for the add shift button.</summary>
+        public const string AddShift = "AddShift";
+
+        /// <summary>The key for the add shift button tooltip.</summary>
+        public const string AddShiftTooltip = "AddShiftTooltip";
+
+        /// <summary>The key for the ignore policy checkbox.</summary>
+        public const string IgnorePolicy = "IgnorePolicy";
+
+        /// <summary>The key for the ignore policy checkbox tooltip.</summary>
+        public const string IgnorePolicyTooltip = "IgnorePolicyTooltip";
 
         /// <summary>The key for the save building settings button.</summary>
         public const string SaveBuildingSettings = "SaveBuildingSettings";
@@ -183,27 +249,6 @@ namespace RealTime.Localization
 
         /// <summary>The key for the delete global settings button tooltip.</summary>
         public const string DeleteGlobalSettingsTooltip = "DeleteGlobalSettingsTooltip";
-
-        /// <summary>The key for the unlock settings button.</summary>
-        public const string UnlockSettings = "UnlockSettings";
-
-        /// <summary>The key for the unlock settings button tooltip.</summary>
-        public const string UnlockSettingsTooltip = "UnlockSettingsTooltip";
-
-        /// <summary>The key for the default settings status.</summary>
-        public const string DefaultSettingsStatus = "DefaultSettingsStatus";
-
-        /// <summary>The key for the building settings status.</summary>
-        public const string BuildingSettingsStatus = "BuildingSettingsStatus";
-
-        /// <summary>The key for the prefab settings status.</summary>
-        public const string PrefabSettingsStatus = "PrefabSettingsStatus";
-
-        /// <summary>The key for the global settings status.</summary>
-        public const string GlobalSettingsStatus = "GlobalSettingsStatus";
-
-        /// <summary>The key for the lock/unlock changes button tooltip.</summary>
-        public const string LockUnlockChangesTooltip = "LockUnlockChangesTooltip";
 
         /// <summary>The key for the set prefab confirm panel title.</summary>
         public const string ConfirmPanelSetPrefabTitle = "ConfirmPanelSetPrefabTitle";

@@ -27,6 +27,7 @@ namespace RealTime.UI
 
         // ─────────────────────────────────────────── Header controls ──────────────────────────────────────
         internal UILabel m_settingsTitle;
+        internal UILabel m_settingsStatusLabel;
         internal UILabel m_settingsStatus;
         internal UIPanel m_innerPanel;
         internal UIButton m_unlockSettingsBtn;
@@ -173,33 +174,33 @@ namespace RealTime.UI
             backgroundSprite = "SubcategoriesPanel";
             opacity = 0.90f;
             isVisible = false;
-            width = 510f;
-            height = 580f;
+            width = 300f;
+            height = 500f;
             
             m_innerPanel = UIPanels.CreatePanel(this, "OperationHoursInnerPanel");
             m_innerPanel.color = new Color32(206, 206, 206, 255);
-            m_innerPanel.size = new Vector2(500f, 570f);
+            m_innerPanel.size = new Vector2(300f, 480f);
             m_innerPanel.relativePosition = new Vector3(5f, 5f);
 
             m_headerRow = UIPanels.CreateRow(m_innerPanel, "HeaderRow", 10f, 80f);
-            m_daysRow = UIPanels.CreateRow(m_innerPanel, "DaysRow", 100f, 70f);
-            m_shiftsSummaryRow = UIPanels.CreateRow(m_innerPanel, "ShiftsSummaryRow", 180f, 30f);
+            m_daysRow = UIPanels.CreateRow(m_innerPanel, "DaysRow", 100f, 90f);
+            m_shiftsSummaryRow = UIPanels.CreateRow(m_innerPanel, "ShiftsSummaryRow", 210f, 30f);
 
             m_shiftsEditorPanel = UIPanels.CreatePanel(this, "ShiftsEditorPanel");
             m_shiftsEditorPanel.backgroundSprite = "SubcategoriesPanel";
             m_shiftsEditorPanel.size = new Vector2(300f, 300f);
-            m_shiftsEditorPanel.relativePosition = new Vector3(width + 15f, 150f);
+            m_shiftsEditorPanel.relativePosition = new Vector3(302f, 75f);
             m_shiftsEditorPanel.isVisible = false;
 
-            m_actionRow = UIPanels.CreateRow(m_innerPanel, "ActionRow", 410f, 80f);
+            m_actionRow = UIPanels.CreateRow(m_innerPanel, "ActionRow", 380f, 80f);
 
-            m_accessAdvancedSettingsBtn = UIButtons.CreateButton(m_innerPanel, 10f, 300f, "AccessAdvancedSettings", "", "", 460f);
+            m_accessAdvancedSettingsBtn = UIButtons.CreateButton(m_innerPanel, 20f, 500f, "AccessAdvancedSettings", "", "", 260f);
             m_accessAdvancedSettingsBtn.eventClicked += OpenAdvancedSettingsPanel;
 
             m_advancedSettingsPanel = UIPanels.CreatePanel(this, "AdvancedSettings");
             m_advancedSettingsPanel.backgroundSprite = "SubcategoriesPanel";
-            m_advancedSettingsPanel.size = new Vector2(460f, 80f);
-            m_advancedSettingsPanel.relativePosition = new Vector3(width + 15f, 460f);
+            m_advancedSettingsPanel.size = new Vector2(300f, 80f);
+            m_advancedSettingsPanel.relativePosition = new Vector3(302f, 380f);
             m_advancedSettingsPanel.isVisible = false;
 
             m_dangerRow = UIPanels.CreateRow(m_advancedSettingsPanel, "DangerRow", 0f, 80f);
@@ -261,20 +262,30 @@ namespace RealTime.UI
             m_settingsTitle.width = 220f;
             m_settingsTitle.textScale = 1.3f;
 
+            // status label header
+            m_settingsStatusLabel = UILabels.CreateLabel(m_headerRow, "SettingsStatusLabel", "", "");
+            m_settingsStatusLabel.font = UIFonts.GetUIFont("OpenSans-Regular");
+            m_settingsStatusLabel.textAlignment = UIHorizontalAlignment.Left;
+            m_settingsStatusLabel.textColor = new Color32(255, 255, 255, 255);
+            m_settingsStatusLabel.relativePosition = new Vector3(0f, 50f);
+            m_settingsStatusLabel.width = 100f;
+            m_settingsStatusLabel.textScale = 1.1f;
+
             // status label that shows if the current settings are default, building specific, prefab specific or global specific
             m_settingsStatus = UILabels.CreateLabel(m_headerRow, "SettingsStatus", "", "");
             m_settingsStatus.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_settingsStatus.textAlignment = UIHorizontalAlignment.Left;
             m_settingsStatus.textColor = new Color32(240, 190, 199, 255);
-            m_settingsStatus.relativePosition = new Vector3(10f, 50f);
-            m_settingsTitle.width = 220f;
+            m_settingsStatus.relativePosition = new Vector3(110f, 50f);
+            m_settingsStatus.width = 220f;
+            m_settingsStatus.textScale = 1.1f;
 
             // unlock settings button
-            m_unlockSettingsBtn = UIButtons.CreateButton(m_headerRow, 300f, 3f, "UnlockSettings", "", "", 120f);
+            m_unlockSettingsBtn = UIButtons.CreateButton(m_headerRow, 170f, 3f, "UnlockSettings", "", "", 60f);
             m_unlockSettingsBtn.eventClicked += UnlockSettings;
 
             // lock/unlock changes button
-            m_lockUnlockChangesBtn = UIButtons.CreateButton(m_headerRow, 440f, 0f, "LockUnLockChanges", "", "", 32, 32);
+            m_lockUnlockChangesBtn = UIButtons.CreateButton(m_headerRow, 240f, 0f, "LockUnLockChanges", "", "", 32, 32);
             m_lockUnlockChangesBtn.atlas = TextureUtils.GetAtlas("LockButtonAtlas");
             m_lockUnlockChangesBtn.normalFgSprite = "UnLock";
             m_lockUnlockChangesBtn.disabledFgSprite = "UnLock";
@@ -294,12 +305,23 @@ namespace RealTime.UI
             m_activeDaysLabel.textScale = 1.1f;
 
             m_dayButtons = new UIButton[DayOrder.Length];
+            int half = DayOrder.Length / 2;
 
             for (int i = 0; i < DayOrder.Length; i++)
             {
                 int idx = i; // capture for lambda
                 var day = DayOrder[i];
-                var btn = UIButtons.CreateButton(m_daysRow, 10 + i * 64f, 30f, day.ToString(), string.Empty, string.Empty, 60f);
+                var btn = new UIButton();
+                if (i <= half)
+                {
+                    // first 4 buttons on the first row
+                    btn = UIButtons.CreateButton(m_daysRow, 10 + i * 64f, 30f, day.ToString(), string.Empty, string.Empty, 60f);
+                }
+                else
+                {
+                    // remaining 3 buttons on the second row, centered under the first row
+                    btn = UIButtons.CreateButton(m_daysRow, 43f + (i - (half + 1)) * 64f, 70f, day.ToString(), string.Empty, string.Empty, 60f);
+                }
 
                 btn.normalBgSprite = "ButtonMenu";
                 btn.hoveredBgSprite = "ButtonMenuHovered";
@@ -334,7 +356,7 @@ namespace RealTime.UI
 
             m_shiftsSummaryContainer = UIPanels.CreatePanel(m_shiftsSummaryRow, "ShiftsSummaryContainer");
             m_shiftsSummaryContainer.backgroundSprite = "GenericPanelDark";
-            m_shiftsSummaryContainer.size = new Vector2(460f, 150f);
+            m_shiftsSummaryContainer.size = new Vector2(m_innerPanel.width - 20f, 150f);
             m_shiftsSummaryContainer.relativePosition = new Vector3(10f, 30f);
 
             m_shiftSummaryRows = new ShiftSummaryRow[5];
@@ -347,7 +369,7 @@ namespace RealTime.UI
                     Panel = UIPanels.CreatePanel(m_shiftsSummaryContainer, $"ShiftRow_{i + 1}")
                 };
                 row.Panel.size = new Vector2(220f, 30f);
-                row.Panel.relativePosition = new Vector3(60f, y);
+                row.Panel.relativePosition = new Vector3(10f, y);
 
                 row.IndexLabel = UILabels.CreateLabel(row.Panel, $"ShiftSummaryLabel_{i + 1}", "", "");
                 row.IndexLabel.relativePosition = new Vector3(30f, 6f);
@@ -370,7 +392,7 @@ namespace RealTime.UI
                 m_shiftSummaryRows[i] = row;
             }
 
-            m_shiftsEditBtn = UIButtons.CreateButton(m_shiftsSummaryRow, 10f, 190f, "EditShifts", "", "", 460f);
+            m_shiftsEditBtn = UIButtons.CreateButton(m_shiftsSummaryRow, 10f, 190f, "EditShifts", "", "", 260f);
             m_shiftsEditBtn.eventClicked += OpenShiftEditor;
         }
 
@@ -392,6 +414,15 @@ namespace RealTime.UI
                 m_shiftSummaryRows[i].SetEntry(i, shifts[i]);
                 m_shiftSummaryRows[i].Panel.isVisible = true;
             }
+
+            float containerHeight = shifts.Length * 36f + 10f;
+            m_shiftsSummaryContainer.height = containerHeight;
+            m_shiftsSummaryRow.height = containerHeight + 50f;
+            m_shiftsEditBtn.relativePosition = new Vector3(10f, containerHeight + 40f);
+
+            float height = 80f + containerHeight;
+            m_actionRow.relativePosition = new Vector3(0f, 210f + height);
+            m_accessAdvancedSettingsBtn.relativePosition = new Vector3(20f, 210f + height + 80f);
         }
 
         private static string FormatHour(float h)
@@ -463,31 +494,31 @@ namespace RealTime.UI
 
         private void CreateActionButtons()
         {
-            m_saveBuildingSettingsBtn = UIButtons.CreateButton(m_actionRow, 10f, 0f, "SaveBuildingSettings", "", "", 220f);
+            m_saveBuildingSettingsBtn = UIButtons.CreateButton(m_actionRow, 10f, 0f, "SaveBuildingSettings", "", "", 120f);
             m_saveBuildingSettingsBtn.eventClicked += SaveBuildingSettings;
 
-            m_returnToDefaultBtn = UIButtons.CreateButton(m_actionRow, 250f, 0f, "ReturnToDefault", "", "", 220f);
+            m_returnToDefaultBtn = UIButtons.CreateButton(m_actionRow, 150f, 0f, "ReturnToDefault", "", "", 120f);
             m_returnToDefaultBtn.eventClicked += ReturnToDefault;
 
-            m_applyPrefabSettingsBtn = UIButtons.CreateButton(m_actionRow, 10f, 40f, "ApplyPrefabSettings", "", "", 220f);
+            m_applyPrefabSettingsBtn = UIButtons.CreateButton(m_actionRow, 10f, 40f, "ApplyPrefabSettings", "", "", 120f);
             m_applyPrefabSettingsBtn.eventClicked += ApplyPrefabSettings;
 
-            m_applyGlobalSettingsBtn = UIButtons.CreateButton(m_actionRow, 250f, 40f, "ApplyGlobalSettings", "", "", 220f);
+            m_applyGlobalSettingsBtn = UIButtons.CreateButton(m_actionRow, 150f, 40f, "ApplyGlobalSettings", "", "", 120f);
             m_applyGlobalSettingsBtn.eventClicked += ApplyGlobalSettings;
         }
 
         private void CreateDangerButtons()
         {
-            m_setPrefabSettingsBtn = UIButtons.CreateButton(m_dangerRow, 10f, 0f, "SetPrefabSettings", "", "", 220f);
+            m_setPrefabSettingsBtn = UIButtons.CreateButton(m_dangerRow, 10f, 5f, "SetPrefabSettings", "", "", 120f);
             m_setPrefabSettingsBtn.eventClicked += SetPrefabSettings;
 
-            m_setGlobalSettingsBtn = UIButtons.CreateButton(m_dangerRow, 250f, 0f, "SetGlobalSettings", "", "", 220f);
+            m_setGlobalSettingsBtn = UIButtons.CreateButton(m_dangerRow, 150f, 5f, "SetGlobalSettings", "", "", 120f);
             m_setGlobalSettingsBtn.eventClicked += SetGlobalSettings;
 
-            m_deletePrefabSettingsBtn = UIButtons.CreateButton(m_dangerRow, 10f, 40f, "DeletePrefabSettings", "", "", 220f);
+            m_deletePrefabSettingsBtn = UIButtons.CreateButton(m_dangerRow, 10f, 40f, "DeletePrefabSettings", "", "", 120f);
             m_deletePrefabSettingsBtn.eventClicked += DeletePrefabSettings;
 
-            m_deleteGlobalSettingsBtn = UIButtons.CreateButton(m_dangerRow, 250f, 40f, "DeleteGlobalSettings", "", "", 220f);
+            m_deleteGlobalSettingsBtn = UIButtons.CreateButton(m_dangerRow, 150f, 40f, "DeleteGlobalSettings", "", "", 120f);
             m_deleteGlobalSettingsBtn.eventClicked += DeleteGlobalSettings;
         }
 

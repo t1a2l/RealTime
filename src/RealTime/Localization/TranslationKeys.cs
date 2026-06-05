@@ -103,6 +103,9 @@ namespace RealTime.Localization
         /// <summary>The key for the global settings status.</summary>
         public const string GlobalSettingsStatus = "GlobalSettingsStatus";
 
+        /// <summary>The key for the building status label.</summary>
+        public const string BuildingStatusLabel = "BuildingStatusLabel";
+
         /// <summary>The key for the active days label text.</summary>
         public const string ActiveDays = "ActiveDays";
 

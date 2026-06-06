@@ -296,28 +296,28 @@
 
   <translation id="OperationHoursSettingsCheckBox" value="Paramètres" />
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="Modifier les heures d'ouverture des bâtiments" />
-  <translation id="SettingsTitle" value="Ajuster les heures d'ouverture" />
-  <translation id="UnlockSettings" value="Déverrouiller les paramètres" />
-  <translation id="UnlockSettingsTooltip" value="Déverrouiller les paramètres d'édition" />
+  <translation id="SettingsTitle" value="Heures Op." />
+  <translation id="EditSettingsTooltip" value="Autoriser/interdire l'édition" />
   <translation id="LockUnlockChangesTooltip" value="Si verrouillé - les paramètres de type et globaux n'ont aucun effet sur ce bâtiment" />
-  <translation id="DefaultSettingsStatus" value="Ce bâtiment utilise les paramètres par défaut" />
-  <translation id="BuildingSettingsStatus" value="Ce bâtiment utilise ses propres paramètres" />
-  <translation id="PrefabSettingsStatus" value="Ce bâtiment utilise les paramètres de type" />
-  <translation id="GlobalSettingsStatus" value="Ce bâtiment utilise les paramètres globaux" />
+  <translation id="BuildingStatusLabel" value="État:" />
+  <translation id="DefaultSettingsStatus" value="Défaut" />
+  <translation id="BuildingSettingsStatus" value="Perso." />
+  <translation id="PrefabSettingsStatus" value="Type" />
+  <translation id="GlobalSettingsStatus" value="Global" />
   <translation id="ActiveDays" value="Jours actifs" />
-  <translation id="Monday" value="Lundi" />
+  <translation id="Monday" value="Lu" />
   <translation id="MondayTooltip" value="Définir le lundi comme jour de travail actif/inactif" />
-  <translation id="Tuesday" value="Mardi" />
+  <translation id="Tuesday" value="Ma" />
   <translation id="TuesdayTooltip" value="Définir le mardi comme jour de travail actif/inactif" />
-  <translation id="Wednesday" value="Mercredi" />
+  <translation id="Wednesday" value="Me" />
   <translation id="WednesdayTooltip" value="Définir le mercredi comme jour de travail actif/inactif" />
-  <translation id="Thursday" value="Jeudi" />
+  <translation id="Thursday" value="Je" />
   <translation id="ThursdayTooltip" value="Définir le jeudi comme jour de travail actif/inactif" />
-  <translation id="Friday" value="Vendredi" />
+  <translation id="Friday" value="Ve" />
   <translation id="FridayTooltip" value="Définir le vendredi comme jour de travail actif/inactif" />
-  <translation id="Saturday" value="Samedi" />
+  <translation id="Saturday" value="Sa" />
   <translation id="SaturdayTooltip" value="Définir le samedi comme jour de travail actif/inactif" />
-  <translation id="Sunday" value="Dimanche" />
+  <translation id="Sunday" value="Di" />
   <translation id="SundayTooltip" value="Définir le dimanche comme jour de travail actif/inactif" />
   <translation id="ShiftsSummaryLabel" value="Quarts" />
   <translation id="ShiftSummaryLabel_1" value="Quart 1" />
@@ -339,21 +339,21 @@
   <translation id="IgnorePolicyTooltip" value="Le bâtiment ignorera toutes les restrictions des politiques de district" />
   <translation id="AccessAdvancedSettings" value="Accéder aux paramètres avancés" />
   <translation id="AccessAdvancedSettingsTooltip" value="Ouvrir le panneau des paramètres avancés pour ce bâtiment" />
-  <translation id="SaveBuildingSettings" value="Enregistrer les paramètres du bâtiment" />
+  <translation id="SaveBuildingSettings" value="Enreg." />
   <translation id="SaveBuildingSettingsTooltip" value="Première priorité - remplacera les paramètres du prefab et globaux et créera un horaire de travail spécifique pour ce bâtiment" />
-  <translation id="ReturnToDefault" value="Retour aux paramètres par défaut" />
+  <translation id="ReturnToDefault" value="Défaut" />
   <translation id="ReturnToDefaultTooltip" value="Ne supprimera pas l'enregistrement, juste définira un drapeau par défaut dessus - vous devez effacer les paramètres de ce bâtiment pour obtenir les paramètres du prefab ou globaux" />
-  <translation id="ApplyPrefabSettings" value="Appliquer les paramètres du type" />
+  <translation id="ApplyPrefabSettings" value="Appl. type" />
   <translation id="ApplyPrefabSettingsTooltip" value="Appliquer les paramètres d'horaire de travail à ce bâtiment en fonction du type de bâtiment dans cette sauvegarde" />
-  <translation id="ApplyGlobalSettings" value="Appliquer les paramètres globaux" />
+  <translation id="ApplyGlobalSettings" value="Appl. global" />
   <translation id="ApplyGlobalSettingsTooltip" value="Appliquer les paramètres d'horaire de travail à ce bâtiment en fonction du type de bâtiment dans toutes les sauvegardes" />
-  <translation id="SetPrefabSettings" value="Définir un nouveau type" />
+  <translation id="SetPrefabSettings" value="Déf. type" />
   <translation id="SetPrefabSettingsTooltip" value="Cela mettra à jour tous les enregistrements de bâtiments de ce type avec l'heure de travail actuelle de ce bâtiment dans cette sauvegarde" />
-  <translation id="SetGlobalSettings" value="Définir un nouveau global" />
+  <translation id="SetGlobalSettings" value="Déf. global" />
   <translation id="SetGlobalSettingsTooltip" value="Cela mettra à jour tous les enregistrements de bâtiments de ce type avec l'heure de travail actuelle de ce bâtiment dans toutes les sauvegardes" />
-  <translation id="DeletePrefabSettings" value="Supprimer le type existant" />
+  <translation id="DeletePrefabSettings" value="Supp. type" />
   <translation id="DeletePrefabSettingsTooltip" value="Cela supprimera tous les enregistrements de bâtiments de ce type et les ramènera aux paramètres par défaut dans cette sauvegarde" />
-  <translation id="DeleteGlobalSettings" value="Supprimer le global existant" />
+  <translation id="DeleteGlobalSettings" value="Supp. global" />
   <translation id="DeleteGlobalSettingsTooltip" value="Cela supprimera tous les enregistrements de bâtiments de ce type et les ramènera aux paramètres par défaut dans toutes les sauvegardes" />
   <translation id="ConfirmPanelSetPrefabTitle" value="Définir les paramètres du type" />
   <translation id="ConfirmPanelSetPrefabText" value="Cela mettra à jour tous les horaires de travail des bâtiments de ce type avec les paramètres actuels de ce bâtiment dans cette sauvegarde !" />

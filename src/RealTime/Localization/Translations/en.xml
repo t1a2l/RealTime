@@ -297,8 +297,7 @@
   <translation id="OperationHoursSettingsCheckBox" value="Settings" />
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="Change building operation hours" />
   <translation id="SettingsTitle" value="Operation Hours" />
-  <translation id="UnlockSettings" value="Unlock" />
-  <translation id="UnlockSettingsTooltip" value="Unlock edit settings" />
+  <translation id="EditSettingsTooltip" value="Allow or disallow editing settings" />
   <translation id="LockUnlockChangesTooltip" value="If Locked - type and global settings has no affect on this building" />
   <translation id="BuildingStatusLabel" value="Status:" />
   <translation id="DefaultSettingsStatus" value="Default Settings" />

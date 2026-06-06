@@ -296,28 +296,28 @@
 
   <translation id="OperationHoursSettingsCheckBox" value="Configuración" />
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="Cambiar las horas de operación del edificio" />
-  <translation id="SettingsTitle" value="Ajustar horas de operación" />
-  <translation id="UnlockSettings" value="Desbloquear configuración" />
-  <translation id="UnlockSettingsTooltip" value="Desbloquear edición de configuración" />
+  <translation id="SettingsTitle" value="Horas Op." />
+  <translation id="EditSettingsTooltip" value="Permitir/deshabilitar edición" />
   <translation id="LockUnlockChangesTooltip" value="Si está bloqueado, la configuración de tipo y global no afecta a este edificio" />
-  <translation id="DefaultSettingsStatus" value="Este edificio está utilizando la configuración predeterminada" />
-  <translation id="BuildingSettingsStatus" value="Este edificio está utilizando su propia configuración" />
-  <translation id="PrefabSettingsStatus" value="Este edificio está utilizando la configuración de tipo" />
-  <translation id="GlobalSettingsStatus" value="Este edificio está utilizando la configuración global" />
+  <translation id="BuildingStatusLabel" value="Estado:" />
+  <translation id="DefaultSettingsStatus" value="Predet." />
+  <translation id="BuildingSettingsStatus" value="Propia" />
+  <translation id="PrefabSettingsStatus" value="Tipo" />
+  <translation id="GlobalSettingsStatus" value="Global" />
   <translation id="ActiveDays" value="Días activos" />
-  <translation id="Monday" value="Lunes" />
+  <translation id="Monday" value="Lu" />
   <translation id="MondayTooltip" value="Establecer lunes como día laboral activo/no activo" />
-  <translation id="Tuesday" value="Martes" />
+  <translation id="Tuesday" value="Ma" />
   <translation id="TuesdayTooltip" value="Establecer martes como día laboral activo/no activo" />
-  <translation id="Wednesday" value="Miércoles" />
+  <translation id="Wednesday" value="Mi" />
   <translation id="WednesdayTooltip" value="Establecer miércoles como día laboral activo/no activo" />
-  <translation id="Thursday" value="Jueves" />
+  <translation id="Thursday" value="Ju" />
   <translation id="ThursdayTooltip" value="Establecer jueves como día laboral activo/no activo" />
-  <translation id="Friday" value="Viernes" />
+  <translation id="Friday" value="Vi" />
   <translation id="FridayTooltip" value="Establecer viernes como día laboral activo/no activo" />
-  <translation id="Saturday" value="Sábado" />
+  <translation id="Saturday" value="Sá" />
   <translation id="SaturdayTooltip" value="Establecer sábado como día laboral activo/no activo" />
-  <translation id="Sunday" value="Domingo" />
+  <translation id="Sunday" value="Do" />
   <translation id="SundayTooltip" value="Establecer domingo como día laboral activo/no activo" />
   <translation id="ShiftsSummaryLabel" value="Turnos" />
   <translation id="ShiftSummaryLabel_1" value="Turno 1" />
@@ -339,21 +339,21 @@
   <translation id="IgnorePolicyTooltip" value="El edificio ignorará cualquier restricción de las políticas del distrito" />
   <translation id="AccessAdvancedSettings" value="Acceder a Configuraciones Avanzadas" />
   <translation id="AccessAdvancedSettingsTooltip" value="Abrir el panel de configuraciones avanzadas para este edificio" />
-  <translation id="SaveBuildingSettings" value="Guardar configuraciones del edificio" />
+  <translation id="SaveBuildingSettings" value="Guardar" />
   <translation id="SaveBuildingSettingsTooltip" value="Primera prioridad: sobrescribirá las configuraciones de prefab y globales y creará un horario de trabajo específico para este edificio" />
-  <translation id="ReturnToDefault" value="Volver a los valores predeterminados" />
+  <translation id="ReturnToDefault" value="Predet." />
   <translation id="ReturnToDefaultTooltip" value="No eliminará el registro, solo establecerá una bandera de valor predeterminado en él; necesitas borrar las configuraciones de este edificio para obtener las configuraciones de prefab o globales" />
-  <translation id="ApplyPrefabSettings" value="Aplicar configuraciones de tipo" />
+  <translation id="ApplyPrefabSettings" value="Aplicar tipo" />
   <translation id="ApplyPrefabSettingsTooltip" value="Aplicar configuraciones de horario de trabajo a este edificio según el tipo de edificio en esta partida" />
-  <translation id="ApplyGlobalSettings" value="Aplicar configuraciones globales" />
+  <translation id="ApplyGlobalSettings" value="Aplicar global" />
   <translation id="ApplyGlobalSettingsTooltip" value="Aplicar configuraciones de horario de trabajo a este edificio según el tipo de edificio en todas las partidas" />
-  <translation id="SetPrefabSettings" value="Establecer nuevo tipo" />
+  <translation id="SetPrefabSettings" value="Nuevo tipo" />
   <translation id="SetPrefabSettingsTooltip" value="Esto actualizará todos los registros de edificios de este tipo al horario de trabajo actual de este edificio en esta partida" />
-  <translation id="SetGlobalSettings" value="Establecer nuevo global" />
+  <translation id="SetGlobalSettings" value="Nuevo global" />
   <translation id="SetGlobalSettingsTooltip" value="Esto actualizará todos los registros de edificios de este tipo al horario de trabajo actual de este edificio en todas las partidas" />
-  <translation id="DeletePrefabSettings" value="Eliminar tipo existente" />
+  <translation id="DeletePrefabSettings" value="Eliminar tipo" />
   <translation id="DeletePrefabSettingsTooltip" value="Esto eliminará todos los registros de edificios de este tipo y los devolverá a los valores predeterminados en esta partida" />
-  <translation id="DeleteGlobalSettings" value="Eliminar global existente" />
+  <translation id="DeleteGlobalSettings" value="Eliminar global" />
   <translation id="DeleteGlobalSettingsTooltip" value="Esto eliminará todos los registros de edificios de este tipo y los devolverá a los valores predeterminados en todas las partidas" />
   <translation id="ConfirmPanelSetPrefabTitle" value="Establecer configuraciones de tipo" />
   <translation id="ConfirmPanelSetPrefabText" value="¡Esto actualizará todas las horas de trabajo de los edificios de este tipo a las configuraciones de tiempo de trabajo actuales en esta partida!" />

@@ -82,11 +82,8 @@ namespace RealTime.Localization
         /// <summary>The key for the title of building work time settings panel.</summary>
         public const string SettingsTitle = "SettingsTitle";
 
-        /// <summary>The key for the unlock settings button.</summary>
-        public const string UnlockSettings = "UnlockSettings";
-
-        /// <summary>The key for the unlock settings button tooltip.</summary>
-        public const string UnlockSettingsTooltip = "UnlockSettingsTooltip";
+        /// <summary>The key for the edit settings button tooltip.</summary>
+        public const string EditSettingsTooltip = "EditSettingsTooltip";
 
         /// <summary>The key for the lock/unlock changes button tooltip.</summary>
         public const string LockUnlockChangesTooltip = "LockUnlockChangesTooltip";

@@ -28,10 +28,12 @@ namespace RealTime.UI
         // ─────────────────────────────────────────── Header controls ──────────────────────────────────────
         internal UILabel m_settingsTitle;
         internal UILabel m_settingsStatusLabel;
+        internal UIPanel m_settingsStatusContainer;
         internal UILabel m_settingsStatus;
         internal UIPanel m_innerPanel;
-        internal UIButton m_unlockSettingsBtn;
+        internal UIButton m_editSettingsBtn;
         internal UIButton m_lockUnlockChangesBtn;
+        internal bool m_editMode;
 
         // ─────────────────────────────────────────── Days Panel ───────────────────────────────────────────
         internal UILabel m_activeDaysLabel; // Active days Label
@@ -249,6 +251,11 @@ namespace RealTime.UI
             m_lockUnlockChangesBtn.focusedFgSprite = spriteName;
             m_lockUnlockChangesBtn.hoveredFgSprite = spriteName;
             m_lockUnlockChangesBtn.pressedFgSprite = spriteName;
+
+            m_lockUnlockChangesBtn.size = buildingWorkTime.IsLocked ? new Vector2(20f, 32f) : new Vector2(27f, 32f);
+
+            m_lockUnlockChangesBtn.Invalidate();
+            m_lockUnlockChangesBtn.parent.Invalidate();
         }
 
         private void CreateHeader()
@@ -271,8 +278,13 @@ namespace RealTime.UI
             m_settingsStatusLabel.width = 100f;
             m_settingsStatusLabel.textScale = 1.1f;
 
+            m_settingsStatusContainer = UIPanels.CreatePanel(m_headerRow, "ShiftsSummaryContainer");
+            m_settingsStatusContainer.backgroundSprite = "GenericPanelLight";
+            m_settingsStatusContainer.size = new Vector2(260f, 150f);
+            m_settingsStatusContainer.relativePosition = new Vector3(10f, 30f);
+
             // status label that shows if the current settings are default, building specific, prefab specific or global specific
-            m_settingsStatus = UILabels.CreateLabel(m_headerRow, "SettingsStatus", "", "");
+            m_settingsStatus = UILabels.CreateLabel(m_settingsStatusContainer, "SettingsStatus", "", "");
             m_settingsStatus.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_settingsStatus.textAlignment = UIHorizontalAlignment.Left;
             m_settingsStatus.textColor = new Color32(240, 190, 199, 255);
@@ -280,9 +292,17 @@ namespace RealTime.UI
             m_settingsStatus.width = 220f;
             m_settingsStatus.textScale = 1.1f;
 
-            // unlock settings button
-            m_unlockSettingsBtn = UIButtons.CreateButton(m_headerRow, 170f, 3f, "UnlockSettings", "", "", 60f);
-            m_unlockSettingsBtn.eventClicked += UnlockSettings;
+            // edit settings button
+            m_editSettingsBtn = UIButtons.CreateButton(m_headerRow, 170f, 3f, "EditSettings", "", "", 60f);
+            m_editSettingsBtn.atlas = TextureUtils.GetAtlas("EditButtonAtlas");
+            m_editSettingsBtn.normalFgSprite = "NoneEdit";
+            m_editSettingsBtn.disabledFgSprite = "NoneEdit";
+            m_editSettingsBtn.focusedFgSprite = "NoneEdit";
+            m_editSettingsBtn.hoveredFgSprite = "NoneEdit";
+            m_editSettingsBtn.pressedFgSprite = "NoneEdit";
+            m_editSettingsBtn.eventClicked += EditSettings;
+
+            m_editMode = false;
 
             // lock/unlock changes button
             m_lockUnlockChangesBtn = UIButtons.CreateButton(m_headerRow, 240f, 0f, "LockUnLockChanges", "", "", 32, 32);
@@ -356,7 +376,7 @@ namespace RealTime.UI
 
             m_shiftsSummaryContainer = UIPanels.CreatePanel(m_shiftsSummaryRow, "ShiftsSummaryContainer");
             m_shiftsSummaryContainer.backgroundSprite = "GenericPanelDark";
-            m_shiftsSummaryContainer.size = new Vector2(m_innerPanel.width - 20f, 150f);
+            m_shiftsSummaryContainer.size = new Vector2(260f, 150f);
             m_shiftsSummaryContainer.relativePosition = new Vector3(10f, 30f);
 
             m_shiftSummaryRows = new ShiftSummaryRow[5];
@@ -372,20 +392,20 @@ namespace RealTime.UI
                 row.Panel.relativePosition = new Vector3(10f, y);
 
                 row.IndexLabel = UILabels.CreateLabel(row.Panel, $"ShiftSummaryLabel_{i + 1}", "", "");
-                row.IndexLabel.relativePosition = new Vector3(30f, 6f);
+                row.IndexLabel.relativePosition = new Vector3(15f, 6f);
                 row.IndexLabel.width = 55f;
 
                 row.StartField = UILabels.CreateLabel(row.Panel, $"ShiftSummaryStart_{i + 1}", "", "");
                 row.StartField.size = new Vector2(70f, 24f);
-                row.StartField.relativePosition = new Vector3(110f, 6f);
+                row.StartField.relativePosition = new Vector3(80f, 6f);
 
                 row.Arrow = UILabels.CreateLabel(row.Panel, $"ShiftSummaryArrow_{i + 1}", "->", "");
                 row.Arrow.size = new Vector2(70f, 24f);
-                row.Arrow.relativePosition = new Vector3(160f, 6f);
+                row.Arrow.relativePosition = new Vector3(125f, 6f);
 
                 row.EndField = UILabels.CreateLabel(row.Panel, $"ShiftSummaryEnd_{i + 1}", "", "");
                 row.EndField.size = new Vector2(70f, 24f);
-                row.EndField.relativePosition = new Vector3(180f, 6f);
+                row.EndField.relativePosition = new Vector3(145f, 6f);
 
                 row.IsActive = false;
                 row.Panel.isVisible = false;
@@ -421,7 +441,7 @@ namespace RealTime.UI
             m_shiftsEditBtn.relativePosition = new Vector3(10f, containerHeight + 40f);
 
             float height = 80f + containerHeight;
-            m_actionRow.relativePosition = new Vector3(0f, 210f + height);
+            m_actionRow.relativePosition = new Vector3(10f, 210f + height);
             m_accessAdvancedSettingsBtn.relativePosition = new Vector3(20f, 210f + height + 80f);
         }
 
@@ -533,9 +553,9 @@ namespace RealTime.UI
             // ─────────────────────────────────────────── Header translation ──────────────────────────────────────
             m_settingsTitle.text = localizationProvider.Translate(TranslationKeys.SettingsTitle);
 
-            m_unlockSettingsBtn.text = localizationProvider.Translate(TranslationKeys.UnlockSettings);
-            m_unlockSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.UnlockSettingsTooltip);
+            m_editSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.EditSettingsTooltip);
             m_lockUnlockChangesBtn.tooltip = localizationProvider.Translate(TranslationKeys.LockUnlockChangesTooltip);
+            m_settingsStatusLabel.text = localizationProvider.Translate(TranslationKeys.BuildingStatusLabel);
 
             t_defaultSettingsStatus = localizationProvider.Translate(TranslationKeys.DefaultSettingsStatus);
             t_buildingSettingsStatus = localizationProvider.Translate(TranslationKeys.BuildingSettingsStatus);
@@ -612,48 +632,45 @@ namespace RealTime.UI
             t_confirmPanelDeleteGlobalText = localizationProvider.Translate(TranslationKeys.ConfirmPanelDeleteGlobalText);
         }
 
-        private void UnlockSettings(UIComponent c, UIMouseEventParameter eventParameter)
+        private void EditSettings(UIComponent c, UIMouseEventParameter eventParameter)
         {
+            m_editMode = !m_editMode;
+
+            string spriteName = m_editMode ? "Edit" : "NoneEdit";
+
             foreach (var btn in m_dayButtons)
             {
-                btn.Enable();
+                btn.isEnabled = m_editMode;
             }
 
-            m_saveBuildingSettingsBtn.Enable();
-            m_returnToDefaultBtn.Enable();
-            m_shiftsEditBtn.Enable();
-            m_accessAdvancedSettingsBtn.Enable();
-
+            m_saveBuildingSettingsBtn.isEnabled = m_editMode;
+            m_returnToDefaultBtn.isEnabled = m_editMode;
+            m_shiftsEditBtn.isEnabled = m_editMode;
+            m_accessAdvancedSettingsBtn.isEnabled = m_editMode;
+                
             ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
             var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
 
-            if (BuildingWorkTimeManager.PrefabExist(building.Info))
-            {
-                m_applyPrefabSettingsBtn.Enable();
-                m_setPrefabSettingsBtn.Disable();
-                m_deletePrefabSettingsBtn.Enable();
-            }
-            else
-            {
-                m_applyPrefabSettingsBtn.Disable();
-                m_setPrefabSettingsBtn.Enable();
-                m_deletePrefabSettingsBtn.Disable();
-            }
+            bool prefabExists = BuildingWorkTimeManager.PrefabExist(building.Info);
 
-            if (BuildingWorkTimeGlobalConfig.Config.GlobalSettingsExist(building.Info))
-            {
-                m_applyGlobalSettingsBtn.Enable();
-                m_setGlobalSettingsBtn.Disable();
-                m_deleteGlobalSettingsBtn.Enable();
-            }
-            else
-            {
-                m_applyGlobalSettingsBtn.Disable();
-                m_setGlobalSettingsBtn.Enable();
-                m_deleteGlobalSettingsBtn.Disable();
-            }
+            m_applyPrefabSettingsBtn.isEnabled = m_editMode && prefabExists;
+            m_setPrefabSettingsBtn.isEnabled = m_editMode && !prefabExists;
+            m_deletePrefabSettingsBtn.isEnabled = m_editMode && prefabExists;
 
-            m_unlockSettingsBtn.Hide();
+            bool globalSettingsExist = BuildingWorkTimeGlobalConfig.Config.GlobalSettingsExist(building.Info);
+
+            m_applyGlobalSettingsBtn.isEnabled = m_editMode && globalSettingsExist;
+            m_setGlobalSettingsBtn.isEnabled = m_editMode && !globalSettingsExist;
+            m_deleteGlobalSettingsBtn.isEnabled = m_editMode && globalSettingsExist;
+
+            m_editSettingsBtn.normalFgSprite = spriteName;
+            m_editSettingsBtn.disabledFgSprite = spriteName;
+            m_editSettingsBtn.focusedFgSprite = spriteName;
+            m_editSettingsBtn.hoveredFgSprite = spriteName;
+            m_editSettingsBtn.pressedFgSprite = spriteName;
+
+            m_editSettingsBtn.Invalidate();
+            m_editSettingsBtn.parent.Invalidate();
         }
 
         private void LockUnlockChanges(UIComponent c, UIMouseEventParameter eventParameter)
@@ -669,6 +686,11 @@ namespace RealTime.UI
             m_lockUnlockChangesBtn.focusedFgSprite = spriteName;
             m_lockUnlockChangesBtn.hoveredFgSprite = spriteName;
             m_lockUnlockChangesBtn.pressedFgSprite = spriteName;
+
+            m_lockUnlockChangesBtn.size = buildingWorkTime.IsLocked ? new Vector2(27f, 32f) : new Vector2(20f, 32f);
+
+            m_lockUnlockChangesBtn.Invalidate();
+            m_lockUnlockChangesBtn.parent.Invalidate();
 
             UpdateBuildingSettings.ChangeBuildingLockStatus(buildingID, !buildingWorkTime.IsLocked);
         }

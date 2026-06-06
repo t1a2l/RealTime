@@ -296,28 +296,28 @@
 
   <translation id="OperationHoursSettingsCheckBox" value="설정" />
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="건물 운영 시간을 변경합니다" />
-  <translation id="SettingsTitle" value="운영 시간 조정" />
-  <translation id="UnlockSettings" value="설정 잠금 해제" />
-  <translation id="UnlockSettingsTooltip" value="편집 설정 잠금 해제" />
+  <translation id="SettingsTitle" value="운영 시간" />
+  <translation id="EditSettingsTooltip" value="설정 편집 허용/거부" />
   <translation id="LockUnlockChangesTooltip" value="잠금 상태일 경우 - 유형 및 글로벌 설정이 이 건물에 영향을 미치지 않습니다" />
-  <translation id="DefaultSettingsStatus" value="이 건물은 기본 설정을 사용하고 있습니다" />
-  <translation id="BuildingSettingsStatus" value="이 건물은 자체 설정을 사용하고 있습니다" />
-  <translation id="PrefabSettingsStatus" value="이 건물은 유형 설정을 사용하고 있습니다" />
-  <translation id="GlobalSettingsStatus" value="이 건물은 글로벌 설정을 사용하고 있습니다" />
+  <translation id="BuildingStatusLabel" value="상태:" />
+  <translation id="DefaultSettingsStatus" value="기본 설정" />
+  <translation id="BuildingSettingsStatus" value="자체 설정" />
+  <translation id="PrefabSettingsStatus" value="유형 설정" />
+  <translation id="GlobalSettingsStatus" value="전체 설정" />
   <translation id="ActiveDays" value="활성 일" />
-  <translation id="Monday" value="월요일" />
+  <translation id="Monday" value="월" />
   <translation id="MondayTooltip" value="월요일을 활성/비활성 근무일로 설정" />
-  <translation id="Tuesday" value="화요일" />
+  <translation id="Tuesday" value="화" />
   <translation id="TuesdayTooltip" value="화요일을 활성/비활성 근무일로 설정" />
-  <translation id="Wednesday" value="수요일" />
+  <translation id="Wednesday" value="수" />
   <translation id="WednesdayTooltip" value="수요일을 활성/비활성 근무일로 설정" />
-  <translation id="Thursday" value="목요일" />
+  <translation id="Thursday" value="목" />
   <translation id="ThursdayTooltip" value="목요일을 활성/비활성 근무일로 설정" />
-  <translation id="Friday" value="금요일" />
+  <translation id="Friday" value="금" />
   <translation id="FridayTooltip" value="금요일을 활성/비활성 근무일로 설정" />
-  <translation id="Saturday" value="토요일" />
+  <translation id="Saturday" value="토" />
   <translation id="SaturdayTooltip" value="토요일을 활성/비활성 근무일로 설정" />
-  <translation id="Sunday" value="일요일" />
+  <translation id="Sunday" value="일" />
   <translation id="SundayTooltip" value="일요일을 활성/비활성 근무일로 설정" />
   <translation id="ShiftsSummaryLabel" value="근무조" />
   <translation id="ShiftSummaryLabel_1" value="근무조 1" />
@@ -339,21 +339,21 @@
   <translation id="IgnorePolicyTooltip" value="이 건물은 구역 정책의 제한을 무시합니다" />
   <translation id="AccessAdvancedSettings" value="고급 설정 접근" />
   <translation id="AccessAdvancedSettingsTooltip" value="이 건물의 고급 설정 패널을 엽니다" />
-  <translation id="SaveBuildingSettings" value="건물 설정 저장" />
+  <translation id="SaveBuildingSettings" value="저장" />
   <translation id="SaveBuildingSettingsTooltip" value="우선 순위 1 - 프리팹 및 글로벌 설정을 무시하고 이 건물에 대한 특정 근무 시간을 생성합니다" />
-  <translation id="ReturnToDefault" value="기본값으로 되돌리기" />
+  <translation id="ReturnToDefault" value="기본값" />
   <translation id="ReturnToDefaultTooltip" value="레코드를 삭제하지 않고 기본 플래그를 설정합니다 - 이 건물의 설정을 지워야 프리팹 또는 글로벌 설정을 적용할 수 있습니다" />
-  <translation id="ApplyPrefabSettings" value="타입 설정 적용" />
+  <translation id="ApplyPrefabSettings" value="유형 적용" />
   <translation id="ApplyPrefabSettingsTooltip" value="이 저장 파일에서 건물 유형에 따라 이 건물에 근무 시간 설정을 적용합니다" />
-  <translation id="ApplyGlobalSettings" value="글로벌 설정 적용" />
+  <translation id="ApplyGlobalSettings" value="전체 적용" />
   <translation id="ApplyGlobalSettingsTooltip" value="모든 저장 파일에서 건물 유형에 따라 이 건물에 근무 시간 설정을 적용합니다" />
-  <translation id="SetPrefabSettings" value="새 타입 설정" />
+  <translation id="SetPrefabSettings" value="유형 설정" />
   <translation id="SetPrefabSettingsTooltip" value="이 저장 파일에서 이 건물의 현재 근무 시간으로 모든 동일 유형 건물의 설정을 업데이트합니다" />
-  <translation id="SetGlobalSettings" value="새 글로벌 설정" />
+  <translation id="SetGlobalSettings" value="전체 설정" />
   <translation id="SetGlobalSettingsTooltip" value="이 건물의 현재 근무 시간으로 모든 저장 파일에서 동일 유형 건물의 설정을 업데이트합니다" />
-  <translation id="DeletePrefabSettings" value="기존 타입 삭제" />
+  <translation id="DeletePrefabSettings" value="유형 삭제" />
   <translation id="DeletePrefabSettingsTooltip" value="이 저장 파일에서 모든 동일 유형 건물의 설정을 삭제하고 기본값으로 되돌립니다" />
-  <translation id="DeleteGlobalSettings" value="기존 글로벌 삭제" />
+  <translation id="DeleteGlobalSettings" value="전체 삭제" />
   <translation id="DeleteGlobalSettingsTooltip" value="모든 저장 파일에서 모든 동일 유형 건물의 설정을 삭제하고 기본값으로 되돌립니다" />
   <translation id="ConfirmPanelSetPrefabTitle" value="타입 설정 적용" />
   <translation id="ConfirmPanelSetPrefabText" value="이 작업은 이 저장 파일에서 모든 동일 유형 건물의 근무 시간을 현재 설정으로 업데이트합니다!" />

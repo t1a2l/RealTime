@@ -297,28 +297,28 @@
 
   <translation id="OperationHoursSettingsCheckBox" value="Configurações" />
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="Alterar horas de operação do prédio" />
-  <translation id="SettingsTitle" value="Ajustar Horas de Operação" />
-  <translation id="UnlockSettings" value="Desbloquear configurações" />
-  <translation id="UnlockSettingsTooltip" value="Desbloquear edição de configurações" />
+  <translation id="SettingsTitle" value="Horas Op." />
+  <translation id="EditSettingsTooltip" value="Permitir/negar edição" />
   <translation id="LockUnlockChangesTooltip" value="Se bloqueado - as configurações de tipo e globais não afetam este prédio" />
-  <translation id="DefaultSettingsStatus" value="Este prédio está usando as configurações padrão" />
-  <translation id="BuildingSettingsStatus" value="Este prédio está usando suas próprias configurações" />
-  <translation id="PrefabSettingsStatus" value="Este prédio está usando as configurações de tipo" />
-  <translation id="GlobalSettingsStatus" value="Este prédio está usando as configurações globais" />
+  <translation id="BuildingStatusLabel" value="Estado:" />
+  <translation id="DefaultSettingsStatus" value="Padrão" />
+  <translation id="BuildingSettingsStatus" value="Próprio" />
+  <translation id="PrefabSettingsStatus" value="Tipo" />
+  <translation id="GlobalSettingsStatus" value="Global" />
   <translation id="ActiveDays" value="Dias Ativos" />
-  <translation id="Monday" value="Segunda-feira" />
+  <translation id="Monday" value="Seg" />
   <translation id="MondayTooltip" value="Definir segunda-feira como dia útil/ não útil" />
-  <translation id="Tuesday" value="Terça-feira" />
+  <translation id="Tuesday" value="Ter" />
   <translation id="TuesdayTooltip" value="Definir terça-feira como dia útil/ não útil" />
-  <translation id="Wednesday" value="Quarta-feira" />
+  <translation id="Wednesday" value="Qua" />
   <translation id="WednesdayTooltip" value="Definir quarta-feira como dia útil/ não útil" />
-  <translation id="Thursday" value="Quinta-feira" />
+  <translation id="Thursday" value="Qui" />
   <translation id="ThursdayTooltip" value="Definir quinta-feira como dia útil/ não útil" />
-  <translation id="Friday" value="Sexta-feira" />
+  <translation id="Friday" value="Sext" />
   <translation id="FridayTooltip" value="Definir sexta-feira como dia útil/ não útil" />
-  <translation id="Saturday" value="Sábado" />
+  <translation id="Saturday" value="Sáb" />
   <translation id="SaturdayTooltip" value="Definir sábado como dia útil/ não útil" />
-  <translation id="Sunday" value="Domingo" />
+  <translation id="Sunday" value="Dom" />
   <translation id="SundayTooltip" value="Definir domingo como dia útil/ não útil" />
   <translation id="ShiftsSummaryLabel" value="Turnos" />
   <translation id="ShiftSummaryLabel_1" value="Turno 1" />
@@ -340,21 +340,21 @@
   <translation id="IgnorePolicyTooltip" value="O prédio ignorará quaisquer restrições das políticas do distrito" />
   <translation id="AccessAdvancedSettings" value="Acessar Configurações Avançadas" />
   <translation id="AccessAdvancedSettingsTooltip" value="Abrir o painel de configurações avançadas para este prédio" />
-  <translation id="SaveBuildingSettings" value="Salvar configurações do prédio" />
+  <translation id="SaveBuildingSettings" value="Salvar" />
   <translation id="SaveBuildingSettingsTooltip" value="Primeira prioridade - substituirá as configurações de prefab e globais e criará um horário de trabalho específico para este prédio" />
-  <translation id="ReturnToDefault" value="Voltar ao padrão" />
+  <translation id="ReturnToDefault" value="Padrão" />
   <translation id="ReturnToDefaultTooltip" value="Não excluirá o registro, apenas definirá uma flag de padrão nele - você precisa limpar as configurações deste prédio para obter as configurações de prefab ou globais" />
-  <translation id="ApplyPrefabSettings" value="Aplicar configurações de tipo" />
+  <translation id="ApplyPrefabSettings" value="Aplicar tipo" />
   <translation id="ApplyPrefabSettingsTooltip" value="Aplicar configurações de horário de trabalho a este prédio de acordo com o tipo de prédio neste salvamento" />
-  <translation id="ApplyGlobalSettings" value="Aplicar configurações globais" />
+  <translation id="ApplyGlobalSettings" value="Aplicar global" />
   <translation id="ApplyGlobalSettingsTooltip" value="Aplicar configurações de horário de trabalho a este prédio de acordo com o tipo de prédio em todos os salvamentos" />
-  <translation id="SetPrefabSettings" value="Definir novo tipo" />
+  <translation id="SetPrefabSettings" value="Novo tipo" />
   <translation id="SetPrefabSettingsTooltip" value="Isso atualizará todos os registros de prédios deste tipo para o horário de trabalho atual deste prédio neste salvamento" />
-  <translation id="SetGlobalSettings" value="Definir novo global" />
+  <translation id="SetGlobalSettings" value="Novo global" />
   <translation id="SetGlobalSettingsTooltip" value="Isso atualizará todos os registros de prédios deste tipo para o horário de trabalho atual deste prédio em todos os salvamentos" />
-  <translation id="DeletePrefabSettings" value="Excluir tipo existente" />
+  <translation id="DeletePrefabSettings" value="Deletar tipo" />
   <translation id="DeletePrefabSettingsTooltip" value="Isso excluirá todos os registros de prédios deste tipo e os retornará ao padrão neste salvamento" />
-  <translation id="DeleteGlobalSettings" value="Excluir global existente" />
+  <translation id="DeleteGlobalSettings" value="Deletar global" />
   <translation id="DeleteGlobalSettingsTooltip" value="Isso excluirá todos os registros de prédios deste tipo e os retornará ao padrão em todos os salvamentos" />
   <translation id="ConfirmPanelSetPrefabTitle" value="Definir configurações de tipo" />
   <translation id="ConfirmPanelSetPrefabText" value="Isso atualizará todos os horários de trabalho dos prédios deste tipo para as configurações de horário de trabalho atuais neste salvamento!" />

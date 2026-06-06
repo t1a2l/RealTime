@@ -296,28 +296,28 @@
 
   <translation id="OperationHoursSettingsCheckBox" value="การตั้งค่า" />
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="เปลี่ยนเวลาทำการของอาคาร" />
-  <translation id="SettingsTitle" value="ปรับเวลาทำการ" />
-  <translation id="UnlockSettings" value="ปลดล็อกการตั้งค่า" />
-  <translation id="UnlockSettingsTooltip" value="ปลดล็อกการแก้ไขการตั้งค่า" />
+  <translation id="SettingsTitle" value="ชั่วโมงงาน" />
+  <translation id="EditSettingsTooltip" value="อนุญาต/ไม่อนุญาตการแก้ไข" />
   <translation id="LockUnlockChangesTooltip" value="หากล็อก - การตั้งค่าประเภทและการตั้งค่าทั่วไปจะไม่มีผลต่ออาคารนี้" />
-  <translation id="DefaultSettingsStatus" value="อาคารนี้ใช้การตั้งค่าเริ่มต้น" />
-  <translation id="BuildingSettingsStatus" value="อาคารนี้ใช้การตั้งค่าของตัวเอง" />
-  <translation id="PrefabSettingsStatus" value="อาคารนี้ใช้การตั้งค่าประเภท" />
-  <translation id="GlobalSettingsStatus" value="อาคารนี้ใช้การตั้งค่าทั่วไป" />
+  <translation id="BuildingStatusLabel" value="สถานะ:" />
+  <translation id="DefaultSettingsStatus" value="ค่าเริ่มต้น" />
+  <translation id="BuildingSettingsStatus" value="ของตนเอง" />
+  <translation id="PrefabSettingsStatus" value="ประเภท" />
+  <translation id="GlobalSettingsStatus" value="ทั่วไป" />
   <translation id="ActiveDays" value="วันทำงาน" />
-  <translation id="Monday" value="วันจันทร์" />
+  <translation id="Monday" value="จ" />
   <translation id="MondayTooltip" value="ตั้งค่าวันจันทร์เป็นวันทำงาน/ไม่ทำงาน" />
-  <translation id="Tuesday" value="วันอังคาร" />
+  <translation id="Tuesday" value="อ" />
   <translation id="TuesdayTooltip" value="ตั้งค่าวันอังคารเป็นวันทำงาน/ไม่ทำงาน" />
-  <translation id="Wednesday" value="วันพุธ" />
+  <translation id="Wednesday" value="พ" />
   <translation id="WednesdayTooltip" value="ตั้งค่าวันพุธเป็นวันทำงาน/ไม่ทำงาน" />
-  <translation id="Thursday" value="วันพฤหัสบดี" />
+  <translation id="Thursday" value="พฤ" />
   <translation id="ThursdayTooltip" value="ตั้งค่าวันพฤหัสบดีเป็นวันทำงาน/ไม่ทำงาน" />
-  <translation id="Friday" value="วันศุกร์" />
+  <translation id="Friday" value="ศ" />
   <translation id="FridayTooltip" value="ตั้งค่าวันศุกร์เป็นวันทำงาน/ไม่ทำงาน" />
-  <translation id="Saturday" value="วันเสาร์" />
+  <translation id="Saturday" value="ส" />
   <translation id="SaturdayTooltip" value="ตั้งค่าวันเสาร์เป็นวันทำงาน/ไม่ทำงาน" />
-  <translation id="Sunday" value="วันอาทิตย์" />
+  <translation id="Sunday" value="อา" />
   <translation id="SundayTooltip" value="ตั้งค่าวันอาทิตย์เป็นวันทำงาน/ไม่ทำงาน" />
   <translation id="ShiftsSummaryLabel" value="กะ" />
   <translation id="ShiftSummaryLabel_1" value="กะ 1" />
@@ -339,21 +339,21 @@
   <translation id="IgnorePolicyTooltip" value="อาคารจะละเว้นข้อจำกัดใด ๆ จากนโยบายเขต" />
   <translation id="AccessAdvancedSettings" value="เข้าถึงการตั้งค่าขั้นสูง" />
   <translation id="AccessAdvancedSettingsTooltip" value="เปิดแผงการตั้งค่าขั้นสูงสำหรับอาคารนี้" />
-  <translation id="SaveBuildingSettings" value="บันทึกการตั้งค่าอาคาร" />
+  <translation id="SaveBuildingSettings" value="บันทึก" />
   <translation id="SaveBuildingSettingsTooltip" value="ลำดับความสำคัญสูงสุด - จะเขียนทับการตั้งค่า prefab และ global และสร้างเวลาทำงานเฉพาะสำหรับอาคารนี้" />
-  <translation id="ReturnToDefault" value="กลับไปยังค่าเริ่มต้น" />
+  <translation id="ReturnToDefault" value="คืนค่าเดิม" />
   <translation id="ReturnToDefaultTooltip" value="จะไม่ลบบันทึกเพียงตั้งค่าสถานะเริ่มต้นบนมัน - คุณต้องล้างการตั้งค่าสำหรับอาคารนี้เพื่อรับการตั้งค่า prefab หรือ global" />
-  <translation id="ApplyPrefabSettings" value="ใช้การตั้งค่าประเภท" />
+  <translation id="ApplyPrefabSettings" value="ใช้ประเภท" />
   <translation id="ApplyPrefabSettingsTooltip" value="ใช้การตั้งค่าเวลาทำงานกับอาคารนี้ตามประเภทอาคารในบันทึกนี้" />
-  <translation id="ApplyGlobalSettings" value="ใช้การตั้งค่าทั่วไป" />
+  <translation id="ApplyGlobalSettings" value="ใช้ทั่วไป" />
   <translation id="ApplyGlobalSettingsTooltip" value="ใช้การตั้งค่าเวลาทำงานกับอาคารนี้ตามประเภทอาคารในทุกบันทึก" />
-  <translation id="SetPrefabSettings" value="ตั้งค่าประเภทใหม่" />
+  <translation id="SetPrefabSettings" value="ใหม่ประเภท" />
   <translation id="SetPrefabSettingsTooltip" value="นี่จะอัปเดตบันทึกอาคารทั้งหมดของประเภทนี้ให้เป็นเวลาทำงานปัจจุบันของอาคารนี้ในบันทึกนี้" />
-  <translation id="SetGlobalSettings" value="ตั้งค่าทั่วไปใหม่" />
+  <translation id="SetGlobalSettings" value="ใหม่ทั่วไป" />
   <translation id="SetGlobalSettingsTooltip" value="นี่จะอัปเดตบันทึกอาคารทั้งหมดของประเภทนี้ให้เป็นเวลาทำงานปัจจุบันของอาคารนี้ในทุกบันทึก" />
-  <translation id="DeletePrefabSettings" value="ลบประเภทที่มีอยู่" />
+  <translation id="DeletePrefabSettings" value="ลบประเภท" />
   <translation id="DeletePrefabSettingsTooltip" value="นี่จะลบบันทึกอาคารทั้งหมดของประเภทนี้และคืนค่าเป็นค่าเริ่มต้นในบันทึกนี้" />
-  <translation id="DeleteGlobalSettings" value="ลบค่าทั่วไปที่มีอยู่" />
+  <translation id="DeleteGlobalSettings" value="ลบทั่วไป" />
   <translation id="DeleteGlobalSettingsTooltip" value="นี่จะลบบันทึกอาคารทั้งหมดของประเภทนี้และคืนค่าเป็นค่าเริ่มต้นในทุกบันทึก" />
   <translation id="ConfirmPanelSetPrefabTitle" value="ตั้งค่าการตั้งค่าประเภท" />
   <translation id="ConfirmPanelSetPrefabText" value="นี่จะอัปเดตเวลาทำงานของอาคารทั้งหมดของประเภทนี้ให้เป็นเวลาทำงานปัจจุบันในบันทึกนี้!" />

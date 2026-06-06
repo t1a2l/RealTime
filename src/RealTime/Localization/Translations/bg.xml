@@ -296,14 +296,14 @@
 
   <translation id="OperationHoursSettingsCheckBox" value="Настройки" />
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="Промяна на работното време на сградата" />
-  <translation id="SettingsTitle" value="Настройка на работното време" />
-  <translation id="UnlockSettings" value="Отключване на настройките" />
-  <translation id="UnlockSettingsTooltip" value="Отключване на редактирането на настройките" />
+  <translation id="SettingsTitle" value="Работно време" />
+  <translation id="EditSettingsTooltip" value="Позволява или забранява редактирането на настройките" />
   <translation id="LockUnlockChangesTooltip" value="Ако е заключено - типовите и глобалните настройки нямат ефект върху тази сграда" />
-  <translation id="DefaultSettingsStatus" value="Тази сграда използва настройките по подразбиране" />
-  <translation id="BuildingSettingsStatus" value="Тази сграда използва собствените си настройки" />
-  <translation id="PrefabSettingsStatus" value="Тази сграда използва типовите настройки" />
-  <translation id="GlobalSettingsStatus" value="Тази сграда използва глобалните настройки" />
+  <translation id="BuildingStatusLabel" value="Статус:" />
+  <translation id="DefaultSettingsStatus" value="Стандартни настройки" />
+  <translation id="BuildingSettingsStatus" value="Собствени настройки" />
+  <translation id="PrefabSettingsStatus" value="Настройки на тип" />
+  <translation id="GlobalSettingsStatus" value="Глобални настройки" />
   <translation id="ActiveDays" value="Активни дни" />
   <translation id="Monday" value="Понеделник" />
   <translation id="MondayTooltip" value="Задайте понеделник като активен/неактивен работен ден" />
@@ -339,21 +339,21 @@
   <translation id="IgnorePolicyTooltip" value="Сградата ще игнорира всякакви ограничения от политиките на района" />
   <translation id="AccessAdvancedSettings" value="Достъп до разширени настройки" />
   <translation id="AccessAdvancedSettingsTooltip" value="Отваряне на панела за разширени настройки за тази сграда" />
-  <translation id="SaveBuildingSettings" value="Запазване на настройките на сградата" />
+  <translation id="SaveBuildingSettings" value="Запази" />
   <translation id="SaveBuildingSettingsTooltip" value="Първи приоритет - ще презапише настройките на типа и глобалните настройки и ще създаде специфично работно време за тази сграда" />
-  <translation id="ReturnToDefault" value="Връщане към подразбиращите се настройки" />
+  <translation id="ReturnToDefault" value="Връщане към подразбиращи се настройки" />
   <translation id="ReturnToDefaultTooltip" value="Няма да изтрие записа, просто ще зададе флаг за подразбиращи се настройки - трябва да изчистите настройките за тази сграда, за да получите настройките на типа или глобалните настройки" />
-  <translation id="ApplyPrefabSettings" value="Приложи настройки на типа" />
+  <translation id="ApplyPrefabSettings" value="Приложи типа" />
   <translation id="ApplyPrefabSettingsTooltip" value="Приложи настройките на работното време за тази сграда според типа на сградата в този запис" />
-  <translation id="ApplyGlobalSettings" value="Приложи глобални настройки" />
+  <translation id="ApplyGlobalSettings" value="Приложи глобално" />
   <translation id="ApplyGlobalSettingsTooltip" value="Приложи настройките на работното време за тази сграда според типа на сградата във всички записи" />
   <translation id="SetPrefabSettings" value="Задай нов тип" />
   <translation id="SetPrefabSettingsTooltip" value="Това ще актуализира всички записи на сгради от този тип с текущото работно време на тази сграда в този запис" />
-  <translation id="SetGlobalSettings" value="Задай нови глобални настройки" />
+  <translation id="SetGlobalSettings" value="Нова глобална" />
   <translation id="SetGlobalSettingsTooltip" value="Това ще актуализира всички записи на сгради от този тип с текущото работно време на тази сграда във всички записи" />
-  <translation id="DeletePrefabSettings" value="Изтрий съществуващия тип" />
+  <translation id="DeletePrefabSettings" value="Изтрий тип" />
   <translation id="DeletePrefabSettingsTooltip" value="Това ще изтрие всички записи на сгради от този тип и ще ги върне към подразбиращите се настройки в този запис" />
-  <translation id="DeleteGlobalSettings" value="Изтрий съществуващите глобални настройки" />
+  <translation id="DeleteGlobalSettings" value="Изтрий глобални" />
   <translation id="DeleteGlobalSettingsTooltip" value="Това ще изтрие всички записи на сгради от този тип и ще ги върне към подразбиращите се настройки във всички записи" />
   <translation id="ConfirmPanelSetPrefabTitle" value="Задай настройки на типа" />
   <translation id="ConfirmPanelSetPrefabText" value="Това ще актуализира всички работни часове на сградите от този тип с текущите настройки на работното време в този запис!" />

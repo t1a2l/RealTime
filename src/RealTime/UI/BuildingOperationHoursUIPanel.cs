@@ -280,32 +280,32 @@ namespace RealTime.UI
 
             m_settingsStatusContainer = UIPanels.CreatePanel(m_headerRow, "ShiftsSummaryContainer");
             m_settingsStatusContainer.backgroundSprite = "GenericPanelLight";
-            m_settingsStatusContainer.size = new Vector2(260f, 150f);
-            m_settingsStatusContainer.relativePosition = new Vector3(10f, 30f);
+            m_settingsStatusContainer.size = new Vector2(200f, 30f);
+            m_settingsStatusContainer.relativePosition = new Vector3(60f, 45f);
 
             // status label that shows if the current settings are default, building specific, prefab specific or global specific
             m_settingsStatus = UILabels.CreateLabel(m_settingsStatusContainer, "SettingsStatus", "", "");
             m_settingsStatus.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_settingsStatus.textAlignment = UIHorizontalAlignment.Left;
-            m_settingsStatus.textColor = new Color32(240, 190, 199, 255);
-            m_settingsStatus.relativePosition = new Vector3(110f, 50f);
+            m_settingsStatus.textColor = new Color32(0, 0, 0, 0);
+            m_settingsStatus.relativePosition = new Vector3(20f, 5f);
             m_settingsStatus.width = 220f;
             m_settingsStatus.textScale = 1.1f;
 
             // edit settings button
-            m_editSettingsBtn = UIButtons.CreateButton(m_headerRow, 170f, 3f, "EditSettings", "", "", 60f);
+            m_editSettingsBtn = UIButtons.CreateButton(m_headerRow, 175f, 3f, "EditSettings", "", "", 23f, 24f);
             m_editSettingsBtn.atlas = TextureUtils.GetAtlas("EditButtonAtlas");
-            m_editSettingsBtn.normalFgSprite = "NoneEdit";
-            m_editSettingsBtn.disabledFgSprite = "NoneEdit";
-            m_editSettingsBtn.focusedFgSprite = "NoneEdit";
-            m_editSettingsBtn.hoveredFgSprite = "NoneEdit";
-            m_editSettingsBtn.pressedFgSprite = "NoneEdit";
+            m_editSettingsBtn.normalFgSprite = "Edit";
+            m_editSettingsBtn.disabledFgSprite = "Edit";
+            m_editSettingsBtn.focusedFgSprite = "Edit";
+            m_editSettingsBtn.hoveredFgSprite = "Edit";
+            m_editSettingsBtn.pressedFgSprite = "Edit";
             m_editSettingsBtn.eventClicked += EditSettings;
 
             m_editMode = false;
 
             // lock/unlock changes button
-            m_lockUnlockChangesBtn = UIButtons.CreateButton(m_headerRow, 240f, 0f, "LockUnLockChanges", "", "", 32, 32);
+            m_lockUnlockChangesBtn = UIButtons.CreateButton(m_headerRow, 220f, 0f, "LockUnLockChanges", "", "", 27f, 32f);
             m_lockUnlockChangesBtn.atlas = TextureUtils.GetAtlas("LockButtonAtlas");
             m_lockUnlockChangesBtn.normalFgSprite = "UnLock";
             m_lockUnlockChangesBtn.disabledFgSprite = "UnLock";
@@ -422,6 +422,12 @@ namespace RealTime.UI
 
         private void RefreshShiftsSummary()
         {
+            foreach (var row in m_shiftSummaryRows)
+            {
+                row.IsActive = false;
+                row.Panel.isVisible = false;
+            }
+
             var shifts = GetActiveShifts();
 
             if (shifts == null || shifts.Length == 0)
@@ -636,7 +642,7 @@ namespace RealTime.UI
         {
             m_editMode = !m_editMode;
 
-            string spriteName = m_editMode ? "Edit" : "NoneEdit";
+            string spriteName = m_editMode ? "NoneEdit" : "Edit";
 
             foreach (var btn in m_dayButtons)
             {
@@ -747,6 +753,7 @@ namespace RealTime.UI
             foreach (var row in m_shiftEditRows)
             {
                 row.IsActive = false;
+                row.Panel.isVisible = false;
             }
 
             if (workShifts == null)
@@ -836,6 +843,8 @@ namespace RealTime.UI
                 btn.color = new Color32(100, 110, 140, 255);
                 btn.textColor = new Color32(80, 88, 120, 255);
             }
+            btn.Invalidate();
+            btn.parent.Invalidate();
         }
 
         private void SaveBuildingSettings(UIComponent c, UIMouseEventParameter eventParameter)

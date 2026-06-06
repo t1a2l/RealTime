@@ -305,19 +305,19 @@
   <translation id="PrefabSettingsStatus" value="Type Settings" />
   <translation id="GlobalSettingsStatus" value="Global Settings" />
   <translation id="ActiveDays" value="Active Days" />
-  <translation id="Monday" value="Monday" />
+  <translation id="Monday" value="Mo" />
   <translation id="MondayTooltip" value="Set monday as active/not active work day" />
-  <translation id="Tuesday" value="Tuesday" />
+  <translation id="Tuesday" value="Tu" />
   <translation id="TuesdayTooltip" value="Set tuesday as active/not active work day" />
-  <translation id="Wednesday" value="Wednesday" />
+  <translation id="Wednesday" value="We" />
   <translation id="WednesdayTooltip" value="Set wednesday as active/not active work day" />
-  <translation id="Thursday" value="Thursday" />
+  <translation id="Thursday" value="Th" />
   <translation id="ThursdayTooltip" value="Set thursday as active/not active work day" />
-  <translation id="Friday" value="Friday" />
+  <translation id="Friday" value="Fr" />
   <translation id="FridayTooltip" value="Set friday as active/not active work day" />
-  <translation id="Saturday" value="Saturday" />
+  <translation id="Saturday" value="Sa" />
   <translation id="SaturdayTooltip" value="Set saturday as active/not active work day" />
-  <translation id="Sunday" value="Sunday" />
+  <translation id="Sunday" value="Su" />
   <translation id="SundayTooltip" value="Set sunday as active/not active work day" />
   <translation id="ShiftsSummaryLabel" value="Shifts" />
   <translation id="ShiftSummaryLabel_1" value="Shift 1" />

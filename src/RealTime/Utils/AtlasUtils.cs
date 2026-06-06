@@ -34,8 +34,8 @@ namespace RealTime.Utils
             if (TextureUtils.GetAtlas("EditButtonAtlas") == null)
             {
                 TextureUtils.InitialiseAtlas("EditButtonAtlas");
-                TextureUtils.AddSpriteToAtlas(new Rect(0, 0, 32, 32), EditButtonSpriteNames[0], "EditButtonAtlas");
-                TextureUtils.AddSpriteToAtlas(new Rect(32, 0, 32, 32), EditButtonSpriteNames[1], "EditButtonAtlas");
+                TextureUtils.AddSpriteToAtlas(new Rect(6, 4, 23, 24), EditButtonSpriteNames[0], "EditButtonAtlas");
+                TextureUtils.AddSpriteToAtlas(new Rect(35, 4, 23, 24), EditButtonSpriteNames[1], "EditButtonAtlas");
             }
         }
     }

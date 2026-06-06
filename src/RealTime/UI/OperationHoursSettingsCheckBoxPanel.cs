@@ -66,7 +66,7 @@ namespace RealTime.UI
                 operationHoursPanel.m_setGlobalSettingsBtn.Disable();
                 operationHoursPanel.m_deletePrefabSettingsBtn.Disable();
                 operationHoursPanel.m_deleteGlobalSettingsBtn.Disable();
-                operationHoursPanel.m_unlockSettingsBtn.Show();
+                operationHoursPanel.m_editSettingsBtn.Show();
             }
         }
 

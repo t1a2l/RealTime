@@ -12,39 +12,39 @@ namespace RealTime.Simulation
         /// <summary>
         /// Gets the current game date and time.
         /// </summary>
-        DateTime Now { get; }
+        internal DateTime Now { get; }
 
         /// <summary>
         /// Gets the current daytime hour.
         /// </summary>
-        float CurrentHour { get; }
+        internal float CurrentHour { get; }
 
         /// <summary>
         /// Gets the sunrise hour of the current day.
         /// </summary>
-        float SunriseHour { get; }
+        internal float SunriseHour { get; }
 
         /// <summary>
         /// Gets the sunset hour of the current day.
         /// </summary>
-        float SunsetHour { get; }
+        internal float SunsetHour { get; }
 
         /// <summary>
         /// Gets a value indicating whether the current time represents a night hour.
         /// </summary>
-        bool IsNightTime { get; }
+        internal bool IsNightTime { get; }
 
         /// <summary>
         /// Gets the duration of the current or last day.
         /// </summary>
-        float DayDuration { get; }
+        internal float DayDuration { get; }
 
         /// <summary>
         /// Gets the duration of the current or last night.
         /// </summary>
-        float NightDuration { get; }
+        internal float NightDuration { get; }
 
         /// <summary>Gets the number of hours that fit into one simulation frame.</summary>
-        float HoursPerFrame { get; }
+        internal float HoursPerFrame { get; }
     }
 }

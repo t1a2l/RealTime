@@ -151,20 +151,8 @@ namespace RealTime.Localization
         /// <summary>The key for the shifts summary label.</summary>
         public const string ShiftsSummaryLabel = "ShiftsSummaryLabel";
 
-        /// <summary>The key for the shift summary label 1.</summary>
-        public const string ShiftSummaryLabel_1 = "ShiftSummaryLabel_1";
-
-        /// <summary>The key for the shift summary label 2.</summary>
-        public const string ShiftSummaryLabel_2 = "ShiftSummaryLabel_2";
-
-        /// <summary>The key for the shift summary label 3.</summary>
-        public const string ShiftSummaryLabel_3 = "ShiftSummaryLabel_3";
-
-        /// <summary>The key for the shift summary label 4.</summary>
-        public const string ShiftSummaryLabel_4 = "ShiftSummaryLabel_4";
-
-        /// <summary>The key for the shift summary label 5.</summary>
-        public const string ShiftSummaryLabel_5 = "ShiftSummaryLabel_5";
+        /// <summary>The key for the shift summary label index.</summary>
+        public const string ShiftSummaryLabelIndex = "ShiftSummaryLabelIndex";
 
         /// <summary>The key for the edit shifts button.</summary>
         public const string EditShifts = "EditShifts";
@@ -175,20 +163,8 @@ namespace RealTime.Localization
         /// <summary>The key for the shifts editor label.</summary>
         public const string ShiftsEditorLabel = "ShiftsEditorLabel";
 
-        /// <summary>The key for the shift edit label 1.</summary>
-        public const string ShiftEditLabel_1 = "ShiftEditLabel_1";
-
-        /// <summary>The key for the shift edit label 2.</summary>
-        public const string ShiftEditLabel_2 = "ShiftEditLabel_2";
-
-        /// <summary>The key for the shift edit label 3.</summary>
-        public const string ShiftEditLabel_3 = "ShiftEditLabel_3";
-
-        /// <summary>The key for the shift edit label 4.</summary>
-        public const string ShiftEditLabel_4 = "ShiftEditLabel_4";
-
-        /// <summary>The key for the shift edit label 5.</summary>
-        public const string ShiftEditLabel_5 = "ShiftEditLabel_5";
+        /// <summary>The key for the shift edit label index.</summary>
+        public const string ShiftEditLabelIndex = "ShiftEditLabelIndex";
 
         /// <summary>The key for the add shift button.</summary>
         public const string AddShift = "AddShift";
@@ -279,6 +255,12 @@ namespace RealTime.Localization
 
         /// <summary>The key for the delete global confirm panel text.</summary>
         public const string ConfirmPanelDeleteGlobalText = "ConfirmPanelDeleteGlobalText";
+
+        /// <summary>The key for the invalid shifts title.</summary>
+        public const string InvalidShiftsTitle = "InvalidShiftsTitle";
+
+        /// <summary>The key for the invalid shifts text.</summary>
+        public const string InvalidShiftsText = "InvalidShiftsText";
 
         /// <summary>The key for the closed text on buildings.</summary>
         public const string ClosedBuilding = "ClosedBuilding";

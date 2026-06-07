@@ -320,19 +320,13 @@
   <translation id="Sunday" value="Su" />
   <translation id="SundayTooltip" value="Set sunday as active/not active work day" />
   <translation id="ShiftsSummaryLabel" value="Shifts" />
-  <translation id="ShiftSummaryLabel_1" value="Shift 1" />
-  <translation id="ShiftSummaryLabel_2" value="Shift 2" />
-  <translation id="ShiftSummaryLabel_3" value="Shift 3" />
-  <translation id="ShiftSummaryLabel_4" value="Shift 4" />
-  <translation id="ShiftSummaryLabel_5" value="Shift 5" />
+  <translation id="ShiftSummaryLabelIndex" value="Shift" />
   <translation id="EditShifts" value="Edit Shifts" />
   <translation id="EditShiftsTooltip" value="Edit the work shifts for this building" />
   <translation id="ShiftsEditorLabel" value="Edit Shifts" />
-  <translation id="ShiftEditorLabel_1" value="Shift 1" />
-  <translation id="ShiftEditorLabel_2" value="Shift 2" />
-  <translation id="ShiftEditorLabel_3" value="Shift 3" />
-  <translation id="ShiftEditorLabel_4" value="Shift 4" />
-  <translation id="ShiftEditorLabel_5" value="Shift 5" />
+  <translation id="ShiftEditorLabelIndex" value="Shift" />
+  <translation id="InvalidShiftsTitle" value="Invalid Shifts" />
+  <translation id="InvalidShiftsText" value="One or more shifts have the same start and end time" />
   <translation id="AddShift" value="+ Add Shift" />
   <translation id="AddShiftTooltip" value="Add a new work shift for this building" />
   <translation id="IgnorePolicy" value="Ignore District Policies" />

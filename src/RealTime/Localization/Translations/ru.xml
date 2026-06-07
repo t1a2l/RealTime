@@ -320,19 +320,12 @@
   <translation id="Sunday" value="Вс" />
   <translation id="SundayTooltip" value="Установить воскресенье как активный/неактивный рабочий день" />
   <translation id="ShiftsSummaryLabel" value="Смены" />
-  <translation id="ShiftSummaryLabel_1" value="Смена 1" />
-  <translation id="ShiftSummaryLabel_2" value="Смена 2" />
-  <translation id="ShiftSummaryLabel_3" value="Смена 3" />
-  <translation id="ShiftSummaryLabel_4" value="Смена 4" />
-  <translation id="ShiftSummaryLabel_5" value="Смена 5" />
   <translation id="EditShifts" value="Редактировать смены" />
   <translation id="EditShiftsTooltip" value="Редактировать рабочие смены для этого здания" />
   <translation id="ShiftsEditorLabel" value="Редактировать смены" />
-  <translation id="ShiftEditorLabel_1" value="Смена 1" />
-  <translation id="ShiftEditorLabel_2" value="Смена 2" />
-  <translation id="ShiftEditorLabel_3" value="Смена 3" />
-  <translation id="ShiftEditorLabel_4" value="Смена 4" />
-  <translation id="ShiftEditorLabel_5" value="Смена 5" />
+  <translation id="ShiftLabelIndex" value="Смена" />
+  <translation id="InvalidShiftsTitle" value="Неверные смены" />
+  <translation id="InvalidShiftsText" value="Одна или несколько смен имеют одинаковое время начала и окончания" />
   <translation id="AddShift" value="+ Добавить смену" />
   <translation id="AddShiftTooltip" value="Добавить новую рабочую смену для этого здания" />
   <translation id="IgnorePolicy" value="Игнорировать политики района" />

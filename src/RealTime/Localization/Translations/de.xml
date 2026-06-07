@@ -320,19 +320,12 @@
   <translation id="Sunday" value="So" />
   <translation id="SundayTooltip" value="Sonntag als aktiven/nicht aktiven Arbeitstag festlegen" />
   <translation id="ShiftsSummaryLabel" value="Schichten" />
-  <translation id="ShiftSummaryLabel_1" value="Schicht 1" />
-  <translation id="ShiftSummaryLabel_2" value="Schicht 2" />
-  <translation id="ShiftSummaryLabel_3" value="Schicht 3" />
-  <translation id="ShiftSummaryLabel_4" value="Schicht 4" />
-  <translation id="ShiftSummaryLabel_5" value="Schicht 5" />
   <translation id="EditShifts" value="Schichten bearbeiten" />
   <translation id="EditShiftsTooltip" value="Die Arbeitszeiten für dieses Gebäude bearbeiten" />
   <translation id="ShiftsEditorLabel" value="Schichten bearbeiten" />
-  <translation id="ShiftEditorLabel_1" value="Schicht 1" />
-  <translation id="ShiftEditorLabel_2" value="Schicht 2" />
-  <translation id="ShiftEditorLabel_3" value="Schicht 3" />
-  <translation id="ShiftEditorLabel_4" value="Schicht 4" />
-  <translation id="ShiftEditorLabel_5" value="Schicht 5" />
+  <translation id="ShiftLabelIndex" value="Schicht" />
+  <translation id="InvalidShiftsTitle" value="Ungültige Schichten" />
+  <translation id="InvalidShiftsText" value="Eine oder mehrere Schichten haben die gleiche Start- und Endzeit" />
   <translation id="AddShift" value="+ Schicht hinzufügen" />
   <translation id="AddShiftTooltip" value="Eine neue Arbeitschicht für dieses Gebäude hinzufügen" />
   <translation id="IgnorePolicy" value="Distrikt-Richtlinien ignorieren" />

@@ -320,19 +320,12 @@
   <translation id="Sunday" value="Ni" />
   <translation id="SundayTooltip" value="Ustaw niedzielę jako aktywny/nieaktywny dzień pracy" />
   <translation id="ShiftsSummaryLabel" value="Zmiany" />
-  <translation id="ShiftSummaryLabel_1" value="Zmiana 1" />
-  <translation id="ShiftSummaryLabel_2" value="Zmiana 2" />
-  <translation id="ShiftSummaryLabel_3" value="Zmiana 3" />
-  <translation id="ShiftSummaryLabel_4" value="Zmiana 4" />
-  <translation id="ShiftSummaryLabel_5" value="Zmiana 5" />
   <translation id="EditShifts" value="Edytuj zmiany" />
   <translation id="EditShiftsTooltip" value="Edytuj zmiany pracy dla tego budynku" />
   <translation id="ShiftsEditorLabel" value="Edytuj zmiany" />
-  <translation id="ShiftEditorLabel_1" value="Zmiana 1" />
-  <translation id="ShiftEditorLabel_2" value="Zmiana 2" />
-  <translation id="ShiftEditorLabel_3" value="Zmiana 3" />
-  <translation id="ShiftEditorLabel_4" value="Zmiana 4" />
-  <translation id="ShiftEditorLabel_5" value="Zmiana 5" />
+  <translation id="ShiftLabelIndex" value="Zmiana" />
+  <translation id="InvalidShiftsTitle" value="Nieprawidłowe zmiany" />
+  <translation id="InvalidShiftsText" value="Jedna lub więcej zmian ma ten sam czas rozpoczęcia i zakończenia" />
   <translation id="AddShift" value="+ Dodaj zmianę" />
   <translation id="AddShiftTooltip" value="Dodaj nową zmianę pracy dla tego budynku" />
   <translation id="IgnorePolicy" value="Ignoruj polityki dzielnicy" />

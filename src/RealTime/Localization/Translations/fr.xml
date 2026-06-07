@@ -320,19 +320,12 @@
   <translation id="Sunday" value="Di" />
   <translation id="SundayTooltip" value="Définir le dimanche comme jour de travail actif/inactif" />
   <translation id="ShiftsSummaryLabel" value="Quarts" />
-  <translation id="ShiftSummaryLabel_1" value="Quart 1" />
-  <translation id="ShiftSummaryLabel_2" value="Quart 2" />
-  <translation id="ShiftSummaryLabel_3" value="Quart 3" />
-  <translation id="ShiftSummaryLabel_4" value="Quart 4" />
-  <translation id="ShiftSummaryLabel_5" value="Quart 5" />
   <translation id="EditShifts" value="Modifier les quarts" />
   <translation id="EditShiftsTooltip" value="Modifier les quarts de travail pour ce bâtiment" />
   <translation id="ShiftsEditorLabel" value="Modifier les quarts" />
-  <translation id="ShiftEditorLabel_1" value="Quart 1" />
-  <translation id="ShiftEditorLabel_2" value="Quart 2" />
-  <translation id="ShiftEditorLabel_3" value="Quart 3" />
-  <translation id="ShiftEditorLabel_4" value="Quart 4" />
-  <translation id="ShiftEditorLabel_5" value="Quart 5" />
+  <translation id="ShiftLabelIndex" value="Quart" />
+  <translation id="InvalidShiftsTitle" value="Quarts invalides" />
+  <translation id="InvalidShiftsText" value="Un ou plusieurs quarts ont la même heure de début et de fin" />
   <translation id="AddShift" value="+ Ajouter un quart" />
   <translation id="AddShiftTooltip" value="Ajouter un nouveau quart de travail pour ce bâtiment" />
   <translation id="IgnorePolicy" value="Ignorer les politiques de district" />

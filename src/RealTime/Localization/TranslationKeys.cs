@@ -151,8 +151,8 @@ namespace RealTime.Localization
         /// <summary>The key for the shifts summary label.</summary>
         public const string ShiftsSummaryLabel = "ShiftsSummaryLabel";
 
-        /// <summary>The key for the shift summary label index.</summary>
-        public const string ShiftSummaryLabelIndex = "ShiftSummaryLabelIndex";
+        /// <summary>The key for the shift label index.</summary>
+        public const string ShiftLabelIndex = "ShiftLabelIndex";
 
         /// <summary>The key for the edit shifts button.</summary>
         public const string EditShifts = "EditShifts";
@@ -162,9 +162,6 @@ namespace RealTime.Localization
 
         /// <summary>The key for the shifts editor label.</summary>
         public const string ShiftsEditorLabel = "ShiftsEditorLabel";
-
-        /// <summary>The key for the shift edit label index.</summary>
-        public const string ShiftEditLabelIndex = "ShiftEditLabelIndex";
 
         /// <summary>The key for the add shift button.</summary>
         public const string AddShift = "AddShift";

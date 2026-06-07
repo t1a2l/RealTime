@@ -320,19 +320,12 @@
   <translation id="Sunday" value="日" />
   <translation id="SundayTooltip" value="日曜日を稼働日/非稼働日に設定" />
   <translation id="ShiftsSummaryLabel" value="シフト" />
-  <translation id="ShiftSummaryLabel_1" value="シフト 1" />
-  <translation id="ShiftSummaryLabel_2" value="シフト 2" />
-  <translation id="ShiftSummaryLabel_3" value="シフト 3" />
-  <translation id="ShiftSummaryLabel_4" value="シフト 4" />
-  <translation id="ShiftSummaryLabel_5" value="シフト 5" />
   <translation id="EditShifts" value="シフト編集" />
   <translation id="EditShiftsTooltip" value="この建物の勤務シフトを編集します" />
   <translation id="ShiftsEditorLabel" value="シフト編集" />
-  <translation id="ShiftEditorLabel_1" value="シフト 1" />
-  <translation id="ShiftEditorLabel_2" value="シフト 2" />
-  <translation id="ShiftEditorLabel_3" value="シフト 3" />
-  <translation id="ShiftEditorLabel_4" value="シフト 4" />
-  <translation id="ShiftEditorLabel_5" value="シフト 5" />
+  <translation id="ShiftLabelIndex" value="シフト" />
+  <translation id="InvalidShiftsTitle" value="無効なシフト" />
+  <translation id="InvalidShiftsText" value="1つ以上のシフトが同じ開始時刻と終了時刻を持っています" />
   <translation id="AddShift" value="+ シフト追加" />
   <translation id="AddShiftTooltip" value="この建物の新しい勤務シフトを追加します" />
   <translation id="IgnorePolicy" value="地区ポリシーを無視" />

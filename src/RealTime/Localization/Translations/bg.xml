@@ -320,14 +320,13 @@
   <translation id="Sunday" value="Неделя" />
   <translation id="SundayTooltip" value="Задайте неделя като активен/неактивен работен ден" />
   <translation id="ShiftsSummaryLabel" value="Смени" />
-  <translation id="ShiftSummaryLabel_1" value="Смяна 1" />
-  <translation id="ShiftSummaryLabel_2" value="Смяна 2" />
-  <translation id="ShiftSummaryLabel_3" value="Смяна 3" />
-  <translation id="ShiftSummaryLabel_4" value="Смяна 4" />
-  <translation id="ShiftSummaryLabel_5" value="Смяна 5" />
   <translation id="EditShifts" value="Редактиране на смени" />
   <translation id="EditShiftsTooltip" value="Редактиране на работните смени за тази сграда" />
   <translation id="ShiftsEditorLabel" value="Редактиране на смени" />
+  <translation id="ShiftLabelIndex" value="Смяна" />
+  <translation id="InvalidShiftsTitle" value="Невалидни смени" />
+  <translation id="InvalidShiftsText" value="Една или повече смени имат същото начало и край" />
+  <translation id="AddShift" value="+ Добавяне на смяна" />
   <translation id="ShiftEditorLabel_1" value="Смяна 1" />
   <translation id="ShiftEditorLabel_2" value="Смяна 2" />
   <translation id="ShiftEditorLabel_3" value="Смяна 3" />

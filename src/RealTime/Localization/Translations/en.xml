@@ -320,11 +320,10 @@
   <translation id="Sunday" value="Su" />
   <translation id="SundayTooltip" value="Set sunday as active/not active work day" />
   <translation id="ShiftsSummaryLabel" value="Shifts" />
-  <translation id="ShiftSummaryLabelIndex" value="Shift" />
   <translation id="EditShifts" value="Edit Shifts" />
   <translation id="EditShiftsTooltip" value="Edit the work shifts for this building" />
   <translation id="ShiftsEditorLabel" value="Edit Shifts" />
-  <translation id="ShiftEditorLabelIndex" value="Shift" />
+  <translation id="ShiftLabelIndex" value="Shift" />
   <translation id="InvalidShiftsTitle" value="Invalid Shifts" />
   <translation id="InvalidShiftsText" value="One or more shifts have the same start and end time" />
   <translation id="AddShift" value="+ Add Shift" />

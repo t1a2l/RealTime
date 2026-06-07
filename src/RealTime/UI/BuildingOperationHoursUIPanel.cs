@@ -70,8 +70,7 @@ namespace RealTime.UI
         internal UIButton m_deleteGlobalSettingsBtn;
 
         // ─────────────────────────────────────────── Translations ───────────────────────────────────────────────
-        internal string t_shiftSummaryLabelIndex;
-        internal string t_shiftEditLabelIndex;
+        internal string t_shiftLabelIndex;
 
         internal string t_defaultSettingsStatus;
         internal string t_buildingSettingsStatus;
@@ -417,7 +416,7 @@ namespace RealTime.UI
                 m_shiftSummaryRows[i].SetEntry(i, shifts[i]);
                 m_shiftSummaryRows[i].Panel.isVisible = true;
                 int row_index = i + 1;
-                m_shiftSummaryRows[i].IndexLabel.text = t_shiftSummaryLabelIndex + " " + row_index;
+                m_shiftSummaryRows[i].IndexLabel.text = t_shiftLabelIndex + " " + row_index;
             }
 
             float containerHeight = shifts.Length * 36f + 10f;
@@ -568,14 +567,17 @@ namespace RealTime.UI
                 btn.tooltip = localizationProvider.Translate(btn.name + "Tooltip");
             }
 
+            // ──────────────────────────────────────── Shifts summary and editor common translations ─────────────────────────────────────────
+            t_shiftLabelIndex = localizationProvider.Translate(TranslationKeys.ShiftLabelIndex);
+
             // ───────────────────────────────────────── Shifts summary translation ─────────────────────────────────────────
             m_shiftsSummaryLabel.text = localizationProvider.Translate(TranslationKeys.ShiftsSummaryLabel);
-            t_shiftSummaryLabelIndex = localizationProvider.Translate(TranslationKeys.ShiftSummaryLabelIndex);
+            
 
             for (int i = 0; i < m_shiftSummaryRows.Length; i++)
             {
                 int index = i + 1;
-                m_shiftSummaryRows[i].IndexLabel.text = t_shiftSummaryLabelIndex + " " + index;
+                m_shiftSummaryRows[i].IndexLabel.text = t_shiftLabelIndex + " " + index;
             }
 
             m_shiftsEditBtn.text = localizationProvider.Translate(TranslationKeys.EditShifts);
@@ -583,12 +585,11 @@ namespace RealTime.UI
 
             // ───────────────────────────────────────── Shifts editor translation ─────────────────────────────────────────
             m_shiftsEditorLabel.text = localizationProvider.Translate(TranslationKeys.ShiftsEditorLabel);
-            t_shiftEditLabelIndex = localizationProvider.Translate(TranslationKeys.ShiftEditLabelIndex);
 
             for (int i = 0; i < m_shiftEditRows.Length; i++)
             {
                 int index = i + 1;
-                m_shiftEditRows[i].IndexLabel.text = t_shiftEditLabelIndex + " " + index;
+                m_shiftEditRows[i].IndexLabel.text = t_shiftLabelIndex + " " + index;
             }
 
             m_addShiftBtn.text = localizationProvider.Translate(TranslationKeys.AddShift);
@@ -826,7 +827,7 @@ namespace RealTime.UI
                 m_shiftEditRows[i].SetEntry(i, remaining[i]);
                 m_shiftEditRows[i].Panel.isVisible = true;
                 int row_index = i + 1;
-                m_shiftEditRows[i].IndexLabel.text = t_shiftEditLabelIndex + " " + row_index;
+                m_shiftEditRows[i].IndexLabel.text = t_shiftLabelIndex + " " + row_index;
             }
 
             m_addShiftBtn.isEnabled = remaining.Count < m_shiftEditRows.Length;

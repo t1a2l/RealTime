@@ -320,19 +320,12 @@
   <translation id="Sunday" value="周日" />
   <translation id="SundayTooltip" value="设置星期日为活跃/非活跃工作日" />
   <translation id="ShiftsSummaryLabel" value="班次" />
-  <translation id="ShiftSummaryLabel_1" value="班次 1" />
-  <translation id="ShiftSummaryLabel_2" value="班次 2" />
-  <translation id="ShiftSummaryLabel_3" value="班次 3" />
-  <translation id="ShiftSummaryLabel_4" value="班次 4" />
-  <translation id="ShiftSummaryLabel_5" value="班次 5" />
   <translation id="EditShifts" value="编辑班次" />
   <translation id="EditShiftsTooltip" value="编辑此建筑的工作班次" />
   <translation id="ShiftsEditorLabel" value="编辑班次" />
-  <translation id="ShiftEditorLabel_1" value="班次 1" />
-  <translation id="ShiftEditorLabel_2" value="班次 2" />
-  <translation id="ShiftEditorLabel_3" value="班次 3" />
-  <translation id="ShiftEditorLabel_4" value="班次 4" />
-  <translation id="ShiftEditorLabel_5" value="班次 5" />
+  <translation id="ShiftLabelIndex" value="班次" />
+  <translation id="InvalidShiftsTitle" value="无效班次" />
+  <translation id="InvalidShiftsText" value="一个或多个班次的开始和结束时间相同" />
   <translation id="AddShift" value="+ 添加班次" />
   <translation id="AddShiftTooltip" value="为此建筑添加新的工作班次" />
   <translation id="IgnorePolicy" value="忽略区域政策" />

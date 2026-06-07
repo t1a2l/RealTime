@@ -320,19 +320,12 @@
   <translation id="Sunday" value="อา" />
   <translation id="SundayTooltip" value="ตั้งค่าวันอาทิตย์เป็นวันทำงาน/ไม่ทำงาน" />
   <translation id="ShiftsSummaryLabel" value="กะ" />
-  <translation id="ShiftSummaryLabel_1" value="กะ 1" />
-  <translation id="ShiftSummaryLabel_2" value="กะ 2" />
-  <translation id="ShiftSummaryLabel_3" value="กะ 3" />
-  <translation id="ShiftSummaryLabel_4" value="กะ 4" />
-  <translation id="ShiftSummaryLabel_5" value="กะ 5" />
   <translation id="EditShifts" value="แก้ไขกะ" />
   <translation id="EditShiftsTooltip" value="แก้ไขกะการทำงานสำหรับอาคารนี้" />
   <translation id="ShiftsEditorLabel" value="แก้ไขกะ" />
-  <translation id="ShiftEditorLabel_1" value="กะ 1" />
-  <translation id="ShiftEditorLabel_2" value="กะ 2" />
-  <translation id="ShiftEditorLabel_3" value="กะ 3" />
-  <translation id="ShiftEditorLabel_4" value="กะ 4" />
-  <translation id="ShiftEditorLabel_5" value="กะ 5" />
+  <translation id="ShiftLabelIndex" value="กะ" />
+  <translation id="InvalidShiftsTitle" value="กะไม่ถูกต้อง" />
+  <translation id="InvalidShiftsText" value="กะหนึ่งหรือมากกว่ามีเวลาเริ่มต้นและสิ้นสุดเหมือนกัน" />
   <translation id="AddShift" value="+ เพิ่มกะ" />
   <translation id="AddShiftTooltip" value="เพิ่มกะการทำงานใหม่สำหรับอาคารนี้" />
   <translation id="IgnorePolicy" value="ละเว้นนโยบายเขต" />

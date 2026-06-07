@@ -321,19 +321,12 @@
   <translation id="Sunday" value="Dom" />
   <translation id="SundayTooltip" value="Definir domingo como dia útil/ não útil" />
   <translation id="ShiftsSummaryLabel" value="Turnos" />
-  <translation id="ShiftSummaryLabel_1" value="Turno 1" />
-  <translation id="ShiftSummaryLabel_2" value="Turno 2" />
-  <translation id="ShiftSummaryLabel_3" value="Turno 3" />
-  <translation id="ShiftSummaryLabel_4" value="Turno 4" />
-  <translation id="ShiftSummaryLabel_5" value="Turno 5" />
   <translation id="EditShifts" value="Editar Turnos" />
   <translation id="EditShiftsTooltip" value="Editar os turnos de trabalho deste prédio" />
   <translation id="ShiftsEditorLabel" value="Editar Turnos" />
-  <translation id="ShiftEditorLabel_1" value="Turno 1" />
-  <translation id="ShiftEditorLabel_2" value="Turno 2" />
-  <translation id="ShiftEditorLabel_3" value="Turno 3" />
-  <translation id="ShiftEditorLabel_4" value="Turno 4" />
-  <translation id="ShiftEditorLabel_5" value="Turno 5" />
+  <translation id="ShiftLabelIndex" value="Turno" />
+  <translation id="InvalidShiftsTitle" value="Turnos Inválidos" />
+  <translation id="InvalidShiftsText" value="Um ou mais turnos têm o mesmo horário de início e término" />
   <translation id="AddShift" value="+ Adicionar Turno" />
   <translation id="AddShiftTooltip" value="Adicionar um novo turno de trabalho para este prédio" />
   <translation id="IgnorePolicy" value="Ignorar Políticas do Distrito" />

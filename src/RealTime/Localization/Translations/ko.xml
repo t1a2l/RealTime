@@ -320,19 +320,12 @@
   <translation id="Sunday" value="일" />
   <translation id="SundayTooltip" value="일요일을 활성/비활성 근무일로 설정" />
   <translation id="ShiftsSummaryLabel" value="근무조" />
-  <translation id="ShiftSummaryLabel_1" value="근무조 1" />
-  <translation id="ShiftSummaryLabel_2" value="근무조 2" />
-  <translation id="ShiftSummaryLabel_3" value="근무조 3" />
-  <translation id="ShiftSummaryLabel_4" value="근무조 4" />
-  <translation id="ShiftSummaryLabel_5" value="근무조 5" />
   <translation id="EditShifts" value="근무조 편집" />
   <translation id="EditShiftsTooltip" value="이 건물의 근무조를 편집합니다" />
   <translation id="ShiftsEditorLabel" value="근무조 편집" />
-  <translation id="ShiftEditorLabel_1" value="근무조 1" />
-  <translation id="ShiftEditorLabel_2" value="근무조 2" />
-  <translation id="ShiftEditorLabel_3" value="근무조 3" />
-  <translation id="ShiftEditorLabel_4" value="근무조 4" />
-  <translation id="ShiftEditorLabel_5" value="근무조 5" />
+  <translation id="ShiftLabelIndex" value="근무조" />
+  <translation id="InvalidShiftsTitle" value="무효한 근무조" />
+  <translation id="InvalidShiftsText" value="하나 이상의 근무조가 동일한 시작 및 종료 시간을 가지고 있습니다" />
   <translation id="AddShift" value="+ 근무조 추가" />
   <translation id="AddShiftTooltip" value="이 건물에 새로운 근무조를 추가합니다" />
   <translation id="IgnorePolicy" value="구역 정책 무시" />

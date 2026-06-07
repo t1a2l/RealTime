@@ -899,7 +899,7 @@ namespace RealTime.UI
                     var workShiftTime = m_shiftEditRows[i - 1].GetEntry();
                     float startHour = workShiftTime.EndTime;
                     float endHour = workShiftTime.EndTime + 8f;
-                    if(endHour >= 23f)
+                    if(endHour > 23f)
                     {
                         endHour -= 24f;
                     }

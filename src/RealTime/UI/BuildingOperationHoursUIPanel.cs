@@ -356,9 +356,11 @@ namespace RealTime.UI
 
                 btn.eventClicked += (c, _) =>
                 {
+                    var button = (UIButton)c;
                     m_activeDays[idx] = !m_activeDays[idx];
-                    ApplyToggleVisual((UIButton)c, m_activeDays[idx]);
-                    ((UIButton)c).stringUserData = m_activeDays[idx] ? "1" : "0";
+                    ApplyToggleVisual(button, m_activeDays[idx]);
+                    button.stringUserData = m_activeDays[idx] ? "1" : "0";
+                    button.Unfocus();
                 };
 
                 m_dayButtons[idx] = btn;
@@ -834,17 +836,21 @@ namespace RealTime.UI
             if (active)
             {
                 btn.normalBgSprite = "ButtonMenuFocused";
+                btn.hoveredBgSprite = "ButtonMenuFocused";
+                btn.pressedBgSprite = "ButtonMenuFocused";
+                btn.focusedBgSprite = "ButtonMenuFocused";
                 btn.color = new Color32(255, 255, 255, 255);
                 btn.textColor = new Color32(110, 203, 216, 255); // teal
             }
             else
             {
                 btn.normalBgSprite = "ButtonMenu";
+                btn.hoveredBgSprite = "ButtonMenuHovered";
+                btn.pressedBgSprite = "ButtonMenuFocused";
+                btn.focusedBgSprite = "ButtonMenu";
                 btn.color = new Color32(100, 110, 140, 255);
                 btn.textColor = new Color32(80, 88, 120, 255);
             }
-            btn.Invalidate();
-            btn.parent.Invalidate();
         }
 
         private void SaveBuildingSettings(UIComponent c, UIMouseEventParameter eventParameter)

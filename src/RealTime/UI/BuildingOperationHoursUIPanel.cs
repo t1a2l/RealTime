@@ -491,7 +491,7 @@ namespace RealTime.UI
                 row.IndexLabel.width = 55f;
 
                 row.StartHourField = UITextFields.CreateTextField(row.Panel, $"ShiftEditStartHour_{i + 1}", "");
-                row.StartHourField.size = new Vector2(35f, 24f);
+                row.StartHourField.size = new Vector2(30f, 24f);
                 row.StartHourField.maxLength = 2;
                 row.StartHourField.numericalOnly = true;
                 row.StartHourField.relativePosition = new Vector3(85f, 3f);
@@ -512,14 +512,14 @@ namespace RealTime.UI
                 };
                
                 row.StartColon = UILabels.CreateLabel(row.Panel, $"ShiftEditStartColon_{i + 1}", ":", "");
-                row.StartColon.size = new Vector2(30f, 24f);
-                row.StartColon.relativePosition = new Vector3(130f, 7f);
+                row.StartColon.size = new Vector2(11.25f, 18f);
+                row.StartColon.relativePosition = new Vector3(120f, 7f);
 
                 row.StartMinuteField = UITextFields.CreateTextField(row.Panel, $"ShiftEditStartMinute_{i + 1}", "");
-                row.StartMinuteField.size = new Vector2(35f, 24f);
+                row.StartMinuteField.size = new Vector2(30f, 24f);
                 row.StartMinuteField.maxLength = 2;
                 row.StartMinuteField.numericalOnly = true;
-                row.StartMinuteField.relativePosition = new Vector3(160f, 3f);
+                row.StartMinuteField.relativePosition = new Vector3(130f, 3f);
                 row.StartMinuteField.eventLostFocus += (_, __) => row.StartMinuteField.text = int.TryParse(row.StartMinuteField.text, out int v) ? v.ToString("D2") : "00"; // pad to 2 digits on blur
                 row.StartMinuteField.eventTextChanged += (_, value) =>
                 {
@@ -537,12 +537,12 @@ namespace RealTime.UI
                 };
 
                 row.Arrow = UILabels.CreateLabel(row.Panel, $"ShiftEditArrow_{i + 1}", "->", "");
-                row.Arrow.size = new Vector2(70f, 24f);
-                row.Arrow.relativePosition = new Vector3(160f, 7f);
+                row.Arrow.size = new Vector2(15f, 18f);
+                row.Arrow.relativePosition = new Vector3(165f, 7f);
 
                 row.EndHourField = UITextFields.CreateTextField(row.Panel, $"ShiftEditEnd_{i + 1}", "");
-                row.EndHourField.size = new Vector2(70f, 24f);
-                row.EndHourField.relativePosition = new Vector3(180f, 3f);
+                row.EndHourField.size = new Vector2(30f, 24f);
+                row.EndHourField.relativePosition = new Vector3(185f, 3f);
                 row.EndHourField.eventLostFocus += (_, __) => row.EndHourField.text = int.TryParse(row.EndHourField.text, out int v) ? v.ToString("D2") : "00"; // pad to 2 digits on blur
                 row.EndHourField.eventTextChanged += (_, value) =>
                 {
@@ -560,13 +560,13 @@ namespace RealTime.UI
                 };
 
                 row.EndColon = UILabels.CreateLabel(row.Panel, $"ShiftEditEndColon_{i + 1}", ":", "");
-                row.EndColon.size = new Vector2(30f, 24f);
-                row.EndColon.relativePosition = new Vector3(215f, 7f);
+                row.EndColon.size = new Vector2(11.25f, 18f);
+                row.EndColon.relativePosition = new Vector3(220f, 7f);
 
                 row.EndMinuteField = UITextFields.CreateTextField(row.Panel, $"ShiftEditEndMinute_{i + 1}", "");
-                row.EndMinuteField.size = new Vector2(35f, 24f);
+                row.EndMinuteField.size = new Vector2(30f, 24f);
                 row.EndMinuteField.maxLength = 2;
-                row.EndMinuteField.relativePosition = new Vector3(245f, 3f);
+                row.EndMinuteField.relativePosition = new Vector3(230f, 3f);
                 row.EndMinuteField.eventLostFocus += (_, __) => row.EndMinuteField.text = int.TryParse(row.EndMinuteField.text, out int v) ? v.ToString("D2") : "00"; // pad to 2 digits on blur
                 row.EndMinuteField.eventTextChanged += (_, value) =>
                 {
@@ -585,7 +585,7 @@ namespace RealTime.UI
 
                 if (i > 0)
                 {
-                    row.RemoveBtn = UIButtons.CreateButton(row.Panel, 260f, 1f, $"RemoveShift_{i + 1}", "×", "", 28f);
+                    row.RemoveBtn = UIButtons.CreateButton(row.Panel, 265f, 1f, $"RemoveShift_{i + 1}", "×", "", 28f);
                     int captured = i;
                     row.RemoveBtn.eventClicked += (_, __) => RemoveShift(captured);
                 }
@@ -899,6 +899,10 @@ namespace RealTime.UI
                     var workShiftTime = m_shiftEditRows[i - 1].GetEntry();
                     float startHour = workShiftTime.EndTime;
                     float endHour = workShiftTime.EndTime + 8f;
+                    if(endHour >= 23f)
+                    {
+                        endHour -= 24f;
+                    }
                     m_shiftEditRows[i].SetEntry(new BuildingWorkTimeManager.WorkShiftTime { StartTime = startHour, EndTime = endHour });
                     m_shiftEditRows[i].Panel.isVisible = true;
                     m_addShiftBtn.isEnabled = i < 4;
@@ -1001,7 +1005,7 @@ namespace RealTime.UI
         {
             if (!AreAllShiftsValid())
             {
-                ConfirmPanel.ShowModal(t_invalidShiftsTitle, t_invalidShiftsText, (_, __) => { });
+                UIView.library.ShowModal<ExceptionPanel>("ExceptionPanel").SetMessage(t_invalidShiftsTitle, t_invalidShiftsText, true);
                 return;
             }
 
@@ -1064,7 +1068,7 @@ namespace RealTime.UI
         {
             if (!AreAllShiftsValid())
             {
-                ConfirmPanel.ShowModal(t_invalidShiftsTitle, t_invalidShiftsText, (_, __) => { });
+                UIView.library.ShowModal<ExceptionPanel>("ExceptionPanel").SetMessage(t_invalidShiftsTitle, t_invalidShiftsText, true);
                 return;
             }
 
@@ -1100,7 +1104,7 @@ namespace RealTime.UI
         {
             if (!AreAllShiftsValid())
             {
-                ConfirmPanel.ShowModal(t_invalidShiftsTitle, t_invalidShiftsText, (_, __) => { });
+                UIView.library.ShowModal<ExceptionPanel>("ExceptionPanel").SetMessage(t_invalidShiftsTitle, t_invalidShiftsText, true);
                 return;
             }
 

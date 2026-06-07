@@ -668,11 +668,11 @@ namespace RealTime.CustomAI
 
             if (schedule.WorkBuilding != 0)
             {
-                starthour = schedule.WorkShiftStartHour;
+                starthour = schedule.WorkShiftStartTime;
             }
             else if (schedule.SchoolBuilding != 0)
             {
-                starthour = schedule.SchoolClassStartHour;
+                starthour = schedule.SchoolClassStartTime;
             }
 
             return starthour;

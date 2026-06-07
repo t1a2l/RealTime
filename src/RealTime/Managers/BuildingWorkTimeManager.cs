@@ -30,7 +30,7 @@ namespace RealTime.Managers
             public bool IsLocked;
             public bool IgnorePolicy;
 
-            public readonly bool IsWorkingHour(float hour)
+            public readonly bool IsWorkingTime(float time)
             {
                 if (WorkShifts == null)
                 {
@@ -39,7 +39,7 @@ namespace RealTime.Managers
 
                 foreach (var shift in WorkShifts)
                 {
-                    if (shift.ContainsHour(hour))
+                    if (shift.ContainsTime(time))
                     {
                         return true;
                     }
@@ -58,7 +58,7 @@ namespace RealTime.Managers
             public DayOfWeek[] WorkDays;
             public WorkShiftTime[] WorkShifts;
 
-            public readonly bool IsWorkingHour(float hour)
+            public readonly bool IsWorkingTime(float time)
             {
                 if (WorkShifts == null)
                 {
@@ -67,7 +67,7 @@ namespace RealTime.Managers
 
                 foreach (var shift in WorkShifts)
                 {
-                    if (shift.ContainsHour(hour))
+                    if (shift.ContainsTime(time))
                     {
                         return true;
                     }
@@ -79,27 +79,27 @@ namespace RealTime.Managers
 
         public struct WorkShiftTime
         {
-            public float StartHour;   // e.g. 8.0f
-            public float EndHour;     // e.g. 17.0f — if EndHour < StartHour, wraps midnight
+            public float StartTime;   // e.g. 8.0f
+            public float EndTime;     // e.g. 17.0f — if EndTime < StartTime, wraps midnight
 
-            public readonly bool ContainsHour(float hour)
+            public readonly bool ContainsTime(float time)
             {
-                if (StartHour <= EndHour)
+                if (StartTime <= EndTime)
                 {
-                    return hour >= StartHour && hour < EndHour;
+                    return time >= StartTime && time < EndTime;
                 }
 
-                return hour >= StartHour || hour < EndHour; // overnight
+                return time >= StartTime || time < EndTime; // overnight
             }
 
             public readonly void GetShiftHours(out float startHour, out float endHour)
             {
-                startHour = StartHour;
-                endHour = EndHour;
+                startHour = StartTime;
+                endHour = EndTime;
             }
 
             /// <summary>Returns true if this shift has a non-zero duration.</summary>
-            public readonly bool IsValid => StartHour != EndHour;
+            public readonly bool IsValid => StartTime != EndTime;
         }
 
         public static void Init()
@@ -419,20 +419,20 @@ namespace RealTime.Managers
 
             if (shiftCount == 1)
             {
-                shifts = continuousShift ? [new WorkShiftTime { StartHour = 8f, EndHour = 20f }] : [new WorkShiftTime { StartHour = extendedShift ? 7f : 8f, EndHour = 17f }];
+                shifts = continuousShift ? [new WorkShiftTime { StartTime = 8f, EndTime = 20f }] : [new WorkShiftTime { StartTime = extendedShift ? 7f : 8f, EndTime = 17f }];
             }
             else if (shiftCount == 2)
             {
-                shifts = continuousShift ? [new WorkShiftTime { StartHour = 8f, EndHour = 20f }, new WorkShiftTime { StartHour = 20f, EndHour = 8f }] :
-                    [new WorkShiftTime { StartHour = extendedShift ? 7f : 8f, EndHour = 17f }, new WorkShiftTime { StartHour = 17f, EndHour = 23f }];
+                shifts = continuousShift ? [new WorkShiftTime { StartTime = 8f, EndTime = 20f }, new WorkShiftTime { StartTime = 20f, EndTime = 8f }] :
+                    [new WorkShiftTime { StartTime = extendedShift ? 7f : 8f, EndTime = 17f }, new WorkShiftTime { StartTime = 17f, EndTime = 23f }];
             }
             else // shiftCount == 3
             {
                 shifts =
                 [
-                    new WorkShiftTime { StartHour = 8f,  EndHour = 16f },
-                    new WorkShiftTime { StartHour = 16f, EndHour = 0f },
-                    new WorkShiftTime { StartHour = 0f,  EndHour = 8f  }
+                    new WorkShiftTime { StartTime = 8f,  EndTime = 16f },
+                    new WorkShiftTime { StartTime = 16f, EndTime = 0f },
+                    new WorkShiftTime { StartTime = 0f,  EndTime = 8f  }
                 ];
             }
 
@@ -485,20 +485,20 @@ namespace RealTime.Managers
 
             if (shiftCount == 1)
             {
-                shifts = continuousShift ? [new WorkShiftTime { StartHour = 8f, EndHour = 20f }] : [new WorkShiftTime { StartHour = extendedShift ? 7f : 8f, EndHour = 17f }];
+                shifts = continuousShift ? [new WorkShiftTime { StartTime = 8f, EndTime = 20f }] : [new WorkShiftTime { StartTime = extendedShift ? 7f : 8f, EndTime = 17f }];
             }
             else if (shiftCount == 2)
             {
-                shifts = continuousShift ? [new WorkShiftTime { StartHour = 8f, EndHour = 20f }, new WorkShiftTime { StartHour = 20f, EndHour = 8f }] :
-                    [new WorkShiftTime { StartHour = extendedShift ? 7f : 8f, EndHour = 17f }, new WorkShiftTime { StartHour = 17f, EndHour = 23f }];
+                shifts = continuousShift ? [new WorkShiftTime { StartTime = 8f, EndTime = 20f }, new WorkShiftTime { StartTime = 20f, EndTime = 8f }] :
+                    [new WorkShiftTime { StartTime = extendedShift ? 7f : 8f, EndTime = 17f }, new WorkShiftTime { StartTime = 17f, EndTime = 23f }];
             }
             else // shiftCount == 3
             {
                 shifts =
                 [
-                    new WorkShiftTime { StartHour = 8f,  EndHour = 16f },
-                    new WorkShiftTime { StartHour = 16f, EndHour = 0f },
-                    new WorkShiftTime { StartHour = 0f,  EndHour = 8f  }
+                    new WorkShiftTime { StartTime = 8f,  EndTime = 16f },
+                    new WorkShiftTime { StartTime = 16f, EndTime = 0f },
+                    new WorkShiftTime { StartTime = 0f,  EndTime = 8f  }
                 ];
             }
 

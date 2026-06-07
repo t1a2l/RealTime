@@ -1134,7 +1134,7 @@ namespace RealTime.CustomAI
         public bool IsBuildingOpeningSoon(ushort buildingId, int timeBeforeOpening = 1)
         {
             var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
-            return workTime.IsWorkingHour(timeInfo.CurrentHour + timeBeforeOpening);
+            return workTime.IsWorkingTime(timeInfo.CurrentHour + timeBeforeOpening);
         }
 
         /// <summary>
@@ -1148,7 +1148,7 @@ namespace RealTime.CustomAI
         public bool IsBuildingClosingSoon(ushort buildingId, int timeBeforeClosing = 2)
         {
             var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
-            return !workTime.IsWorkingHour(timeInfo.CurrentHour + timeBeforeClosing);
+            return !workTime.IsWorkingTime(timeInfo.CurrentHour + timeBeforeClosing);
         }
 
         /// <summary>
@@ -1188,7 +1188,7 @@ namespace RealTime.CustomAI
             //    return false;
             //}
 
-            return workTime.IsWorkingHour(timeInfo.CurrentHour);
+            return workTime.IsWorkingTime(timeInfo.CurrentHour);
 
         }
 
@@ -1634,7 +1634,7 @@ namespace RealTime.CustomAI
             RegenerateDefaultWorkTime(buildingID);
         }
 
-        private bool HasNightShift(BuildingWorkTimeManager.WorkTime workTime) => workTime.WorkShifts != null && workTime.WorkShifts.Any(s => s.StartHour >= config.GoToSleepHour || s.EndHour <= config.WakeUpHour);
+        private bool HasNightShift(BuildingWorkTimeManager.WorkTime workTime) => workTime.WorkShifts != null && workTime.WorkShifts.Any(s => s.StartTime >= config.GoToSleepHour || s.EndTime <= config.WakeUpHour);
 
         private void RegenerateDefaultWorkTime(ushort buildingID)
         {

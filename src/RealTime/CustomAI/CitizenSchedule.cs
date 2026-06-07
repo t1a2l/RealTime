@@ -77,11 +77,11 @@ namespace RealTime.CustomAI
         /// <summary>Gets the citizen's work shift.</summary>
         public WorkShift WorkShift { get; private set; }
 
-        /// <summary>Gets the daytime hour when the citizen's work shift starts.</summary>
-        public float WorkShiftStartHour { get; private set; }
+        /// <summary>Gets the time when the citizen's work shift starts.</summary>
+        public float WorkShiftStartTime { get; private set; }
 
-        /// <summary>Gets the daytime hour when the citizen's work shift ends.</summary>
-        public float WorkShiftEndHour { get; private set; }
+        /// <summary>Gets the time when the citizen's work shift ends.</summary>
+        public float WorkShiftEndTime { get; private set; }
 
         /// <summary>The citizen's work shift index. only applicable if <see cref="WorkShift.Assigned"/> is used.</summary>
         public int ShiftIndex { get; private set; }
@@ -89,11 +89,11 @@ namespace RealTime.CustomAI
         /// <summary>Gets the citizen's school class.</summary>
         public SchoolClass SchoolClass { get; private set; }
 
-        /// <summary>Gets the daytime hour when the citizen's school class starts.</summary>
-        public float SchoolClassStartHour { get; private set; }
+        /// <summary>Gets the time when the citizen's school class starts.</summary>
+        public float SchoolClassStartTime { get; private set; }
 
-        /// <summary>Gets the daytime hour when the citizen's school class ends.</summary>
-        public float SchoolClassEndHour { get; private set; }
+        /// <summary>Gets the time when the citizen's school class ends.</summary>
+        public float SchoolClassEndTime { get; private set; }
 
         /// <summary>Updates the travel time that the citizen needs to read the work building.</summary>
         /// <param name="arrivalTime">
@@ -137,26 +137,26 @@ namespace RealTime.CustomAI
 
         /// <summary>Updates the work shift data for this citizen's schedule.</summary>
         /// <param name="workShift">The citizen's work shift.</param>
-        /// <param name="startHour">The work shift start hour.</param>
-        /// <param name="endHour">The work shift end hour.</param>
+        /// <param name="startTime">The work shift start time.</param>
+        /// <param name="endTime">The work shift end time.</param>
         /// <param name="worksOnWeekends">if <c>true</c>, the citizen works on weekends.</param>
-        public void UpdateWorkShift(WorkShift workShift, int shiftIndex, float startHour, float endHour)
+        public void UpdateWorkShift(WorkShift workShift, int shiftIndex, float startTime, float endTime)
         {
             WorkShift = workShift;
             ShiftIndex = workShift == WorkShift.Assigned ? shiftIndex : -1;
-            WorkShiftStartHour = startHour;
-            WorkShiftEndHour = endHour;
+            WorkShiftStartTime = startTime;
+            WorkShiftEndTime = endTime;
         }
 
         /// <summary>Updates the school class data for this citizen's schedule.</summary>
         /// <param name="schoolClass">The citizen's school class.</param>
-        /// <param name="startHour">The school class start hour.</param>
-        /// <param name="endHour">The school class end hour.</param>
-        public void UpdateSchoolClass(SchoolClass schoolClass, float startHour, float endHour)
+        /// <param name="startTime">The school class start time.</param>
+        /// <param name="endTime">The school class end time.</param>
+        public void UpdateSchoolClass(SchoolClass schoolClass, float startTime, float endTime)
         {
             SchoolClass = schoolClass;
-            SchoolClassStartHour = startHour;
-            SchoolClassEndHour = endHour;
+            SchoolClassStartTime = startTime;
+            SchoolClassEndTime = endTime;
         }
 
         /// <summary>Schedules next actions for the citizen with a specified action time.</summary>

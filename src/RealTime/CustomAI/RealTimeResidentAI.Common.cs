@@ -303,7 +303,7 @@ namespace RealTime.CustomAI
                     if (schedule.CurrentState == ResidentState.AtSchool && schedule.ScheduledStateTime == default)
                     {
                         // When enabling for an existing game, the citizens that are studying have no schedule yet
-                        schedule.Schedule(ResidentState.Unknown, TimeInfo.Now.FutureHour(schedule.SchoolClassEndHour));
+                        schedule.Schedule(ResidentState.Unknown, TimeInfo.Now.FutureHour(schedule.SchoolClassEndTime));
                     }
                     else if (schedule.SchoolBuilding == 0 && (schedule.ScheduledState == ResidentState.GoToSchool || schedule.SchoolStatus == SchoolStatus.Studying))
                     {
@@ -316,7 +316,7 @@ namespace RealTime.CustomAI
                         schedule.Schedule(ResidentState.Unknown);
                     }
 
-                    Log.Debug(LogCategory.Schedule, $"Updated school class for citizen {citizenId}: school class {schedule.SchoolClass}, {schedule.SchoolClassStartHour} - {schedule.SchoolClassEndHour}");
+                    Log.Debug(LogCategory.Schedule, $"Updated school class for citizen {citizenId}: school class {schedule.SchoolClass}, {schedule.SchoolClassStartTime} - {schedule.SchoolClassEndTime}");
                 }
             }
             else
@@ -331,7 +331,7 @@ namespace RealTime.CustomAI
                     if (schedule.CurrentState == ResidentState.AtWork && schedule.ScheduledStateTime == default)
                     {
                         // When enabling for an existing game, the citizens that are working have no schedule yet
-                        schedule.Schedule(ResidentState.Unknown, TimeInfo.Now.FutureHour(schedule.WorkShiftEndHour));
+                        schedule.Schedule(ResidentState.Unknown, TimeInfo.Now.FutureHour(schedule.WorkShiftEndTime));
                     }
                     else if (schedule.WorkBuilding == 0 && (schedule.ScheduledState == ResidentState.GoToWork || schedule.WorkStatus == WorkStatus.Working))
                     {
@@ -344,7 +344,7 @@ namespace RealTime.CustomAI
                         schedule.Schedule(ResidentState.Unknown);
                     }
 
-                    Log.Debug(LogCategory.Schedule, $"Updated work shifts for citizen {citizenId}: work shift {schedule.ShiftIndex}, {schedule.WorkShiftStartHour} - {schedule.WorkShiftEndHour}");
+                    Log.Debug(LogCategory.Schedule, $"Updated work shifts for citizen {citizenId}: work shift {schedule.ShiftIndex}, {schedule.WorkShiftStartTime} - {schedule.WorkShiftEndTime}");
                 }
             }
 
@@ -352,7 +352,7 @@ namespace RealTime.CustomAI
             if(schedule.WorkBuilding != 0 && schedule.WorkShift == WorkShift.Event && schedule.ScheduledState != ResidentState.GoToWork)
             {
                 var buildingEvent = EventMgr.GetCityEvent(schedule.WorkBuilding);
-                if(buildingEvent != null && TimeInfo.CurrentHour > schedule.WorkShiftEndHour)
+                if(buildingEvent != null && TimeInfo.CurrentHour > schedule.WorkShiftEndTime)
                 {
                     CitizenProxy.SetWorkplace(ref citizen, citizenId, 0);
                 }

@@ -79,13 +79,13 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            float halfShiftLength = (schedule.WorkShiftEndHour - schedule.WorkShiftStartHour) / 2;
+            float halfShiftLength = (schedule.WorkShiftEndTime - schedule.WorkShiftStartTime) / 2;
 
             Log.Debug(LogCategory.Schedule, $"  - halfShiftLength is {halfShiftLength} and current hour is {timeInfo.CurrentHour}");
 
-            Log.Debug(LogCategory.Schedule, $"  - result is {timeInfo.CurrentHour + halfShiftLength < schedule.WorkShiftEndHour}");
+            Log.Debug(LogCategory.Schedule, $"  - result is {timeInfo.CurrentHour + halfShiftLength < schedule.WorkShiftEndTime}");
 
-            return timeInfo.CurrentHour + halfShiftLength < schedule.WorkShiftEndHour;
+            return timeInfo.CurrentHour + halfShiftLength < schedule.WorkShiftEndTime;
         }
 
         /// <summary>Updates the citizen's work schedule by determining the time for going to work.</summary>
@@ -99,10 +99,10 @@ namespace RealTime.CustomAI
 
             float travelTime = GetTravelTimeToWork(ref schedule, currentBuilding);
 
-            var workEndTime = now.FutureHour(schedule.WorkShiftEndHour);  
-            var departureTime = now.FutureHour(schedule.WorkShiftStartHour - travelTime - simulationCycle);
+            var workEndTime = now.FutureHour(schedule.WorkShiftEndTime);  
+            var departureTime = now.FutureHour(schedule.WorkShiftStartTime - travelTime - simulationCycle);
 
-            Log.Debug(LogCategory.Schedule, $"  - works shift start hour is {schedule.WorkShiftStartHour}, works shift end hour is {schedule.WorkShiftEndHour}");
+            Log.Debug(LogCategory.Schedule, $"  - works shift start time is {schedule.WorkShiftStartTime}, works shift end time is {schedule.WorkShiftEndTime}");
             Log.Debug(LogCategory.Schedule, $"  - travel time is {travelTime}, workEndTime is {workEndTime}, simulationCycle is {simulationCycle}, departureTime is {departureTime}");
 
             if (departureTime > workEndTime && now.AddHours(travelTime + simulationCycle) < workEndTime)
@@ -125,7 +125,7 @@ namespace RealTime.CustomAI
             if (mealType == MealType.Breakfast)
             {
                 float minGoToBreakfastHour = config.WakeUpHour;
-                float maxGoToBreakfastHour = schedule.WorkShiftStartHour;
+                float maxGoToBreakfastHour = schedule.WorkShiftStartTime;
 
                 Log.Debug(LogCategory.Schedule, $"  - Work status is {schedule.WorkStatus}, working in shift {schedule.WorkShift}");
                 if (schedule.WorkStatus == WorkStatus.None
@@ -177,17 +177,17 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} end work hour is {schedule.WorkShiftEndHour} and current hour is {timeInfo.CurrentHour}");
+            Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} end work time is {schedule.WorkShiftEndTime} and current hour is {timeInfo.CurrentHour}");
             
             float time = 0;
-            if (timeInfo.CurrentHour - schedule.WorkShiftEndHour > 0)
+            if (timeInfo.CurrentHour - schedule.WorkShiftEndTime > 0)
             {
-                time = timeInfo.CurrentHour - (schedule.WorkShiftEndHour + GetOvertime(citizenAge));
+                time = timeInfo.CurrentHour - (schedule.WorkShiftEndTime + GetOvertime(citizenAge));
             }
 
             Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} time is {time}");
 
-            float departureHour = schedule.WorkShiftEndHour + GetOvertime(citizenAge) + time;
+            float departureHour = schedule.WorkShiftEndTime + GetOvertime(citizenAge) + time;
 
             Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} departureHour is {departureHour}");
 

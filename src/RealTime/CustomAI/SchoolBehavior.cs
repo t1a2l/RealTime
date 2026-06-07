@@ -114,13 +114,12 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            float halfClassLength = (schedule.SchoolClassEndHour - schedule.SchoolClassStartHour) / 2;
+            float halfClassLength = (schedule.SchoolClassEndTime - schedule.SchoolClassStartTime) / 2;
 
             Log.Debug(LogCategory.Schedule, $"  - halfClassLength is {halfClassLength} and current hour is {timeInfo.CurrentHour}");
 
-            Log.Debug(LogCategory.Schedule, $"  - result is {timeInfo.CurrentHour + halfClassLength < schedule.SchoolClassEndHour}");
-
-            return timeInfo.CurrentHour + halfClassLength < schedule.SchoolClassEndHour;
+            Log.Debug(LogCategory.Schedule, $"  - result is {timeInfo.CurrentHour + halfClassLength < schedule.SchoolClassEndTime}");
+            return timeInfo.CurrentHour + halfClassLength < schedule.SchoolClassEndTime;
         }
 
         /// <summary>Updates the citizen's school schedule by determining the time for going to school.</summary>
@@ -134,10 +133,10 @@ namespace RealTime.CustomAI
 
             float travelTime = GetTravelTimeToSchool(ref schedule, currentBuilding);
 
-            var schoolEndTime = now.FutureHour(schedule.SchoolClassEndHour);
-            var departureTime = now.FutureHour(schedule.SchoolClassStartHour - travelTime - simulationCycle);
+            var schoolEndTime = now.FutureHour(schedule.SchoolClassEndTime);
+            var departureTime = now.FutureHour(schedule.SchoolClassStartTime - travelTime - simulationCycle);
 
-            Log.Debug(LogCategory.Schedule, $"  - school start hour is {schedule.SchoolClassStartHour}, school end hour is {schedule.SchoolClassEndHour}");
+            Log.Debug(LogCategory.Schedule, $"  - school start time is {schedule.SchoolClassStartTime}, school end time is {schedule.SchoolClassEndTime}");
             Log.Debug(LogCategory.Schedule, $"  - travel time is {travelTime}, schoolEndTime is {schoolEndTime}, simulationCycle is {simulationCycle}, departureTime is {departureTime}");
 
             if (departureTime > schoolEndTime && now.AddHours(travelTime + simulationCycle) < schoolEndTime)
@@ -160,7 +159,7 @@ namespace RealTime.CustomAI
             if (mealType == MealType.Breakfast)
             {
                 float minGoToBreakfastHour = config.WakeUpHour;
-                float maxGoToBreakfastHour = schedule.SchoolClassStartHour;
+                float maxGoToBreakfastHour = schedule.SchoolClassStartTime;
 
                 Log.Debug(LogCategory.Schedule, $"  - School status is {schedule.SchoolStatus}");
                 if (schedule.SchoolStatus == SchoolStatus.None
@@ -212,17 +211,17 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} end school hour is {schedule.SchoolClassEndHour} and current hour is {timeInfo.CurrentHour}");
+            Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} end school time is {schedule.SchoolClassEndTime} and current hour is {timeInfo.CurrentHour}");
 
             float time = 0;
-            if (timeInfo.CurrentHour - schedule.SchoolClassEndHour > 0)
+            if (timeInfo.CurrentHour - schedule.SchoolClassEndTime > 0)
             {
-                time = timeInfo.CurrentHour - schedule.SchoolClassEndHour;
+                time = timeInfo.CurrentHour - schedule.SchoolClassEndTime;
             }
 
             Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} time is {time}");
 
-            float departureHour = schedule.SchoolClassEndHour + time;
+            float departureHour = schedule.SchoolClassEndTime + time;
 
             Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} departureHour is {departureHour}");
 

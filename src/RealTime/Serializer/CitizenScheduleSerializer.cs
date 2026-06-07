@@ -189,8 +189,8 @@ namespace RealTime.Serializer
                     float travelTimeToSchool = StorageData.ReadFloat(chunkBytes, ref index);
 
                     var workShift = (WorkShift)StorageData.ReadInt32(chunkBytes, ref index);
-                    float workShiftStartHour = StorageData.ReadFloat(chunkBytes, ref index);
-                    float workShiftEndHour = StorageData.ReadFloat(chunkBytes, ref index);
+                    float workShiftStartTime = StorageData.ReadFloat(chunkBytes, ref index);
+                    float workShiftEndTime = StorageData.ReadFloat(chunkBytes, ref index);
 
                     int shiftIndex;
                     if (chunkVersion >= 2)
@@ -205,14 +205,14 @@ namespace RealTime.Serializer
                     }
                         
                     var schoolClass = (SchoolClass)StorageData.ReadInt32(chunkBytes, ref index);
-                    float schoolClassStartHour = StorageData.ReadFloat(chunkBytes, ref index);
-                    float schoolClassEndHour = StorageData.ReadFloat(chunkBytes, ref index);
+                    float schoolClassStartTime = StorageData.ReadFloat(chunkBytes, ref index);
+                    float schoolClassEndTime = StorageData.ReadFloat(chunkBytes, ref index);
 
                     schedule.UpdateScheduleState(scheduledState, lastScheduledState, scheduledStateTime, scheduledMealType, lastScheduledMealType);
                     schedule.UpdateTravelTimeToWork(travelTimeToWork);
                     schedule.UpdateTravelTimeToSchool(travelTimeToSchool);
-                    schedule.UpdateWorkShift(workShift, shiftIndex, workShiftStartHour, workShiftEndHour);
-                    schedule.UpdateSchoolClass(schoolClass, schoolClassStartHour, schoolClassEndHour);
+                    schedule.UpdateWorkShift(workShift, shiftIndex, workShiftStartTime, workShiftEndTime);
+                    schedule.UpdateSchoolClass(schoolClass, schoolClassStartTime, schoolClassEndTime);
 
                     if (schedule.WorkShift == WorkShift.Assigned && citizens[citizenId].m_workBuilding != 0 && shiftIndex != -1)
                     {
@@ -283,13 +283,13 @@ namespace RealTime.Serializer
             StorageData.WriteFloat(schedule.TravelTimeToSchool, Data);
 
             StorageData.WriteInt32((int)schedule.WorkShift, Data);
-            StorageData.WriteFloat(schedule.WorkShiftStartHour, Data);
-            StorageData.WriteFloat(schedule.WorkShiftEndHour, Data);
+            StorageData.WriteFloat(schedule.WorkShiftStartTime, Data);
+            StorageData.WriteFloat(schedule.WorkShiftEndTime, Data);
             StorageData.WriteInt32(schedule.ShiftIndex, Data);
 
             StorageData.WriteInt32((int)schedule.SchoolClass, Data);
-            StorageData.WriteFloat(schedule.SchoolClassStartHour, Data);
-            StorageData.WriteFloat(schedule.SchoolClassEndHour, Data);
+            StorageData.WriteFloat(schedule.SchoolClassStartTime, Data);
+            StorageData.WriteFloat(schedule.SchoolClassEndTime, Data);
 
             StorageData.WriteUInt32(uiTUPLE_END, Data);
         }

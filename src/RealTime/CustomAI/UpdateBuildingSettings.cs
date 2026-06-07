@@ -235,8 +235,8 @@ namespace RealTime.CustomAI
             {
                 result[i] = new BuildingWorkTimeManager.WorkShiftTime
                 {
-                    StartHour = xmlShifts[i].StartHour,
-                    EndHour = xmlShifts[i].EndHour
+                    StartTime = xmlShifts[i].StartTime,
+                    EndTime = xmlShifts[i].EndTime
                 };
             }
 
@@ -256,8 +256,8 @@ namespace RealTime.CustomAI
             {
                 result[i] = new WorkShiftTimeXml    
                 {
-                    StartHour = shifts[i].StartHour,
-                    EndHour = shifts[i].EndHour
+                    StartTime = shifts[i].StartTime,
+                    EndTime = shifts[i].EndTime
                 };
             }
 

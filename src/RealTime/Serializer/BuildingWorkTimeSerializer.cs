@@ -45,8 +45,8 @@ namespace RealTime.Serializer
 
                 foreach (var shift in kvp.Value.WorkShifts)
                 {
-                    StorageData.WriteFloat(shift.StartHour, Data);
-                    StorageData.WriteFloat(shift.EndHour, Data);
+                    StorageData.WriteFloat(shift.StartTime, Data);
+                    StorageData.WriteFloat(shift.EndTime, Data);
                 }
 
                 StorageData.WriteBool(kvp.Value.IsDefault, Data);
@@ -88,8 +88,8 @@ namespace RealTime.Serializer
 
                 foreach (var shift in kvp.WorkShifts)
                 {
-                    StorageData.WriteFloat(shift.StartHour, Data);
-                    StorageData.WriteFloat(shift.EndHour, Data);
+                    StorageData.WriteFloat(shift.StartTime, Data);
+                    StorageData.WriteFloat(shift.EndTime, Data);
                 }
 
                 // Write end tuple
@@ -189,8 +189,8 @@ namespace RealTime.Serializer
 
                         for (int j = 0; j < WorkShifts_Length; j++)
                         {
-                            shifts[j].StartHour = StorageData.ReadFloat(Data, ref iIndex);
-                            shifts[j].EndHour = StorageData.ReadFloat(Data, ref iIndex);
+                            shifts[j].StartTime = StorageData.ReadFloat(Data, ref iIndex);
+                            shifts[j].EndTime = StorageData.ReadFloat(Data, ref iIndex);
                         }
 
                         var workTime = new BuildingWorkTimeManager.WorkTime()
@@ -266,8 +266,8 @@ namespace RealTime.Serializer
 
                             for (int j = 0; j < WorkShifts_Length; j++)
                             {
-                                shifts[j].StartHour = StorageData.ReadFloat(Data, ref iIndex);
-                                shifts[j].EndHour = StorageData.ReadFloat(Data, ref iIndex);
+                                shifts[j].StartTime = StorageData.ReadFloat(Data, ref iIndex);
+                                shifts[j].EndTime = StorageData.ReadFloat(Data, ref iIndex);
                             }
 
                             var workTimePrefab = new BuildingWorkTimeManager.WorkTimePrefab()

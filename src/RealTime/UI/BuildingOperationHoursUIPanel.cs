@@ -107,17 +107,19 @@ namespace RealTime.UI
             public UILabel Arrow;       // ->
             public UILabel EndField;    // "17:00"
 
+            public bool IsActive;
+
             public BuildingWorkTimeManager.WorkShiftTime GetEntry() => new()
             {
                 StartHour = ParseHour(StartField.text),
-                EndHour = ParseHour(EndField.text)
+                EndHour = ParseHour(EndField.text) 
             };
 
-            public void SetEntry(int index, BuildingWorkTimeManager.WorkShiftTime entry)
+            public void SetEntry(BuildingWorkTimeManager.WorkShiftTime entry)
             {
-                IndexLabel.text = $"Shift {index + 1}";
                 StartField.text = FormatHour(entry.StartHour);
                 EndField.text = FormatHour(entry.EndHour);
+                IsActive = true;
             }
         }
 
@@ -130,17 +132,19 @@ namespace RealTime.UI
             public UITextField EndField;    // "17:00"
             public UIButton RemoveBtn;    // ×
 
+            public bool IsActive;
+
             public BuildingWorkTimeManager.WorkShiftTime GetEntry() => new()
             {
                 StartHour = ParseHour(StartField.text),
                 EndHour = ParseHour(EndField.text)
             };
 
-            public void SetEntry(int index, BuildingWorkTimeManager.WorkShiftTime entry)
+            public void SetEntry(BuildingWorkTimeManager.WorkShiftTime entry)
             {
-                IndexLabel.text = $"Shift {index + 1}";
                 StartField.text = FormatHour(entry.StartHour);
                 EndField.text = FormatHour(entry.EndHour);
+                IsActive = true;
             }
         }
 
@@ -385,6 +389,7 @@ namespace RealTime.UI
                 row.EndField.size = new Vector2(70f, 24f);
                 row.EndField.relativePosition = new Vector3(145f, 6f);
 
+                row.IsActive = false;
                 row.Panel.isVisible = false;
                 m_shiftSummaryRows[i] = row;
             }
@@ -401,6 +406,7 @@ namespace RealTime.UI
         {
             foreach (var row in m_shiftSummaryRows)
             {
+                row.IsActive = false;
                 row.Panel.isVisible = false;
             }
 
@@ -413,7 +419,7 @@ namespace RealTime.UI
 
             for(int i = 0; i < shifts.Length && i < m_shiftSummaryRows.Length; i++)
             {
-                m_shiftSummaryRows[i].SetEntry(i, shifts[i]);
+                m_shiftSummaryRows[i].SetEntry(shifts[i]);
                 m_shiftSummaryRows[i].Panel.isVisible = true;
                 int row_index = i + 1;
                 m_shiftSummaryRows[i].IndexLabel.text = t_shiftLabelIndex + " " + row_index;
@@ -491,6 +497,9 @@ namespace RealTime.UI
                     int captured = i;
                     row.RemoveBtn.eventClicked += (_, __) => RemoveShift(captured);
                 }
+
+                row.IsActive = false;
+
                 row.Panel.isVisible = false;
 
                 m_shiftEditRows[i] = row;
@@ -752,6 +761,7 @@ namespace RealTime.UI
             // hide all rows first
             foreach (var row in m_shiftEditRows)
             {
+                row.IsActive = false;
                 row.Panel.isVisible = false;
             }
 
@@ -762,7 +772,7 @@ namespace RealTime.UI
 
             for (int i = 0; i < workShifts.Length && i < m_shiftEditRows.Length; i++)
             {
-                m_shiftEditRows[i].SetEntry(i, workShifts[i]);
+                m_shiftEditRows[i].SetEntry(workShifts[i]);
                 m_shiftEditRows[i].Panel.isVisible = true;
             }
 
@@ -776,7 +786,7 @@ namespace RealTime.UI
             var list = new List<BuildingWorkTimeManager.WorkShiftTime>();
             foreach (var row in m_shiftEditRows)
             {
-                if (row.Panel.isVisible)
+                if (row.IsActive)
                 {
                     var entry = row.GetEntry();
                     if (entry.IsValid)
@@ -792,9 +802,9 @@ namespace RealTime.UI
         {
             for (int i = 0; i < m_shiftEditRows.Length; i++)
             {
-                if (!m_shiftEditRows[i].Panel.isVisible)
+                if (!m_shiftEditRows[i].IsActive)
                 {
-                    m_shiftEditRows[i].SetEntry(i, new BuildingWorkTimeManager.WorkShiftTime { StartHour = 8f, EndHour = 17f });
+                    m_shiftEditRows[i].SetEntry(new BuildingWorkTimeManager.WorkShiftTime { StartHour = 8f, EndHour = 17f });
                     m_shiftEditRows[i].Panel.isVisible = true;
                     m_addShiftBtn.isEnabled = i < 4;
                     RefreshShiftsSummary();
@@ -809,7 +819,7 @@ namespace RealTime.UI
             var remaining = new List<BuildingWorkTimeManager.WorkShiftTime>();
             for (int i = 0; i < m_shiftEditRows.Length; i++)
             {
-                if (i != index && m_shiftEditRows[i].Panel.isVisible)
+                if (i != index && m_shiftEditRows[i].IsActive)
                 {
                     remaining.Add(m_shiftEditRows[i].GetEntry());
                 }
@@ -818,13 +828,14 @@ namespace RealTime.UI
             // clear all rows
             foreach (var row in m_shiftEditRows)
             {
+                row.IsActive = false;
                 row.Panel.isVisible = false;
             }
 
             // re-fill in order
             for (int i = 0; i < remaining.Count; i++)
             {
-                m_shiftEditRows[i].SetEntry(i, remaining[i]);
+                m_shiftEditRows[i].SetEntry(remaining[i]);
                 m_shiftEditRows[i].Panel.isVisible = true;
                 int row_index = i + 1;
                 m_shiftEditRows[i].IndexLabel.text = t_shiftLabelIndex + " " + row_index;
@@ -847,7 +858,7 @@ namespace RealTime.UI
         {
             foreach (var row in m_shiftEditRows)
             {
-                if (row.Panel.isVisible && !row.GetEntry().IsValid)
+                if (row.IsActive && !row.GetEntry().IsValid)
                 {
                     return false;
                 }

@@ -111,14 +111,14 @@ namespace RealTime.UI
 
             public BuildingWorkTimeManager.WorkShiftTime GetEntry() => new()
             {
-                StartHour = ParseHour(StartField.text),
-                EndHour = ParseHour(EndField.text) 
+                StartTime = ParseHour(StartField.text),
+                EndTime = ParseHour(EndField.text) 
             };
 
             public void SetEntry(BuildingWorkTimeManager.WorkShiftTime entry)
             {
-                StartField.text = FormatHour(entry.StartHour);
-                EndField.text = FormatHour(entry.EndHour);
+                StartField.text = FormatHour(entry.StartTime);
+                EndField.text = FormatHour(entry.EndTime);
                 IsActive = true;
             }
         }
@@ -127,23 +127,35 @@ namespace RealTime.UI
         {
             public UIPanel Panel;
             public UILabel IndexLabel;   // "Shift 1", "Shift 2", etc.
-            public UITextField StartField;  // "08:00"
+            public UITextField StartHourField;  // "08"
+            public UILabel StartColon; // :
+            public UITextField StartMinuteField; // "00"
             public UILabel Arrow;       // ->
-            public UITextField EndField;    // "17:00"
+            public UITextField EndHourField; // "17"
+            public UILabel EndColon; // :
+            public UITextField EndMinuteField; // "00"
             public UIButton RemoveBtn;    // ×
 
             public bool IsActive;
 
             public BuildingWorkTimeManager.WorkShiftTime GetEntry() => new()
             {
-                StartHour = ParseHour(StartField.text),
-                EndHour = ParseHour(EndField.text)
+                StartTime = int.Parse(StartHourField.text) + int.Parse(StartMinuteField.text) / 60f,
+                EndTime = int.Parse(EndHourField.text) + int.Parse(EndMinuteField.text) / 60f
             };
 
             public void SetEntry(BuildingWorkTimeManager.WorkShiftTime entry)
             {
-                StartField.text = FormatHour(entry.StartHour);
-                EndField.text = FormatHour(entry.EndHour);
+                int startHour = (int)entry.StartTime;
+                int startMinute = (int)(entry.StartTime % 1f * 60f);
+                StartHourField.text = startHour.ToString("D2");
+                StartMinuteField.text = startMinute.ToString("D2");
+
+                int endHour = (int)entry.EndTime;
+                int endMinute = (int)(entry.EndTime % 1f * 60f);
+                EndHourField.text = endHour.ToString("D2");
+                EndMinuteField.text = endMinute.ToString("D2");
+
                 IsActive = true;
             }
         }
@@ -478,19 +490,98 @@ namespace RealTime.UI
                 row.IndexLabel.relativePosition = new Vector3(10f, 7f);
                 row.IndexLabel.width = 55f;
 
-                row.StartField = UITextFields.CreateTextField(row.Panel, $"ShiftEditStart_{i + 1}", "");
-                row.StartField.size = new Vector2(70f, 24f);
-                row.StartField.relativePosition = new Vector3(85f, 3f);
-                row.StartField.eventTextChanged += (_, __) => ValidateShiftRow(row);
-                
+                row.StartHourField = UITextFields.CreateTextField(row.Panel, $"ShiftEditStartHour_{i + 1}", "");
+                row.StartHourField.size = new Vector2(35f, 24f);
+                row.StartHourField.maxLength = 2;
+                row.StartHourField.numericalOnly = true;
+                row.StartHourField.relativePosition = new Vector3(85f, 3f);
+                row.StartHourField.eventLostFocus += (_, __) => row.StartHourField.text = int.TryParse(row.StartHourField.text, out int v) ? v.ToString("D2") : "00"; // pad to 2 digits on blur
+                row.StartHourField.eventTextChanged += (_, value) =>
+                {
+                    if (int.TryParse(value, out int v))
+                    {
+                        if (v > 23)
+                        {
+                            row.StartMinuteField.text = "23";
+                        }
+                        else if (v < 0)
+                        {
+                            row.StartMinuteField.text = "00";
+                        }
+                    }
+                };
+               
+                row.StartColon = UILabels.CreateLabel(row.Panel, $"ShiftEditStartColon_{i + 1}", ":", "");
+                row.StartColon.size = new Vector2(30f, 24f);
+                row.StartColon.relativePosition = new Vector3(130f, 7f);
+
+                row.StartMinuteField = UITextFields.CreateTextField(row.Panel, $"ShiftEditStartMinute_{i + 1}", "");
+                row.StartMinuteField.size = new Vector2(35f, 24f);
+                row.StartMinuteField.maxLength = 2;
+                row.StartMinuteField.numericalOnly = true;
+                row.StartMinuteField.relativePosition = new Vector3(160f, 3f);
+                row.StartMinuteField.eventLostFocus += (_, __) => row.StartMinuteField.text = int.TryParse(row.StartMinuteField.text, out int v) ? v.ToString("D2") : "00"; // pad to 2 digits on blur
+                row.StartMinuteField.eventTextChanged += (_, value) =>
+                {
+                    if (int.TryParse(value, out int v))
+                    {
+                        if (v > 59)
+                        {
+                            row.StartMinuteField.text = "59";
+                        }
+                        else if (v < 0)
+                        {
+                            row.StartMinuteField.text = "00";
+                        }
+                    }
+                };
+
                 row.Arrow = UILabels.CreateLabel(row.Panel, $"ShiftEditArrow_{i + 1}", "->", "");
                 row.Arrow.size = new Vector2(70f, 24f);
                 row.Arrow.relativePosition = new Vector3(160f, 7f);
 
-                row.EndField = UITextFields.CreateTextField(row.Panel, $"ShiftEditEnd_{i + 1}", "");
-                row.EndField.size = new Vector2(70f, 24f);
-                row.EndField.relativePosition = new Vector3(180f, 3f);
-                row.EndField.eventTextChanged += (_, __) => ValidateShiftRow(row);
+                row.EndHourField = UITextFields.CreateTextField(row.Panel, $"ShiftEditEnd_{i + 1}", "");
+                row.EndHourField.size = new Vector2(70f, 24f);
+                row.EndHourField.relativePosition = new Vector3(180f, 3f);
+                row.EndHourField.eventLostFocus += (_, __) => row.EndHourField.text = int.TryParse(row.EndHourField.text, out int v) ? v.ToString("D2") : "00"; // pad to 2 digits on blur
+                row.EndHourField.eventTextChanged += (_, value) =>
+                {
+                    if (int.TryParse(value, out int v))
+                    {
+                        if (v > 23)
+                        {
+                            row.EndHourField.text = "23";
+                        }
+                        else if (v < 0)
+                        {
+                            row.EndHourField.text = "00";
+                        }
+                    }
+                };
+
+                row.EndColon = UILabels.CreateLabel(row.Panel, $"ShiftEditEndColon_{i + 1}", ":", "");
+                row.EndColon.size = new Vector2(30f, 24f);
+                row.EndColon.relativePosition = new Vector3(215f, 7f);
+
+                row.EndMinuteField = UITextFields.CreateTextField(row.Panel, $"ShiftEditEndMinute_{i + 1}", "");
+                row.EndMinuteField.size = new Vector2(35f, 24f);
+                row.EndMinuteField.maxLength = 2;
+                row.EndMinuteField.relativePosition = new Vector3(245f, 3f);
+                row.EndMinuteField.eventLostFocus += (_, __) => row.EndMinuteField.text = int.TryParse(row.EndMinuteField.text, out int v) ? v.ToString("D2") : "00"; // pad to 2 digits on blur
+                row.EndMinuteField.eventTextChanged += (_, value) =>
+                {
+                    if (int.TryParse(value, out int v))
+                    {
+                        if (v > 59)
+                        {
+                            row.EndMinuteField.text = "59";
+                        }
+                        else if (v < 0)
+                        {
+                            row.EndMinuteField.text = "00";
+                        }
+                    }
+                };
 
                 if (i > 0)
                 {
@@ -801,11 +892,14 @@ namespace RealTime.UI
 
         private void AddShift()
         {
-            for (int i = 0; i < m_shiftEditRows.Length; i++)
+            for (int i = 1; i < m_shiftEditRows.Length; i++)
             {
                 if (!m_shiftEditRows[i].IsActive)
                 {
-                    m_shiftEditRows[i].SetEntry(new BuildingWorkTimeManager.WorkShiftTime { StartHour = 8f, EndHour = 17f });
+                    var workShiftTime = m_shiftEditRows[i - 1].GetEntry();
+                    float startHour = workShiftTime.EndTime;
+                    float endHour = workShiftTime.EndTime + 8f;
+                    m_shiftEditRows[i].SetEntry(new BuildingWorkTimeManager.WorkShiftTime { StartTime = startHour, EndTime = endHour });
                     m_shiftEditRows[i].Panel.isVisible = true;
                     m_addShiftBtn.isEnabled = i < 4;
                     RefreshShiftsSummary();
@@ -844,15 +938,6 @@ namespace RealTime.UI
 
             m_addShiftBtn.isEnabled = remaining.Count < m_shiftEditRows.Length;
             RefreshShiftsSummary();
-        }
-
-        private void ValidateShiftRow(ShiftRow row)
-        {
-            bool valid = row.GetEntry().IsValid;
-            var bad = new Color32(255, 80, 80, 255);
-            var good = new Color32(255, 255, 255, 255);
-            row.StartField.textColor = valid ? good : bad;
-            row.EndField.textColor = valid ? good : bad;
         }
 
         private bool AreAllShiftsValid()

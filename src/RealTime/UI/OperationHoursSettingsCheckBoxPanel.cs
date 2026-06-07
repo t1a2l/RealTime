@@ -49,25 +49,6 @@ namespace RealTime.UI
             {
                 operationHoursPanel.height = 500f;
             }
-            else
-            {
-                foreach (var btn in operationHoursPanel.m_dayButtons)
-                {
-                    btn.Disable();
-                }
-
-                operationHoursPanel.m_shiftsEditBtn.Disable();
-                operationHoursPanel.m_accessAdvancedSettingsBtn.Disable();
-                operationHoursPanel.m_saveBuildingSettingsBtn.Disable();
-                operationHoursPanel.m_returnToDefaultBtn.Disable();
-                operationHoursPanel.m_applyPrefabSettingsBtn.Disable();
-                operationHoursPanel.m_applyGlobalSettingsBtn.Disable();
-                operationHoursPanel.m_setPrefabSettingsBtn.Disable();
-                operationHoursPanel.m_setGlobalSettingsBtn.Disable();
-                operationHoursPanel.m_deletePrefabSettingsBtn.Disable();
-                operationHoursPanel.m_deleteGlobalSettingsBtn.Disable();
-                operationHoursPanel.m_editSettingsBtn.Show();
-            }
         }
 
         public void RefreshData(float checkBoxXposition, float checkBoxYposition, BuildingOperationHoursPanel buildingOperationHoursPanel)

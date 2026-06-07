@@ -203,21 +203,21 @@ namespace RealTime.Config
     // XML-friendly wrapper for WorkShiftTime
     public class WorkShiftTimeXml
     {
-        [XmlAttribute("Start")]
-        public float StartHour { get; set; }
+        [XmlAttribute("StartTime")]
+        public float StartTime { get; set; }
 
-        [XmlAttribute("End")]
-        public float EndHour { get; set; }
+        [XmlAttribute("EndTime")]
+        public float EndTime { get; set; }
 
         public WorkShiftTimeXml() { } // parameterless ctor required by XmlSerializer
 
         public WorkShiftTimeXml(BuildingWorkTimeManager.WorkShiftTime s)
         {
-            StartHour = s.StartHour;
-            EndHour = s.EndHour;
+            StartTime = s.StartTime;
+            EndTime = s.EndTime;
         }
 
-        public BuildingWorkTimeManager.WorkShiftTime ToWorkShiftTime() => new() { StartHour = StartHour, EndHour = EndHour };
+        public BuildingWorkTimeManager.WorkShiftTime ToWorkShiftTime() => new() { StartTime = StartTime, EndTime = EndTime };
     }
 
     [XmlRoot("BuildingWorkTimeGlobal")]

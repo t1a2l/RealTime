@@ -42,14 +42,7 @@ namespace RealTime.UI
             OperationHoursSettingsCheckBox.tooltip = localizationProvider.Translate(TranslationKeys.OperationHoursSettingsCheckBoxTooltip);
         }
 
-        private void EventCheckChanged(UIComponent c, bool value)
-        {
-            operationHoursPanel.isVisible = value;
-            if (operationHoursPanel.isVisible)
-            {
-                operationHoursPanel.height = 500f;
-            }
-        }
+        private void EventCheckChanged(UIComponent c, bool value) => operationHoursPanel.isVisible = value;
 
         public void RefreshData(float checkBoxXposition, float checkBoxYposition, BuildingOperationHoursPanel buildingOperationHoursPanel)
         {
@@ -58,7 +51,6 @@ namespace RealTime.UI
 
             if (OperationHoursSettingsCheckBox.isChecked)
             {
-                buildingOperationHoursPanel.height = 500f;
                 buildingOperationHoursPanel.Show();
             }
         }

@@ -433,6 +433,7 @@ namespace RealTime.UI
             float height = 80f + containerHeight;
             m_actionRow.relativePosition = new Vector3(10f, 210f + height);
             m_accessAdvancedSettingsBtn.relativePosition = new Vector3(20f, 210f + height + 80f);
+            this.height = 350f + height;
         }
 
         private static float ParseHour(string s)
@@ -895,6 +896,7 @@ namespace RealTime.UI
                 btn.hoveredBgSprite = "ButtonMenuFocused";
                 btn.pressedBgSprite = "ButtonMenuFocused";
                 btn.focusedBgSprite = "ButtonMenuFocused";
+                btn.disabledBgSprite = "ButtonMenuFocused";
                 btn.color = new Color32(255, 255, 255, 255);
                 btn.textColor = new Color32(110, 203, 216, 255); // teal
             }
@@ -904,6 +906,7 @@ namespace RealTime.UI
                 btn.hoveredBgSprite = "ButtonMenuHovered";
                 btn.pressedBgSprite = "ButtonMenuFocused";
                 btn.focusedBgSprite = "ButtonMenu";
+                btn.disabledBgSprite = "ButtonMenuDisabled";
                 btn.color = new Color32(100, 110, 140, 255);
                 btn.textColor = new Color32(80, 88, 120, 255);
             }

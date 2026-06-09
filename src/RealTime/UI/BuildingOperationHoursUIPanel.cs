@@ -647,86 +647,101 @@ namespace RealTime.UI
 
         private void Translate(ILocalizationProvider localizationProvider)
         {
+            if(localizationProvider == null)
+            {
+                Debug.LogError("Localization provider is null. Cannot translate Operation Hours UI.");
+                return;
+            }
+
             // ─────────────────────────────────────────── Header translation ──────────────────────────────────────
-            m_settingsTitle.text = localizationProvider.Translate(TranslationKeys.SettingsTitle);
+            m_settingsTitle?.text = localizationProvider.Translate(TranslationKeys.SettingsTitle);
 
-            m_editSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.EditSettingsTooltip);
-            m_lockUnlockChangesBtn.tooltip = localizationProvider.Translate(TranslationKeys.LockUnlockChangesTooltip);
-            m_settingsStatusLabel.text = localizationProvider.Translate(TranslationKeys.BuildingStatusLabel);
-
+            m_editSettingsBtn?.tooltip = localizationProvider.Translate(TranslationKeys.EditSettingsTooltip);
+            m_lockUnlockChangesBtn?.tooltip = localizationProvider.Translate(TranslationKeys.LockUnlockChangesTooltip);
+            m_settingsStatusLabel?.text = localizationProvider.Translate(TranslationKeys.BuildingStatusLabel);
             t_defaultSettingsStatus = localizationProvider.Translate(TranslationKeys.DefaultSettingsStatus);
             t_buildingSettingsStatus = localizationProvider.Translate(TranslationKeys.BuildingSettingsStatus);
             t_prefabSettingsStatus = localizationProvider.Translate(TranslationKeys.PrefabSettingsStatus);
             t_globalSettingsStatus = localizationProvider.Translate(TranslationKeys.GlobalSettingsStatus);
 
             // ────────────────────────────────────────── Days row translation ─────────────────────────────────────────
-            m_activeDaysLabel.text = localizationProvider.Translate(TranslationKeys.ActiveDays);
+            m_activeDaysLabel?.text = localizationProvider.Translate(TranslationKeys.ActiveDays);
+
+            if(m_dayButtons == null)
+            {
+                Debug.LogError("Day buttons array is null. Cannot set translations.");
+                return;
+            }
 
             foreach (var btn in m_dayButtons)
             {
-                btn.text = localizationProvider.Translate(btn.name);
-                btn.tooltip = localizationProvider.Translate(btn.name + "Tooltip");
+                btn?.text = localizationProvider.Translate(btn.name);
+                btn?.tooltip = localizationProvider.Translate(btn.name + "Tooltip");
             }
 
             // ──────────────────────────────────────── Shifts summary and editor common translations ─────────────────────────────────────────
             t_shiftLabelIndex = localizationProvider.Translate(TranslationKeys.ShiftLabelIndex);
 
             // ───────────────────────────────────────── Shifts summary translation ─────────────────────────────────────────
-            m_shiftsSummaryLabel.text = localizationProvider.Translate(TranslationKeys.ShiftsSummaryLabel);
-            
+            m_shiftsSummaryLabel?.text = localizationProvider.Translate(TranslationKeys.ShiftsSummaryLabel);
+
+            if(m_shiftSummaryRows == null)
+            {
+                Debug.LogError("Shift summary rows array is null. Cannot set translations.");
+                return;
+            }
 
             for (int i = 0; i < m_shiftSummaryRows.Length; i++)
             {
                 int index = i + 1;
-                m_shiftSummaryRows[i].IndexLabel.text = t_shiftLabelIndex + " " + index;
+                m_shiftSummaryRows[i].IndexLabel?.text = t_shiftLabelIndex + " " + index;
             }
 
-            m_shiftsEditBtn.text = localizationProvider.Translate(TranslationKeys.EditShifts);
-            m_shiftsEditBtn.tooltip = localizationProvider.Translate(TranslationKeys.EditShiftsTooltip);
+            m_shiftsEditBtn?.text = localizationProvider.Translate(TranslationKeys.EditShifts);
+            m_shiftsEditBtn?.tooltip = localizationProvider.Translate(TranslationKeys.EditShiftsTooltip);
 
             // ───────────────────────────────────────── Shifts editor translation ─────────────────────────────────────────
-            m_shiftsEditorLabel.text = localizationProvider.Translate(TranslationKeys.ShiftsEditorLabel);
-
+            m_shiftsEditorLabel?.text = localizationProvider.Translate(TranslationKeys.ShiftsEditorLabel);
             for (int i = 0; i < m_shiftEditRows.Length; i++)
             {
                 int index = i + 1;
                 m_shiftEditRows[i].IndexLabel.text = t_shiftLabelIndex + " " + index;
             }
 
-            m_addShiftBtn.text = localizationProvider.Translate(TranslationKeys.AddShift);
-            m_addShiftBtn.tooltip = localizationProvider.Translate(TranslationKeys.AddShiftTooltip);
+            m_addShiftBtn?.text = localizationProvider.Translate(TranslationKeys.AddShift);
+            m_addShiftBtn?.tooltip = localizationProvider.Translate(TranslationKeys.AddShiftTooltip);
 
-            m_ignorePolicy.text = localizationProvider.Translate(TranslationKeys.IgnorePolicy);
-            m_ignorePolicy.tooltip = localizationProvider.Translate(TranslationKeys.IgnorePolicyTooltip);
+            m_ignorePolicy?.text = localizationProvider.Translate(TranslationKeys.IgnorePolicy);
+            m_ignorePolicy?.tooltip = localizationProvider.Translate(TranslationKeys.IgnorePolicyTooltip);
 
             // ──────────────────────────────────────── Invalid shifts error message translation ─────────────────────────────────────────
             t_invalidShiftsTitle = localizationProvider.Translate(TranslationKeys.InvalidShiftsTitle);
             t_invalidShiftsText = localizationProvider.Translate(TranslationKeys.InvalidShiftsText);
 
             // ──────────────────────────────────────── Advanced Settings button translation ─────────────────────────────────────────
-            m_accessAdvancedSettingsBtn.text = localizationProvider.Translate(TranslationKeys.AccessAdvancedSettings);
-            m_accessAdvancedSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.AccessAdvancedSettingsTooltip);
+            m_accessAdvancedSettingsBtn?.text = localizationProvider.Translate(TranslationKeys.AccessAdvancedSettings);
+            m_accessAdvancedSettingsBtn?.tooltip = localizationProvider.Translate(TranslationKeys.AccessAdvancedSettingsTooltip);
 
             // ──────────────────────────────────────── Action and Danger buttons translation ─────────────────────────────────────────
-            m_saveBuildingSettingsBtn.text = localizationProvider.Translate(TranslationKeys.SaveBuildingSettings);
-            m_saveBuildingSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.SaveBuildingSettingsTooltip);
-            m_returnToDefaultBtn.text = localizationProvider.Translate(TranslationKeys.ReturnToDefault);
-            m_returnToDefaultBtn.tooltip = localizationProvider.Translate(TranslationKeys.ReturnToDefaultTooltip);
+            m_saveBuildingSettingsBtn?.text = localizationProvider.Translate(TranslationKeys.SaveBuildingSettings);
+            m_saveBuildingSettingsBtn?.tooltip = localizationProvider.Translate(TranslationKeys.SaveBuildingSettingsTooltip);
+            m_returnToDefaultBtn?.text = localizationProvider.Translate(TranslationKeys.ReturnToDefault);
+            m_returnToDefaultBtn?.tooltip = localizationProvider.Translate(TranslationKeys.ReturnToDefaultTooltip);
 
-            m_applyPrefabSettingsBtn.text = localizationProvider.Translate(TranslationKeys.ApplyPrefabSettings);
-            m_applyPrefabSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.ApplyPrefabSettingsTooltip);
-            m_applyGlobalSettingsBtn.text = localizationProvider.Translate(TranslationKeys.ApplyGlobalSettings);
-            m_applyGlobalSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.ApplyGlobalSettingsTooltip);
+            m_applyPrefabSettingsBtn?.text = localizationProvider.Translate(TranslationKeys.ApplyPrefabSettings);
+            m_applyPrefabSettingsBtn?.tooltip = localizationProvider.Translate(TranslationKeys.ApplyPrefabSettingsTooltip);
+            m_applyGlobalSettingsBtn?.text = localizationProvider.Translate(TranslationKeys.ApplyGlobalSettings);
+            m_applyGlobalSettingsBtn?.tooltip = localizationProvider.Translate(TranslationKeys.ApplyGlobalSettingsTooltip);
 
-            m_setPrefabSettingsBtn.text = localizationProvider.Translate(TranslationKeys.SetPrefabSettings);
-            m_setPrefabSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.SetPrefabSettingsTooltip);
-            m_setGlobalSettingsBtn.text = localizationProvider.Translate(TranslationKeys.SetGlobalSettings);
-            m_setGlobalSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.SetGlobalSettingsTooltip);
+            m_setPrefabSettingsBtn?.text = localizationProvider.Translate(TranslationKeys.SetPrefabSettings);
+            m_setPrefabSettingsBtn?.tooltip = localizationProvider.Translate(TranslationKeys.SetPrefabSettingsTooltip);
+            m_setGlobalSettingsBtn?.text = localizationProvider.Translate(TranslationKeys.SetGlobalSettings);
+            m_setGlobalSettingsBtn?.tooltip = localizationProvider.Translate(TranslationKeys.SetGlobalSettingsTooltip);
 
-            m_deletePrefabSettingsBtn.text = localizationProvider.Translate(TranslationKeys.DeletePrefabSettings);
-            m_deletePrefabSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.DeletePrefabSettingsTooltip);
-            m_deleteGlobalSettingsBtn.text = localizationProvider.Translate(TranslationKeys.DeleteGlobalSettings);
-            m_deleteGlobalSettingsBtn.tooltip = localizationProvider.Translate(TranslationKeys.DeleteGlobalSettingsTooltip);
+            m_deletePrefabSettingsBtn?.text = localizationProvider.Translate(TranslationKeys.DeletePrefabSettings);
+            m_deletePrefabSettingsBtn?.tooltip = localizationProvider.Translate(TranslationKeys.DeletePrefabSettingsTooltip);
+            m_deleteGlobalSettingsBtn?.text = localizationProvider.Translate(TranslationKeys.DeleteGlobalSettings);
+            m_deleteGlobalSettingsBtn?.tooltip = localizationProvider.Translate(TranslationKeys.DeleteGlobalSettingsTooltip);
 
             t_confirmPanelSetPrefabTitle = localizationProvider.Translate(TranslationKeys.ConfirmPanelSetPrefabTitle);
             t_confirmPanelSetPrefabText = localizationProvider.Translate(TranslationKeys.ConfirmPanelSetPrefabText);

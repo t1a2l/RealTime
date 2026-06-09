@@ -1178,6 +1178,11 @@ namespace RealTime.CustomAI
                 return true;
             }
 
+            if(building.Info == null)
+            {
+                return true;
+            }
+
             workTime = !BuildingWorkTimeManager.BuildingWorkTimeExist(buildingId)
                 ? BuildingWorkTimeManager.CreateBuildingWorkTime(buildingId, building.Info)
                 : BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);

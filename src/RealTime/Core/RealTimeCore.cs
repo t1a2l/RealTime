@@ -449,7 +449,15 @@ namespace RealTime.Core
 
             if (RealTimeSerializer.SaveGameFileVersion >= 2)
             {
-                realTimeResidentAI.ApplyLoadedSchedules(CitizenScheduleSerializer.residentSchedules);
+                if(CitizenScheduleSerializer.residentSchedules != null)
+                {
+                    realTimeResidentAI.ApplyLoadedSchedules(CitizenScheduleSerializer.residentSchedules);
+                }
+                else
+                {
+                    Log.Warning("Citizen schedules were not loaded correctly. This may cause unexpected behavior in citizens' daily routines.");
+                }
+                
             }
 
             CitizenScheduleSerializer.RealTimeResidentAI = realTimeResidentAI;

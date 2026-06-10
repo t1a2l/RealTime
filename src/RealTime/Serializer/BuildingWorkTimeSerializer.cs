@@ -203,6 +203,13 @@ namespace RealTime.Serializer
                             IsLocked = false,
                             IgnorePolicy = false
                         };
+
+                        workTime.IsDefault = StorageData.ReadBool(Data, ref iIndex);
+                        workTime.IsPrefab = StorageData.ReadBool(Data, ref iIndex);
+                        workTime.IsGlobal = StorageData.ReadBool(Data, ref iIndex);
+                        workTime.IsLocked = StorageData.ReadBool(Data, ref iIndex);
+                        workTime.IgnorePolicy = StorageData.ReadBool(Data, ref iIndex);
+
                         BuildingWorkTimeManager.BuildingsWorkTime.Add(BuildingId, workTime);
                     }
 
@@ -224,7 +231,7 @@ namespace RealTime.Serializer
                         {
                             string InfoName = StorageData.ReadString(Data, ref iIndex);
                             string BuildingAI = StorageData.ReadString(Data, ref iIndex);
-                            bool WorkAtNight = StorageData.ReadBool(Data, ref iIndex);
+                            bool _ = StorageData.ReadBool(Data, ref iIndex);
                             bool WorkAtWeekands = StorageData.ReadBool(Data, ref iIndex);
                             bool HasExtendedWorkShift = StorageData.ReadBool(Data, ref iIndex);
                             bool HasContinuousWorkShift = StorageData.ReadBool(Data, ref iIndex);

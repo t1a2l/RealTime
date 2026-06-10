@@ -19,6 +19,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Atlas\ClearScheduleButton.png" />
+    <None Remove="Atlas\CopyPaste.png" />
     <None Remove="Atlas\EditButtonAtlas.png" />
     <None Remove="Atlas\LockButtonAtlas.png" />
     <None Remove="Atlas\LockUnLockAtlas.png" />
@@ -26,6 +27,7 @@
     <None Remove="PreviewImage.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Atlas\CopyPaste.png" />
     <EmbeddedResource Include="Atlas\EditButtonAtlas.png" />
     <EmbeddedResource Include="Atlas\LockButtonAtlas.png" />
     <EmbeddedResource Include="Atlas\ClearScheduleButton.png" />

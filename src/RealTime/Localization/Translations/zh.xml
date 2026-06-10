@@ -299,6 +299,8 @@
   <translation id="SettingsTitle" value="运行时间" />
   <translation id="EditSettingsTooltip" value="允许/禁止编辑" />
   <translation id="LockUnlockChangesTooltip" value="如果锁定 - 类型和全局设置对该建筑无效" />
+  <translation id="CopySettingsTooltip" value="从此建筑复制设置" />
+  <translation id="PasteSettingsTooltip" value="将设置粘贴到此建筑" />
   <translation id="BuildingStatusLabel" value="状态:" />
   <translation id="DefaultSettingsStatus" value="默认设置" />
   <translation id="BuildingSettingsStatus" value="自定义" />

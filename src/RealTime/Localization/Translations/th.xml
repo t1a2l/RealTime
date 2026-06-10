@@ -299,6 +299,8 @@
   <translation id="SettingsTitle" value="ชั่วโมงงาน" />
   <translation id="EditSettingsTooltip" value="อนุญาต/ไม่อนุญาตการแก้ไข" />
   <translation id="LockUnlockChangesTooltip" value="หากล็อก - การตั้งค่าประเภทและการตั้งค่าทั่วไปจะไม่มีผลต่ออาคารนี้" />
+  <translation id="CopySettingsTooltip" value="คัดลอกการตั้งค่าจากอาคารนี้" />
+  <translation id="PasteSettingsTooltip" value="วางการตั้งค่าไปยังอาคารนี้" />
   <translation id="BuildingStatusLabel" value="สถานะ:" />
   <translation id="DefaultSettingsStatus" value="ค่าเริ่มต้น" />
   <translation id="BuildingSettingsStatus" value="ของตนเอง" />

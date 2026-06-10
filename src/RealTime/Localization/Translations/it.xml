@@ -300,6 +300,8 @@
   <translation id="SettingsTitle" value="Ore Op." />
   <translation id="EditSettingsTooltip" value="Consenti/nega modifica" />
   <translation id="LockUnlockChangesTooltip" value="Se bloccato - le impostazioni di tipo e globali non influenzano questo edificio" />
+  <translation id="CopySettingsTooltip" value="Copia le impostazioni da questo edificio" />
+  <translation id="PasteSettingsTooltip" value="Incolla le impostazioni in questo edificio" />
   <translation id="BuildingStatusLabel" value="Stato:" />
   <translation id="DefaultSettingsStatus" value="Predef." />
   <translation id="BuildingSettingsStatus" value="Personali" />

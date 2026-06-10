@@ -299,6 +299,8 @@
   <translation id="SettingsTitle" value="Часы раб." />
   <translation id="EditSettingsTooltip" value="Разрешить/запретить правку" />
   <translation id="LockUnlockChangesTooltip" value="Если заблокировано - тип и глобальные настройки не влияют на это здание" />
+  <translation id="CopySettingsTooltip" value="Копировать настройки с этого здания" />
+  <translation id="PasteSettingsTooltip" value="Вставить настройки в это здание" />
   <translation id="BuildingStatusLabel" value="Статус:" />
   <translation id="DefaultSettingsStatus" value="По умолч." />
   <translation id="BuildingSettingsStatus" value="Свои" />

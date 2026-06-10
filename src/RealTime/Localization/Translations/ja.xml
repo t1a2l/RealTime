@@ -299,6 +299,8 @@
   <translation id="SettingsTitle" value="稼働時間" />
   <translation id="EditSettingsTooltip" value="編集の許可/不許可" />
   <translation id="LockUnlockChangesTooltip" value="ロックされている場合 - タイプおよびグローバル設定はこの建物に影響しません" />
+  <translation id="CopySettingsTooltip" value="この建物から設定をコピー" />
+  <translation id="PasteSettingsTooltip" value="この建物に設定を貼り付け" />
   <translation id="BuildingStatusLabel" value="状態:" />
   <translation id="DefaultSettingsStatus" value="デフォルト" />
   <translation id="BuildingSettingsStatus" value="個別設定" />

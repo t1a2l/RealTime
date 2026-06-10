@@ -299,6 +299,8 @@
   <translation id="SettingsTitle" value="Operation Hours" />
   <translation id="EditSettingsTooltip" value="Allow or disallow editing settings" />
   <translation id="LockUnlockChangesTooltip" value="If Locked - type and global settings has no affect on this building" />
+  <translation id="CopySettingsTooltip" value="Copy settings from this building" />
+  <translation id="PasteSettingsTooltip" value="Paste settings to this building" />
   <translation id="BuildingStatusLabel" value="Status:" />
   <translation id="DefaultSettingsStatus" value="Default Settings" />
   <translation id="BuildingSettingsStatus" value="Own Settings" />

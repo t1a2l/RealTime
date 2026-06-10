@@ -299,6 +299,8 @@
   <translation id="SettingsTitle" value="운영 시간" />
   <translation id="EditSettingsTooltip" value="설정 편집 허용/거부" />
   <translation id="LockUnlockChangesTooltip" value="잠금 상태일 경우 - 유형 및 글로벌 설정이 이 건물에 영향을 미치지 않습니다" />
+  <translation id="CopySettingsTooltip" value="이 건물에서 설정 복사" />
+  <translation id="PasteSettingsTooltip" value="이 건물에 설정 붙여넣기" />
   <translation id="BuildingStatusLabel" value="상태:" />
   <translation id="DefaultSettingsStatus" value="기본 설정" />
   <translation id="BuildingSettingsStatus" value="자체 설정" />

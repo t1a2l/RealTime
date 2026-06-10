@@ -30,6 +30,8 @@ namespace RealTime.UI
         internal UILabel m_settingsStatusLabel;
         internal UIPanel m_settingsStatusContainer;
         internal UILabel m_settingsStatus;
+        internal UIButton m_settingsCopyBtn;
+        internal UIButton m_settingsPasteBtn;
         internal UIPanel m_innerPanel;
         internal UIButton m_editSettingsBtn;
         internal UIButton m_lockUnlockChangesBtn;
@@ -98,6 +100,16 @@ namespace RealTime.UI
             TranslationKeys.Saturday,
             TranslationKeys.Sunday
         ];
+
+        private bool m_isCopied = false;
+
+        private List<BuildingWorkTimeManager.WorkShiftTime> m_shiftsClipboard;
+
+        private List<DayOfWeek> m_daysOfWeekClipboard;
+
+        private bool m_ignorePolicyClipboard;
+
+        private bool m_isLockedClipboard;
 
         internal class ShiftSummaryRow
         {
@@ -199,6 +211,11 @@ namespace RealTime.UI
 
             m_dangerRow = UIPanels.CreateRow(m_advancedSettingsPanel, "DangerRow", 0f, 80f);
 
+            m_shiftsClipboard = [];
+            m_daysOfWeekClipboard = [];
+            m_ignorePolicyClipboard = false;
+            m_isLockedClipboard = false;
+
             CreateHeader();
             CreateDaysRow();
             CreateShiftSummaryRows();
@@ -208,6 +225,8 @@ namespace RealTime.UI
 
             SetAllControlsToDisabled();
         }
+
+        public override void Update() => m_settingsPasteBtn.isEnabled = m_isCopied;
 
         public void RefreshData(ushort buildingID, BuildingWorkTimeManager.WorkTime buildingWorkTime)
         {
@@ -305,6 +324,24 @@ namespace RealTime.UI
             m_lockUnlockChangesBtn.hoveredFgSprite = "UnLock";
             m_lockUnlockChangesBtn.pressedFgSprite = "UnLock";
             m_lockUnlockChangesBtn.eventClicked += LockUnlockChanges;
+
+            m_settingsCopyBtn = UIButtons.CreateButton(m_headerRow, 175f, 3f, "CopySettings", "", "", 64f, 64f);
+            m_settingsCopyBtn.atlas = TextureUtils.GetAtlas("CopyPasteAtlas");
+            m_settingsCopyBtn.normalFgSprite = "Copy";
+            m_settingsCopyBtn.disabledFgSprite = "Copy";
+            m_settingsCopyBtn.focusedFgSprite = "Copy";
+            m_settingsCopyBtn.hoveredFgSprite = "Copy";
+            m_settingsCopyBtn.pressedFgSprite = "Copy";
+            m_settingsCopyBtn.eventClicked += CopySettings;
+
+            m_settingsPasteBtn = UIButtons.CreateButton(m_headerRow, 175f, 3f, "PasteSettings", "", "", 64f, 64f);
+            m_settingsPasteBtn.atlas = TextureUtils.GetAtlas("CopyPasteAtlas");
+            m_settingsPasteBtn.normalFgSprite = "Paste";
+            m_settingsPasteBtn.disabledFgSprite = "Paste";
+            m_settingsPasteBtn.focusedFgSprite = "Paste";
+            m_settingsPasteBtn.hoveredFgSprite = "Paste";
+            m_settingsPasteBtn.pressedFgSprite = "Paste";
+            m_settingsPasteBtn.eventClicked += PasteSettings;
         }
 
         private void CreateDaysRow()
@@ -659,11 +696,12 @@ namespace RealTime.UI
             m_editSettingsBtn?.tooltip = localizationProvider.Translate(TranslationKeys.EditSettingsTooltip);
             m_lockUnlockChangesBtn?.tooltip = localizationProvider.Translate(TranslationKeys.LockUnlockChangesTooltip);
             m_settingsStatusLabel?.text = localizationProvider.Translate(TranslationKeys.BuildingStatusLabel);
+            m_settingsCopyBtn?.tooltip = localizationProvider.Translate(TranslationKeys.CopySettingsTooltip);
+            m_settingsPasteBtn?.tooltip = localizationProvider.Translate(TranslationKeys.PasteSettingsTooltip);
             t_defaultSettingsStatus = localizationProvider.Translate(TranslationKeys.DefaultSettingsStatus);
             t_buildingSettingsStatus = localizationProvider.Translate(TranslationKeys.BuildingSettingsStatus);
             t_prefabSettingsStatus = localizationProvider.Translate(TranslationKeys.PrefabSettingsStatus);
             t_globalSettingsStatus = localizationProvider.Translate(TranslationKeys.GlobalSettingsStatus);
-
             // ────────────────────────────────────────── Days row translation ─────────────────────────────────────────
             m_activeDaysLabel?.text = localizationProvider.Translate(TranslationKeys.ActiveDays);
 
@@ -957,6 +995,59 @@ namespace RealTime.UI
 
             m_addShiftBtn.isEnabled = remaining.Count < m_shiftEditRows.Length;
             RefreshShiftsSummary();
+        }
+
+        private void CopySettings(UIComponent c, UIMouseEventParameter eventParameter)
+        {
+            m_isCopied = false;
+
+            var days = GetActiveDays();
+            var shifts = GetActiveShifts();
+
+            if(days == null || shifts == null)
+            {
+                return;
+            }
+
+            if (days.Length > 0)
+            {
+                m_daysOfWeekClipboard.Clear();
+                m_daysOfWeekClipboard = [.. days];
+            }
+
+            if (shifts.Length > 0)
+            {
+                m_shiftsClipboard.Clear();
+                m_shiftsClipboard = [.. shifts];
+            }
+
+            m_ignorePolicyClipboard = m_ignorePolicy.isChecked;
+
+            m_isLockedClipboard = m_lockUnlockChangesBtn.normalFgSprite == "Lock";
+
+            m_isCopied = true;
+        }
+
+        private void PasteSettings(UIComponent c, UIMouseEventParameter eventParameter)
+        {
+            if (!m_isCopied)
+            {
+                return;
+            }
+
+            ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
+
+            var newBuildingSettings = new BuildingWorkTimeManager.WorkTime
+            {
+                WorkDays = [.. m_daysOfWeekClipboard],
+                WorkShifts = [.. m_shiftsClipboard],
+                IgnorePolicy = m_ignorePolicyClipboard,
+                IsLocked = m_isLockedClipboard
+            };
+
+            UpdateBuildingSettings.SaveNewSettings(buildingID, newBuildingSettings);
+
+            RefreshData(buildingID, newBuildingSettings);
         }
 
         private bool AreAllShiftsValid()

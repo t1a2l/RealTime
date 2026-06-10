@@ -16,6 +16,12 @@ namespace RealTime.Utils
             "NoneEdit"
         ];
 
+        public static string[] CopyPasteSpriteNames =
+        [
+            "Copy",
+            "Paste"
+        ];
+
         public static void CreateAtlas()
         {
             if (TextureUtils.GetAtlas("LockButtonAtlas") == null)
@@ -36,6 +42,13 @@ namespace RealTime.Utils
                 TextureUtils.InitialiseAtlas("EditButtonAtlas");
                 TextureUtils.AddSpriteToAtlas(new Rect(6, 4, 23, 24), EditButtonSpriteNames[0], "EditButtonAtlas");
                 TextureUtils.AddSpriteToAtlas(new Rect(35, 4, 23, 24), EditButtonSpriteNames[1], "EditButtonAtlas");
+            }
+
+            if (TextureUtils.GetAtlas("CopyPasteAtlas") == null)
+            {
+                TextureUtils.InitialiseAtlas("CopyPasteAtlas");
+                TextureUtils.AddSpriteToAtlas(new Rect(0, 0, 64, 64), CopyPasteSpriteNames[0], "CopyPasteAtlas");
+                TextureUtils.AddSpriteToAtlas(new Rect(64, 0, 64, 64), CopyPasteSpriteNames[1], "CopyPasteAtlas");
             }
         }
     }

@@ -299,6 +299,8 @@
   <translation id="SettingsTitle" value="Heures Op." />
   <translation id="EditSettingsTooltip" value="Autoriser/interdire l'édition" />
   <translation id="LockUnlockChangesTooltip" value="Si verrouillé - les paramètres de type et globaux n'ont aucun effet sur ce bâtiment" />
+  <translation id="CopySettingsTooltip" value="Copier les paramètres de ce bâtiment" />
+  <translation id="PasteSettingsTooltip" value="Coller les paramètres dans ce bâtiment" />
   <translation id="BuildingStatusLabel" value="État:" />
   <translation id="DefaultSettingsStatus" value="Défaut" />
   <translation id="BuildingSettingsStatus" value="Perso." />

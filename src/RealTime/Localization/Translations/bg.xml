@@ -299,6 +299,8 @@
   <translation id="SettingsTitle" value="Работно време" />
   <translation id="EditSettingsTooltip" value="Позволява или забранява редактирането на настройките" />
   <translation id="LockUnlockChangesTooltip" value="Ако е заключено - типовите и глобалните настройки нямат ефект върху тази сграда" />
+  <translation id="CopySettingsTooltip" value="Копиране на настройки от тази сграда" />
+  <translation id="PasteSettingsTooltip" value="Поставяне на настройки в тази сграда" />
   <translation id="BuildingStatusLabel" value="Статус:" />
   <translation id="DefaultSettingsStatus" value="Стандартни настройки" />
   <translation id="BuildingSettingsStatus" value="Собствени настройки" />

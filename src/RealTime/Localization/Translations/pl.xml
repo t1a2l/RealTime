@@ -299,6 +299,8 @@
   <translation id="SettingsTitle" value="Godz. pracy" />
   <translation id="EditSettingsTooltip" value="Zezwól/zabroń edycji" />
   <translation id="LockUnlockChangesTooltip" value="Jeśli zablokowane - ustawienia typu i globalne nie mają wpływu na ten budynek" />
+  <translation id="CopySettingsTooltip" value="Kopiuj ustawienia z tego budynku" />
+  <translation id="PasteSettingsTooltip" value="Wklej ustawienia do tego budynku" />
   <translation id="BuildingStatusLabel" value="Status:" />
   <translation id="DefaultSettingsStatus" value="Domyślne" />
   <translation id="BuildingSettingsStatus" value="Własne" />

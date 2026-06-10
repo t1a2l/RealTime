@@ -299,6 +299,8 @@
   <translation id="SettingsTitle" value="Horas Op." />
   <translation id="EditSettingsTooltip" value="Permitir/deshabilitar edición" />
   <translation id="LockUnlockChangesTooltip" value="Si está bloqueado, la configuración de tipo y global no afecta a este edificio" />
+  <translation id="CopySettingsTooltip" value="Copiar configuración de este edificio" />
+  <translation id="PasteSettingsTooltip" value="Pegar configuración en este edificio" />
   <translation id="BuildingStatusLabel" value="Estado:" />
   <translation id="DefaultSettingsStatus" value="Predet." />
   <translation id="BuildingSettingsStatus" value="Propia" />

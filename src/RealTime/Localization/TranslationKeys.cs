@@ -88,6 +88,12 @@ namespace RealTime.Localization
         /// <summary>The key for the lock/unlock changes button tooltip.</summary>
         public const string LockUnlockChangesTooltip = "LockUnlockChangesTooltip";
 
+        /// <summary>The key for the copy settings button tooltip.</summary>
+        public const string CopySettingsTooltip = "CopySettingsTooltip";
+
+        /// <summary>The key for the paste settings button tooltip.</summary>
+        public const string PasteSettingsTooltip = "PasteSettingsTooltip";
+
         /// <summary>The key for the default settings status.</summary>
         public const string DefaultSettingsStatus = "DefaultSettingsStatus";
 

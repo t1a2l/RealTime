@@ -368,6 +368,25 @@
   <translation id="ClosedBuilding" value="Затворено" />
   <translation id="ServingTimeAt" value="Време на престой в " />
 
+  <translation id="CommercialBuildingTypeLabel" value="Тип магазин" />
+  <translation id="CommercialBuildingTypeTooltip" value="Изберете типа на търговската сграда" />
+  <translation id="CommercialBuildingTypeShopping" value="Пазаруване" />
+  <translation id="CommercialBuildingTypeEntertainment" value="Развлечение" />
+  <translation id="CommercialBuildingTypeFood" value="Храна" />
+  <translation id="CommercialBuildingTypeShoppingAndEntertainment" value="Пазаруване &amp; Развлечение" />
+  <translation id="CommercialBuildingTypeShoppingAndFood" value="Пазаруване &amp; Храна" />
+  <translation id="CommercialBuildingTypeEntertainmentAndFood" value="Развлечение &amp; Храна" />
+  <translation id="CommercialBuildingTypeAll" value="Всички" />
+
+  <translation id="ParkBuildingTypeLabel" value="Тип парк" />
+  <translation id="ParkBuildingTypeTooltip" value="Изберете типа на парка" />
+  <translation id="ParkBuildingTypeGeneric" value="Общ" />
+  <translation id="ParkBuildingTypePlayground" value="Детска площадка" />
+  <translation id="ParkBuildingTypeDogPark" value="Паркове за кучета" />
+  <translation id="ParkBuildingTypePlaza" value="Площад" />
+  <translation id="ParkBuildingTypeGarden" value="Градина" />
+  <translation id="ParkBuildingTypeSports" value="Спорт" />
+  
   <translation id="RaceDayLabelHour" value="Час" />
   <translation id="RaceDayLabelFrequency" value="Честота" />
   <translation id="RaceDayLabelMinute" value="Минута" />

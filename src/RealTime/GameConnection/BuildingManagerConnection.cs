@@ -27,6 +27,17 @@ namespace RealTime.GameConnection
             "Babylon"
         ];
 
+        private static readonly string[] CarParkingBuildings =
+        [
+            "parking",
+            "garage",
+            "car park",
+            "Parking",
+            "Car Port",
+            "Garage",
+            "Car Park"
+        ];
+
         /// <summary>Gets the class type of the building with specified ID.</summary>
         /// <param name="buildingId">The ID of the building to get the class type of.</param>
         /// <returns>
@@ -486,6 +497,31 @@ namespace RealTime.GameConnection
             }
 
             if (building.Info.m_buildingAI is not CommercialBuildingAI)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Determines whether the building with specified ID is an allowed park building or not.
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the building is an allowed park building;
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsAllowedParkBuildingType(ushort buildingId)
+        {
+            var building = BuildingManager.instance.m_buildings.m_buffer[buildingId];
+
+            if (building.Info.m_buildingAI is not ParkAI)
+            {
+                return false;
+            }
+
+            if (building.Info.m_class.m_service == ItemClass.Service.Beautification && CarParkingBuildings.Any(name => building.Info.name.Contains(name)))
             {
                 return false;
             }

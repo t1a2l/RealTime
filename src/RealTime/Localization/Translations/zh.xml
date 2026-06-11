@@ -362,6 +362,25 @@
   <translation id="ClosedBuilding" value="已关闭" />
   <translation id="ServingTimeAt" value="服刑时长在 " />
 
+  <translation id="CommercialBuildingTypeLabel" value="商店类型" />
+  <translation id="CommercialBuildingTypeTooltip" value="选择商业建筑的类型" />
+  <translation id="CommercialBuildingTypeShopping" value="购物" />
+  <translation id="CommercialBuildingTypeEntertainment" value="娱乐" />
+  <translation id="CommercialBuildingTypeFood" value="餐饮" />
+  <translation id="CommercialBuildingTypeShoppingAndEntertainment" value="购物 &amp; 娱乐" />
+  <translation id="CommercialBuildingTypeShoppingAndFood" value="购物 &amp; 餐饮" />
+  <translation id="CommercialBuildingTypeEntertainmentAndFood" value="娱乐 &amp; 餐饮" />
+  <translation id="CommercialBuildingTypeAll" value="全部" />
+
+  <translation id="ParkBuildingTypeLabel" value="公园类型" />
+  <translation id="ParkBuildingTypeTooltip" value="选择公园建筑的类型" />
+  <translation id="ParkBuildingTypeGeneric" value="通用" />
+  <translation id="ParkBuildingTypePlayground" value="游乐场" />
+  <translation id="ParkBuildingTypeDogPark" value="狗公园" />
+  <translation id="ParkBuildingTypePlaza" value="广场" />
+  <translation id="ParkBuildingTypeGarden" value="花园" />
+  <translation id="ParkBuildingTypeSports" value="体育" />
+  
   <translation id="RaceDayLabelHour" value="小时" />
   <translation id="RaceDayLabelFrequency" value="频率" />
   <translation id="RaceDayLabelMinute" value="分钟" />

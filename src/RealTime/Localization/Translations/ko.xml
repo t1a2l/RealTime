@@ -362,6 +362,25 @@
   <translation id="ClosedBuilding" value="운영 종료" />
   <translation id="ServingTimeAt" value="복역 중: " />
 
+  <translation id="CommercialBuildingTypeLabel" value="상점 유형" />
+  <translation id="CommercialBuildingTypeTooltip" value="상업 건물의 유형을 선택하세요" />
+  <translation id="CommercialBuildingTypeShopping" value="쇼핑" />
+  <translation id="CommercialBuildingTypeEntertainment" value="엔터테인먼트" />
+  <translation id="CommercialBuildingTypeFood" value="음식" />
+  <translation id="CommercialBuildingTypeShoppingAndEntertainment" value="쇼핑 &amp; 엔터테인먼트" />
+  <translation id="CommercialBuildingTypeShoppingAndFood" value="쇼핑 &amp; 음식" />
+  <translation id="CommercialBuildingTypeEntertainmentAndFood" value="엔터테인먼트 &amp; 음식" />
+  <translation id="CommercialBuildingTypeAll" value="모두" />
+
+  <translation id="ParkBuildingTypeLabel" value="공원 유형" />
+  <translation id="ParkBuildingTypeTooltip" value="공원의 유형을 선택하세요" />
+  <translation id="ParkBuildingTypeGeneric" value="일반" />
+  <translation id="ParkBuildingTypePlayground" value="놀이터" />
+  <translation id="ParkBuildingTypeDogPark" value="도그파크" />
+  <translation id="ParkBuildingTypePlaza" value="광장" />
+  <translation id="ParkBuildingTypeGarden" value="정원" />
+  <translation id="ParkBuildingTypeSports" value="스포츠" />
+  
   <translation id="RaceDayLabelHour" value="시간" />
   <translation id="RaceDayLabelFrequency" value="주기" />
   <translation id="RaceDayLabelMinute" value="분" />

@@ -73,11 +73,17 @@ namespace RealTime.Localization
         /// <summary>The key for the academic year end year button tooltip text.</summary>
         public const string AcademicYearEndYearButtonTooltip = "AcademicYearEndYearButtonTooltip";
 
+        /// --------------------------------- Operation Hours Checkbox Keys ---------------------------------
+
         /// <summary>The key for the operation hours settings checkbox.</summary>
         public const string OperationHoursSettingsCheckBox = "OperationHoursSettingsCheckBox";
 
         /// <summary>The key for the operation hours settings checkbox tooltip.</summary>
         public const string OperationHoursSettingsCheckBoxTooltip = "OperationHoursSettingsCheckBoxTooltip";
+
+        /// -------------------------------------------------------------------------------------------------
+
+        /// --------------------------------- Operation Hours Panel Keys ------------------------------------
 
         /// <summary>The key for the title of building work time settings panel.</summary>
         public const string SettingsTitle = "SettingsTitle";
@@ -271,6 +277,66 @@ namespace RealTime.Localization
         /// <summary>The key for the prisoners Serving time in prison.</summary>
         public const string ServingTimeAt = "ServingTimeAt";
 
+        /// -------------------------------------------------------------------------------------------------
+
+        /// ----------------------- Commercial Building Types Keys ------------------------------------------
+
+        /// <summary>The key for commercial building type label.</summary>
+        public const string CommercialBuildingTypeLabel = "CommercialBuildingTypeLabel";
+
+        /// <summary>The key for commercial building type tooltip.</summary>
+        public const string CommercialBuildingTypeTooltip = "CommercialBuildingTypeTooltip";
+
+        /// <summary>The key for commercial building type shopping.</summary>
+        public const string CommercialBuildingTypeShopping = "CommercialBuildingTypeShopping";
+
+        /// <summary>The key for commercial building type entertainment.</summary>
+        public const string CommercialBuildingTypeEntertainment = "CommercialBuildingTypeEntertainment";
+
+        /// <summary>The key for commercial building type food.</summary>
+        public const string CommercialBuildingTypeFood = "CommercialBuildingTypeFood";
+
+        /// <summary>The key for commercial building type shopping and entertainment.</summary>
+        public const string CommercialBuildingTypeShoppingAndEntertainment = "CommercialBuildingTypeShoppingAndEntertainment";
+
+        /// <summary>The key for commercial building type shopping and food.</summary>
+        public const string CommercialBuildingTypeShoppingAndFood = "CommercialBuildingTypeShoppingAndFood";
+
+        /// <summary>The key for commercial building type entertainment and food.</summary>
+        public const string CommercialBuildingTypeEntertainmentAndFood = "CommercialBuildingTypeEntertainmentAndFood";
+
+        /// <summary>The key for commercial building type all.</summary>
+        public const string CommercialBuildingTypeAll = "CommercialBuildingTypeAll";
+
+        /// -------------------------------------------------------------------------------------------------
+
+        /// --------------------------------- Park Building Types Keys --------------------------------------
+
+        /// <summary>The key for park building type label.</summary>
+        public const string ParkBuildingTypeLabel = "ParkBuildingTypeLabel";
+
+        /// <summary>The key for park building type tooltip.</summary>
+        public const string ParkBuildingTypeTooltip = "ParkBuildingTypeTooltip";
+
+        /// <summary>The key for park building type generic.</summary>
+        public const string ParkBuildingTypeGeneric = "ParkBuildingTypeGeneric";
+
+        /// <summary>The key for park building type playground.</summary>
+        public const string ParkBuildingTypePlayground = "ParkBuildingTypePlayground";
+
+        /// <summary>The key for park building type dog park.</summary>
+        public const string ParkBuildingTypeDogPark = "ParkBuildingTypeDogPark";
+
+        /// <summary>The key for park building type plaza.</summary>
+        public const string ParkBuildingTypePlaza = "ParkBuildingTypePlaza";
+
+        /// <summary>The key for park building type garden.</summary>
+        public const string ParkBuildingTypeGarden = "ParkBuildingTypeGarden";
+
+        /// <summary>The key for park building type sports.</summary>
+        public const string ParkBuildingTypeSports = "ParkBuildingTypeSports";
+
+        /// -------------------------------------------------------------------------------------------------
 
         /// --------------------------------- RaceDay Events Keys -------------------------------------------
 
@@ -334,7 +400,7 @@ namespace RealTime.Localization
         /// <summary>The key for race day schedule overlap warning.</summary>
         public const string RaceDayScheduleOverlapWarning = "RaceDayScheduleOverlapWarning";
 
-        // --------------------------------------------------------------------------------------------------
+        /// -------------------------------------------------------------------------------------------------
 
         /// --------------------------------- Vanilla Events Keys -------------------------------------------
 
@@ -407,6 +473,6 @@ namespace RealTime.Localization
         /// <summary>The key for upcoming vanilla event hide button.</summary>
         public const string VanillaEventUpcomingHideBtn = "VanillaEventUpcomingHideBtn";
 
-        // --------------------------------------------------------------------------------------------------
+        /// -------------------------------------------------------------------------------------------------
     }
 }

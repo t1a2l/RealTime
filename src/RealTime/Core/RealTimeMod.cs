@@ -125,6 +125,7 @@ namespace RealTime.Core
                 FireBurnTimeManager.Init();
                 HotelManager.Init();
                 CommercialBuildingTypesManager.Init();
+                ParkBuildingTypesManager.Init();
             }
             catch (Exception e)
             {
@@ -134,6 +135,7 @@ namespace RealTime.Core
                 EventRouteTimeManager.Deinit();
                 FireBurnTimeManager.Deinit();
                 CommercialBuildingTypesManager.Deinit();
+                ParkBuildingTypesManager.Deinit();
             }
         }
 
@@ -199,6 +201,7 @@ namespace RealTime.Core
                     HotelCheck(buildingId, ref building);
                     AcademicYearCheck(buildingId, building.Info);
                     CommercialBuildingTypeCheck(buildingId, building.Info);
+                    ParkBuildingTypeCheck(buildingId);
                 }
             }
         }
@@ -374,6 +377,14 @@ namespace RealTime.Core
                 }
             }
 
+        }
+
+        private void ParkBuildingTypeCheck(ushort buildingID)
+        {
+            if (BuildingManagerConnection.IsAllowedParkBuildingType(buildingID) && !ParkBuildingTypesManager.ParkBuildingTypeExist(buildingID))
+            {
+                ParkBuildingTypesManager.CreateParkBuildingType(buildingID, ParkBuildingType.Generic);
+            }
         }
 
         private void EnsureCitizenUnits(ushort buildingID, ref Building data, int homeCount = 0, int workCount = 0, int visitCount = 0, int studentCount = 0, int hotelCount = 0)

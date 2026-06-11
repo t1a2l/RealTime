@@ -53,16 +53,9 @@ namespace RealTime.Patches.BuildingAIPatches
                 AcademicYearManager.CreateAcademicYearData(buildingID);
             }
 
-            if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
+            if (BuildingManagerConnection.IsAllowedParkBuildingType(buildingID) && !ParkBuildingTypesManager.ParkBuildingTypeExist(buildingID))
             {
-                if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
-                {
-                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
-                }
-                else
-                {
-                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
-                }
+                ParkBuildingTypesManager.CreateParkBuildingType(buildingID, ParkBuildingType.Generic);
             }
         }
 

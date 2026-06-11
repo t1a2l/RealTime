@@ -363,6 +363,25 @@
   <translation id="ClosedBuilding" value="Fechado" />
   <translation id="ServingTimeAt" value="Cumprindo pena em " />
 
+  <translation id="CommercialBuildingTypeLabel" value="Tipo de loja" />
+  <translation id="CommercialBuildingTypeTooltip" value="Selecione o tipo de prédio comercial" />
+  <translation id="CommercialBuildingTypeShopping" value="Compras" />
+  <translation id="CommercialBuildingTypeEntertainment" value="Entretenimento" />
+  <translation id="CommercialBuildingTypeFood" value="Alimentação" />
+  <translation id="CommercialBuildingTypeShoppingAndEntertainment" value="Compras &amp; Entretenimento" />
+  <translation id="CommercialBuildingTypeShoppingAndFood" value="Compras &amp; Alimentação" />
+  <translation id="CommercialBuildingTypeEntertainmentAndFood" value="Entretenimento &amp; Alimentação" />
+  <translation id="CommercialBuildingTypeAll" value="Todos" />
+
+  <translation id="ParkBuildingTypeLabel" value="Tipo de parque" />
+  <translation id="ParkBuildingTypeTooltip" value="Selecione o tipo de prédio de parque" />
+  <translation id="ParkBuildingTypeGeneric" value="Genérico" />
+  <translation id="ParkBuildingTypePlayground" value="Parque Infantil" />
+  <translation id="ParkBuildingTypeDogPark" value="Parque para Cães" />
+  <translation id="ParkBuildingTypePlaza" value="Praça" />
+  <translation id="ParkBuildingTypeGarden" value="Jardim" />
+  <translation id="ParkBuildingTypeSports" value="Esportes" />
+  
   <translation id="RaceDayLabelHour" value="Hora" />
   <translation id="RaceDayLabelFrequency" value="Frequência" />
   <translation id="RaceDayLabelMinute" value="Minuto" />

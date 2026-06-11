@@ -362,6 +362,25 @@
   <translation id="ClosedBuilding" value="ปิดทำการ" />
   <translation id="ServingTimeAt" value="เวลาที่รับโทษใน " />
 
+  <translation id="CommercialBuildingTypeLabel" value="ประเภทร้านค้า" />
+  <translation id="CommercialBuildingTypeTooltip" value="เลือกประเภทของอาคารพาณิชย์" />
+  <translation id="CommercialBuildingTypeShopping" value="ช้อปปิ้ง" />
+  <translation id="CommercialBuildingTypeEntertainment" value="ความบันเทิง" />
+  <translation id="CommercialBuildingTypeFood" value="อาหาร" />
+  <translation id="CommercialBuildingTypeShoppingAndEntertainment" value="ช้อปปิ้ง &amp; ความบันเทิง" />
+  <translation id="CommercialBuildingTypeShoppingAndFood" value="ช้อปปิ้ง &amp; อาหาร" />
+  <translation id="CommercialBuildingTypeEntertainmentAndFood" value="ความบันเทิง &amp; อาหาร" />
+  <translation id="CommercialBuildingTypeAll" value="ทั้งหมด" />
+
+  <translation id="ParkBuildingTypeLabel" value="ประเภทสวนสาธารณะ" />
+  <translation id="ParkBuildingTypeTooltip" value="เลือกประเภทของอาคารสวนสาธารณะ" />
+  <translation id="ParkBuildingTypeGeneric" value="ทั่วไป" />
+  <translation id="ParkBuildingTypePlayground" value="สนามเด็กเล่น" />
+  <translation id="ParkBuildingTypeDogPark" value="สวนสุนัข" />
+  <translation id="ParkBuildingTypePlaza" value="ลาน" />
+  <translation id="ParkBuildingTypeGarden" value="สวน" />
+  <translation id="ParkBuildingTypeSports" value="กีฬา" />
+  
   <translation id="RaceDayLabelHour" value="ชั่วโมง" />
   <translation id="RaceDayLabelFrequency" value="ความถี่" />
   <translation id="RaceDayLabelMinute" value="นาที" />

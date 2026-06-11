@@ -524,20 +524,20 @@ namespace RealTime.Patches
 
             private static UIButton m_endYearButton;
 
+            private static bool s_updatingDropdown;
+
+            private static UIDropDown m_parkBuildingTypeDropdown;
+
             // private static UIButton m_openUserEventCreationPanelButton;
 
             // private static UserEventCreationPanel userEventCreationPanel;
-
-            private static UIDropDown m_commercialBuildingTypeDropdown;
-
-            private static bool s_updatingDropdown;
 
             [HarmonyPatch(typeof(CityServiceWorldInfoPanel), "OnSetTarget")]
             [HarmonyPostfix]
             public static void OnSetTarget()
             {
                 // userEventCreationPanel == null || m_openUserEventCreationPanelButton == null
-                if (s_visitorsLabel == null || m_endYearButton == null || m_commercialBuildingTypeDropdown == null)
+                if (s_visitorsLabel == null || m_endYearButton == null || m_parkBuildingTypeDropdown == null)
                 {
                     CreateUI();
                 }
@@ -546,9 +546,9 @@ namespace RealTime.Patches
                 ushort building = WorldInfoPanel.GetCurrentInstanceID().Building;
 
                 // Local references.
-                // var buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
-                // var buildingData = buildingBuffer[building];
-                // var buildingInfo = buildingData.Info;
+                var buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
+                var buildingData = buildingBuffer[building];
+                var buildingInfo = buildingData.Info;
 
                 //if (CityEventsLoader.Instance.GetEventTemplates(buildingInfo.name).Count > 0)
                 //{
@@ -559,8 +559,15 @@ namespace RealTime.Patches
                 //    m_openUserEventCreationPanelButton.Hide();
                 //}
 
-                // show commercial building type dropdown only for generic commercial buildings that are not hotels
-                CommercialBuildingTypesManager.CommercialBuildingTypeDropdownVisibility(building, ref m_commercialBuildingTypeDropdown, ref s_updatingDropdown);
+                if (buildingInfo.GetAI() is ParkAI)
+                {
+                    m_parkBuildingTypeDropdown.Show();
+                    ParkBuildingTypesManager.UpdateParkBuildingTypeDropdown(m_parkBuildingTypeDropdown, building, ref s_updatingDropdown);
+                }
+                else
+                {
+                    m_parkBuildingTypeDropdown.Hide();
+                }
             }
 
             [HarmonyPatch(typeof(CityServiceWorldInfoPanel), "UpdateBindings")]
@@ -679,12 +686,16 @@ namespace RealTime.Patches
                     m_endYearButton.eventClicked += EndAcademicYear;
                 }
 
-                CommercialBuildingTypesManager.CreateUI(buttonPanels, ref m_commercialBuildingTypeDropdown, 220f, 5f);
-                m_commercialBuildingTypeDropdown.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
+                if (m_parkBuildingTypeDropdown == null)
                 {
-                    ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
-                    CommercialBuildingTypesManager.OnCommercialBuildingTypeDropdownIndexChanged(value, buildingID, s_updatingDropdown);
-                };
+                    ParkBuildingTypesManager.CreateUI(mainSectionPanel, ref m_parkBuildingTypeDropdown, mainSectionPanel.relativePosition.x + 220f, mainSectionPanel.relativePosition.y + 5f, LocalizationProvider);
+                    m_parkBuildingTypeDropdown.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
+                    {
+                        ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
+                        ParkBuildingTypesManager.OnParkBuildingTypeDropdownIndexChanged(value, buildingID, s_updatingDropdown);
+                    };
+                }
+                    
 
                 //if(m_openUserEventCreationPanelButton == null)
                 //{
@@ -881,7 +892,7 @@ namespace RealTime.Patches
                 var level = m_zonedBuildingWorldInfoPanel.Find("Level");
                 if (level != null)
                 {
-                    CommercialBuildingTypesManager.CreateUI(m_zonedBuildingWorldInfoPanel.component, ref m_commercialBuildingTypeDropdown, level.relativePosition.x + 220f, level.relativePosition.y + 5f);
+                    CommercialBuildingTypesManager.CreateUI(m_zonedBuildingWorldInfoPanel.component, ref m_commercialBuildingTypeDropdown, level.relativePosition.x + 220f, level.relativePosition.y + 5f, LocalizationProvider);
                     m_commercialBuildingTypeDropdown.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
                     {
                         ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;

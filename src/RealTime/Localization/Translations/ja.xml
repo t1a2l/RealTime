@@ -362,6 +362,25 @@
   <translation id="ClosedBuilding" value="閉鎖中" />
   <translation id="ServingTimeAt" value="服役中： " />
 
+  <translation id="CommercialBuildingTypeLabel" value="店舗タイプ" />
+  <translation id="CommercialBuildingTypeTooltip" value="商業施設の種類を選択してください" />
+  <translation id="CommercialBuildingTypeShopping" value="ショッピング" />
+  <translation id="CommercialBuildingTypeEntertainment" value="エンターテインメント" />
+  <translation id="CommercialBuildingTypeFood" value="フード" />
+  <translation id="CommercialBuildingTypeShoppingAndEntertainment" value="ショッピング &amp; エンターテインメント" />
+  <translation id="CommercialBuildingTypeShoppingAndFood" value="ショッピング &amp; フード" />
+  <translation id="CommercialBuildingTypeEntertainmentAndFood" value="エンターテインメント &amp; フード" />
+  <translation id="CommercialBuildingTypeAll" value="すべて" />
+
+  <translation id="ParkBuildingTypeLabel" value="公園タイプ" />
+  <translation id="ParkBuildingTypeTooltip" value="公園の種類を選択してください" />
+  <translation id="ParkBuildingTypeGeneric" value="一般" />
+  <translation id="ParkBuildingTypePlayground" value="遊び場" />
+  <translation id="ParkBuildingTypeDogPark" value="ドッグパーク" />
+  <translation id="ParkBuildingTypePlaza" value="広場" />
+  <translation id="ParkBuildingTypeGarden" value="庭園" />
+  <translation id="ParkBuildingTypeSports" value="スポーツ" />
+  
   <translation id="RaceDayLabelHour" value="時" />
   <translation id="RaceDayLabelFrequency" value="頻度" />
   <translation id="RaceDayLabelMinute" value="分" />

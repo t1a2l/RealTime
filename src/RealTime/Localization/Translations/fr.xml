@@ -360,7 +360,26 @@
   <translation id="ConfirmPanelDeleteGlobalText" value="Cela supprimera tous les horaires de travail des bâtiments de ce type et les ramènera aux paramètres par défaut dans toutes les sauvegardes !" />
   
   <translation id="ClosedBuilding" value="Fermé" />
-  <translation id="ServingTimeAt" value="En prison : " />
+  <translation id="ServingTimeAt" value="En prison: " />
+
+  <translation id="CommercialBuildingTypeLabel" value="Type de magasin" />
+  <translation id="CommercialBuildingTypeTooltip" value="Sélectionnez le type de bâtiment commercial" />
+  <translation id="CommercialBuildingTypeShopping" value="Shopping" />
+  <translation id="CommercialBuildingTypeEntertainment" value="Divertissement" />
+  <translation id="CommercialBuildingTypeFood" value="Alimentation" />
+  <translation id="CommercialBuildingTypeShoppingAndEntertainment" value="Shopping &amp; Divertissement" />
+  <translation id="CommercialBuildingTypeShoppingAndFood" value="Shopping &amp; Alimentation" />
+  <translation id="CommercialBuildingTypeEntertainmentAndFood" value="Divertissement &amp; Alimentation" />
+  <translation id="CommercialBuildingTypeAll" value="Tous" />
+
+  <translation id="ParkBuildingTypeLabel" value="Type de parc" />
+  <translation id="ParkBuildingTypeTooltip" value="Sélectionnez le type de bâtiment de parc" />
+  <translation id="ParkBuildingTypeGeneric" value="Générique" />
+  <translation id="ParkBuildingTypePlayground" value="Aire de jeux" />
+  <translation id="ParkBuildingTypeDogPark" value="Parc à chiens" />
+  <translation id="ParkBuildingTypePlaza" value="Place" />
+  <translation id="ParkBuildingTypeGarden" value="Jardin" />
+  <translation id="ParkBuildingTypeSports" value="Sports" />
 
   <translation id="RaceDayLabelHour" value="H" />
   <translation id="RaceDayLabelFrequency" value="Fréquence" />

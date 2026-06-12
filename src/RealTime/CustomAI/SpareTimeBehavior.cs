@@ -62,16 +62,13 @@ namespace RealTime.CustomAI
                 uint weekdayModifier;
                 if (config.IsWeekendEnabled)
                 {
-                    weekdayModifier = timeInfo.Now.IsWeekendTime(12f, config.GoToSleepHour)
-                        ? 11u
-                        : 1u;
+                    weekdayModifier = timeInfo.Now.IsWeekendTime(12f, config.GoToSleepHour) ? 11u : 1u;
                 }
                 else
                 {
                     weekdayModifier = 1u;
                 }
 
-                bool isWeekend = weekdayModifier > 1u;
                 float currentHour = timeInfo.CurrentHour;
 
                 CalculateDefaultChances(currentHour, weekdayModifier);

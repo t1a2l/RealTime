@@ -2,6 +2,7 @@
 
 namespace RealTime.CustomAI
 {
+    using System;
     using SkyTools.Tools;
     using RealTime.Core;
     using RealTime.Managers;
@@ -111,7 +112,9 @@ namespace RealTime.CustomAI
                         return true;
                     }
 
-                    ushort parkBuildingId = buildingAI.FindActiveBuilding(currentBuilding, LocalSearchDistance, ItemClass.Service.Beautification);
+                    var parkBuildingType = ParkBuildingTypesManager.GetPreferredParkType(CitizenProxy.GetAge(ref citizen), Random);
+                    ushort parkBuildingId = buildingAI.FindActiveBuilding(currentBuilding, LocalSearchDistance, ItemClass.Service.Beautification, ItemClass.SubService.None, CommercialBuildingType.None, parkBuildingType);
+
                     if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, parkBuildingId))
                     {
                         Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} heading to a nearby entertainment building {parkBuildingId}");
@@ -446,7 +449,7 @@ namespace RealTime.CustomAI
             return true;
         }
 
-        private bool ScheduleVisiting(ref CitizenSchedule schedule, ref TCitizen citizen)
+        private bool ScheduleVisiting(ref CitizenSchedule schedule, ref TCitizen _)
         {
             if (!RealTimeCore._combinedAISAvailable)
             {
@@ -594,10 +597,9 @@ namespace RealTime.CustomAI
 
             if (BuildingMgr.GetBuildingSubService(visitBuilding) == ItemClass.SubService.BeautificationParks)
             {
-                return relaxChance * 2;
+                return Math.Min(relaxChance * 2, 100u);
             }
-            else if (CitizenProxy.GetAge(ref citizen) == Citizen.AgeGroup.Senior
-                && BuildingMgr.IsBuildingServiceLevel(visitBuilding, ItemClass.Service.HealthCare, ItemClass.Level.Level3))
+            else if (CitizenProxy.GetAge(ref citizen) == Citizen.AgeGroup.Senior && BuildingMgr.IsBuildingServiceLevel(visitBuilding, ItemClass.Service.HealthCare, ItemClass.Level.Level3))
             {
                 return relaxChance * 4;
             }
@@ -646,20 +648,36 @@ namespace RealTime.CustomAI
 
         private bool CurrentBuildingSupportsTarget(ushort buildingId, ref CitizenSchedule schedule)
         {
-            if (buildingId == 0 || !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
+            if (buildingId == 0)
             {
                 return false;
             }
 
-            var type = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
-
-            return schedule.CurrentState switch
+            if (CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
             {
-                ResidentState.Shopping => type.IsFlagSet(CommercialBuildingType.Shopping),
-                ResidentState.EatMeal => type.IsFlagSet(CommercialBuildingType.Food),
-                ResidentState.Relaxing => type.IsFlagSet(CommercialBuildingType.Entertainment),
-                _ => false
-            };
+                var commercialBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
+
+                return schedule.CurrentState switch
+                {
+                    ResidentState.Shopping => commercialBuildingType.IsFlagSet(CommercialBuildingType.Shopping),
+                    ResidentState.EatMeal => commercialBuildingType.IsFlagSet(CommercialBuildingType.Food),
+                    ResidentState.Relaxing => commercialBuildingType.IsFlagSet(CommercialBuildingType.Entertainment),
+                    _ => false
+                };
+            }
+
+            if (ParkBuildingTypesManager.ParkBuildingTypeExist(buildingId))
+            {
+                var parkBuildingType = ParkBuildingTypesManager.GetParkBuildingType(buildingId);
+
+                return schedule.CurrentState switch
+                {
+                    ResidentState.Relaxing => parkBuildingType != ParkBuildingType.None,
+                    _ => false
+                };
+            }
+
+            return false;
         }
 
         private float GetCitizenStartHour(ref CitizenSchedule schedule)

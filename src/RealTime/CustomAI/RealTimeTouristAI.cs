@@ -346,8 +346,23 @@ namespace RealTime.CustomAI
                     break;
 
                 case TouristTarget.VisitNature:
+                    var parkBuildingType = ParkBuildingTypesManager.GetPreferredParkType(CitizenProxy.GetAge(ref citizen), Random);
+                    ushort parkBuildingId = buildingAI.FindActiveBuilding(
+                        currentBuilding,
+                        LocalSearchDistance,
+                        ItemClass.Service.Beautification,
+                        ItemClass.SubService.None,
+                        CommercialBuildingType.None,
+                        parkBuildingType);
+                    if (parkBuildingId == 0)
+                    {
+                        Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in the city, goes to enjoy nature");
+                        touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetNatureReason(instance));
+                        break;
+                    }
+
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in the city, goes to enjoy nature");
-                    touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetNatureReason(instance));
+                    StartMovingToVisitBuilding(instance, citizenId, ref citizen, currentBuilding, parkBuildingId);
                     break;
 
                 case TouristTarget.Party:
@@ -634,23 +649,38 @@ namespace RealTime.CustomAI
 
         private bool CurrentBuildingSupportsTarget(ushort buildingId, TouristTarget target)
         {
-            if (buildingId == 0 || !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
+            if (buildingId == 0)
             {
                 return false;
             }
 
-            var type = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
-
-            return target switch
+            if(CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
             {
-                TouristTarget.Shopping => type.IsFlagSet(CommercialBuildingType.Shopping),
-                TouristTarget.Food => type.IsFlagSet(CommercialBuildingType.Food),
-                TouristTarget.Relaxing => type.IsFlagSet(CommercialBuildingType.Entertainment),
-                TouristTarget.Party =>
-                    BuildingMgr.GetBuildingSubService(buildingId) == ItemClass.SubService.CommercialLeisure &&
-                    type.IsFlagSet(CommercialBuildingType.Entertainment),
-                _ => false
-            };
+                var commercialBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
+
+                return target switch
+                {
+                    TouristTarget.Shopping => commercialBuildingType.IsFlagSet(CommercialBuildingType.Shopping),
+                    TouristTarget.Food => commercialBuildingType.IsFlagSet(CommercialBuildingType.Food),
+                    TouristTarget.Relaxing => commercialBuildingType.IsFlagSet(CommercialBuildingType.Entertainment),
+                    TouristTarget.Party =>
+                        BuildingMgr.GetBuildingSubService(buildingId) == ItemClass.SubService.CommercialLeisure && commercialBuildingType.IsFlagSet(CommercialBuildingType.Entertainment),
+                    _ => false
+                };
+            }
+
+            if (ParkBuildingTypesManager.ParkBuildingTypeExist(buildingId))
+            {
+                var parkBuildingType = ParkBuildingTypesManager.GetParkBuildingType(buildingId);
+
+                return target switch
+                {
+                    TouristTarget.VisitNature => parkBuildingType != ParkBuildingType.None,
+                    _ => false
+                };
+            }
+
+            return false;
         }
     }
 }

@@ -2,7 +2,8 @@ namespace RealTime.CustomAI
 {
     public enum ParkBuildingType
     {
-        Generic = 0,
+        None = 0,
+        Generic,
         Playground,
         DogPark,
         Plaza,

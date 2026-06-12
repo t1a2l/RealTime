@@ -1281,14 +1281,16 @@ namespace RealTime.CustomAI
         /// <param name="maxDistance">The maximum distance for search, the search area radius.</param>
         /// <param name="service">The building service type to find.</param>
         /// <param name="subService">The building sub-service type to find.</param>
-        /// <param name="buildingType">The commercial building type the citizen is going to visit.</param>
+        /// <param name="commercialBuildingType">The commercial building type the citizen is going to visit.</param>
+        /// <param name="parkBuildingType">The park building type the citizen is going to visit.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
         public ushort FindActiveBuilding(
             ushort searchAreaCenterBuilding,
             float maxDistance,
             ItemClass.Service service,
             ItemClass.SubService subService = ItemClass.SubService.None,
-            CommercialBuildingType buildingType = CommercialBuildingType.None)
+            CommercialBuildingType commercialBuildingType = CommercialBuildingType.None,
+            ParkBuildingType parkBuildingType = ParkBuildingType.None)
         {
             if (searchAreaCenterBuilding == 0)
             {
@@ -1296,7 +1298,7 @@ namespace RealTime.CustomAI
             }
 
             var currentPosition = BuildingManager.instance.m_buildings.m_buffer[searchAreaCenterBuilding].m_position;
-            return FindActiveBuilding(currentPosition, maxDistance, service, subService, searchAreaCenterBuilding, buildingType);
+            return FindActiveBuilding(currentPosition, maxDistance, service, subService, commercialBuildingType, parkBuildingType);
         }
 
         /// <summary>Finds an active building that matches the specified criteria and can accept visitors.</summary>
@@ -1304,16 +1306,16 @@ namespace RealTime.CustomAI
         /// <param name="maxDistance">The maximum distance for search, the search area radius.</param>
         /// <param name="service">The building service type to find.</param>
         /// <param name="subService">The building sub-service type to find.</param>
-        /// <param name="currentBuilding">The current building the citizen is in.</param>
-        /// <param name="buildingType">The commercial building type the citizen is going to visit.</param>
+        /// <param name="commercialBuildingType">The commercial building type the citizen is going to visit.</param>
+        /// <param name="parkBuildingType">The park building type the citizen is going to visit.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
         public ushort FindActiveBuilding(
             Vector3 position,
             float maxDistance,
             ItemClass.Service service,
             ItemClass.SubService subService = ItemClass.SubService.None,
-            ushort currentBuilding = 0,
-            CommercialBuildingType buildingType = CommercialBuildingType.None)
+            CommercialBuildingType commercialBuildingType = CommercialBuildingType.None,
+            ParkBuildingType parkBuildingType = ParkBuildingType.None)
         {
             if (position == Vector3.zero)
             {
@@ -1361,22 +1363,36 @@ namespace RealTime.CustomAI
                                     {
                                         if (BuildingManagerConnection.BuildingCanBeVisited(buildingId))
                                         {
-                                            if(CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
+                                            if(commercialBuildingType != CommercialBuildingType.None)
                                             {
-                                                var currentBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
-                                                if ((currentBuildingType & buildingType) == buildingType)
+                                                if (CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
                                                 {
-                                                    return buildingId;
-                                                }
-                                                else
-                                                {
-                                                    Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Commercial building {buildingId} rejected: Wrong commercial building type ({currentBuildingType}).");
+                                                    var currentCommercialBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
+                                                    if ((currentCommercialBuildingType & commercialBuildingType) == commercialBuildingType)
+                                                    {
+                                                        return buildingId;
+                                                    }
+                                                    else
+                                                    {
+                                                        Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Commercial building {buildingId} rejected: Wrong commercial building type ({currentCommercialBuildingType}).");
+                                                    }
                                                 }
                                             }
-                                            else
+                                            else if (parkBuildingType != ParkBuildingType.None)
                                             {
-                                                return buildingId;
-                                            }  
+                                                if (ParkBuildingTypesManager.ParkBuildingTypeExist(buildingId))
+                                                {
+                                                    var currentParkBuildingType = ParkBuildingTypesManager.GetParkBuildingType(buildingId);
+                                                    if (currentParkBuildingType == parkBuildingType)
+                                                    {
+                                                        return buildingId;
+                                                    }
+                                                    else
+                                                    {
+                                                        Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Park building {buildingId} rejected: Wrong park building type ({currentParkBuildingType}).");
+                                                    }
+                                                }
+                                            }
                                         }
                                         else
                                         {

@@ -1,9 +1,11 @@
 namespace RealTime.Managers
 {
+    using System;
     using System.Collections.Generic;
     using ColossalFramework.UI;
     using RealTime.CustomAI;
     using RealTime.Localization;
+    using RealTime.Simulation;
     using RealTime.Utils.UIUtils;
     using SkyTools.Localization;
     using UnityEngine;
@@ -92,6 +94,120 @@ namespace RealTime.Managers
             }
 
             panel.Show();
+        }
+
+        internal static ParkBuildingType GetPreferredParkType(Citizen.AgeGroup age, IRandomizer Random)
+        {
+            const uint scale = 100u;
+
+            uint generic = (uint)Math.Max(1, Math.Round(GetParkTypeWeight(age, ParkBuildingType.Generic) * scale));
+            uint playground = (uint)Math.Max(1, Math.Round(GetParkTypeWeight(age, ParkBuildingType.Playground) * scale));
+            uint dogPark = (uint)Math.Max(1, Math.Round(GetParkTypeWeight(age, ParkBuildingType.DogPark) * scale));
+            uint plaza = (uint)Math.Max(1, Math.Round(GetParkTypeWeight(age, ParkBuildingType.Plaza) * scale));
+            uint garden = (uint)Math.Max(1, Math.Round(GetParkTypeWeight(age, ParkBuildingType.Garden) * scale));
+            uint sports = (uint)Math.Max(1, Math.Round(GetParkTypeWeight(age, ParkBuildingType.Sports) * scale));
+
+            uint total = generic + playground + dogPark + plaza + garden + sports;
+            uint random = (uint)Random.GetRandomValue(total - 1);
+
+            if (random < generic)
+            {
+                return ParkBuildingType.Generic;
+            }
+
+            random -= generic;
+
+            if (random < playground)
+            {
+                return ParkBuildingType.Playground;
+            }
+
+            random -= playground;
+
+            if (random < dogPark)
+            {
+                return ParkBuildingType.DogPark;
+            }
+
+            random -= dogPark;
+
+            if (random < plaza)
+            {
+                return ParkBuildingType.Plaza;
+            }
+
+            random -= plaza;
+
+            if (random < garden)
+            {
+                return ParkBuildingType.Garden;
+            }
+
+            random -= garden;
+
+            return ParkBuildingType.Sports;
+        }
+
+        internal static float GetParkTypeWeight(Citizen.AgeGroup age, ParkBuildingType parkType)
+        {
+            float weight = parkType switch
+            {
+                ParkBuildingType.Generic => 1.00f,
+
+                ParkBuildingType.Playground => age switch
+                {
+                    Citizen.AgeGroup.Child => 2.60f,
+                    Citizen.AgeGroup.Teen => 0.75f,
+                    Citizen.AgeGroup.Young => 0.45f,
+                    Citizen.AgeGroup.Adult => 0.35f,
+                    Citizen.AgeGroup.Senior => 0.20f,
+                    _ => 1f
+                },
+
+                ParkBuildingType.DogPark => age switch
+                {
+                    Citizen.AgeGroup.Child => 0.35f,
+                    Citizen.AgeGroup.Teen => 0.70f,
+                    Citizen.AgeGroup.Young => 1.00f,
+                    Citizen.AgeGroup.Adult => 1.10f,
+                    Citizen.AgeGroup.Senior => 0.90f,
+                    _ => 1f
+                },
+
+                ParkBuildingType.Plaza => age switch
+                {
+                    Citizen.AgeGroup.Child => 0.70f,
+                    Citizen.AgeGroup.Teen => 1.15f,
+                    Citizen.AgeGroup.Young => 1.25f,
+                    Citizen.AgeGroup.Adult => 1.20f,
+                    Citizen.AgeGroup.Senior => 1.00f,
+                    _ => 1f
+                },
+
+                ParkBuildingType.Garden => age switch
+                {
+                    Citizen.AgeGroup.Child => 0.60f,
+                    Citizen.AgeGroup.Teen => 0.75f,
+                    Citizen.AgeGroup.Young => 0.95f,
+                    Citizen.AgeGroup.Adult => 1.10f,
+                    Citizen.AgeGroup.Senior => 1.45f,
+                    _ => 1f
+                },
+
+                ParkBuildingType.Sports => age switch
+                {
+                    Citizen.AgeGroup.Child => 0.80f,
+                    Citizen.AgeGroup.Teen => 1.80f,
+                    Citizen.AgeGroup.Young => 1.55f,
+                    Citizen.AgeGroup.Adult => 1.15f,
+                    Citizen.AgeGroup.Senior => 0.55f,
+                    _ => 1f
+                },
+
+                _ => 1f
+            };
+
+            return Math.Min(weight, 3.0f);
         }
     }
 }

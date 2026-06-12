@@ -201,6 +201,10 @@ namespace RealTime.Patches.BuildingAIPatches
             {
                 CommercialBuildingTypesManager.RemoveCommercialBuildingType(buildingID);
             }
+            if (ParkBuildingTypesManager.ParkBuildingTypeExist(buildingID))
+            {
+                ParkBuildingTypesManager.RemoveParkBuildingType(buildingID);
+            }
             ResourceSlowdownManager.GarbageAccumulator[buildingID] = 0f;
             ResourceSlowdownManager.MailAccumulator[buildingID] = 0f;
         }

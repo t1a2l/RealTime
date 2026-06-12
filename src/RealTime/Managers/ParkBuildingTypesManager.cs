@@ -152,62 +152,62 @@ namespace RealTime.Managers
         {
             float weight = parkType switch
             {
-                ParkBuildingType.Generic => 1.00f,
+                ParkBuildingType.Generic => 1f,
 
                 ParkBuildingType.Playground => age switch
                 {
-                    Citizen.AgeGroup.Child => 2.60f,
-                    Citizen.AgeGroup.Teen => 0.75f,
-                    Citizen.AgeGroup.Young => 0.45f,
-                    Citizen.AgeGroup.Adult => 0.35f,
-                    Citizen.AgeGroup.Senior => 0.20f,
+                    Citizen.AgeGroup.Child => 3f,
+                    Citizen.AgeGroup.Teen => 0.5f,
+                    Citizen.AgeGroup.Young => 0.3f,
+                    Citizen.AgeGroup.Adult => 0.1f,
+                    Citizen.AgeGroup.Senior => 0.2f,
                     _ => 1f
                 },
 
                 ParkBuildingType.DogPark => age switch
                 {
-                    Citizen.AgeGroup.Child => 0.35f,
-                    Citizen.AgeGroup.Teen => 0.70f,
-                    Citizen.AgeGroup.Young => 1.00f,
-                    Citizen.AgeGroup.Adult => 1.10f,
-                    Citizen.AgeGroup.Senior => 0.90f,
+                    Citizen.AgeGroup.Child => 0.5f,
+                    Citizen.AgeGroup.Teen => 0.7f,
+                    Citizen.AgeGroup.Young => 1f,
+                    Citizen.AgeGroup.Adult => 1.1f,
+                    Citizen.AgeGroup.Senior => 0.9f,
                     _ => 1f
                 },
 
                 ParkBuildingType.Plaza => age switch
                 {
-                    Citizen.AgeGroup.Child => 0.70f,
+                    Citizen.AgeGroup.Child => 0.3f,
                     Citizen.AgeGroup.Teen => 1.15f,
-                    Citizen.AgeGroup.Young => 1.25f,
-                    Citizen.AgeGroup.Adult => 1.20f,
-                    Citizen.AgeGroup.Senior => 1.00f,
+                    Citizen.AgeGroup.Young => 1.5f,
+                    Citizen.AgeGroup.Adult => 1.2f,
+                    Citizen.AgeGroup.Senior => 0.6f,
                     _ => 1f
                 },
 
                 ParkBuildingType.Garden => age switch
                 {
-                    Citizen.AgeGroup.Child => 0.60f,
+                    Citizen.AgeGroup.Child => 0.8f,
                     Citizen.AgeGroup.Teen => 0.75f,
                     Citizen.AgeGroup.Young => 0.95f,
-                    Citizen.AgeGroup.Adult => 1.10f,
-                    Citizen.AgeGroup.Senior => 1.45f,
+                    Citizen.AgeGroup.Adult => 1.1f,
+                    Citizen.AgeGroup.Senior => 1.8f,
                     _ => 1f
                 },
 
                 ParkBuildingType.Sports => age switch
                 {
-                    Citizen.AgeGroup.Child => 0.80f,
-                    Citizen.AgeGroup.Teen => 1.80f,
-                    Citizen.AgeGroup.Young => 1.55f,
+                    Citizen.AgeGroup.Child => 0.4f,
+                    Citizen.AgeGroup.Teen => 1.8f,
+                    Citizen.AgeGroup.Young => 1.8f,
                     Citizen.AgeGroup.Adult => 1.15f,
-                    Citizen.AgeGroup.Senior => 0.55f,
+                    Citizen.AgeGroup.Senior => 0.3f,
                     _ => 1f
                 },
 
                 _ => 1f
             };
 
-            return Math.Min(weight, 3.0f);
+            return Math.Min(weight, 3f);
         }
     }
 }

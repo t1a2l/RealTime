@@ -3,18 +3,21 @@
 namespace RealTime.Patches
 {
     using System;
-    using HarmonyLib;
-    using RealTime.CustomAI;
-    using SkyTools.Tools;
-    using RealTime.GameConnection;
-    using static RealTime.GameConnection.HumanAIConnectionBase<ResidentAI, Citizen>;
-    using static RealTime.GameConnection.ResidentAIConnection<ResidentAI, Citizen>;
-    using RealTime.Core;
-    using ColossalFramework;
     using System.Collections.Generic;
     using System.Reflection.Emit;
-    using UnityEngine;
+    using System.Xml.Schema;
+    using ColossalFramework;
+    using ColossalFramework.Math;
+    using HarmonyLib;
+    using RealTime.Core;
+    using RealTime.CustomAI;
+    using RealTime.GameConnection;
     using RealTime.Managers;
+    using SkyTools.Tools;
+    using UnityEngine;
+    using static RealTime.GameConnection.HumanAIConnectionBase<ResidentAI, Citizen>;
+    using static RealTime.GameConnection.ResidentAIConnection<ResidentAI, Citizen>;
+    using static RenderManager;
 
     /// <summary>
     /// A static class that provides the patch objects and the game connection objects for the resident AI .
@@ -120,6 +123,31 @@ namespace RealTime.Patches
 
             __result = false;
             return false;
+        }
+
+
+        [HarmonyPatch(typeof(ResidentAI), "Spawn")]
+        [HarmonyPrefix]
+        private static bool Spawn(ResidentAI __instance, ushort instanceID, ref CitizenInstance data)
+        {
+            ushort buildignId = data.m_targetBuilding;
+            if (buildignId == 0)
+            {
+                return true;
+            }
+
+            var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildignId];
+
+            if(building.Info?.GetAI() is ParkAI && ParkBuildingTypesManager.ParkBuildingTypeExist(buildignId))
+            {
+                var parkBuildingType = ParkBuildingTypesManager.GetParkBuildingType(buildignId);
+                bool targetIsDogPark = parkBuildingType == ParkBuildingType.DogPark;
+
+                PetSpawnChance(__instance, instanceID, ref data, targetIsDogPark);
+                return false;
+            }
+
+            return true;
         }
 
         [HarmonyPatch(typeof(ResidentAI), "CanMakeBabies")]
@@ -472,6 +500,62 @@ namespace RealTime.Patches
         private static bool IsChild(uint citizenID) => Citizen.GetAgeGroup(Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].Age) == Citizen.AgeGroup.Child || Citizen.GetAgeGroup(Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].Age) == Citizen.AgeGroup.Teen;
 
         private static bool IsSenior(uint citizenID) => Citizen.GetAgeGroup(Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenID].Age) == Citizen.AgeGroup.Senior;
+
+        private static void PetSpawnChance(ResidentAI residentInstance, ushort instanceID, ref CitizenInstance data, bool targetIsDogPark)
+        {
+            if ((data.m_flags & CitizenInstance.Flags.Character) != CitizenInstance.Flags.None)
+            {
+                return;
+            }
+            data.Spawn(instanceID);
+            uint citizen = data.m_citizen;
+            ushort targetBuilding = data.m_targetBuilding;
+            if (citizen == 0 || targetBuilding == 0)
+            {
+                return;
+            }
+            var r = new Randomizer(citizen);
+            if (targetIsDogPark)
+            {
+                if (r.Int32(100u) >= 95u)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                if (r.Int32(20u) != 0)
+                {
+                    return;
+                }
+            }
+            var instance = Singleton<CitizenManager>.instance;
+            var instance2 = Singleton<DistrictManager>.instance;
+            Vector3 position;
+            if ((data.m_flags & CitizenInstance.Flags.TargetIsNode) != CitizenInstance.Flags.None)
+            {
+                var instance3 = Singleton<NetManager>.instance;
+                position = instance3.m_nodes.m_buffer[targetBuilding].m_position;
+            }
+            else
+            {
+                var instance4 = Singleton<BuildingManager>.instance;
+                position = instance4.m_buildings.m_buffer[targetBuilding].m_position;
+            }
+            byte district = instance2.GetDistrict(data.m_targetPos);
+            byte district2 = instance2.GetDistrict(position);
+            var servicePolicies = instance2.m_districts.m_buffer[district].m_servicePolicies;
+            var servicePolicies2 = instance2.m_districts.m_buffer[district2].m_servicePolicies;
+            if (((servicePolicies | servicePolicies2) & DistrictPolicies.Services.PetBan) == 0)
+            {
+                var groupAnimalInfo = instance.GetGroupAnimalInfo(ref r, residentInstance.m_info.m_class.m_service, residentInstance.m_info.m_class.m_subService);
+                if (groupAnimalInfo is not null && instance.CreateCitizenInstance(out ushort instance5, ref r, groupAnimalInfo, 0u))
+                {
+                    groupAnimalInfo.m_citizenAI.SetSource(instance5, ref instance.m_instances.m_buffer[instance5], instanceID);
+                    groupAnimalInfo.m_citizenAI.SetTarget(instance5, ref instance.m_instances.m_buffer[instance5], instanceID);
+                }
+            }
+        }
 
     }
 }

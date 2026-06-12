@@ -291,7 +291,7 @@ namespace RealTime.UI
 
             m_settingsStatusContainer = UIPanels.CreatePanel(m_headerRow, "ShiftsSummaryContainer");
             m_settingsStatusContainer.backgroundSprite = "GenericPanelLight";
-            m_settingsStatusContainer.size = new Vector2(200f, 30f);
+            m_settingsStatusContainer.size = new Vector2(170f, 30f);
             m_settingsStatusContainer.relativePosition = new Vector3(60f, 45f);
 
             // status label that shows if the current settings are default, building specific, prefab specific or global specific
@@ -302,9 +302,10 @@ namespace RealTime.UI
             m_settingsStatus.relativePosition = new Vector3(20f, 5f);
             m_settingsStatus.width = 220f;
             m_settingsStatus.textScale = 1.1f;
+            m_settingsStatus.font.lineHeight = 22;
 
             // edit settings button
-            m_editSettingsBtn = UIButtons.CreateButton(m_headerRow, 175f, 3f, "EditSettings", "", "", 23f, 24f);
+            m_editSettingsBtn = UIButtons.CreateButton(m_headerRow, 245f, 50f, "EditSettings", "", "", 23f, 24f);
             m_editSettingsBtn.atlas = TextureUtils.GetAtlas("EditButtonAtlas");
             m_editSettingsBtn.normalFgSprite = "Edit";
             m_editSettingsBtn.disabledFgSprite = "Edit";
@@ -316,7 +317,7 @@ namespace RealTime.UI
             m_editMode = false;
 
             // lock/unlock changes button
-            m_lockUnlockChangesBtn = UIButtons.CreateButton(m_headerRow, 220f, 0f, "LockUnLockChanges", "", "", 27f, 32f);
+            m_lockUnlockChangesBtn = UIButtons.CreateButton(m_headerRow, 250f, 0f, "LockUnLockChanges", "", "", 27f, 32f);
             m_lockUnlockChangesBtn.atlas = TextureUtils.GetAtlas("LockButtonAtlas");
             m_lockUnlockChangesBtn.normalFgSprite = "UnLock";
             m_lockUnlockChangesBtn.disabledFgSprite = "UnLock";
@@ -325,22 +326,26 @@ namespace RealTime.UI
             m_lockUnlockChangesBtn.pressedFgSprite = "UnLock";
             m_lockUnlockChangesBtn.eventClicked += LockUnlockChanges;
 
-            m_settingsCopyBtn = UIButtons.CreateButton(m_headerRow, 175f, 3f, "CopySettings", "", "", 64f, 64f);
+            m_settingsCopyBtn = UIButtons.CreateButton(m_headerRow, 165f, 3f, "CopySettings", "", "", 32f, 32f);
             m_settingsCopyBtn.atlas = TextureUtils.GetAtlas("CopyPasteAtlas");
             m_settingsCopyBtn.normalFgSprite = "Copy";
-            m_settingsCopyBtn.disabledFgSprite = "Copy";
-            m_settingsCopyBtn.focusedFgSprite = "Copy";
-            m_settingsCopyBtn.hoveredFgSprite = "Copy";
-            m_settingsCopyBtn.pressedFgSprite = "Copy";
+            m_settingsCopyBtn.foregroundSpriteMode = UIForegroundSpriteMode.Scale;
+            m_settingsCopyBtn.normalBgSprite = "ButtonMenu";
+            m_settingsCopyBtn.disabledBgSprite = "ButtonMenuDisabled";
+            m_settingsCopyBtn.hoveredBgSprite = "ButtonMenuHovered";
+            m_settingsCopyBtn.focusedBgSprite = "ButtonMenuHovered";
+            m_settingsCopyBtn.pressedBgSprite = "ButtonMenuHovered";
             m_settingsCopyBtn.eventClicked += CopySettings;
 
-            m_settingsPasteBtn = UIButtons.CreateButton(m_headerRow, 175f, 3f, "PasteSettings", "", "", 64f, 64f);
+            m_settingsPasteBtn = UIButtons.CreateButton(m_headerRow, 205f, 3f, "PasteSettings", "", "", 32f, 32f);
             m_settingsPasteBtn.atlas = TextureUtils.GetAtlas("CopyPasteAtlas");
             m_settingsPasteBtn.normalFgSprite = "Paste";
-            m_settingsPasteBtn.disabledFgSprite = "Paste";
-            m_settingsPasteBtn.focusedFgSprite = "Paste";
-            m_settingsPasteBtn.hoveredFgSprite = "Paste";
-            m_settingsPasteBtn.pressedFgSprite = "Paste";
+            m_settingsPasteBtn.foregroundSpriteMode = UIForegroundSpriteMode.Scale;
+            m_settingsPasteBtn.normalBgSprite = "ButtonMenu";
+            m_settingsPasteBtn.disabledBgSprite = "ButtonMenuDisabled";
+            m_settingsPasteBtn.hoveredBgSprite = "ButtonMenuHovered";
+            m_settingsPasteBtn.focusedBgSprite = "ButtonMenuHovered";
+            m_settingsPasteBtn.pressedBgSprite = "ButtonMenuHovered";
             m_settingsPasteBtn.eventClicked += PasteSettings;
         }
 

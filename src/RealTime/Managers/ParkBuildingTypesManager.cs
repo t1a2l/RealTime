@@ -4,6 +4,7 @@ namespace RealTime.Managers
     using System.Collections.Generic;
     using ColossalFramework.UI;
     using RealTime.CustomAI;
+    using RealTime.GameConnection;
     using RealTime.Localization;
     using RealTime.Simulation;
     using RealTime.Utils.UIUtils;
@@ -12,6 +13,8 @@ namespace RealTime.Managers
 
     internal static class ParkBuildingTypesManager
     {
+        private static bool isUpdatingParkBuildingTypeDropdown;
+
         internal static Dictionary<ushort, ParkBuildingType> ParkBuildingTypes;
 
         internal static void Init() => ParkBuildingTypes ??= [];
@@ -38,7 +41,7 @@ namespace RealTime.Managers
         {
             if (panel == null)
             {
-                panel = UIDropDowns.AddLabelledDropDown(parent, xPos, yPos, "ParkBuildingTypeDropdown", LocalizationProvider.Translate(TranslationKeys.ParkBuildingTypeLabel), LocalizationProvider.Translate(TranslationKeys.ParkBuildingTypeTooltip), 220f, 24f);
+                panel = UIDropDowns.AddLabelledDropDown(parent, xPos, yPos, "ParkBuildingTypeDropdown", LocalizationProvider.Translate(TranslationKeys.ParkBuildingTypeLabel), LocalizationProvider.Translate(TranslationKeys.ParkBuildingTypeTooltip), 150f, 24f);
                 panel.textColor = new Color32(255, 255, 255, 255);
                 panel.disabledTextColor = new Color32(142, 142, 142, 255);
                 panel.items = [
@@ -53,9 +56,28 @@ namespace RealTime.Managers
             }
         }
 
-        internal static void OnParkBuildingTypeDropdownIndexChanged(int value, ushort buildingID, bool isUpdating)
+        internal static void ParkBuildingTypeDropdownVisibility(ushort buildingID, ref UIDropDown panel)
         {
-            if (isUpdating)
+            if (BuildingManagerConnection.IsAllowedParkBuildingType(buildingID) && ParkBuildingTypeExist(buildingID))
+            {
+                int parkBuildingTypeIndex = ParkTypeToDropdownIndex(GetParkBuildingType(buildingID));
+                if (parkBuildingTypeIndex != panel.selectedIndex)
+                {
+                    isUpdatingParkBuildingTypeDropdown = true;
+                    panel.selectedIndex = parkBuildingTypeIndex;
+                    isUpdatingParkBuildingTypeDropdown = false;
+                }
+                panel.Show();
+            }
+            else
+            {
+                panel.Hide();
+            }
+        }
+
+        internal static void OnParkBuildingTypeDropdownIndexChanged(int value, ushort buildingID)
+        {
+            if (isUpdatingParkBuildingTypeDropdown)
             {
                 return;
             }
@@ -65,36 +87,12 @@ namespace RealTime.Managers
                 return;
             }
 
-            SetParkBuildingType(buildingID, (ParkBuildingType)value);
+            SetParkBuildingType(buildingID, DropdownIndexToParkType(value));
         }
 
-        internal static void UpdateParkBuildingTypeDropdown(UIDropDown panel, ushort buildingID, ref bool isUpdating)
-        {
-            if (panel == null)
-            {
-                return;
-            }
-            if (buildingID == 0)
-            {
-                panel.Hide();
-                return;
-            }
-            if (!ParkBuildingTypeExist(buildingID))
-            {
-                panel.Hide();
-                return;
-            }
-            var parkBuildingType = GetParkBuildingType(buildingID);
+        private static int ParkTypeToDropdownIndex(ParkBuildingType type) => (int)type - 1;
 
-            if(panel.selectedIndex != (int)parkBuildingType)
-            {
-                isUpdating = true;
-                panel.selectedIndex = (int)parkBuildingType;
-                isUpdating = false;
-            }
-
-            panel.Show();
-        }
+        private static ParkBuildingType DropdownIndexToParkType(int index) => (ParkBuildingType)(index + 1);
 
         internal static ParkBuildingType GetPreferredParkType(Citizen.AgeGroup age, IRandomizer Random)
         {

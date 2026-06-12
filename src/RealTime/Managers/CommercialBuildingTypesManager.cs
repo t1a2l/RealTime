@@ -11,6 +11,8 @@ namespace RealTime.Managers
 
     internal static class CommercialBuildingTypesManager
     {
+        private static bool isUpdatingCommercialBuildingTypeDropdown;
+
         internal static Dictionary<ushort, CommercialBuildingType> CommercialBuildingTypes;
 
         internal static void Init() => CommercialBuildingTypes ??= [];
@@ -33,16 +35,16 @@ namespace RealTime.Managers
 
         internal static void RemoveCommercialBuildingType(ushort buildingID) => CommercialBuildingTypes.Remove(buildingID);
 
-        internal static void CommercialBuildingTypeDropdownVisibility(ushort buildingID, ref UIDropDown panel, ref bool isUpdating)
+        internal static void CommercialBuildingTypeDropdownVisibility(ushort buildingID, ref UIDropDown panel)
         {
             if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && CommercialBuildingTypeExist(buildingID))
             {
                 int commercialBuildingTypeIndex = ConvertFlagsToIndex(GetCommercialBuildingType(buildingID));
                 if (commercialBuildingTypeIndex != panel.selectedIndex)
                 {
-                    isUpdating = true;
+                    isUpdatingCommercialBuildingTypeDropdown = true;
                     panel.selectedIndex = commercialBuildingTypeIndex;
-                    isUpdating = false;
+                    isUpdatingCommercialBuildingTypeDropdown = false;
                 }
                 panel.Show();
             }
@@ -72,9 +74,9 @@ namespace RealTime.Managers
             }
         }
 
-        internal static void OnCommercialBuildingTypeDropdownIndexChanged(int value, ushort buildingID, bool isUpdating)
+        internal static void OnCommercialBuildingTypeDropdownIndexChanged(int value, ushort buildingID)
         {
-            if (isUpdating)
+            if (isUpdatingCommercialBuildingTypeDropdown)
             {
                 return;
             }

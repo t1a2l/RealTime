@@ -524,8 +524,6 @@ namespace RealTime.Patches
 
             private static UIButton m_endYearButton;
 
-            private static bool s_updatingDropdown;
-
             private static UIDropDown m_parkBuildingTypeDropdown;
 
             // private static UIButton m_openUserEventCreationPanelButton;
@@ -546,9 +544,9 @@ namespace RealTime.Patches
                 ushort building = WorldInfoPanel.GetCurrentInstanceID().Building;
 
                 // Local references.
-                var buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
-                var buildingData = buildingBuffer[building];
-                var buildingInfo = buildingData.Info;
+                // var buildingBuffer = Singleton<BuildingManager>.instance.m_buildings.m_buffer;
+                // var buildingData = buildingBuffer[building];
+                // var buildingInfo = buildingData.Info;
 
                 //if (CityEventsLoader.Instance.GetEventTemplates(buildingInfo.name).Count > 0)
                 //{
@@ -559,15 +557,7 @@ namespace RealTime.Patches
                 //    m_openUserEventCreationPanelButton.Hide();
                 //}
 
-                if (buildingInfo.GetAI() is ParkAI)
-                {
-                    m_parkBuildingTypeDropdown.Show();
-                    ParkBuildingTypesManager.UpdateParkBuildingTypeDropdown(m_parkBuildingTypeDropdown, building, ref s_updatingDropdown);
-                }
-                else
-                {
-                    m_parkBuildingTypeDropdown.Hide();
-                }
+                ParkBuildingTypesManager.ParkBuildingTypeDropdownVisibility(building, ref m_parkBuildingTypeDropdown);
             }
 
             [HarmonyPatch(typeof(CityServiceWorldInfoPanel), "UpdateBindings")]
@@ -688,11 +678,11 @@ namespace RealTime.Patches
 
                 if (m_parkBuildingTypeDropdown == null)
                 {
-                    ParkBuildingTypesManager.CreateUI(mainSectionPanel, ref m_parkBuildingTypeDropdown, mainSectionPanel.relativePosition.x + 220f, mainSectionPanel.relativePosition.y + 5f, LocalizationProvider);
+                    ParkBuildingTypesManager.CreateUI(buttonPanels, ref m_parkBuildingTypeDropdown, buttonPanels.relativePosition.x + 180f, buttonPanels.relativePosition.y + 5f, LocalizationProvider);
                     m_parkBuildingTypeDropdown.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
                     {
                         ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
-                        ParkBuildingTypesManager.OnParkBuildingTypeDropdownIndexChanged(value, buildingID, s_updatingDropdown);
+                        ParkBuildingTypesManager.OnParkBuildingTypeDropdownIndexChanged(value, buildingID);
                     };
                 }
                     
@@ -792,8 +782,6 @@ namespace RealTime.Patches
 
             private static UIDropDown m_commercialBuildingTypeDropdown;
 
-            private static bool s_updatingDropdown;
-
             private static UIButton m_realisticPopulationButton;
 
             [HarmonyPatch(typeof(ZonedBuildingWorldInfoPanel), "OnSetTarget")]
@@ -824,7 +812,7 @@ namespace RealTime.Patches
                     s_hotelLabel.Hide();
                 }
 
-                CommercialBuildingTypesManager.CommercialBuildingTypeDropdownVisibility(building, ref m_commercialBuildingTypeDropdown, ref s_updatingDropdown);
+                CommercialBuildingTypesManager.CommercialBuildingTypeDropdownVisibility(building, ref m_commercialBuildingTypeDropdown);
             }
 
             [HarmonyPatch(typeof(ZonedBuildingWorldInfoPanel), "UpdateBindings")]
@@ -896,7 +884,7 @@ namespace RealTime.Patches
                     m_commercialBuildingTypeDropdown.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
                     {
                         ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
-                        CommercialBuildingTypesManager.OnCommercialBuildingTypeDropdownIndexChanged(value, buildingID, s_updatingDropdown);
+                        CommercialBuildingTypesManager.OnCommercialBuildingTypeDropdownIndexChanged(value, buildingID);
                     };
                 }
             }

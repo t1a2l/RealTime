@@ -6,6 +6,7 @@ namespace RealTime.CustomAI
     using System.Collections.Generic;
     using System.Linq;
     using ColossalFramework;
+    using ColossalFramework.PlatformServices;
     using RealTime.Config;
     using RealTime.GameConnection;
     using RealTime.Managers;
@@ -1106,8 +1107,23 @@ namespace RealTime.CustomAI
         public bool IsEventWithinOperationHours(ref EventData data)
         {
             var event_start_time = Singleton<SimulationManager>.instance.FrameToTime(data.m_startFrame);
-            var event_end_time = data.StartTime.AddHours(data.Info.m_eventAI.m_eventDuration);
-            return event_start_time.Hour >= config.WorkBegin && event_end_time.Hour <= config.GoToSleepHour;
+
+            if (config.IsWeekendEnabled && event_start_time.IsWeekend())
+            {
+                if(event_start_time.Hour > config.EarliestHourEventStartWeekend && event_start_time.Hour < config.LatestHourEventStartWeekend)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (event_start_time.Hour > config.EarliestHourEventStartWeekday && event_start_time.Hour < config.LatestHourEventStartWeekday)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -1134,7 +1150,8 @@ namespace RealTime.CustomAI
         public bool IsBuildingOpeningSoon(ushort buildingId, int timeBeforeOpening = 1)
         {
             var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
-            return workTime.IsWorkingTime(timeInfo.CurrentHour + timeBeforeOpening);
+            var future = timeInfo.Now.AddHours(timeBeforeOpening);
+            return workTime.IsWorkingAt(future);
         }
 
         /// <summary>
@@ -1148,7 +1165,8 @@ namespace RealTime.CustomAI
         public bool IsBuildingClosingSoon(ushort buildingId, int timeBeforeClosing = 2)
         {
             var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
-            return !workTime.IsWorkingTime(timeInfo.CurrentHour + timeBeforeClosing);
+            var future = timeInfo.Now.AddHours(timeBeforeClosing);
+            return !workTime.IsWorkingAt(future);
         }
 
         /// <summary>
@@ -1193,7 +1211,7 @@ namespace RealTime.CustomAI
             //    return false;
             //}
 
-            return workTime.IsWorkingTime(timeInfo.CurrentHour);
+            return workTime.IsWorkingAt(timeInfo.Now);
 
         }
 

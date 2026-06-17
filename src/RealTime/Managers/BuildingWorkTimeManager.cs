@@ -30,7 +30,7 @@ namespace RealTime.Managers
             public bool IsLocked;
             public bool IgnorePolicy;
 
-            public readonly bool IsWorkingTime(float time)
+            public readonly bool ContainsHour(float hour)
             {
                 if (WorkShifts == null)
                 {
@@ -39,13 +39,28 @@ namespace RealTime.Managers
 
                 foreach (var shift in WorkShifts)
                 {
-                    if (shift.ContainsTime(time))
+                    if (shift.ContainsTime(hour))
                     {
                         return true;
                     }
                 }
 
                 return false;
+            }
+
+            public readonly bool IsWorkingAt(DateTime dateTime)
+            {
+                if (WorkDays == null || WorkShifts == null)
+                {
+                    return false;
+                }
+
+                if (Array.IndexOf(WorkDays, dateTime.DayOfWeek) < 0)
+                {
+                    return false;
+                }
+
+                return ContainsHour((float)dateTime.TimeOfDay.TotalHours);
             }
         }
 
@@ -57,24 +72,6 @@ namespace RealTime.Managers
 
             public DayOfWeek[] WorkDays;
             public WorkShiftTime[] WorkShifts;
-
-            public readonly bool IsWorkingTime(float time)
-            {
-                if (WorkShifts == null)
-                {
-                    return false;
-                }
-
-                foreach (var shift in WorkShifts)
-                {
-                    if (shift.ContainsTime(time))
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
         }
 
         public struct WorkShiftTime

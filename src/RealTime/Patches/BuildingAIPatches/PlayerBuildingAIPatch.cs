@@ -4,7 +4,6 @@ namespace RealTime.Patches.BuildingAIPatches
 {
     using System.Collections.Generic;
     using System.Reflection.Emit;
-    using System.Reflection;
     using HarmonyLib;
     using RealTime.Config;
     using RealTime.CustomAI;
@@ -85,13 +84,38 @@ namespace RealTime.Patches.BuildingAIPatches
             }
         }
 
+        private static bool IsBuildingWorkingSafe(ushort buildingID)
+        {
+            var realTimeBuildingAI =
+                PlayerBuildingAIPatch.RealTimeBuildingAI;
+
+            return realTimeBuildingAI == null ||
+                   realTimeBuildingAI.IsBuildingWorking(buildingID);
+        }
+
+        private static bool IsSchoolBuildingSafe(ushort buildingID)
+        {
+            var realTimeBuildingAI =
+                PlayerBuildingAIPatch.RealTimeBuildingAI;
+
+            return realTimeBuildingAI != null &&
+                   realTimeBuildingAI.IsSchoolBuilding(buildingID);
+        }
+
         [HarmonyPatch(typeof(PlayerBuildingAI), "SimulationStepActive")]
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> TranspileSimulationStepActive(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
-            var IsBuildingWorkingInstance = AccessTools.PropertyGetter(typeof(BuildingAIPatch), nameof(RealTimeBuildingAI));
-            var IsBuildingWorking = typeof(RealTimeBuildingAI).GetMethod("IsBuildingWorking", BindingFlags.Public | BindingFlags.Instance);
-            var IsSchoolBuilding = typeof(RealTimeBuildingAI).GetMethod("IsSchoolBuilding", BindingFlags.Public | BindingFlags.Instance);
+            var isBuildingWorkingSafe =
+                AccessTools.Method(
+                    typeof(PlayerBuildingAIPatch),
+                    nameof(IsBuildingWorkingSafe));
+
+            var isSchoolBuildingSafe =
+                AccessTools.Method(
+                    typeof(PlayerBuildingAIPatch),
+                    nameof(IsSchoolBuildingSafe));
+
             var inst = new List<CodeInstruction>(instructions);
 
             for (int i = 0; i < inst.Count; i++)
@@ -104,20 +128,20 @@ namespace RealTime.Patches.BuildingAIPatches
                     inst[i - 1].opcode == OpCodes.Ldarg_2)
                 {
                     inst.InsertRange(i - 1, [
-                        new(OpCodes.Call, IsBuildingWorkingInstance),
-                            new(OpCodes.Ldarg_1),
-                            new(OpCodes.Call, IsBuildingWorking),
-                            new(OpCodes.Ldc_I4_0),
-                            new(OpCodes.Ceq),
-                            new(OpCodes.Call, IsBuildingWorkingInstance),
-                            new(OpCodes.Ldarg_1),
-                            new(OpCodes.Call, IsSchoolBuilding),
-                            new(OpCodes.Ldc_I4_0),
-                            new(OpCodes.Ceq),
-                            new(OpCodes.And),
-                            new(OpCodes.Brfalse, inst[i + 3].operand),
-                            new(OpCodes.Ldc_I4_0),
-                            new(OpCodes.Stloc_1)
+                        new(OpCodes.Ldarg_1),
+                        new(OpCodes.Call, isBuildingWorkingSafe),
+                        new(OpCodes.Ldc_I4_0),
+                        new(OpCodes.Ceq),
+
+                        new(OpCodes.Ldarg_1),
+                        new(OpCodes.Call, isSchoolBuildingSafe),
+                        new(OpCodes.Ldc_I4_0),
+                        new(OpCodes.Ceq),
+
+                        new(OpCodes.And),
+                        new(OpCodes.Brfalse, inst[i + 3].operand),
+                        new(OpCodes.Ldc_I4_0),
+                        new(OpCodes.Stloc_1)
                     ]);
                     break;
                 }

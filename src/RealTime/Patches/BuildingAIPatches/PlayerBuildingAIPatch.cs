@@ -84,9 +84,17 @@ namespace RealTime.Patches.BuildingAIPatches
             }
         }
 
-        private static bool IsBuildingWorkingSafe(ushort buildingID) => RealTimeBuildingAI == null || RealTimeBuildingAI.IsBuildingWorking(buildingID);
+        private static bool IsBuildingWorkingSafe(ushort buildingID)
+        {
+            var realTimeBuildingAI = RealTimeBuildingAI;
+            return realTimeBuildingAI == null || realTimeBuildingAI.IsBuildingWorking(buildingID);
+        }
 
-        private static bool IsSchoolBuildingSafe(ushort buildingID) => RealTimeBuildingAI != null && RealTimeBuildingAI.IsSchoolBuilding(buildingID);
+        private static bool IsSchoolBuildingSafe(ushort buildingID)
+        {
+            var realTimeBuildingAI = RealTimeBuildingAI;
+            return realTimeBuildingAI != null && realTimeBuildingAI.IsSchoolBuilding(buildingID);
+        }
 
         [HarmonyPatch(typeof(PlayerBuildingAI), "SimulationStepActive")]
         [HarmonyTranspiler]

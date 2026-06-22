@@ -84,37 +84,16 @@ namespace RealTime.Patches.BuildingAIPatches
             }
         }
 
-        private static bool IsBuildingWorkingSafe(ushort buildingID)
-        {
-            var realTimeBuildingAI =
-                PlayerBuildingAIPatch.RealTimeBuildingAI;
+        private static bool IsBuildingWorkingSafe(ushort buildingID) => RealTimeBuildingAI == null || RealTimeBuildingAI.IsBuildingWorking(buildingID);
 
-            return realTimeBuildingAI == null ||
-                   realTimeBuildingAI.IsBuildingWorking(buildingID);
-        }
-
-        private static bool IsSchoolBuildingSafe(ushort buildingID)
-        {
-            var realTimeBuildingAI =
-                PlayerBuildingAIPatch.RealTimeBuildingAI;
-
-            return realTimeBuildingAI != null &&
-                   realTimeBuildingAI.IsSchoolBuilding(buildingID);
-        }
+        private static bool IsSchoolBuildingSafe(ushort buildingID) => RealTimeBuildingAI != null && RealTimeBuildingAI.IsSchoolBuilding(buildingID);
 
         [HarmonyPatch(typeof(PlayerBuildingAI), "SimulationStepActive")]
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> TranspileSimulationStepActive(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
-            var isBuildingWorkingSafe =
-                AccessTools.Method(
-                    typeof(PlayerBuildingAIPatch),
-                    nameof(IsBuildingWorkingSafe));
-
-            var isSchoolBuildingSafe =
-                AccessTools.Method(
-                    typeof(PlayerBuildingAIPatch),
-                    nameof(IsSchoolBuildingSafe));
+            var isBuildingWorkingSafe = AccessTools.Method(typeof(PlayerBuildingAIPatch), nameof(IsBuildingWorkingSafe));
+            var isSchoolBuildingSafe = AccessTools.Method(typeof(PlayerBuildingAIPatch), nameof(IsSchoolBuildingSafe));
 
             var inst = new List<CodeInstruction>(instructions);
 

@@ -2,9 +2,9 @@
 <language id="pl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="Uwaga" />
-  <translation id="RestrictedModeMessage" value="Real Time w trybie zastrzeżonym. Niektóre funkcje są wyłączone. Dzieje się tak przez problem techniczny wynikający z innego niezgodnej modyfikacji lub biblioteki. Jeśli potrzebujesz pomocy, udostępnij autorowi moda swoje dzienniki." />
-  <translation id="ModNotWorkingMessage" value="Ups! Coś poszło nie tak - Mod 'Real Time' nie może zostać aktywowany. Proszę udostępnić swój plik dziennika twórcy moda." />
-  <translation id="IncompatibleModsFoundMessage" value="Mod Real Time wykrył co najmniej jedną przynajmniej częściowo niezgodną modyfikację. Zalecane jest anulowanie ich subksrypcji. Możesz kontynuować na własne ryzyko jeśli wiesz co robisz, ale w tym wypadku coś może nie zadziałać prawidłowo lub zawiesić/wywalić grę." />
+  <translation id="RestrictedModeMessage" value="Real Time działa w trybie ograniczonym. Niektóre funkcje są wyłączone wskutek problemów technicznych z biblioteką zewnętrzną lub niezgodnością modów. Jeśli potrzebujesz pomocy, udostępnij twórcy moda swoje pliki dziennika (log)." />
+  <translation id="ModNotWorkingMessage" value="Oj! Coś poszło nie tak — modyfikacji Real Time nie można aktywować. Proszę udostępnić swój plik dziennika twórcy moda." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time wykryło co najmniej jedną modyfikację, która jest w jakimś stopniu niezgodna. Zaleca się ich odsubskrybowanie, gdyż inaczej coś może nie zadziałać prawidłowo lub zawiesić/wywalić grę." />
   <translation id="Minutes" value="min" />
 
   <translation id="Tools" value="Narzędzia" />
@@ -22,18 +22,18 @@
   <translation id="ClearStuckCitizensSchedule" value="Wyczyść wszystkie zablokowane harmonogramy obywateli" />
   <translation id="ClearStuckTouristsInHotels" value="Wyczyść wszystkich turystów uwięzionych w hotelach" />
   <translation id="ClearStuckCitizensInClosedBuildings" value="Wyczyść wszystkich obywateli uwięzionych w zamkniętych budynkach" />
-  <translation id="ClearFireBurnTimeManager" value="Wyczyść zarządzanie czasem trwania pożarów" />
-  <translation id="ConfirmPanelClearFireBurnTimeManagerTitle" value="Potwierdź czyszczenie" />
+  <translation id="ClearFireBurnTimeManager" value="Wyzeruj czas trwania pożarów" />
+  <translation id="ConfirmPanelClearFireBurnTimeManagerTitle" value="Potwierdź ugaszenie pożarów" />
   <translation id="ConfirmPanelClearFireBurnTimeManagerText" value="Czy na pewno chcesz ugaszenia wszystkich obecnych pożarów w mieście?" />
-  <translation id="ClearBuildingsWorkTimePrefabs" value="Wyczyść ustawienia rodzajów budynków" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsTitle" value="Wyczyść ustawienia czasu pracy wszystkich rodzajów budynków" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsText" value="Czy na pewno chcesz usunięcia ustawień godzin pracy wszystkim rodzajom budynków w tym zapisie?" />
-  <translation id="ClearBuildingWorkTimeGlobalSettings" value="Wyczyść ustawienia globalne rodzajów budynków" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitle" value="Wyczyść ustawienia globalne czasu pracy wszystkich rodzajów budynków" />
-  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsText" value="Czy na pewno chcesz usunięcia ustawień godzin pracy wszystkim rodzajom budynków we wszystkich zapisach gry?" />
+  <translation id="ClearBuildingsWorkTimePrefabs" value="Wyzeruj lokalnie harmonogramy wszystkich budynków" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsTitle" value="Potwierdź lokalne wyzerowanie harmonogramów wszystkich budynków" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimePrefabsText" value="Czy na pewno chcesz wyczyszczenia rozkładów czasu pracy wszystkim budynkom z każdego zasobu w tym zapisie?" />
+  <translation id="ClearBuildingWorkTimeGlobalSettings" value="Wyzeruj globalnie harmonogramy wszystkich budynków" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsTitle" value="Potwierdź globalne wyzerowanie harmonogramów wszystkich budynków" />
+  <translation id="ConfirmPanelClearBuildingsWorkTimeGlobalSettingsText" value="Czy na pewno chcesz wyczyszczenia rozkładów czasu pracy wszystkim budynkom z każdego zasobu we wszystkich zapisach gry?" />
   <translation id="ClearAllEvents" value="Wyczyść wszystkie wydarzenia" />
   <translation id="ConfirmPanelClearAllEventsTitle" value="Wyczyść wszystkie wydarzenia" />
-  <translation id="ConfirmPanelClearAllEventsText" value="Czy na pewno chcesz usunięcia wszystkich wydarzeń z menedżera wydarzeń? Tego nie można cofnąć! Rok akademicki zostanie nietknięty." />
+  <translation id="ConfirmPanelClearAllEventsText" value="Czy na pewno chcesz usunięcia wszystkich wydarzeń z menedżera wydarzeń? Tego nie można cofnąć! Rok akademicki pozostanie nietknięty." />
   <translation id="ResetBuildingsGarbageBuffer" value="Wyczyść nagromadzone śmieci wszystkim budynkom" />
   <translation id="ResetBuildingsMailBuffer" value="Wyczyść nagromadzoną pocztę wszystkim budynkom" />
   <translation id="ResetBuildingsCrimeBuffer" value="Wyczyść nagromadzonych przestępców wszystkim budynkom" />
@@ -107,10 +107,10 @@
   <translation id="ContinuousNightShiftQuotaTooltip" value="Odsetek mieszkańców pracujących na nocną zmianę w ruchu ciągłym." />
   <translation id="NightClassQuota" value="Uczniowie szkół wieczorowych" />
   <translation id="NightClassQuotaTooltip" value="Odsetek obywateli uczęszczających do szkół wieczorowych." />
-  <translation id="BreakfastQuota" value="Szansa na śniadanie przed pracą lub szkołą" />
-  <translation id="BreakfastQuotaTooltip" value="Odsetek mieszkańców wychodzących na śniadanie przed pracą lub szkołą." />
-  <translation id="LunchQuota" value="Szansa na drugie śniadanie w trakcie pracy/szkoły" />
-  <translation id="LunchQuotaTooltip" value="Odsetek mieszkańców wychodzących na przekąskę w trakcie pracy lub szkoły." />
+  <translation id="BreakfastBeforeWorkOrSchoolQuota" value="Szansa na śniadanie przed pracą lub szkołą" />
+  <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="Odsetek mieszkańców wychodzących na śniadanie przed pracą lub szkołą." />
+  <translation id="LunchDuringWorkOrSchoolQuota" value="Szansa na drugie śniadanie w trakcie pracy/szkoły" />
+  <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="Odsetek mieszkańców wychodzących na przekąskę w trakcie pracy lub szkoły." />
   <translation id="SupperAfterWorkOrSchoolQuota" value="Szansa na kolację po pracy/szkole" />
   <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="Odsetek mieszkańców wychodzących na kolację po pracy lub szkole" />
 
@@ -281,12 +281,7 @@
   <translation id="ScheduledMealType.Lunch" value="drugie śniadanie" />
   <translation id="ScheduledMealType.Supper" value="kolację" />
   <translation id="ScheduledMealType.Other" value="przekąskę" />
-  <translation id="WorkShift.First" value="Zmiana poranna" />
-  <translation id="WorkShift.Second" value="Zmiana popołudniowa" />
-  <translation id="WorkShift.Night" value="Zmiana nocna" />
-  <translation id="WorkShift.ContinuousDay" value="Zmiana dzienna" />
-  <translation id="WorkShift.ContinuousNight" value="Zmiana nocna" />
-  <translation id="WorkShift.Event" value="Zmiana zadaniowa" />
+  <translation id="WorkShift.Assigned" value="Przypisano do zmiany" />
   <translation id="WorkStatus.OnVacation" value="(urlop: {0} dni)" />
 
   <translation id="AcademicYear.DaysLeft" value="Kończy się za {0} dn." />
@@ -299,55 +294,93 @@
   <translation id="AcademicYearEndYearButtonText" value="Zakończ rok akademicki" />
   <translation id="AcademicYearEndYearButtonTooltip" value="pozwala ręcznie zakończyć rok akademicki w dni powszednie między 9:00 a 10:00." />
 
-  <translation id="OperationHoursSettingsCheckBox" value="Ustawienia" />
-  <translation id="OperationHoursSettingsCheckBoxTooltip" value="Zmiana godzin pracy budynku." />
-  <translation id="SettingsTitle" value="Dostosuj godziny pracy" />
-  <translation id="WorkAtNight" value="Praca w nocy" />
-  <translation id="WorkAtNightTooltip" value="Budynek będzie działał 24 godziny na dobę." />
-  <translation id="WorkAtWeekands" value="Praca w weekendy" />
-  <translation id="WorkAtWeekandsTooltip" value="Budynek będzie działał w weekendy." />
-  <translation id="HasExtendedWorkShift" value="Wydłużona zmiana pracy" />
-  <translation id="HasExtendedWorkShiftTooltip" value="Zmiana poranna rozpocznie się o poranku, gdy miasto się obudzi lub gdy obudzą się pierwsi mieszkańcy, w zależności od tego, co nastąpi wcześniej. Zmiany nie mogą następować po sobie." />
-  <translation id="HasContinuousWorkShift" value="Tryb równoważny" />
-  <translation id="HasContinuousWorkShiftTooltip" value="Budynek będzie czynny w godzinach 8:00-20:00. W razie konieczności pracy na nocnej zmianie, będą dwie zmiany: 8:00-20:00 i 20:00-20:00. Praca na dłuższe zmiany jest niedozwolona." />
-  <translation id="IgnorePolicy" value="Uchyl ​​przepisy dzielnicy" />
-  <translation id="IgnorePolicyTooltip" value="Budynek nie będzie uwzględniał żadnych ograniczeń wynikających z przepisów dzielnicy." />
-  <translation id="ShiftCountTitle" value="Wybierz liczbę zmian" />
-  <translation id="ShiftCountTooltip" value="Praca nocna i nierównoważna = 3, ciągła = 1, praca nocna i równoważna = 2, pozostałe przypadki = 1-2." />
+  <translation id="OperationHoursSettingsCheckBox" value="Harmonogram" />
+  <translation id="OperationHoursSettingsCheckBoxTooltip" value="Zmiana rozkładu czasu pracy budynku." />
+  <translation id="SettingsTitle" value="Rozkład czasu pracy" />
+  <translation id="EditSettingsTooltip" value="Zezwól/zabroń edycji" />
+  <translation id="LockUnlockChangesTooltip" value="Jeśli zablokowane – ustawienia globalne oraz lokalne nie mają wpływu na ten budynek" />
+  <translation id="CopySettingsTooltip" value="Kopiuj ustawienia z tego budynku" />
+  <translation id="PasteSettingsTooltip" value="Wklej ustawienia do tego budynku" />
+  <translation id="BuildingStatusLabel" value="Ustawione:" />
+  <translation id="DefaultSettingsStatus" value="Domyślne" />
+  <translation id="BuildingSettingsStatus" value="Własne" />
+  <translation id="PrefabSettingsStatus" value="Zasobowe" />
+  <translation id="GlobalSettingsStatus" value="Globalne" />
+  <translation id="ActiveDays" value="Dni działania" />
+  <translation id="Monday" value="Pn." />
+  <translation id="MondayTooltip" value="Ustaw poniedziałek jako dzień czynnej pracy" />
+  <translation id="Tuesday" value="Wt." />
+  <translation id="TuesdayTooltip" value="Ustaw wtorek jako dzień czynnej pracy" />
+  <translation id="Wednesday" value="Śr." />
+  <translation id="WednesdayTooltip" value="Ustaw środę jako dzień czynnej pracy" />
+  <translation id="Thursday" value="Czw." />
+  <translation id="ThursdayTooltip" value="Ustaw czwartek jako dzień czynnej pracy" />
+  <translation id="Friday" value="Pt." />
+  <translation id="FridayTooltip" value="Ustaw piątek jako dzień czynnej pracy" />
+  <translation id="Saturday" value="Sob." />
+  <translation id="SaturdayTooltip" value="Ustaw sobotę jako dzień czynnej pracy" />
+  <translation id="Sunday" value="Ndz." />
+  <translation id="SundayTooltip" value="Ustaw niedzielę jako dzień czynnej pracy" />
+  <translation id="ShiftsSummaryLabel" value="Zmiany" />
+  <translation id="EditShifts" value="Edytowanie zmian" />
+  <translation id="EditShiftsTooltip" value="Edytuj zmiany pracy dla tego budynku" />
+  <translation id="ShiftsEditorLabel" value="Edytowanie zmian" />
+  <translation id="ShiftLabelIndex" value="Zmiana" />
+  <translation id="InvalidShiftsTitle" value="Nieprawidłowe zmiany" />
+  <translation id="InvalidShiftsText" value="Jedna lub więcej zmian ma ten sam czas rozpoczęcia i zakończenia" />
+  <translation id="AddShift" value="+ Dodaj zmianę" />
+  <translation id="AddShiftTooltip" value="Dodaj nową zmianę pracy dla tego budynku" />
+  <translation id="IgnorePolicy" value="Pomijaj zasady dzielnicy" />
+  <translation id="IgnorePolicyTooltip" value="Budynek będzie ignorować wszelkie ograniczenia wynikające z zasad dzielnicy" />
+  <translation id="AccessAdvancedSettings" value="Ustawienia zaawansowane" />
+  <translation id="AccessAdvancedSettingsTooltip" value="Otwórz panel zaawansowanych ustawień dla tego budynku" />
   <translation id="SaveBuildingSettings" value="Zapisz ustawienia budynku" />
-  <translation id="SaveBuildingSettingsTooltip" value="Najwyższy priorytet – zastąpi ustawienia domyślne i globalne, tworząc określone godziny pracy dla tego budynku." />
-  <translation id="ReturnToDefault" value="Powrót do ustawień domyślnych" />
-  <translation id="ReturnToDefaultTooltip" value="Nie usunie rejestru, a jedynie ustawi na nim domyślną flagę. Aby użyć ustawień domyslnych lub globalnych, należy wyczyścić ustawienia tego budynku." />
-  <translation id="ApplyPrefabSettings" value="Zastosuj ustawenia dla tego rodzaju" />
-  <translation id="ApplyPrefabSettingsTooltip" value="Zastosuj ustawienia czasu pracy do tego budynku na podstawie rodzaju budynku w tym zapisie (gry?)." />
-  <translation id="ApplyGlobalSettings" value="Zastosuj ustawenia globalne" />
-  <translation id="ApplyGlobalSettingsTooltip" value="Zastosuj ustawienia czasu pracy do tego budynku na podstawie rodzaju budynku we wszystkich zapisach (gry?)." />
-  <translation id="SetPrefabSettings" value="Zastąp wszystkie tego rodzaju" />
-  <translation id="SetPrefabSettingsTooltip" value="Zaktualizuje notowania wszystkich budynków tego rodzaju w tym zapisie do bieżącego czasu pracy tego budynku." />
-  <translation id="SetGlobalSettings" value="Zastąp wszystkie tego rodzaju globalnie" />
-  <translation id="SetGlobalSettingsTooltip" value="Zaktualizuje notowania wszystkich budynków tego rodzaju we wszystkich zapisach do bieżącego czasu pracy tego budynku." />
-  <translation id="DeletePrefabSettings" value="Usuń wszystkie tego rodzaju" />
-  <translation id="DeletePrefabSettingsTooltip" value="Przywróci notowania wszystkich budynków tego rodzaju w tym zapisie do domyślnych" />
-  <translation id="DeleteGlobalSettings" value="Usuń wszystkie tego rodzaju globalnie" />
-  <translation id="DeleteGlobalSettingsTooltip" value="Przywróci notowania wszystkich budynków tego rodzaju we wszystkich zapisach do domyślnych" />
-  <translation id="UnlockSettings" value="Odblokuj ustawienia" />
-  <translation id="UnlockSettingsTooltip" value="Odblokuj ustawienia edycji" />
-  <translation id="DefaultSettingsStatus" value="Ten budynek korzysta z ustawień domyślnych" />
-  <translation id="BuildingSettingsStatus" value="Ten budynek korzysta z własnych ustawień" />
-  <translation id="PrefabSettingsStatus" value="Ten budynek korzysta z ustawień rodzaju" />
-  <translation id="GlobalSettingsStatus" value="Ten budynek korzysta z ustawień globalnych" />
-  <translation id="LockUnlockChangesTooltip" value="Jeśli zablokowane – ustawienia globalne oraz rodzaju nie mają wpływu na ten budynek" />
-  <translation id="ConfirmPanelSetPrefabTitle" value="Zastąpi wszystkie tego rodzaju" />
-  <translation id="ConfirmPanelSetPrefabText" value="Godziny pracy wszystkich budynków tego rodzaju w tym zapisie zostaną zaktualizowane do bieżącego czasu pracy tego budynku!" />
-  <translation id="ConfirmPanelSetGlobalTitle" value="Zastąpi wszystkie tego rodzaju globalnie" />
-  <translation id="ConfirmPanelSetGlobalText" value="Godziny pracy wszystkich budynków tego rodzaju we wszystkich zapisach zostaną zaktualizowane do bieżącego czasu pracy tego budynku!" />
-  <translation id="ConfirmPanelDeletePrefabTitle" value="Usunie wszystkie tego rodzaju" />
-  <translation id="ConfirmPanelDeletePrefabText" value="Godziny pracy wszystkich budynków tego rodzaju w tym zapisie zostaną przywrócone do domyślnych!" />
-  <translation id="ConfirmPanelDeleteGlobalTitle" value="Usunie wszystkie tego rodzaju globalnie" />
-  <translation id="ConfirmPanelDeleteGlobalText" value="Godziny pracy wszystkich budynków tego rodzaju we wszystkich zapisach zostaną przywrócone do domyślnych!" />
+  <translation id="SaveBuildingSettingsTooltip" value="Najwyższy priorytet – zastąpi ustawienia zasobowe czy globalne, tworząc określony harmonogram pracy dla tego budynku." />
+  <translation id="ReturnToDefault" value="Powróć do domyślnych" />
+  <translation id="ReturnToDefaultTooltip" value="Nie usunie zapisku, a jedynie ustawi na nim domyślną flagę. Aby użyć ustawień zasobowych lub globalnych, należy wyczyścić ustawienia tego budynku." />
+  <translation id="ApplyPrefabSettings" value="Zastosuj lokalnie" />
+  <translation id="ApplyPrefabSettingsTooltip" value="Przydziel temu budynkowi rozkład czasu pracy przypisany do bieżącego zasobu w tym zapisie." />
+  <translation id="ApplyGlobalSettings" value="Zastosuj globalnie" />
+  <translation id="ApplyGlobalSettingsTooltip" value="Przydziel temu budynkowi rozkład czasu pracy przypisany do bieżącego zasobu we wszystkich zapisach." />
+  <translation id="SetPrefabSettings" value="Zastąp lokalnie" />
+  <translation id="SetPrefabSettingsTooltip" value="Zastąpi rozkład czasu pracy tymże w tożsamych budynkach w tym zapisie." />
+  <translation id="SetGlobalSettings" value="Zastąp globalnie" />
+  <translation id="SetGlobalSettingsTooltip" value="Zastąpi rozkład czasu pracy tymże w tożsamych budynkach we wszystkich zapisach." />
+  <translation id="DeletePrefabSettings" value="Wyzeruj lokalnie" />
+  <translation id="DeletePrefabSettingsTooltip" value="Przywróci notowania wszystkich tożsamych budynków w tym zapisie do domyślnych" />
+  <translation id="DeleteGlobalSettings" value="Wyzeruj globalnie" />
+  <translation id="DeleteGlobalSettingsTooltip" value="Przywróci notowania wszystkich tożsamych budynków we wszystkich zapisach do domyślnych" />
+  <translation id="ConfirmPanelSetPrefabTitle" value="Potwierdź zastąpienie wszystkie lokalnie" />
+  <translation id="ConfirmPanelSetPrefabText" value="Harmonogramy pracy w tym zapisie wszystkich budynków opartych na tym zasobie zostaną zastąpione bieżącym rozkładem czasu pracy tego budynku!" />
+  <translation id="ConfirmPanelSetGlobalTitle" value="Potwierdź zastąpienie wszystkie globalnie" />
+  <translation id="ConfirmPanelSetGlobalText" value="Harmonogramy pracy we wszystkich zapisach wszystkich budynków opartych na tym zasobie zostaną zastąpione bieżącym rozkładem czasu pracy tego budynku!" />
+  <translation id="ConfirmPanelDeletePrefabTitle" value="Potwierdź zerowanie wszystkie lokalnie" />
+  <translation id="ConfirmPanelDeletePrefabText" value="Harmonogramy pracy w tym zapisie wszystkich budynków opartych na tym zasobie zostanie przywrócone do domyślnych!" />
+  <translation id="ConfirmPanelDeleteGlobalTitle" value="Potwierdź zerowanie wszystkie globalnie" />
+  <translation id="ConfirmPanelDeleteGlobalText" value="Harmonogramy pracy we wszystkich zapisach wszystkich budynków opartych na tym zasobie zostanie przywrócone do domyślnych!" />
+  
   <translation id="ClosedBuilding" value="Zamknięte" />
-  <translation id="ServingTimeAt" value="Początek służenia za " />
+  <translation id="ServingTimeAt" value="Czynne za " />
 
+  <translation id="CommercialBuildingTypeLabel" value="Rodzaj sklepu" />
+  <translation id="CommercialBuildingTypeTooltip" value="Wybierz rodzaj budynku handlowego" />
+  <translation id="CommercialBuildingTypeShopping" value="Przemysłowy" />
+  <translation id="CommercialBuildingTypeEntertainment" value="Rozrywkowy" />
+  <translation id="CommercialBuildingTypeFood" value="Spożywczy" />
+  <translation id="CommercialBuildingTypeShoppingAndEntertainment" value="Rozrywkowo-przemysłowy" />
+  <translation id="CommercialBuildingTypeShoppingAndFood" value="Spożywczo-przemysłowy" />
+  <translation id="CommercialBuildingTypeEntertainmentAndFood" value="Spożywczo-rozrywkowy" />
+  <translation id="CommercialBuildingTypeAll" value="Wielobranżowy" />
+
+  <translation id="ParkBuildingTypeLabel" value="Rodzaj parku" />
+  <translation id="ParkBuildingTypeTooltip" value="Wybierz odmianę budynku parkowego" />
+  <translation id="ParkBuildingTypeGeneric" value="Ogólny" />
+  <translation id="ParkBuildingTypePlayground" value="Plac zabaw" />
+  <translation id="ParkBuildingTypeDogPark" value="Wybieg dla psów" />
+  <translation id="ParkBuildingTypePlaza" value="Plac" />
+  <translation id="ParkBuildingTypeGarden" value="Ogród" />
+  <translation id="ParkBuildingTypeSports" value="Sport" />
+  
   <translation id="RaceDayLabelHour" value="Godzina" />
   <translation id="RaceDayLabelFrequency" value="Częstotliwość" />
   <translation id="RaceDayLabelMinute" value="Minuta" />

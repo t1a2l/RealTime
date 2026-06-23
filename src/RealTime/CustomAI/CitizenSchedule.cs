@@ -44,6 +44,7 @@ namespace RealTime.CustomAI
         /// <summary>The time when citizen started their last journey.</summary>
         public DateTime DepartureTime;
 
+        /// <summary> The maximum travel time (in hours) that can be stored for a citizen. This is used to limit the travel time value and prevent overflow during serialization.</summary>
         private const float TravelTimeMultiplier = ushort.MaxValue / MaxTravelTime;
 
         /// <summary>Gets the citizen's next scheduled state.</summary>
@@ -76,23 +77,23 @@ namespace RealTime.CustomAI
         /// <summary>Gets the citizen's work shift.</summary>
         public WorkShift WorkShift { get; private set; }
 
-        /// <summary>Gets the daytime hour when the citizen's work shift starts.</summary>
-        public float WorkShiftStartHour { get; private set; }
+        /// <summary>Gets the time when the citizen's work shift starts.</summary>
+        public float WorkShiftStartTime { get; private set; }
 
-        /// <summary>Gets the daytime hour when the citizen's work shift ends.</summary>
-        public float WorkShiftEndHour { get; private set; }
+        /// <summary>Gets the time when the citizen's work shift ends.</summary>
+        public float WorkShiftEndTime { get; private set; }
 
-        /// <summary>Gets a value indicating whether this citizen works on weekends.</summary>
-        public bool WorksOnWeekends { get; private set; }
+        /// <summary>The citizen's work shift index. only applicable if <see cref="WorkShift.Assigned"/> is used.</summary>
+        public int ShiftIndex { get; private set; }
 
         /// <summary>Gets the citizen's school class.</summary>
         public SchoolClass SchoolClass { get; private set; }
 
-        /// <summary>Gets the daytime hour when the citizen's school class starts.</summary>
-        public float SchoolClassStartHour { get; private set; }
+        /// <summary>Gets the time when the citizen's school class starts.</summary>
+        public float SchoolClassStartTime { get; private set; }
 
-        /// <summary>Gets the daytime hour when the citizen's school class ends.</summary>
-        public float SchoolClassEndHour { get; private set; }
+        /// <summary>Gets the time when the citizen's school class ends.</summary>
+        public float SchoolClassEndTime { get; private set; }
 
         /// <summary>Updates the travel time that the citizen needs to read the work building.</summary>
         /// <param name="arrivalTime">
@@ -136,26 +137,26 @@ namespace RealTime.CustomAI
 
         /// <summary>Updates the work shift data for this citizen's schedule.</summary>
         /// <param name="workShift">The citizen's work shift.</param>
-        /// <param name="startHour">The work shift start hour.</param>
-        /// <param name="endHour">The work shift end hour.</param>
+        /// <param name="startTime">The work shift start time.</param>
+        /// <param name="endTime">The work shift end time.</param>
         /// <param name="worksOnWeekends">if <c>true</c>, the citizen works on weekends.</param>
-        public void UpdateWorkShift(WorkShift workShift, float startHour, float endHour, bool worksOnWeekends)
+        public void UpdateWorkShift(WorkShift workShift, int shiftIndex, float startTime, float endTime)
         {
             WorkShift = workShift;
-            WorkShiftStartHour = startHour;
-            WorkShiftEndHour = endHour;
-            WorksOnWeekends = worksOnWeekends;
+            ShiftIndex = workShift == WorkShift.Assigned ? shiftIndex : -1;
+            WorkShiftStartTime = startTime;
+            WorkShiftEndTime = endTime;
         }
 
         /// <summary>Updates the school class data for this citizen's schedule.</summary>
         /// <param name="schoolClass">The citizen's school class.</param>
-        /// <param name="startHour">The school class start hour.</param>
-        /// <param name="endHour">The school class end hour.</param>
-        public void UpdateSchoolClass(SchoolClass schoolClass, float startHour, float endHour)
+        /// <param name="startTime">The school class start time.</param>
+        /// <param name="endTime">The school class end time.</param>
+        public void UpdateSchoolClass(SchoolClass schoolClass, float startTime, float endTime)
         {
             SchoolClass = schoolClass;
-            SchoolClassStartHour = startHour;
-            SchoolClassEndHour = endHour;
+            SchoolClassStartTime = startTime;
+            SchoolClassEndTime = endTime;
         }
 
         /// <summary>Schedules next actions for the citizen with a specified action time.</summary>
@@ -237,7 +238,7 @@ namespace RealTime.CustomAI
 
             if (WorkShift != WorkShift.Unemployed && WorkShift != WorkShift.Event && workBuilding != 0)
             {
-                UpdateWorkShiftHours(WorkShift, workBuilding);
+                UpdateWorkShiftHours(WorkShift, -1, workBuilding);
             }
             if(SchoolClass != SchoolClass.NoSchool)
             {
@@ -245,10 +246,8 @@ namespace RealTime.CustomAI
             }
         }
 
-        public void UpdateWorkShiftHours(WorkShift workShift, ushort workBuildingId)
+        public void UpdateWorkShiftHours(WorkShift workShift, int shiftIndex, ushort workBuildingId)
         {
-            var config = RealTimeMod.configProvider.Configuration;
-
             var workBuildingInfo = BuildingManager.instance.m_buildings.m_buffer[workBuildingId].Info;
 
             BuildingWorkTimeManager.WorkTime workTime;
@@ -266,63 +265,31 @@ namespace RealTime.CustomAI
                 workTime = BuildingWorkTimeManager.GetBuildingWorkTime(workBuildingId);
             }
 
-            float workBegin = config.WorkBegin;
-            float workEnd = config.WorkEnd;
+            float workBegin;
+            float workEnd;
 
-            var service = workBuildingInfo.m_class.m_service;
-
-            switch (workShift)
+            if (workShift == WorkShift.Unemployed)
             {
-                case WorkShift.First when workTime.HasExtendedWorkShift:
-                    float extendedShiftBegin = Math.Min(config.SchoolBegin, config.WakeUpHour);
-                    if (service == ItemClass.Service.Education || service == ItemClass.Service.PlayerEducation) // teachers
-                    {
-                        workBegin = Math.Min(EarliestWakeUp, extendedShiftBegin);
-                    }
-                    else
-                    {
-                        extendedShiftBegin = config.WakeUpHour;
-                        workBegin = Math.Min(EarliestWakeUp, extendedShiftBegin);
-                    }
-                    workEnd = config.SchoolEnd;
-                    break;
-
-                case WorkShift.First:
-                    workBegin = config.WorkBegin;
-                    workEnd = config.WorkEnd;
-                    break;
-
-                case WorkShift.Second:
-                    if (service == ItemClass.Service.Education || service == ItemClass.Service.PlayerEducation) // night class at university (teacher)
-                    {
-                        workBegin = config.SchoolEnd;
-                        workEnd = 22f;
-                    }
-                    else
-                    {
-                        workBegin = config.WorkEnd;
-                        workEnd = config.GoToSleepHour;
-                    }
-                    break;
-
-                case WorkShift.Night:
-                    workBegin = config.GoToSleepHour;
-                    workEnd = config.WorkBegin;
-                    break;
-
-                case WorkShift.ContinuousDay:
-                    workBegin = 8f;
-                    workEnd = 20f;
-                    break;
-
-                case WorkShift.ContinuousNight:
-                    workBegin = 20f;
-                    workEnd = 8f;
-                    break;
-
+                UpdateWorkShift(workShift, -1, 0, 0);
             }
 
-            UpdateWorkShift(workShift, workBegin, workEnd, workTime.WorkAtWeekands);
+            if (workShift == WorkShift.Assigned)
+            {
+                workTime.WorkShifts[shiftIndex].GetShiftHours(out workBegin, out workEnd);
+                UpdateWorkShift(workShift, shiftIndex, workBegin, workEnd);
+                return;
+            }
+
+            // legacy support for work shifts - if the work shift is not assigned, the shift hours will be determined by the default rules based on the building service and work shift type
+            shiftIndex = workShift switch
+            {
+                WorkShift.First or WorkShift.ContinuousDay => 0,
+                WorkShift.Second or WorkShift.ContinuousNight => 1,
+                WorkShift.Night => 2,
+                _ => 0,
+            };
+            workTime.WorkShifts[shiftIndex].GetShiftHours(out workBegin, out workEnd);
+            UpdateWorkShift(workShift, shiftIndex, workBegin, workEnd);
         }
 
         public void UpdateSchoolClassHours(SchoolClass schoolClass)

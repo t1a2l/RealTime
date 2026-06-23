@@ -281,12 +281,7 @@
   <translation id="ScheduledMealType.Lunch" value="lunch" />
   <translation id="ScheduledMealType.Supper" value="supper" />
   <translation id="ScheduledMealType.Other" value="a snack" />
-  <translation id="WorkShift.First" value="1st work shift" />
-  <translation id="WorkShift.Second" value="2nd work shift" />
-  <translation id="WorkShift.Night" value="Night work shift" />
-  <translation id="WorkShift.ContinuousDay" value="Continuous day work shift" />
-  <translation id="WorkShift.ContinuousNight" value="Continuous night work shift" />
-  <translation id="WorkShift.Event" value="Event work shift" />
+  <translation id="WorkShift.Assigned" value="assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(vacation: {0} days)" />
 
   <translation id="AcademicYear.DaysLeft" value="Ends in {0} days" />
@@ -301,42 +296,60 @@
   
   <translation id="OperationHoursSettingsCheckBox" value="Settings" />
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="Change building operation hours" />
-  <translation id="SettingsTitle" value="Adjust Operation Hours" />
-  <translation id="WorkAtNight" value="Work At Night" />
-  <translation id="WorkAtNightTooltip" value="The building will work 24 hours" />
-  <translation id="WorkAtWeekands" value="Work At Weekands" />
-  <translation id="WorkAtWeekandsTooltip" value="The building will work at weekends" />
-  <translation id="HasExtendedWorkShift" value="Has Extended Work Shift" />
-  <translation id="HasExtendedWorkShiftTooltip" value="The morning shift will start when the city wakes up or the earlist a citizen will wake up the lowest between them. cant have continuous shift" />
-  <translation id="HasContinuousWorkShift" value="Has Continuous Work Shift" />
-  <translation id="HasContinuousWorkShiftTooltip" value="The building will work from 8(am) to 20(8pm), if works at night, there will be two shifts 8-20 and 20-8. cant have extended shift" />
+  <translation id="SettingsTitle" value="Operation Hours" />
+  <translation id="EditSettingsTooltip" value="Allow or disallow editing settings" />
+  <translation id="LockUnlockChangesTooltip" value="If Locked - type and global settings has no affect on this building" />
+  <translation id="CopySettingsTooltip" value="Copy settings from this building" />
+  <translation id="PasteSettingsTooltip" value="Paste settings to this building" />
+  <translation id="BuildingStatusLabel" value="Status:" />
+  <translation id="DefaultSettingsStatus" value="Default Settings" />
+  <translation id="BuildingSettingsStatus" value="Own Settings" />
+  <translation id="PrefabSettingsStatus" value="Type Settings" />
+  <translation id="GlobalSettingsStatus" value="Global Settings" />
+  <translation id="ActiveDays" value="Active Days" />
+  <translation id="Monday" value="Mo" />
+  <translation id="MondayTooltip" value="Set monday as active/not active work day" />
+  <translation id="Tuesday" value="Tu" />
+  <translation id="TuesdayTooltip" value="Set tuesday as active/not active work day" />
+  <translation id="Wednesday" value="We" />
+  <translation id="WednesdayTooltip" value="Set wednesday as active/not active work day" />
+  <translation id="Thursday" value="Th" />
+  <translation id="ThursdayTooltip" value="Set thursday as active/not active work day" />
+  <translation id="Friday" value="Fr" />
+  <translation id="FridayTooltip" value="Set friday as active/not active work day" />
+  <translation id="Saturday" value="Sa" />
+  <translation id="SaturdayTooltip" value="Set saturday as active/not active work day" />
+  <translation id="Sunday" value="Su" />
+  <translation id="SundayTooltip" value="Set sunday as active/not active work day" />
+  <translation id="ShiftsSummaryLabel" value="Shifts" />
+  <translation id="EditShifts" value="Edit Shifts" />
+  <translation id="EditShiftsTooltip" value="Edit the work shifts for this building" />
+  <translation id="ShiftsEditorLabel" value="Edit Shifts" />
+  <translation id="ShiftLabelIndex" value="Shift" />
+  <translation id="InvalidShiftsTitle" value="Invalid Shifts" />
+  <translation id="InvalidShiftsText" value="One or more shifts have the same start and end time" />
+  <translation id="AddShift" value="+ Add Shift" />
+  <translation id="AddShiftTooltip" value="Add a new work shift for this building" />
   <translation id="IgnorePolicy" value="Ignore District Policies" />
   <translation id="IgnorePolicyTooltip" value="The building will ignore any restirctions from district policies" />
-  <translation id="ShiftCountTitle" value="Select the number of shifts" />
-  <translation id="ShiftCountTooltip" value="work at night and not continuous = 3, continuous = 1, work at night and continuous = 2, else = 1-2" />
-  <translation id="SaveBuildingSettings" value="Save building settings" />
+  <translation id="AccessAdvancedSettings" value="Access Advanced Settings" />
+  <translation id="AccessAdvancedSettingsTooltip" value="Open the advanced settings panel for this building" />
+  <translation id="SaveBuildingSettings" value="Save" />
   <translation id="SaveBuildingSettingsTooltip" value="First priority - will override prefab and global settings and create a specific work time for this building" />
-  <translation id="ReturnToDefault" value="Back to default" />
+  <translation id="ReturnToDefault" value="To default" />
   <translation id="ReturnToDefaultTooltip" value="Will not delete the record just set a default flag on it - you need to clear settings for this building to get the prefab or global settings" />
-  <translation id="ApplyPrefabSettings" value="Apply type settings" />
+  <translation id="ApplyPrefabSettings" value="Apply type" />
   <translation id="ApplyPrefabSettingsTooltip" value="Apply work time settings to this building according to building type in this save" />
-  <translation id="ApplyGlobalSettings" value="Apply global settings" />
+  <translation id="ApplyGlobalSettings" value="Apply global" />
   <translation id="ApplyGlobalSettingsTooltip" value="Apply work time settings to this building according to building type across all saves" />
   <translation id="SetPrefabSettings" value="Set new type" />
   <translation id="SetPrefabSettingsTooltip" value="This will update all building records of this type to the current work time of this building in this save" />
   <translation id="SetGlobalSettings" value="Set new global" />
   <translation id="SetGlobalSettingsTooltip" value="This will update all building records of this type to the current work time of this building across all saves" />
-  <translation id="DeletePrefabSettings" value="Delete existing type" />
+  <translation id="DeletePrefabSettings" value="Delete type" />
   <translation id="DeletePrefabSettingsTooltip" value="This will delete all building records of this type and return them back to default in this save" />
-  <translation id="DeleteGlobalSettings" value="Delete existing global" />
+  <translation id="DeleteGlobalSettings" value="Delete global" />
   <translation id="DeleteGlobalSettingsTooltip" value="This will delete all building records of this type and return them back to default across all saves" />
-  <translation id="UnlockSettings" value="Unlock settings" />
-  <translation id="UnlockSettingsTooltip" value="Unlock edit settings" />
-  <translation id="DefaultSettingsStatus" value="This Building is using default settings" />
-  <translation id="BuildingSettingsStatus" value="This Building is using his own settings" />
-  <translation id="PrefabSettingsStatus" value="This Building is using type settings" />
-  <translation id="GlobalSettingsStatus" value="This Building is using global settings" />
-  <translation id="LockUnlockChangesTooltip" value="If Locked - type and global settings has no affect on this building" />
   <translation id="ConfirmPanelSetPrefabTitle" value="Set Type Settings" />
   <translation id="ConfirmPanelSetPrefabText" value="This will update all the buildings work hours of this type to the current work time settings in this save!" />
   <translation id="ConfirmPanelSetGlobalTitle" value="Set Global Settings" />
@@ -345,8 +358,28 @@
   <translation id="ConfirmPanelDeletePrefabText" value="This will remove all the buildings work hours of this type back to default settings in this save!" />
   <translation id="ConfirmPanelDeleteGlobalTitle" value="Delete Global Settings" />
   <translation id="ConfirmPanelDeleteGlobalText" value="This will remove all the buildings work hours of this type back to default settings across all saves!" />
+  
   <translation id="ClosedBuilding" value="Closed" />
   <translation id="ServingTimeAt" value="Serving time in " />
+
+  <translation id="CommercialBuildingTypeLabel" value="Store Type" />
+  <translation id="CommercialBuildingTypeTooltip" value="Select the type of commercial building" />
+  <translation id="CommercialBuildingTypeShopping" value="Shopping" />
+  <translation id="CommercialBuildingTypeEntertainment" value="Entertainment" />
+  <translation id="CommercialBuildingTypeFood" value="Food" />
+  <translation id="CommercialBuildingTypeShoppingAndEntertainment" value="Shopping &amp; Entertainment" />
+  <translation id="CommercialBuildingTypeShoppingAndFood" value="Shopping &amp; Food" />
+  <translation id="CommercialBuildingTypeEntertainmentAndFood" value="Entertainment &amp; Food" />
+  <translation id="CommercialBuildingTypeAll" value="All" />
+
+  <translation id="ParkBuildingTypeLabel" value="Park Type" />
+  <translation id="ParkBuildingTypeTooltip" value="Select the type of park building" />
+  <translation id="ParkBuildingTypeGeneric" value="Generic" />
+  <translation id="ParkBuildingTypePlayground" value="Playground" />
+  <translation id="ParkBuildingTypeDogPark" value="DogPark" />
+  <translation id="ParkBuildingTypePlaza" value="Plaza" />
+  <translation id="ParkBuildingTypeGarden" value="Garden" />
+  <translation id="ParkBuildingTypeSports" value="Sports" />
 
   <translation id="RaceDayLabelHour" value="Hour" />
   <translation id="RaceDayLabelFrequency" value="Frequency" />

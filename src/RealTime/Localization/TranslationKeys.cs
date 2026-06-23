@@ -73,38 +73,113 @@ namespace RealTime.Localization
         /// <summary>The key for the academic year end year button tooltip text.</summary>
         public const string AcademicYearEndYearButtonTooltip = "AcademicYearEndYearButtonTooltip";
 
+        /// --------------------------------- Operation Hours Checkbox Keys ---------------------------------
+
         /// <summary>The key for the operation hours settings checkbox.</summary>
         public const string OperationHoursSettingsCheckBox = "OperationHoursSettingsCheckBox";
 
         /// <summary>The key for the operation hours settings checkbox tooltip.</summary>
         public const string OperationHoursSettingsCheckBoxTooltip = "OperationHoursSettingsCheckBoxTooltip";
 
+        /// -------------------------------------------------------------------------------------------------
+
+        /// --------------------------------- Operation Hours Panel Keys ------------------------------------
+
         /// <summary>The key for the title of building work time settings panel.</summary>
         public const string SettingsTitle = "SettingsTitle";
 
-        /// <summary>The key for the work at night checkbox.</summary>
-        public const string WorkAtNight = "WorkAtNight";
+        /// <summary>The key for the edit settings button tooltip.</summary>
+        public const string EditSettingsTooltip = "EditSettingsTooltip";
 
-        /// <summary>The key for the work at night checkbox tooltip.</summary>
-        public const string WorkAtNightTooltip = "WorkAtNightTooltip";
+        /// <summary>The key for the lock/unlock changes button tooltip.</summary>
+        public const string LockUnlockChangesTooltip = "LockUnlockChangesTooltip";
 
-        /// <summary>The key for the work at weekends checkbox.</summary>
-        public const string WorkAtWeekands = "WorkAtWeekands";
+        /// <summary>The key for the copy settings button tooltip.</summary>
+        public const string CopySettingsTooltip = "CopySettingsTooltip";
 
-        /// <summary>The key for the work at weekends checkbox tooltip.</summary>
-        public const string WorkAtWeekandsTooltip = "WorkAtWeekandsTooltip";
+        /// <summary>The key for the paste settings button tooltip.</summary>
+        public const string PasteSettingsTooltip = "PasteSettingsTooltip";
 
-        /// <summary>The key for the has extended work shift checkbox.</summary>
-        public const string HasExtendedWorkShift = "HasExtendedWorkShift";
+        /// <summary>The key for the default settings status.</summary>
+        public const string DefaultSettingsStatus = "DefaultSettingsStatus";
 
-        /// <summary>The key for the has extended work shift checkbox tooltip.</summary>
-        public const string HasExtendedWorkShiftTooltip = "HasExtendedWorkShiftTooltip";
+        /// <summary>The key for the building settings status.</summary>
+        public const string BuildingSettingsStatus = "BuildingSettingsStatus";
 
-        /// <summary>The key for the has continuous work shift checkbox.</summary>
-        public const string HasContinuousWorkShift = "HasContinuousWorkShift";
+        /// <summary>The key for the prefab settings status.</summary>
+        public const string PrefabSettingsStatus = "PrefabSettingsStatus";
 
-        /// <summary>The key for the has continuous work shift checkbox tooltip.</summary>
-        public const string HasContinuousWorkShiftTooltip = "HasContinuousWorkShiftTooltip";
+        /// <summary>The key for the global settings status.</summary>
+        public const string GlobalSettingsStatus = "GlobalSettingsStatus";
+
+        /// <summary>The key for the building status label.</summary>
+        public const string BuildingStatusLabel = "BuildingStatusLabel";
+
+        /// <summary>The key for the active days label text.</summary>
+        public const string ActiveDays = "ActiveDays";
+
+        /// <summary>The key for the monday button.</summary>
+        public const string Monday = "Monday";
+
+        /// <summary>The key for the monday button tooltip.</summary>
+        public const string MondayTooltip = "MondayTooltip";
+
+        /// <summary>The key for the tuesday button.</summary>
+        public const string Tuesday = "Tuesday";
+
+        /// <summary>The key for the tuesday button tooltip.</summary>
+        public const string TuesdayTooltip = "TuesdayTooltip";
+
+        /// <summary>The key for the wednesday button.</summary>
+        public const string Wednesday = "Wednesday";
+
+        /// <summary>The key for the wednesday button tooltip.</summary>
+        public const string WednesdayTooltip = "WednesdayTooltip";
+
+        /// <summary>The key for the thursday button.</summary>
+        public const string Thursday = "Thursday";
+
+        /// <summary>The key for the thursday button tooltip.</summary>
+        public const string ThursdayTooltip = "ThursdayTooltip";
+
+        /// <summary>The key for the friday button.</summary>
+        public const string Friday = "Friday";
+
+        /// <summary>The key for the friday button tooltip.</summary>
+        public const string FridayTooltip = "FridayTooltip";
+
+        /// <summary>The key for the saturday button.</summary>
+        public const string Saturday = "Saturday";
+
+        /// <summary>The key for the saturday button tooltip.</summary>
+        public const string SaturdayTooltip = "SaturdayTooltip";
+
+        /// <summary>The key for the sunday button.</summary>
+        public const string Sunday = "Sunday";
+
+        /// <summary>The key for the sunday button tooltip.</summary>
+        public const string SundayTooltip = "SundayTooltip";
+
+        /// <summary>The key for the shifts summary label.</summary>
+        public const string ShiftsSummaryLabel = "ShiftsSummaryLabel";
+
+        /// <summary>The key for the shift label index.</summary>
+        public const string ShiftLabelIndex = "ShiftLabelIndex";
+
+        /// <summary>The key for the edit shifts button.</summary>
+        public const string EditShifts = "EditShifts";
+
+        /// <summary>The key for the edit shifts button tooltip.</summary>
+        public const string EditShiftsTooltip = "EditShiftsTooltip";
+
+        /// <summary>The key for the shifts editor label.</summary>
+        public const string ShiftsEditorLabel = "ShiftsEditorLabel";
+
+        /// <summary>The key for the add shift button.</summary>
+        public const string AddShift = "AddShift";
+
+        /// <summary>The key for the add shift button tooltip.</summary>
+        public const string AddShiftTooltip = "AddShiftTooltip";
 
         /// <summary>The key for the ignore policy checkbox.</summary>
         public const string IgnorePolicy = "IgnorePolicy";
@@ -112,17 +187,17 @@ namespace RealTime.Localization
         /// <summary>The key for the ignore policy checkbox tooltip.</summary>
         public const string IgnorePolicyTooltip = "IgnorePolicyTooltip";
 
-        /// <summary>The key for the title of the number of work shifts.</summary>
-        public const string ShiftCountTitle = "ShiftCountTitle";
-
-        /// <summary>The key for the number of work shifts tooltip.</summary>
-        public const string ShiftCountTooltip = "ShiftCountTooltip";
-
         /// <summary>The key for the save building settings button.</summary>
         public const string SaveBuildingSettings = "SaveBuildingSettings";
 
         /// <summary>The key for the save building settings button tooltip.</summary>
         public const string SaveBuildingSettingsTooltip = "SaveBuildingSettingsTooltip";
+
+        /// <summary>The key for the access advanced settings button.</summary>
+        public const string AccessAdvancedSettings = "AccessAdvancedSettings";
+
+        /// <summary>The key for the access advanced settings button tooltip.</summary>
+        public const string AccessAdvancedSettingsTooltip = "AccessAdvancedSettingsTooltip";
 
         /// <summary>The key for the return to default button.</summary>
         public const string ReturnToDefault = "ReturnToDefault";
@@ -166,27 +241,6 @@ namespace RealTime.Localization
         /// <summary>The key for the delete global settings button tooltip.</summary>
         public const string DeleteGlobalSettingsTooltip = "DeleteGlobalSettingsTooltip";
 
-        /// <summary>The key for the unlock settings button.</summary>
-        public const string UnlockSettings = "UnlockSettings";
-
-        /// <summary>The key for the unlock settings button tooltip.</summary>
-        public const string UnlockSettingsTooltip = "UnlockSettingsTooltip";
-
-        /// <summary>The key for the default settings status.</summary>
-        public const string DefaultSettingsStatus = "DefaultSettingsStatus";
-
-        /// <summary>The key for the building settings status.</summary>
-        public const string BuildingSettingsStatus = "BuildingSettingsStatus";
-
-        /// <summary>The key for the prefab settings status.</summary>
-        public const string PrefabSettingsStatus = "PrefabSettingsStatus";
-
-        /// <summary>The key for the global settings status.</summary>
-        public const string GlobalSettingsStatus = "GlobalSettingsStatus";
-
-        /// <summary>The key for the lock/unlock changes button tooltip.</summary>
-        public const string LockUnlockChangesTooltip = "LockUnlockChangesTooltip";
-
         /// <summary>The key for the set prefab confirm panel title.</summary>
         public const string ConfirmPanelSetPrefabTitle = "ConfirmPanelSetPrefabTitle";
 
@@ -211,12 +265,78 @@ namespace RealTime.Localization
         /// <summary>The key for the delete global confirm panel text.</summary>
         public const string ConfirmPanelDeleteGlobalText = "ConfirmPanelDeleteGlobalText";
 
+        /// <summary>The key for the invalid shifts title.</summary>
+        public const string InvalidShiftsTitle = "InvalidShiftsTitle";
+
+        /// <summary>The key for the invalid shifts text.</summary>
+        public const string InvalidShiftsText = "InvalidShiftsText";
+
         /// <summary>The key for the closed text on buildings.</summary>
         public const string ClosedBuilding = "ClosedBuilding";
 
         /// <summary>The key for the prisoners Serving time in prison.</summary>
         public const string ServingTimeAt = "ServingTimeAt";
 
+        /// -------------------------------------------------------------------------------------------------
+
+        /// ----------------------- Commercial Building Types Keys ------------------------------------------
+
+        /// <summary>The key for commercial building type label.</summary>
+        public const string CommercialBuildingTypeLabel = "CommercialBuildingTypeLabel";
+
+        /// <summary>The key for commercial building type tooltip.</summary>
+        public const string CommercialBuildingTypeTooltip = "CommercialBuildingTypeTooltip";
+
+        /// <summary>The key for commercial building type shopping.</summary>
+        public const string CommercialBuildingTypeShopping = "CommercialBuildingTypeShopping";
+
+        /// <summary>The key for commercial building type entertainment.</summary>
+        public const string CommercialBuildingTypeEntertainment = "CommercialBuildingTypeEntertainment";
+
+        /// <summary>The key for commercial building type food.</summary>
+        public const string CommercialBuildingTypeFood = "CommercialBuildingTypeFood";
+
+        /// <summary>The key for commercial building type shopping and entertainment.</summary>
+        public const string CommercialBuildingTypeShoppingAndEntertainment = "CommercialBuildingTypeShoppingAndEntertainment";
+
+        /// <summary>The key for commercial building type shopping and food.</summary>
+        public const string CommercialBuildingTypeShoppingAndFood = "CommercialBuildingTypeShoppingAndFood";
+
+        /// <summary>The key for commercial building type entertainment and food.</summary>
+        public const string CommercialBuildingTypeEntertainmentAndFood = "CommercialBuildingTypeEntertainmentAndFood";
+
+        /// <summary>The key for commercial building type all.</summary>
+        public const string CommercialBuildingTypeAll = "CommercialBuildingTypeAll";
+
+        /// -------------------------------------------------------------------------------------------------
+
+        /// --------------------------------- Park Building Types Keys --------------------------------------
+
+        /// <summary>The key for park building type label.</summary>
+        public const string ParkBuildingTypeLabel = "ParkBuildingTypeLabel";
+
+        /// <summary>The key for park building type tooltip.</summary>
+        public const string ParkBuildingTypeTooltip = "ParkBuildingTypeTooltip";
+
+        /// <summary>The key for park building type generic.</summary>
+        public const string ParkBuildingTypeGeneric = "ParkBuildingTypeGeneric";
+
+        /// <summary>The key for park building type playground.</summary>
+        public const string ParkBuildingTypePlayground = "ParkBuildingTypePlayground";
+
+        /// <summary>The key for park building type dog park.</summary>
+        public const string ParkBuildingTypeDogPark = "ParkBuildingTypeDogPark";
+
+        /// <summary>The key for park building type plaza.</summary>
+        public const string ParkBuildingTypePlaza = "ParkBuildingTypePlaza";
+
+        /// <summary>The key for park building type garden.</summary>
+        public const string ParkBuildingTypeGarden = "ParkBuildingTypeGarden";
+
+        /// <summary>The key for park building type sports.</summary>
+        public const string ParkBuildingTypeSports = "ParkBuildingTypeSports";
+
+        /// -------------------------------------------------------------------------------------------------
 
         /// --------------------------------- RaceDay Events Keys -------------------------------------------
 
@@ -280,7 +400,7 @@ namespace RealTime.Localization
         /// <summary>The key for race day schedule overlap warning.</summary>
         public const string RaceDayScheduleOverlapWarning = "RaceDayScheduleOverlapWarning";
 
-        // --------------------------------------------------------------------------------------------------
+        /// -------------------------------------------------------------------------------------------------
 
         /// --------------------------------- Vanilla Events Keys -------------------------------------------
 
@@ -353,6 +473,6 @@ namespace RealTime.Localization
         /// <summary>The key for upcoming vanilla event hide button.</summary>
         public const string VanillaEventUpcomingHideBtn = "VanillaEventUpcomingHideBtn";
 
-        // --------------------------------------------------------------------------------------------------
+        /// -------------------------------------------------------------------------------------------------
     }
 }

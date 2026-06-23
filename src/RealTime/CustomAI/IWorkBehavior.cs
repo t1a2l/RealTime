@@ -45,7 +45,8 @@ namespace RealTime.CustomAI
         /// <param name="schedule">The citizen's schedule to update the work shift in.</param>
         /// <param name="citizenAge">The age of the citizen.</param>
         /// <param name="chosenWorkShift">The chosen work shift to update</param>
-        internal void UpdateWorkShift(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge, WorkShift chosenWorkShift);
+        /// <param name="chosenWorkShiftIndex">The index of the work shift chosen by the user in the building's info panel.</param>
+        internal void UpdateWorkShift(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge, int chosenWorkShiftIndex);
 
     }
 }

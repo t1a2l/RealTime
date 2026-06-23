@@ -4,7 +4,6 @@ namespace RealTime.Patches.BuildingAIPatches
 {
     using System.Collections.Generic;
     using System.Reflection.Emit;
-    using System.Reflection;
     using HarmonyLib;
     using RealTime.Config;
     using RealTime.CustomAI;
@@ -53,60 +52,9 @@ namespace RealTime.Patches.BuildingAIPatches
                 AcademicYearManager.CreateAcademicYearData(buildingID);
             }
 
-            if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
+            if (BuildingManagerConnection.IsAllowedParkBuildingType(buildingID) && !ParkBuildingTypesManager.ParkBuildingTypeExist(buildingID))
             {
-                if (data.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
-                {
-                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
-                }
-                else
-                {
-                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
-                }
-            }
-        }
-
-        [HarmonyPatch(typeof(PlayerBuildingAI), "BuildingLoaded")]
-        [HarmonyPrefix]
-        public static void BuildingLoaded(PlayerBuildingAI __instance, ushort buildingID, ref Building data)
-        {
-            if (!BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID) && BuildingWorkTimeManager.ShouldHaveBuildingWorkTime(buildingID))
-            {
-                var buildingInfo = data.Info;
-                BuildingWorkTimeManager.CreateBuildingWorkTime(buildingID, buildingInfo);
-
-                if (BuildingWorkTimeManager.PrefabExist(buildingInfo))
-                {
-                    var buildignPrefab = BuildingWorkTimeManager.GetPrefab(buildingInfo);
-                    UpdateBuildingSettings.SetBuildingToPrefab(buildingID, buildignPrefab);
-                }
-                else if (BuildingWorkTimeGlobalConfig.Config.GlobalSettingsExist(buildingInfo))
-                {
-                    var buildignGlobal = BuildingWorkTimeGlobalConfig.Config.GetGlobalSettings(buildingInfo);
-                    UpdateBuildingSettings.SetBuildingToGlobal(buildingID, buildignGlobal);
-                }
-
-                if (BuildingManagerConnection.IsHotel(buildingID) && !HotelManager.HotelExist(buildingID) && data.m_roomUsed < data.m_roomMax)
-                {
-                    HotelManager.AddHotel(buildingID);
-                }
-            }
-
-            if (data.Info.GetAI() is MainCampusBuildingAI && !AcademicYearManager.MainCampusBuildingExist(buildingID))
-            {
-                AcademicYearManager.CreateAcademicYearDataExistingCampus(buildingID);
-            }
-
-            if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
-            {
-                if(data.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
-                {
-                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
-                }
-                else
-                {
-                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
-                } 
+                ParkBuildingTypesManager.CreateParkBuildingType(buildingID, ParkBuildingType.Generic);
             }
         }
 
@@ -136,13 +84,25 @@ namespace RealTime.Patches.BuildingAIPatches
             }
         }
 
+        private static bool IsBuildingWorkingSafe(ushort buildingID)
+        {
+            var realTimeBuildingAI = RealTimeBuildingAI;
+            return realTimeBuildingAI == null || realTimeBuildingAI.IsBuildingWorking(buildingID);
+        }
+
+        private static bool IsSchoolBuildingSafe(ushort buildingID)
+        {
+            var realTimeBuildingAI = RealTimeBuildingAI;
+            return realTimeBuildingAI != null && realTimeBuildingAI.IsSchoolBuilding(buildingID);
+        }
+
         [HarmonyPatch(typeof(PlayerBuildingAI), "SimulationStepActive")]
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> TranspileSimulationStepActive(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
-            var IsBuildingWorkingInstance = AccessTools.PropertyGetter(typeof(BuildingAIPatch), nameof(RealTimeBuildingAI));
-            var IsBuildingWorking = typeof(RealTimeBuildingAI).GetMethod("IsBuildingWorking", BindingFlags.Public | BindingFlags.Instance);
-            var IsSchoolBuilding = typeof(RealTimeBuildingAI).GetMethod("IsSchoolBuilding", BindingFlags.Public | BindingFlags.Instance);
+            var isBuildingWorkingSafe = AccessTools.Method(typeof(PlayerBuildingAIPatch), nameof(IsBuildingWorkingSafe));
+            var isSchoolBuildingSafe = AccessTools.Method(typeof(PlayerBuildingAIPatch), nameof(IsSchoolBuildingSafe));
+
             var inst = new List<CodeInstruction>(instructions);
 
             for (int i = 0; i < inst.Count; i++)
@@ -155,22 +115,20 @@ namespace RealTime.Patches.BuildingAIPatches
                     inst[i - 1].opcode == OpCodes.Ldarg_2)
                 {
                     inst.InsertRange(i - 1, [
-                        new(OpCodes.Call, IsBuildingWorkingInstance),
-                            new(OpCodes.Ldarg_1),
-                            new(OpCodes.Ldc_I4_0),
-                            new(OpCodes.Ldc_I4_0),
-                            new(OpCodes.Call, IsBuildingWorking),
-                            new(OpCodes.Ldc_I4_0),
-                            new(OpCodes.Ceq),
-                            new(OpCodes.Call, IsBuildingWorkingInstance),
-                            new(OpCodes.Ldarg_1),
-                            new(OpCodes.Call, IsSchoolBuilding),
-                            new(OpCodes.Ldc_I4_0),
-                            new(OpCodes.Ceq),
-                            new(OpCodes.And),
-                            new(OpCodes.Brfalse, inst[i + 3].operand),
-                            new(OpCodes.Ldc_I4_0),
-                            new(OpCodes.Stloc_1)
+                        new(OpCodes.Ldarg_1),
+                        new(OpCodes.Call, isBuildingWorkingSafe),
+                        new(OpCodes.Ldc_I4_0),
+                        new(OpCodes.Ceq),
+
+                        new(OpCodes.Ldarg_1),
+                        new(OpCodes.Call, isSchoolBuildingSafe),
+                        new(OpCodes.Ldc_I4_0),
+                        new(OpCodes.Ceq),
+
+                        new(OpCodes.And),
+                        new(OpCodes.Brfalse, inst[i + 3].operand),
+                        new(OpCodes.Ldc_I4_0),
+                        new(OpCodes.Stloc_1)
                     ]);
                     break;
                 }

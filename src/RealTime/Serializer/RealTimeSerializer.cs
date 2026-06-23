@@ -114,6 +114,15 @@ namespace RealTime.Serializer
                     CheckStartTuple("CommercialBuildingTypesSerializer", SaveGameFileVersion, data, ref Index);
                     CommercialBuildingTypesSerializer.LoadData(SaveGameFileVersion, data, ref Index);
                     CheckEndTuple("CommercialBuildingTypesSerializer", SaveGameFileVersion, data, ref Index);
+
+                    if (Index == data.Length)
+                    {
+                        break;
+                    }
+
+                    CheckStartTuple("ParkBuildingTypesSerializer", SaveGameFileVersion, data, ref Index);
+                    ParkBuildingTypesSerializer.LoadData(SaveGameFileVersion, data, ref Index);
+                    CheckEndTuple("ParkBuildingTypesSerializer", SaveGameFileVersion, data, ref Index);
                     break;
                 }
 
@@ -172,9 +181,14 @@ namespace RealTime.Serializer
                     CommercialBuildingTypesSerializer.SaveData(Data);
                     StorageData.WriteUInt32(uiTUPLE_END, Data);
 
+                    // park building types settings
+                    StorageData.WriteUInt32(uiTUPLE_START, Data);
+                    ParkBuildingTypesSerializer.SaveData(Data);
+                    StorageData.WriteUInt32(uiTUPLE_END, Data);
+
                     // citizen schedules
                     CitizenScheduleSerializer.SaveData(m_serializableData);
-
+                    
                     BuildingWorkTimeGlobalConfig.Config.Serialize();
 
                     m_serializableData.SaveData(DataID, Data.ToArray());

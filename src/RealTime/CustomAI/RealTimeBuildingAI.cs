@@ -6,6 +6,7 @@ namespace RealTime.CustomAI
     using System.Collections.Generic;
     using System.Linq;
     using ColossalFramework;
+    using ColossalFramework.PlatformServices;
     using RealTime.Config;
     using RealTime.GameConnection;
     using RealTime.Managers;
@@ -1021,12 +1022,7 @@ namespace RealTime.CustomAI
             }
 
             float arriveHour = (float)timeInfo.Now.AddHours(travelTime).TimeOfDay.TotalHours;
-            if (arriveHour >= config.GoToSleepHour || arriveHour <= config.WakeUpHour)
-            {
-                return BuildingManagerConnection.IsBuildingNoiseRestricted(buildingId);
-            }
-
-            return false;
+            return (arriveHour >= config.GoToSleepHour || arriveHour <= config.WakeUpHour) && BuildingManagerConnection.IsBuildingNoiseRestricted(buildingId);
         }
 
         /// <summary>Registers a trouble reaching the building with the specified ID.</summary>
@@ -1111,11 +1107,22 @@ namespace RealTime.CustomAI
         public bool IsEventWithinOperationHours(ref EventData data)
         {
             var event_start_time = Singleton<SimulationManager>.instance.FrameToTime(data.m_startFrame);
-            var event_end_time = data.StartTime.AddHours(data.Info.m_eventAI.m_eventDuration);
-            if (event_start_time.Hour >= config.WorkBegin && event_end_time.Hour <= config.GoToSleepHour)
+
+            if (config.IsWeekendEnabled && event_start_time.IsWeekend())
             {
-                return true;
+                if(event_start_time.Hour > config.EarliestHourEventStartWeekend && event_start_time.Hour < config.LatestHourEventStartWeekend)
+                {
+                    return true;
+                }
             }
+            else
+            {
+                if (event_start_time.Hour > config.EarliestHourEventStartWeekday && event_start_time.Hour < config.LatestHourEventStartWeekday)
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
 
@@ -1129,84 +1136,47 @@ namespace RealTime.CustomAI
         public bool IsSchoolBuilding(ushort buildingId)
         {
             var building = BuildingManager.instance.m_buildings.m_buffer[buildingId];
-            if (building.Info.GetAI() is SchoolAI)
-            {
-                return true;
-            }
-            return false;
+            return building.Info.GetAI() is SchoolAI;
         }
 
         /// <summary>
         /// Determines whether the building with the specified <paramref name="buildingId"/> is going to get closed in two hours or less
         /// </summary>
         /// <param name="buildingId">The building ID to check.</param>
+        /// <param name="timeBeforeOpening">The time before opening in hours, default is 1 hour.</param>
         /// <returns>
-        ///   <c>true</c> f the building with the specified <paramref name="buildingId"/> is going to get closed in two hours or less, <c>false</c>.
+        ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is going to get opened in the specified <paramref name="timeBeforeOpening"/> hours, <c>false</c>.
         /// </returns>
-        public bool IsBuildingClosingSoon(ushort buildingId)
+        public bool IsBuildingOpeningSoon(ushort buildingId, int timeBeforeOpening = 1)
         {
             var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
-            if(!IsBuildingWorking(buildingId))
-            {
-                return false;
-            }
-            if(workTime.WorkAtNight)
-            {
-                return false;
-            }
-            if (workTime.HasContinuousWorkShift)
-            {
-                if (workTime.WorkShifts == 2)
-                {
-                    return false;
-                }
-                if (workTime.WorkShifts == 1 && timeInfo.CurrentHour < 18f)
-                {
-                    return false;
-                }
+            var future = timeInfo.Now.AddHours(timeBeforeOpening);
+            return workTime.IsWorkingAt(future);
+        }
 
-                return true;
-            }
-            else
-            {
-                var building = BuildingManager.instance.m_buildings.m_buffer[buildingId];
-                if (building.Info.m_class.m_service == ItemClass.Service.Education || building.Info.m_class.m_service == ItemClass.Service.PlayerEducation)
-                {
-                    if (workTime.WorkShifts == 1 && timeInfo.CurrentHour < (config.SchoolEnd - 2f))
-                    {
-                        return false;
-                    }
-                    if (workTime.WorkShifts == 2 && timeInfo.CurrentHour < 20f)
-                    {
-                        return false;
-                    }
-                    return true;
-                }
-                else
-                {
-                    if (workTime.WorkShifts == 1 && timeInfo.CurrentHour < (config.WorkEnd - 2f))
-                    {
-                        return false;
-                    }
-                    if (workTime.WorkShifts == 2 && timeInfo.CurrentHour < (config.GoToSleepHour - 2f))
-                    {
-                        return false;
-                    }
-                    return true;
-                }
-            }
+        /// <summary>
+        /// Determines whether the building with the specified <paramref name="buildingId"/> is going to get closed in two hours or less
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <param name="timeBeforeClosing">The time before closing in hours, default is 2 hours.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is going to get closed in the specified <paramref name="timeBeforeClosing"/> hours, <c>false</c>.
+        /// </returns>
+        public bool IsBuildingClosingSoon(ushort buildingId, int timeBeforeClosing = 2)
+        {
+            var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
+            var future = timeInfo.Now.AddHours(timeBeforeClosing);
+            return !workTime.IsWorkingAt(future);
         }
 
         /// <summary>
         /// Determines whether the building with the specified <paramref name="buildingId"/> is currently working
         /// </summary>
         /// <param name="buildingId">The building ID to check.</param>
-        /// <param name="timeBeforeWork">time before work the citizen can arrive without an issue.</param>
-        /// <param name="currentBuildingId">the building ID the citizen is currently in.</param>
         /// <returns>
         ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is currently working otherwise, <c>false</c>.
         /// </returns>
-        public bool IsBuildingWorking(ushort buildingId, int timeBeforeWork = 0, ushort currentBuildingId = 0)
+        public bool IsBuildingWorking(ushort buildingId)
         {
             if (buildingId == 0)
             {
@@ -1226,260 +1196,58 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            if (!BuildingWorkTimeManager.BuildingWorkTimeExist(buildingId))
+            if(building.Info == null)
             {
-                workTime = BuildingWorkTimeManager.CreateBuildingWorkTime(buildingId, building.Info);
-            }
-            else
-            {
-                workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
+                return true;
             }
 
-            if(building.Info.m_class.m_subService == ItemClass.SubService.CommercialLeisure && !workTime.IgnorePolicy && workTime.IsDefault)
-            {
-                bool isNoiseRestricted = IsNoiseRestricted(buildingId, currentBuildingId);
-                bool updated = false;
-                if (isNoiseRestricted)
-                {
-                    if (workTime.HasContinuousWorkShift)
-                    {
-                        if (workTime.WorkShifts == 2)
-                        {
-                            workTime.WorkShifts = 1;
-                            workTime.WorkAtNight = false;
-                            updated = true;
-                        }
-                    }
-                    else
-                    {
-                        if (workTime.WorkShifts == 3)
-                        {
-                            workTime.WorkShifts = 2;
-                            workTime.WorkAtNight = false;
-                            updated = true;
-                        }
-                    }
-                }
-                else
-                {
-                    if (workTime.HasContinuousWorkShift)
-                    {
-                        if (workTime.WorkShifts == 1)
-                        {
-                            workTime.WorkShifts = 2;
-                            workTime.WorkAtNight = true;
-                            updated = true;
-                        }
-                    }
-                    else
-                    {
-                        if (workTime.WorkShifts == 2)
-                        {
-                            workTime.WorkShifts = 3;
-                            workTime.WorkAtNight = true;
-                            updated = true;
-                        }
-                    }
-                }
-                if (updated)
-                {
-                    BuildingWorkTimeManager.SetBuildingWorkTime(buildingId, workTime);
-                }
-            }
-
-            if ((building.Info.m_class.m_subService == ItemClass.SubService.PlayerIndustryFarming
-                || building.Info.m_class.m_subService == ItemClass.SubService.PlayerIndustryForestry) && !workTime.IgnorePolicy && workTime.IsDefault)
-            {
-                bool IsEssential = BuildingManagerConnection.IsEssentialIndustryBuilding(buildingId);
-                bool updated = false;
-                if (IsEssential && !workTime.WorkAtNight)
-                {
-                    workTime.WorkShifts = 3;
-                    workTime.WorkAtNight = true;
-                    updated = true;
-                }
-                else if (!IsEssential && workTime.WorkAtNight)
-                {
-                    workTime.WorkShifts = 2;
-                    workTime.WorkAtNight = false;
-                    updated = true;
-                }
-                if (updated)
-                {
-                    BuildingWorkTimeManager.SetBuildingWorkTime(buildingId, workTime);
-                }
-            }
-
-            if (building.Info.m_class.m_service == ItemClass.Service.Beautification &&
-                building.Info.m_class.m_subService == ItemClass.SubService.BeautificationParks
-                && !workTime.IgnorePolicy && workTime.IsDefault)
-            {
-                var position = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position;
-                byte parkId = DistrictManager.instance.GetPark(position);
-                bool need_update = false;
-                if (parkId != 0)
-                {
-                    var park = DistrictManager.instance.m_parks.m_buffer[parkId];
-                    if ((park.m_parkPolicies & DistrictPolicies.Park.NightTours) != 0)
-                    {
-                        if (workTime.WorkShifts != 3)
-                        {
-                            workTime.WorkShifts = 3;
-                            workTime.WorkAtNight = true;
-                            workTime.WorkAtWeekands = true;
-                            workTime.HasExtendedWorkShift = true;
-                            workTime.HasContinuousWorkShift = false;
-                            workTime.IsDefault = true;
-                            need_update = true;
-                        }
-                    }
-                    else
-                    {
-                        if (workTime.WorkShifts != 2)
-                        {
-                            workTime.WorkShifts = 2;
-                            workTime.WorkAtNight = false;
-                            workTime.WorkAtWeekands = true;
-                            workTime.HasExtendedWorkShift = true;
-                            workTime.HasContinuousWorkShift = false;
-                            workTime.IsDefault = true;
-                            need_update = true;
-                        }
-                    }
-                }
-                if (need_update)
-                {
-                    BuildingWorkTimeManager.SetBuildingWorkTime(buildingId, workTime);
-                }
-            }
+            workTime = !BuildingWorkTimeManager.BuildingWorkTimeExist(buildingId)
+                ? BuildingWorkTimeManager.CreateBuildingWorkTime(buildingId, building.Info)
+                : BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
 
             // WorkForceMatters setting is enabled and no one at work - building will not work
-            if (config.WorkForceMatters && GetWorkersInBuilding(buildingId) == 0)
+            //if (config.WorkForceMatters && GetWorkersInBuilding(buildingId) == 0)
+            //{
+            //    return false;
+            //}
+
+            return workTime.IsWorkingAt(timeInfo.Now);
+
+        }
+
+        /// <summary>
+        /// Updates the work time of a building based on its policy.
+        /// </summary>
+        /// <param name="buildingID">The ID of the building to update.</param>
+        public void UpdateBuildingWorkTimeByPolicy(ushort buildingID)
+        {
+            if (!BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID))
             {
-                return false;
+                return;
             }
 
-            float currentHour = timeInfo.CurrentHour;
-            if (workTime.HasExtendedWorkShift)
+            var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingID);
+            if (workTime.IgnorePolicy || !workTime.IsDefault)
             {
-                float extendedShiftBegin = Math.Min(config.SchoolBegin, config.WakeUpHour);
-
-                if (building.Info.m_class.m_service == ItemClass.Service.Education || building.Info.m_class.m_service == ItemClass.Service.PlayerEducation)
-                {
-                    if (config.IsWeekendEnabled && timeInfo.Now.IsWeekend() && !workTime.WorkAtWeekands)
-                    {
-                        return false;
-                    }
-
-                    if (timeInfo.IsNightTime && !workTime.WorkAtNight)
-                    {
-                        return false;
-                    }
-
-                    float startHour = Math.Min(EarliestWakeUp, extendedShiftBegin);
-                    if (workTime.WorkShifts == 1)
-                    {
-                        return currentHour >= startHour - timeBeforeWork && currentHour < config.SchoolEnd;
-                    }
-                    else if (workTime.WorkShifts == 2)
-                    {
-                        // universities - might have night classes closes at 10 pm
-                        return currentHour >= startHour - timeBeforeWork && currentHour < 22f;
-                    }
-                    else if (workTime.WorkShifts == 3)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false; // should never get here
-                    }
-                }
-                else
-                {
-                    if (config.IsWeekendEnabled && timeInfo.Now.IsWeekend() && !workTime.WorkAtWeekands)
-                    {
-                        return false;
-                    }
-
-                    if (timeInfo.IsNightTime && !workTime.WorkAtNight)
-                    {
-                        return false;
-                    }
-
-                    extendedShiftBegin = config.WakeUpHour;
-                    float startHour = Math.Min(EarliestWakeUp, extendedShiftBegin);
-                    if (workTime.WorkShifts == 1)
-                    {
-                        return currentHour >= startHour - timeBeforeWork && currentHour < config.WorkEnd;
-                    }
-                    else if (workTime.WorkShifts == 2)
-                    {
-                        return currentHour >= startHour - timeBeforeWork && currentHour < config.GoToSleepHour;
-                    }
-                    else if (workTime.WorkShifts == 3)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false; // should never get here
-                    }
-                }
+                return;
             }
-            else if (workTime.HasContinuousWorkShift)
+
+            var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
+            var service = building.Info.m_class.m_service;
+            var subService = building.Info.m_class.m_subService;
+
+            switch (subService)
             {
-                if (config.IsWeekendEnabled && timeInfo.Now.IsWeekend() && !workTime.WorkAtWeekands)
-                {
-                    return false;
-                }
-
-                if (timeInfo.IsNightTime && !workTime.WorkAtNight)
-                {
-                    return false;
-                }
-
-                if (workTime.WorkShifts == 1)
-                {
-                    return currentHour >= 8f - timeBeforeWork && currentHour < 20f;
-                }
-                else if (workTime.WorkShifts == 2)
-                {
-                    return true; // two work shifts
-                }
-                else
-                {
-                    return false; // should never get here
-                }
-            }
-            else
-            {
-                if (config.IsWeekendEnabled && timeInfo.Now.IsWeekend() && !workTime.WorkAtWeekands)
-                {
-                    return false;
-                }
-
-                if (timeInfo.IsNightTime && !workTime.WorkAtNight)
-                {
-                    return false;
-                }
-
-                if (workTime.WorkShifts == 1)
-                {
-                    return currentHour >= config.WorkBegin - timeBeforeWork && currentHour < config.WorkEnd;
-                }
-                else if (workTime.WorkShifts == 2)
-                {
-                    return currentHour >= config.WorkBegin - timeBeforeWork && currentHour < config.GoToSleepHour;
-                }
-                else if (workTime.WorkShifts == 3)
-                {
-                    return true; // three work shifts
-                }
-                else
-                {
-                    return false; // should never get here
-                }
+                case ItemClass.SubService.CommercialLeisure:
+                    UpdateLeisurePolicy(buildingID, workTime);
+                    break;
+                case ItemClass.SubService.PlayerIndustryFarming:
+                case ItemClass.SubService.PlayerIndustryForestry:
+                    UpdateFarmingForestryPolicy(buildingID, workTime);
+                    break;
+                case ItemClass.SubService.BeautificationParks when service == ItemClass.Service.Beautification:
+                    UpdateParkNightToursPolicy(buildingID, workTime);
+                    break;
             }
         }
 
@@ -1531,14 +1299,16 @@ namespace RealTime.CustomAI
         /// <param name="maxDistance">The maximum distance for search, the search area radius.</param>
         /// <param name="service">The building service type to find.</param>
         /// <param name="subService">The building sub-service type to find.</param>
-        /// <param name="buildingType">The commercial building type the citizen is going to visit.</param>
+        /// <param name="commercialBuildingType">The commercial building type the citizen is going to visit.</param>
+        /// <param name="parkBuildingType">The park building type the citizen is going to visit.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
         public ushort FindActiveBuilding(
             ushort searchAreaCenterBuilding,
             float maxDistance,
             ItemClass.Service service,
             ItemClass.SubService subService = ItemClass.SubService.None,
-            CommercialBuildingType buildingType = CommercialBuildingType.None)
+            CommercialBuildingType commercialBuildingType = CommercialBuildingType.None,
+            ParkBuildingType parkBuildingType = ParkBuildingType.None)
         {
             if (searchAreaCenterBuilding == 0)
             {
@@ -1546,7 +1316,7 @@ namespace RealTime.CustomAI
             }
 
             var currentPosition = BuildingManager.instance.m_buildings.m_buffer[searchAreaCenterBuilding].m_position;
-            return FindActiveBuilding(currentPosition, maxDistance, service, subService, searchAreaCenterBuilding, buildingType);
+            return FindActiveBuilding(currentPosition, maxDistance, service, subService, commercialBuildingType, parkBuildingType);
         }
 
         /// <summary>Finds an active building that matches the specified criteria and can accept visitors.</summary>
@@ -1554,16 +1324,16 @@ namespace RealTime.CustomAI
         /// <param name="maxDistance">The maximum distance for search, the search area radius.</param>
         /// <param name="service">The building service type to find.</param>
         /// <param name="subService">The building sub-service type to find.</param>
-        /// <param name="currentBuilding">The current building the citizen is in.</param>
-        /// <param name="buildingType">The commercial building type the citizen is going to visit.</param>
+        /// <param name="commercialBuildingType">The commercial building type the citizen is going to visit.</param>
+        /// <param name="parkBuildingType">The park building type the citizen is going to visit.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
         public ushort FindActiveBuilding(
             Vector3 position,
             float maxDistance,
             ItemClass.Service service,
             ItemClass.SubService subService = ItemClass.SubService.None,
-            ushort currentBuilding = 0,
-            CommercialBuildingType buildingType = CommercialBuildingType.None)
+            CommercialBuildingType commercialBuildingType = CommercialBuildingType.None,
+            ParkBuildingType parkBuildingType = ParkBuildingType.None)
         {
             if (position == Vector3.zero)
             {
@@ -1604,29 +1374,43 @@ namespace RealTime.CustomAI
 
                             if (buildingService == service && (subService == ItemClass.SubService.None || buildingSubService == subService))
                             {
-                                if (IsBuildingWorking(buildingId, 0, currentBuilding))
+                                if (IsBuildingWorking(buildingId))
                                 {
                                     float sqrDistance = Vector3.SqrMagnitude(position - building.m_position);
                                     if (sqrDistance < sqrMaxDistance)
                                     {
                                         if (BuildingManagerConnection.BuildingCanBeVisited(buildingId))
                                         {
-                                            if(CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
+                                            if(commercialBuildingType != CommercialBuildingType.None)
                                             {
-                                                var currentBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
-                                                if ((currentBuildingType & buildingType) == buildingType)
+                                                if (CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
                                                 {
-                                                    return buildingId;
-                                                }
-                                                else
-                                                {
-                                                    Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Commercial building {buildingId} rejected: Wrong commercial building type ({currentBuildingType}).");
+                                                    var currentCommercialBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
+                                                    if ((currentCommercialBuildingType & commercialBuildingType) == commercialBuildingType)
+                                                    {
+                                                        return buildingId;
+                                                    }
+                                                    else
+                                                    {
+                                                        Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Commercial building {buildingId} rejected: Wrong commercial building type ({currentCommercialBuildingType}).");
+                                                    }
                                                 }
                                             }
-                                            else
+                                            else if (parkBuildingType != ParkBuildingType.None)
                                             {
-                                                return buildingId;
-                                            }  
+                                                if (ParkBuildingTypesManager.ParkBuildingTypeExist(buildingId))
+                                                {
+                                                    var currentParkBuildingType = ParkBuildingTypesManager.GetParkBuildingType(buildingId);
+                                                    if (currentParkBuildingType == parkBuildingType)
+                                                    {
+                                                        return buildingId;
+                                                    }
+                                                    else
+                                                    {
+                                                        Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Park building {buildingId} rejected: Wrong park building type ({currentParkBuildingType}).");
+                                                    }
+                                                }
+                                            }
                                         }
                                         else
                                         {
@@ -1719,6 +1503,15 @@ namespace RealTime.CustomAI
             return 0;
         }
 
+        /// <summary>
+        /// Determines whether a commerical building will receive goods delivery once a week or not
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if the building will receive goods delivery once a week;
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        public bool WeeklyCommericalDeliveries() => config.WeeklyCommericalDeliveries;
+
         private static int GetAllowedConstructingUpradingCount(int currentBuildingCount)
         {
             if (currentBuildingCount < ConstructionRestrictionThreshold1)
@@ -1784,8 +1577,8 @@ namespace RealTime.CustomAI
                     continue;
                 }
 
-                buildingManager.GetBuildingService(i, out var service, out var subService);
-                bool lightsOn = !ShouldSwitchBuildingLightsOff(i, service, subService);
+                buildingManager.GetBuildingService(i, out var service, out var _);
+                bool lightsOn = !ShouldSwitchBuildingLightsOff(i, service);
                 if (lightsOn == lightStates[i])
                 {
                     continue;
@@ -1803,7 +1596,7 @@ namespace RealTime.CustomAI
             }
         }
 
-        private bool ShouldSwitchBuildingLightsOff(ushort buildingId, ItemClass.Service service, ItemClass.SubService subService)
+        private bool ShouldSwitchBuildingLightsOff(ushort buildingId, ItemClass.Service service)
         {
             switch (service)
             {
@@ -1837,15 +1630,56 @@ namespace RealTime.CustomAI
             }
         }
 
-        /// <summary>
-        /// Determines whether a commerical building will receive goods delivery once a week or not
-        /// </summary>
-        /// <returns>
-        ///   <c>true</c> if the building will receive goods delivery once a week;
-        ///   otherwise, <c>false</c>.
-        /// </returns>
-        public bool WeeklyCommericalDeliveries() => config.WeeklyCommericalDeliveries;
+        private void UpdateLeisurePolicy(ushort buildingID, BuildingWorkTimeManager.WorkTime workTime)
+        {
+            bool isNoiseRestricted = BuildingManagerConnection.IsBuildingNoiseRestricted(buildingID);
+            bool hasNightShift = HasNightShift(workTime);
 
+            // noise restricted but currently has night coverage, or vice versa — regenerate
+            if (isNoiseRestricted == hasNightShift)
+            {
+                RegenerateDefaultWorkTime(buildingID);
+            }
+        }
 
+        private void UpdateFarmingForestryPolicy(ushort buildingID, BuildingWorkTimeManager.WorkTime workTime)
+        {
+            bool isEssential = BuildingManagerConnection.IsEssentialIndustryBuilding(buildingID);
+            bool hasNightShift = HasNightShift(workTime);
+
+            if (isEssential != hasNightShift)
+            {
+                RegenerateDefaultWorkTime(buildingID);
+            }
+        }
+
+        private void UpdateParkNightToursPolicy(ushort buildingID, BuildingWorkTimeManager.WorkTime workTime)
+        {
+            var position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].m_position;
+            byte parkId = DistrictManager.instance.GetPark(position);
+            if (parkId == 0)
+            {
+                return;
+            }
+
+            bool nightTours = (DistrictManager.instance.m_parks.m_buffer[parkId].m_parkPolicies & DistrictPolicies.Park.NightTours) != 0;
+            bool hasNightShift = HasNightShift(workTime);
+
+            if (nightTours == hasNightShift)
+            {
+                return; // already correct
+            }
+
+            RegenerateDefaultWorkTime(buildingID);
+        }
+
+        private bool HasNightShift(BuildingWorkTimeManager.WorkTime workTime) => workTime.WorkShifts != null && workTime.WorkShifts.Any(s => s.StartTime >= config.GoToSleepHour || s.EndTime <= config.WakeUpHour);
+
+        private void RegenerateDefaultWorkTime(ushort buildingID)
+        {
+            var info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info;
+            BuildingWorkTimeManager.RemoveBuildingWorkTime(buildingID);
+            BuildingWorkTimeManager.CreateBuildingWorkTime(buildingID, info);
+        }
     }
 }

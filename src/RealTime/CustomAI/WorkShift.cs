@@ -10,6 +10,8 @@ namespace RealTime.CustomAI
         /// <summary>The citizen will not go to work or school.</summary>
         Unemployed,
 
+        /// ------------------------------------------------------------- remove in next version ------------------------------------------------------------
+
         /// <summary>The citizen will work first (or default) shift.</summary>
         First,
 
@@ -26,7 +28,11 @@ namespace RealTime.CustomAI
         ContinuousNight,
 
         /// <summary>The citizen will work at event.</summary>
-        Event
+        Event,
 
+        /// -------------------------------------------------------------------------------------------------------------------------------------------------
+
+        /// <summary>The citizen is assigned to a specific shift index - see ShiftIndex.</summary>
+        Assigned,
     }
 }

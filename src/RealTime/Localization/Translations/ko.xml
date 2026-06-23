@@ -281,12 +281,7 @@
   <translation id="ScheduledMealType.Lunch" value="점심 식사" />
   <translation id="ScheduledMealType.Supper" value="저녁 식사" />
   <translation id="ScheduledMealType.Other" value="간식" />
-  <translation id="WorkShift.First" value="1교대 근무" />
-  <translation id="WorkShift.Second" value="2교대 근무" />
-  <translation id="WorkShift.Night" value="야간 근무" />
-  <translation id="WorkShift.ContinuousDay" value="상시 주간 근무" />
-  <translation id="WorkShift.ContinuousNight" value="상시 야간 근무" />
-  <translation id="WorkShift.Event" value="이벤트 근무" />
+  <translation id="WorkShift.Assigned" value="assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(휴가 중: {0}일 남음)" />
 
   <translation id="AcademicYear.DaysLeft" value="{0}일 남음" />
@@ -300,54 +295,92 @@
   <translation id="AcademicYearEndYearButtonTooltip" value="평일 오전 9시에서 10시 사이에 학기를 수동으로 종료할 수 있습니다." />
 
   <translation id="OperationHoursSettingsCheckBox" value="설정" />
-  <translation id="OperationHoursSettingsCheckBoxTooltip" value="이 건물의 운영 시간을 변경합니다." />
-  <translation id="SettingsTitle" value="운영 시간 조정" />
-  <translation id="WorkAtNight" value="야간 운영" />
-  <translation id="WorkAtNightTooltip" value="건물이 24시간 내내 작동합니다." />
-  <translation id="WorkAtWeekands" value="주말 운영" />
-  <translation id="WorkAtWeekandsTooltip" value="건물이 주말에도 작동합니다." />
-  <translation id="HasExtendedWorkShift" value="연장 교대 근무" />
-  <translation id="HasExtendedWorkShiftTooltip" value="교대 근무가 도시 기상 시간에 시작됩니다. 상시 교대 근무와는 동시에 사용할 수 없습니다." />
-  <translation id="HasContinuousWorkShift" value="상시 교대 근무" />
-  <translation id="HasContinuousWorkShiftTooltip" value="건물이 오전 8시부터 오후 8시까지 운영됩니다. 야간 운영 시 8-20시와 20-8시 두 교대로 나뉩니다. 연장 교대 근무와는 동시에 사용할 수 없습니다." />
-  <translation id="IgnorePolicy" value="지구 정책 무시" />
-  <translation id="IgnorePolicyTooltip" value="이 건물은 지구 정책에 설정된 제한 사항을 무시합니다." />
-  <translation id="ShiftCountTitle" value="교대 근무 횟수 선택" />
-  <translation id="ShiftCountTooltip" value="야간+일반=3회, 상시=1회, 야간+상시=2회, 기타=1~2회" />
-  <translation id="SaveBuildingSettings" value="건물 설정 저장" />
-  <translation id="SaveBuildingSettingsTooltip" value="최우선 적용 - 글로벌 및 프리팹 설정을 무시하고 이 건물에만 특정 일정을 적용합니다." />
-  <translation id="ReturnToDefault" value="기본값으로 복구" />
-  <translation id="ReturnToDefaultTooltip" value="개별 기록을 삭제하지 않고 기본 설정 플래그로 되돌립니다." />
-  <translation id="ApplyPrefabSettings" value="프리팹 설정 적용" />
-  <translation id="ApplyPrefabSettingsTooltip" value="이 세이브 파일의 건물 유형에 따른 근무 시간을 적용합니다." />
-  <translation id="ApplyGlobalSettings" value="글로벌 설정 적용" />
-  <translation id="ApplyGlobalSettingsTooltip" value="모든 세이브 파일의 건물 유형에 따른 근무 시간을 적용합니다." />
-  <translation id="SetPrefabSettings" value="프리팹 설정으로 지정" />
-  <translation id="SetPrefabSettingsTooltip" value="이 세이브 파일에서 이 건물 유형을 가진 모든 건물의 근무 시간을 현재 설정으로 업데이트합니다." />
-  <translation id="SetGlobalSettings" value="글로벌 설정으로 지정" />
-  <translation id="SetGlobalSettingsTooltip" value="모든 세이브 파일에서 이 건물 유형을 가진 모든 건물의 근무 시간을 현재 설정으로 업데이트합니다." />
-  <translation id="DeletePrefabSettings" value="프리팹 설정 삭제" />
-  <translation id="DeletePrefabSettingsTooltip" value="이 세이브 파일에서 해당 유형의 모든 기록을 삭제하고 기본값으로 되돌립니다." />
-  <translation id="DeleteGlobalSettings" value="글로벌 설정 삭제" />
-  <translation id="DeleteGlobalSettingsTooltip" value="모든 세이브 파일에서 해당 유형의 모든 기록을 삭제하고 기본값으로 되돌립니다." />
-  <translation id="UnlockSettings" value="잠금 해제" />
-  <translation id="UnlockSettingsTooltip" value="설정 편집을 활성화합니다." />
-  <translation id="DefaultSettingsStatus" value="이 건물은 기본 설정을 사용 중입니다." />
-  <translation id="BuildingSettingsStatus" value="이 건물은 개별 설정을 사용 중입니다." />
-  <translation id="PrefabSettingsStatus" value="이 건물은 프리팹 설정을 사용 중입니다." />
-  <translation id="GlobalSettingsStatus" value="이 건물은 글로벌 설정을 사용 중입니다." />
-  <translation id="LockUnlockChangesTooltip" value="잠금 시 - 글로벌 또는 프리팹 설정 변경이 이 건물에 영향을 주지 않습니다." />
-  <translation id="ConfirmPanelSetPrefabTitle" value="프리팹 설정 지정" />
-  <translation id="ConfirmPanelSetPrefabText" value="이 세이브 파일에 있는 이 유형의 모든 건물 일정이 업데이트됩니다!" />
-  <translation id="ConfirmPanelSetGlobalTitle" value="글로벌 설정 지정" />
-  <translation id="ConfirmPanelSetGlobalText" value="모든 세이브 파일에 있는 이 유형의 모든 건물 일정이 업데이트됩니다!" />
-  <translation id="ConfirmPanelDeletePrefabTitle" value="프리팹 설정 삭제" />
-  <translation id="ConfirmPanelDeletePrefabText" value="이 세이브 파일의 해당 유형 건물이 모두 기본 일정으로 초기화됩니다!" />
+  <translation id="OperationHoursSettingsCheckBoxTooltip" value="건물 운영 시간을 변경합니다" />
+  <translation id="SettingsTitle" value="운영 시간" />
+  <translation id="EditSettingsTooltip" value="설정 편집 허용/거부" />
+  <translation id="LockUnlockChangesTooltip" value="잠금 상태일 경우 - 유형 및 글로벌 설정이 이 건물에 영향을 미치지 않습니다" />
+  <translation id="CopySettingsTooltip" value="이 건물에서 설정 복사" />
+  <translation id="PasteSettingsTooltip" value="이 건물에 설정 붙여넣기" />
+  <translation id="BuildingStatusLabel" value="상태:" />
+  <translation id="DefaultSettingsStatus" value="기본 설정" />
+  <translation id="BuildingSettingsStatus" value="자체 설정" />
+  <translation id="PrefabSettingsStatus" value="유형 설정" />
+  <translation id="GlobalSettingsStatus" value="전체 설정" />
+  <translation id="ActiveDays" value="활성 일" />
+  <translation id="Monday" value="월" />
+  <translation id="MondayTooltip" value="월요일을 활성/비활성 근무일로 설정" />
+  <translation id="Tuesday" value="화" />
+  <translation id="TuesdayTooltip" value="화요일을 활성/비활성 근무일로 설정" />
+  <translation id="Wednesday" value="수" />
+  <translation id="WednesdayTooltip" value="수요일을 활성/비활성 근무일로 설정" />
+  <translation id="Thursday" value="목" />
+  <translation id="ThursdayTooltip" value="목요일을 활성/비활성 근무일로 설정" />
+  <translation id="Friday" value="금" />
+  <translation id="FridayTooltip" value="금요일을 활성/비활성 근무일로 설정" />
+  <translation id="Saturday" value="토" />
+  <translation id="SaturdayTooltip" value="토요일을 활성/비활성 근무일로 설정" />
+  <translation id="Sunday" value="일" />
+  <translation id="SundayTooltip" value="일요일을 활성/비활성 근무일로 설정" />
+  <translation id="ShiftsSummaryLabel" value="근무조" />
+  <translation id="EditShifts" value="근무조 편집" />
+  <translation id="EditShiftsTooltip" value="이 건물의 근무조를 편집합니다" />
+  <translation id="ShiftsEditorLabel" value="근무조 편집" />
+  <translation id="ShiftLabelIndex" value="근무조" />
+  <translation id="InvalidShiftsTitle" value="무효한 근무조" />
+  <translation id="InvalidShiftsText" value="하나 이상의 근무조가 동일한 시작 및 종료 시간을 가지고 있습니다" />
+  <translation id="AddShift" value="+ 근무조 추가" />
+  <translation id="AddShiftTooltip" value="이 건물에 새로운 근무조를 추가합니다" />
+  <translation id="IgnorePolicy" value="구역 정책 무시" />
+  <translation id="IgnorePolicyTooltip" value="이 건물은 구역 정책의 제한을 무시합니다" />
+  <translation id="AccessAdvancedSettings" value="고급 설정 접근" />
+  <translation id="AccessAdvancedSettingsTooltip" value="이 건물의 고급 설정 패널을 엽니다" />
+  <translation id="SaveBuildingSettings" value="저장" />
+  <translation id="SaveBuildingSettingsTooltip" value="우선 순위 1 - 프리팹 및 글로벌 설정을 무시하고 이 건물에 대한 특정 근무 시간을 생성합니다" />
+  <translation id="ReturnToDefault" value="기본값" />
+  <translation id="ReturnToDefaultTooltip" value="레코드를 삭제하지 않고 기본 플래그를 설정합니다 - 이 건물의 설정을 지워야 프리팹 또는 글로벌 설정을 적용할 수 있습니다" />
+  <translation id="ApplyPrefabSettings" value="유형 적용" />
+  <translation id="ApplyPrefabSettingsTooltip" value="이 저장 파일에서 건물 유형에 따라 이 건물에 근무 시간 설정을 적용합니다" />
+  <translation id="ApplyGlobalSettings" value="전체 적용" />
+  <translation id="ApplyGlobalSettingsTooltip" value="모든 저장 파일에서 건물 유형에 따라 이 건물에 근무 시간 설정을 적용합니다" />
+  <translation id="SetPrefabSettings" value="유형 설정" />
+  <translation id="SetPrefabSettingsTooltip" value="이 저장 파일에서 이 건물의 현재 근무 시간으로 모든 동일 유형 건물의 설정을 업데이트합니다" />
+  <translation id="SetGlobalSettings" value="전체 설정" />
+  <translation id="SetGlobalSettingsTooltip" value="이 건물의 현재 근무 시간으로 모든 저장 파일에서 동일 유형 건물의 설정을 업데이트합니다" />
+  <translation id="DeletePrefabSettings" value="유형 삭제" />
+  <translation id="DeletePrefabSettingsTooltip" value="이 저장 파일에서 모든 동일 유형 건물의 설정을 삭제하고 기본값으로 되돌립니다" />
+  <translation id="DeleteGlobalSettings" value="전체 삭제" />
+  <translation id="DeleteGlobalSettingsTooltip" value="모든 저장 파일에서 모든 동일 유형 건물의 설정을 삭제하고 기본값으로 되돌립니다" />
+  <translation id="ConfirmPanelSetPrefabTitle" value="타입 설정 적용" />
+  <translation id="ConfirmPanelSetPrefabText" value="이 작업은 이 저장 파일에서 모든 동일 유형 건물의 근무 시간을 현재 설정으로 업데이트합니다!" />
+  <translation id="ConfirmPanelSetGlobalTitle" value="글로벌 설정 적용" />
+  <translation id="ConfirmPanelSetGlobalText" value="이 작업은 모든 저장 파일에서 모든 동일 유형 건물의 근무 시간을 현재 설정으로 업데이트합니다!" />
+  <translation id="ConfirmPanelDeletePrefabTitle" value="타입 설정 삭제" />
+  <translation id="ConfirmPanelDeletePrefabText" value="이 작업은 이 저장 파일에서 모든 동일 유형 건물의 근무 시간을 기본값으로 되돌립니다!" />
   <translation id="ConfirmPanelDeleteGlobalTitle" value="글로벌 설정 삭제" />
-  <translation id="ConfirmPanelDeleteGlobalText" value="모든 세이브 파일의 해당 유형 건물이 모두 기본 일정으로 초기화됩니다!" />
+  <translation id="ConfirmPanelDeleteGlobalText" value="이 작업은 모든 저장 파일에서 모든 동일 유형 건물의 근무 시간을 기본값으로 되돌립니다!" />
+  
   <translation id="ClosedBuilding" value="운영 종료" />
   <translation id="ServingTimeAt" value="복역 중: " />
 
+  <translation id="CommercialBuildingTypeLabel" value="상점 유형" />
+  <translation id="CommercialBuildingTypeTooltip" value="상업 건물의 유형을 선택하세요" />
+  <translation id="CommercialBuildingTypeShopping" value="쇼핑" />
+  <translation id="CommercialBuildingTypeEntertainment" value="엔터테인먼트" />
+  <translation id="CommercialBuildingTypeFood" value="음식" />
+  <translation id="CommercialBuildingTypeShoppingAndEntertainment" value="쇼핑 &amp; 엔터테인먼트" />
+  <translation id="CommercialBuildingTypeShoppingAndFood" value="쇼핑 &amp; 음식" />
+  <translation id="CommercialBuildingTypeEntertainmentAndFood" value="엔터테인먼트 &amp; 음식" />
+  <translation id="CommercialBuildingTypeAll" value="모두" />
+
+  <translation id="ParkBuildingTypeLabel" value="공원 유형" />
+  <translation id="ParkBuildingTypeTooltip" value="공원의 유형을 선택하세요" />
+  <translation id="ParkBuildingTypeGeneric" value="일반" />
+  <translation id="ParkBuildingTypePlayground" value="놀이터" />
+  <translation id="ParkBuildingTypeDogPark" value="도그파크" />
+  <translation id="ParkBuildingTypePlaza" value="광장" />
+  <translation id="ParkBuildingTypeGarden" value="정원" />
+  <translation id="ParkBuildingTypeSports" value="스포츠" />
+  
   <translation id="RaceDayLabelHour" value="시간" />
   <translation id="RaceDayLabelFrequency" value="주기" />
   <translation id="RaceDayLabelMinute" value="분" />

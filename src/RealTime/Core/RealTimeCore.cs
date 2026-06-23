@@ -4,6 +4,9 @@ namespace RealTime.Core
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using HarmonyLib;
     using RealTime.Config;
     using RealTime.CustomAI;
     using RealTime.Events;
@@ -20,7 +23,6 @@ namespace RealTime.Core
     using SkyTools.Localization;
     using SkyTools.Storage;
     using SkyTools.Tools;
-    using UnityEngine;
 
     /// <summary>
     /// The core component of the Real Time mod. Activates and deactivates
@@ -38,7 +40,9 @@ namespace RealTime.Core
 
         private bool isEnabled;
 
-        public static bool isCombinedAIEnabled = false;
+        public delegate TransferManager.TransferReason GoToPostOfficeOrBankDelegate(Citizen.AgeGroup ageGroup);
+        public static GoToPostOfficeOrBankDelegate _goToPostOfficeOrBank;
+        public static bool _combinedAISAvailable = false;
 
         public static bool ApplyCitizenPatch = false;
         public static bool ApplyBuildingPatch = false;
@@ -357,11 +361,35 @@ namespace RealTime.Core
 
             if (compatibility.IsAnyModActive(WorkshopMods.CombinedAIS) || compatibility.IsLocalModActive("CombinedAIS"))
             {
-                isCombinedAIEnabled = true;
+                var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == "CombinedAIS");
+                if (assembly == null)
+                {
+                    Log.Warning("CombinedAIS detected as active, but assembly is not loaded.");
+                    return;
+                }
+
+                var type = assembly.GetType("CombinedAIS.Managers.BankPostOfficeManager", false);
+                if (type == null)
+                {
+                    Log.Warning("CombinedAIS assembly loaded, but BankPostOfficeManager type was not found.");
+                    return;
+                }
+
+                var method = type.GetMethod("GoToPostOfficeOrBank", BindingFlags.Public | BindingFlags.Static, null, [typeof(Citizen.AgeGroup)], null);
+
+                if (method == null)
+                {
+                    Log.Warning("CombinedAIS GoToPostOfficeOrBank method was not found.");
+                    return;
+                }
+
+                _goToPostOfficeOrBank = AccessTools.MethodDelegate<GoToPostOfficeOrBankDelegate>(method);
+
+                _combinedAISAvailable = true;
             }
             else
             {
-                isCombinedAIEnabled = false;
+                _combinedAISAvailable = false;
             }
 
             if (compatibility.IsAnyModActive(WorkshopMods.RealisticPopulation2))
@@ -421,7 +449,15 @@ namespace RealTime.Core
 
             if (RealTimeSerializer.SaveGameFileVersion >= 2)
             {
-                realTimeResidentAI.ApplyLoadedSchedules(CitizenScheduleSerializer.residentSchedules);
+                if(CitizenScheduleSerializer.residentSchedules != null)
+                {
+                    realTimeResidentAI.ApplyLoadedSchedules(CitizenScheduleSerializer.residentSchedules);
+                }
+                else
+                {
+                    Log.Warning("Citizen schedules were not loaded correctly. This may cause unexpected behavior in citizens' daily routines.");
+                }
+                
             }
 
             CitizenScheduleSerializer.RealTimeResidentAI = realTimeResidentAI;

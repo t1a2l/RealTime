@@ -4,11 +4,15 @@ namespace RealTime.Managers
     using ColossalFramework.UI;
     using RealTime.CustomAI;
     using RealTime.GameConnection;
+    using RealTime.Localization;
     using RealTime.Utils.UIUtils;
+    using SkyTools.Localization;
     using UnityEngine;
 
     internal static class CommercialBuildingTypesManager
     {
+        private static bool isUpdatingCommercialBuildingTypeDropdown;
+
         internal static Dictionary<ushort, CommercialBuildingType> CommercialBuildingTypes;
 
         internal static void Init() => CommercialBuildingTypes ??= [];
@@ -31,16 +35,16 @@ namespace RealTime.Managers
 
         internal static void RemoveCommercialBuildingType(ushort buildingID) => CommercialBuildingTypes.Remove(buildingID);
 
-        internal static void CommercialBuildingTypeDropdownVisibility(ushort buildingID, ref UIDropDown panel, ref bool isUpdating)
+        internal static void CommercialBuildingTypeDropdownVisibility(ushort buildingID, ref UIDropDown panel)
         {
             if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && CommercialBuildingTypeExist(buildingID))
             {
                 int commercialBuildingTypeIndex = ConvertFlagsToIndex(GetCommercialBuildingType(buildingID));
                 if (commercialBuildingTypeIndex != panel.selectedIndex)
                 {
-                    isUpdating = true;
+                    isUpdatingCommercialBuildingTypeDropdown = true;
                     panel.selectedIndex = commercialBuildingTypeIndex;
-                    isUpdating = false;
+                    isUpdatingCommercialBuildingTypeDropdown = false;
                 }
                 panel.Show();
             }
@@ -50,36 +54,29 @@ namespace RealTime.Managers
             }
         }
 
-        internal static void CreateUI(UIComponent parent, ref UIDropDown panel, float xPos, float yPos)
+        internal static void CreateUI(UIComponent parent, ref UIDropDown panel, float xPos, float yPos, ILocalizationProvider LocalizationProvider)
         {
-            var m_zonedBuildingWorldInfoPanel = UIView.library.Get<ZonedBuildingWorldInfoPanel>("ZonedBuildingWorldInfoPanel");
-
-            if (m_zonedBuildingWorldInfoPanel == null)
-            {
-                return;
-            }
-
             if (panel == null)
             {
-                panel = UIDropDowns.AddLabelledDropDown(parent, xPos, yPos, "CommercialBuildingTypeDropdown", "Store Type", "select commercial building store type", 220f, 24f);
+                panel = UIDropDowns.AddLabelledDropDown(parent, xPos, yPos, "CommercialBuildingTypeDropdown", LocalizationProvider.Translate(TranslationKeys.CommercialBuildingTypeLabel), LocalizationProvider.Translate(TranslationKeys.CommercialBuildingTypeTooltip), 220f, 24f);
                 panel.textColor = new Color32(255, 255, 255, 255);
                 panel.disabledTextColor = new Color32(142, 142, 142, 255);
                 panel.items = [
-                    "Shopping",                       // Index 0
-                    "Entertainment",                  // Index 1
-                    "Food",                           // Index 2
-                    "Shopping & Entertainment",       // Index 3
-                    "Shopping & Food",                // Index 4
-                    "Entertainment & Food",           // Index 5
-                    "All"                             // Index 6
+                    LocalizationProvider.Translate(TranslationKeys.CommercialBuildingTypeShopping),
+                    LocalizationProvider.Translate(TranslationKeys.CommercialBuildingTypeEntertainment),
+                    LocalizationProvider.Translate(TranslationKeys.CommercialBuildingTypeFood),
+                    LocalizationProvider.Translate(TranslationKeys.CommercialBuildingTypeShoppingAndEntertainment),
+                    LocalizationProvider.Translate(TranslationKeys.CommercialBuildingTypeShoppingAndFood),
+                    LocalizationProvider.Translate(TranslationKeys.CommercialBuildingTypeEntertainmentAndFood),
+                    LocalizationProvider.Translate(TranslationKeys.CommercialBuildingTypeAll),
                 ];
                 panel.Hide();
             }
         }
 
-        internal static void OnCommercialBuildingTypeDropdownIndexChanged(int value, ushort buildingID, bool isUpdating)
+        internal static void OnCommercialBuildingTypeDropdownIndexChanged(int value, ushort buildingID)
         {
-            if (isUpdating)
+            if (isUpdatingCommercialBuildingTypeDropdown)
             {
                 return;
             }

@@ -2,24 +2,20 @@
 
 namespace RealTime.CustomAI
 {
-    using HarmonyLib;
-    using System.Reflection;
+    using System;
     using SkyTools.Tools;
-    using static Constants;
     using RealTime.Core;
     using RealTime.Managers;
     using ColossalFramework;
+    using static Constants;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private delegate TransferManager.TransferReason GoToPostOfficeOrBankDelegate(Citizen.AgeGroup ageGroup);
-        private static GoToPostOfficeOrBankDelegate GoToPostOfficeOrBank;
-
         private bool ScheduleRelaxing(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
             var citizenAge = CitizenProxy.GetAge(ref citizen);
 
-            uint relaxChance = spareTimeBehavior.GetRelaxingChance(citizenAge, schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
+            uint relaxChance = spareTimeBehavior.GetRelaxingChance(citizenAge, GetCitizenStartHour(ref schedule), schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
             relaxChance = AdjustRelaxChance(relaxChance, ref citizen);
 
             if (!Random.ShouldOccur(relaxChance) || WeatherInfo.IsBadWeather)
@@ -116,7 +112,9 @@ namespace RealTime.CustomAI
                         return true;
                     }
 
-                    ushort parkBuildingId = buildingAI.FindActiveBuilding(currentBuilding, LocalSearchDistance, ItemClass.Service.Beautification);
+                    var parkBuildingType = ParkBuildingTypesManager.GetPreferredParkType(CitizenProxy.GetAge(ref citizen), Random);
+                    ushort parkBuildingId = buildingAI.FindActiveBuilding(currentBuilding, LocalSearchDistance, ItemClass.Service.Beautification, ItemClass.SubService.None, CommercialBuildingType.None, parkBuildingType);
+
                     if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, parkBuildingId))
                     {
                         Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} heading to a nearby entertainment building {parkBuildingId}");
@@ -137,6 +135,7 @@ namespace RealTime.CustomAI
 
             uint relaxChance = spareTimeBehavior.GetRelaxingChance(
                 CitizenProxy.GetAge(ref citizen),
+                GetCitizenStartHour(ref schedule),
                 schedule.WorkShift,
                 schedule.WorkStatus == WorkStatus.OnVacation);
 
@@ -450,16 +449,14 @@ namespace RealTime.CustomAI
             return true;
         }
 
-        private bool ScheduleVisiting(ref CitizenSchedule schedule, ref TCitizen citizen)
+        private bool ScheduleVisiting(ref CitizenSchedule schedule, ref TCitizen _)
         {
-            if (!RealTimeCore.isCombinedAIEnabled)
+            if (!RealTimeCore._combinedAISAvailable)
             {
                 return false;
             }
 
-            GoToPostOfficeOrBank ??= AccessTools.MethodDelegate<GoToPostOfficeOrBankDelegate>(AccessTools.TypeByName("CombinedAIS.Managers.BankPostOfficeManager").GetMethod("GoToPostOfficeOrBank", BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static), null, false);
-
-            if (WeatherInfo.IsBadWeather || GoToPostOfficeOrBank == null)
+            if (WeatherInfo.IsBadWeather)
             {
                 return false;
             }
@@ -484,11 +481,6 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            if (GoToPostOfficeOrBank == null)
-            {
-                return false;
-            }
-
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
 
             if (QuitVisit(citizenId, ref citizen, currentBuilding))
@@ -501,7 +493,12 @@ namespace RealTime.CustomAI
 
             if (schedule.ScheduledState != ResidentState.GoToVisit || schedule.CurrentState != ResidentState.Visiting || buildingAI.IsBuildingClosingSoon(currentBuilding))
             {
-                var reason = GoToPostOfficeOrBank(CitizenProxy.GetAge(ref citizen));
+                if (!RealTimeCore._combinedAISAvailable)
+                {
+                    return false;
+                }
+
+                var reason = RealTimeCore._goToPostOfficeOrBank(CitizenProxy.GetAge(ref citizen));
                 
                 schedule.FindVisitPlaceAttempts++;
 
@@ -582,7 +579,7 @@ namespace RealTime.CustomAI
             var age = CitizenProxy.GetAge(ref citizen);
             uint stayChance = schedule.CurrentState == ResidentState.Shopping
                 ? spareTimeBehavior.GetShoppingChance(age)
-                : spareTimeBehavior.GetRelaxingChance(age, schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
+                : spareTimeBehavior.GetRelaxingChance(age, GetCitizenStartHour(ref schedule), schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
 
             if (!Random.ShouldOccur(stayChance))
             {
@@ -600,10 +597,9 @@ namespace RealTime.CustomAI
 
             if (BuildingMgr.GetBuildingSubService(visitBuilding) == ItemClass.SubService.BeautificationParks)
             {
-                return relaxChance * 2;
+                return Math.Min(relaxChance * 2, 100u);
             }
-            else if (CitizenProxy.GetAge(ref citizen) == Citizen.AgeGroup.Senior
-                && BuildingMgr.IsBuildingServiceLevel(visitBuilding, ItemClass.Service.HealthCare, ItemClass.Level.Level3))
+            else if (CitizenProxy.GetAge(ref citizen) == Citizen.AgeGroup.Senior && BuildingMgr.IsBuildingServiceLevel(visitBuilding, ItemClass.Service.HealthCare, ItemClass.Level.Level3))
             {
                 return relaxChance * 4;
             }
@@ -652,20 +648,52 @@ namespace RealTime.CustomAI
 
         private bool CurrentBuildingSupportsTarget(ushort buildingId, ref CitizenSchedule schedule)
         {
-            if (buildingId == 0 || !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
+            if (buildingId == 0)
             {
                 return false;
             }
 
-            var type = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
-
-            return schedule.CurrentState switch
+            if (CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
             {
-                ResidentState.Shopping => type.IsFlagSet(CommercialBuildingType.Shopping),
-                ResidentState.EatMeal => type.IsFlagSet(CommercialBuildingType.Food),
-                ResidentState.Relaxing => type.IsFlagSet(CommercialBuildingType.Entertainment),
-                _ => false
-            };
+                var commercialBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
+
+                return schedule.CurrentState switch
+                {
+                    ResidentState.Shopping => commercialBuildingType.IsFlagSet(CommercialBuildingType.Shopping),
+                    ResidentState.EatMeal => commercialBuildingType.IsFlagSet(CommercialBuildingType.Food),
+                    ResidentState.Relaxing => commercialBuildingType.IsFlagSet(CommercialBuildingType.Entertainment),
+                    _ => false
+                };
+            }
+
+            if (ParkBuildingTypesManager.ParkBuildingTypeExist(buildingId))
+            {
+                var parkBuildingType = ParkBuildingTypesManager.GetParkBuildingType(buildingId);
+
+                return schedule.CurrentState switch
+                {
+                    ResidentState.Relaxing => parkBuildingType != ParkBuildingType.None,
+                    _ => false
+                };
+            }
+
+            return false;
+        }
+
+        private float GetCitizenStartHour(ref CitizenSchedule schedule)
+        {
+            float starthour = -1;
+
+            if (schedule.WorkBuilding != 0)
+            {
+                starthour = schedule.WorkShiftStartTime;
+            }
+            else if (schedule.SchoolBuilding != 0)
+            {
+                starthour = schedule.SchoolClassStartTime;
+            }
+
+            return starthour;
         }
     }
 }

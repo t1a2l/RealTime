@@ -120,9 +120,9 @@ namespace RealTime.Config
         public bool RealisticFires { get; set; }
 
         /// <summary>Gets or sets a value indicating whether buildings will work without people inside</summary>
-        [ConfigItem("1General", "1Other", 8)]
-        [ConfigItemCheckBox]
-        public bool WorkForceMatters { get; set; }
+        //[ConfigItem("1General", "1Other", 8)]
+        //[ConfigItemCheckBox]
+        //public bool WorkForceMatters { get; set; }
 
         /// <summary>garbage accumulation rate</summary>
         [ConfigItem("1General", "1Other", 9)]
@@ -888,7 +888,7 @@ namespace RealTime.Config
             SwitchOffLightsMaxHeight = 40f;
             CanAbandonJourney = true;
             RealisticFires = false;
-            WorkForceMatters = false;
+            // WorkForceMatters = false;
             GarbageSlowDown = 0.15f;
             MailSlowDown = 0.3f;
             CrimeSlowDown = 0.2f;

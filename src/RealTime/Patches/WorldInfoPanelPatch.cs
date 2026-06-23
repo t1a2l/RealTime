@@ -524,20 +524,18 @@ namespace RealTime.Patches
 
             private static UIButton m_endYearButton;
 
+            private static UIDropDown m_parkBuildingTypeDropdown;
+
             // private static UIButton m_openUserEventCreationPanelButton;
 
             // private static UserEventCreationPanel userEventCreationPanel;
-
-            private static UIDropDown m_commercialBuildingTypeDropdown;
-
-            private static bool s_updatingDropdown;
 
             [HarmonyPatch(typeof(CityServiceWorldInfoPanel), "OnSetTarget")]
             [HarmonyPostfix]
             public static void OnSetTarget()
             {
                 // userEventCreationPanel == null || m_openUserEventCreationPanelButton == null
-                if (s_visitorsLabel == null || m_endYearButton == null || m_commercialBuildingTypeDropdown == null)
+                if (s_visitorsLabel == null || m_endYearButton == null || m_parkBuildingTypeDropdown == null)
                 {
                     CreateUI();
                 }
@@ -559,17 +557,7 @@ namespace RealTime.Patches
                 //    m_openUserEventCreationPanelButton.Hide();
                 //}
 
-                // show commercial building type dropdown only for generic commercial buildings that are not hotels
-                if (BuildingManagerConnection.IsAllowedCommercialBuildingType(building) && CommercialBuildingTypesManager.CommercialBuildingTypeExist(building))
-                {
-                    m_commercialBuildingTypeDropdown.Show();
-                }
-                else
-                {
-                    m_commercialBuildingTypeDropdown.Hide();
-                }
-
-                CommercialBuildingTypesManager.CommercialBuildingTypeDropdownVisibility(building, ref m_commercialBuildingTypeDropdown, ref s_updatingDropdown);
+                ParkBuildingTypesManager.ParkBuildingTypeDropdownVisibility(building, ref m_parkBuildingTypeDropdown);
             }
 
             [HarmonyPatch(typeof(CityServiceWorldInfoPanel), "UpdateBindings")]
@@ -688,12 +676,16 @@ namespace RealTime.Patches
                     m_endYearButton.eventClicked += EndAcademicYear;
                 }
 
-                CommercialBuildingTypesManager.CreateUI(buttonPanels, ref m_commercialBuildingTypeDropdown, 220f, 5f);
-                m_commercialBuildingTypeDropdown.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
+                if (m_parkBuildingTypeDropdown == null)
                 {
-                    ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
-                    CommercialBuildingTypesManager.OnCommercialBuildingTypeDropdownIndexChanged(value, buildingID, s_updatingDropdown);
-                };
+                    ParkBuildingTypesManager.CreateUI(buttonPanels, ref m_parkBuildingTypeDropdown, buttonPanels.relativePosition.x + 180f, buttonPanels.relativePosition.y + 5f, LocalizationProvider);
+                    m_parkBuildingTypeDropdown.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
+                    {
+                        ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
+                        ParkBuildingTypesManager.OnParkBuildingTypeDropdownIndexChanged(value, buildingID);
+                    };
+                }
+                    
 
                 //if(m_openUserEventCreationPanelButton == null)
                 //{
@@ -790,8 +782,6 @@ namespace RealTime.Patches
 
             private static UIDropDown m_commercialBuildingTypeDropdown;
 
-            private static bool s_updatingDropdown;
-
             private static UIButton m_realisticPopulationButton;
 
             [HarmonyPatch(typeof(ZonedBuildingWorldInfoPanel), "OnSetTarget")]
@@ -822,7 +812,7 @@ namespace RealTime.Patches
                     s_hotelLabel.Hide();
                 }
 
-                CommercialBuildingTypesManager.CommercialBuildingTypeDropdownVisibility(building, ref m_commercialBuildingTypeDropdown, ref s_updatingDropdown);
+                CommercialBuildingTypesManager.CommercialBuildingTypeDropdownVisibility(building, ref m_commercialBuildingTypeDropdown);
             }
 
             [HarmonyPatch(typeof(ZonedBuildingWorldInfoPanel), "UpdateBindings")]
@@ -890,11 +880,11 @@ namespace RealTime.Patches
                 var level = m_zonedBuildingWorldInfoPanel.Find("Level");
                 if (level != null)
                 {
-                    CommercialBuildingTypesManager.CreateUI(m_zonedBuildingWorldInfoPanel.component, ref m_commercialBuildingTypeDropdown, level.relativePosition.x + 220f, level.relativePosition.y + 5f);
+                    CommercialBuildingTypesManager.CreateUI(m_zonedBuildingWorldInfoPanel.component, ref m_commercialBuildingTypeDropdown, level.relativePosition.x + 220f, level.relativePosition.y + 5f, LocalizationProvider);
                     m_commercialBuildingTypeDropdown.eventSelectedIndexChanged += delegate (UIComponent uiComponent, int value)
                     {
                         ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
-                        CommercialBuildingTypesManager.OnCommercialBuildingTypeDropdownIndexChanged(value, buildingID, s_updatingDropdown);
+                        CommercialBuildingTypesManager.OnCommercialBuildingTypeDropdownIndexChanged(value, buildingID);
                     };
                 }
             }

@@ -281,12 +281,7 @@
   <translation id="ScheduledMealType.Lunch" value="มื้อกลางวัน" />
   <translation id="ScheduledMealType.Supper" value="มื้อค่ำ" />
   <translation id="ScheduledMealType.Other" value="มื้อว่าง" />
-  <translation id="WorkShift.First" value="กะแรก" />
-  <translation id="WorkShift.Second" value="กะสอง" />
-  <translation id="WorkShift.Night" value="กะดึก" />
-  <translation id="WorkShift.ContinuousDay" value="กะกลางวันต่อเนื่อง" />
-  <translation id="WorkShift.ContinuousNight" value="กะกลางคืนต่อเนื่อง" />
-  <translation id="WorkShift.Event" value="กะพิเศษ" />
+  <translation id="WorkShift.Assigned" value="assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(ลาพักร้อน: {0} วัน)" />
 
   <translation id="AcademicYear.DaysLeft" value="เหลืออีก {0} วันจะจบปีการศึกษา" />
@@ -301,53 +296,91 @@
 
   <translation id="OperationHoursSettingsCheckBox" value="การตั้งค่า" />
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="เปลี่ยนเวลาทำการของอาคาร" />
-  <translation id="SettingsTitle" value="การตั้งค่าเวลาทำการ" />
-  <translation id="WorkAtNight" value="ทำงานตอนกลางคืน" />
-  <translation id="WorkAtNightTooltip" value="อาคารจะเปิดทำการตลอด 24 ชั่วโมง" />
-  <translation id="WorkAtWeekands" value="ทำงานวันหยุด" />
-  <translation id="WorkAtWeekandsTooltip" value="อาคารจะเปิดทำการในวันหยุดสุดสัปดาห์" />
-  <translation id="HasExtendedWorkShift" value="กะทำงานพิเศษ" />
-  <translation id="HasExtendedWorkShiftTooltip" value="กะจะเริ่มเมื่อเมืองตื่นนอน ไม่สามารถใช้ร่วมกับกะต่อเนื่องได้" />
-  <translation id="HasContinuousWorkShift" value="กะทำงานต่อเนื่อง" />
-  <translation id="HasContinuousWorkShiftTooltip" value="อาคารเปิด 08:00 - 20:00 น. หากเปิดตอนกลางคืนจะเป็นสองกะ 08-20 และ 20-08 ไม่สามารถใช้ร่วมกับกะพิเศษได้" />
+  <translation id="SettingsTitle" value="ชั่วโมงงาน" />
+  <translation id="EditSettingsTooltip" value="อนุญาต/ไม่อนุญาตการแก้ไข" />
+  <translation id="LockUnlockChangesTooltip" value="หากล็อก - การตั้งค่าประเภทและการตั้งค่าทั่วไปจะไม่มีผลต่ออาคารนี้" />
+  <translation id="CopySettingsTooltip" value="คัดลอกการตั้งค่าจากอาคารนี้" />
+  <translation id="PasteSettingsTooltip" value="วางการตั้งค่าไปยังอาคารนี้" />
+  <translation id="BuildingStatusLabel" value="สถานะ:" />
+  <translation id="DefaultSettingsStatus" value="ค่าเริ่มต้น" />
+  <translation id="BuildingSettingsStatus" value="ของตนเอง" />
+  <translation id="PrefabSettingsStatus" value="ประเภท" />
+  <translation id="GlobalSettingsStatus" value="ทั่วไป" />
+  <translation id="ActiveDays" value="วันทำงาน" />
+  <translation id="Monday" value="จ" />
+  <translation id="MondayTooltip" value="ตั้งค่าวันจันทร์เป็นวันทำงาน/ไม่ทำงาน" />
+  <translation id="Tuesday" value="อ" />
+  <translation id="TuesdayTooltip" value="ตั้งค่าวันอังคารเป็นวันทำงาน/ไม่ทำงาน" />
+  <translation id="Wednesday" value="พ" />
+  <translation id="WednesdayTooltip" value="ตั้งค่าวันพุธเป็นวันทำงาน/ไม่ทำงาน" />
+  <translation id="Thursday" value="พฤ" />
+  <translation id="ThursdayTooltip" value="ตั้งค่าวันพฤหัสบดีเป็นวันทำงาน/ไม่ทำงาน" />
+  <translation id="Friday" value="ศ" />
+  <translation id="FridayTooltip" value="ตั้งค่าวันศุกร์เป็นวันทำงาน/ไม่ทำงาน" />
+  <translation id="Saturday" value="ส" />
+  <translation id="SaturdayTooltip" value="ตั้งค่าวันเสาร์เป็นวันทำงาน/ไม่ทำงาน" />
+  <translation id="Sunday" value="อา" />
+  <translation id="SundayTooltip" value="ตั้งค่าวันอาทิตย์เป็นวันทำงาน/ไม่ทำงาน" />
+  <translation id="ShiftsSummaryLabel" value="กะ" />
+  <translation id="EditShifts" value="แก้ไขกะ" />
+  <translation id="EditShiftsTooltip" value="แก้ไขกะการทำงานสำหรับอาคารนี้" />
+  <translation id="ShiftsEditorLabel" value="แก้ไขกะ" />
+  <translation id="ShiftLabelIndex" value="กะ" />
+  <translation id="InvalidShiftsTitle" value="กะไม่ถูกต้อง" />
+  <translation id="InvalidShiftsText" value="กะหนึ่งหรือมากกว่ามีเวลาเริ่มต้นและสิ้นสุดเหมือนกัน" />
+  <translation id="AddShift" value="+ เพิ่มกะ" />
+  <translation id="AddShiftTooltip" value="เพิ่มกะการทำงานใหม่สำหรับอาคารนี้" />
   <translation id="IgnorePolicy" value="ละเว้นนโยบายเขต" />
-  <translation id="IgnorePolicyTooltip" value="อาคารจะละเว้นข้อจำกัดใดๆ จากนโยบายของเขต" />
-  <translation id="ShiftCountTitle" value="จำนวนกะ" />
-  <translation id="ShiftCountTooltip" value="กลางคืน + ไม่ต่อเนื่อง = 3; ต่อเนื่อง = 1; กลางคืน + ต่อเนื่อง = 2; อื่นๆ = 1-2" />
-  <translation id="SaveBuildingSettings" value="บันทึกการตั้งค่าอาคาร" />
-  <translation id="SaveBuildingSettingsTooltip" value="ลำดับความสำคัญสูงสุด — จะทับการตั้งค่าประเภทอาคารและส่วนกลางสำหรับอาคารนี้โดยเฉพาะ" />
-  <translation id="ReturnToDefault" value="กลับเป็นค่าเริ่มต้น" />
-  <translation id="ReturnToDefaultTooltip" value="รีเซ็ตค่า — ต้องล้างการตั้งค่าเพื่อใช้ค่าเริ่มต้นของประเภทอาคารหรือส่วนกลาง" />
-  <translation id="ApplyPrefabSettings" value="ใช้ค่าประเภทอาคาร" />
-  <translation id="ApplyPrefabSettingsTooltip" value="ใช้เวลาทำการตามประเภทอาคารในเซฟไฟล์นี้" />
-  <translation id="ApplyGlobalSettings" value="ใช้ค่าส่วนกลาง" />
-  <translation id="ApplyGlobalSettingsTooltip" value="ใช้เวลาทำการตามประเภทอาคารจากค่าส่วนกลางในทุกเซฟไฟล์" />
-  <translation id="SetPrefabSettings" value="ตั้งค่าให้ประเภทอาคาร" />
-  <translation id="SetPrefabSettingsTooltip" value="อัปเดตเวลาทำการของอาคารประเภทนี้ทั้งหมดในเซฟไฟล์ปัจจุบัน" />
-  <translation id="SetGlobalSettings" value="ตั้งค่าเป็นส่วนกลาง" />
-  <translation id="SetGlobalSettingsTooltip" value="อัปเดตเวลาทำการของอาคารประเภทนี้ทั้งหมดในทุกเซฟไฟล์" />
-  <translation id="DeletePrefabSettings" value="ลบค่าประเภทอาคาร" />
-  <translation id="DeletePrefabSettingsTooltip" value="ลบการตั้งค่าประเภทอาคารและกลับเป็นค่าเริ่มต้นในเซฟไฟล์ปัจจุบัน" />
-  <translation id="DeleteGlobalSettings" value="ลบค่าส่วนกลาง" />
-  <translation id="DeleteGlobalSettingsTooltip" value="ลบการตั้งค่าประเภทอาคารและกลับเป็นค่าเริ่มต้นในทุกเซฟไฟล์" />
-  <translation id="UnlockSettings" value="ปลดล็อก" />
-  <translation id="UnlockSettingsTooltip" value="ปลดล็อกเพื่อแก้ไขการตั้งค่า" />
-  <translation id="DefaultSettingsStatus" value="อาคารนี้ใช้การตั้งค่าเริ่มต้น" />
-  <translation id="BuildingSettingsStatus" value="อาคารนี้ใช้การตั้งค่าเฉพาะของตัวเอง" />
-  <translation id="PrefabSettingsStatus" value="อาคารนี้ใช้การตั้งค่าตามประเภทอาคาร" />
-  <translation id="GlobalSettingsStatus" value="อาคารนี้ใช้การตั้งค่าส่วนกลาง" />
-  <translation id="LockUnlockChangesTooltip" value="หากล็อกอยู่ — การตั้งค่าประเภทอาคารหรือส่วนกลางจะไม่มีผลกับอาคารนี้" />
-  <translation id="ConfirmPanelSetPrefabTitle" value="ตั้งค่าให้ประเภทอาคาร" />
-  <translation id="ConfirmPanelSetPrefabText" value="การดำเนินการนี้จะอัปเดตเวลาทำการของอาคารประเภทนี้ทั้งหมดในเซฟปัจจุบัน!" />
-  <translation id="ConfirmPanelSetGlobalTitle" value="ตั้งค่าเป็นส่วนกลาง" />
-  <translation id="ConfirmPanelSetGlobalText" value="การดำเนินการนี้จะอัปเดตเวลาทำการของอาคารประเภทนี้ทั้งหมดในทุกเซฟ!" />
-  <translation id="ConfirmPanelDeletePrefabTitle" value="ลบค่าประเภทอาคาร" />
-  <translation id="ConfirmPanelDeletePrefabText" value="อาคารประเภทนี้ทั้งหมดในเซฟปัจจุบันจะกลับไปใช้ค่าเริ่มต้น!" />
-  <translation id="ConfirmPanelDeleteGlobalTitle" value="ลบค่าส่วนกลาง" />
-  <translation id="ConfirmPanelDeleteGlobalText" value="อาคารประเภทนี้ทั้งหมดในทุกเซฟจะกลับไปใช้ค่าเริ่มต้น!" />
+  <translation id="IgnorePolicyTooltip" value="อาคารจะละเว้นข้อจำกัดใด ๆ จากนโยบายเขต" />
+  <translation id="AccessAdvancedSettings" value="เข้าถึงการตั้งค่าขั้นสูง" />
+  <translation id="AccessAdvancedSettingsTooltip" value="เปิดแผงการตั้งค่าขั้นสูงสำหรับอาคารนี้" />
+  <translation id="SaveBuildingSettings" value="บันทึก" />
+  <translation id="SaveBuildingSettingsTooltip" value="ลำดับความสำคัญสูงสุด - จะเขียนทับการตั้งค่า prefab และ global และสร้างเวลาทำงานเฉพาะสำหรับอาคารนี้" />
+  <translation id="ReturnToDefault" value="คืนค่าเดิม" />
+  <translation id="ReturnToDefaultTooltip" value="จะไม่ลบบันทึกเพียงตั้งค่าสถานะเริ่มต้นบนมัน - คุณต้องล้างการตั้งค่าสำหรับอาคารนี้เพื่อรับการตั้งค่า prefab หรือ global" />
+  <translation id="ApplyPrefabSettings" value="ใช้ประเภท" />
+  <translation id="ApplyPrefabSettingsTooltip" value="ใช้การตั้งค่าเวลาทำงานกับอาคารนี้ตามประเภทอาคารในบันทึกนี้" />
+  <translation id="ApplyGlobalSettings" value="ใช้ทั่วไป" />
+  <translation id="ApplyGlobalSettingsTooltip" value="ใช้การตั้งค่าเวลาทำงานกับอาคารนี้ตามประเภทอาคารในทุกบันทึก" />
+  <translation id="SetPrefabSettings" value="ใหม่ประเภท" />
+  <translation id="SetPrefabSettingsTooltip" value="นี่จะอัปเดตบันทึกอาคารทั้งหมดของประเภทนี้ให้เป็นเวลาทำงานปัจจุบันของอาคารนี้ในบันทึกนี้" />
+  <translation id="SetGlobalSettings" value="ใหม่ทั่วไป" />
+  <translation id="SetGlobalSettingsTooltip" value="นี่จะอัปเดตบันทึกอาคารทั้งหมดของประเภทนี้ให้เป็นเวลาทำงานปัจจุบันของอาคารนี้ในทุกบันทึก" />
+  <translation id="DeletePrefabSettings" value="ลบประเภท" />
+  <translation id="DeletePrefabSettingsTooltip" value="นี่จะลบบันทึกอาคารทั้งหมดของประเภทนี้และคืนค่าเป็นค่าเริ่มต้นในบันทึกนี้" />
+  <translation id="DeleteGlobalSettings" value="ลบทั่วไป" />
+  <translation id="DeleteGlobalSettingsTooltip" value="นี่จะลบบันทึกอาคารทั้งหมดของประเภทนี้และคืนค่าเป็นค่าเริ่มต้นในทุกบันทึก" />
+  <translation id="ConfirmPanelSetPrefabTitle" value="ตั้งค่าการตั้งค่าประเภท" />
+  <translation id="ConfirmPanelSetPrefabText" value="นี่จะอัปเดตเวลาทำงานของอาคารทั้งหมดของประเภทนี้ให้เป็นเวลาทำงานปัจจุบันในบันทึกนี้!" />
+  <translation id="ConfirmPanelSetGlobalTitle" value="ตั้งค่าการตั้งค่าทั่วไป" />
+  <translation id="ConfirmPanelSetGlobalText" value="นี่จะอัปเดตเวลาทำงานของอาคารทั้งหมดของประเภทนี้ให้เป็นเวลาทำงานปัจจุบันในทุกบันทึก!" />
+  <translation id="ConfirmPanelDeletePrefabTitle" value="ลบการตั้งค่าประเภท" />
+  <translation id="ConfirmPanelDeletePrefabText" value="นี่จะลบบันทึกอาคารทั้งหมดของประเภทนี้และคืนค่าเป็นค่าเริ่มต้นในบันทึกนี้!" />
+  <translation id="ConfirmPanelDeleteGlobalTitle" value="ลบการตั้งค่าทั่วไป" />
+  <translation id="ConfirmPanelDeleteGlobalText" value="นี่จะลบบันทึกอาคารทั้งหมดของประเภทนี้และคืนค่าเป็นค่าเริ่มต้นในทุกบันทึก!" />
+  
   <translation id="ClosedBuilding" value="ปิดทำการ" />
   <translation id="ServingTimeAt" value="เวลาที่รับโทษใน " />
 
+  <translation id="CommercialBuildingTypeLabel" value="ประเภทร้านค้า" />
+  <translation id="CommercialBuildingTypeTooltip" value="เลือกประเภทของอาคารพาณิชย์" />
+  <translation id="CommercialBuildingTypeShopping" value="ช้อปปิ้ง" />
+  <translation id="CommercialBuildingTypeEntertainment" value="ความบันเทิง" />
+  <translation id="CommercialBuildingTypeFood" value="อาหาร" />
+  <translation id="CommercialBuildingTypeShoppingAndEntertainment" value="ช้อปปิ้ง &amp; ความบันเทิง" />
+  <translation id="CommercialBuildingTypeShoppingAndFood" value="ช้อปปิ้ง &amp; อาหาร" />
+  <translation id="CommercialBuildingTypeEntertainmentAndFood" value="ความบันเทิง &amp; อาหาร" />
+  <translation id="CommercialBuildingTypeAll" value="ทั้งหมด" />
+
+  <translation id="ParkBuildingTypeLabel" value="ประเภทสวนสาธารณะ" />
+  <translation id="ParkBuildingTypeTooltip" value="เลือกประเภทของอาคารสวนสาธารณะ" />
+  <translation id="ParkBuildingTypeGeneric" value="ทั่วไป" />
+  <translation id="ParkBuildingTypePlayground" value="สนามเด็กเล่น" />
+  <translation id="ParkBuildingTypeDogPark" value="สวนสุนัข" />
+  <translation id="ParkBuildingTypePlaza" value="ลาน" />
+  <translation id="ParkBuildingTypeGarden" value="สวน" />
+  <translation id="ParkBuildingTypeSports" value="กีฬา" />
+  
   <translation id="RaceDayLabelHour" value="ชั่วโมง" />
   <translation id="RaceDayLabelFrequency" value="ความถี่" />
   <translation id="RaceDayLabelMinute" value="นาที" />

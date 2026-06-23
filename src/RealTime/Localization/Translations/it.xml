@@ -282,12 +282,7 @@
   <translation id="ScheduledMealType.Lunch" value="Pranzo" />
   <translation id="ScheduledMealType.Supper" value="Cena" />
   <translation id="ScheduledMealType.Other" value="Spuntino" />
-  <translation id="WorkShift.First" value="Primo turno" />
-  <translation id="WorkShift.Second" value="Secondo turno" />
-  <translation id="WorkShift.Night" value="Turno di notte" />
-  <translation id="WorkShift.ContinuousDay" value="Giorno continuo" />
-  <translation id="WorkShift.ContinuousNight" value="Notte continua" />
-  <translation id="WorkShift.Event" value="Turno evento" />
+  <translation id="WorkShift.Assigned" value="assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(In vacanza: ancora {0} gg)" />
 
   <translation id="AcademicYear.DaysLeft" value="{0} gg rimasti" />
@@ -301,54 +296,92 @@
   <translation id="AcademicYearEndYearButtonTooltip" value="Puoi terminare manualmente l'anno accademico tra le 9:00 e le 10:00 dei giorni feriali." />
 
   <translation id="OperationHoursSettingsCheckBox" value="Impostazioni" />
-  <translation id="OperationHoursSettingsCheckBoxTooltip" value="Modifica gli orari di funzionamento di questo edificio" />
-  <translation id="SettingsTitle" value="Modifica orari funzionamento" />
-  <translation id="WorkAtNight" value="Lavora di notte" />
-  <translation id="WorkAtNightTooltip" value="L'edificio funzionerà 24 ore su 24." />
-  <translation id="WorkAtWeekands" value="Lavora nei weekend" />
-  <translation id="WorkAtWeekandsTooltip" value="L'edificio funzionerà anche nel fine settimana." />
-  <translation id="HasExtendedWorkShift" value="Turno prolungato" />
-  <translation id="HasExtendedWorkShiftTooltip" value="Il turno inizia all'ora di sveglia della città. Incompatibile con 'Turno continuo'." />
-  <translation id="HasContinuousWorkShift" value="Turno continuo" />
-  <translation id="HasContinuousWorkShiftTooltip" value="L'edificio funziona dalle 8:00 alle 20:00. Se lavora di notte, i turni saranno 8-20 e 20-8. Incompatibile con 'Turno prolungato'." />
-  <translation id="IgnorePolicy" value="Ignora politica distrettuale" />
-  <translation id="IgnorePolicyTooltip" value="L'edificio ignorerà le restrizioni delle politiche del distretto." />
-  <translation id="ShiftCountTitle" value="Numero di turni" />
-  <translation id="ShiftCountTooltip" value="Notte + Standard = 3, Continuo = 1, Notte + Continuo = 2, Altri = 1-2" />
-  <translation id="SaveBuildingSettings" value="Salva impostazioni edificio" />
-  <translation id="SaveBuildingSettingsTooltip" value="Massima priorità - Sovrascrive impostazioni globali e prefab per questo specifico edificio." />
-  <translation id="ReturnToDefault" value="Torna ai predefiniti" />
-  <translation id="ReturnToDefaultTooltip" value="Rimuove i flag personalizzati senza eliminare i dati archiviati." />
-  <translation id="ApplyPrefabSettings" value="Applica impostazioni prefab" />
-  <translation id="ApplyPrefabSettingsTooltip" value="Applica gli orari salvati per questo tipo di edificio nel salvataggio corrente." />
-  <translation id="ApplyGlobalSettings" value="Applica impostazioni globali" />
-  <translation id="ApplyGlobalSettingsTooltip" value="Applica gli orari salvati per questo tipo di edificio a livello globale." />
-  <translation id="SetPrefabSettings" value="Imposta come prefab" />
-  <translation id="SetPrefabSettingsTooltip" value="Aggiorna tutti gli edifici di questo tipo nel salvataggio corrente con questi orari." />
-  <translation id="SetGlobalSettings" value="Imposta come globale" />
-  <translation id="SetGlobalSettingsTooltip" value="Aggiorna tutti gli edifici di questo tipo in tutti i salvataggi con questi orari." />
-  <translation id="DeletePrefabSettings" value="Elimina impostazioni prefab" />
-  <translation id="DeletePrefabSettingsTooltip" value="Elimina il record prefab per questo tipo di edificio nel salvataggio corrente." />
-  <translation id="DeleteGlobalSettings" value="Elimina impostazioni globali" />
-  <translation id="DeleteGlobalSettingsTooltip" value="Elimina il record globale per questo tipo di edificio." />
-  <translation id="UnlockSettings" value="Sblocca" />
-  <translation id="UnlockSettingsTooltip" value="Abilita la modifica delle impostazioni." />
-  <translation id="DefaultSettingsStatus" value="Edificio con impostazioni predefinite." />
-  <translation id="BuildingSettingsStatus" value="Edificio con impostazioni personalizzate." />
-  <translation id="PrefabSettingsStatus" value="Edificio con impostazioni prefab." />
-  <translation id="GlobalSettingsStatus" value="Edificio con impostazioni globali." />
-  <translation id="LockUnlockChangesTooltip" value="Se bloccato, le modifiche globali o prefab non influenzeranno questo edificio." />
-  <translation id="ConfirmPanelSetPrefabTitle" value="Imposta orari prefab" />
-  <translation id="ConfirmPanelSetPrefabText" value="Tutti gli edifici di questo tipo nel salvataggio verranno aggiornati!" />
-  <translation id="ConfirmPanelSetGlobalTitle" value="Imposta orari globali" />
-  <translation id="ConfirmPanelSetGlobalText" value="Tutti gli edifici di questo tipo in ogni salvataggio verranno aggiornati!" />
-  <translation id="ConfirmPanelDeletePrefabTitle" value="Elimina orari prefab" />
-  <translation id="ConfirmPanelDeletePrefabText" value="Tutti gli edifici di questo tipo nel salvataggio torneranno agli orari predefiniti!" />
-  <translation id="ConfirmPanelDeleteGlobalTitle" value="Elimina orari globali" />
-  <translation id="ConfirmPanelDeleteGlobalText" value="Tutti gli edifici di questo tipo in ogni salvataggio torneranno agli orari predefiniti!" />
+  <translation id="OperationHoursSettingsCheckBoxTooltip" value="Modifica gli orari di funzionamento degli edifici" />
+  <translation id="SettingsTitle" value="Ore Op." />
+  <translation id="EditSettingsTooltip" value="Consenti/nega modifica" />
+  <translation id="LockUnlockChangesTooltip" value="Se bloccato - le impostazioni di tipo e globali non influenzano questo edificio" />
+  <translation id="CopySettingsTooltip" value="Copia le impostazioni da questo edificio" />
+  <translation id="PasteSettingsTooltip" value="Incolla le impostazioni in questo edificio" />
+  <translation id="BuildingStatusLabel" value="Stato:" />
+  <translation id="DefaultSettingsStatus" value="Predef." />
+  <translation id="BuildingSettingsStatus" value="Personali" />
+  <translation id="PrefabSettingsStatus" value="Tipo" />
+  <translation id="GlobalSettingsStatus" value="Globale" />
+  <translation id="ActiveDays" value="Giorni attivi" />
+  <translation id="Monday" value="Lu" />
+  <translation id="MondayTooltip" value="Imposta il lunedì come giorno lavorativo attivo/non attivo" />
+  <translation id="Tuesday" value="Ma" />
+  <translation id="TuesdayTooltip" value="Imposta il martedì come giorno lavorativo attivo/non attivo" />
+  <translation id="Wednesday" value="Me" />
+  <translation id="WednesdayTooltip" value="Imposta il mercoledì come giorno lavorativo attivo/non attivo" />
+  <translation id="Thursday" value="Gi" />
+  <translation id="ThursdayTooltip" value="Imposta il giovedì come giorno lavorativo attivo/non attivo" />
+  <translation id="Friday" value="Ve" />
+  <translation id="FridayTooltip" value="Imposta il venerdì come giorno lavorativo attivo/non attivo" />
+  <translation id="Saturday" value="Sa" />
+  <translation id="SaturdayTooltip" value="Imposta il sabato come giorno lavorativo attivo/non attivo" />
+  <translation id="Sunday" value="Do" />
+  <translation id="SundayTooltip" value="Imposta la domenica come giorno lavorativo attivo/non attivo" />
+  <translation id="ShiftsSummaryLabel" value="Turni" />
+  <translation id="EditShifts" value="Modifica Turni" />
+  <translation id="EditShiftsTooltip" value="Modifica i turni di lavoro per questo edificio" />
+  <translation id="ShiftsEditorLabel" value="Modifica Turni" />
+  <translation id="ShiftLabelIndex" value="Turno" />
+  <translation id="InvalidShiftsTitle" value="Turni non validi" />
+  <translation id="InvalidShiftsText" value="Uno o più turni hanno la stessa ora di inizio e fine" />
+  <translation id="AddShift" value="+ Aggiungi Turno" />
+  <translation id="AddShiftTooltip" value="Aggiungi un nuovo turno di lavoro per questo edificio" />
+  <translation id="IgnorePolicy" value="Ignora le politiche del distretto" />
+  <translation id="IgnorePolicyTooltip" value="L'edificio ignorerà eventuali restrizioni dalle politiche del distretto" />
+  <translation id="AccessAdvancedSettings" value="Accedi alle impostazioni avanzate" />
+  <translation id="AccessAdvancedSettingsTooltip" value="Apri il pannello delle impostazioni avanzate per questo edificio" />
+  <translation id="SaveBuildingSettings" value="Salva" />
+  <translation id="SaveBuildingSettingsTooltip" value="Prima priorità - sovrascriverà le impostazioni prefab e globali e creerà un orario di lavoro specifico per questo edificio" />
+  <translation id="ReturnToDefault" value="Predef." />
+  <translation id="ReturnToDefaultTooltip" value="Non eliminerà il record, imposterà solo un flag predefinito su di esso - è necessario cancellare le impostazioni per questo edificio per ottenere le impostazioni prefab o globali" />
+  <translation id="ApplyPrefabSettings" value="Applica tipo" />
+  <translation id="ApplyPrefabSettingsTooltip" value="Applica le impostazioni dell'orario di lavoro a questo edificio in base al tipo di edificio in questo salvataggio" />
+  <translation id="ApplyGlobalSettings" value="Applica globali" />
+  <translation id="ApplyGlobalSettingsTooltip" value="Applica le impostazioni dell'orario di lavoro a questo edificio in base al tipo di edificio in tutti i salvataggi" />
+  <translation id="SetPrefabSettings" value="Nuovo tipo" />
+  <translation id="SetPrefabSettingsTooltip" value="Questo aggiornerà tutti i record degli edifici di questo tipo con l'orario di lavoro corrente di questo edificio in questo salvataggio" />
+  <translation id="SetGlobalSettings" value="Nuovo globale" />
+  <translation id="SetGlobalSettingsTooltip" value="Questo aggiornerà tutti i record degli edifici di questo tipo con l'orario di lavoro corrente di questo edificio in tutti i salvataggi" />
+  <translation id="DeletePrefabSettings" value="Elimina tipo" />
+  <translation id="DeletePrefabSettingsTooltip" value="Questo eliminerà tutti i record degli edifici di questo tipo e li riporterà ai valori predefiniti in questo salvataggio" />
+  <translation id="DeleteGlobalSettings" value="Elimina globale" />
+  <translation id="DeleteGlobalSettingsTooltip" value="Questo eliminerà tutti i record degli edifici di questo tipo e li riporterà ai valori predefiniti in tutti i salvataggi" />
+  <translation id="ConfirmPanelSetPrefabTitle" value="Imposta le impostazioni del tipo" />
+  <translation id="ConfirmPanelSetPrefabText" value="Questo aggiornerà tutti gli orari di lavoro degli edifici di questo tipo con le impostazioni correnti in questo salvataggio!" />
+  <translation id="ConfirmPanelSetGlobalTitle" value="Imposta le impostazioni globali" />
+  <translation id="ConfirmPanelSetGlobalText" value="Questo aggiornerà tutti gli orari di lavoro degli edifici di questo tipo con le impostazioni correnti in tutti i salvataggi!" />
+  <translation id="ConfirmPanelDeletePrefabTitle" value="Elimina le impostazioni del tipo" />
+  <translation id="ConfirmPanelDeletePrefabText" value="Questo eliminerà tutti gli orari di lavoro degli edifici di questo tipo e li riporterà ai valori predefiniti in questo salvataggio!" />
+  <translation id="ConfirmPanelDeleteGlobalTitle" value="Elimina le impostazioni globali" />
+  <translation id="ConfirmPanelDeleteGlobalText" value="Questo eliminerà tutti gli orari di lavoro degli edifici di questo tipo e li riporterà ai valori predefiniti in tutti i salvataggi!" />
+
   <translation id="ClosedBuilding" value="Chiuso" />
   <translation id="ServingTimeAt" value="In prigione: " />
 
+  <translation id="CommercialBuildingTypeLabel" value="Tipo di negozio" />
+  <translation id="CommercialBuildingTypeTooltip" value="Seleziona il tipo di edificio commerciale" />
+  <translation id="CommercialBuildingTypeShopping" value="Shopping" />
+  <translation id="CommercialBuildingTypeEntertainment" value="Intrattenimento" />
+  <translation id="CommercialBuildingTypeFood" value="Cibo" />
+  <translation id="CommercialBuildingTypeShoppingAndEntertainment" value="Shopping &amp; Intrattenimento" />
+  <translation id="CommercialBuildingTypeShoppingAndFood" value="Shopping &amp; Cibo" />
+  <translation id="CommercialBuildingTypeEntertainmentAndFood" value="Intrattenimento &amp; Cibo" />
+  <translation id="CommercialBuildingTypeAll" value="Tutti" />
+
+  <translation id="ParkBuildingTypeLabel" value="Tipo di parco" />
+  <translation id="ParkBuildingTypeTooltip" value="Seleziona il tipo di edificio del parco" />
+  <translation id="ParkBuildingTypeGeneric" value="Generico" />
+  <translation id="ParkBuildingTypePlayground" value="Parco giochi" />
+  <translation id="ParkBuildingTypeDogPark" value="Parco per cani" />
+  <translation id="ParkBuildingTypePlaza" value="Piazza" />
+  <translation id="ParkBuildingTypeGarden" value="Giardino" />
+  <translation id="ParkBuildingTypeSports" value="Sport" />
+  
   <translation id="RaceDayLabelHour" value="Ora" />
   <translation id="RaceDayLabelFrequency" value="Frequenza" />
   <translation id="RaceDayLabelMinute" value="Min" />

@@ -281,12 +281,7 @@
   <translation id="ScheduledMealType.Lunch" value="обед" />
   <translation id="ScheduledMealType.Supper" value="ужин" />
   <translation id="ScheduledMealType.Other" value="перекус" />
-  <translation id="WorkShift.First" value="1-я смена" />
-  <translation id="WorkShift.Second" value="2-я смена" />
-  <translation id="WorkShift.Night" value="Ночная смена" />
-  <translation id="WorkShift.ContinuousDay" value="Дневная (непр.)" />
-  <translation id="WorkShift.ContinuousNight" value="Ночная (непр.)" />
-  <translation id="WorkShift.Event" value="Смена события" />
+  <translation id="WorkShift.Assigned" value="assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(отпуск: {0} дн.)" />
 
   <translation id="AcademicYear.DaysLeft" value="Закончится через {0} дн." />
@@ -301,53 +296,91 @@
 
   <translation id="OperationHoursSettingsCheckBox" value="Настройки" />
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="Изменить часы работы здания" />
-  <translation id="SettingsTitle" value="Настройка часов работы" />
-  <translation id="WorkAtNight" value="Работа ночью" />
-  <translation id="WorkAtNightTooltip" value="Здание будет работать 24 часа" />
-  <translation id="WorkAtWeekands" value="Работа в выходные" />
-  <translation id="WorkAtWeekandsTooltip" value="Здание будет работать по выходным" />
-  <translation id="HasExtendedWorkShift" value="Расширенная смена" />
-  <translation id="HasExtendedWorkShiftTooltip" value="Утренняя смена начнется с пробуждением города. Несовместимо с непрерывной сменой." />
-  <translation id="HasContinuousWorkShift" value="Непрерывная смена" />
-  <translation id="HasContinuousWorkShiftTooltip" value="Здание работает с 8:00 до 20:00. Если разрешена работа ночью — две смены: 8-20 и 20-8. Несовместимо с расширенной сменой." />
+  <translation id="SettingsTitle" value="Часы раб." />
+  <translation id="EditSettingsTooltip" value="Разрешить/запретить правку" />
+  <translation id="LockUnlockChangesTooltip" value="Если заблокировано - тип и глобальные настройки не влияют на это здание" />
+  <translation id="CopySettingsTooltip" value="Копировать настройки с этого здания" />
+  <translation id="PasteSettingsTooltip" value="Вставить настройки в это здание" />
+  <translation id="BuildingStatusLabel" value="Статус:" />
+  <translation id="DefaultSettingsStatus" value="По умолч." />
+  <translation id="BuildingSettingsStatus" value="Свои" />
+  <translation id="PrefabSettingsStatus" value="Тип" />
+  <translation id="GlobalSettingsStatus" value="Глобал." />
+  <translation id="ActiveDays" value="Активные дни" />
+  <translation id="Monday" value="Пн" />
+  <translation id="MondayTooltip" value="Установить понедельник как активный/неактивный рабочий день" />
+  <translation id="Tuesday" value="Вт" />
+  <translation id="TuesdayTooltip" value="Установить вторник как активный/неактивный рабочий день" />
+  <translation id="Wednesday" value="Ср" />
+  <translation id="WednesdayTooltip" value="Установить среду как активный/неактивный рабочий день" />
+  <translation id="Thursday" value="Чт" />
+  <translation id="ThursdayTooltip" value="Установить четверг как активный/неактивный рабочий день" />
+  <translation id="Friday" value="Пт" />
+  <translation id="FridayTooltip" value="Установить пятницу как активный/неактивный рабочий день" />
+  <translation id="Saturday" value="Сб" />
+  <translation id="SaturdayTooltip" value="Установить субботу как активный/неактивный рабочий день" />
+  <translation id="Sunday" value="Вс" />
+  <translation id="SundayTooltip" value="Установить воскресенье как активный/неактивный рабочий день" />
+  <translation id="ShiftsSummaryLabel" value="Смены" />
+  <translation id="EditShifts" value="Редактировать смены" />
+  <translation id="EditShiftsTooltip" value="Редактировать рабочие смены для этого здания" />
+  <translation id="ShiftsEditorLabel" value="Редактировать смены" />
+  <translation id="ShiftLabelIndex" value="Смена" />
+  <translation id="InvalidShiftsTitle" value="Неверные смены" />
+  <translation id="InvalidShiftsText" value="Одна или несколько смен имеют одинаковое время начала и окончания" />
+  <translation id="AddShift" value="+ Добавить смену" />
+  <translation id="AddShiftTooltip" value="Добавить новую рабочую смену для этого здания" />
   <translation id="IgnorePolicy" value="Игнорировать политики района" />
-  <translation id="IgnorePolicyTooltip" value="Здание будет игнорировать любые ограничения из политик района" />
-  <translation id="ShiftCountTitle" value="Количество смен" />
-  <translation id="ShiftCountTooltip" value="Ночь + не непрерывно = 3; непрерывно = 1; Ночь + непрерывно = 2; иначе = 1-2" />
-  <translation id="SaveBuildingSettings" value="Сохранить настройки здания" />
-  <translation id="SaveBuildingSettingsTooltip" value="Приоритет №1 — перезапишет типовые и глобальные настройки специально для этого здания" />
-  <translation id="ReturnToDefault" value="Вернуть по умолчанию" />
-  <translation id="ReturnToDefaultTooltip" value="Сброс флага — нужно очистить настройки, чтобы применились типовые или глобальные" />
-  <translation id="ApplyPrefabSettings" value="Применить настройки типа" />
-  <translation id="ApplyPrefabSettingsTooltip" value="Применить время работы согласно типу здания в этом сохранении" />
-  <translation id="ApplyGlobalSettings" value="Применить глоб. настройки" />
-  <translation id="ApplyGlobalSettingsTooltip" value="Применить время работы согласно типу здания во всех сохранениях" />
-  <translation id="SetPrefabSettings" value="Назначить для типа" />
-  <translation id="SetPrefabSettingsTooltip" value="Обновит настройки для всех зданий этого типа в данном сохранении" />
-  <translation id="SetGlobalSettings" value="Назначить глобально" />
-  <translation id="SetGlobalSettingsTooltip" value="Обновит настройки для всех зданий этого типа во всех сохранениях" />
-  <translation id="DeletePrefabSettings" value="Удалить настройки типа" />
-  <translation id="DeletePrefabSettingsTooltip" value="Удалит настройки для этого типа и вернет их к значениям по умолчанию в этом сохранении" />
-  <translation id="DeleteGlobalSettings" value="Удалить глоб. настройки" />
-  <translation id="DeleteGlobalSettingsTooltip" value="Удалит настройки для этого типа и вернет их к значениям по умолчанию во всех сохранениях" />
-  <translation id="UnlockSettings" value="Разблокировать" />
-  <translation id="UnlockSettingsTooltip" value="Разблокировать редактирование настроек" />
-  <translation id="DefaultSettingsStatus" value="Это здание использует настройки по умолчанию" />
-  <translation id="BuildingSettingsStatus" value="Это здание использует собственные настройки" />
-  <translation id="PrefabSettingsStatus" value="Это здание использует настройки типа" />
-  <translation id="GlobalSettingsStatus" value="Это здание использует глобальные настройки" />
-  <translation id="LockUnlockChangesTooltip" value="Если заблокировано — настройки типа и глобальные настройки не влияют на это здание" />
+  <translation id="IgnorePolicyTooltip" value="Здание будет игнорировать любые ограничения, установленные политиками района" />
+  <translation id="AccessAdvancedSettings" value="Доступ к расширенным настройкам" />
+  <translation id="AccessAdvancedSettingsTooltip" value="Открыть панель расширенных настроек для этого здания" />
+  <translation id="SaveBuildingSettings" value="Сохранить" />
+  <translation id="SaveBuildingSettingsTooltip" value="Первый приоритет - переопределит настройки префаба и глобальные настройки и создаст конкретное рабочее время для этого здания" />
+  <translation id="ReturnToDefault" value="Сброс" />
+  <translation id="ReturnToDefaultTooltip" value="Не удаляет запись, просто устанавливает флаг по умолчанию - вам нужно очистить настройки для этого здания, чтобы получить настройки префаба или глобальные настройки" />
+  <translation id="ApplyPrefabSettings" value="Прим. тип" />
+  <translation id="ApplyPrefabSettingsTooltip" value="Применить настройки рабочего времени к этому зданию в соответствии с типом здания в этом сохранении" />
+  <translation id="ApplyGlobalSettings" value="Прим. глоб." />
+  <translation id="ApplyGlobalSettingsTooltip" value="Применить настройки рабочего времени к этому зданию в соответствии с типом здания во всех сохранениях" />
+  <translation id="SetPrefabSettings" value="Зад. тип" />
+  <translation id="SetPrefabSettingsTooltip" value="Это обновит все записи зданий этого типа до текущего рабочего времени этого здания в этом сохранении" />
+  <translation id="SetGlobalSettings" value="Зад. глоб." />
+  <translation id="SetGlobalSettingsTooltip" value="Это обновит все записи зданий этого типа до текущего рабочего времени этого здания во всех сохранениях" />
+  <translation id="DeletePrefabSettings" value="Удал. тип" />
+  <translation id="DeletePrefabSettingsTooltip" value="Это удалит все записи зданий этого типа и вернет их к настройкам по умолчанию в этом сохранении" />
+  <translation id="DeleteGlobalSettings" value="Удал. глоб." />
+  <translation id="DeleteGlobalSettingsTooltip" value="Это удалит все записи зданий этого типа и вернет их к настройкам по умолчанию во всех сохранениях" />
   <translation id="ConfirmPanelSetPrefabTitle" value="Установить настройки типа" />
-  <translation id="ConfirmPanelSetPrefabText" value="Это обновит рабочие часы всех зданий этого типа в текущем сохранении!" />
-  <translation id="ConfirmPanelSetGlobalTitle" value="Установить глоб. настройки" />
-  <translation id="ConfirmPanelSetGlobalText" value="Это обновит рабочие часы всех зданий этого типа во всех сохранениях!" />
+  <translation id="ConfirmPanelSetPrefabText" value="Это обновит все рабочие часы зданий этого типа до текущих настроек рабочего времени в этом сохранении!" />
+  <translation id="ConfirmPanelSetGlobalTitle" value="Установить глобальные настройки" />
+  <translation id="ConfirmPanelSetGlobalText" value="Это обновит все рабочие часы зданий этого типа до текущих настроек рабочего времени во всех сохранениях!" />
   <translation id="ConfirmPanelDeletePrefabTitle" value="Удалить настройки типа" />
-  <translation id="ConfirmPanelDeletePrefabText" value="Это вернет все здания этого типа в текущем сохранении к настройкам по умолчанию!" />
-  <translation id="ConfirmPanelDeleteGlobalTitle" value="Удалить глоб. настройки" />
-  <translation id="ConfirmPanelDeleteGlobalText" value="Это вернет все здания этого типа во всех сохранениях к настройкам по умолчанию!" />
+  <translation id="ConfirmPanelDeletePrefabText" value="Это удалит все рабочие часы зданий этого типа и вернет их к настройкам по умолчанию в этом сохранении!" />
+  <translation id="ConfirmPanelDeleteGlobalTitle" value="Удалить глобальные настройки" />
+  <translation id="ConfirmPanelDeleteGlobalText" value="Это удалит все рабочие часы зданий этого типа и вернет их к настройкам по умолчанию во всех сохранениях!" />
+
   <translation id="ClosedBuilding" value="Закрыто" />
   <translation id="ServingTimeAt" value="Срок в " />
 
+  <translation id="CommercialBuildingTypeLabel" value="Тип магазина" />
+  <translation id="CommercialBuildingTypeTooltip" value="Выберите тип коммерческого здания" />
+  <translation id="CommercialBuildingTypeShopping" value="Покупки" />
+  <translation id="CommercialBuildingTypeEntertainment" value="Развлечения" />
+  <translation id="CommercialBuildingTypeFood" value="Еда" />
+  <translation id="CommercialBuildingTypeShoppingAndEntertainment" value="Покупки &amp; Развлечения" />
+  <translation id="CommercialBuildingTypeShoppingAndFood" value="Покупки &amp; Еда" />
+  <translation id="CommercialBuildingTypeEntertainmentAndFood" value="Развлечения &amp; Еда" />
+  <translation id="CommercialBuildingTypeAll" value="Все" />
+
+  <translation id="ParkBuildingTypeLabel" value="Тип парка" />
+  <translation id="ParkBuildingTypeTooltip" value="Выберите тип паркового здания" />
+  <translation id="ParkBuildingTypeGeneric" value="Общий" />
+  <translation id="ParkBuildingTypePlayground" value="Детская площадка" />
+  <translation id="ParkBuildingTypeDogPark" value="Парк для собак" />
+  <translation id="ParkBuildingTypePlaza" value="Площадь" />
+  <translation id="ParkBuildingTypeGarden" value="Сад" />
+  <translation id="ParkBuildingTypeSports" value="Спорт" />
+  
   <translation id="RaceDayLabelHour" value="Час" />
   <translation id="RaceDayLabelFrequency" value="Частота" />
   <translation id="RaceDayLabelMinute" value="Минута" />

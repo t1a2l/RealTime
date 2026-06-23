@@ -23,7 +23,7 @@ namespace RealTime.Patches
         [HarmonyPrefix]
         public static bool BuildingDeactivated(EventAI __instance, ushort eventID, ref EventData data)
         {
-            if ((data.m_flags & (EventData.Flags.Completed | EventData.Flags.Cancelled)) == 0 && __instance.m_info.m_type != EventManager.EventType.AcademicYear && RealTimeBuildingAI != null && !RealTimeBuildingAI.IsEventWithinOperationHours(ref data))
+            if ((data.m_flags & (EventData.Flags.Completed | EventData.Flags.Cancelled)) == 0 && __instance.m_info && __instance.m_info.m_type != EventManager.EventType.AcademicYear && RealTimeBuildingAI != null && !RealTimeBuildingAI.IsEventWithinOperationHours(ref data))
             {
                 Cancel(__instance, eventID, ref data);
             }
@@ -34,7 +34,7 @@ namespace RealTime.Patches
         [HarmonyPrefix]
         public static void GetPrepareStartFrame(EventAI __instance, ushort eventID, ref EventData data)
         {
-            if (__instance.m_info.GetAI() is AcademicYearAI)
+            if (__instance.m_info && __instance.m_info.GetAI() is AcademicYearAI)
             {
                 __instance.m_prepareDuration = 0;
             }
@@ -48,7 +48,7 @@ namespace RealTime.Patches
         [HarmonyPrefix]
         public static void CalculateExpireFrame(EventAI __instance, uint startFrame)
         {
-            if (__instance.m_info.GetAI() is AcademicYearAI)
+            if (__instance.m_info && __instance.m_info.GetAI() is AcademicYearAI)
             {
                 __instance.m_eventDuration = RealTimeConfig.AcademicYearLength * 24f;
                 __instance.m_disorganizeDuration = 0;
@@ -59,7 +59,7 @@ namespace RealTime.Patches
         [HarmonyPrefix]
         public static void GetDisorganizingEndFrame(EventAI __instance, ushort eventID, ref EventData data)
         {
-            if (__instance.m_info.GetAI() is AcademicYearAI)
+            if (__instance.m_info && __instance.m_info.GetAI() is AcademicYearAI)
             {
                 __instance.m_disorganizeDuration = 0;
             }
@@ -69,7 +69,7 @@ namespace RealTime.Patches
         [HarmonyPrefix]
         public static void GetEndFrame(EventAI __instance, ushort eventID, ref EventData data)
         {
-            if (__instance.m_info.GetAI() is AcademicYearAI)
+            if (__instance.m_info && __instance.m_info.GetAI() is AcademicYearAI)
             {
                 __instance.m_eventDuration = RealTimeConfig.AcademicYearLength * 24f;
             }

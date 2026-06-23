@@ -281,12 +281,7 @@
   <translation id="ScheduledMealType.Lunch" value="午餐" />
   <translation id="ScheduledMealType.Supper" value="晚餐" />
   <translation id="ScheduledMealType.Other" value="零食/宵夜" />
-  <translation id="WorkShift.First" value="第一班次" />
-  <translation id="WorkShift.Second" value="第二班次" />
-  <translation id="WorkShift.Night" value="夜班" />
-  <translation id="WorkShift.ContinuousDay" value="持续白班" />
-  <translation id="WorkShift.ContinuousNight" value="持续夜班" />
-  <translation id="WorkShift.Event" value="活动班次" />
+  <translation id="WorkShift.Assigned" value="assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(休假中：{0} 天)" />
 
   <translation id="AcademicYear.DaysLeft" value="还有 {0} 天结束" />
@@ -300,54 +295,92 @@
   <translation id="AcademicYearEndYearButtonTooltip" value="允许在工作日的 9:00 至 10:00 之间手动结束学年" />
 
   <translation id="OperationHoursSettingsCheckBox" value="设置" />
-  <translation id="OperationHoursSettingsCheckBoxTooltip" value="更改此建筑的办公时间" />
-  <translation id="SettingsTitle" value="办公时间设置" />
-  <translation id="WorkAtNight" value="夜间运行" />
-  <translation id="WorkAtNightTooltip" value="此建筑将全天候运行" />
-  <translation id="WorkAtWeekands" value="周末运行" />
-  <translation id="WorkAtWeekandsTooltip" value="此建筑将在周末运行" />
-  <translation id="HasExtendedWorkShift" value="延长班次" />
-  <translation id="HasExtendedWorkShiftTooltip" value="班次将随城市苏醒而开始。与持续班次不兼容。" />
-  <translation id="HasContinuousWorkShift" value="持续班次" />
-  <translation id="HasContinuousWorkShiftTooltip" value="建筑在 8:00 - 20:00 开放。如果允许夜间运行，则为两班制：8-20 和 20-8。与延长班次不兼容。" />
+  <translation id="OperationHoursSettingsCheckBoxTooltip" value="更改建筑物的营业时间" />
+  <translation id="SettingsTitle" value="运行时间" />
+  <translation id="EditSettingsTooltip" value="允许/禁止编辑" />
+  <translation id="LockUnlockChangesTooltip" value="如果锁定 - 类型和全局设置对该建筑无效" />
+  <translation id="CopySettingsTooltip" value="从此建筑复制设置" />
+  <translation id="PasteSettingsTooltip" value="将设置粘贴到此建筑" />
+  <translation id="BuildingStatusLabel" value="状态:" />
+  <translation id="DefaultSettingsStatus" value="默认设置" />
+  <translation id="BuildingSettingsStatus" value="自定义" />
+  <translation id="PrefabSettingsStatus" value="类型设置" />
+  <translation id="GlobalSettingsStatus" value="全局设置" />
+  <translation id="ActiveDays" value="活跃天数" />
+  <translation id="Monday" value="周一" />
+  <translation id="MondayTooltip" value="设置星期一为活跃/非活跃工作日" />
+  <translation id="Tuesday" value="周二" />
+  <translation id="TuesdayTooltip" value="设置星期二为活跃/非活跃工作日" />
+  <translation id="Wednesday" value="周三" />
+  <translation id="WednesdayTooltip" value="设置星期三为活跃/非活跃工作日" />
+  <translation id="Thursday" value="周四" />
+  <translation id="ThursdayTooltip" value="设置星期四为活跃/非活跃工作日" />
+  <translation id="Friday" value="周五" />
+  <translation id="FridayTooltip" value="设置星期五为活跃/非活跃工作日" />
+  <translation id="Saturday" value="周六" />
+  <translation id="SaturdayTooltip" value="设置星期六为活跃/非活跃工作日" />
+  <translation id="Sunday" value="周日" />
+  <translation id="SundayTooltip" value="设置星期日为活跃/非活跃工作日" />
+  <translation id="ShiftsSummaryLabel" value="班次" />
+  <translation id="EditShifts" value="编辑班次" />
+  <translation id="EditShiftsTooltip" value="编辑此建筑的工作班次" />
+  <translation id="ShiftsEditorLabel" value="编辑班次" />
+  <translation id="ShiftLabelIndex" value="班次" />
+  <translation id="InvalidShiftsTitle" value="无效班次" />
+  <translation id="InvalidShiftsText" value="一个或多个班次的开始和结束时间相同" />
+  <translation id="AddShift" value="+ 添加班次" />
+  <translation id="AddShiftTooltip" value="为此建筑添加新的工作班次" />
   <translation id="IgnorePolicy" value="忽略区域政策" />
-  <translation id="IgnorePolicyTooltip" value="此建筑将忽略任何来自区域政策的限制" />
-  <translation id="ShiftCountTitle" value="班次数量" />
-  <translation id="ShiftCountTooltip" value="夜间 + 非持续 = 3; 持续 = 1; 夜间 + 持续 = 2; 否则 = 1-2" />
-  <translation id="SaveBuildingSettings" value="保存建筑设置" />
-  <translation id="SaveBuildingSettingsTooltip" value="最高优先级 —— 将专门为此建筑覆盖类型和全局设置" />
-  <translation id="ReturnToDefault" value="恢复默认值" />
-  <translation id="ReturnToDefaultTooltip" value="重置 —— 必须清除设置才能应用类型或全局设置" />
-  <translation id="ApplyPrefabSettings" value="应用类型设置" />
-  <translation id="ApplyPrefabSettingsTooltip" value="应用此存档中该类型建筑的办公时间" />
-  <translation id="ApplyGlobalSettings" value="应用全局设置" />
-  <translation id="ApplyGlobalSettingsTooltip" value="应用所有存档中该类型建筑的办公时间" />
-  <translation id="SetPrefabSettings" value="设置为类型设置" />
-  <translation id="SetPrefabSettingsTooltip" value="将更新当前存档中所有此类建筑的办公时间设置" />
-  <translation id="SetGlobalSettings" value="设置为全局设置" />
-  <translation id="SetGlobalSettingsTooltip" value="将更新所有存档中所有此类建筑的办公时间设置" />
-  <translation id="DeletePrefabSettings" value="删除类型设置" />
-  <translation id="DeletePrefabSettingsTooltip" value="将删除此类建筑的设置并恢复到此存档的默认值" />
-  <translation id="DeleteGlobalSettings" value="删除全局设置" />
-  <translation id="DeleteGlobalSettingsTooltip" value="将删除此类建筑的设置并恢复到所有存档的默认值" />
-  <translation id="UnlockSettings" value="解锁" />
-  <translation id="UnlockSettingsTooltip" value="解锁设置编辑权限" />
-  <translation id="DefaultSettingsStatus" value="该建筑使用默认设置" />
-  <translation id="BuildingSettingsStatus" value="该建筑使用独立设置" />
-  <translation id="PrefabSettingsStatus" value="该建筑使用类型设置" />
-  <translation id="GlobalSettingsStatus" value="该建筑使用全局设置" />
-  <translation id="LockUnlockChangesTooltip" value="如果锁定 —— 类型或全局设置的更改将不会影响此建筑" />
-  <translation id="ConfirmPanelSetPrefabTitle" value="设置类型办公时间" />
-  <translation id="ConfirmPanelSetPrefabText" value="这将更新当前存档中所有此类建筑的办公时间！" />
-  <translation id="ConfirmPanelSetGlobalTitle" value="设置全局办公时间" />
-  <translation id="ConfirmPanelSetGlobalText" value="这将更新所有存档中所有此类建筑的办公时间！" />
-  <translation id="ConfirmPanelDeletePrefabTitle" value="删除类型办公时间" />
-  <translation id="ConfirmPanelDeletePrefabText" value="当前存档中所有此类建筑将恢复为默认办公时间！" />
-  <translation id="ConfirmPanelDeleteGlobalTitle" value="删除全局办公时间" />
-  <translation id="ConfirmPanelDeleteGlobalText" value="所有存档中所有此类建筑将恢复为默认办公时间！" />
+  <translation id="IgnorePolicyTooltip" value="此建筑将忽略任何区域政策的限制" />
+  <translation id="AccessAdvancedSettings" value="访问高级设置" />
+  <translation id="AccessAdvancedSettingsTooltip" value="打开此建筑的高级设置面板" />
+  <translation id="SaveBuildingSettings" value="保存" />
+  <translation id="SaveBuildingSettingsTooltip" value="优先级最高 - 将覆盖预设和全局设置，并为此建筑创建特定的工作时间" />
+  <translation id="ReturnToDefault" value="恢复默认" />
+  <translation id="ReturnToDefaultTooltip" value="不会删除记录，只会设置默认标志 - 你需要清除此建筑的设置以获取预设或全局设置" />
+  <translation id="ApplyPrefabSettings" value="应用类型" />
+  <translation id="ApplyPrefabSettingsTooltip" value="根据此保存中的建筑类型，将工作时间设置应用于此建筑" />
+  <translation id="ApplyGlobalSettings" value="应用全局" />
+  <translation id="ApplyGlobalSettingsTooltip" value="根据建筑类型，将工作时间设置应用于此建筑在所有保存中" />
+  <translation id="SetPrefabSettings" value="设定类型" />
+  <translation id="SetPrefabSettingsTooltip" value="这将更新此保存中所有该类型建筑的工作时间为当前建筑的工作时间" />
+  <translation id="SetGlobalSettings" value="设定全局" />
+  <translation id="SetGlobalSettingsTooltip" value="这将更新所有保存中所有该类型建筑的工作时间为当前建筑的工作时间" />
+  <translation id="DeletePrefabSettings" value="删除类型" />
+  <translation id="DeletePrefabSettingsTooltip" value="这将删除此保存中所有该类型建筑的记录，并将其恢复为默认设置" />
+  <translation id="DeleteGlobalSettings" value="删除全局" />
+  <translation id="DeleteGlobalSettingsTooltip" value="这将删除所有保存中所有该类型建筑的记录，并将其恢复为默认设置" />
+  <translation id="ConfirmPanelSetPrefabTitle" value="设置类型设置" />
+  <translation id="ConfirmPanelSetPrefabText" value="这将更新此保存中所有该类型建筑的工作时间为当前工作时间设置！" />
+  <translation id="ConfirmPanelSetGlobalTitle" value="设置全局设置" />
+  <translation id="ConfirmPanelSetGlobalText" value="这将更新所有保存中所有该类型建筑的工作时间为当前工作时间设置！" />
+  <translation id="ConfirmPanelDeletePrefabTitle" value="删除类型设置" />
+  <translation id="ConfirmPanelDeletePrefabText" value="这将删除此保存中所有该类型建筑的记录，并将其恢复为默认设置！" />
+  <translation id="ConfirmPanelDeleteGlobalTitle" value="删除全局设置" />
+  <translation id="ConfirmPanelDeleteGlobalText" value="这将删除所有保存中所有该类型建筑的记录，并将其恢复为默认设置！" />
+  
   <translation id="ClosedBuilding" value="已关闭" />
   <translation id="ServingTimeAt" value="服刑时长在 " />
 
+  <translation id="CommercialBuildingTypeLabel" value="商店类型" />
+  <translation id="CommercialBuildingTypeTooltip" value="选择商业建筑的类型" />
+  <translation id="CommercialBuildingTypeShopping" value="购物" />
+  <translation id="CommercialBuildingTypeEntertainment" value="娱乐" />
+  <translation id="CommercialBuildingTypeFood" value="餐饮" />
+  <translation id="CommercialBuildingTypeShoppingAndEntertainment" value="购物 &amp; 娱乐" />
+  <translation id="CommercialBuildingTypeShoppingAndFood" value="购物 &amp; 餐饮" />
+  <translation id="CommercialBuildingTypeEntertainmentAndFood" value="娱乐 &amp; 餐饮" />
+  <translation id="CommercialBuildingTypeAll" value="全部" />
+
+  <translation id="ParkBuildingTypeLabel" value="公园类型" />
+  <translation id="ParkBuildingTypeTooltip" value="选择公园建筑的类型" />
+  <translation id="ParkBuildingTypeGeneric" value="通用" />
+  <translation id="ParkBuildingTypePlayground" value="游乐场" />
+  <translation id="ParkBuildingTypeDogPark" value="狗公园" />
+  <translation id="ParkBuildingTypePlaza" value="广场" />
+  <translation id="ParkBuildingTypeGarden" value="花园" />
+  <translation id="ParkBuildingTypeSports" value="体育" />
+  
   <translation id="RaceDayLabelHour" value="小时" />
   <translation id="RaceDayLabelFrequency" value="频率" />
   <translation id="RaceDayLabelMinute" value="分钟" />

@@ -76,8 +76,17 @@ namespace RealTime.Utils.UIUtils
             dropDown.horizontalAlignment = UIHorizontalAlignment.Center;
             dropDown.textFieldPadding = new RectOffset(14, 40, itemVertPadding, 0);
             dropDown.itemPadding = new RectOffset(14, 14, 0, 0);
+            dropDown.font.lineHeight = 24;
 
             dropDown.relativePosition = new Vector2(xPos, yPos);
+
+            var listbox = dropDown.GetComponent<UIListBox>();
+
+            if (listbox != null)
+            {
+                listbox.verticalAlignment = UIVerticalAlignment.Middle;
+                listbox.font.lineHeight = 22;
+            }
 
             // Dropdown size parameters.
             dropDown.size = new Vector2(width, height);

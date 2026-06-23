@@ -17,7 +17,7 @@ namespace RealTime.UI
             base.Awake();
 
             name = "OperationHoursSettingsCheckBoxPanel";
-            width = 230f;
+            width = 100f;
             height = 40f;
             autoLayout = false;
 
@@ -42,32 +42,7 @@ namespace RealTime.UI
             OperationHoursSettingsCheckBox.tooltip = localizationProvider.Translate(TranslationKeys.OperationHoursSettingsCheckBoxTooltip);
         }
 
-        private void EventCheckChanged(UIComponent c, bool value)
-        {
-            operationHoursPanel.isVisible = value;
-            if (operationHoursPanel.isVisible)
-            {
-                operationHoursPanel.height = 470f;
-            }
-            else
-            {
-                operationHoursPanel.m_workAtNight.Disable();
-                operationHoursPanel.m_workAtWeekands.Disable();
-                operationHoursPanel.m_hasExtendedWorkShift.Disable();
-                operationHoursPanel.m_hasContinuousWorkShift.Disable();
-                operationHoursPanel.m_workShifts.Disable();
-
-                operationHoursPanel.m_saveBuildingSettingsBtn.Disable();
-                operationHoursPanel.m_returnToDefaultBtn.Disable();
-                operationHoursPanel.m_applyPrefabSettingsBtn.Disable();
-                operationHoursPanel.m_applyGlobalSettingsBtn.Disable();
-                operationHoursPanel.m_setPrefabSettingsBtn.Disable();
-                operationHoursPanel.m_setGlobalSettingsBtn.Disable();
-                operationHoursPanel.m_deletePrefabSettingsBtn.Disable();
-                operationHoursPanel.m_deleteGlobalSettingsBtn.Disable();
-                operationHoursPanel.m_unlockSettingsBtn.Show();
-            }
-        }
+        private void EventCheckChanged(UIComponent c, bool value) => operationHoursPanel.isVisible = value;
 
         public void RefreshData(float checkBoxXposition, float checkBoxYposition, BuildingOperationHoursPanel buildingOperationHoursPanel)
         {
@@ -76,7 +51,6 @@ namespace RealTime.UI
 
             if (OperationHoursSettingsCheckBox.isChecked)
             {
-                buildingOperationHoursPanel.height = 470f;
                 buildingOperationHoursPanel.Show();
             }
         }

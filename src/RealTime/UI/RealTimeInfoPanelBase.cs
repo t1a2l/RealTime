@@ -266,9 +266,10 @@ namespace RealTime.UI
             }
             else
             {
-                if (schedule.WorkShift != WorkShift.Unemployed)
+                if (schedule.WorkShift != WorkShift.Unemployed && schedule.ShiftIndex != -1)
                 {
-                    string workShift = localizationProvider.Translate(WorkShiftKey + "." + schedule.WorkShift.ToString());
+                    int shift = schedule.ShiftIndex + 1;
+                    string workShift = localizationProvider.Translate(WorkShiftKey + "." + schedule.WorkShift.ToString()) + " " + shift;
                     if (!string.IsNullOrEmpty(workShift))
                     {
                         if (info.Length > 0)

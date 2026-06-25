@@ -5,6 +5,7 @@ namespace RealTime.Serializer
     using ColossalFramework;
     using ICities;
     using RealTime.CustomAI;
+    using RealTime.Managers;
     using UnityEngine;
 
     public class CitizenScheduleSerializer
@@ -216,7 +217,17 @@ namespace RealTime.Serializer
 
                     if (schedule.WorkShift == WorkShift.Assigned && citizens[citizenId].m_workBuilding != 0 && shiftIndex != -1)
                     {
-                        schedule.UpdateWorkShiftHours(schedule.WorkShift, shiftIndex, citizens[citizenId].m_workBuilding);
+                        var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(citizens[citizenId].m_workBuilding);
+
+                        if (workTime.WorkShifts != null && shiftIndex < workTime.WorkShifts.Length)
+                        {
+                            schedule.UpdateWorkShiftHours(schedule.WorkShift, shiftIndex, citizens[citizenId].m_workBuilding);
+                        }
+                        else
+                        {
+                            // shiftIndex is stale — reset it so the citizen gets reassigned properly
+                            schedule.UpdateWorkShift(WorkShift.Assigned, -1, schedule.WorkShiftStartTime, schedule.WorkShiftEndTime);
+                        }
                     }
 
                     if (schedule.SchoolClass != SchoolClass.NoSchool)

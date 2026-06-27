@@ -71,7 +71,7 @@ namespace RealTime.Patches.BuildingAIPatches
                     return;
 
                 case InfoManager.InfoMode.None:
-                    if (RealTimeBuildingAI != null && RealTimeBuildingAI.ShouldSwitchBuildingLightsOff(buildingID))
+                    if (RealTimeBuildingAI != null && RealTimeBuildingAI.ShouldSwitchBuildingLightsOff(buildingID, ref data))
                     {
                         __result.a = 0;
                     }
@@ -81,7 +81,7 @@ namespace RealTime.Patches.BuildingAIPatches
 
         [HarmonyPatch(typeof(CommonBuildingAI), "EmptyBuilding")]
         [HarmonyPrefix]
-        public static bool EmptyBuilding(CommonBuildingAI __instance, ushort buildingID, ref Building data, CitizenUnit.Flags flags, bool onlyMoving)
+        public static bool EmptyBuilding(ushort buildingID, ref Building data, CitizenUnit.Flags flags, bool onlyMoving)
         {
             if (data.m_fireIntensity != 0)
             {

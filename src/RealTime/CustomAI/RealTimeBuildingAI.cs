@@ -288,19 +288,18 @@ namespace RealTime.CustomAI
         /// Determines whether the lights should be switched off in the specified building.
         /// </summary>
         /// <param name="buildingId">The ID of the building to check.</param>
+        /// <param name="data">The data of the building to check.</param>
         /// <returns>
         ///   <c>true</c> if the lights should be switched off in the specified building; otherwise, <c>false</c>.
         /// </returns>
-        public bool ShouldSwitchBuildingLightsOff(ushort buildingId)
+        public bool ShouldSwitchBuildingLightsOff(ushort buildingID, ref Building data)
         {
-            if(config != null && config.SwitchOffLightsAtNight)
+            if(data.Info == null)
             {
-                if(lightStates != null && lightStates.Length > 0)
-                {
-                    return !lightStates[buildingId];
-                }
+                return false;
             }
-            return false;
+            var service = data.Info.GetService();
+            return ShouldSwitchBuildingLightsOff(buildingID, service);
         }
 
         /// <summary>

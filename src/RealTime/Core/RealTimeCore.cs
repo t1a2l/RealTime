@@ -12,6 +12,7 @@ namespace RealTime.Core
     using RealTime.Events;
     using RealTime.Events.Storage;
     using RealTime.GameConnection;
+    using RealTime.Integration;
     using RealTime.Patches;
     using RealTime.Patches.BuildingAIPatches;
     using RealTime.Serializer;
@@ -309,6 +310,8 @@ namespace RealTime.Core
             WorldInfoPanelPatch.VehicleInfoPanel?.Disable();
             WorldInfoPanelPatch.VehicleInfoPanel = null;
 
+            RealTimeBridge.RealTimeConfig = null;
+
             isEnabled = false;
         }
 
@@ -527,6 +530,8 @@ namespace RealTime.Core
             WorldInfoPanelPatch.RealTimeConfig = config;
             WorldInfoPanelPatch.RealTimeEventManager = eventManager;
             WorldInfoPanelPatch.TimeInfo = timeInfo;
+
+            RealTimeBridge.RealTimeConfig = config;
 
             return true;
         }

@@ -370,14 +370,14 @@ namespace RealTime.Config
         public float MaxOvertime { get; set; }
 
         /// <summary>
-        /// Gets or sets the school start daytime hour. The young Cims must be at school or university.
+        /// Gets or sets the school start daytime hour. The young Cims must go at school or university.
         /// </summary>
         [ConfigItem("4Time", 10)]
         [ConfigItemSlider(4, 10, 0.25f, ValueType = SliderValueType.Time)]
         public float SchoolBegin { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the young Cims return from school or university.
+        /// Gets or sets the school end daytime hour. The young Cims must return from school or university.
         /// </summary>
         [ConfigItem("4Time", 11)]
         [ConfigItemSlider(11, 16, 0.25f, ValueType = SliderValueType.Time)]

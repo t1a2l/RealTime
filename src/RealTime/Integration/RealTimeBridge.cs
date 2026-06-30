@@ -1,8 +1,9 @@
 namespace RealTime.Integration
 {
     using RealTime.Config;
+    using UnityEngine;
 
-    public static  class RealTimeBridge
+    public static class RealTimeBridge
     {
         /// <summary>Gets or sets the mod configuration.</summary>
         public static RealTimeConfig RealTimeConfig { get; set; }
@@ -24,6 +25,7 @@ namespace RealTime.Integration
         {
             schoolStartHour = RealTimeConfig.SchoolBegin;
             schoolEndHour = RealTimeConfig.SchoolEnd;
+            Debug.Log("RealTime schoolStartHour: " + schoolStartHour + ", schoolEndHour: " + schoolEndHour);
         }
     }
 }

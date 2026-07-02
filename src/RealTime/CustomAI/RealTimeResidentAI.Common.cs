@@ -748,7 +748,7 @@ namespace RealTime.CustomAI
         // set work shift to the shift with the minimum number of people 
         public int SetWorkShiftIndex(ushort workBuildingId)
         {
-            if (workBuildingId == 0 || !IsEssentialService(workBuildingId))
+            if (workBuildingId == 0)
             {
                 return -1;
             }

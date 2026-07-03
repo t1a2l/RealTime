@@ -13,7 +13,7 @@ namespace RealTime.GameConnection
     /// <remarks>Initializes a new instance of the <see cref="TimeInfo" /> class.</remarks>
     /// <param name="config">The configuration to run with.</param>
     /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
-    internal sealed class TimeInfo(RealTimeConfig config) : ITimeInfo
+    public sealed class TimeInfo(RealTimeConfig config) : ITimeInfo
     {
         private readonly RealTimeConfig config = config ?? throw new ArgumentNullException(nameof(config));
         private DateTime currentTime;

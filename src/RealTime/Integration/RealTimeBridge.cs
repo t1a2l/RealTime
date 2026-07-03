@@ -1,12 +1,17 @@
 namespace RealTime.Integration
 {
     using RealTime.Config;
+    using RealTime.GameConnection;
+    using SkyTools.Tools;
     using UnityEngine;
 
     public static class RealTimeBridge
     {
         /// <summary>Gets or sets the mod configuration.</summary>
         public static RealTimeConfig RealTimeConfig { get; set; }
+
+        /// <summary>Gets or sets the time information.</summary>
+        public static TimeInfo TimeInfo { get; set; }
 
         /// <summary>The integration contract version; also confirms the API is present.</summary>
         /// v1: + get school operation hours
@@ -27,5 +32,11 @@ namespace RealTime.Integration
             schoolEndHour = RealTimeConfig.SchoolEnd;
             Debug.Log("RealTime schoolStartHour: " + schoolStartHour + ", schoolEndHour: " + schoolEndHour);
         }
+
+        /// <summary>
+        /// Determines whether the current date is considered a weekend based on configuration settings.
+        /// </summary>
+        /// <returns>true if weekend detection is enabled and the current date is a weekend; otherwise, false.</returns>
+        public static bool IsWeekend() => RealTimeConfig.IsWeekendEnabled && TimeInfo.Now.IsWeekend();
     }
 }

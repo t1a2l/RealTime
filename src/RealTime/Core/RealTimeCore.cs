@@ -311,6 +311,7 @@ namespace RealTime.Core
             WorldInfoPanelPatch.VehicleInfoPanel = null;
 
             RealTimeBridge.RealTimeConfig = null;
+            RealTimeBridge.TimeInfo = null;
 
             isEnabled = false;
         }
@@ -532,6 +533,7 @@ namespace RealTime.Core
             WorldInfoPanelPatch.TimeInfo = timeInfo;
 
             RealTimeBridge.RealTimeConfig = config;
+            RealTimeBridge.TimeInfo = timeInfo;
 
             return true;
         }

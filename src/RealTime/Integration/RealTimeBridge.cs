@@ -34,6 +34,12 @@ namespace RealTime.Integration
         }
 
         /// <summary>
+        /// Determines whether weekend detection is enabled based on configuration settings.
+        /// </summary>
+        /// <returns>true if weekend detection is enabled; otherwise, false.</returns>
+        public static bool IsWeekendEnabled() => RealTimeConfig.IsWeekendEnabled;
+
+        /// <summary>
         /// Determines whether the current date is considered a weekend based on configuration settings.
         /// </summary>
         /// <returns>true if weekend detection is enabled and the current date is a weekend; otherwise, false.</returns>

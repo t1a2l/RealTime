@@ -122,16 +122,12 @@ namespace RealTime.CustomAI
         /// <returns><c>true</c> if a lunch time was scheduled; otherwise, <c>false</c>.</returns>
         public bool ScheduleMeal(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge, MealType mealType)
         {
+            Log.Debug(LogCategory.Schedule, $"  - Work status is {schedule.WorkStatus}, working in shift {schedule.ShiftIndex}");
             if (mealType == MealType.Breakfast)
             {
-                float minGoToBreakfastHour = config.WakeUpHour;
-                float maxGoToBreakfastHour = schedule.WorkShiftStartTime;
-
-                Log.Debug(LogCategory.Schedule, $"  - Work status is {schedule.WorkStatus}, working in shift {schedule.WorkShift}");
-                if (schedule.WorkStatus == WorkStatus.None
-                    && (schedule.WorkShift == WorkShift.First || schedule.WorkShift == WorkShift.ContinuousDay)
-                    && timeInfo.CurrentHour >= minGoToBreakfastHour && timeInfo.CurrentHour <= maxGoToBreakfastHour
-                    && WillGoToMeal(citizenAge, mealType))
+                bool isBreakfastTime = timeInfo.CurrentHour >= config.WakeUpHour && timeInfo.CurrentHour <= 10f;
+                
+                if (schedule.WorkStatus == WorkStatus.None && isBreakfastTime && WillGoToMeal(citizenAge, mealType))
                 {
                     schedule.Schedule(ResidentState.GoToMeal, mealType);
                     return true;
@@ -141,11 +137,9 @@ namespace RealTime.CustomAI
             }
             else if (mealType == MealType.Lunch)
             {
-                int hours = (int)(lunchBegin - timeInfo.Now).TotalHours;
+                bool isLunchTime = (lunchBegin - timeInfo.Now).TotalHours >= 2.5;
 
-                if (hours >= 2.5 && schedule.WorkStatus == WorkStatus.Working
-                    && (schedule.WorkShift == WorkShift.First || schedule.WorkShift == WorkShift.ContinuousDay)
-                    && WillGoToMeal(citizenAge, mealType))
+                if (schedule.WorkStatus == WorkStatus.Working && isLunchTime && WillGoToMeal(citizenAge, mealType))
                 {
                     schedule.Schedule(ResidentState.GoToMeal, lunchBegin, mealType);
                     return true;

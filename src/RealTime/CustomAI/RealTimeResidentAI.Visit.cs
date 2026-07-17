@@ -628,15 +628,15 @@ namespace RealTime.CustomAI
 
         private MealType GetCurrentMealType(float currentHour)
         {
-            if (currentHour >= Config.WakeUpHour && currentHour < Config.WorkBegin + 2f)
+            if (currentHour >= Config.WakeUpHour && currentHour < 10f)
             {
                 return MealType.Breakfast;
             }
-            else if (currentHour >= Config.WorkBegin + 3f && currentHour < Config.WorkEnd - 1f)
+            else if (currentHour >= 11f && currentHour < 14f)
             {
                 return MealType.Lunch;
             }
-            else if (currentHour >= Config.WorkEnd && currentHour < Config.GoToSleepHour)
+            else if (currentHour >= 7f && currentHour < Config.GoToSleepHour)
             {
                 return MealType.Supper;
             }

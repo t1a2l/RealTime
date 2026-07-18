@@ -275,6 +275,12 @@ namespace RealTime.CustomAI
 
             if (workShift == WorkShift.Assigned)
             {
+                if (shiftIndex < 0 || workTime.WorkShifts == null || shiftIndex >= workTime.WorkShifts.Length)
+                {
+                    UpdateWorkShift(workShift, -1, WorkShiftStartTime, WorkShiftEndTime);
+                    return;
+                }
+
                 workTime.WorkShifts[shiftIndex].GetShiftHours(out workBegin, out workEnd);
                 UpdateWorkShift(workShift, shiftIndex, workBegin, workEnd);
                 return;

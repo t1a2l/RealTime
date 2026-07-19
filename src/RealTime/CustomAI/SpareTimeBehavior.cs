@@ -219,7 +219,7 @@ namespace RealTime.CustomAI
         private void CalculateShoppingChance(float currentHour)
         {
             float minShoppingChanceEndHour = Math.Min(config.WakeUpHour, EarliestWakeUp);
-            float maxShoppingChanceStartHour = Math.Max(config.WorkBegin, config.WakeUpHour);
+            float maxShoppingChanceStartHour = 9f;
             if (minShoppingChanceEndHour == maxShoppingChanceStartHour)
             {
                 minShoppingChanceEndHour = FastMath.Clamp(maxShoppingChanceStartHour - 1f, 2f, maxShoppingChanceStartHour - 1f);
@@ -231,7 +231,7 @@ namespace RealTime.CustomAI
 
             float chance;
             bool isNight;
-            float maxShoppingChanceEndHour = Math.Max(config.GoToSleepHour, config.WorkEnd);
+            float maxShoppingChanceEndHour = config.GoToSleepHour;
             if (currentHour < minShoppingChanceEndHour)
             {
                 isNight = true;
@@ -278,8 +278,8 @@ namespace RealTime.CustomAI
 #endif
 
             float chance;
-            float businessAppointmentChanceStartHour = config.WorkBegin;
-            float businessAppointmentChanceEndHour = config.WorkEnd;
+            float businessAppointmentChanceStartHour = 9f; 
+            float businessAppointmentChanceEndHour = 18f;
             chance = currentHour < businessAppointmentChanceStartHour ? 0u : currentHour < businessAppointmentChanceEndHour ? 100 : 0u;
 
             uint roundedChance = (uint)Math.Round(chance);
@@ -301,8 +301,8 @@ namespace RealTime.CustomAI
         private void CalculateEatingOutChance(float currentHour)
         {
             float breakfastPeak = config.WakeUpHour + 1.5f;
-            float lunchPeak = (config.WorkBegin + config.WorkEnd) * 0.5f;
-            float supperPeak = Math.Min(config.GoToSleepHour - 2f, config.WorkEnd + 3f);
+            float lunchPeak = 13.5f;
+            float supperPeak = Math.Min(config.GoToSleepHour - 2f, 21f);
 
             float breakfastChance = GetMealChance(currentHour, breakfastPeak, 2.0f, 35f);
             float lunchChance = GetMealChance(currentHour, lunchPeak, 2.0f, 55f);

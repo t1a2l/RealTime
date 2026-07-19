@@ -365,6 +365,11 @@ namespace RealTime.CustomAI
 
         private bool ScheduleMeal(ref CitizenSchedule schedule, ref TCitizen citizen, bool localOnly)
         {
+            if(schedule.CurrentState == ResidentState.EatMeal)
+            {
+                return false;
+            }
+
             if (!Random.ShouldOccur(spareTimeBehavior.GetEatingOutChance(CitizenProxy.GetAge(ref citizen))))
             {
                 return false;

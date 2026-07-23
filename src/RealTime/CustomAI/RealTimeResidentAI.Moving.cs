@@ -28,6 +28,7 @@ namespace RealTime.CustomAI
                     }
                     else
                     {
+                        Log.Debug(LogCategory.State, $"Teleporting {GetCitizenDesc(citizenId, ref citizen)} back home because instance is invalid and no vehicle is available");
                         CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
                         CitizenProxy.SetArrested(ref citizen, isArrested: false);
                         schedule.Schedule(ResidentState.Unknown);

@@ -151,10 +151,18 @@
   <translation id="WorkBeginTooltip" value="Godzina rozpoczęcia przez dorosłych pracy lub nauki na uniwersytecie." />
   <translation id="WorkEnd" value="Koniec pracy/nauki dorosłych" />
   <translation id="WorkEndTooltip" value="Godzina powrotu dorosłych mieszkańców z pracy lub uniwersytetu." />
-  <translation id="LunchBegin" value="Początek obiadu" />
-  <translation id="LunchBeginTooltip" value="Godzina pójścia mieszkańców na przerwę obiadową." />
-  <translation id="LunchEnd" value="Koniec obiadu" />
-  <translation id="LunchEndTooltip" value="Godzina powrotu mieszkaców z przerwy obiadowej do pracy." />
+  <translation id="BreakfastBegin" value="Breakfast begin hour" />
+  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
+  <translation id="BreakfastDuration" value="Breakfast duration" />
+  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
+  <translation id="LunchBegin" value="Lunch begin hour" />
+  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
+  <translation id="LunchDuration" value="Lunch duration" />
+  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
+  <translation id="SupperBegin" value="Supper begin hour" />
+  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
+  <translation id="SupperDuration" value="Supper duration" />
+  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
   <translation id="MaxVacationLength" value="Maksimum dni urlopu" />
   <translation id="MaxVacationLengthTooltip" value="Określa czas trwania urlopów mieszkańców. Ustaw na 0, żeby wyłączyć urlopy." />
   <translation id="AcademicYearLength" value="Długość roku akademickiego (Dodatek “Campus”)"/>

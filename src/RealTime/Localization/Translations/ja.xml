@@ -151,10 +151,18 @@
   <translation id="WorkBeginTooltip" value="仕事や大学の講義が始まる時間" />
   <translation id="WorkEnd" value="勤務終了時間" />
   <translation id="WorkEndTooltip" value="仕事や大学の講義が終わる時間" />
-  <translation id="LunchBegin" value="昼食開始時間" />
-  <translation id="LunchBeginTooltip" value="市民が昼食のために外出を始める時間" />
-  <translation id="LunchEnd" value="昼食終了時間" />
-  <translation id="LunchEndTooltip" value="市民が昼食から戻る時間" />
+  <translation id="BreakfastBegin" value="Breakfast begin hour" />
+  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
+  <translation id="BreakfastDuration" value="Breakfast duration" />
+  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
+  <translation id="LunchBegin" value="Lunch begin hour" />
+  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
+  <translation id="LunchDuration" value="Lunch duration" />
+  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
+  <translation id="SupperBegin" value="Supper begin hour" />
+  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
+  <translation id="SupperDuration" value="Supper duration" />
+  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
   <translation id="MaxVacationLength" value="最大休暇期間" />
   <translation id="MaxVacationLengthTooltip" value="市民が休暇を取る最大日数。0に設定すると休暇は無効になります" />
   <translation id="AcademicYearLength" value="学年度の長さ (Campus DLCが必要)"/>

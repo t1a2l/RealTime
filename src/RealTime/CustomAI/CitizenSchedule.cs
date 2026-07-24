@@ -162,6 +162,7 @@ namespace RealTime.CustomAI
         /// <summary>Schedules next actions for the citizen with a specified action time.</summary>
         /// <param name="nextState">The next scheduled citizen's state.</param>
         /// <param name="nextStateTime">The time when the scheduled state must change.</param>
+        /// <param name="mealType">The next scheduled meal type.</param>
         public void Schedule(ResidentState nextState, DateTime nextStateTime, MealType mealType = MealType.None)
         {
             LastScheduledState = ScheduledState;
@@ -173,6 +174,7 @@ namespace RealTime.CustomAI
 
         /// <summary>Schedules next actions for the citizen with no action time (ASAP).</summary>
         /// <param name="nextState">The next scheduled citizen's state.</param>
+        /// <param name="mealType">The next scheduled meal type.</param>
         public void Schedule(ResidentState nextState, MealType mealType = MealType.None)
         {
             // Note: not calling the overload to avoid additional method call - this method will be called frequently
@@ -182,6 +184,10 @@ namespace RealTime.CustomAI
             LastScheduledMealType = ScheduledMealType;
             ScheduledMealType = mealType;
         }
+
+        /// <summary>Update the ScheduledMealType if it is none.</summary>
+        /// <param name="mealType">The next scheduled meal type.</param>
+        public void UpdateMealType(MealType mealType) => ScheduledMealType = mealType;
 
         /// <summary>Updates the schedule state for this citizen.</summary>
         /// <param name="scheduledState">The citizen's schedule state.</param>

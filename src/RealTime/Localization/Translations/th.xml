@@ -151,10 +151,18 @@
   <translation id="WorkBeginTooltip" value="เวลาเริ่มงาน — พลเมืองวัยผู้ใหญ่ต้องอยู่ที่ทำงานหรือมหาวิทยาลัย" />
   <translation id="WorkEnd" value="เวลาเลิกงาน" />
   <translation id="WorkEndTooltip" value="เวลาที่ผู้ใหญ่เดินทางกลับจากที่ทำงานหรือมหาวิทยาลัย" />
-  <translation id="LunchBegin" value="เริ่มมื้อกลางวัน" />
-  <translation id="LunchBeginTooltip" value="เวลาที่พลเมืองออกไปกินมื้อกลางวัน" />
-  <translation id="LunchEnd" value="สิ้นสุดมื้อกลางวัน" />
-  <translation id="LunchEndTooltip" value="เวลาที่พลเมืองกลับจากมื้อกลางวันเพื่อไปทำงานต่อ" />
+  <translation id="BreakfastBegin" value="Breakfast begin hour" />
+  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
+  <translation id="BreakfastDuration" value="Breakfast duration" />
+  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
+  <translation id="LunchBegin" value="Lunch begin hour" />
+  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
+  <translation id="LunchDuration" value="Lunch duration" />
+  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
+  <translation id="SupperBegin" value="Supper begin hour" />
+  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
+  <translation id="SupperDuration" value="Supper duration" />
+  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
   <translation id="MaxVacationLength" value="ระยะเวลาลาพักร้อนสูงสุด" />
   <translation id="MaxVacationLengthTooltip" value="พลเมืองสามารถลาพักร้อนได้นานที่สุดกี่วัน ตั้งค่าเป็น 0 เพื่อปิดการพักร้อน" />
   <translation id="AcademicYearLength" value="ระยะเวลาปีการศึกษา (ต้องมี Campus DLC)"/>

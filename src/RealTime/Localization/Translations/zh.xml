@@ -151,10 +151,18 @@
   <translation id="WorkBeginTooltip" value="上班时间 —— 成年市民必须到达工作岗位或大学的时间" />
   <translation id="WorkEnd" value="下班时间" />
   <translation id="WorkEndTooltip" value="成年市民从工作岗位或大学回家的时间" />
-  <translation id="LunchBegin" value="午休开始时间" />
-  <translation id="LunchBeginTooltip" value="市民出去吃午餐的时间" />
-  <translation id="LunchEnd" value="午休结束时间" />
-  <translation id="LunchEndTooltip" value="市民从午餐返回工作岗位的时间" />
+  <translation id="BreakfastBegin" value="Breakfast begin hour" />
+  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
+  <translation id="BreakfastDuration" value="Breakfast duration" />
+  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
+  <translation id="LunchBegin" value="Lunch begin hour" />
+  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
+  <translation id="LunchDuration" value="Lunch duration" />
+  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
+  <translation id="SupperBegin" value="Supper begin hour" />
+  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
+  <translation id="SupperDuration" value="Supper duration" />
+  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
   <translation id="MaxVacationLength" value="最大休假长度" />
   <translation id="MaxVacationLengthTooltip" value="市民可以休假的最长时间。设为 0 以禁用休假。" />
   <translation id="AcademicYearLength" value="学年长度 (需要校园 DLC)"/>

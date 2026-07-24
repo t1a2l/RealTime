@@ -151,10 +151,18 @@
   <translation id="WorkBeginTooltip" value="The work start daytime hour - the adult Cims must be at work or university" />
   <translation id="WorkEnd" value="Work end hour" />
   <translation id="WorkEndTooltip" value="The daytime hour when the adult Cims return from work or university" />
+  <translation id="BreakfastBegin" value="Breakfast begin hour" />
+  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
+  <translation id="BreakfastDuration" value="Breakfast duration" />
+  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
   <translation id="LunchBegin" value="Lunch begin hour" />
   <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
-  <translation id="LunchEnd" value="Lunch end hour" />
-  <translation id="LunchEndTooltip" value="The daytime hour when the Cims return from lunch back to work" />
+  <translation id="LunchDuration" value="Lunch duration" />
+  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
+  <translation id="SupperBegin" value="Supper begin hour" />
+  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
+  <translation id="SupperDuration" value="Supper duration" />
+  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
   <translation id="MaxVacationLength" value="Maximum vacation days" />
   <translation id="MaxVacationLengthTooltip" value="For how long citizens can be on vacation. Set to 0 to disable vacations." />
   <translation id="AcademicYearLength" value="Academic Year days (Requires The Campus DLC)"/>

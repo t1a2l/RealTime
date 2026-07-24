@@ -151,10 +151,18 @@
   <translation id="WorkBeginTooltip" value="업무나 대학교 강의가 시작되는 시간입니다." />
   <translation id="WorkEnd" value="퇴근 시간" />
   <translation id="WorkEndTooltip" value="업무나 강의가 종료되는 시간입니다." />
-  <translation id="LunchBegin" value="점심 시간 시작" />
-  <translation id="LunchBeginTooltip" value="시민들이 점심 식사를 하러 나가는 시간입니다." />
-  <translation id="LunchEnd" value="점심 시간 종료" />
-  <translation id="LunchEndTooltip" value="시민들이 점심 식사를 마치고 업무로 복귀하는 시간입니다." />
+  <translation id="BreakfastBegin" value="Breakfast begin hour" />
+  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
+  <translation id="BreakfastDuration" value="Breakfast duration" />
+  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
+  <translation id="LunchBegin" value="Lunch begin hour" />
+  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
+  <translation id="LunchDuration" value="Lunch duration" />
+  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
+  <translation id="SupperBegin" value="Supper begin hour" />
+  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
+  <translation id="SupperDuration" value="Supper duration" />
+  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
   <translation id="MaxVacationLength" value="최대 휴가 기간" />
   <translation id="MaxVacationLengthTooltip" value="시민들이 보낼 수 있는 최대 휴가 일수입니다. 0으로 설정하면 휴가가 비활성화됩니다." />
   <translation id="AcademicYearLength" value="학기 기간 (캠퍼스 DLC 필요)"/>

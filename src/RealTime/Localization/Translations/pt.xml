@@ -152,10 +152,18 @@
   <translation id="WorkBeginTooltip" value="O horário de início do trabalho - os adultos devem estar no trabalho ou universidade" />
   <translation id="WorkEnd" value="Hora de término do trabalho" />
   <translation id="WorkEndTooltip" value="O horário em que os adultos retornam do trabalho ou universidade" />
-  <translation id="LunchBegin" value="Hora de início do almoço" />
-  <translation id="LunchBeginTooltip" value="O horário em que os cidadãos saem para almoçar" />
-  <translation id="LunchEnd" value="Hora de término do almoço" />
-  <translation id="LunchEndTooltip" value="O horário em que os cidadãos voltam do almoço para o trabalho" />
+  <translation id="BreakfastBegin" value="Breakfast begin hour" />
+  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
+  <translation id="BreakfastDuration" value="Breakfast duration" />
+  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
+  <translation id="LunchBegin" value="Lunch begin hour" />
+  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
+  <translation id="LunchDuration" value="Lunch duration" />
+  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
+  <translation id="SupperBegin" value="Supper begin hour" />
+  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
+  <translation id="SupperDuration" value="Supper duration" />
+  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
   <translation id="MaxVacationLength" value="Máximo de dias de férias" />
   <translation id="MaxVacationLengthTooltip" value="Por quanto tempo os cidadãos podem estar de férias. Defina como 0 para desativar férias." />
   <translation id="AcademicYearLength" value="Dias do Ano Acadêmico (Requer DLC Campus)"/>

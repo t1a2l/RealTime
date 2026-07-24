@@ -37,9 +37,8 @@ namespace RealTime.CustomAI
         /// <summary>Updates the citizen's school schedule by checking if he will or will not eat a meal.</summary>
         /// <param name="schedule">The citizen's schedule to update.</param>
         /// <param name="schoolBuilding">The citizen's school building.</param>
-        /// <param name="mealType">The meal type the citizen is going to eat.</param>
         /// <returns><c>true</c> if a breakfast was scheduled; otherwise, <c>false</c>.</returns>
-        internal bool ScheduleMeal(ref CitizenSchedule schedule, ushort schoolBuilding, MealType mealType);
+        internal bool ScheduleMeal(ref CitizenSchedule schedule, ushort schoolBuilding);
 
         /// <summary>Updates the citizen's school schedule by determining the returning from meal time.</summary>
         /// <param name="schedule">The citizen's schedule to update.</param>

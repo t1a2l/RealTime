@@ -151,10 +151,18 @@
   <translation id="WorkBeginTooltip" value="Zeit, zu der die Arbeit oder die Universität beginnt." />
   <translation id="WorkEnd" value="Arbeitsende" />
   <translation id="WorkEndTooltip" value="Zeit, zu der die Arbeit oder die Universität endet." />
-  <translation id="LunchBegin" value="Beginn Mittagspause" />
-  <translation id="LunchBeginTooltip" value="Zeit, zu der Bürger zum Mittagessen ausgehen." />
-  <translation id="LunchEnd" value="Ende Mittagspause" />
-  <translation id="LunchEndTooltip" value="Zeit, zu der Bürger vom Mittagessen zurückkehren." />
+  <translation id="BreakfastBegin" value="Breakfast begin hour" />
+  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
+  <translation id="BreakfastDuration" value="Breakfast duration" />
+  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
+  <translation id="LunchBegin" value="Lunch begin hour" />
+  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
+  <translation id="LunchDuration" value="Lunch duration" />
+  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
+  <translation id="SupperBegin" value="Supper begin hour" />
+  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
+  <translation id="SupperDuration" value="Supper duration" />
+  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
   <translation id="MaxVacationLength" value="Max. Urlaubsdauer" />
   <translation id="MaxVacationLengthTooltip" value="Maximale Anzahl an Urlaubstagen. Auf 0 setzen, um Urlaub zu deaktivieren." />
   <translation id="AcademicYearLength" value="Dauer akad. Jahr (Campus DLC)"/>

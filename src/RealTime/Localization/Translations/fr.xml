@@ -151,10 +151,18 @@
   <translation id="WorkBeginTooltip" value="L'heure à laquelle le travail ou les cours universitaires commencent." />
   <translation id="WorkEnd" value="Fin travail" />
   <translation id="WorkEndTooltip" value="L'heure à laquelle le travail ou les cours universitaires finissent." />
-  <translation id="LunchBegin" value="Début déjeuner" />
-  <translation id="LunchBeginTooltip" value="L'heure à laquelle les citoyens commencent à sortir déjeuner." />
-  <translation id="LunchEnd" value="Fin déjeuner" />
-  <translation id="LunchEndTooltip" value="L'heure à laquelle les citoyens reviennent du déjeuner." />
+  <translation id="BreakfastBegin" value="Breakfast begin hour" />
+  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
+  <translation id="BreakfastDuration" value="Breakfast duration" />
+  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
+  <translation id="LunchBegin" value="Lunch begin hour" />
+  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
+  <translation id="LunchDuration" value="Lunch duration" />
+  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
+  <translation id="SupperBegin" value="Supper begin hour" />
+  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
+  <translation id="SupperDuration" value="Supper duration" />
+  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
   <translation id="MaxVacationLength" value="Durée max vacances" />
   <translation id="MaxVacationLengthTooltip" value="Nombre de jours max de vacances. Réglez sur 0 pour désactiver les vacances." />
   <translation id="AcademicYearLength" value="Durée année académique (DLC Campus)"/>

@@ -30,13 +30,13 @@ namespace RealTime.CustomAI
         private readonly ITravelBehavior travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
 
         private DateTime lunchBegin;
-        private DateTime lunchEnd;
+        private float lunchDuration;
 
         public void BeginNewDay()
         {
             var today = timeInfo.Now.Date;
             lunchBegin = today.AddHours(config.LunchBegin);
-            lunchEnd = today.AddHours(config.LunchEnd);
+            lunchDuration = config.LunchDuration;
         }
 
         /// <summary>Updates the citizen's school class parameters in the specified citizen's <paramref name="schedule"/>.</summary>
@@ -152,41 +152,35 @@ namespace RealTime.CustomAI
         /// <summary>Updates the citizen's school schedule by determining the meal time.</summary>
         /// <param name="schedule">The citizen's schedule to update.</param>
         /// <param name="schoolBuilding">The citizen's school building.</param>
-        /// <param name="mealType">The meal type the citizen is going to eat.</param>
         /// <returns><c>true</c> if a meal was scheduled; otherwise, <c>false</c>.</returns>
-        public bool ScheduleMeal(ref CitizenSchedule schedule, ushort schoolBuilding, MealType mealType)
+        public bool ScheduleMeal(ref CitizenSchedule schedule, ushort schoolBuilding)
         {
-            if (mealType == MealType.Breakfast)
-            {
-                float minGoToBreakfastHour = config.WakeUpHour;
-                float maxGoToBreakfastHour = schedule.SchoolClassStartTime;
+            Log.Debug(LogCategory.Schedule, $"  - School status is {schedule.SchoolStatus}");
 
-                Log.Debug(LogCategory.Schedule, $"  - School status is {schedule.SchoolStatus}");
-                if (schedule.SchoolStatus == SchoolStatus.None
-                    && schedule.SchoolClass == SchoolClass.DayClass
-                    && timeInfo.CurrentHour >= minGoToBreakfastHour && timeInfo.CurrentHour <= maxGoToBreakfastHour
-                    && WillGoToMeal(schoolBuilding, mealType))
+            if (schedule.SchoolStatus == SchoolStatus.None)
+            {
+                if (timeInfo.CurrentHour >= config.BreakfastBegin && timeInfo.CurrentHour <= 10f && WillGoToMeal(schoolBuilding, MealType.Breakfast))
                 {
-                    schedule.Schedule(ResidentState.GoToMeal, mealType);
+                    Log.Debug(LogCategory.Schedule, $"  - Going to eat {MealType.Breakfast}");
+                    schedule.Schedule(ResidentState.GoToMeal, MealType.Breakfast);
                     return true;
                 }
 
-                return false;
+                if (timeInfo.CurrentHour >= config.SupperBegin && timeInfo.CurrentHour <= 20f && WillGoToMeal(schoolBuilding, MealType.Supper))
+                {
+                    Log.Debug(LogCategory.Schedule, $"  - Going to eat {MealType.Supper}");
+                    schedule.Schedule(ResidentState.GoToMeal, MealType.Supper);
+                    return true;
+                }
             }
-            else if (mealType == MealType.Lunch)
+            else
             {
-                int hours = (int)(lunchBegin - timeInfo.Now).TotalHours;
-
-                Log.Debug(LogCategory.Schedule, $"  - School status is {schedule.SchoolStatus}");
-                if (hours >= 2.5 && schedule.SchoolStatus == SchoolStatus.Studying
-                    && schedule.SchoolClass == SchoolClass.DayClass
-                    && WillGoToMeal(schoolBuilding, mealType))
+                if ((lunchBegin - timeInfo.Now).TotalHours >= 2.5 && WillGoToMeal(schoolBuilding, MealType.Lunch))
                 {
-                    schedule.Schedule(ResidentState.GoToMeal, lunchBegin, mealType);
+                    Log.Debug(LogCategory.Schedule, $"  - Going to eat {MealType.Lunch} at {lunchBegin:dd.MM.yy HH:mm}");
+                    schedule.Schedule(ResidentState.GoToMeal, lunchBegin, MealType.Lunch);
                     return true;
                 }
-
-                return false;
             }
 
             return false;
@@ -198,6 +192,7 @@ namespace RealTime.CustomAI
         {
             if (schedule.ScheduledMealType == MealType.Lunch && schedule.SchoolStatus == SchoolStatus.Studying)
             {
+                var lunchEnd = lunchBegin.AddHours(lunchDuration);
                 schedule.Schedule(ResidentState.GoToSchool, lunchEnd);
             }
         }
@@ -267,29 +262,17 @@ namespace RealTime.CustomAI
             if (mealType == MealType.Breakfast)
             {
                 Log.Debug(LogCategory.Schedule, $"  - BreakfastQuota is {config.BreakfastBeforeWorkOrSchoolQuota}");
-                if (!config.IsBreakfastTimeEnabledBeforeWorkOrSchool)
-                {
-                    return false;
-                }
-                return randomizer.ShouldOccur(config.BreakfastBeforeWorkOrSchoolQuota);
+                return config.IsBreakfastTimeEnabledBeforeWorkOrSchool && randomizer.ShouldOccur(config.BreakfastBeforeWorkOrSchoolQuota);
             }
             else if (mealType == MealType.Lunch)
             {
                 Log.Debug(LogCategory.Schedule, $"  - LunchQuota is {config.LunchDuringWorkOrSchoolQuota}");
-                if (!config.IsLunchTimeEnabledDuringWorkOrSchool)
-                {
-                    return false;
-                }
-                return randomizer.ShouldOccur(config.LunchDuringWorkOrSchoolQuota);
+                return config.IsLunchTimeEnabledDuringWorkOrSchool && randomizer.ShouldOccur(config.LunchDuringWorkOrSchoolQuota);
             }
             else if (mealType == MealType.Supper)
             {
                 Log.Debug(LogCategory.Schedule, $"  - SupperQuota is {config.SupperAfterWorkOrSchoolQuota}");
-                if (!config.IsSupperTimeEnabledAfterWorkOrSchool)
-                {
-                    return false;
-                }
-                return randomizer.ShouldOccur(config.SupperAfterWorkOrSchoolQuota);
+                return config.IsSupperTimeEnabledAfterWorkOrSchool && randomizer.ShouldOccur(config.SupperAfterWorkOrSchoolQuota);
             }
 
             return false;

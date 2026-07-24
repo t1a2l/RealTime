@@ -151,10 +151,18 @@
   <translation id="WorkBeginTooltip" value="Часът на започване на работа — възрастните граждани трябва да са на работа или в университета" />
   <translation id="WorkEnd" value="Край на работа" />
   <translation id="WorkEndTooltip" value="Часът, в който възрастните се прибират от работа или от университета" />
-  <translation id="LunchBegin" value="Начало на обяд" />
-  <translation id="LunchBeginTooltip" value="Часът, в който гражданите излизат за обяд" />
-  <translation id="LunchEnd" value="Край на обяд" />
-  <translation id="LunchEndTooltip" value="Часът, в който гражданите се връщат от обяд на работа" />
+  <translation id="BreakfastBegin" value="Breakfast begin hour" />
+  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
+  <translation id="BreakfastDuration" value="Breakfast duration" />
+  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
+  <translation id="LunchBegin" value="Lunch begin hour" />
+  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
+  <translation id="LunchDuration" value="Lunch duration" />
+  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
+  <translation id="SupperBegin" value="Supper begin hour" />
+  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
+  <translation id="SupperDuration" value="Supper duration" />
+  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
   <translation id="MaxVacationLength" value="Максимална дължина на отпуск" />
   <translation id="MaxVacationLengthTooltip" value="Колко дълго гражданите могат да бъдат в отпуск. Задайте 0, за да го деактивирате." />
   <translation id="AcademicYearLength" value="Дължина на учебната година (изисква Campus DLC)"/>

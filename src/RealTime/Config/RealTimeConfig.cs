@@ -312,14 +312,14 @@ namespace RealTime.Config
         public float GoToSleepHour { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether Cims should go out for breakfast before work or schoo.
+        /// Gets or sets a value indicating whether Cims should go out for breakfast before work or school.
         /// </summary>
         [ConfigItem("4Time", 2)]
         [ConfigItemCheckBox]
         public bool IsBreakfastTimeEnabledBeforeWorkOrSchool { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether Cims should go out for lunch during work or school
+        /// Gets or sets a value indicating whether Cims should go out for lunch during work or school.
         /// </summary>
         [ConfigItem("4Time", 3)]
         [ConfigItemCheckBox]
@@ -333,60 +333,88 @@ namespace RealTime.Config
         public bool IsSupperTimeEnabledAfterWorkOrSchool { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the Cims go out for lunch.
+        /// Gets or sets the daytime hour when the Cims go out for breakfast.
         /// </summary>
         [ConfigItem("4Time", 5)]
-        [ConfigItemSlider(11, 13, 0.25f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(4f, 10f, 0.25f, ValueType = SliderValueType.Time)]
+        public float BreakfastBegin { get; set; }
+
+        /// <summary>
+        /// Gets or sets the duration time of eating breakfast.
+        /// </summary>
+        [ConfigItem("4Time", 6)]
+        [ConfigItemSlider(0.5f, 1.5f, 0.25f, ValueType = SliderValueType.Duration)]
+        public float BreakfastDuration { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the Cims go out for lunch.
+        /// </summary>
+        [ConfigItem("4Time", 7)]
+        [ConfigItemSlider(11f, 13f, 0.25f, ValueType = SliderValueType.Time)]
         public float LunchBegin { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the Cims return from lunch back to work.
+        /// Gets or sets the duration time of eating lunch.
         /// </summary>
-        [ConfigItem("4Time", 6)]
-        [ConfigItemSlider(13, 15, 0.25f, ValueType = SliderValueType.Time)]
-        public float LunchEnd { get; set; }
+        [ConfigItem("4Time", 8)]
+        [ConfigItemSlider(0.5f, 2f, 0.25f, ValueType = SliderValueType.Duration)]
+        public float LunchDuration { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the Cims go out for supper.
+        /// </summary>
+        [ConfigItem("4Time", 9)]
+        [ConfigItemSlider(17f, 20f, 0.25f, ValueType = SliderValueType.Time)]
+        public float SupperBegin { get; set; }
+
+        /// <summary>
+        /// Gets or sets the duration time of eating supper.
+        /// </summary>
+        [ConfigItem("4Time", 10)]
+        [ConfigItemSlider(0.5f, 2f, 0.25f, ValueType = SliderValueType.Duration)]
+        public float SupperDuration { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum overtime for the Cims. They come to work earlier or stay at work longer for at most this
         /// amount of hours. This applies only for those Cims that are not on time, see <see cref="OnTimeQuota"/>.
         /// The young Cims (school and university) don't do overtime.
         /// </summary>
-        [ConfigItem("4Time", 7)]
+        [ConfigItem("4Time", 11)]
         [ConfigItemSlider(0, 4, 0.25f, ValueType = SliderValueType.Duration)]
         public float MaxOvertime { get; set; }
 
         /// <summary>
         /// Gets or sets the school start daytime hour. The young Cims must go at school or university.
         /// </summary>
-        [ConfigItem("4Time", 8)]
+        [ConfigItem("4Time", 12)]
         [ConfigItemSlider(4, 10, 0.25f, ValueType = SliderValueType.Time)]
         public float SchoolBegin { get; set; }
 
         /// <summary>
         /// Gets or sets the school end daytime hour. The young Cims must return from school or university.
         /// </summary>
-        [ConfigItem("4Time", 9)]
+        [ConfigItem("4Time", 13)]
         [ConfigItemSlider(11, 16, 0.25f, ValueType = SliderValueType.Time)]
         public float SchoolEnd { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum vacation length in days.
         /// </summary>
-        [ConfigItem("4Time", 10)]
+        [ConfigItem("4Time", 14)]
         [ConfigItemSlider(0, 7, ValueType = SliderValueType.Default)]
         public uint MaxVacationLength { get; set; }
 
         /// <summary>
         /// Gets or sets the length of the academic year in hours.
         /// </summary>
-        [ConfigItem("4Time", 11)]
+        [ConfigItem("4Time", 15)]
         [ConfigItemSlider(1f, 30f, 1f, ValueType = SliderValueType.Default)]
         public float AcademicYearLength { get; set; }
 
         /// <summary>
         /// Gets or sets the length of a Toga party in hours.
         /// </summary>
-        [ConfigItem("4Time", 12)]
+        [ConfigItem("4Time", 16)]
         [ConfigItemSlider(4f, 24f, 1f, ValueType = SliderValueType.Default)]
         public float TogaPartyLength { get; set; }
 
@@ -778,8 +806,13 @@ namespace RealTime.Config
 
             EventPreparationDuration = FastMath.Clamp(EventPreparationDuration, 2f, 8f);
 
+            BreakfastBegin = FastMath.Clamp(BreakfastBegin, WakeUpHour, 10f);
+            BreakfastDuration = FastMath.Clamp(BreakfastDuration, 0.5f, 1.5f);
             LunchBegin = FastMath.Clamp(LunchBegin, 11f, 13f);
-            LunchEnd = FastMath.Clamp(LunchEnd, 13f, 15f);
+            LunchDuration = FastMath.Clamp(LunchDuration, 0.5f, 2f);
+            SupperBegin = FastMath.Clamp(SupperBegin, 17f, GoToSleepHour);
+            SupperDuration = FastMath.Clamp(SupperDuration, 0.5f, 2f);
+
             SchoolBegin = FastMath.Clamp(SchoolBegin, 4f, 10f);
             SchoolEnd = FastMath.Clamp(SchoolEnd, 11f, 16f);
             MaxOvertime = FastMath.Clamp(MaxOvertime, 0f, 4f);
@@ -901,8 +934,13 @@ namespace RealTime.Config
             LatestHourEventStartWeekend = 22f;
             EventPreparationDuration = 3f;
 
+            BreakfastBegin = 7f;
+            BreakfastDuration = 0.5f;
             LunchBegin = 12f;
-            LunchEnd = 13f;
+            LunchDuration = 0.5f;
+            SupperBegin = 18f;
+            SupperDuration = 0.5f;
+
             MaxOvertime = 2f;
             SchoolBegin = 8f;
             SchoolEnd = 14f;

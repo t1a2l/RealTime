@@ -35,14 +35,14 @@ namespace RealTime.CustomAI
         private readonly IRealTimeEventManager eventManager = eventManager ?? throw new ArgumentNullException(nameof(eventManager));
 
         private DateTime lunchBegin;
-        private DateTime lunchEnd;
+        private float lunchDuration;
 
         /// <summary>Notifies this object that a new game day starts.</summary>
         public void BeginNewDay()
         {
             var today = timeInfo.Now.Date;
             lunchBegin = today.AddHours(config.LunchBegin);
-            lunchEnd = today.AddHours(config.LunchEnd);
+            lunchDuration = config.LunchDuration;
         }
 
         /// <summary>Updates the citizen's work shift parameters in the specified citizen's <paramref name="schedule"/>.</summary>
@@ -118,34 +118,35 @@ namespace RealTime.CustomAI
         /// <summary>Updates the citizen's work schedule by determining the lunch time.</summary>
         /// <param name="schedule">The citizen's schedule to update.</param>
         /// <param name="citizenAge">The citizen's age.</param>
-        /// <param name="mealType">The meal type the citizen is going to eat.</param>
         /// <returns><c>true</c> if a lunch time was scheduled; otherwise, <c>false</c>.</returns>
-        public bool ScheduleMeal(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge, MealType mealType)
+        public bool ScheduleMeal(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge)
         {
             Log.Debug(LogCategory.Schedule, $"  - Work status is {schedule.WorkStatus}, working in shift {schedule.ShiftIndex}");
-            if (mealType == MealType.Breakfast)
+
+            if(schedule.WorkStatus == WorkStatus.None)
             {
-                bool isBreakfastTime = timeInfo.CurrentHour >= config.WakeUpHour && timeInfo.CurrentHour <= 10f;
-                
-                if (schedule.WorkStatus == WorkStatus.None && isBreakfastTime && WillGoToMeal(citizenAge, mealType))
+                if(timeInfo.CurrentHour >= config.BreakfastBegin && timeInfo.CurrentHour <= 10f && WillGoToMeal(citizenAge, MealType.Breakfast))
                 {
-                    schedule.Schedule(ResidentState.GoToMeal, mealType);
+                    Log.Debug(LogCategory.Schedule, $"  - Going to eat {MealType.Breakfast}");
+                    schedule.Schedule(ResidentState.GoToMeal, MealType.Breakfast);
                     return true;
                 }
 
-                return false;
+                if (timeInfo.CurrentHour >= config.SupperBegin && timeInfo.CurrentHour <= 20f && WillGoToMeal(citizenAge, MealType.Supper))
+                {
+                    Log.Debug(LogCategory.Schedule, $"  - Going to eat {MealType.Supper}");
+                    schedule.Schedule(ResidentState.GoToMeal, MealType.Supper);
+                    return true;
+                }
             }
-            else if (mealType == MealType.Lunch)
+            else
             {
-                bool isLunchTime = (lunchBegin - timeInfo.Now).TotalHours >= 2.5;
-
-                if (schedule.WorkStatus == WorkStatus.Working && isLunchTime && WillGoToMeal(citizenAge, mealType))
+                if ((lunchBegin - timeInfo.Now).TotalHours >= 2.5 && WillGoToMeal(citizenAge, MealType.Lunch))
                 {
-                    schedule.Schedule(ResidentState.GoToMeal, lunchBegin, mealType);
+                    Log.Debug(LogCategory.Schedule, $"  - Going to eat {MealType.Lunch} at {lunchBegin:dd.MM.yy HH:mm}");
+                    schedule.Schedule(ResidentState.GoToMeal, lunchBegin, MealType.Lunch);
                     return true;
                 }
-
-                return false;
             }
 
             return false;
@@ -157,6 +158,7 @@ namespace RealTime.CustomAI
         {
             if (schedule.ScheduledMealType == MealType.Lunch && schedule.WorkStatus == WorkStatus.Working)
             {
+                var lunchEnd = lunchBegin.AddHours(lunchDuration);
                 schedule.Schedule(ResidentState.GoToWork, lunchEnd);
             }
         }
@@ -229,47 +231,28 @@ namespace RealTime.CustomAI
             if (mealType == MealType.Breakfast)
             {
                 Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, BreakfastQuota is {config.BreakfastBeforeWorkOrSchoolQuota}");
-                if (!config.IsBreakfastTimeEnabledBeforeWorkOrSchool)
-                {
-                    return false;
-                }
-                return randomizer.ShouldOccur(config.BreakfastBeforeWorkOrSchoolQuota);
+                return config.IsBreakfastTimeEnabledBeforeWorkOrSchool && randomizer.ShouldOccur(config.BreakfastBeforeWorkOrSchoolQuota);
             }
             else if (mealType == MealType.Lunch)
             {
                 Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, LunchQuota is {config.LunchDuringWorkOrSchoolQuota}");
-                if (!config.IsLunchTimeEnabledDuringWorkOrSchool)
-                {
-                    return false;
-                }
-                return randomizer.ShouldOccur(config.LunchDuringWorkOrSchoolQuota);
+                return config.IsLunchTimeEnabledDuringWorkOrSchool && randomizer.ShouldOccur(config.LunchDuringWorkOrSchoolQuota);
             }
             else if (mealType == MealType.Supper)
             {
                 Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, SupperQuota is {config.SupperAfterWorkOrSchoolQuota}");
-                if (!config.IsSupperTimeEnabledAfterWorkOrSchool)
-                {
-                    return false;
-                }
-                return randomizer.ShouldOccur(config.SupperAfterWorkOrSchoolQuota);
+                return config.IsSupperTimeEnabledAfterWorkOrSchool && randomizer.ShouldOccur(config.SupperAfterWorkOrSchoolQuota);
             }
 
             return false;
         }
 
-        private float GetOvertime(Citizen.AgeGroup citizenAge)
+        private float GetOvertime(Citizen.AgeGroup citizenAge) => citizenAge switch
         {
-            switch (citizenAge)
-            {
-                case Citizen.AgeGroup.Young:
-                case Citizen.AgeGroup.Adult:
-                    return randomizer.ShouldOccur(config.OnTimeQuota)
-                        ? 0
-                        : config.MaxOvertime * randomizer.GetRandomValue(100u) / 100f;
-
-                default:
-                    return 0;
-            }
-        }
+            Citizen.AgeGroup.Young or Citizen.AgeGroup.Adult => randomizer.ShouldOccur(config.OnTimeQuota)
+                                    ? 0
+                                    : config.MaxOvertime * randomizer.GetRandomValue(100u) / 100f,
+            _ => 0,
+        };
     }
 }

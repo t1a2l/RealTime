@@ -405,11 +405,11 @@ namespace RealTime.CustomAI
                     return true;
                 }
 
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} moving to commercial building to eat meal and the ScheduledMealType is {schedule.ScheduledMealType}");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} moving to commercial building to eat a meal and the ScheduledMealType is {schedule.ScheduledMealType}");
                 ushort mealPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, CommercialBuildingType.Food);
                 if (mealPlace == 0)
                 {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} wanted go to eat a {schedule.LastScheduledMealType} meal, but didn't find a local meal place");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} wanted go to eat {schedule.LastScheduledMealType}, but didn't find a local food place");
                     return false;
                 }
 
@@ -418,7 +418,7 @@ namespace RealTime.CustomAI
                     schedule.Hint = ScheduleHint.NoMealAnyMore;
                 }
 
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} going to eat a {schedule.LastScheduledMealType} meal at a local meal place {mealPlace}");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} going to eat {schedule.LastScheduledMealType} at a local food place {mealPlace}");
                 return true;
             }
 
@@ -628,15 +628,15 @@ namespace RealTime.CustomAI
 
         private MealType GetCurrentMealType(float currentHour)
         {
-            if (currentHour >= Config.WakeUpHour && currentHour < 10f)
+            if (currentHour >= Config.BreakfastBegin && currentHour <= 10f)
             {
                 return MealType.Breakfast;
             }
-            else if (currentHour >= 11f && currentHour < 14f)
+            else if (currentHour >= Config.LunchBegin && currentHour <= 13f)
             {
                 return MealType.Lunch;
             }
-            else if (currentHour >= 7f && currentHour < Config.GoToSleepHour)
+            else if (currentHour >= Config.SupperBegin && currentHour <= 20f)
             {
                 return MealType.Supper;
             }

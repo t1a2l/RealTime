@@ -151,10 +151,18 @@
   <translation id="WorkBeginTooltip" value="Час начала работы — взрослые жители должны быть на работе или в университете" />
   <translation id="WorkEnd" value="Конец работы" />
   <translation id="WorkEndTooltip" value="Час, когда взрослые возвращаются с работы или из университета" />
-  <translation id="LunchBegin" value="Начало обеда" />
-  <translation id="LunchBeginTooltip" value="Время, когда жители уходят на обед" />
-  <translation id="LunchEnd" value="Конец обеда" />
-  <translation id="LunchEndTooltip" value="Время, когда жители возвращаются с обеда на работу" />
+  <translation id="BreakfastBegin" value="Breakfast begin hour" />
+  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
+  <translation id="BreakfastDuration" value="Breakfast duration" />
+  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
+  <translation id="LunchBegin" value="Lunch begin hour" />
+  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
+  <translation id="LunchDuration" value="Lunch duration" />
+  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
+  <translation id="SupperBegin" value="Supper begin hour" />
+  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
+  <translation id="SupperDuration" value="Supper duration" />
+  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
   <translation id="MaxVacationLength" value="Макс. дней отпуска" />
   <translation id="MaxVacationLengthTooltip" value="Как долго жители могут быть в отпуске. Установите 0, чтобы отключить отпуска." />
   <translation id="AcademicYearLength" value="Длительность учебного года (Требует DLC Campus)"/>

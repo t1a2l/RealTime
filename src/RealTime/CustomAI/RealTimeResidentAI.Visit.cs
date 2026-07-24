@@ -175,12 +175,10 @@ namespace RealTime.CustomAI
                 residentAI.FindVisitPlace(instance, citizenId, currentBuilding, entertainmentReason);
                 schedule.FindVisitPlaceAttempts++;
             }
-#if DEBUG
             else
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues relaxing in the same entertainment building.");
             }
-#endif
 
             return true;
         }
@@ -341,12 +339,10 @@ namespace RealTime.CustomAI
                 residentAI.FindVisitPlace(instance, citizenId, currentBuilding, residentAI.GetShoppingReason(instance));
                 schedule.FindVisitPlaceAttempts++;
             }
-#if DEBUG
             else
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues shopping in the same building.");
             }
-#endif
 
             return true;
         }
@@ -409,10 +405,11 @@ namespace RealTime.CustomAI
                     return true;
                 }
 
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} moving to commercial building to eat meal and the ScheduledMealType is {schedule.ScheduledMealType}");
                 ushort mealPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, CommercialBuildingType.Food);
                 if (mealPlace == 0)
                 {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go to eat a {schedule.LastScheduledMealType} meal, but didn't find a local meal place");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} wanted go to eat a {schedule.LastScheduledMealType} meal, but didn't find a local meal place");
                     return false;
                 }
 
@@ -421,7 +418,7 @@ namespace RealTime.CustomAI
                     schedule.Hint = ScheduleHint.NoMealAnyMore;
                 }
 
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} going to eat a {schedule.LastScheduledMealType} meal at a local meal place {mealPlace}");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} going to eat a {schedule.LastScheduledMealType} meal at a local meal place {mealPlace}");
                 return true;
             }
 
@@ -437,19 +434,17 @@ namespace RealTime.CustomAI
             {
                 if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule) && !buildingAI.IsBuildingClosingSoon(currentBuilding))
                 {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for the purpose of eating {schedule.LastScheduledMealType}");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} stays in building {currentBuilding} for the purpose of eating {schedule.LastScheduledMealType}");
                     return true;
                 }
 
                 schedule.Schedule(ResidentState.Unknown);
                 schedule.FindVisitPlaceAttempts++;
             }
-#if DEBUG
             else
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues eating {schedule.LastScheduledMealType} in the same place.");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} continues eating {schedule.LastScheduledMealType} in the same place.");
             }
-#endif
 
             return true;
         }

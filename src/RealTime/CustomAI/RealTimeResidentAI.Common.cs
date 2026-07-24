@@ -534,16 +534,19 @@ namespace RealTime.CustomAI
                 case ResidentState.GoToMeal when schedule.CurrentState != ResidentState.EatMeal:
                     if (schedule.WorkBuilding != 0 && schedule.WorkStatus == WorkStatus.Working)
                     {
+                        Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} Doing Scheduled Work Meal");
                         DoScheduledWorkMeal(ref schedule, instance, citizenId, ref citizen);
                         executed = true;
                     }
                     else if (schedule.SchoolBuilding != 0 && schedule.SchoolStatus == SchoolStatus.Studying)
                     {
+                        Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} Doing Scheduled School Meal");
                         DoScheduledSchoolMeal(ref schedule, instance, citizenId, ref citizen);
                         executed = true;
                     }
                     else
                     {
+                        Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} Doing Scheduled Meal");
                         executed = DoScheduledMeal(ref schedule, instance, citizenId, ref citizen);
                     }
                     break;

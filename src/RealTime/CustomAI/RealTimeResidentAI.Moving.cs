@@ -120,10 +120,11 @@ namespace RealTime.CustomAI
             ushort foundBuilding = buildingAI.FindActiveBuilding(currentBuilding, distance, ItemClass.Service.Commercial, ItemClass.SubService.None, buildingType);
             if (foundBuilding == 0)
             {
-                Log.Debug(LogCategory.Movement, $"Citizen {citizenId} didn't find any visitable commercial buildings nearby");
+                Log.Debug(LogCategory.Movement, $"MoveToCommercialBuilding - Citizen {citizenId} didn't find any visitable commercial buildings nearby");
                 return 0;
             }
 
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"MoveToCommercialBuilding - Citizen {citizenId} moving to visit building {foundBuilding}");
             if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, foundBuilding))
             {
                 ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
@@ -151,9 +152,10 @@ namespace RealTime.CustomAI
             ushort foundBuilding = buildingAI.FindActiveCafeteria(currentBuilding, distance);
             if (foundBuilding == 0)
             {
-                Log.Debug(LogCategory.Movement, $"Citizen {citizenId} didn't find any cafeteria buildings nearby");
+                Log.Debug(LogCategory.Movement, $"MoveToCafeteriaBuilding - Citizen {citizenId} didn't find any cafeteria buildings nearby");
             }
 
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"MoveToCafeteriaBuilding - Citizen {citizenId} moving to visit building {foundBuilding}");
             return StartMovingToVisitBuilding(instance, citizenId, ref citizen, foundBuilding) ? foundBuilding : (ushort)0;
         }
 
@@ -166,6 +168,7 @@ namespace RealTime.CustomAI
                 ItemClass.SubService.CommercialLeisure,
                 CommercialBuildingType.Entertainment);
 
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"MoveToLeisureBuilding - Citizen {citizenId} moving to visit building {leisureBuilding}");
             return StartMovingToVisitBuilding(instance, citizenId, ref citizen, leisureBuilding) ? leisureBuilding : (ushort)0;
         }
 
@@ -173,7 +176,7 @@ namespace RealTime.CustomAI
         {
             if (visitBuilding == 0)
             {
-                Log.Debug(LogCategory.Movement, $"Citizen {GetCitizenDesc(citizenId, ref citizen)} visitBuilding is 0");
+                Log.Debug(LogCategory.Movement, $"Citizen {citizenId} visitBuilding is 0");
                 return false;
             }
 
@@ -181,7 +184,7 @@ namespace RealTime.CustomAI
 
             if (currentBuilding == visitBuilding)
             {
-                Log.Debug(LogCategory.Movement, $"Citizen {GetCitizenDesc(citizenId, ref citizen)} visitBuilding and currentBuilding are the same. Setting visit place.");
+                Log.Debug(LogCategory.Movement, $"Citizen {citizenId} visitBuilding and currentBuilding are the same. Setting visit place as current location.");
                 CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Visit);
                 return true;

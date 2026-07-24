@@ -257,10 +257,11 @@
   <translation id="SnowRoadsOtherStartHourTooltip" value="The daytime when snow services starts to operate for other roads" />
   <translation id="SnowRoadsOtherEndHour" value="Other roads end hour" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="The daytime when snow services stop to operate for other roads" />
-  
-  <translation id="ScheduledAction" value="Now" />
-  <translation id="CurrentState" value="State" />
-  <translation id="NextScheduledAction" value="Until" />
+
+  <translation id="CurrentPlannedAction" value="Plan now" />
+  <translation id="NextScheduledActionTime" value="Changes at" />
+  <translation id="NextScheduledAction" value="Then" />
+  <translation id="CurrentState" value="Actual state" />
   <translation id="ScheduledAction.GoHome" value="Go home" />
   <translation id="CurrentState.AtHome" value="At home" />
   <translation id="ScheduledAction.GoToSchool" value="Go to school" />
@@ -276,11 +277,11 @@
   <translation id="ScheduledAction.GoToShelter" value="Go to shelter" />
   <translation id="CurrentState.InShelter" value="At shelter" />
   <translation id="ScheduledAction.GoToMeal" value="Go to eat" />
-  <translation id="CurrentState.EatMeal" value="Eating " />
-  <translation id="ScheduledMealType.Breakfast" value="breakfast" />
-  <translation id="ScheduledMealType.Lunch" value="lunch" />
-  <translation id="ScheduledMealType.Supper" value="supper" />
-  <translation id="ScheduledMealType.Other" value="a snack" />
+  <translation id="CurrentState.EatMeal" value="Eating" />
+  <translation id="MealType.Breakfast" value="breakfast" />
+  <translation id="MealType.Lunch" value="lunch" />
+  <translation id="MealType.Supper" value="supper" />
+  <translation id="MealType.Other" value="a snack" />
   <translation id="WorkShift.Assigned" value="assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(vacation: {0} days)" />
 

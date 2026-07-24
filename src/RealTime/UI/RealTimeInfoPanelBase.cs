@@ -8,6 +8,7 @@ namespace RealTime.UI
     using RealTime.CustomAI;
     // using RealTime.Simulation;
     using SkyTools.Localization;
+    using SkyTools.Tools;
     using SkyTools.UI;
     using static Localization.TranslationKeys;
 
@@ -94,6 +95,7 @@ namespace RealTime.UI
             }
 
             UpdateCitizenState(citizenId, ref schedule);
+            Log.Debug(LogCategory.State, SimulationManager.instance.m_currentGameTime, $"UpdateCitizenInfo - citizenId {citizenId} current state is {schedule.CurrentState}");
 
             SetCustomPanelVisibility(scheduleLabel, false);
             scheduleCopy = schedule;
@@ -134,56 +136,84 @@ namespace RealTime.UI
 
             if (schedule.LastScheduledState != ResidentState.Unknown)
             {
-                string action = localizationProvider.Translate(ScheduledAction + "." + schedule.LastScheduledState.ToString());
+                string current_planned_action = localizationProvider.Translate("ScheduledAction." + schedule.LastScheduledState.ToString());
                 if(schedule.LastScheduledState == ResidentState.GoToMeal && schedule.LastScheduledMealType != MealType.None)
                 {
-                    string mealType = localizationProvider.Translate("ScheduledMealType." + schedule.LastScheduledMealType.ToString());
+                    string mealType = localizationProvider.Translate("MealType." + schedule.LastScheduledMealType.ToString());
                     if (!string.IsNullOrEmpty(mealType))
                     {
-                        action += $" {mealType}";
+                        current_planned_action += $" {mealType}";
                     }
                 }
-                if (!string.IsNullOrEmpty(action))
+                if (!string.IsNullOrEmpty(current_planned_action))
                 {
-                    info.Append(localizationProvider.Translate(ScheduledAction)).Append(": ").Append(action);
+                    if (info.Length > 0)
+                    {
+                        info.AppendLine();
+                    }
+
+                    info.Append(localizationProvider.Translate(CurrentPlannedAction)).Append(": ").Append(current_planned_action);
                     labelHeight += LineHeight;
                 }
             }
 
             if (schedule.ScheduledStateTime != default)
             {
-                string action = localizationProvider.Translate(NextScheduledAction);
-                if (!string.IsNullOrEmpty(action))
+                string next_action_time = localizationProvider.Translate(NextScheduledActionTime);
+                if (!string.IsNullOrEmpty(next_action_time))
                 {
                     if (info.Length > 0)
                     {
                         info.AppendLine();
                     }
 
-                    info.Append(action).Append(": ").Append(schedule.ScheduledStateTime.ToString("t", localizationProvider.CurrentCulture));
+                    info.Append(next_action_time).Append(": ").Append(schedule.ScheduledStateTime.ToString("t", localizationProvider.CurrentCulture));
+                    labelHeight += LineHeight;
+                }
+            }
+
+            if (schedule.ScheduledState != ResidentState.Unknown)
+            {
+                string next_action = localizationProvider.Translate("ScheduledAction." + schedule.ScheduledState.ToString());
+                if (schedule.ScheduledState == ResidentState.GoToMeal && schedule.ScheduledMealType != MealType.None)
+                {
+                    string mealType = localizationProvider.Translate("MealType." + schedule.ScheduledMealType.ToString());
+                    if (!string.IsNullOrEmpty(mealType))
+                    {
+                        next_action += $" {mealType}";
+                    }
+                }
+                if (!string.IsNullOrEmpty(next_action))
+                {
+                    if (info.Length > 0)
+                    {
+                        info.AppendLine();
+                    }
+
+                    info.Append(localizationProvider.Translate(NextScheduledAction)).Append(": ").Append(next_action);
                     labelHeight += LineHeight;
                 }
             }
 
             if (schedule.CurrentState != ResidentState.Unknown)
             {
-                string action = localizationProvider.Translate(CurrentState + "." + schedule.CurrentState.ToString());
+                string current_state = localizationProvider.Translate(CurrentState + "." + schedule.CurrentState.ToString());
                 if (schedule.CurrentState == ResidentState.EatMeal && schedule.LastScheduledMealType != MealType.None)
                 {
-                    string mealType = localizationProvider.Translate("ScheduledMealType." + schedule.LastScheduledMealType.ToString());
+                    string mealType = localizationProvider.Translate("MealType." + schedule.LastScheduledMealType.ToString());
                     if (!string.IsNullOrEmpty(mealType))
                     {
-                        action += $" {mealType}";
+                        current_state += $" {mealType}";
                     }
                 }
-                if (!string.IsNullOrEmpty(action))
+                if (!string.IsNullOrEmpty(current_state))
                 {
                     if (info.Length > 0)
                     {
                         info.AppendLine();
                     }
 
-                    info.Append(localizationProvider.Translate(CurrentState)).Append(": ").Append(action);
+                    info.Append(localizationProvider.Translate(CurrentState)).Append(": ").Append(current_state);
                     labelHeight += LineHeight;
                 }
             }
@@ -315,6 +345,7 @@ namespace RealTime.UI
             }
 
             var location = citizen.CurrentLocation;
+            Log.Debug(LogCategory.State, SimulationManager.instance.m_currentGameTime, $"UpdateCitizenInfo - UpdateCitizenState - citizenId {citizenId} current location is {location}");
             if (location == Citizen.Location.Moving)
             {
                 if((citizenInstance.m_flags & CitizenInstance.Flags.OnTour) != 0 || (citizenInstance.m_flags & CitizenInstance.Flags.TargetIsNode) != 0)

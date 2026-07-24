@@ -96,7 +96,9 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            switch (UpdateCitizenState(citizenId, ref citizen, ref schedule))
+            var scheduleAction = UpdateCitizenState(citizenId, ref citizen, ref schedule);
+            Log.Debug(LogCategory.State, TimeInfo.Now, $"UpdateCitizenState - citizenId {citizenId} schedule action is {scheduleAction}");
+            switch (scheduleAction)
             {
                 case ScheduleAction.Ignore:
                     return;

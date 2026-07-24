@@ -11,6 +11,7 @@ namespace RealTime.CustomAI
         {
             ushort instanceId = CitizenProxy.GetInstance(ref citizen);
             ushort vehicleId = CitizenProxy.GetVehicle(ref citizen);
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"ProcessCitizenMoving - {GetCitizenDesc(citizenId, ref citizen)} instanceId is {instanceId} and vehicleId is {vehicleId}");
 
             if (instanceId == 0)
             {
@@ -28,7 +29,7 @@ namespace RealTime.CustomAI
                     }
                     else
                     {
-                        Log.Debug(LogCategory.State, $"Teleporting {GetCitizenDesc(citizenId, ref citizen)} back home because instance is invalid and no vehicle is available");
+                        Log.Debug(LogCategory.State, $"Teleporting {GetCitizenDesc(citizenId, ref citizen)} back home because instance is 0 and no vehicle is 0");
                         CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
                         CitizenProxy.SetArrested(ref citizen, isArrested: false);
                         schedule.Schedule(ResidentState.Unknown);
@@ -60,18 +61,20 @@ namespace RealTime.CustomAI
             }
 
             ushort targetBuilding = CitizenMgr.GetTargetBuilding(instanceId);
-            bool headingToSchoolOrWork = targetBuilding == CitizenProxy.GetWorkOrSchoolBuilding(ref citizen);
+            ushort workOrSchoolBuilding = CitizenProxy.GetWorkOrSchoolBuilding(ref citizen);
+
+            bool headingToSchoolOrWork = targetBuilding == workOrSchoolBuilding;
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} targetBuilding is {targetBuilding} and workOrSchoolBuilding is {workOrSchoolBuilding} and headingToSchoolOrWork is {headingToSchoolOrWork}");
             if (vehicleId != 0 && schedule.DepartureTime != default)
             {
-                float maxTravelTime = headingToSchoolOrWork
-                    ? abandonCarRideToWorkDurationThreshold
-                    : abandonCarRideDurationThreshold;
+                float maxTravelTime = headingToSchoolOrWork ? abandonCarRideToWorkDurationThreshold : abandonCarRideDurationThreshold;
 
                 if ((TimeInfo.Now - schedule.DepartureTime).TotalHours > maxTravelTime)
                 {
                     buildingAI.RegisterReachingTrouble(targetBuilding);
                     if (targetBuilding == CitizenProxy.GetHomeBuilding(ref citizen))
                     {
+                        Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} target building is home building");
                         return true;
                     }
 
@@ -163,9 +166,7 @@ namespace RealTime.CustomAI
                 ItemClass.SubService.CommercialLeisure,
                 CommercialBuildingType.Entertainment);
 
-            return StartMovingToVisitBuilding(instance, citizenId, ref citizen, leisureBuilding)
-                ? leisureBuilding
-                : (ushort)0;
+            return StartMovingToVisitBuilding(instance, citizenId, ref citizen, leisureBuilding) ? leisureBuilding : (ushort)0;
         }
 
         private bool StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort visitBuilding)

@@ -258,9 +258,10 @@
   <translation id="SnowRoadsOtherEndHour" value="Fin entretien autres routes (neige)" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="L'heure de la journée à laquelle les services de déneigement cessent d'opérer pour les autres routes." />
 
-  <translation id="ScheduledAction" value="Action prévue" />
-  <translation id="CurrentState" value="État actuel" />
-  <translation id="NextScheduledAction" value="Termine dans" />
+  <translation id="CurrentPlannedAction" value="Plan now" />
+  <translation id="NextScheduledActionTime" value="Changes at" />
+  <translation id="NextScheduledAction" value="Then" />
+  <translation id="CurrentState" value="Actual state" />
   <translation id="ScheduledAction.GoHome" value="Rentrer à la maison" />
   <translation id="CurrentState.AtHome" value="À la maison" />
   <translation id="ScheduledAction.GoToSchool" value="Aller à l'école" />
@@ -276,12 +277,12 @@
   <translation id="ScheduledAction.GoToShelter" value="Aller à l'abri" />
   <translation id="CurrentState.InShelter" value="Dans l'abri" />
   <translation id="ScheduledAction.GoToMeal" value="Aller manger" />
-  <translation id="CurrentState.EatMeal" value="Manger (" />
-  <translation id="ScheduledMealType.Breakfast" value="Petit-déjeuner" />
-  <translation id="ScheduledMealType.Lunch" value="Déjeuner" />
-  <translation id="ScheduledMealType.Supper" value="Dîner" />
-  <translation id="ScheduledMealType.Other" value="En-cas" />
-  <translation id="WorkShift.Assigned" value="assigned to shift" />
+  <translation id="CurrentState.EatMeal" value="Eating" />
+  <translation id="MealType.Breakfast" value="breakfast" />
+  <translation id="MealType.Lunch" value="lunch" />
+  <translation id="MealType.Supper" value="supper" />
+  <translation id="MealType.Other" value="a snack" />
+  <translation id="WorkShift.Assigned" value="Assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(En vacances : encore {0} j)" />
 
   <translation id="AcademicYear.DaysLeft" value="{0} j restants" />

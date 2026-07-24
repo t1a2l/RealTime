@@ -257,10 +257,11 @@
   <translation id="SnowRoadsOtherStartHourTooltip" value="Beginn der Schneeräumung für andere Straßen." />
   <translation id="SnowRoadsOtherEndHour" value="Andere Straßen Ende" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="Ende der Schneeräumung für andere Straßen." />
-  
-  <translation id="ScheduledAction" value="Aktuelle Aktion" />
-  <translation id="CurrentState" value="Status" />
-  <translation id="NextScheduledAction" value="Endet in" />
+
+  <translation id="CurrentPlannedAction" value="Plan now" />
+  <translation id="NextScheduledActionTime" value="Changes at" />
+  <translation id="NextScheduledAction" value="Then" />
+  <translation id="CurrentState" value="Actual state" />
   <translation id="ScheduledAction.GoHome" value="Nach Hause gehen" />
   <translation id="CurrentState.AtHome" value="Zuhause" />
   <translation id="ScheduledAction.GoToSchool" value="Zur Schule gehen" />
@@ -276,12 +277,12 @@
   <translation id="ScheduledAction.GoToShelter" value="In den Schutzraum gehen" />
   <translation id="CurrentState.InShelter" value="Im Schutzraum" />
   <translation id="ScheduledAction.GoToMeal" value="Essen gehen" />
-  <translation id="CurrentState.EatMeal" value="Essen (" />
-  <translation id="ScheduledMealType.Breakfast" value="Frühstück" />
-  <translation id="ScheduledMealType.Lunch" value="Mittagessen" />
-  <translation id="ScheduledMealType.Supper" value="Abendessen" />
-  <translation id="ScheduledMealType.Other" value="Imbiss" />
-  <translation id="WorkShift.Assigned" value="assigned to shift" />
+  <translation id="CurrentState.EatMeal" value="Eating" />
+  <translation id="MealType.Breakfast" value="breakfast" />
+  <translation id="MealType.Lunch" value="lunch" />
+  <translation id="MealType.Supper" value="supper" />
+  <translation id="MealType.Other" value="a snack" />
+  <translation id="WorkShift.Assigned" value="Assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(Im Urlaub: noch {0} Tage)" />
 
   <translation id="AcademicYear.DaysLeft" value="noch {0} Tage" />

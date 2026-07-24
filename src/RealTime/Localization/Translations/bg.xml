@@ -257,10 +257,11 @@
   <translation id="SnowRoadsOtherStartHourTooltip" value="Кога започва поддръжката на други пътища" />
   <translation id="SnowRoadsOtherEndHour" value="Поддръжка на други пътища: край" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="Кога приключва поддръжката на други пътища" />
-  
-  <translation id="ScheduledAction" value="Сега" />
-  <translation id="CurrentState" value="Състояние" />
-  <translation id="NextScheduledAction" value="До" />
+
+  <translation id="CurrentPlannedAction" value="Планирай сега" />
+  <translation id="NextScheduledActionTime" value="Changes at" />
+  <translation id="NextScheduledAction" value="Then" />
+  <translation id="CurrentState" value="Actual state" />
   <translation id="ScheduledAction.GoHome" value="Към вкъщи" />
   <translation id="CurrentState.AtHome" value="Вкъщи" />
   <translation id="ScheduledAction.GoToSchool" value="На училище" />
@@ -276,12 +277,12 @@
   <translation id="ScheduledAction.GoToShelter" value="В убежище" />
   <translation id="CurrentState.InShelter" value="В убежище" />
   <translation id="ScheduledAction.GoToMeal" value="За хранене" />
-  <translation id="CurrentState.EatMeal" value="Храни се " />
-  <translation id="ScheduledMealType.Breakfast" value="закуска" />
-  <translation id="ScheduledMealType.Lunch" value="обяд" />
-  <translation id="ScheduledMealType.Supper" value="вечеря" />
-  <translation id="ScheduledMealType.Other" value="междинно хранене" />
-  <translation id="WorkShift.Assigned" value="assigned to shift" />
+  <translation id="CurrentState.EatMeal" value="Eating" />
+  <translation id="MealType.Breakfast" value="breakfast" />
+  <translation id="MealType.Lunch" value="lunch" />
+  <translation id="MealType.Supper" value="supper" />
+  <translation id="MealType.Other" value="a snack" />
+  <translation id="WorkShift.Assigned" value="Assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(в отпуск: {0} дни)" />
 
   <translation id="AcademicYear.DaysLeft" value="Завършва след {0} дни" />

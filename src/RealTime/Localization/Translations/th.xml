@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <language id="th" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-
+  
   <translation id="Warning" value="คำเตือน" />
   <translation id="RestrictedModeMessage" value="Real Time กำลังทำงานในโหมดจำกัด ฟังก์ชันบางอย่างถูกปิดใช้งาน เนื่องจากปัญหาทางเทคนิคกับไลบรารีภายนอกหรือความไม่เข้ากันของม็อด หากต้องการความช่วยเหลือ โปรดแชร์ไฟล์บันทึก (Log file) ของเกมกับผู้พัฒนาม็อด" />
   <translation id="ModNotWorkingMessage" value="อุ๊ปส์! มีบางอย่างผิดพลาด - ไม่สามารถเปิดใช้งานม็อด 'Real Time' ได้ โปรดแชร์ไฟล์บันทึกของเกมกับผู้พัฒนาม็อด" />
@@ -257,10 +257,11 @@
   <translation id="SnowRoadsOtherStartHourTooltip" value="เวลาเริ่มบริการหิมะสำหรับถนนอื่น ๆ" />
   <translation id="SnowRoadsOtherEndHour" value="ถนนอื่น ๆ: สิ้นสุด" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="เวลาสิ้นสุดบริการหิมะสำหรับถนนอื่น ๆ" />
-  
-  <translation id="ScheduledAction" value="ปัจจุบัน" />
-  <translation id="CurrentState" value="สถานะ" />
-  <translation id="NextScheduledAction" value="จนถึง" />
+
+  <translation id="CurrentPlannedAction" value="วางแผนตอนนี้" />
+  <translation id="NextScheduledActionTime" value="Changes at" />
+  <translation id="NextScheduledAction" value="Then" />
+  <translation id="CurrentState" value="Actual state" />
   <translation id="ScheduledAction.GoHome" value="กลับบ้าน" />
   <translation id="CurrentState.AtHome" value="อยู่บ้าน" />
   <translation id="ScheduledAction.GoToSchool" value="ไปโรงเรียน" />
@@ -276,12 +277,12 @@
   <translation id="ScheduledAction.GoToShelter" value="ไปหลบภัย" />
   <translation id="CurrentState.InShelter" value="อยู่ในที่หลบภัย" />
   <translation id="ScheduledAction.GoToMeal" value="ไปทานอาหาร" />
-  <translation id="CurrentState.EatMeal" value="กำลังทานอาหาร" />
-  <translation id="ScheduledMealType.Breakfast" value="มื้อเช้า" />
-  <translation id="ScheduledMealType.Lunch" value="มื้อกลางวัน" />
-  <translation id="ScheduledMealType.Supper" value="มื้อค่ำ" />
-  <translation id="ScheduledMealType.Other" value="มื้อว่าง" />
-  <translation id="WorkShift.Assigned" value="assigned to shift" />
+  <translation id="CurrentState.EatMeal" value="Eating" />
+  <translation id="MealType.Breakfast" value="breakfast" />
+  <translation id="MealType.Lunch" value="lunch" />
+  <translation id="MealType.Supper" value="supper" />
+  <translation id="MealType.Other" value="a snack" />
+  <translation id="WorkShift.Assigned" value="Assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(ลาพักร้อน: {0} วัน)" />
 
   <translation id="AcademicYear.DaysLeft" value="เหลืออีก {0} วันจะจบปีการศึกษา" />

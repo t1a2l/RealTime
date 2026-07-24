@@ -282,7 +282,7 @@
   <translation id="MealType.Lunch" value="lunch" />
   <translation id="MealType.Supper" value="supper" />
   <translation id="MealType.Other" value="a snack" />
-  <translation id="WorkShift.Assigned" value="assigned to shift" />
+  <translation id="WorkShift.Assigned" value="Assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(vacation: {0} days)" />
 
   <translation id="AcademicYear.DaysLeft" value="Ends in {0} days" />

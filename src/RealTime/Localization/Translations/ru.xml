@@ -257,10 +257,11 @@
   <translation id="SnowRoadsOtherStartHourTooltip" value="Время начала работы служб уборки снега для прочих дорог" />
   <translation id="SnowRoadsOtherEndHour" value="Обслуживание дорог (прочие): конец" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="Время окончания работы служб уборки снега для прочих дорог" />
-  
-  <translation id="ScheduledAction" value="Сейчас" />
-  <translation id="CurrentState" value="Состояние" />
-  <translation id="NextScheduledAction" value="До" />
+
+  <translation id="CurrentPlannedAction" value="Plan now" />
+  <translation id="NextScheduledActionTime" value="Changes at" />
+  <translation id="NextScheduledAction" value="Then" />
+  <translation id="CurrentState" value="Actual state" />
   <translation id="ScheduledAction.GoHome" value="Домой" />
   <translation id="CurrentState.AtHome" value="Дома" />
   <translation id="ScheduledAction.GoToSchool" value="В школу" />
@@ -276,12 +277,12 @@
   <translation id="ScheduledAction.GoToShelter" value="В убежище" />
   <translation id="CurrentState.InShelter" value="В убежище" />
   <translation id="ScheduledAction.GoToMeal" value="Поесть" />
-  <translation id="CurrentState.EatMeal" value="Ест " />
-  <translation id="ScheduledMealType.Breakfast" value="завтрак" />
-  <translation id="ScheduledMealType.Lunch" value="обед" />
-  <translation id="ScheduledMealType.Supper" value="ужин" />
-  <translation id="ScheduledMealType.Other" value="перекус" />
-  <translation id="WorkShift.Assigned" value="assigned to shift" />
+  <translation id="CurrentState.EatMeal" value="Eating" />
+  <translation id="MealType.Breakfast" value="breakfast" />
+  <translation id="MealType.Lunch" value="lunch" />
+  <translation id="MealType.Supper" value="supper" />
+  <translation id="MealType.Other" value="a snack" />
+  <translation id="WorkShift.Assigned" value="Assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(отпуск: {0} дн.)" />
 
   <translation id="AcademicYear.DaysLeft" value="Закончится через {0} дн." />

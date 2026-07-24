@@ -257,10 +257,11 @@
   <translation id="SnowRoadsOtherStartHourTooltip" value="기타 도로 제설 서비스가 운행을 시작하는 시간입니다." />
   <translation id="SnowRoadsOtherEndHour" value="기타 도로 제설 종료 시간" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="기타 도로 제설 서비스가 운행을 종료하는 시간입니다." />
-  
-  <translation id="ScheduledAction" value="현재 일정" />
-  <translation id="CurrentState" value="상태" />
-  <translation id="NextScheduledAction" value="종료 예정" />
+
+  <translation id="CurrentPlannedAction" value="Plan now" />
+  <translation id="NextScheduledActionTime" value="Changes at" />
+  <translation id="NextScheduledAction" value="Then" />
+  <translation id="CurrentState" value="Actual state" />
   <translation id="ScheduledAction.GoHome" value="귀가" />
   <translation id="CurrentState.AtHome" value="집에 있음" />
   <translation id="ScheduledAction.GoToSchool" value="등교" />
@@ -276,12 +277,12 @@
   <translation id="ScheduledAction.GoToShelter" value="피신" />
   <translation id="CurrentState.InShelter" value="대피소에 있음" />
   <translation id="ScheduledAction.GoToMeal" value="식사" />
-  <translation id="CurrentState.EatMeal" value="식사 중 " />
-  <translation id="ScheduledMealType.Breakfast" value="아침 식사" />
-  <translation id="ScheduledMealType.Lunch" value="점심 식사" />
-  <translation id="ScheduledMealType.Supper" value="저녁 식사" />
-  <translation id="ScheduledMealType.Other" value="간식" />
-  <translation id="WorkShift.Assigned" value="assigned to shift" />
+  <translation id="CurrentState.EatMeal" value="Eating" />
+  <translation id="MealType.Breakfast" value="breakfast" />
+  <translation id="MealType.Lunch" value="lunch" />
+  <translation id="MealType.Supper" value="supper" />
+  <translation id="MealType.Other" value="a snack" />
+  <translation id="WorkShift.Assigned" value="Assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(휴가 중: {0}일 남음)" />
 
   <translation id="AcademicYear.DaysLeft" value="{0}일 남음" />

@@ -258,10 +258,11 @@
   <translation id="SnowRoadsOtherStartHourTooltip" value="Inizio attività dei servizi neve per le altre strade." />
   <translation id="SnowRoadsOtherEndHour" value="Fine servizi neve altre strade" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="Fine attività dei servizi neve per le altre strade." />
-  
-  <translation id="ScheduledAction" value="Azione programmata" />
-  <translation id="CurrentState" value="Stato attuale" />
-  <translation id="NextScheduledAction" value="Termina tra" />
+
+  <translation id="CurrentPlannedAction" value="Plan now" />
+  <translation id="NextScheduledActionTime" value="Changes at" />
+  <translation id="NextScheduledAction" value="Then" />
+  <translation id="CurrentState" value="Actual state" />
   <translation id="ScheduledAction.GoHome" value="Ritorno a casa" />
   <translation id="CurrentState.AtHome" value="A casa" />
   <translation id="ScheduledAction.GoToSchool" value="Andando a scuola" />
@@ -277,12 +278,12 @@
   <translation id="ScheduledAction.GoToShelter" value="Andando al rifugio" />
   <translation id="CurrentState.InShelter" value="Nel rifugio" />
   <translation id="ScheduledAction.GoToMeal" value="Andando a mangiare" />
-  <translation id="CurrentState.EatMeal" value="Mangiando (" />
-  <translation id="ScheduledMealType.Breakfast" value="Colazione" />
-  <translation id="ScheduledMealType.Lunch" value="Pranzo" />
-  <translation id="ScheduledMealType.Supper" value="Cena" />
-  <translation id="ScheduledMealType.Other" value="Spuntino" />
-  <translation id="WorkShift.Assigned" value="assigned to shift" />
+  <translation id="CurrentState.EatMeal" value="Eating" />
+  <translation id="MealType.Breakfast" value="breakfast" />
+  <translation id="MealType.Lunch" value="lunch" />
+  <translation id="MealType.Supper" value="supper" />
+  <translation id="MealType.Other" value="a snack" />
+  <translation id="WorkShift.Assigned" value="Assigned to shift" />
   <translation id="WorkStatus.OnVacation" value="(In vacanza: ancora {0} gg)" />
 
   <translation id="AcademicYear.DaysLeft" value="{0} gg rimasti" />

@@ -62,6 +62,12 @@ namespace RealTime.CustomAI
         /// <summary>Gets the citizen's previous scheduled meal type.</summary>
         public MealType LastScheduledMealType { get; private set; }
 
+        /// <summary>Gets the time when the citizen will finish to eat.</summary>
+        public DateTime ScheduledMealEndTime { get; private set; }
+
+        /// <summary>Gets the previous time when the citizen will finish to eat.</summary>
+        public DateTime LastScheduledMealEndTime { get; private set; }
+
         /// <summary>
         /// Gets the travel time (in hours) from citizen's home to the work building. The maximum value is
         /// determined by the <see cref="MaxTravelTime"/> constant.
@@ -163,43 +169,51 @@ namespace RealTime.CustomAI
         /// <param name="nextState">The next scheduled citizen's state.</param>
         /// <param name="nextStateTime">The time when the scheduled state must change.</param>
         /// <param name="mealType">The next scheduled meal type.</param>
-        public void Schedule(ResidentState nextState, DateTime nextStateTime, MealType mealType = MealType.None)
+        /// <param name="mealEndTime">The next scheduled meal end time.</param>
+        public void Schedule(ResidentState nextState, DateTime nextStateTime, MealType mealType = MealType.None, DateTime mealEndTime = default)
         {
             LastScheduledState = ScheduledState;
             ScheduledState = nextState;
             ScheduledStateTime = nextStateTime;
             LastScheduledMealType = ScheduledMealType;
             ScheduledMealType = mealType;
+            LastScheduledMealEndTime = ScheduledMealEndTime;
+            ScheduledMealEndTime = mealEndTime;
         }
 
         /// <summary>Schedules next actions for the citizen with no action time (ASAP).</summary>
         /// <param name="nextState">The next scheduled citizen's state.</param>
-        /// <param name="mealType">The next scheduled meal type.</param>
-        public void Schedule(ResidentState nextState, MealType mealType = MealType.None)
+        /// <param name="scheduledMealType">The next scheduled meal type.</param>
+        /// <param name="mealEndTime">The next scheduled meal end time.</param>
+        public void Schedule(ResidentState nextState, MealType scheduledMealType = MealType.None, DateTime mealEndTime = default)
         {
             // Note: not calling the overload to avoid additional method call - this method will be called frequently
             LastScheduledState = ScheduledState;
             ScheduledState = nextState;
             ScheduledStateTime = default;
             LastScheduledMealType = ScheduledMealType;
-            ScheduledMealType = mealType;
+            ScheduledMealType = scheduledMealType;
+            LastScheduledMealEndTime = ScheduledMealEndTime;
+            ScheduledMealEndTime = mealEndTime;
         }
 
         /// <summary>Update the ScheduledMealType if it is none.</summary>
-        /// <param name="mealType">The next scheduled meal type.</param>
-        public void UpdateMealType(MealType mealType) => ScheduledMealType = mealType;
+        /// <param name="scheduledMealType">The next scheduled meal type.</param>
+        public void UpdateMealType(MealType scheduledMealType) => ScheduledMealType = scheduledMealType;
 
         /// <summary>Updates the schedule state for this citizen.</summary>
         /// <param name="scheduledState">The citizen's schedule state.</param>
         /// <param name="lastScheduledState">The citizen's last schedule state.</param>
         /// <param name="scheduledStateTime">The citizen's schedule state time.</param>
-        public void UpdateScheduleState(ResidentState scheduledState, ResidentState lastScheduledState, DateTime scheduledStateTime, MealType mealType, MealType lastScheduledMealType)
+        public void UpdateScheduleState(ResidentState scheduledState, ResidentState lastScheduledState, DateTime scheduledStateTime, MealType lastScheduledMealType, MealType scheduledMealType, DateTime lastScheduledMealDuration, DateTime scheduledMealDuration)
         {
             ScheduledState = scheduledState;
             LastScheduledState = lastScheduledState;
             ScheduledStateTime = scheduledStateTime;
-            ScheduledMealType = mealType;
             LastScheduledMealType = lastScheduledMealType;
+            ScheduledMealType = scheduledMealType;
+            LastScheduledMealEndTime = lastScheduledMealDuration;
+            ScheduledMealEndTime = scheduledMealDuration;
         }
 
         /// <summary>Updates the travel time to work for this citizen.</summary>

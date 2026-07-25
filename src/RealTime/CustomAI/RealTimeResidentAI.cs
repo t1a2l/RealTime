@@ -24,6 +24,7 @@ namespace RealTime.CustomAI
         private readonly ISchoolBehavior schoolBehavior;
         private readonly ISpareTimeBehavior spareTimeBehavior;
         private readonly ITravelBehavior travelBehavior;
+        private readonly IMealBehavior mealBehavior;
 
         private readonly CitizenSchedule[] residentSchedules;
 
@@ -51,7 +52,8 @@ namespace RealTime.CustomAI
             IWorkBehavior workBehavior,
             ISchoolBehavior schoolBehavior,
             ISpareTimeBehavior spareTimeBehavior,
-            ITravelBehavior travelBehavior)
+            ITravelBehavior travelBehavior,
+            IMealBehavior mealBehavior)
             : base(config, connections, eventManager)
         {
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
@@ -60,6 +62,7 @@ namespace RealTime.CustomAI
             this.schoolBehavior = schoolBehavior ?? throw new ArgumentNullException(nameof(schoolBehavior));
             this.spareTimeBehavior = spareTimeBehavior ?? throw new ArgumentNullException(nameof(spareTimeBehavior));
             this.travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
+            this.mealBehavior = mealBehavior ?? throw new ArgumentNullException(nameof(mealBehavior));
 
             residentSchedules = new CitizenSchedule[CitizenMgr.GetMaxCitizensCount()];
             abandonCarRideDurationThreshold = Constants.MaxTravelTime * 0.8f;
@@ -129,7 +132,7 @@ namespace RealTime.CustomAI
                     if (buildingID != 0)
                     {
                         string buildingName = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.name;
-                        text += $" and buildingId is {buildingID} and building is {buildingName} and current location is {currentLocation}";
+                        text += $" and buildingId is {buildingID} and building name is {buildingName} and current location is {currentLocation}";
                     }
                 }
 
@@ -301,15 +304,7 @@ namespace RealTime.CustomAI
         /// of the <see cref="IStorageData"/> service.</param>
         /// <returns>An object that implements the <see cref="IStorageData"/> interface.</returns>
         /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
-        public IStorageData GetStorageService(Func<CitizenSchedule[], IStorageData> serviceFactory)
-        {
-            if (serviceFactory == null)
-            {
-                throw new ArgumentNullException(nameof(serviceFactory));
-            }
-
-            return serviceFactory(residentSchedules);
-        }
+        public IStorageData GetStorageService(Func<CitizenSchedule[], IStorageData> serviceFactory) => serviceFactory == null ? throw new ArgumentNullException(nameof(serviceFactory)) : serviceFactory(residentSchedules);
 
         public CitizenSchedule[] GetResidentSchedules() => residentSchedules ?? throw new InvalidOperationException("residentSchedules is not initialized.");
 

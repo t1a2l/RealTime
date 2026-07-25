@@ -3,7 +3,6 @@
 namespace RealTime.CustomAI
 {
     using System;
-    using System.Collections.Generic;
     using RealTime.Managers;
     using SkyTools.Tools;
     using static Constants;
@@ -441,7 +440,7 @@ namespace RealTime.CustomAI
                     return true;
                 }
 
-                if (ScheduleMeal(ref schedule, ref citizen, localOnly: false))
+                if (ScheduleMeal(ref schedule, ref citizen, isWorkOrSchool: false))
                 {
                     Log.Debug(LogCategory.Schedule, $"  - Schedule meal, meal type is {schedule.ScheduledMealType}, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
                     return true;
@@ -532,23 +531,7 @@ namespace RealTime.CustomAI
                     return;
 
                 case ResidentState.GoToMeal when schedule.CurrentState != ResidentState.EatMeal:
-                    if (schedule.WorkBuilding != 0 && schedule.WorkStatus == WorkStatus.Working)
-                    {
-                        Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} Doing Scheduled Work Meal");
-                        DoScheduledWorkMeal(ref schedule, instance, citizenId, ref citizen);
-                        executed = true;
-                    }
-                    else if (schedule.SchoolBuilding != 0 && schedule.SchoolStatus == SchoolStatus.Studying)
-                    {
-                        Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} Doing Scheduled School Meal");
-                        DoScheduledSchoolMeal(ref schedule, instance, citizenId, ref citizen);
-                        executed = true;
-                    }
-                    else
-                    {
-                        Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} Doing Scheduled Meal");
-                        executed = DoScheduledMeal(ref schedule, instance, citizenId, ref citizen);
-                    }
+                    executed = DoScheduledMeal(ref schedule, instance, citizenId, ref citizen);
                     break;
 
                 case ResidentState.GoShopping:

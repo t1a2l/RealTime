@@ -24,16 +24,6 @@ namespace RealTime.CustomAI
         /// <returns>departuretime</returns>
         internal DateTime ScheduleGoToWorkTime(ref CitizenSchedule schedule, ushort currentBuilding, float simulationCycle);
 
-        /// <summary>Updates the citizen's work schedule by checking if he will or will not eat a meal.</summary>
-        /// <param name="schedule">The citizen's schedule to update.</param>
-        /// <param name="citizenAge">The citizen's age.</param>
-        /// <returns><c>true</c> if a meal was scheduled; otherwise, <c>false</c>.</returns>
-        internal bool ScheduleMeal(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge);
-
-        /// <summary>Updates the citizen's work schedule by determining the returning from meal time.</summary>
-        /// <param name="schedule">The citizen's schedule to update.</param>
-        internal void ScheduleReturnFromMeal(ref CitizenSchedule schedule);
-
         /// <summary>Updates the citizen's work schedule by determining the time for returning from work.</summary>
         /// <param name="citizenId">The citizen's ID.</param>
         /// <param name="schedule">The citizen's schedule to update.</param>

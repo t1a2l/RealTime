@@ -2,7 +2,6 @@
 
 namespace RealTime.CustomAI
 {
-    using ColossalFramework;
     using SkyTools.Tools;
     using static Constants;
 
@@ -45,7 +44,7 @@ namespace RealTime.CustomAI
                 var age = CitizenProxy.GetAge(ref citizen);
                 if(age == Citizen.AgeGroup.Young || age == Citizen.AgeGroup.Adult)
                 {
-                    if (schoolBehavior.ScheduleMeal(ref schedule, schedule.SchoolBuilding))
+                    if (ScheduleMeal(ref schedule, ref citizen, true))
                     {
                         Log.Debug(LogCategory.Schedule, $"  - School time in {timeLeft} hours, going to eat {schedule.ScheduledMealType} in a shop or a cafeteria before heading to school");
                         return true;
@@ -90,7 +89,7 @@ namespace RealTime.CustomAI
                     schedule.DepartureTime = default;
                 }
 
-                if (schoolBehavior.ScheduleMeal(ref schedule, schedule.SchoolBuilding))
+                if (ScheduleMeal(ref schedule, ref citizen, true))
                 {
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going from {currentBuilding} to school {schedule.SchoolBuilding} and will go to eat {schedule.ScheduledMealType} at {schedule.ScheduledStateTime:dd.MM.yy HH:mm}");
                 }
@@ -104,56 +103,6 @@ namespace RealTime.CustomAI
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to go to school from {currentBuilding} but can't, will try once again next time");
                 schedule.Schedule(ResidentState.Unknown);
-            }
-        }
-
-        private void DoScheduledSchoolMeal(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
-        {
-            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-            string citizenDesc = GetCitizenDesc(citizenId, ref citizen);
-            ushort mealPlace = 0;
-
-            var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[currentBuilding];
-            if (building.Info.GetAI() is CampusBuildingAI || building.Info.GetAI() is UniqueFacultyAI)
-            {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} moving to cafeteria building to eat school meal and the ScheduledMealType is {schedule.ScheduledMealType}");
-                mealPlace = MoveToCafeteriaBuilding(instance, citizenId, ref citizen, LocalSearchDistance);
-            }
-
-            if (mealPlace == 0)
-            {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} moving to commercial building to eat school meal and the ScheduledMealType is {schedule.ScheduledMealType}");
-                mealPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, CommercialBuildingType.Food);
-            }
-
-            if (schedule.ScheduledMealType == MealType.None)
-            {
-                if (TimeInfo.CurrentHour >= Config.BreakfastBegin && TimeInfo.CurrentHour <= 10f)
-                {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} - updating school none meal type to {MealType.Breakfast}");
-                    schedule.UpdateMealType(MealType.Breakfast);
-                }
-                else if (TimeInfo.CurrentHour >= Config.LunchBegin && TimeInfo.CurrentHour <= 13f)
-                {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} - updating school none meal type to {MealType.Lunch}");
-                    schedule.UpdateMealType(MealType.Lunch);
-                }
-                else if (TimeInfo.CurrentHour >= Config.SupperBegin && TimeInfo.CurrentHour <= 20f)
-                {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} - updating school none meal type to {MealType.Supper}");
-                    schedule.UpdateMealType(MealType.Supper);
-                }
-            }
-            else
-            {
-                if (mealPlace != 0)
-                {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going from {currentBuilding} to eat {schedule.ScheduledMealType} at {mealPlace}");
-                }
-                else
-                {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} wanted to go from {currentBuilding} to eat, but there were no food places close enough or open");
-                }
             }
         }
     }

@@ -34,14 +34,5 @@ namespace RealTime.CustomAI
         /// <param name="citizenAge">The age of the citizen.</param>
         internal void UpdateSchoolClass(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge);
 
-        /// <summary>Updates the citizen's school schedule by checking if he will or will not eat a meal.</summary>
-        /// <param name="schedule">The citizen's schedule to update.</param>
-        /// <param name="schoolBuilding">The citizen's school building.</param>
-        /// <returns><c>true</c> if a breakfast was scheduled; otherwise, <c>false</c>.</returns>
-        internal bool ScheduleMeal(ref CitizenSchedule schedule, ushort schoolBuilding);
-
-        /// <summary>Updates the citizen's school schedule by determining the returning from meal time.</summary>
-        /// <param name="schedule">The citizen's schedule to update.</param>
-        internal void ScheduleReturnFromMeal(ref CitizenSchedule schedule);
     }
 }

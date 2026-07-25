@@ -29,14 +29,8 @@ namespace RealTime.CustomAI
         private readonly ITimeInfo timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
         private readonly ITravelBehavior travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
 
-        private DateTime lunchBegin;
-        private float lunchDuration;
-
         public void BeginNewDay()
         {
-            var today = timeInfo.Now.Date;
-            lunchBegin = today.AddHours(config.LunchBegin);
-            lunchDuration = config.LunchDuration;
         }
 
         /// <summary>Updates the citizen's school class parameters in the specified citizen's <paramref name="schedule"/>.</summary>
@@ -149,54 +143,6 @@ namespace RealTime.CustomAI
             return departureTime;
         }
 
-        /// <summary>Updates the citizen's school schedule by determining the meal time.</summary>
-        /// <param name="schedule">The citizen's schedule to update.</param>
-        /// <param name="schoolBuilding">The citizen's school building.</param>
-        /// <returns><c>true</c> if a meal was scheduled; otherwise, <c>false</c>.</returns>
-        public bool ScheduleMeal(ref CitizenSchedule schedule, ushort schoolBuilding)
-        {
-            Log.Debug(LogCategory.Schedule, $"  - School status is {schedule.SchoolStatus}");
-
-            if (schedule.SchoolStatus == SchoolStatus.None)
-            {
-                if (timeInfo.CurrentHour >= config.BreakfastBegin && timeInfo.CurrentHour <= 10f && WillGoToMeal(schoolBuilding, MealType.Breakfast))
-                {
-                    Log.Debug(LogCategory.Schedule, $"  - Going to eat {MealType.Breakfast}");
-                    schedule.Schedule(ResidentState.GoToMeal, MealType.Breakfast);
-                    return true;
-                }
-
-                if (timeInfo.CurrentHour >= config.SupperBegin && timeInfo.CurrentHour <= 20f && WillGoToMeal(schoolBuilding, MealType.Supper))
-                {
-                    Log.Debug(LogCategory.Schedule, $"  - Going to eat {MealType.Supper}");
-                    schedule.Schedule(ResidentState.GoToMeal, MealType.Supper);
-                    return true;
-                }
-            }
-            else
-            {
-                if ((lunchBegin - timeInfo.Now).TotalHours >= 2.5 && WillGoToMeal(schoolBuilding, MealType.Lunch))
-                {
-                    Log.Debug(LogCategory.Schedule, $"  - Going to eat {MealType.Lunch} at {lunchBegin:dd.MM.yy HH:mm}");
-                    schedule.Schedule(ResidentState.GoToMeal, lunchBegin, MealType.Lunch);
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>Updates the citizen's school schedule by determining the returning from lunch time.</summary>
-        /// <param name="schedule">The citizen's schedule to update.</param>
-        public void ScheduleReturnFromMeal(ref CitizenSchedule schedule)
-        {
-            if (schedule.ScheduledMealType == MealType.Lunch && schedule.SchoolStatus == SchoolStatus.Studying)
-            {
-                var lunchEnd = lunchBegin.AddHours(lunchDuration);
-                schedule.Schedule(ResidentState.GoToSchool, lunchEnd);
-            }
-        }
-
         /// <summary>Updates the citizen's school schedule by determining the time for returning from school.</summary>
         /// <param name="schedule">The citizen's schedule to update.</param>
         public void ScheduleReturnFromSchool(uint citizenId, ref CitizenSchedule schedule)
@@ -226,15 +172,6 @@ namespace RealTime.CustomAI
             }
 
             Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} departureHour is {departureHour} and future hour is {timeInfo.Now.FutureHour(departureHour):dd.MM.yy HH:mm}");
-
-            if (WillGoToMeal(schedule.SchoolBuilding, MealType.Supper))
-            {
-                schedule.Schedule(ResidentState.GoToMeal, timeInfo.Now.FutureHour(departureHour));
-            }
-            else
-            {
-                schedule.Schedule(ResidentState.Unknown, timeInfo.Now.FutureHour(departureHour));
-            }
         }
 
         private float GetTravelTimeToSchool(ref CitizenSchedule schedule, ushort buildingId)
@@ -250,33 +187,5 @@ namespace RealTime.CustomAI
 
             return result;
         }
-
-        private bool WillGoToMeal(ushort schoolBuildingId, MealType mealType)
-        {
-            var schoolBuilding = Singleton<BuildingManager>.instance.m_buildings.m_buffer[schoolBuildingId];
-            if (schoolBuilding.Info.GetAI() is not CampusBuildingAI)
-            {
-                return false;
-            }
-
-            if (mealType == MealType.Breakfast)
-            {
-                Log.Debug(LogCategory.Schedule, $"  - BreakfastQuota is {config.BreakfastBeforeWorkOrSchoolQuota}");
-                return config.IsBreakfastTimeEnabledBeforeWorkOrSchool && randomizer.ShouldOccur(config.BreakfastBeforeWorkOrSchoolQuota);
-            }
-            else if (mealType == MealType.Lunch)
-            {
-                Log.Debug(LogCategory.Schedule, $"  - LunchQuota is {config.LunchDuringWorkOrSchoolQuota}");
-                return config.IsLunchTimeEnabledDuringWorkOrSchool && randomizer.ShouldOccur(config.LunchDuringWorkOrSchoolQuota);
-            }
-            else if (mealType == MealType.Supper)
-            {
-                Log.Debug(LogCategory.Schedule, $"  - SupperQuota is {config.SupperAfterWorkOrSchoolQuota}");
-                return config.IsSupperTimeEnabledAfterWorkOrSchool && randomizer.ShouldOccur(config.SupperAfterWorkOrSchoolQuota);
-            }
-
-            return false;
-        }
-
     }
 }

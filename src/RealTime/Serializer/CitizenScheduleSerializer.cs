@@ -10,7 +10,7 @@ namespace RealTime.Serializer
 
     public class CitizenScheduleSerializer
     {
-        private const ushort iCITIZEN_SCHEDULE_DATA_VERSION = 2;
+        private const ushort iCITIZEN_SCHEDULE_DATA_VERSION = 3;
 
         private const uint uiTUPLE_START = 0xFEFEFEFE;
         private const uint uiTUPLE_END = 0xFAFAFAFA;
@@ -186,6 +186,15 @@ namespace RealTime.Serializer
                     var scheduledStateTime = StorageData.ReadDateTime(chunkBytes, ref index);
                     var scheduledMealType = (MealType)StorageData.ReadInt32(chunkBytes, ref index);
                     var lastScheduledMealType = (MealType)StorageData.ReadInt32(chunkBytes, ref index);
+
+                    DateTime scheduledMealEndTime = default;
+                    DateTime lastScheduledMealEndTime = default;
+                    if (chunkVersion >= 3)
+                    {
+                        scheduledMealEndTime = StorageData.ReadDateTime(chunkBytes, ref index);
+                        lastScheduledMealEndTime = StorageData.ReadDateTime(chunkBytes, ref index);
+                    }
+
                     float travelTimeToWork = StorageData.ReadFloat(chunkBytes, ref index);
                     float travelTimeToSchool = StorageData.ReadFloat(chunkBytes, ref index);
 
@@ -209,7 +218,7 @@ namespace RealTime.Serializer
                     float schoolClassStartTime = StorageData.ReadFloat(chunkBytes, ref index);
                     float schoolClassEndTime = StorageData.ReadFloat(chunkBytes, ref index);
 
-                    schedule.UpdateScheduleState(scheduledState, lastScheduledState, scheduledStateTime, scheduledMealType, lastScheduledMealType);
+                    schedule.UpdateScheduleState(scheduledState, lastScheduledState, scheduledStateTime, lastScheduledMealType, scheduledMealType, lastScheduledMealEndTime, scheduledMealEndTime);
                     schedule.UpdateTravelTimeToWork(travelTimeToWork);
                     schedule.UpdateTravelTimeToSchool(travelTimeToSchool);
                     schedule.UpdateWorkShift(workShift, shiftIndex, workShiftStartTime, workShiftEndTime);
@@ -290,6 +299,9 @@ namespace RealTime.Serializer
             StorageData.WriteDateTime(schedule.ScheduledStateTime, Data);
             StorageData.WriteInt32((int)schedule.ScheduledMealType, Data);
             StorageData.WriteInt32((int)schedule.LastScheduledMealType, Data);
+            StorageData.WriteDateTime(schedule.ScheduledMealEndTime, Data);
+            StorageData.WriteDateTime(schedule.LastScheduledMealEndTime, Data);
+
             StorageData.WriteFloat(schedule.TravelTimeToWork, Data);
             StorageData.WriteFloat(schedule.TravelTimeToSchool, Data);
 

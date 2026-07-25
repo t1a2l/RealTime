@@ -429,6 +429,7 @@ namespace RealTime.Core
             var travelBehavior = new TravelBehavior(gameConnections.BuildingManager, travelDistancePerCycle);
             var workBehavior = new WorkBehavior(config, gameConnections.Random, gameConnections.BuildingManager, timeInfo, travelBehavior, eventManager);
             var schoolBehavior = new SchoolBehavior(config, gameConnections.Random, timeInfo, travelBehavior);
+            var mealBehavior = new MealBehavior(config, gameConnections.Random, gameConnections.BuildingManager, timeInfo, travelBehavior, spareTimeBehavior);
 
             var realTimeBuildingAI = new RealTimeBuildingAI(
                 config,
@@ -447,7 +448,8 @@ namespace RealTime.Core
                 workBehavior,
                 schoolBehavior,
                 spareTimeBehavior,
-                travelBehavior);
+                travelBehavior,
+                mealBehavior);
 
             SimulationHandler.CitizenProcessor = new CitizenProcessor<ResidentAI, Citizen>(realTimeResidentAI, timeInfo, spareTimeBehavior, travelBehavior);
 

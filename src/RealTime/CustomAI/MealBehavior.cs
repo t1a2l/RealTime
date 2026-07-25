@@ -1,36 +1,29 @@
-// WorkBehavior.cs
+// MealBehavior.cs
 
 namespace RealTime.CustomAI
 {
     using System;
     using RealTime.Config;
-    using RealTime.GameConnection;
     using RealTime.Simulation;
     using SkyTools.Tools;
 
     /// <summary>
     /// A class containing methods for managing the citizens' meal behavior.
     /// </summary>
-    /// <remarks>Initializes a new instance of the <see cref="WorkBehavior"/> class.</remarks>
+    /// <remarks>Initializes a new instance of the <see cref="MealBehavior"/> class.</remarks>
     /// <param name="config">The configuration to run with.</param>
     /// <param name="randomizer">The randomizer implementation.</param>
-    /// <param name="buildingManager">The building manager implementation.</param>
     /// <param name="timeInfo">The time information source.</param>
-    /// <param name="travelBehavior">A behavior that provides simulation info for the citizens traveling.</param>
     /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
     internal sealed class MealBehavior(
         RealTimeConfig config,
         IRandomizer randomizer,
-        IBuildingManagerConnection buildingManager,
         ITimeInfo timeInfo,
-        ITravelBehavior travelBehavior,
         ISpareTimeBehavior spareTimeBehavior) : IMealBehavior
     {
         private readonly RealTimeConfig config = config ?? throw new ArgumentNullException(nameof(config));
         private readonly IRandomizer randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
-        private readonly IBuildingManagerConnection buildingManager = buildingManager ?? throw new ArgumentNullException(nameof(buildingManager));
         private readonly ITimeInfo timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
-        private readonly ITravelBehavior travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
         private readonly ISpareTimeBehavior spareTimeBehavior = spareTimeBehavior ?? throw new ArgumentNullException(nameof(spareTimeBehavior));
 
         /// <summary>Notifies this object that a new game day starts.</summary>

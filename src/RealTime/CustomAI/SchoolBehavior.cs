@@ -3,7 +3,6 @@
 namespace RealTime.CustomAI
 {
     using System;
-    using ColossalFramework;
     using RealTime.Config;
     using RealTime.Simulation;
     using SkyTools.Tools;
@@ -14,7 +13,6 @@ namespace RealTime.CustomAI
     /// <remarks>Initializes a new instance of the <see cref="SchoolBehavior"/> class.</remarks>
     /// <param name="config">The configuration to run with.</param>
     /// <param name="randomizer">The randomizer implementation.</param>
-    /// <param name="buildingManager">The building manager implementation.</param>
     /// <param name="timeInfo">The time information source.</param>
     /// <param name="travelBehavior">A behavior that provides simulation info for the citizens traveling.</param>
     /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>

@@ -427,9 +427,9 @@ namespace RealTime.Core
 
             var spareTimeBehavior = new SpareTimeBehavior(config, timeInfo);
             var travelBehavior = new TravelBehavior(gameConnections.BuildingManager, travelDistancePerCycle);
-            var workBehavior = new WorkBehavior(config, gameConnections.Random, gameConnections.BuildingManager, timeInfo, travelBehavior, eventManager);
+            var workBehavior = new WorkBehavior(config, gameConnections.Random, timeInfo, travelBehavior);
             var schoolBehavior = new SchoolBehavior(config, gameConnections.Random, timeInfo, travelBehavior);
-            var mealBehavior = new MealBehavior(config, gameConnections.Random, gameConnections.BuildingManager, timeInfo, travelBehavior, spareTimeBehavior);
+            var mealBehavior = new MealBehavior(config, gameConnections.Random, timeInfo, spareTimeBehavior);
 
             var realTimeBuildingAI = new RealTimeBuildingAI(
                 config,

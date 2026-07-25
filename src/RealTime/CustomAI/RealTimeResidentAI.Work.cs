@@ -43,7 +43,7 @@ namespace RealTime.CustomAI
                     return true;
                 }
 
-                if (ScheduleMeal(ref schedule, ref citizen, true))
+                if (ScheduleMeal(ref schedule, ref citizen, true, departureTime))
                 {
                     Log.Debug(LogCategory.Schedule, $"  - Work time in {timeLeft} hours, going to eat {schedule.ScheduledMealType} and will go to work at {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
                     return true;
@@ -88,7 +88,7 @@ namespace RealTime.CustomAI
                     schedule.DepartureTime = default;
                 }
 
-                if (ScheduleMeal(ref schedule, ref citizen, true))
+                if (ScheduleMeal(ref schedule, ref citizen, true, default))
                 {
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going from {currentBuilding} to work {schedule.WorkBuilding} and will go to eat {schedule.ScheduledMealType} at {schedule.ScheduledStateTime:dd.MM.yy HH:mm}");
                 }

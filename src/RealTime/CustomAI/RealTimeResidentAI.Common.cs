@@ -440,7 +440,7 @@ namespace RealTime.CustomAI
                     return true;
                 }
 
-                if (ScheduleMeal(ref schedule, ref citizen, isWorkOrSchool: false))
+                if (ScheduleMeal(ref schedule, ref citizen, isWorkOrSchool: false, default))
                 {
                     Log.Debug(LogCategory.Schedule, $"  - Schedule meal, meal type is {schedule.ScheduledMealType}, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
                     return true;

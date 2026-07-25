@@ -1,12 +1,13 @@
 namespace RealTime.CustomAI
 {
+    using System;
     using ColossalFramework;
     using SkyTools.Tools;
     using static Constants;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        public bool ScheduleMeal(ref CitizenSchedule schedule, ref TCitizen citizen, bool isWorkOrSchool)
+        public bool ScheduleMeal(ref CitizenSchedule schedule, ref TCitizen citizen, bool isWorkOrSchool, DateTime departureTime)
         {
             var citizenAge = CitizenProxy.GetAge(ref citizen);
 
@@ -29,6 +30,13 @@ namespace RealTime.CustomAI
                 if (schedule.WorkStatus == WorkStatus.None && schedule.SchoolStatus == SchoolStatus.None)
                 {
                     var endMealTime = TimeInfo.Now.AddHours(mealDuration);
+
+                    if(departureTime <= endMealTime)
+                    {
+                        Log.Debug(LogCategory.Schedule, $"  - work/school citizen wanted to go to eat {mealType} at {TimeInfo.Now:dd.MM.yy HH:mm} but meal end time {endMealTime:dd.MM.yy HH:mm} is after departureTime {departureTime:dd.MM.yy HH:mm}");
+                        return false;
+                    }
+
                     schedule.Schedule(ResidentState.GoToMeal, mealType, endMealTime);
                     Log.Debug(LogCategory.Schedule, $"  - work/school citizen will go to eat {mealType} at {TimeInfo.Now:dd.MM.yy HH:mm} and will finish eating at {endMealTime:dd.MM.yy HH:mm}");
                     return true;

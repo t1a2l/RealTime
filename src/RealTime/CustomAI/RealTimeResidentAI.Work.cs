@@ -20,7 +20,7 @@ namespace RealTime.CustomAI
             var departureTime = workBehavior.ScheduleGoToWorkTime(ref schedule, currentBuilding, simulationCycle);
 
             float timeLeft = (float)(departureTime - TimeInfo.Now).TotalHours;
-            Log.Debug(LogCategory.Schedule, $"  - departureTime: {departureTime}, TimeInfo.Now: {TimeInfo.Now} and timeLeft: {timeLeft}");
+            Log.Debug(LogCategory.Schedule, $"  - departureTime: {departureTime}, TimeInfo.Now: {TimeInfo.Now:dd.MM.yy HH:mm} and timeLeft: {timeLeft}");
 
             if (timeLeft <= PrepareToWorkHours)
             {

@@ -41,18 +41,20 @@ namespace RealTime.CustomAI
         {
             if (schedule.CurrentState == ResidentState.EatMeal)
             {
+                Log.Debug(LogCategory.Schedule, $"  - already eating a meal");
                 return false;
             }
 
             if ((citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen) && schedule.SchoolStatus == SchoolStatus.Studying)
             {
+                Log.Debug(LogCategory.Schedule, $"  - kids dont eat meals while at school");
                 return false;
             }
 
             if (!isWorkOrSchool)
             {
                 uint eatingOutChance = spareTimeBehavior.GetEatingOutChance(citizenAge);
-                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, go out to breakfast chance is {eatingOutChance}");
+                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, go out to eat a meal chance is {eatingOutChance}");
                 if (!randomizer.ShouldOccur(eatingOutChance))
                 {
                     return false;
@@ -93,17 +95,17 @@ namespace RealTime.CustomAI
         {
             if (timeInfo.CurrentHour >= config.BreakfastBegin && timeInfo.CurrentHour <= 10f)
             {
-                Log.Debug(LogCategory.Movement, timeInfo.Now, $"Citizen {citizenId} - updating work none meal type to {MealType.Breakfast}");
+                Log.Debug(LogCategory.Schedule, timeInfo.Now, $"Citizen {citizenId} - updating work none meal type to {MealType.Breakfast}");
                 schedule.UpdateMealType(MealType.Breakfast);
             }
             else if (timeInfo.CurrentHour >= config.LunchBegin && timeInfo.CurrentHour <= 13f)
             {
-                Log.Debug(LogCategory.Movement, timeInfo.Now, $"Citizen {citizenId} - updating work none meal type to {MealType.Lunch}");
+                Log.Debug(LogCategory.Schedule, timeInfo.Now, $"Citizen {citizenId} - updating work none meal type to {MealType.Lunch}");
                 schedule.UpdateMealType(MealType.Lunch);
             }
             else if (timeInfo.CurrentHour >= config.SupperBegin && timeInfo.CurrentHour <= 20f)
             {
-                Log.Debug(LogCategory.Movement, timeInfo.Now, $"Citizen {citizenId} - updating work none meal type to {MealType.Supper}");
+                Log.Debug(LogCategory.Schedule, timeInfo.Now, $"Citizen {citizenId} - updating work none meal type to {MealType.Supper}");
                 schedule.UpdateMealType(MealType.Supper);
             }
         }
@@ -138,6 +140,7 @@ namespace RealTime.CustomAI
                 mealBegin = 0;
                 mealDuration = 0.5f;
             }
+            Log.Debug(LogCategory.Schedule, timeInfo.Now, $" - citizen selected meal type is {mealType}, meal begin at {mealBegin} and duration is {mealDuration}");
         }
     }
 }

@@ -21,6 +21,7 @@ namespace RealTime.CustomAI
             {
                 var endMealTime = TimeInfo.Now.AddHours(mealDuration);
                 schedule.Schedule(ResidentState.GoToMeal, mealType, endMealTime);
+                Log.Debug(LogCategory.Schedule, $"  - citizen will go to eat {mealType} at {TimeInfo.Now:dd.MM.yy HH:mm} and will finish eating at {endMealTime:dd.MM.yy HH:mm}");
                 return true;
             }
             else
@@ -29,6 +30,7 @@ namespace RealTime.CustomAI
                 {
                     var endMealTime = TimeInfo.Now.AddHours(mealDuration);
                     schedule.Schedule(ResidentState.GoToMeal, mealType, endMealTime);
+                    Log.Debug(LogCategory.Schedule, $"  - work/school citizen will go to eat {mealType} at {TimeInfo.Now:dd.MM.yy HH:mm} and will finish eating at {endMealTime:dd.MM.yy HH:mm}");
                     return true;
                 }
                 else
@@ -40,6 +42,7 @@ namespace RealTime.CustomAI
                     {
                         var endMealTime = MealBegin.AddHours(mealDuration);
                         schedule.Schedule(ResidentState.GoToMeal, MealBegin, mealType, endMealTime);
+                        Log.Debug(LogCategory.Schedule, $"  - work/school citizen will go to eat {mealType} at {MealBegin:dd.MM.yy HH:mm} and will finish eating at {endMealTime:dd.MM.yy HH:mm}");
                         return true;
                     }
 

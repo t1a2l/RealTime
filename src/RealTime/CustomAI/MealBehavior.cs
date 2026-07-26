@@ -108,6 +108,11 @@ namespace RealTime.CustomAI
                 Log.Debug(LogCategory.Schedule, timeInfo.Now, $"Citizen {citizenId} - updating work none meal type to {MealType.Supper}");
                 schedule.UpdateMealType(MealType.Supper);
             }
+            else
+            {
+                Log.Debug(LogCategory.Schedule, timeInfo.Now, $"Citizen {citizenId} - updating work none meal type to {MealType.Other}");
+                schedule.UpdateMealType(MealType.Other);
+            }
         }
 
         /// <summary>Return the meal type, begin time and duration by time of day.</summary>

@@ -35,6 +35,12 @@ namespace RealTime.CustomAI
         /// <summary>The citizen can go to eat only localy.</summary>
         LocalMealOnly,
 
+        /// <summary>The citizen is going to eat a meal which is realted to the work schedule.</summary>
+        WorkRelatedMeal,
+
+        /// <summary>The citizen is going to eat a meal which is realted to the school schedule.</summary>
+        SchoolRelatedMeal,
+
         /// <summary>The citizen will not go to eat one more time right away.</summary>
         NoMealAnyMore
     }

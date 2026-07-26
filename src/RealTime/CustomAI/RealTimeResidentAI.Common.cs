@@ -363,13 +363,6 @@ namespace RealTime.CustomAI
                 }
             }
 
-
-            // nobody working or on the way to work, and building is essential service
-            //if (workBuilding != 0 && IsEssentialService(workBuilding) && GetCitizensInWorkPlaceByShift(workBuilding, schedule.WorkShift) == 0 && Config.WorkForceMatters)
-            //{
-            //    schedule.WorkStatus = WorkStatus.None;
-            //}
-
             if (schedule.ScheduledState != ResidentState.Unknown)
             {
                 return false;
@@ -440,7 +433,7 @@ namespace RealTime.CustomAI
                     return true;
                 }
 
-                if (ScheduleMeal(ref schedule, ref citizen, isWorkOrSchool: false, default))
+                if (ScheduleMeal(ref schedule, ref citizen))
                 {
                     Log.Debug(LogCategory.Schedule, $"  - Schedule meal, meal type is {schedule.ScheduledMealType}, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
                     return true;

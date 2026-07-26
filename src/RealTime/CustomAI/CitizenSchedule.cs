@@ -197,6 +197,9 @@ namespace RealTime.CustomAI
             ScheduledMealEndTime = mealEndTime;
         }
 
+        /// <summary>Reset the ScheduledStateTime.</summary>
+        public void ResetScheduledStateTime() => ScheduledStateTime = default;
+
         /// <summary>Update the ScheduledMealType if it is none.</summary>
         /// <param name="scheduledMealType">The next scheduled meal type.</param>
         public void UpdateMealType(MealType scheduledMealType) => ScheduledMealType = scheduledMealType;

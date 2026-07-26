@@ -99,6 +99,8 @@ namespace RealTime.CustomAI
 
             if (schedule.Hint == ScheduleHint.LocalMealOnly)
             {
+                schedule.Schedule(ResidentState.Unknown);
+
                 if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule))
                 {
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for the purpose of eating {schedule.ScheduledMealType}");

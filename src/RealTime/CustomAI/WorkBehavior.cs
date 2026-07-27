@@ -122,7 +122,8 @@ namespace RealTime.CustomAI
                 departureHour = timeInfo.CurrentHour;
             }
 
-            Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} departureHour is {departureHour} and future hour is {timeInfo.Now.FutureHour(departureHour):dd.MM.yy HH:mm}"); 
+            Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} departureHour is {departureHour} and future hour is {timeInfo.Now.FutureHour(departureHour):dd.MM.yy HH:mm}");
+            schedule.Schedule(ResidentState.Unknown, timeInfo.Now.FutureHour(departureHour));
         }
 
         private float GetTravelTimeToWork(ref CitizenSchedule schedule, ushort buildingId)

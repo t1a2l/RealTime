@@ -224,8 +224,8 @@ namespace RealTime.Patches
 
         private static DateTime CalculateNextEvent(DateTime currentDate, int scheduleDay, int scheduleMonth, int scheduleHour, int scheduleMinute)
         {
-            var dateTime = new DateTime(currentDate.Year, scheduleMonth, scheduleDay, scheduleHour, scheduleMinute, 0);
-            return dateTime >= currentDate ? dateTime : dateTime.AddYears(1);
+            Log.Debug(LogCategory.Events, TimeInfo.Now, $"Month is {scheduleMonth}, Day is {scheduleDay}, Hour is {scheduleHour}, Minute is {scheduleMinute}");
+            return new DateTime(currentDate.Year, scheduleMonth, scheduleDay, scheduleHour, scheduleMinute, 0);
         }
 
         private static bool HasConflictWithCurrentEvent(ushort eventRouteIndex, DateTime candidate)

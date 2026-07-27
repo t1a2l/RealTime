@@ -315,6 +315,7 @@ namespace RealTime.CustomAI
                         schedule.Schedule(ResidentState.Unknown);
                     }
 
+                    schedule.WorkBuilding = 0;
                     Log.Debug(LogCategory.Schedule, $"Updated school class for citizen {citizenId}: school class {schedule.SchoolClass}, {schedule.SchoolClassStartTime} - {schedule.SchoolClassEndTime}");
                 }
             }
@@ -344,8 +345,8 @@ namespace RealTime.CustomAI
                     }
 
                     Log.Debug(LogCategory.Schedule, $"Updated work shifts for citizen {citizenId}: work shift {schedule.ShiftIndex}, {schedule.WorkShiftStartTime} - {schedule.WorkShiftEndTime}");
-
-                    if(schedule.ScheduledState == ResidentState.GoToSchool)
+                    schedule.SchoolBuilding = 0;
+                    if (schedule.ScheduledState == ResidentState.GoToSchool)
                     {
                         // This is for the case when the citizen is going to school but the school was updated and the citizen is still going to school according to the old schedule
                         schedule.Schedule(ResidentState.Unknown);

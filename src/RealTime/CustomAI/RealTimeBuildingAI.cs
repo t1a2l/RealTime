@@ -1220,14 +1220,7 @@ namespace RealTime.CustomAI
                 ? BuildingWorkTimeManager.CreateBuildingWorkTime(buildingId, building.Info)
                 : BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
 
-            // WorkForceMatters setting is enabled and no one at work - building will not work
-            //if (config.WorkForceMatters && GetWorkersInBuilding(buildingId) == 0)
-            //{
-            //    return false;
-            //}
-
             return workTime.IsWorkingAt(timeInfo.Now);
-
         }
 
         /// <summary>

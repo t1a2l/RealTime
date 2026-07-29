@@ -576,9 +576,6 @@ namespace RealTime.CustomAI
 
                 case ResidentState.InShelter:
                     return ProcessCitizenInShelter(ref schedule, ref citizen, noReschedule);
-
-                case ResidentState.AtWork:
-                    return ProcessCitizenWork(ref schedule, citizenId, ref citizen);
             }
 
             return false;
@@ -633,11 +630,6 @@ namespace RealTime.CustomAI
                 {
                     return false;
                 }
-                // nobody working or on the way to work, and building is essential service and workforce matters
-                //if (Config.WorkForceMatters && IsEssentialService(schedule.WorkBuilding) && GetCitizensInWorkPlaceByShift(schedule.WorkBuilding, schedule.WorkShift) == 0)
-                //{
-                //    return false;
-                //}
                 if (schedule.CurrentState == ResidentState.AtWork || schedule.CurrentState == ResidentState.EatMeal
                     || schedule.ScheduledState == ResidentState.GoToWork || schedule.ScheduledState == ResidentState.GoToMeal
                     || schedule.ScheduledState == ResidentState.GoShopping && schedule.Hint == ScheduleHint.LocalShoppingOnlyBeforeWork)

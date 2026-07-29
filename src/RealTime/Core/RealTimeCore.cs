@@ -303,6 +303,7 @@ namespace RealTime.Core
             WorldInfoPanelPatch.LocalizationProvider = null;
             WorldInfoPanelPatch.RealTimeConfig = null;
             WorldInfoPanelPatch.RealTimeEventManager = null;
+            WorldInfoPanelPatch.RealTimeBuildingAI = null;
             WorldInfoPanelPatch.RealTimeResidentAI = null;
             WorldInfoPanelPatch.TimeAdjustment = null;
             WorldInfoPanelPatch.TimeInfo = null;
@@ -427,8 +428,7 @@ namespace RealTime.Core
 
             var spareTimeBehavior = new SpareTimeBehavior(config, timeInfo);
             var travelBehavior = new TravelBehavior(gameConnections.BuildingManager, travelDistancePerCycle);
-            var workBehavior = new WorkBehavior(config, gameConnections.Random, timeInfo, travelBehavior);
-            var schoolBehavior = new SchoolBehavior(config, gameConnections.Random, timeInfo, travelBehavior);
+           
             var mealBehavior = new MealBehavior(config, gameConnections.Random, timeInfo, spareTimeBehavior);
 
             var realTimeBuildingAI = new RealTimeBuildingAI(
@@ -438,6 +438,9 @@ namespace RealTime.Core
                 new ToolManagerConnection(),
                 travelBehavior,
                 randomizer);
+
+            var workBehavior = new WorkBehavior(config, gameConnections.Random, timeInfo, realTimeBuildingAI, travelBehavior);
+            var schoolBehavior = new SchoolBehavior(config, gameConnections.Random, timeInfo, realTimeBuildingAI, travelBehavior);
 
             var realTimeResidentAI = new RealTimeResidentAI<ResidentAI, Citizen>(
                 config,
@@ -529,6 +532,7 @@ namespace RealTime.Core
 
             VehicleAIPatch.RealTimeBuildingAI = realTimeBuildingAI;
 
+            WorldInfoPanelPatch.RealTimeBuildingAI = realTimeBuildingAI;
             WorldInfoPanelPatch.RealTimeResidentAI = realTimeResidentAI;
             WorldInfoPanelPatch.RealTimeConfig = config;
             WorldInfoPanelPatch.RealTimeEventManager = eventManager;

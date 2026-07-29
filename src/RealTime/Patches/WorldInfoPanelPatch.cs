@@ -26,6 +26,7 @@ namespace RealTime.Patches
     using SkyTools.Localization;
     using SkyTools.Tools;
     using UnityEngine;
+    using static RealTime.Managers.BuildingWorkTimeManager;
 
     /// <summary>
     /// A static class that provides the patch objects for the world info panel game methods.
@@ -48,7 +49,7 @@ namespace RealTime.Patches
         /// <summary>Gets or sets the game events data.</summary>
         public static RealTimeEventManager RealTimeEventManager { get; set; }
 
-        /// <summary>Gets or sets the custom AI object for buildings.</summary>
+        /// <summary>Gets or sets the custom AI object for residents.</summary>
         public static RealTimeResidentAI<ResidentAI, Citizen> RealTimeResidentAI { get; set; }
 
         /// <summary>Gets or sets the time adjustment simulation class instance.</summary>
@@ -59,6 +60,9 @@ namespace RealTime.Patches
 
         /// <summary>Gets or sets the customized vehicle information panel.</summary>
         public static CustomVehicleInfoPanel VehicleInfoPanel { get; set; }
+
+        /// <summary>Gets or sets the custom AI object for buildings.</summary>
+        public static RealTimeBuildingAI RealTimeBuildingAI { get; set; }
 
         /// <summary>car parking buildings.</summary>
         private static readonly string[] CarParkingBuildings = ["parking", "garage", "car park", "Parking", "Car Port", "Garage", "Car Park"];
@@ -83,6 +87,37 @@ namespace RealTime.Patches
                     case CampusWorldInfoPanel _:
                         CampusWorldInfoPanel?.UpdateCustomInfo(ref ___m_InstanceID, RealTimeConfig.DebugMode);
                         break;
+                }
+            }
+        }
+
+        [HarmonyPatch]
+        private sealed class DistrictWorldInfoPanel_UpdatePolicies
+        {
+            [HarmonyPatch(typeof(DistrictWorldInfoPanel), "UpdatePolicies")]
+            [HarmonyPostfix]
+            private static void Postfix()
+            {
+                var buildings = Singleton<BuildingManager>.instance.m_buildings;
+
+                for (ushort buildingId = 0; buildingId < buildings.m_size; buildingId++)
+                {
+                    ref var building = ref buildings.m_buffer[buildingId];
+                    if ((building.m_flags & Building.Flags.Created) != 0)
+                    {
+                        var service = building.Info.m_class.m_service;
+                        var subService = building.Info.m_class.m_subService;
+
+                        switch (subService)
+                        {
+                            case ItemClass.SubService.CommercialLeisure:
+                            case ItemClass.SubService.PlayerIndustryFarming:
+                            case ItemClass.SubService.PlayerIndustryForestry:
+                            case ItemClass.SubService.BeautificationParks when service == ItemClass.Service.Beautification:
+                                RealTimeBuildingAI.UpdateBuildingWorkTimeByPolicy(buildingId);
+                                break;
+                        }
+                    }
                 }
             }
         }

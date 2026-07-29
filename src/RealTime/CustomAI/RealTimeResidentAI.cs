@@ -133,6 +133,11 @@ namespace RealTime.CustomAI
                     {
                         string buildingName = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.name;
                         text += $" and buildingId is {buildingID} and building name is {buildingName} and current location is {currentLocation}";
+
+                        if (!buildingAI.IsBuildingWorking(buildingID))
+                        {
+                            schedule.Schedule(ResidentState.Unknown);
+                        }
                     }
                 }
 

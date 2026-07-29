@@ -2,6 +2,9 @@
 
 namespace RealTime.Config
 {
+    using System;
+    using ColossalFramework;
+    using RealTime.Managers;
     using SkyTools.Configuration;
     using SkyTools.Tools;
     using SkyTools.UI;
@@ -14,7 +17,7 @@ namespace RealTime.Config
         /// <summary>The storage ID for the configuration objects.</summary>
         public const string StorageId = "RealTimeConfiguration";
 
-        private const int LatestVersion = 3;
+        private const int LatestVersion = 4;
 
         /// <summary>Initializes a new instance of the <see cref="RealTimeConfig"/> class.</summary>
         public RealTimeConfig()
@@ -63,7 +66,20 @@ namespace RealTime.Config
         /// </summary>
         [ConfigItem("1General", "0Time", 5)]
         [ConfigItemCheckBox]
-        public bool IsWeekendEnabled { get; set; }
+        public bool IsWeekendEnabled
+        {
+            get;
+            set
+            {
+                if (field == value)
+                {
+                    return;
+                }
+
+                field = value;
+                OnWeekendEnabledChanged(value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the virtual citizens mode.
@@ -999,6 +1015,51 @@ namespace RealTime.Config
             DebugMode = false;
             LoggingMode = false;
             AdvancedLoggingMode = false;
+        }
+
+
+        private void OnWeekendEnabledChanged(bool value)
+        {
+            var buildingManager = Singleton<BuildingManager>.instance;
+            if (buildingManager == null)
+            {
+                return;
+            }
+
+            var buildings = buildingManager.m_buildings;
+
+            DayOfWeek[] allWeek = [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday];
+
+            DayOfWeek[] noWeekend = [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday];
+
+            for (ushort buildingId = 0; buildingId < buildings.m_size; buildingId++)
+            {
+                ref var building = ref buildings.m_buffer[buildingId];
+                if ((building.m_flags & Building.Flags.Created) != 0)
+                {
+                    if (BuildingWorkTimeManager.BuildingWorkTimeExist(buildingId))
+                    {
+                        var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
+
+                        if(workTime.IsDefault)
+                        {
+                            if (!value)
+                            {
+                                workTime.WorkDays = [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday];
+                            }
+                            else
+                            {
+                                var service = building.Info.m_class.m_service;
+                                var subService = building.Info.m_class.m_subService;
+                                var level = building.Info.m_class.m_level;
+                                bool openOnWeekends = BuildingWorkTimeManager.IsBuildingActiveOnWeekend(service, subService, level);
+                                workTime.WorkDays = openOnWeekends ? allWeek : noWeekend;
+                            }
+                            BuildingWorkTimeManager.SetBuildingWorkTime(buildingId, workTime);
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -402,7 +402,7 @@ namespace RealTime.Managers
             bool continuousShift = HasContinuousWorkShift(service, subService, level, extendedShift);
 
             DayOfWeek[] days;
-            if (openOnWeekends)
+            if (openOnWeekends || !RealTimeMod.configProvider.Configuration.IsWeekendEnabled)
             {
                 days = [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday];
             }
@@ -464,7 +464,7 @@ namespace RealTime.Managers
         public static DayOfWeek[] GetWorkDays(bool openOnWeekends)
         {
             DayOfWeek[] days;
-            if (openOnWeekends)
+            if (openOnWeekends || !RealTimeMod.configProvider.Configuration.IsWeekendEnabled)
             {
                 days = [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday];
             }
@@ -502,9 +502,9 @@ namespace RealTime.Managers
             return shifts;
         }
 
-        private static bool ShouldOccur(uint probability) => SimulationManager.instance.m_randomizer.Int32(100u) < probability;
 
-        private static bool IsBuildingActiveOnWeekend(ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
+
+        public static bool IsBuildingActiveOnWeekend(ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
         {
             switch (subService)
             {
@@ -542,6 +542,9 @@ namespace RealTime.Managers
                     return false;
             }
         }
+
+
+        private static bool ShouldOccur(uint probability) => SimulationManager.instance.m_randomizer.Int32(100u) < probability;
 
         private static bool HasExtendedFirstWorkShift(ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
         {

@@ -4,6 +4,7 @@ namespace RealTime.CustomAI
 {
     using System;
     using RealTime.Config;
+    using RealTime.GameConnection;
     using RealTime.Simulation;
     using SkyTools.Tools;
 
@@ -20,11 +21,13 @@ namespace RealTime.CustomAI
         RealTimeConfig config,
         IRandomizer randomizer,
         ITimeInfo timeInfo,
+        IRealTimeBuildingAI buildingAI,
         ITravelBehavior travelBehavior) : IWorkBehavior
     {
         private readonly RealTimeConfig config = config ?? throw new ArgumentNullException(nameof(config));
         private readonly IRandomizer randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
         private readonly ITimeInfo timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
+        private readonly IRealTimeBuildingAI buildingAI = buildingAI ?? throw new ArgumentNullException(nameof(buildingAI));
         private readonly ITravelBehavior travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
 
         /// <summary>Notifies this object that a new game day starts.</summary>
@@ -53,6 +56,11 @@ namespace RealTime.CustomAI
         public bool ShouldScheduleGoToWork(ref CitizenSchedule schedule)
         {
             if (schedule.CurrentState == ResidentState.AtWork)
+            {
+                return false;
+            }
+
+            if(buildingAI.IsBuildingWorking(schedule.WorkBuilding) || buildingAI.IsBuildingClosingSoon(schedule.WorkBuilding))
             {
                 return false;
             }

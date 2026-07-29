@@ -20,11 +20,13 @@ namespace RealTime.CustomAI
         RealTimeConfig config,
         IRandomizer randomizer,
         ITimeInfo timeInfo,
+        IRealTimeBuildingAI buildingAI,
         ITravelBehavior travelBehavior) : ISchoolBehavior
     {
         private readonly RealTimeConfig config = config ?? throw new ArgumentNullException(nameof(config));
         private readonly IRandomizer randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
         private readonly ITimeInfo timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
+        private readonly IRealTimeBuildingAI buildingAI = buildingAI ?? throw new ArgumentNullException(nameof(buildingAI));
         private readonly ITravelBehavior travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
 
         public void BeginNewDay()
@@ -86,6 +88,11 @@ namespace RealTime.CustomAI
         public bool ShouldScheduleGoToSchool(ref CitizenSchedule schedule)
         {
             if (schedule.CurrentState == ResidentState.AtSchool)
+            {
+                return false;
+            }
+
+            if (buildingAI.IsBuildingWorking(schedule.SchoolBuilding) || buildingAI.IsBuildingClosingSoon(schedule.SchoolBuilding))
             {
                 return false;
             }

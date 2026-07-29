@@ -92,7 +92,8 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            if (buildingAI.IsBuildingWorking(schedule.SchoolBuilding) || buildingAI.IsBuildingClosingSoon(schedule.SchoolBuilding))
+            // check if the school building is open 30 minutes after class start
+            if (!buildingAI.IsBuildingOpenAt(schedule.SchoolBuilding, schedule.SchoolClassStartTime + 0.5f))
             {
                 return false;
             }

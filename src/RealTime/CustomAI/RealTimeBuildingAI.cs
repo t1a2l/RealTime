@@ -1168,6 +1168,22 @@ namespace RealTime.CustomAI
             return !workTime.IsWorkingAt(future);
         }
 
+
+        /// <summary>
+        /// Determines whether the building with the specified <paramref name="buildingId"/> is opened at a given hour
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <param name="hour">The hour to check if open or not.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is opened in at <paramref name="hour"/> or not, <c>false</c>.
+        /// </returns>
+        public bool IsBuildingOpenAt(ushort buildingId, float hour)
+        {
+            var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
+            var future = timeInfo.Now.FutureHour(hour);
+            return workTime.IsWorkingAt(future);
+        }
+
         /// <summary>
         /// Determines whether the building with the specified <paramref name="buildingId"/> is currently working
         /// </summary>

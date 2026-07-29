@@ -60,7 +60,8 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            if(buildingAI.IsBuildingWorking(schedule.WorkBuilding) || buildingAI.IsBuildingClosingSoon(schedule.WorkBuilding))
+            // check if the work building is open 30 minutes after shift start
+            if (!buildingAI.IsBuildingOpenAt(schedule.WorkBuilding, schedule.WorkShiftStartTime + 0.5f))
             {
                 return false;
             }

@@ -114,5 +114,15 @@ namespace RealTime.CustomAI
         ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is going to get closed in the specified <paramref name="timeBeforeClosing"/> hours or less, <c>false</c>.
         /// </returns>
         internal bool IsBuildingClosingSoon(ushort buildingId, int timeBeforeClosing = 2);
+
+        /// <summary>
+        /// Determines whether the building with the specified <paramref name="buildingId"/> is opened at a given hour
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <param name="hour">The hour to check if open or not.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is opened in at <paramref name="hour"/> or not, <c>false</c>.
+        /// </returns>
+        internal bool IsBuildingOpenAt(ushort buildingId, float hour);
     }
 }

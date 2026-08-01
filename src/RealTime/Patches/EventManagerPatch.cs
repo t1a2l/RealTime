@@ -10,6 +10,7 @@ namespace RealTime.Patches
     using RealTime.Managers;
     using RealTime.Simulation;
     using SkyTools.Tools;
+    using UnityEngine;
 
     [HarmonyPatch]
     internal static class EventManagerPatch
@@ -139,7 +140,7 @@ namespace RealTime.Patches
                     Log.Debug(LogCategory.Events, TimeInfo.Now, $"Processing schedule {i} for event route {eventRouteIndex}, startDay: {scheduleData[i].m_startDay}, startMonth: {scheduleData[i].m_startMonth}, startHour: {eventTimeSchedules[i].StartHour}, startMinute: {eventTimeSchedules[i].StartMinute}");
                 }
                 
-                var dateTime = CalculateNextEvent(Singleton<SimulationManager>.instance.m_currentGameTime, scheduleData[i].m_startDay + 1, scheduleData[i].m_startMonth + 1, eventTimeSchedules[i].StartHour, eventTimeSchedules[i].StartMinute);
+                var dateTime = CalculateNextEvent(startDate, scheduleData[i].m_startDay + 1, scheduleData[i].m_startMonth + 1, eventTimeSchedules[i].StartHour, eventTimeSchedules[i].StartMinute);
 
                 if (TimeInfo != null && TimeInfo.Now != null)
                 {
@@ -224,8 +225,9 @@ namespace RealTime.Patches
 
         private static DateTime CalculateNextEvent(DateTime currentDate, int scheduleDay, int scheduleMonth, int scheduleHour, int scheduleMinute)
         {
-            Log.Debug(LogCategory.Events, TimeInfo.Now, $"Month is {scheduleMonth}, Day is {scheduleDay}, Hour is {scheduleHour}, Minute is {scheduleMinute}");
-            return new DateTime(currentDate.Year, scheduleMonth, scheduleDay, scheduleHour, scheduleMinute, 0);
+            int year = currentDate.Year;
+            Log.Debug(LogCategory.Events, TimeInfo.Now, $"Year is {year} Month is {scheduleMonth}, Day is {scheduleDay}, Hour is {scheduleHour}, Minute is {scheduleMinute}");
+            return new DateTime(year, scheduleMonth, scheduleDay, scheduleHour, scheduleMinute, 0);
         }
 
         private static bool HasConflictWithCurrentEvent(ushort eventRouteIndex, DateTime candidate)

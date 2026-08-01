@@ -44,6 +44,9 @@ namespace RealTime.CustomAI
         /// <summary>The time when citizen started their last journey.</summary>
         public DateTime DepartureTime;
 
+        /// <summary>Gets the number of meals eaten out today.</summary>
+        public byte MealsEatenOutToday;
+
         /// <summary> The maximum travel time (in hours) that can be stored for a citizen. This is used to limit the travel time value and prevent overflow during serialization.</summary>
         private const float TravelTimeMultiplier = ushort.MaxValue / MaxTravelTime;
 
@@ -56,24 +59,11 @@ namespace RealTime.CustomAI
         /// <summary>Gets the time when the citizen will perform the next state change.</summary>
         public DateTime ScheduledStateTime { get; private set; }
 
-        /// <summary>Daily meal flags for tracking which meals a citizen has consumed.</summary>
-        [Flags]
-        public enum DailyMealFlags : byte
-        {
-            None = 0,
-            Breakfast = 1 << 0,
-            Lunch = 1 << 1,
-            Supper = 1 << 2,
-        }
-
         /// <summary>Gets the meals that the citizen has consumed today.</summary>
         public DailyMealFlags MealsConsumedToday { get; private set; }
 
         /// <summary>Gets the day of the citizen's meal history.</summary>
         public int MealHistoryDay { get; private set; }
-
-        /// <summary>Gets the number of meals eaten out today.</summary>
-        public byte MealsEatenOutToday;
 
         /// <summary>Gets the citizen's next scheduled meal type.</summary>
         public MealType ScheduledMealType { get; private set; }
@@ -367,6 +357,15 @@ namespace RealTime.CustomAI
             }
 
             UpdateSchoolClass(schoolClass, schoolBegin, schoolEnd);
+        }
+
+        /// <summary>Updates the meal data for this citizen's schedule.</summary>
+        /// <param name="mealsConsumedToday">The meals consumed today.</param>
+        /// <param name="mealHistoryDay">The meal history day.</param>
+        public void UpdateMealData(DailyMealFlags mealsConsumedToday, int mealHistoryDay)
+        {
+            MealsConsumedToday = mealsConsumedToday;
+            MealHistoryDay = mealHistoryDay;
         }
 
         /// <summary>Resets the daily meals consumed if the current day has changed.</summary>

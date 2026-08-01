@@ -10,7 +10,7 @@ namespace RealTime.Serializer
 
     public class CitizenScheduleSerializer
     {
-        private const ushort iCITIZEN_SCHEDULE_DATA_VERSION = 3;
+        private const ushort iCITIZEN_SCHEDULE_DATA_VERSION = 4;
 
         private const uint uiTUPLE_START = 0xFEFEFEFE;
         private const uint uiTUPLE_END = 0xFAFAFAFA;
@@ -177,6 +177,11 @@ namespace RealTime.Serializer
                     schedule.FindVisitPlaceAttempts = StorageData.ReadInt32(chunkBytes, ref index);
                     schedule.VacationDaysLeft = StorageData.ReadByte(chunkBytes, ref index);
 
+                    if (chunkVersion >= 4)
+                    {
+                        schedule.MealsEatenOutToday = StorageData.ReadByte(chunkBytes, ref index);
+                    }
+
                     schedule.WorkBuilding = StorageData.ReadUInt16(chunkBytes, ref index);
                     schedule.SchoolBuilding = StorageData.ReadUInt16(chunkBytes, ref index);
                     schedule.DepartureTime = StorageData.ReadDateTime(chunkBytes, ref index);
@@ -184,6 +189,16 @@ namespace RealTime.Serializer
                     var scheduledState = (ResidentState)StorageData.ReadInt32(chunkBytes, ref index);
                     var lastScheduledState = (ResidentState)StorageData.ReadInt32(chunkBytes, ref index);
                     var scheduledStateTime = StorageData.ReadDateTime(chunkBytes, ref index);
+
+                    var MealsConsumedToday = default(DailyMealFlags);
+                    int MealHistoryDay = 0;
+
+                    if (chunkVersion >= 4)
+                    {
+                        MealsConsumedToday = (DailyMealFlags)StorageData.ReadInt32(chunkBytes, ref index);
+                        MealHistoryDay = StorageData.ReadInt32(chunkBytes, ref index);
+                    }
+
                     var scheduledMealType = (MealType)StorageData.ReadInt32(chunkBytes, ref index);
                     var lastScheduledMealType = (MealType)StorageData.ReadInt32(chunkBytes, ref index);
 
@@ -223,6 +238,7 @@ namespace RealTime.Serializer
                     schedule.UpdateTravelTimeToSchool(travelTimeToSchool);
                     schedule.UpdateWorkShift(workShift, shiftIndex, workShiftStartTime, workShiftEndTime);
                     schedule.UpdateSchoolClass(schoolClass, schoolClassStartTime, schoolClassEndTime);
+                    schedule.UpdateMealData(MealsConsumedToday, MealHistoryDay);
 
                     if (schedule.WorkShift == WorkShift.Assigned && citizens[citizenId].m_workBuilding != 0 && shiftIndex != -1)
                     {
@@ -289,6 +305,7 @@ namespace RealTime.Serializer
             StorageData.WriteInt32((int)schedule.SchoolStatus, Data);
             StorageData.WriteInt32(schedule.FindVisitPlaceAttempts, Data);
             StorageData.WriteByte(schedule.VacationDaysLeft, Data);
+            StorageData.WriteByte(schedule.MealsEatenOutToday, Data);
 
             StorageData.WriteUInt16(schedule.WorkBuilding, Data);
             StorageData.WriteUInt16(schedule.SchoolBuilding, Data);
@@ -297,6 +314,9 @@ namespace RealTime.Serializer
             StorageData.WriteInt32((int)schedule.ScheduledState, Data);
             StorageData.WriteInt32((int)schedule.LastScheduledState, Data);
             StorageData.WriteDateTime(schedule.ScheduledStateTime, Data);
+
+            StorageData.WriteInt32((int)schedule.MealsConsumedToday, Data);
+            StorageData.WriteInt32(schedule.MealHistoryDay, Data);
             StorageData.WriteInt32((int)schedule.ScheduledMealType, Data);
             StorageData.WriteInt32((int)schedule.LastScheduledMealType, Data);
             StorageData.WriteDateTime(schedule.ScheduledMealEndTime, Data);

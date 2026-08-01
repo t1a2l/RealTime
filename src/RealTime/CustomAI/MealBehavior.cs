@@ -31,13 +31,12 @@ namespace RealTime.CustomAI
         {
         }
 
-        /// <summary>Check if the citizen should go to eat a meal</summary>
+        /// <summary>Check if the citizen should go to eat a normal meal.</summary>
         /// <param name="schedule">The citizen's schedule.</param>
         /// <param name="citizenAge">The citizen's age group.</param>
         /// <param name="mealType">The citizen's meal type.</param>
-        /// <param name="isWorkOrSchool">is the meal schedule is connected to work or school.</param>
-        /// <returns><c>true</c> if the citizen should go to eat a meal; otherwise, <c>false</c>.</returns>
-        public bool ShouldScheduleGoToMeal(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge, MealType mealType, bool isWorkOrSchool)
+        /// <returns><c>true</c> if the citizen should go to eat a normal meal; otherwise, <c>false</c>.</returns>
+        public bool ShouldScheduleMeal(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge, MealType mealType)
         {
             if (schedule.CurrentState == ResidentState.EatMeal)
             {
@@ -51,28 +50,44 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            if (!isWorkOrSchool)
+            uint eatingOutChance = spareTimeBehavior.GetEatingOutChance(citizenAge);
+            Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, go out to eat a meal chance is {eatingOutChance}");
+            if (!randomizer.ShouldOccur(eatingOutChance))
             {
-                uint eatingOutChance = spareTimeBehavior.GetEatingOutChance(citizenAge);
-                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, go out to eat a meal chance is {eatingOutChance}");
-                if (!randomizer.ShouldOccur(eatingOutChance))
-                {
-                    return false;
-                }
+                return false;
+            }
 
-                if (timeInfo.IsNightTime || randomizer.ShouldOccur(config.LocalBuildingSearchQuota))
-                {
-                    schedule.Hint = ScheduleHint.LocalMealOnly;
-                }
+            if (timeInfo.IsNightTime || randomizer.ShouldOccur(config.LocalBuildingSearchQuota))
+            {
+                schedule.Hint = ScheduleHint.LocalMealOnly;
+            }
 
-                return true;
+            return true;
+        }
+
+        /// <summary>Check if the citizen should go to eat a work or schoool related meal .</summary>
+        /// <param name="schedule">The citizen's schedule.</param>
+        /// <param name="citizenAge">The citizen's age group.</param>
+        /// <param name="mealType">The citizen's meal type.</param>
+        /// <returns><c>true</c> if the citizen should go to eat a meal; otherwise, <c>false</c>.</returns>
+        public bool ShouldScheduleWorkOrSchoolMeal(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge, MealType mealType)
+        {
+            if (schedule.CurrentState == ResidentState.EatMeal)
+            {
+                Log.Debug(LogCategory.Schedule, $"  - already eating a meal");
+                return false;
+            }
+
+            if ((citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen) && schedule.SchoolStatus == SchoolStatus.Studying)
+            {
+                Log.Debug(LogCategory.Schedule, $"  - kids dont eat meals while at school");
+                return false;
             }
 
             if (mealType == MealType.Breakfast)
             {
                 Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, work or school BreakfastQuota is {config.BreakfastBeforeWorkOrSchoolQuota}");
                 return config.IsBreakfastTimeEnabledBeforeWorkOrSchool && randomizer.ShouldOccur(config.BreakfastBeforeWorkOrSchoolQuota);
-
             }
             else if (mealType == MealType.Lunch)
             {
@@ -115,25 +130,26 @@ namespace RealTime.CustomAI
             }
         }
 
-        /// <summary>Return the meal type, begin time and duration by time of day.</summary>
+        /// <summary>Return the meal type, begin time and duration by the given hour.</summary>
+        /// <param name="hour">The hour to find the meal.</param>
         /// <param name="mealType">The selected meal type.</param>
         /// <param name="mealBegin">The selected meal start time.</param>
         /// <param name="mealDuration">The selected meal duration.</param>
-        public void GetMealDataByTimeOfDay(out MealType mealType, out float mealBegin, out float mealDuration)
+        public void GetMealDataByTimeOfDay(float hour, out MealType mealType, out float mealBegin, out float mealDuration)
         {
-            if (timeInfo.CurrentHour >= config.BreakfastBegin && timeInfo.CurrentHour <= 10f)
+            if (hour >= config.BreakfastBegin && hour <= 10f)
             {
                 mealType = MealType.Breakfast;
                 mealBegin = config.BreakfastBegin;
                 mealDuration = config.BreakfastDuration;
             }
-            else if (timeInfo.CurrentHour >= config.LunchBegin && timeInfo.CurrentHour <= 13f)
+            else if (hour >= config.LunchBegin && hour <= 13f)
             {
                 mealType = MealType.Lunch;
                 mealBegin = config.LunchBegin;
                 mealDuration = config.LunchDuration;
             }
-            else if (timeInfo.CurrentHour >= config.SupperBegin && timeInfo.CurrentHour <= 20f)
+            else if (hour >= config.SupperBegin && hour <= 20f)
             {
                 mealType = MealType.Supper;
                 mealBegin = config.SupperBegin;
@@ -145,7 +161,7 @@ namespace RealTime.CustomAI
                 mealBegin = 0;
                 mealDuration = 0.5f;
             }
-            Log.Debug(LogCategory.Schedule, timeInfo.Now, $" - citizen selected meal type is {mealType}, meal begin at {mealBegin} and duration is {mealDuration}");
+            Log.Debug(LogCategory.Schedule, timeInfo.Now, $" - citizen selected a meal according to hour {hour} - meal type is {mealType}, meal begin at {mealBegin} and duration is {mealDuration}");
         }
     }
 }

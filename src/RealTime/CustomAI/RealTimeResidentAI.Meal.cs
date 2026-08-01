@@ -11,17 +11,17 @@ namespace RealTime.CustomAI
         {
             var citizenAge = CitizenProxy.GetAge(ref citizen);
 
-            mealBehavior.GetMealDataByTimeOfDay(out var mealType, out float mealBegin, out float mealDuration);
-
             bool isWorkOrSchool = workRealtedMeal || schoolRealtedMeal;
-
-            if (!mealBehavior.ShouldScheduleGoToMeal(ref schedule, citizenAge, mealType, isWorkOrSchool))
-            {
-                return false;
-            }
 
             if(!isWorkOrSchool)
             {
+                mealBehavior.GetMealDataByTimeOfDay(TimeInfo.CurrentHour, out var mealType, out float _, out float mealDuration);
+
+                if (!mealBehavior.ShouldScheduleMeal(ref schedule, citizenAge, mealType))
+                {
+                    return false;
+                }
+
                 var endMealTime = TimeInfo.Now.AddHours(mealDuration);
                 schedule.Schedule(ResidentState.GoToMeal, mealType, endMealTime);
                 Log.Debug(LogCategory.Schedule, $"  - citizen will go to eat {mealType} at {TimeInfo.Now:dd.MM.yy HH:mm} and will finish eating at {endMealTime:dd.MM.yy HH:mm}");
@@ -31,6 +31,13 @@ namespace RealTime.CustomAI
             {
                 if (schedule.WorkStatus == WorkStatus.None && schedule.SchoolStatus == SchoolStatus.None)
                 {
+                    mealBehavior.GetMealDataByTimeOfDay(TimeInfo.CurrentHour, out var mealType, out float _, out float mealDuration);
+
+                    if (!mealBehavior.ShouldScheduleWorkOrSchoolMeal(ref schedule, citizenAge, mealType))
+                    {
+                        return false;
+                    }
+
                     var endMealTime = TimeInfo.Now.AddHours(mealDuration);
 
                     if(departureTime != default && departureTime <= endMealTime)
@@ -54,6 +61,13 @@ namespace RealTime.CustomAI
                 }
                 else
                 {
+                    mealBehavior.GetMealDataByTimeOfDay(TimeInfo.CurrentHour, out var mealType, out float mealBegin, out float mealDuration);
+
+                    if (!mealBehavior.ShouldScheduleWorkOrSchoolMeal(ref schedule, citizenAge, mealType))
+                    {
+                        return false;
+                    }
+
                     var MealBegin = TimeInfo.Now.Date.AddHours(mealBegin);
                     bool mealRange = (MealBegin - TimeInfo.Now).TotalHours >= 2.5;
 

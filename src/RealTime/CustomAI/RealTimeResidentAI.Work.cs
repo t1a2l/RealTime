@@ -31,6 +31,11 @@ namespace RealTime.CustomAI
 
             if (timeLeft <= MaxTravelTime)
             {
+                if (ScheduleMeal(ref schedule, ref citizen, true, departureTime))
+                {
+                    Log.Debug(LogCategory.Schedule, $"  - Work time in {timeLeft} hours, going to eat {schedule.ScheduledMealType} and will finish eating at {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
+                }
+
                 Log.Debug(LogCategory.Schedule, $"  - Schedule work at {departureTime:dd.MM.yy HH:mm}");
                 schedule.Schedule(ResidentState.GoToWork, departureTime);
 
@@ -41,14 +46,8 @@ namespace RealTime.CustomAI
                     return true;
                 }
 
-                if (ScheduleMeal(ref schedule, ref citizen, true, false, departureTime))
-                {
-                    Log.Debug(LogCategory.Schedule, $"  - Work time in {timeLeft} hours, going to eat {schedule.ScheduledMealType} and will go to work at {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
-                    return true;
-                }
-
                 // If we have some time, try to shop locally.
-                if (ScheduleShopping(ref schedule, ref citizen, localOnly: false, localOnlyWork: true, localOnlySchool: false))
+                if (ScheduleShopping(ref schedule, ref citizen, localOnly: true))
                 {
                     Log.Debug(LogCategory.Schedule, $"  - Work time in {timeLeft} hours, trying local shop");
                 }
@@ -86,7 +85,7 @@ namespace RealTime.CustomAI
                     schedule.DepartureTime = default;
                 }
 
-                if (ScheduleMeal(ref schedule, ref citizen, true, false, default))
+                if (ScheduleMeal(ref schedule, ref citizen, true, default))
                 {
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going from {currentBuilding} to work {schedule.WorkBuilding} and will go to eat {schedule.ScheduledMealType} at {schedule.ScheduledStateTime:dd.MM.yy HH:mm}");
                 }

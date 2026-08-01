@@ -31,6 +31,11 @@ namespace RealTime.CustomAI
 
             if (timeLeft <= MaxTravelTime)
             {
+                if (ScheduleMeal(ref schedule, ref citizen, true, departureTime))
+                {
+                    Log.Debug(LogCategory.Schedule, $"  - School time in {timeLeft} hours, going to eat {schedule.ScheduledMealType} at a shop or a cafeteria and will finish eating at {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
+                }
+
                 Log.Debug(LogCategory.Schedule, $"  - Schedule school at {departureTime:dd.MM.yy HH:mm}");
                 schedule.Schedule(ResidentState.GoToSchool, departureTime);
 
@@ -44,14 +49,8 @@ namespace RealTime.CustomAI
                 var age = CitizenProxy.GetAge(ref citizen);
                 if(age == Citizen.AgeGroup.Young || age == Citizen.AgeGroup.Adult)
                 {
-                    if (ScheduleMeal(ref schedule, ref citizen, false, true, departureTime))
-                    {
-                        Log.Debug(LogCategory.Schedule, $"  - School time in {timeLeft} hours, going to eat {schedule.ScheduledMealType} in a shop or a cafeteria before heading to school");
-                        return true;
-                    }
-
                     // If we have some time, try to shop locally.
-                    if (ScheduleShopping(ref schedule, ref citizen, localOnly: false, localOnlyWork: false, localOnlySchool: true))
+                    if (ScheduleShopping(ref schedule, ref citizen, localOnly: true))
                     {
                         Log.Debug(LogCategory.Schedule, $"  - University time in {timeLeft} hours, trying local shop");
                     }
@@ -89,7 +88,7 @@ namespace RealTime.CustomAI
                     schedule.DepartureTime = default;
                 }
 
-                if (ScheduleMeal(ref schedule, ref citizen, false, true, default))
+                if (ScheduleMeal(ref schedule, ref citizen, true, default))
                 {
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going from {currentBuilding} to school {schedule.SchoolBuilding} and will go to eat {schedule.ScheduledMealType} at {schedule.ScheduledStateTime:dd.MM.yy HH:mm}");
                 }

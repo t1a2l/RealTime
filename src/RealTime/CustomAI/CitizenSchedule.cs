@@ -56,6 +56,25 @@ namespace RealTime.CustomAI
         /// <summary>Gets the time when the citizen will perform the next state change.</summary>
         public DateTime ScheduledStateTime { get; private set; }
 
+        /// <summary>Daily meal flags for tracking which meals a citizen has consumed.</summary>
+        [Flags]
+        public enum DailyMealFlags : byte
+        {
+            None = 0,
+            Breakfast = 1 << 0,
+            Lunch = 1 << 1,
+            Supper = 1 << 2,
+        }
+
+        /// <summary>Gets the meals that the citizen has consumed today.</summary>
+        public DailyMealFlags MealsConsumedToday { get; private set; }
+
+        /// <summary>Gets the day of the citizen's meal history.</summary>
+        public int MealHistoryDay { get; private set; }
+
+        /// <summary>Gets the number of meals eaten out today.</summary>
+        public byte MealsEatenOutToday;
+
         /// <summary>Gets the citizen's next scheduled meal type.</summary>
         public MealType ScheduledMealType { get; private set; }
 
@@ -269,6 +288,10 @@ namespace RealTime.CustomAI
             }
         }
 
+        /// <summary>Updates the work shift hours for this citizen's schedule.</summary>
+        /// <param name="workShift">The work shift to update.</param>
+        /// <param name="shiftIndex">The index of the shift.</param>
+        /// <param name="workBuildingId">The ID of the work building.</param>
         public void UpdateWorkShiftHours(WorkShift workShift, int shiftIndex, ushort workBuildingId)
         {
             var workBuildingInfo = BuildingManager.instance.m_buildings.m_buffer[workBuildingId].Info;
@@ -321,6 +344,8 @@ namespace RealTime.CustomAI
             UpdateWorkShift(workShift, shiftIndex, workBegin, workEnd);
         }
 
+        /// <summary>Updates the school class hours for this citizen's schedule.</summary>
+        /// <param name="schoolClass">The school class to update.</param>
         public void UpdateSchoolClassHours(SchoolClass schoolClass)
         {
             var config = RealTimeMod.configProvider.Configuration;
@@ -342,6 +367,64 @@ namespace RealTime.CustomAI
             }
 
             UpdateSchoolClass(schoolClass, schoolBegin, schoolEnd);
+        }
+
+        /// <summary>Resets the daily meals consumed if the current day has changed.</summary>
+        /// <param name="currentDay">The current day.</param>
+        public void ResetDailyMealsIfNeeded(int currentDay)
+        {
+            if (MealHistoryDay == currentDay)
+            {
+                return;
+            }
+
+            MealHistoryDay = currentDay;
+            MealsConsumedToday = DailyMealFlags.None;
+        }
+
+        /// <summary>Checks if the citizen has consumed a specific meal today.</summary>
+        /// <param name="mealType">The type of meal to check.</param>
+        /// <returns>True if the citizen has consumed the specified meal today; otherwise, false.</returns>
+        public readonly bool HasConsumedMealToday(MealType mealType) => mealType switch
+        {
+            MealType.Breakfast => (MealsConsumedToday & DailyMealFlags.Breakfast) != 0,
+            MealType.Lunch => (MealsConsumedToday & DailyMealFlags.Lunch) != 0,
+            MealType.Supper => (MealsConsumedToday & DailyMealFlags.Supper) != 0,
+            _ => false,
+        };
+
+        /// <summary>Marks a specific meal as consumed for today.</summary>
+        /// <param name="mealType">The type of meal to mark as consumed.</param>
+        public void MarkMealConsumedToday(MealType mealType)
+        {
+            switch (mealType)
+            {
+                case MealType.Breakfast:
+                    MealsConsumedToday |= DailyMealFlags.Breakfast;
+                    break;
+                case MealType.Lunch:
+                    MealsConsumedToday |= DailyMealFlags.Lunch;
+                    break;
+                case MealType.Supper:
+                    MealsConsumedToday |= DailyMealFlags.Supper;
+                    break;
+            }
+        }
+
+        /// <summary>Calculates the adjusted meal chance based on the number of meals eaten out today.</summary>
+        /// <param name="baseChance">The base chance of eating out.</param>
+        /// <returns>The adjusted chance of eating out.</returns>
+        public uint GetAdjustedMealChance(uint baseChance)
+        {
+            ResetDailyMealsIfNeeded(DateTime.Now.DayOfYear);
+
+            return MealsEatenOutToday switch
+            {
+                0 => baseChance,
+                1 => Math.Max(5u, baseChance / 2),
+                2 => Math.Max(2u, baseChance / 4),
+                _ => 0u,
+            };
         }
     }
 }

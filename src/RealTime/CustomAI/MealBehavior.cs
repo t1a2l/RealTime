@@ -3,6 +3,7 @@
 namespace RealTime.CustomAI
 {
     using System;
+    using System.Collections.Generic;
     using RealTime.Config;
     using RealTime.Simulation;
     using SkyTools.Tools;
@@ -26,6 +27,25 @@ namespace RealTime.CustomAI
         private readonly ITimeInfo timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
         private readonly ISpareTimeBehavior spareTimeBehavior = spareTimeBehavior ?? throw new ArgumentNullException(nameof(spareTimeBehavior));
 
+        internal readonly struct MealWindow(MealType mealType, float begin, float duration, float end, uint quota, bool enabled)
+        {
+            public MealType MealType { get; } = mealType;
+            public float Begin { get; } = begin;
+            public float Duration { get; } = duration;
+            public float End { get; } = end;
+            public uint Quota { get; } = quota;
+            public bool Enabled { get; } = enabled;
+        }
+
+        internal readonly struct ScheduledMealOpportunity(MealType mealType, DateTime beginTime, DateTime endTime, float overlapHours, float score)
+        {
+            public MealType MealType { get; } = mealType;
+            public DateTime BeginTime { get; } = beginTime;
+            public DateTime EndTime { get; } = endTime;
+            public float OverlapHours { get; } = overlapHours;
+            public float Score { get; } = score;
+        }
+
         /// <summary>Notifies this object that a new game day starts.</summary>
         public void BeginNewDay()
         {
@@ -38,21 +58,17 @@ namespace RealTime.CustomAI
         /// <returns><c>true</c> if the citizen should go to eat a normal meal; otherwise, <c>false</c>.</returns>
         public bool ShouldScheduleMeal(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge, MealType mealType)
         {
+            schedule.ResetDailyMealsIfNeeded(timeInfo.Now.DayOfYear);
+
             if (schedule.CurrentState == ResidentState.EatMeal)
             {
                 Log.Debug(LogCategory.Schedule, $"  - already eating a meal");
                 return false;
             }
 
-            if ((citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen) && schedule.SchoolStatus == SchoolStatus.Studying)
-            {
-                Log.Debug(LogCategory.Schedule, $"  - kids dont eat meals while at school");
-                return false;
-            }
-
             uint eatingOutChance = spareTimeBehavior.GetEatingOutChance(citizenAge);
             Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, go out to eat a meal chance is {eatingOutChance}");
-            if (!randomizer.ShouldOccur(eatingOutChance))
+            if (!randomizer.ShouldOccur(schedule.GetAdjustedMealChance(eatingOutChance)))
             {
                 return false;
             }
@@ -86,8 +102,8 @@ namespace RealTime.CustomAI
 
             if (mealType == MealType.Breakfast)
             {
-                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, work or school BreakfastQuota is {config.BreakfastBeforeWorkOrSchoolQuota}");
-                return config.IsBreakfastTimeEnabledBeforeWorkOrSchool && randomizer.ShouldOccur(config.BreakfastBeforeWorkOrSchoolQuota);
+                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, work or school BreakfastQuota is {config.BreakfastDuringWorkOrSchoolQuota}");
+                return config.IsBreakfastTimeEnabledDuringWorkOrSchool && randomizer.ShouldOccur(config.BreakfastDuringWorkOrSchoolQuota);
             }
             else if (mealType == MealType.Lunch)
             {
@@ -96,8 +112,8 @@ namespace RealTime.CustomAI
             }
             else if (mealType == MealType.Supper)
             {
-                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, work or school SupperQuota is {config.SupperAfterWorkOrSchoolQuota}");
-                return config.IsSupperTimeEnabledAfterWorkOrSchool && randomizer.ShouldOccur(config.SupperAfterWorkOrSchoolQuota);
+                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, work or school SupperQuota is {config.SupperDuringWorkOrSchoolQuota}");
+                return config.IsSupperTimeEnabledDuringWorkOrSchool && randomizer.ShouldOccur(config.SupperDuringWorkOrSchoolQuota);
             }
 
             return false;
@@ -108,17 +124,17 @@ namespace RealTime.CustomAI
         /// <param name="schedule">The citizen's schedule.</param>
         public void UpdateMealTypeByTimeOfDay(uint citizenId, ref CitizenSchedule schedule)
         {
-            if (timeInfo.CurrentHour >= config.BreakfastBegin && timeInfo.CurrentHour <= 10f)
+            if (timeInfo.CurrentHour >= config.BreakfastBegin && timeInfo.CurrentHour <= config.BreakfastEnd)
             {
                 Log.Debug(LogCategory.Schedule, timeInfo.Now, $"Citizen {citizenId} - updating work none meal type to {MealType.Breakfast}");
                 schedule.UpdateMealType(MealType.Breakfast);
             }
-            else if (timeInfo.CurrentHour >= config.LunchBegin && timeInfo.CurrentHour <= 13f)
+            else if (timeInfo.CurrentHour >= config.LunchBegin && timeInfo.CurrentHour <= config.LunchEnd)
             {
                 Log.Debug(LogCategory.Schedule, timeInfo.Now, $"Citizen {citizenId} - updating work none meal type to {MealType.Lunch}");
                 schedule.UpdateMealType(MealType.Lunch);
             }
-            else if (timeInfo.CurrentHour >= config.SupperBegin && timeInfo.CurrentHour <= 20f)
+            else if (timeInfo.CurrentHour >= config.SupperBegin && timeInfo.CurrentHour <= config.SupperEnd)
             {
                 Log.Debug(LogCategory.Schedule, timeInfo.Now, $"Citizen {citizenId} - updating work none meal type to {MealType.Supper}");
                 schedule.UpdateMealType(MealType.Supper);
@@ -137,19 +153,19 @@ namespace RealTime.CustomAI
         /// <param name="mealDuration">The selected meal duration.</param>
         public void GetMealDataByTimeOfDay(float hour, out MealType mealType, out float mealBegin, out float mealDuration)
         {
-            if (hour >= config.BreakfastBegin && hour <= 10f)
+            if (hour >= config.BreakfastBegin && hour <= config.BreakfastEnd)
             {
                 mealType = MealType.Breakfast;
                 mealBegin = config.BreakfastBegin;
                 mealDuration = config.BreakfastDuration;
             }
-            else if (hour >= config.LunchBegin && hour <= 13f)
+            else if (hour >= config.LunchBegin && hour <= config.LunchEnd)
             {
                 mealType = MealType.Lunch;
                 mealBegin = config.LunchBegin;
                 mealDuration = config.LunchDuration;
             }
-            else if (hour >= config.SupperBegin && hour <= 20f)
+            else if (hour >= config.SupperBegin && hour <= config.SupperEnd)
             {
                 mealType = MealType.Supper;
                 mealBegin = config.SupperBegin;
@@ -163,5 +179,134 @@ namespace RealTime.CustomAI
             }
             Log.Debug(LogCategory.Schedule, timeInfo.Now, $" - citizen selected a meal according to hour {hour} - meal type is {mealType}, meal begin at {mealBegin} and duration is {mealDuration}");
         }
+
+        /// <summary>Try to get the best work or school meal opportunity.</summary>
+        /// <param name="schedule">The citizen's schedule.</param>
+        /// <param name="now">The current time.</param>
+        /// <param name="opportunity">The scheduled meal opportunity.</param>
+        /// <returns>True if a meal opportunity was found; otherwise, false.</returns>
+        public bool TryGetBestWorkOrSchoolMealOpportunity(ref CitizenSchedule schedule, DateTime now, out ScheduledMealOpportunity opportunity)
+        {
+            opportunity = default;
+
+            const float minimumOverlapHours = 0.5f;
+            float blockStartHour;
+            float blockEndHour;
+
+            if (schedule.WorkStatus == WorkStatus.Working)
+            {
+                Log.Debug(LogCategory.Schedule, $"  - find best work meal opportunity");
+                blockStartHour = schedule.WorkShiftStartTime;
+                blockEndHour = schedule.WorkShiftEndTime;
+            }
+            else if (schedule.SchoolStatus == SchoolStatus.Studying)
+            {
+                Log.Debug(LogCategory.Schedule, $"  - find best school meal opportunity");
+                blockStartHour = schedule.SchoolClassStartTime;
+                blockEndHour = schedule.SchoolClassEndTime;
+            }
+            else
+            {
+                return false;
+            }
+
+            float normalizedBlockEnd = NormalizeHourRangeEnd(blockStartHour, blockEndHour);
+            ScheduledMealOpportunity? best = null;
+
+            foreach (var window in GetConfiguredMealWindows())
+            {
+                if (!window.Enabled)
+                {
+                    continue;
+                }
+
+                if (schedule.HasConsumedMealToday(window.MealType))
+                {
+                    continue;
+                }
+
+                float mealBegin = window.Begin;
+                float mealEnd = window.End;
+
+                if (mealEnd < mealBegin)
+                {
+                    mealEnd += 24f;
+                }
+
+                float overlap = GetOverlapHours(blockStartHour, normalizedBlockEnd, mealBegin, mealEnd);
+                if (overlap < minimumOverlapHours)
+                {
+                    continue;
+                }
+
+                if (!randomizer.ShouldOccur(window.Quota))
+                {
+                    continue;
+                }
+
+                var beginTime = ToFutureDateTime(now, window.Begin);
+                var endTime = beginTime.AddHours(window.Duration);
+
+                float midpoint = window.Begin + window.Duration / 2f;
+                float blockMidpoint = blockStartHour + (normalizedBlockEnd - blockStartHour) / 2f;
+                float midpointDistance = Math.Abs(blockMidpoint - midpoint);
+
+                float score = overlap * 10f - midpointDistance;
+
+                var candidate = new ScheduledMealOpportunity(window.MealType, beginTime, endTime, overlap, score);
+
+                if (best == null || candidate.Score > best.Value.Score)
+                {
+                    best = candidate;
+                }
+            }
+
+            if (best == null)
+            {
+                return false;
+            }
+
+            opportunity = best.Value;
+            return true;
+        }
+
+        private IEnumerable<MealWindow> GetConfiguredMealWindows()
+        {
+            yield return new MealWindow(
+                MealType.Breakfast,
+                config.BreakfastBegin,
+                config.BreakfastDuration,
+                config.BreakfastEnd,
+                config.BreakfastDuringWorkOrSchoolQuota,
+                config.IsBreakfastTimeEnabledDuringWorkOrSchool);
+
+            yield return new MealWindow(
+                MealType.Lunch,
+                config.LunchBegin,
+                config.LunchDuration,
+                config.LunchEnd,
+                config.LunchDuringWorkOrSchoolQuota,
+                config.IsLunchTimeEnabledDuringWorkOrSchool);
+
+            yield return new MealWindow(
+                MealType.Supper,
+                config.SupperBegin,
+                config.SupperDuration,
+                config.SupperEnd,
+                config.SupperDuringWorkOrSchoolQuota,
+                config.IsSupperTimeEnabledDuringWorkOrSchool);
+        }
+
+        private static float GetOverlapHours(float range1Start, float range1End, float range2Start, float range2End) =>
+            Math.Max(0f, Math.Min(range1End, range2End) - Math.Max(range1Start, range2Start));
+
+        private static float NormalizeHourRangeEnd(float start, float end) => end < start ? end + 24f : end;
+
+        private static DateTime ToFutureDateTime(DateTime now, float hour)
+        {
+            var dt = now.Date.AddHours(hour);
+            return dt < now ? dt.AddDays(1) : dt;
+        }
+
     }
 }

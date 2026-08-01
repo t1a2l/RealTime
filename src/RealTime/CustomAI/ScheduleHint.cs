@@ -11,12 +11,6 @@ namespace RealTime.CustomAI
         /// <summary>The citizen can shop only locally.</summary>
         LocalShoppingOnly,
 
-        /// <summary>The citizen can shop only locally before work.</summary>
-        LocalShoppingOnlyBeforeWork,
-
-        /// <summary>The citizen can shop only locally before university.</summary>
-        LocalShoppingOnlyBeforeUniversity,
-
         /// <summary>The citizen will not go shopping one more time right away.</summary>
         NoShoppingAnyMore,
 
@@ -35,11 +29,8 @@ namespace RealTime.CustomAI
         /// <summary>The citizen can go to eat only localy.</summary>
         LocalMealOnly,
 
-        /// <summary>The citizen is going to eat a meal which is realted to the work schedule.</summary>
-        WorkRelatedMeal,
-
-        /// <summary>The citizen is going to eat a meal which is realted to the school schedule.</summary>
-        SchoolRelatedMeal,
+        /// <summary>The citizen is going to eat a meal which is related to the work or school schedule.</summary>
+        WorkOrSchoolRelatedMeal,
 
         /// <summary>The citizen will not go to eat one more time right away.</summary>
         NoMealAnyMore

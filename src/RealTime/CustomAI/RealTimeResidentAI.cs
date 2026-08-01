@@ -187,6 +187,12 @@ namespace RealTime.CustomAI
                     return;
             }
 
+            if(schedule.FindVisitPlaceAttempts > 0)
+            {
+                Log.Debug(LogCategory.Movement, $"The citizen {citizenId} arrived at their destination at {TimeInfo.Now} after {schedule.FindVisitPlaceAttempts} attempts to find a visit place");
+                schedule.FindVisitPlaceAttempts = 0;
+            }
+
             schedule.DepartureTime = default;
         }
 
@@ -361,6 +367,7 @@ namespace RealTime.CustomAI
             schedule.WorkStatus = 0;
             schedule.SchoolStatus = 0;
             schedule.FindVisitPlaceAttempts = 0;
+            schedule.MealsEatenOutToday = 0;
             schedule.VacationDaysLeft = 0;
             schedule.DepartureTime = default;
             schedule.Schedule(ResidentState.Unknown);

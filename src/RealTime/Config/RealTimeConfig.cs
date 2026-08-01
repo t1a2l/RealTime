@@ -202,12 +202,12 @@ namespace RealTime.Config
         public uint NightClassQuota { get; set; }
 
         /// <summary>
-        /// Gets or sets the percentage of the Cims that will go out for breakfast before work or school.
+        /// Gets or sets the percentage of the Cims that will go out for breakfast during work or school.
         /// Valid values are 0..100.
         /// </summary>
         [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 5)]
         [ConfigItemSlider(0, 100)]
-        public uint BreakfastBeforeWorkOrSchoolQuota { get; set; }
+        public uint BreakfastDuringWorkOrSchoolQuota { get; set; }
 
         /// <summary>
         /// Gets or sets the percentage of the Cims that will go out for lunch during work or school.
@@ -218,12 +218,12 @@ namespace RealTime.Config
         public uint LunchDuringWorkOrSchoolQuota { get; set; }
 
         /// <summary>
-        /// Gets or sets the percentage of the Cims that will go out for supper after work or school.
+        /// Gets or sets the percentage of the Cims that will go out for supper during work or school.
         /// Valid values are 0..100.
         /// </summary>
         [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 7)]
         [ConfigItemSlider(0, 100)]
-        public uint SupperAfterWorkOrSchoolQuota { get; set; }
+        public uint SupperDuringWorkOrSchoolQuota { get; set; }
 
         /// <summary>
         /// Gets or sets the percentage of the population that will search locally for buildings.
@@ -323,12 +323,11 @@ namespace RealTime.Config
         public float GoToSleepHour { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether Cims should go out for breakfast before work or school.
+        /// Gets or sets a value indicating whether Cims should go out for breakfast during work or school.
         /// </summary>
         [ConfigItem("4Time", 2)]
         [ConfigItemCheckBox]
-        public bool IsBreakfastTimeEnabledBeforeWorkOrSchool { get; set; }
-
+        public bool IsBreakfastTimeEnabledDuringWorkOrSchool { get; set; }
         /// <summary>
         /// Gets or sets a value indicating whether Cims should go out for lunch during work or school.
         /// </summary>
@@ -337,17 +336,17 @@ namespace RealTime.Config
         public bool IsLunchTimeEnabledDuringWorkOrSchool { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether Cims should go out for supper after work or school.
+        /// Gets or sets a value indicating whether Cims should go out for supper during work or school.
         /// </summary>
         [ConfigItem("4Time", 4)]
         [ConfigItemCheckBox]
-        public bool IsSupperTimeEnabledAfterWorkOrSchool { get; set; }
+        public bool IsSupperTimeEnabledDuringWorkOrSchool { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the Cims go out for breakfast.
+        /// Gets or sets the start daytime hour when the Cims go out for breakfast.
         /// </summary>
         [ConfigItem("4Time", 5)]
-        [ConfigItemSlider(4f, 10f, 0.25f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(6f, 8f, 0.25f, ValueType = SliderValueType.Time)]
         public float BreakfastBegin { get; set; }
 
         /// <summary>
@@ -358,74 +357,95 @@ namespace RealTime.Config
         public float BreakfastDuration { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the Cims go out for lunch.
+        /// Gets or sets the end daytime hour when the Cims go out for breakfast.
         /// </summary>
         [ConfigItem("4Time", 7)]
+        [ConfigItemSlider(8f, 10f, 0.25f, ValueType = SliderValueType.Time)]
+        public float BreakfastEnd { get; set; }
+
+        /// <summary>
+        /// Gets or sets the start daytime hour when the Cims go out for lunch.
+        /// </summary>
+        [ConfigItem("4Time", 8)]
         [ConfigItemSlider(11f, 13f, 0.25f, ValueType = SliderValueType.Time)]
         public float LunchBegin { get; set; }
 
         /// <summary>
         /// Gets or sets the duration time of eating lunch.
         /// </summary>
-        [ConfigItem("4Time", 8)]
+        [ConfigItem("4Time", 9)]
         [ConfigItemSlider(0.5f, 2f, 0.25f, ValueType = SliderValueType.Duration)]
         public float LunchDuration { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the Cims go out for supper.
+        /// Gets or sets the end daytime hour when the Cims go out for lunch.
         /// </summary>
-        [ConfigItem("4Time", 9)]
-        [ConfigItemSlider(17f, 20f, 0.25f, ValueType = SliderValueType.Time)]
+        [ConfigItem("4Time", 10)]
+        [ConfigItemSlider(13f, 15f, 0.25f, ValueType = SliderValueType.Time)]
+        public float LunchEnd { get; set; }
+
+        /// <summary>
+        /// Gets or sets the start daytime hour when the Cims go out for supper.
+        /// </summary>
+        [ConfigItem("4Time", 11)]
+        [ConfigItemSlider(17f, 19f, 0.25f, ValueType = SliderValueType.Time)]
         public float SupperBegin { get; set; }
 
         /// <summary>
         /// Gets or sets the duration time of eating supper.
         /// </summary>
-        [ConfigItem("4Time", 10)]
+        [ConfigItem("4Time", 12)]
         [ConfigItemSlider(0.5f, 2f, 0.25f, ValueType = SliderValueType.Duration)]
         public float SupperDuration { get; set; }
+
+        /// <summary>
+        /// Gets or sets the end daytime hour when the Cims go out for supper.
+        /// </summary>
+        [ConfigItem("4Time", 13)]
+        [ConfigItemSlider(19f, 21f, 0.25f, ValueType = SliderValueType.Time)]
+        public float SupperEnd  { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum overtime for the Cims. They come to work earlier or stay at work longer for at most this
         /// amount of hours. This applies only for those Cims that are not on time, see <see cref="OnTimeQuota"/>.
         /// The young Cims (school and university) don't do overtime.
         /// </summary>
-        [ConfigItem("4Time", 11)]
+        [ConfigItem("4Time", 14)]
         [ConfigItemSlider(0, 4, 0.25f, ValueType = SliderValueType.Duration)]
         public float MaxOvertime { get; set; }
 
         /// <summary>
         /// Gets or sets the school start daytime hour. The young Cims must go at school or university.
         /// </summary>
-        [ConfigItem("4Time", 12)]
+        [ConfigItem("4Time", 15)]
         [ConfigItemSlider(4, 10, 0.25f, ValueType = SliderValueType.Time)]
         public float SchoolBegin { get; set; }
 
         /// <summary>
         /// Gets or sets the school end daytime hour. The young Cims must return from school or university.
         /// </summary>
-        [ConfigItem("4Time", 13)]
+        [ConfigItem("4Time", 16)]
         [ConfigItemSlider(11, 16, 0.25f, ValueType = SliderValueType.Time)]
         public float SchoolEnd { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum vacation length in days.
         /// </summary>
-        [ConfigItem("4Time", 14)]
+        [ConfigItem("4Time", 17)]
         [ConfigItemSlider(0, 7, ValueType = SliderValueType.Default)]
         public uint MaxVacationLength { get; set; }
 
         /// <summary>
         /// Gets or sets the length of the academic year in hours.
         /// </summary>
-        [ConfigItem("4Time", 15)]
+        [ConfigItem("4Time", 18)]
         [ConfigItemSlider(1f, 30f, 1f, ValueType = SliderValueType.Default)]
         public float AcademicYearLength { get; set; }
 
         /// <summary>
         /// Gets or sets the length of a Toga party in hours.
         /// </summary>
-        [ConfigItem("4Time", 16)]
+        [ConfigItem("4Time", 19)]
         [ConfigItemSlider(4f, 24f, 1f, ValueType = SliderValueType.Default)]
         public float TogaPartyLength { get; set; }
 
@@ -788,9 +808,9 @@ namespace RealTime.Config
             NightShiftQuota = FastMath.Clamp(NightShiftQuota, 1u, 25u);
             ContinuousNightShiftQuota = FastMath.Clamp(ContinuousNightShiftQuota, 1u, 25u);
 
-            BreakfastBeforeWorkOrSchoolQuota = FastMath.Clamp(BreakfastBeforeWorkOrSchoolQuota, 0u, 100u);
+            BreakfastDuringWorkOrSchoolQuota = FastMath.Clamp(BreakfastDuringWorkOrSchoolQuota, 0u, 100u);
             LunchDuringWorkOrSchoolQuota = FastMath.Clamp(LunchDuringWorkOrSchoolQuota, 0u, 100u);
-            SupperAfterWorkOrSchoolQuota = FastMath.Clamp(SupperAfterWorkOrSchoolQuota, 0u, 100u);
+            SupperDuringWorkOrSchoolQuota = FastMath.Clamp(SupperDuringWorkOrSchoolQuota, 0u, 100u);
             LocalBuildingSearchQuota = FastMath.Clamp(LocalBuildingSearchQuota, 0u, 100u);
             ShoppingForFunQuota = FastMath.Clamp(ShoppingForFunQuota, 0u, 50u);
             OnTimeQuota = FastMath.Clamp(OnTimeQuota, 0u, 100u);
@@ -817,12 +837,15 @@ namespace RealTime.Config
 
             EventPreparationDuration = FastMath.Clamp(EventPreparationDuration, 2f, 8f);
 
-            BreakfastBegin = FastMath.Clamp(BreakfastBegin, WakeUpHour, 10f);
+            BreakfastBegin = FastMath.Clamp(BreakfastBegin, 6f, 8f);
             BreakfastDuration = FastMath.Clamp(BreakfastDuration, 0.5f, 1.5f);
+            BreakfastEnd = FastMath.Clamp(BreakfastEnd, 8f, 10f);
             LunchBegin = FastMath.Clamp(LunchBegin, 11f, 13f);
             LunchDuration = FastMath.Clamp(LunchDuration, 0.5f, 2f);
-            SupperBegin = FastMath.Clamp(SupperBegin, 17f, GoToSleepHour);
+            LunchEnd = FastMath.Clamp(LunchEnd, 13f, 15f);
+            SupperBegin = FastMath.Clamp(SupperBegin, 17f, 19f);
             SupperDuration = FastMath.Clamp(SupperDuration, 0.5f, 2f);
+            SupperEnd = FastMath.Clamp(SupperEnd, 19f, 21f);
 
             SchoolBegin = FastMath.Clamp(SchoolBegin, 4f, 10f);
             SchoolEnd = FastMath.Clamp(SchoolEnd, 11f, 16f);
@@ -906,9 +929,9 @@ namespace RealTime.Config
             VirtualCitizens = VirtualCitizensLevel.Vanilla;
             UseSlowAging = true;
             IsWeekendEnabled = true;
-            IsBreakfastTimeEnabledBeforeWorkOrSchool = true;
+            IsBreakfastTimeEnabledDuringWorkOrSchool = true;
             IsLunchTimeEnabledDuringWorkOrSchool = true;
-            IsSupperTimeEnabledAfterWorkOrSchool = false;
+            IsSupperTimeEnabledDuringWorkOrSchool = false;
 
             StopConstructionAtNight = true;
             ConstructionSpeed = 50;
@@ -926,9 +949,9 @@ namespace RealTime.Config
             NightShiftQuota = 6;
             ContinuousNightShiftQuota = 6;
 
-            BreakfastBeforeWorkOrSchoolQuota = 20;
+            BreakfastDuringWorkOrSchoolQuota = 20;
             LunchDuringWorkOrSchoolQuota = 80;
-            SupperAfterWorkOrSchoolQuota = 20;
+            SupperDuringWorkOrSchoolQuota = 20;
             LocalBuildingSearchQuota = 60;
             ShoppingForFunQuota = 30;
             OnTimeQuota = 80;
@@ -946,10 +969,13 @@ namespace RealTime.Config
 
             BreakfastBegin = 7f;
             BreakfastDuration = 0.5f;
+            BreakfastEnd = 10f;
             LunchBegin = 12f;
             LunchDuration = 0.5f;
+            LunchEnd = 13f;
             SupperBegin = 18f;
             SupperDuration = 0.5f;
+            SupperEnd = 20f;
 
             MaxOvertime = 2f;
             SchoolBegin = 8f;

@@ -2,6 +2,9 @@
 
 namespace RealTime.CustomAI
 {
+    using System;
+    using static RealTime.CustomAI.MealBehavior;
+
     /// <summary>
     /// An interface for the citizens meal behavior.
     /// </summary>
@@ -35,5 +38,12 @@ namespace RealTime.CustomAI
         /// <param name="mealBegin">The selected meal start time.</param>
         /// <param name="mealDuration">The selected meal duration.</param>
         internal void GetMealDataByTimeOfDay(float hour, out MealType mealType, out float mealBegin, out float mealDuration);
+
+        /// <summary>Try to get the best work or school meal opportunity.</summary>
+        /// <param name="schedule">The citizen's schedule.</param>
+        /// <param name="now">The current time.</param>
+        /// <param name="opportunity">The scheduled meal opportunity.</param>
+        /// <returns>True if a meal opportunity was found; otherwise, false.</returns>
+        internal bool TryGetBestWorkOrSchoolMealOpportunity(ref CitizenSchedule schedule, DateTime now, out ScheduledMealOpportunity opportunity);
     }
 }

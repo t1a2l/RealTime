@@ -617,7 +617,7 @@ namespace RealTime.CustomAI
 
                 if (schedule.CurrentState == ResidentState.AtSchool || schedule.CurrentState == ResidentState.EatMeal
                     || schedule.ScheduledState == ResidentState.GoToSchool || schedule.ScheduledState == ResidentState.GoToMeal ||
-                    schedule.ScheduledState == ResidentState.GoShopping && schedule.Hint == ScheduleHint.LocalShoppingOnlyBeforeUniversity)
+                    schedule.ScheduledState == ResidentState.GoShopping)
                 {
                     return false;
                 }
@@ -632,7 +632,7 @@ namespace RealTime.CustomAI
                 }
                 if (schedule.CurrentState == ResidentState.AtWork || schedule.CurrentState == ResidentState.EatMeal
                     || schedule.ScheduledState == ResidentState.GoToWork || schedule.ScheduledState == ResidentState.GoToMeal
-                    || schedule.ScheduledState == ResidentState.GoShopping && schedule.Hint == ScheduleHint.LocalShoppingOnlyBeforeWork)
+                    || schedule.ScheduledState == ResidentState.GoShopping)
                 {
                     return false;
                 }

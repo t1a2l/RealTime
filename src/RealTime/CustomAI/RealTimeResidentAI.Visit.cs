@@ -196,7 +196,7 @@ namespace RealTime.CustomAI
             return RescheduleVisit(ref schedule, citizenId, ref citizen, currentBuilding, noReschedule);
         }
 
-        private bool ScheduleShopping(ref CitizenSchedule schedule, ref TCitizen citizen, bool localOnly, bool localOnlyWork = false, bool localOnlySchool = false)
+        private bool ScheduleShopping(ref CitizenSchedule schedule, ref TCitizen citizen, bool localOnly)
         {
             // If the citizen doesn't need any goods, he/she still can go shopping just for fun
             if (!CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods))
@@ -224,15 +224,6 @@ namespace RealTime.CustomAI
                 schedule.Hint = ScheduleHint.LocalShoppingOnly;
             }
 
-            if (localOnlyWork)
-            {
-                schedule.Hint = ScheduleHint.LocalShoppingOnlyBeforeWork;
-            }
-            if (localOnlySchool)
-            {
-                schedule.Hint = ScheduleHint.LocalShoppingOnlyBeforeUniversity;
-            }
-
             schedule.Schedule(ResidentState.GoShopping);
             return true;
         }
@@ -252,71 +243,36 @@ namespace RealTime.CustomAI
             }
 
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-            if (schedule.Hint == ScheduleHint.LocalShoppingOnly || schedule.Hint == ScheduleHint.LocalShoppingOnlyBeforeWork || schedule.Hint == ScheduleHint.LocalShoppingOnlyBeforeUniversity)
+            if (schedule.Hint == ScheduleHint.LocalShoppingOnly)
             {
-                if(schedule.Hint == ScheduleHint.LocalShoppingOnly)
+                schedule.Schedule(ResidentState.Unknown);
+
+                if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule))
                 {
-                    schedule.Schedule(ResidentState.Unknown);
-
-                    if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule))
-                    {
-                        Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for shopping");
-                        return true;
-                    }
-
-                    ushort shop = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, CommercialBuildingType.Shopping);
-                    if (shop == 0)
-                    {
-                        Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping, but didn't find a local shop");
-                        return false;
-                    }
-
-                    if (TimeInfo.IsNightTime)
-                    {
-                        schedule.Hint = ScheduleHint.NoShoppingAnyMore;
-                    }
-
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} goes shopping at a local shop {shop}");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for shopping");
                     return true;
-
                 }
 
-                if (schedule.Hint == ScheduleHint.LocalShoppingOnlyBeforeWork || schedule.Hint == ScheduleHint.LocalShoppingOnlyBeforeUniversity)
+                ushort shop = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, CommercialBuildingType.Shopping);
+                if (shop == 0)
                 {
-                    ushort shop = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, CommercialBuildingType.Shopping);
-                    ushort sourceBuilding = currentBuilding;
-                    bool found = false;
-                    if (shop == 0)
-                    {
-                        Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping, but didn't find a local shop");
-                    }
-                    else
-                    {
-                        Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} goes shopping at a local shop {shop}");
-                        sourceBuilding = shop;
-                        found = true;
-                    }
-
-                    if (schedule.Hint == ScheduleHint.LocalShoppingOnlyBeforeWork)
-                    {
-                        var departureTime = workBehavior.ScheduleGoToWorkTime(ref schedule, sourceBuilding, simulationCycle);
-                        schedule.Schedule(ResidentState.GoToWork, departureTime);
-                        Log.Debug(LogCategory.Schedule, $"  - Schedule work at {departureTime:dd.MM.yy HH:mm}");
-                    }
-                    else if (schedule.Hint == ScheduleHint.LocalShoppingOnlyBeforeUniversity)
-                    {
-                        var departureTime = schoolBehavior.ScheduleGoToSchoolTime(ref schedule, sourceBuilding, simulationCycle);
-                        schedule.Schedule(ResidentState.GoToSchool, departureTime);
-                        Log.Debug(LogCategory.Schedule, $"  - Schedule school at {departureTime:dd.MM.yy HH:mm}");
-                    }
-
-                    return found;
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping, but didn't find a local shop");
+                    return false;
                 }
+
+                if (TimeInfo.IsNightTime)
+                {
+                    schedule.Hint = ScheduleHint.NoShoppingAnyMore;
+                }
+
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} goes shopping at a local shop {shop}");
+                return true;
+
             }
 
             if (QuitVisit(citizenId, ref citizen, currentBuilding))
             {
-                schedule.Schedule(ResidentState.GoHome);
+                schedule.Schedule(ResidentState.Unknown);
                 return false;
             }
 

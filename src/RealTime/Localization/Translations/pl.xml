@@ -107,12 +107,12 @@
   <translation id="ContinuousNightShiftQuotaTooltip" value="Odsetek mieszkańców pracujących na nocną zmianę w ruchu ciągłym." />
   <translation id="NightClassQuota" value="Uczniowie szkół wieczorowych" />
   <translation id="NightClassQuotaTooltip" value="Odsetek obywateli uczęszczających do szkół wieczorowych." />
-  <translation id="BreakfastBeforeWorkOrSchoolQuota" value="Szansa na śniadanie przed pracą lub szkołą" />
-  <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="Odsetek mieszkańców wychodzących na śniadanie przed pracą lub szkołą." />
-  <translation id="LunchDuringWorkOrSchoolQuota" value="Szansa na drugie śniadanie w trakcie pracy/szkoły" />
-  <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="Odsetek mieszkańców wychodzących na przekąskę w trakcie pracy lub szkoły." />
-  <translation id="SupperAfterWorkOrSchoolQuota" value="Szansa na kolację po pracy/szkole" />
-  <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="Odsetek mieszkańców wychodzących na kolację po pracy lub szkole" />
+  <translation id="BreakfastDuringWorkOrSchoolQuota" value="Prawdopodobieństwo śniadania podczas pracy lub szkoły" />
+  <translation id="BreakfastDuringWorkOrSchoolQuotaTooltip" value="Odsetek mieszkańców wychodzących na śniadanie podczas pracy lub szkoły." />
+  <translation id="LunchDuringWorkOrSchoolQuota" value="Prawdopodobieństwo lunchu podczas pracy lub szkoły" />
+  <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="Odsetek mieszkańców wychodzących na lunch podczas pracy lub szkoły." />
+  <translation id="SupperDuringWorkOrSchoolQuota" value="Prawdopodobieństwo kolacji podczas pracy lub szkoły" />
+  <translation id="SupperDuringWorkOrSchoolQuotaTooltip" value="Odsetek mieszkańców wychodzących na kolację podczas pracy lub szkoły." />
 
   <translation id="LocalBuildingSearchQuota" value="Zakupy lokalnie" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="Odsetek mieszkańców, którzy będą chodzić do miejscowych sklepów." />
@@ -151,18 +151,24 @@
   <translation id="WorkBeginTooltip" value="Godzina rozpoczęcia przez dorosłych pracy lub nauki na uniwersytecie." />
   <translation id="WorkEnd" value="Koniec pracy/nauki dorosłych" />
   <translation id="WorkEndTooltip" value="Godzina powrotu dorosłych mieszkańców z pracy lub uniwersytetu." />
-  <translation id="BreakfastBegin" value="Breakfast begin hour" />
-  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
-  <translation id="BreakfastDuration" value="Breakfast duration" />
-  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
-  <translation id="LunchBegin" value="Lunch begin hour" />
-  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
-  <translation id="LunchDuration" value="Lunch duration" />
-  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
-  <translation id="SupperBegin" value="Supper begin hour" />
-  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
-  <translation id="SupperDuration" value="Supper duration" />
-  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
+  <translation id="BreakfastBegin" value="Początek śniadania" />
+  <translation id="BreakfastBeginTooltip" value="Najwcześniejsza godzina w ciągu dnia, kiedy mieszkańcy mogą wyjść na śniadanie" />
+  <translation id="BreakfastDuration" value="Czas trwania śniadania" />
+  <translation id="BreakfastDurationTooltip" value="Czas trwania jedzenia śniadania" />
+  <translation id="BreakfastEnd" value="Koniec śniadania" />
+  <translation id="BreakfastEndTooltip" value="Najpóźniejsza godzina w ciągu dnia, kiedy mieszkańcy mogą wyjść na śniadanie" />
+  <translation id="LunchBegin" value="Początek lunchu" />
+  <translation id="LunchBeginTooltip" value="Najwcześniejsza godzina w ciągu dnia, kiedy mieszkańcy mogą wyjść na lunch" />
+  <translation id="LunchDuration" value="Czas trwania lunchu" />
+  <translation id="LunchDurationTooltip" value="Czas trwania jedzenia lunchu" />
+  <translation id="LunchEnd" value="Koniec lunchu" />
+  <translation id="LunchEndTooltip" value="Najpóźniejsza godzina w ciągu dnia, kiedy mieszkańcy mogą wyjść na lunch" />
+  <translation id="SupperBegin" value="Początek kolacji" />
+  <translation id="SupperBeginTooltip" value="Najwcześniejsza godzina w ciągu dnia, kiedy mieszkańcy mogą wyjść na kolację" />
+  <translation id="SupperDuration" value="Czas trwania kolacji" />
+  <translation id="SupperDurationTooltip" value="Czas trwania jedzenia kolacji" />
+  <translation id="SupperEnd" value="Koniec kolacji" />
+  <translation id="SupperEndTooltip" value="Najpóźniejsza godzina w ciągu dnia, kiedy mieszkańcy mogą wyjść na kolację" />
   <translation id="MaxVacationLength" value="Maksimum dni urlopu" />
   <translation id="MaxVacationLengthTooltip" value="Określa czas trwania urlopów mieszkańców. Ustaw na 0, żeby wyłączyć urlopy." />
   <translation id="AcademicYearLength" value="Długość roku akademickiego (Dodatek “Campus”)"/>

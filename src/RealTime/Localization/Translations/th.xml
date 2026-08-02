@@ -107,12 +107,12 @@
   <translation id="ContinuousNightShiftQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่ทำงานกะกลางคืนแบบไม่หยุดพัก" />
   <translation id="NightClassQuota" value="นักเรียนภาคค่ำ" />
   <translation id="NightClassQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่เข้าเรียนในภาคค่ำ" />
-  <translation id="BreakfastBeforeWorkOrSchoolQuota" value="ความน่าจะเป็นในการกินมื้อเช้าก่อนงาน/เรียน" />
-  <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่จะออกไปกินมื้อเช้าข้างนอกก่อนไปทำงานหรือโรงเรียน" />
+  <translation id="BreakfastDuringWorkOrSchoolQuota" value="ความน่าจะเป็นในการกินมื้อเช้าระหว่างงาน/เรียน" />
+  <translation id="BreakfastDuringWorkOrSchoolQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่จะออกไปกินมื้อเช้าข้างนอกระหว่างเวลาทำงานหรือโรงเรียน" />
   <translation id="LunchDuringWorkOrSchoolQuota" value="ความน่าจะเป็นในการกินมื้อกลางวันระหว่างงาน/เรียน" />
   <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่จะออกไปกินมื้อกลางวันข้างนอกระหว่างเวลาทำงานหรือโรงเรียน" />
-  <translation id="SupperAfterWorkOrSchoolQuota" value="ความน่าจะเป็นในการกินมื้อค่ำหลังงาน/เรียน" />
-  <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่จะออกไปกินมื้อค่ำข้างนอกหลังเวลาทำงานหรือโรงเรียน" />
+  <translation id="SupperDuringWorkOrSchoolQuota" value="ความน่าจะเป็นในการกินมื้อค่ำระหว่างงาน/เรียน" />
+  <translation id="SupperDuringWorkOrSchoolQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่จะออกไปกินมื้อค่ำข้างนอกระหว่างเวลาทำงานหรือโรงเรียน" />
   
   <translation id="LocalBuildingSearchQuota" value="อัตราการชอปปิงในท้องถิ่น" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่จะค้นหาร้านค้าในบริเวณใกล้เคียง" />
@@ -151,18 +151,24 @@
   <translation id="WorkBeginTooltip" value="เวลาเริ่มงาน — พลเมืองวัยผู้ใหญ่ต้องอยู่ที่ทำงานหรือมหาวิทยาลัย" />
   <translation id="WorkEnd" value="เวลาเลิกงาน" />
   <translation id="WorkEndTooltip" value="เวลาที่ผู้ใหญ่เดินทางกลับจากที่ทำงานหรือมหาวิทยาลัย" />
-  <translation id="BreakfastBegin" value="Breakfast begin hour" />
-  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
-  <translation id="BreakfastDuration" value="Breakfast duration" />
-  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
-  <translation id="LunchBegin" value="Lunch begin hour" />
-  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
-  <translation id="LunchDuration" value="Lunch duration" />
-  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
-  <translation id="SupperBegin" value="Supper begin hour" />
-  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
-  <translation id="SupperDuration" value="Supper duration" />
-  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
+  <translation id="BreakfastBegin" value="เวลาเริ่มอาหารเช้า" />
+  <translation id="BreakfastBeginTooltip" value="เวลาเริ่มต้นในช่วงเวลากลางวันที่พลเมืองสามารถออกไปทานอาหารเช้าได้" />
+  <translation id="BreakfastDuration" value="ระยะเวลาอาหารเช้า" />
+  <translation id="BreakfastDurationTooltip" value="ระยะเวลาที่ใช้ในการทานอาหารเช้า" />
+  <translation id="BreakfastEnd" value="เวลาเลิกอาหารเช้า" />
+  <translation id="BreakfastEndTooltip" value="เวลาในช่วงเวลากลางวันที่พลเมืองสามารถออกไปทานอาหารเช้าได้" />
+  <translation id="LunchBegin" value="เวลาเริ่มอาหารกลางวัน" />
+  <translation id="LunchBeginTooltip" value="เวลาเริ่มต้นในช่วงเวลากลางวันที่พลเมืองสามารถออกไปทานอาหารกลางวันได้" />
+  <translation id="LunchDuration" value="ระยะเวลาอาหารกลางวัน" />
+  <translation id="LunchDurationTooltip" value="ระยะเวลาที่ใช้ในการทานอาหารกลางวัน" />
+  <translation id="LunchEnd" value="เวลาเลิกอาหารกลางวัน" />
+  <translation id="LunchEndTooltip" value="เวลาในช่วงเวลากลางวันที่พลเมืองสามารถออกไปทานอาหารกลางวันได้" />
+  <translation id="SupperBegin" value="เวลาเริ่มอาหารเย็น" />
+  <translation id="SupperBeginTooltip" value="เวลาเริ่มต้นในช่วงเวลากลางวันที่พลเมืองสามารถออกไปทานอาหารเย็นได้" />
+  <translation id="SupperDuration" value="ระยะเวลาอาหารเย็น" />
+  <translation id="SupperDurationTooltip" value="ระยะเวลาที่ใช้ในการทานอาหารเย็น" />
+  <translation id="SupperEnd" value="เวลาเลิกอาหารเย็น" />
+  <translation id="SupperEndTooltip" value="เวลาในช่วงเวลากลางวันที่พลเมืองสามารถออกไปทานอาหารเย็นได้" />
   <translation id="MaxVacationLength" value="ระยะเวลาลาพักร้อนสูงสุด" />
   <translation id="MaxVacationLengthTooltip" value="พลเมืองสามารถลาพักร้อนได้นานที่สุดกี่วัน ตั้งค่าเป็น 0 เพื่อปิดการพักร้อน" />
   <translation id="AcademicYearLength" value="ระยะเวลาปีการศึกษา (ต้องมี Campus DLC)"/>

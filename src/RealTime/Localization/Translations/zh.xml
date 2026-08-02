@@ -107,12 +107,12 @@
   <translation id="ContinuousNightShiftQuotaTooltip" value="在持续夜班工作的市民比例" />
   <translation id="NightClassQuota" value="夜校学生比例" />
   <translation id="NightClassQuotaTooltip" value="参加夜校学习的市民比例" />
-  <translation id="BreakfastBeforeWorkOrSchoolQuota" value="工作/上学前吃早餐的概率" />
-  <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="市民在去上班或上学前会出去吃早餐的比例" />
+  <translation id="BreakfastDuringWorkOrSchoolQuota" value="工作/上学期间吃早餐的概率" />
+  <translation id="BreakfastDuringWorkOrSchoolQuotaTooltip" value="市民在工作或上学期间会出去吃早餐的比例" />
   <translation id="LunchDuringWorkOrSchoolQuota" value="工作/上学期间吃午餐的概率" />
   <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="市民在工作或上学期间会出去吃午餐的比例" />
-  <translation id="SupperAfterWorkOrSchoolQuota" value="工作/上学后吃晚餐的概率" />
-  <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="市民在工作或上学后会出去吃晚餐的比例" />
+  <translation id="SupperDuringWorkOrSchoolQuota" value="工作/上学期间吃晚餐的概率" />
+  <translation id="SupperDuringWorkOrSchoolQuotaTooltip" value="市民在工作或上学期间会出去吃晚餐的比例" />
   
   <translation id="LocalBuildingSearchQuota" value="本地购物率" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="人口中会寻找附近商店购物的比例" />
@@ -151,18 +151,24 @@
   <translation id="WorkBeginTooltip" value="上班时间 —— 成年市民必须到达工作岗位或大学的时间" />
   <translation id="WorkEnd" value="下班时间" />
   <translation id="WorkEndTooltip" value="成年市民从工作岗位或大学回家的时间" />
-  <translation id="BreakfastBegin" value="Breakfast begin hour" />
-  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
-  <translation id="BreakfastDuration" value="Breakfast duration" />
-  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
-  <translation id="LunchBegin" value="Lunch begin hour" />
-  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
-  <translation id="LunchDuration" value="Lunch duration" />
-  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
-  <translation id="SupperBegin" value="Supper begin hour" />
-  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
-  <translation id="SupperDuration" value="Supper duration" />
-  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
+  <translation id="BreakfastBegin" value="早餐开始时间" />
+  <translation id="BreakfastBeginTooltip" value="市民可以出去吃早餐的开始时间" />
+  <translation id="BreakfastDuration" value="早餐持续时间" />
+  <translation id="BreakfastDurationTooltip" value="吃早餐的持续时间" />
+  <translation id="BreakfastEnd" value="早餐结束时间" />
+  <translation id="BreakfastEndTooltip" value="市民可以出去吃早餐的结束时间" />
+  <translation id="LunchBegin" value="午餐开始时间" />
+  <translation id="LunchBeginTooltip" value="市民可以出去吃午餐的开始时间" />
+  <translation id="LunchDuration" value="午餐持续时间" />
+  <translation id="LunchDurationTooltip" value="吃午餐的持续时间" />
+  <translation id="LunchEnd" value="午餐结束时间" />
+  <translation id="LunchEndTooltip" value="市民可以出去吃午餐的结束时间" />
+  <translation id="SupperBegin" value="晚餐开始时间" />
+  <translation id="SupperBeginTooltip" value="市民可以出去吃晚餐的开始时间" />
+  <translation id="SupperDuration" value="晚餐持续时间" />
+  <translation id="SupperDurationTooltip" value="吃晚餐的持续时间" />
+  <translation id="SupperEnd" value="晚餐结束时间" />
+  <translation id="SupperEndTooltip" value="市民可以出去吃晚餐的结束时间" />
   <translation id="MaxVacationLength" value="最大休假长度" />
   <translation id="MaxVacationLengthTooltip" value="市民可以休假的最长时间。设为 0 以禁用休假。" />
   <translation id="AcademicYearLength" value="学年长度 (需要校园 DLC)"/>

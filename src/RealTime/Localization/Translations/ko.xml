@@ -107,12 +107,12 @@
   <translation id="ContinuousNightShiftQuotaTooltip" value="지속적으로 야간 근무를 하는 시민의 비율입니다." />
   <translation id="NightClassQuota" value="야간 수업 학생 비율" />
   <translation id="NightClassQuotaTooltip" value="밤에 학교에 다니는 시민의 비율입니다." />
-  <translation id="BreakfastBeforeWorkOrSchoolQuota" value="업무 전 아침 식사 확률" />
-  <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="등교나 출근 전 아침을 먹으러 나가는 시민의 비율입니다." />
+  <translation id="BreakfastDuringWorkOrSchoolQuota" value="업무 중 아침 식사 확률" />
+  <translation id="BreakfastDuringWorkOrSchoolQuotaTooltip" value="근무 중 아침을 먹으러 나가는 시민의 비율입니다." />
   <translation id="LunchDuringWorkOrSchoolQuota" value="업무 중 점심 식사 확률" />
   <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="근무 중 점심을 먹으러 나가는 시민의 비율입니다." />
-  <translation id="SupperAfterWorkOrSchoolQuota" value="업무 후 저녁 식사 확률" />
-  <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="근무 종료 후 저녁을 먹으러 나가는 시민의 비율입니다." />
+  <translation id="SupperDuringWorkOrSchoolQuota" value="업무 중 저녁 식사 확률" />
+  <translation id="SupperDuringWorkOrSchoolQuotaTooltip" value="근무 중 저녁을 먹으러 나가는 시민의 비율입니다." />
   
   <translation id="LocalBuildingSearchQuota" value="지역 상점 이용 비율" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="거주지 주변 상점을 우선적으로 이용하려는 시민의 비율입니다." />
@@ -151,18 +151,24 @@
   <translation id="WorkBeginTooltip" value="업무나 대학교 강의가 시작되는 시간입니다." />
   <translation id="WorkEnd" value="퇴근 시간" />
   <translation id="WorkEndTooltip" value="업무나 강의가 종료되는 시간입니다." />
-  <translation id="BreakfastBegin" value="Breakfast begin hour" />
-  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
-  <translation id="BreakfastDuration" value="Breakfast duration" />
-  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
-  <translation id="LunchBegin" value="Lunch begin hour" />
-  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
-  <translation id="LunchDuration" value="Lunch duration" />
-  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
-  <translation id="SupperBegin" value="Supper begin hour" />
-  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
-  <translation id="SupperDuration" value="Supper duration" />
-  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
+  <translation id="BreakfastBegin" value="아침 식사 시작 시간" />
+  <translation id="BreakfastBeginTooltip" value="시민이 아침 식사를 위해 외출할 수 있는 시작 시간입니다." />
+  <translation id="BreakfastDuration" value="아침 식사 소요 시간" />
+  <translation id="BreakfastDurationTooltip" value="아침 식사를 하는 데 소요되는 시간입니다." />
+  <translation id="BreakfastEnd" value="아침 식사 종료 시간" />
+  <translation id="BreakfastEndTooltip" value="시민이 아침 식사를 위해 외출할 수 있는 종료 시간입니다." />
+  <translation id="LunchBegin" value="점심 식사 시작 시간" />
+  <translation id="LunchBeginTooltip" value="시민이 점심 식사를 위해 외출할 수 있는 시작 시간입니다." />
+  <translation id="LunchDuration" value="점심 식사 소요 시간" />
+  <translation id="LunchDurationTooltip" value="점심 식사를 하는 데 소요되는 시간입니다." />
+  <translation id="LunchEnd" value="점심 식사 종료 시간" />
+  <translation id="LunchEndTooltip" value="시민이 점심 식사를 위해 외출할 수 있는 종료 시간입니다." />
+  <translation id="SupperBegin" value="저녁 식사 시작 시간" />
+  <translation id="SupperBeginTooltip" value="시민이 저녁 식사를 위해 외출할 수 있는 시작 시간입니다." />
+  <translation id="SupperDuration" value="저녁 식사 소요 시간" />
+  <translation id="SupperDurationTooltip" value="저녁 식사를 하는 데 소요되는 시간입니다." />
+  <translation id="SupperEnd" value="저녁 식사 종료 시간" />
+  <translation id="SupperEndTooltip" value="시민이 저녁 식사를 위해 외출할 수 있는 종료 시간입니다." />
   <translation id="MaxVacationLength" value="최대 휴가 기간" />
   <translation id="MaxVacationLengthTooltip" value="시민들이 보낼 수 있는 최대 휴가 일수입니다. 0으로 설정하면 휴가가 비활성화됩니다." />
   <translation id="AcademicYearLength" value="학기 기간 (캠퍼스 DLC 필요)"/>

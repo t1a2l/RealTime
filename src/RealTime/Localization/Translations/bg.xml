@@ -107,12 +107,12 @@
   <translation id="ContinuousNightShiftQuotaTooltip" value="Процентът граждани, работещи постоянна нощна смяна" />
   <translation id="NightClassQuota" value="Студенти във вечерно училище" />
   <translation id="NightClassQuotaTooltip" value="Процентът граждани, които посещават вечерно училище" />
-  <translation id="BreakfastBeforeWorkOrSchoolQuota" value="Вероятност за закуска преди работа/училище" />
-  <translation id="BreakfastBeforeWorkOrSchoolQuotaTooltip" value="Процентът граждани, които ще отидат на закуска преди работа или училище" />
+  <translation id="BreakfastDuringWorkOrSchoolQuota" value="Вероятност за закуска по време на работа/училище" />
+  <translation id="BreakfastDuringWorkOrSchoolQuotaTooltip" value="Процентът граждани, които ще отидат на закуска по време на работа или училище" />
   <translation id="LunchDuringWorkOrSchoolQuota" value="Вероятност за обяд по време на работа/училище" />
   <translation id="LunchDuringWorkOrSchoolQuotaTooltip" value="Процентът граждани, които ще отидат на обяд по време на работа или училище" />
-  <translation id="SupperAfterWorkOrSchoolQuota" value="Вероятност за вечеря след работа/училище" />
-  <translation id="SupperAfterWorkOrSchoolQuotaTooltip" value="Процентът граждани, които ще отидат на вечеря след работа или училище" />
+  <translation id="SupperDuringWorkOrSchoolQuota" value="Вероятност за вечеря по време на работа/училище" />
+  <translation id="SupperDuringWorkOrSchoolQuotaTooltip" value="Процентът граждани, които ще отидат на вечеря по време на работа или училище" />
   
   <translation id="LocalBuildingSearchQuota" value="Дял на местното пазаруване" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="Процентът от населението, който ще търси магазини наблизо" />
@@ -151,18 +151,24 @@
   <translation id="WorkBeginTooltip" value="Часът на започване на работа — възрастните граждани трябва да са на работа или в университета" />
   <translation id="WorkEnd" value="Край на работа" />
   <translation id="WorkEndTooltip" value="Часът, в който възрастните се прибират от работа или от университета" />
-  <translation id="BreakfastBegin" value="Breakfast begin hour" />
-  <translation id="BreakfastBeginTooltip" value="The daytime hour when the Cims go out for breakfast" />
-  <translation id="BreakfastDuration" value="Breakfast duration" />
-  <translation id="BreakfastDurationTooltip" value="The duration time of eating breakfast" />
-  <translation id="LunchBegin" value="Lunch begin hour" />
-  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
-  <translation id="LunchDuration" value="Lunch duration" />
-  <translation id="LunchDurationTooltip" value="The duration time of eating lunch" />
-  <translation id="SupperBegin" value="Supper begin hour" />
-  <translation id="SupperBeginTooltip" value="The daytime hour when the Cims go out for supper" />
-  <translation id="SupperDuration" value="Supper duration" />
-  <translation id="SupperDurationTooltip" value="The duration time of eating supper" />
+  <translation id="BreakfastBegin" value="Начало на закуска" />
+  <translation id="BreakfastBeginTooltip" value="Часът на започване на закуска — гражданите могат да излизат за закуска" />
+  <translation id="BreakfastDuration" value="Продължителност на закуската" />
+  <translation id="BreakfastDurationTooltip" value="Продължителността на времето за закуска" />
+  <translation id="BreakfastEnd" value="Край на закуска" />
+  <translation id="BreakfastEndTooltip" value="Часът на приключване на закуската — гражданите могат да излизат за закуска" />
+  <translation id="LunchBegin" value="Начало на обяд" />
+  <translation id="LunchBeginTooltip" value="Часът на започване на обяд — гражданите могат да излизат за обяд" />
+  <translation id="LunchDuration" value="Продължителност на обяда" />
+  <translation id="LunchDurationTooltip" value="Продължителността на времето за обяд" />
+  <translation id="LunchEnd" value="Край на обяд" />
+  <translation id="LunchEndTooltip" value="Часът на приключване на обяд — гражданите могат да излизат за обяд" />
+  <translation id="SupperBegin" value="Начало на вечеря" />
+  <translation id="SupperBeginTooltip" value="Часът на започване на вечеря — гражданите могат да излизат за вечеря" />
+  <translation id="SupperDuration" value="Продължителност на вечерята" />
+  <translation id="SupperDurationTooltip" value="Продължителността на времето за вечеря" />
+  <translation id="SupperEnd" value="Край на вечеря" />
+  <translation id="SupperEndTooltip" value="Часът на приключване на вечеря — гражданите могат да излизат за вечеря" />
   <translation id="MaxVacationLength" value="Максимална дължина на отпуск" />
   <translation id="MaxVacationLengthTooltip" value="Колко дълго гражданите могат да бъдат в отпуск. Задайте 0, за да го деактивирате." />
   <translation id="AcademicYearLength" value="Дължина на учебната година (изисква Campus DLC)"/>

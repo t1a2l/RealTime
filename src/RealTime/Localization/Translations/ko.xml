@@ -61,12 +61,12 @@
   <translation id="UseSlowAgingTooltip" value="활성화 시 게임 내 1일은 시민의 1세와 같습니다. 비활성화 시 1일은 약 10~340세의 수명과 대응됩니다." />
   <translation id="IsWeekendEnabled" value="주말 활성화" />
   <translation id="IsWeekendEnabledTooltip" value="주말에는 시민들이 직장이나 학교에 가지 않습니다." />
-  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchool" value="등교/출근 전 아침 식사 활성화" />
-  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchoolTooltip" value="시민들이 업무 시작 전 아침을 먹으러 외출할지 여부입니다." />
-  <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="등교/출근 중 점심 식사 활성화" />
-  <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="시민들이 업무 시간 중 점심을 먹으러 외출할지 여부입니다." />
-  <translation id="IsSupperTimeEnabledAfterWorkOrSchool" value="하교/퇴근 후 저녁 식사 활성화" />
-  <translation id="IsSupperTimeEnabledAfterWorkOrSchoolTooltip" value="시민들이 업무 종료 후 저녁을 먹으러 외출할지 여부입니다." />
+  <translation id="IsBreakfastTimeEnabledDuringWorkOrSchool" value="근무 또는 학교 중 아침 식사 활성화" />
+  <translation id="IsBreakfastTimeEnabledDuringWorkOrSchoolTooltip" value="근무 또는 학교 중 시민들이 아침 식사를 하러 나가야 합니까?" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="근무 또는 학교 중 점심 식사 활성화" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="근무 또는 학교 중 시민들이 점심 식사를 하러 나가야 합니까?" />
+  <translation id="IsSupperTimeEnabledDuringWorkOrSchool" value="근무 또는 학교 중 저녁 식사 활성화" />
+  <translation id="IsSupperTimeEnabledDuringWorkOrSchoolTooltip" value="근무 또는 학교 중 시민들이 저녁 식사를 하러 나가야 합니까?" />
   <translation id="StopConstructionAtNight" value="야간 건설 및 건물 업그레이드 중단" />
   <translation id="StopConstructionAtNightTooltip" value="건설 노동자들도 밤에는 잠을 자야 합니다." />
   <translation id="ConstructionSpeed" value="건설 속도" />

@@ -61,12 +61,12 @@
   <translation id="UseSlowAgingTooltip" value="如果开启，游戏中的 1 天等于现实中的 1 岁。如果关闭，1 天等于 10 到 340 岁。" />
   <translation id="IsWeekendEnabled" value="启用周末" />
   <translation id="IsWeekendEnabledTooltip" value="市民在周末不会去上班或上学" />
-  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchool" value="启用工作/上学前的早餐时间" />
-  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchoolTooltip" value="市民是否应该在上班或上学前出去吃早餐" />
-  <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="启用工作/上学期间的午餐时间" />
-  <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="市民是否应该在工作或上学期间出去吃午餐" />
-  <translation id="IsSupperTimeEnabledAfterWorkOrSchool" value="启用工作/上学后的晚餐时间" />
-  <translation id="IsSupperTimeEnabledAfterWorkOrSchoolTooltip" value="市民是否应该在工作或上学后出去吃晚餐" />
+  <translation id="IsBreakfastTimeEnabledDuringWorkOrSchool" value="启用工作或上学期间的早餐" />
+  <translation id="IsBreakfastTimeEnabledDuringWorkOrSchoolTooltip" value="市民在工作或上学期间是否应该出去吃早餐" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="启用工作或上学期间的午餐" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="市民在工作或上学期间是否应该出去吃午餐" />
+  <translation id="IsSupperTimeEnabledDuringWorkOrSchool" value="启用工作或上学期间的晚餐" />
+  <translation id="IsSupperTimeEnabledDuringWorkOrSchoolTooltip" value="市民在工作或上学期间是否应该出去吃晚餐" />
   <translation id="StopConstructionAtNight" value="夜间停止建筑施工和升级" />
   <translation id="StopConstructionAtNightTooltip" value="建筑工人也需要睡觉" />
   <translation id="ConstructionSpeed" value="建筑施工速度" />

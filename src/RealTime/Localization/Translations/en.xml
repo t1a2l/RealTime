@@ -61,12 +61,12 @@
   <translation id="UseSlowAgingTooltip" value="If enabled, 1 game day means 1 citizen's life year. If disabled, 1 game day means 10 (at time speed 6) to 340 (at time speed 1) life years." />
   <translation id="IsWeekendEnabled" value="Enable Weekends" />
   <translation id="IsWeekendEnabledTooltip" value="Cims don't go to work or school on weekends" />
-  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchool" value="Enable Breakfast before work or school" />
-  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchoolTooltip" value="Should cims go out for breakfast before work or school" />
+  <translation id="IsBreakfastTimeEnabledDuringWorkOrSchool" value="Enable Breakfast during work or school" />
+  <translation id="IsBreakfastTimeEnabledDuringWorkOrSchoolTooltip" value="Should cims go out for breakfast during work or school" />
   <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="Enable Lunch during work or school" />
   <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="Should cims go out for lunch during work or school" />
-  <translation id="IsSupperTimeEnabledAfterWorkOrSchool" value="Enable Supper after work or school" />
-  <translation id="IsSupperTimeEnabledAfterWorkOrSchoolTooltip" value="Should cims go out for supper after work or school" />
+  <translation id="IsSupperTimeEnabledDuringWorkOrSchool" value="Enable Supper during work or school" />
+  <translation id="IsSupperTimeEnabledDuringWorkOrSchoolTooltip" value="Should cims go out for supper during work or school" />
   <translation id="StopConstructionAtNight" value="Pause the building construction and upgrade at night time" />
   <translation id="StopConstructionAtNightTooltip" value="The construction site workers need to sleep too" />
   <translation id="ConstructionSpeed" value="Construction speed" />

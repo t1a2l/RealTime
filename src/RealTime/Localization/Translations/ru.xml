@@ -61,12 +61,12 @@
   <translation id="UseSlowAgingTooltip" value="Если включено, 1 игровой день равен 1 году жизни. Если выключено, 1 день равен от 10 (скорость 6) до 340 (скорость 1) лет жизни." />
   <translation id="IsWeekendEnabled" value="Включить выходные" />
   <translation id="IsWeekendEnabledTooltip" value="Жители не ходят на работу или в школу по выходным" />
-  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchool" value="Включить завтрак перед работой/учебой" />
-  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchoolTooltip" value="Должны ли жители выходить на завтрак перед работой или школой" />
-  <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="Включить обед во время работы/учебы" />
-  <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="Должны ли жители выходить на обед во время работы или школы" />
-  <translation id="IsSupperTimeEnabledAfterWorkOrSchool" value="Включить ужин после работы/учебы" />
-  <translation id="IsSupperTimeEnabledAfterWorkOrSchoolTooltip" value="Должны ли жители выходить на ужин после работы или школы" />
+  <translation id="IsBreakfastTimeEnabledDuringWorkOrSchool" value="Включить завтрак во время работы или учебы" />
+  <translation id="IsBreakfastTimeEnabledDuringWorkOrSchoolTooltip" value="Должны ли жители выходить на завтрак во время работы или учебы?" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="Включить обед во время работы или учебы" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="Должны ли жители выходить на обед во время работы или учебы?" />
+  <translation id="IsSupperTimeEnabledDuringWorkOrSchool" value="Включить ужин во время работы или учебы" />
+  <translation id="IsSupperTimeEnabledDuringWorkOrSchoolTooltip" value="Должны ли жители выходить на ужин во время работы или учебы?" />
   <translation id="StopConstructionAtNight" value="Приостанавливать стройку и улучшение зданий ночью" />
   <translation id="StopConstructionAtNightTooltip" value="Рабочим на стройке тоже нужно спать" />
   <translation id="ConstructionSpeed" value="Скорость строительства" />

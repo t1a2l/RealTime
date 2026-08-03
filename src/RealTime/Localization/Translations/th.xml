@@ -61,12 +61,12 @@
   <translation id="UseSlowAgingTooltip" value="หากเปิดใช้งาน 1 วันในเกมจะเท่ากับอายุ 1 ปี หากปิดใช้งาน 1 วันจะเท่ากับอายุตั้งแต่ 10 ถึง 340 ปี" />
   <translation id="IsWeekendEnabled" value="เปิดใช้งานวันหยุดสุดสัปดาห์" />
   <translation id="IsWeekendEnabledTooltip" value="พลเมืองจะไม่ไปทำงานหรือไปโรงเรียนในวันหยุดสุดสัปดาห์" />
-  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchool" value="เปิดใช้งานเวลาอาหารเช้าก่อนไปทำงาน/เรียน" />
-  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchoolTooltip" value="พลเมืองควรออกไปหาอาหารเช้าก่อนไปทำงานหรือโรงเรียนหรือไม่" />
-  <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="เปิดใช้งานเวลาอาหารกลางวันระหว่างทำงาน/เรียน" />
-  <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="พลเมืองควรออกไปหาอาหารกลางวันระหว่างเวลาทำงานหรือโรงเรียนหรือไม่" />
-  <translation id="IsSupperTimeEnabledAfterWorkOrSchool" value="เปิดใช้งานเวลาอาหารค่ำหลังเลิกงาน/เรียน" />
-  <translation id="IsSupperTimeEnabledAfterWorkOrSchoolTooltip" value="พลเมืองควรออกไปหาอาหารค่ำหลังเวลาทำงานหรือโรงเรียนหรือไม่" />
+  <translation id="IsBreakfastTimeEnabledDuringWorkOrSchool" value="เปิดใช้งานอาหารเช้าระหว่างทำงานหรือเรียน" />
+  <translation id="IsBreakfastTimeEnabledDuringWorkOrSchoolTooltip" value="พลเมืองควรออกไปหาอาหารเช้าระหว่างทำงานหรือเรียนหรือไม่" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="เปิดใช้งานอาหารกลางวันระหว่างทำงานหรือเรียน" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="พลเมืองควรออกไปหาอาหารกลางวันระหว่างทำงานหรือเรียนหรือไม่" />
+  <translation id="IsSupperTimeEnabledDuringWorkOrSchool" value="เปิดใช้งานอาหารค่ำระหว่างทำงานหรือเรียน" />
+  <translation id="IsSupperTimeEnabledDuringWorkOrSchoolTooltip" value="พลเมืองควรออกไปหาอาหารค่ำระหว่างทำงานหรือเรียนหรือไม่" />
   <translation id="StopConstructionAtNight" value="หยุดการก่อสร้างและอัปเกรดอาคารในเวลากลางคืน" />
   <translation id="StopConstructionAtNightTooltip" value="คนงานก่อสร้างก็ต้องการการพักผ่อนเช่นกัน" />
   <translation id="ConstructionSpeed" value="ความเร็วในการก่อสร้าง" />

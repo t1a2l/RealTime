@@ -61,12 +61,12 @@
   <translation id="UseSlowAgingTooltip" value="Wenn aktiviert, entspricht 1 Spieltag 1 Lebensjahr. Wenn deaktiviert, entspricht 1 Tag ca. 10–340 Jahren." />
   <translation id="IsWeekendEnabled" value="Wochenenden aktivieren" />
   <translation id="IsWeekendEnabledTooltip" value="Bürger gehen am Wochenende nicht zur Arbeit oder zur Schule." />
-  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchool" value="Frühstück vor Arbeit/Schule aktivieren" />
-  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchoolTooltip" value="Bestimmt, ob Bürger vor ihren Aktivitäten frühstücken gehen." />
-  <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="Mittagspause während Arbeit/Schule aktivieren" />
-  <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="Bestimmt, ob Bürger während der Arbeitszeit zum Mittagessen ausgehen." />
-  <translation id="IsSupperTimeEnabledAfterWorkOrSchool" value="Abendessen nach Arbeit/Schule aktivieren" />
-  <translation id="IsSupperTimeEnabledAfterWorkOrSchoolTooltip" value="Bestimmt, ob Bürger nach der Arbeit zum Abendessen ausgehen." />
+  <translation id="IsBreakfastTimeEnabledDuringWorkOrSchool" value="Frühstück während der Arbeit oder Schule aktivieren" />
+  <translation id="IsBreakfastTimeEnabledDuringWorkOrSchoolTooltip" value="Sollen Bürger während der Arbeit oder Schule zum Frühstück ausgehen?" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="Mittagessen während der Arbeit oder Schule aktivieren" />
+  <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="Sollen Bürger während der Arbeit oder Schule zum Mittagessen ausgehen?" />
+  <translation id="IsSupperTimeEnabledDuringWorkOrSchool" value="Abendessen während der Arbeit oder Schule aktivieren" />
+  <translation id="IsSupperTimeEnabledDuringWorkOrSchoolTooltip" value="Sollen Bürger während der Arbeit oder Schule zum Abendessen ausgehen?" />
   <translation id="StopConstructionAtNight" value="Bauarbeiten und Upgrades nachts stoppen" />
   <translation id="StopConstructionAtNightTooltip" value="Bauarbeiter müssen nachts auch schlafen." />
   <translation id="ConstructionSpeed" value="Baugeschwindigkeit" />

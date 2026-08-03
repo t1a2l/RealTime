@@ -61,12 +61,12 @@
   <translation id="UseSlowAgingTooltip" value="Ако е включено, 1 игрови ден е равен на 1 година живот. Ако е изключено, 1 ден е равен на между 10 и 340 години живот." />
   <translation id="IsWeekendEnabled" value="Активиране на почивни дни" />
   <translation id="IsWeekendEnabledTooltip" value="Гражданите не отиват на работа или училище през уикенда" />
-  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchool" value="Активиране на закуска преди работа/училище" />
-  <translation id="IsBreakfastTimeEnabledBeforeWorkOrSchoolTooltip" value="Дали гражданите да излизат за закуска преди работа или училище" />
+  <translation id="IsBreakfastTimeEnabledDuringWorkOrSchool" value="Активиране на закуска по време на работа/училище" />
+  <translation id="IsBreakfastTimeEnabledDuringWorkOrSchoolTooltip" value="Дали гражданите да излизат за закуска по време на работа или училище" />
   <translation id="IsLunchTimeEnabledDuringWorkOrSchool" value="Активиране на обяд по време на работа/училище" />
   <translation id="IsLunchTimeEnabledDuringWorkOrSchoolTooltip" value="Дали гражданите да излизат за обяд по време на работа или училище" />
-  <translation id="IsSupperTimeEnabledAfterWorkOrSchool" value="Активиране на вечеря след работа/училище" />
-  <translation id="IsSupperTimeEnabledAfterWorkOrSchoolTooltip" value="Дали гражданите да излизат за вечеря след работа или училище" />
+  <translation id="IsSupperTimeEnabledDuringWorkOrSchool" value="Активиране на вечеря по време на работа/училище" />
+  <translation id="IsSupperTimeEnabledDuringWorkOrSchoolTooltip" value="Дали гражданите да излизат за вечеря по време на работа или училище" />
   <translation id="StopConstructionAtNight" value="Спиране на строителството и надграждането през нощта" />
   <translation id="StopConstructionAtNightTooltip" value="Строителните работници също трябва да спят" />
   <translation id="ConstructionSpeed" value="Скорост на строителство" />

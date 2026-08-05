@@ -163,6 +163,7 @@ namespace RealTime.CustomAI
             if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.DummyTraffic))
             {
                 schedule.CurrentState = ResidentState.Ignored;
+                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} CurrentState is {schedule.CurrentState}");
                 return ScheduleAction.Ignore;
             }
 
@@ -179,6 +180,7 @@ namespace RealTime.CustomAI
                 }
 
                 schedule.CurrentState = ResidentState.InTransition;
+                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} location is {location} and CurrentState is {schedule.CurrentState}");
                 return ScheduleAction.ProcessTransition;
             }
 
@@ -186,12 +188,14 @@ namespace RealTime.CustomAI
             if (currentBuilding == 0)
             {
                 schedule.CurrentState = ResidentState.Unknown;
+                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} currentBuilding is {currentBuilding} and CurrentState is {schedule.CurrentState}");
                 return ScheduleAction.ProcessState;
             }
 
             if (BuildingMgr.BuildingHasFlags(currentBuilding, Building.Flags.Evacuating))
             {
                 schedule.CurrentState = ResidentState.Evacuating;
+                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} is Evacuating, CurrentState is {schedule.CurrentState}");
                 return ScheduleAction.ProcessState;
             }
 
@@ -201,14 +205,18 @@ namespace RealTime.CustomAI
             switch (location)
             {
                 case Citizen.Location.Home:
+                    Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} location is {location}");
                     schedule.CurrentState = ResidentState.AtHome;
+                    Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} CurrentState is {schedule.CurrentState}");
                     return ScheduleAction.ProcessState;
 
                 case Citizen.Location.Work:
+                    Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} location is {location}");
                     if (CitizenProxy.GetVisitBuilding(ref citizen) == currentBuilding && schedule.WorkStatus != WorkStatus.Working)
                     {
                         // A citizen may visit their own work building (e.g. shopping),
                         // but the game sets the location to 'work' even if the citizen visits the building.
+                        Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} visits {currentBuilding} which is also their work building");
                         goto case Citizen.Location.Visit;
                     }
 
@@ -223,6 +231,7 @@ namespace RealTime.CustomAI
                             if (BuildingMgr.IsAreaEvacuating(currentBuilding))
                             {
                                 schedule.CurrentState = ResidentState.InShelter;
+                                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} is Evacuating, CurrentState is {schedule.CurrentState}");
                                 return ScheduleAction.ProcessState;
                             }
 
@@ -237,9 +246,11 @@ namespace RealTime.CustomAI
                     {
                         schedule.CurrentState = ResidentState.AtWork;
                     }
+                    Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} CurrentState is {schedule.CurrentState}");
                     return ScheduleAction.ProcessState;
 
                 case Citizen.Location.Visit:
+                    Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} location is {location}");
                     switch (buildingService)
                     {
                         case ItemClass.Service.Beautification:
@@ -256,32 +267,29 @@ namespace RealTime.CustomAI
                             {
                                 schedule.CurrentState = ResidentState.EatMeal;
                             }
+                            Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} (Relax mode) LastScheduledState is {schedule.LastScheduledState} and CurrentState is {schedule.CurrentState}");
                             return ScheduleAction.ProcessState;
 
                         case ItemClass.Service.Commercial:
-                            if(schedule.WorkStatus == WorkStatus.Working && schedule.LastScheduledState == ResidentState.GoToMeal)
+                            if (schedule.LastScheduledState == ResidentState.GoShopping)
+                            {
+                                schedule.CurrentState = ResidentState.Shopping;
+                            }
+                            else if (schedule.LastScheduledState == ResidentState.GoToMeal)
                             {
                                 schedule.CurrentState = ResidentState.EatMeal;
                             }
-                            else
-                            {
-                                if (schedule.LastScheduledState == ResidentState.GoShopping)
-                                {
-                                    schedule.CurrentState = ResidentState.Shopping;
-                                }
-                                else if (schedule.LastScheduledState == ResidentState.GoToMeal)
-                                {
-                                    schedule.CurrentState = ResidentState.EatMeal;
-                                }
-                            }
+                            Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} (Shopping mode) LastScheduledState is {schedule.LastScheduledState} and CurrentState is {schedule.CurrentState}");
                             return ScheduleAction.ProcessState;
 
                         case ItemClass.Service.Disaster when schedule.LastScheduledState == ResidentState.GoToShelter:
                             schedule.CurrentState = ResidentState.InShelter;
+                            Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} CurrentState is {schedule.CurrentState}");
                             return ScheduleAction.ProcessState;
                     }
 
                     schedule.CurrentState = ResidentState.Visiting;
+                    Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} CurrentState is {schedule.CurrentState}");
                     return ScheduleAction.ProcessState;
             }
 

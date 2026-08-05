@@ -216,7 +216,7 @@ namespace RealTime.CustomAI
                     {
                         // A citizen may visit their own work building (e.g. shopping),
                         // but the game sets the location to 'work' even if the citizen visits the building.
-                        Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} visits {currentBuilding} which is also their work building");
+                        Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} visits {currentBuilding} which is also their work building but they are visiting it");
                         goto case Citizen.Location.Visit;
                     }
 
@@ -241,10 +241,12 @@ namespace RealTime.CustomAI
                     if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Student))
                     {
                         schedule.CurrentState = ResidentState.AtSchool;
+                        Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} is at school");
                     }
                     else
                     {
                         schedule.CurrentState = ResidentState.AtWork;
+                        Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} is at work");
                     }
                     Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} CurrentState is {schedule.CurrentState}");
                     return ScheduleAction.ProcessState;

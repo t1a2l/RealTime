@@ -329,6 +329,7 @@ namespace RealTime.UI
 
         private void UpdateCitizenState(uint citizenId, ref CitizenSchedule schedule)
         {
+            var time_now = SimulationManager.instance.m_currentGameTime;
             if (schedule.CurrentState == ResidentState.Ignored)
             {
                 return;
@@ -345,7 +346,7 @@ namespace RealTime.UI
             }
 
             var location = citizen.CurrentLocation;
-            Log.Debug(LogCategory.State, SimulationManager.instance.m_currentGameTime, $"UpdateCitizenInfo - UpdateCitizenState - citizenId {citizenId} current location is {location}");
+            Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} current location is {location}");
             if (location == Citizen.Location.Moving)
             {
                 if((citizenInstance.m_flags & CitizenInstance.Flags.OnTour) != 0 || (citizenInstance.m_flags & CitizenInstance.Flags.TargetIsNode) != 0)
@@ -353,6 +354,7 @@ namespace RealTime.UI
                     schedule.Hint = ScheduleHint.OnTour;
                 }
 
+                Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} CurrentState is {schedule.CurrentState}");
                 schedule.CurrentState = ResidentState.InTransition;
                 return;
             }
@@ -360,15 +362,16 @@ namespace RealTime.UI
             ushort currentBuilding = citizen.GetBuildingByLocation();
             if (currentBuilding == 0)
             {
+                Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} currentBuilding is {currentBuilding} and CurrentState is {schedule.CurrentState}");
                 schedule.CurrentState = ResidentState.Unknown;
                 return;
             }
 
             var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[currentBuilding];
 
-            
             if ((building.m_flags & Building.Flags.Evacuating) != 0)
             {
+                Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} is evacuating and CurrentState is {schedule.CurrentState}");
                 schedule.CurrentState = ResidentState.Evacuating;
                 return;
             }
@@ -378,14 +381,17 @@ namespace RealTime.UI
             switch (location)
             {
                 case Citizen.Location.Home:
+                    Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} is at home and CurrentState is {schedule.CurrentState}");
                     schedule.CurrentState = ResidentState.AtHome;
                     return;
 
                 case Citizen.Location.Work:
+                    Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} location is {location}");
                     if (citizen.m_visitBuilding == currentBuilding && schedule.WorkStatus != WorkStatus.Working)
                     {
                         // A citizen may visit their own work building (e.g. shopping),
                         // but the game sets the location to 'work' even if the citizen visits the building.
+                        Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} visits {currentBuilding} which is also their work building but they are visiting it");
                         goto case Citizen.Location.Visit;
                     }
 
@@ -400,15 +406,24 @@ namespace RealTime.UI
                             if (DisasterManager.instance.IsEvacuating(BuildingManager.instance.m_buildings.m_buffer[currentBuilding].m_position))
                             {
                                 schedule.CurrentState = ResidentState.InShelter;
+                                Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} is Evacuating, CurrentState is {schedule.CurrentState}");
                                 return;
                             }
 
                             break;
                     }
 
-                    schedule.CurrentState = (citizen.m_flags & Citizen.Flags.Student) != 0 || Citizen.GetAgeGroup(citizen.m_age) == Citizen.AgeGroup.Child || Citizen.GetAgeGroup(citizen.m_age) == Citizen.AgeGroup.Teen
-                        ? ResidentState.AtSchool
-                        : ResidentState.AtWork;
+                    if ((citizen.m_flags & Citizen.Flags.Student) != 0)
+                    {
+                        schedule.CurrentState = ResidentState.AtSchool;
+                        Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} is at school");
+                    }
+                    else
+                    {
+                        schedule.CurrentState = ResidentState.AtWork;
+                        Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} is at work");
+                    }
+                    Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} CurrentState is {schedule.CurrentState}");
                     return;
 
                 case Citizen.Location.Visit:
@@ -427,32 +442,29 @@ namespace RealTime.UI
                             {
                                 schedule.CurrentState = ResidentState.EatMeal;
                             }
+                            Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} (Relax mode) LastScheduledState is {schedule.LastScheduledState} and CurrentState is {schedule.CurrentState}");
                             return;
 
                         case ItemClass.Service.Commercial:
-                            if (schedule.WorkStatus == WorkStatus.Working && schedule.LastScheduledState == ResidentState.GoToMeal)
+                            if (schedule.LastScheduledState == ResidentState.GoShopping)
+                            {
+                                schedule.CurrentState = ResidentState.Shopping;
+                            }
+                            else if (schedule.LastScheduledState == ResidentState.GoToMeal)
                             {
                                 schedule.CurrentState = ResidentState.EatMeal;
                             }
-                            else
-                            {
-                                if (schedule.LastScheduledState == ResidentState.GoShopping)
-                                {
-                                    schedule.CurrentState = ResidentState.Shopping;
-                                }
-                                else if (schedule.LastScheduledState == ResidentState.GoToMeal)
-                                {
-                                    schedule.CurrentState = ResidentState.EatMeal;
-                                }
-                            }
+                            Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} (Shopping mode) LastScheduledState is {schedule.LastScheduledState} and CurrentState is {schedule.CurrentState}");
                             return;
 
                         case ItemClass.Service.Disaster when schedule.LastScheduledState == ResidentState.GoToShelter:
                             schedule.CurrentState = ResidentState.InShelter;
+                            Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} CurrentState is {schedule.CurrentState}");
                             return;
                     }
 
                     schedule.CurrentState = ResidentState.Visiting;
+                    Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} CurrentState is {schedule.CurrentState}");
                     return;
             }
 

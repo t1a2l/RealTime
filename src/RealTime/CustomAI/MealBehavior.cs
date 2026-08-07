@@ -66,9 +66,29 @@ namespace RealTime.CustomAI
                 return false;
             }
 
+            if (mealType == MealType.None)
+            {
+                Log.Debug(LogCategory.Schedule, $"  - meal type is None");
+                return false;
+            }
+
+            if (mealType == MealType.Other)
+            {
+                Log.Debug(LogCategory.Schedule, $"  - meal type is Other (snack)");
+                return ShouldScheduleSnack(ref schedule, citizenAge);
+            }
+
+            if (schedule.HasMealScheduledOrConsumedToday(mealType))
+            {
+                Log.Debug(LogCategory.Schedule, $"  - already consumed {mealType} today");
+                return false;
+            }
+
             uint eatingOutChance = spareTimeBehavior.GetEatingOutChance(citizenAge);
-            Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, go out to eat a meal chance is {eatingOutChance}");
-            if (!randomizer.ShouldOccur(schedule.GetAdjustedMealChance(eatingOutChance)))
+            uint adjustedMealChance = schedule.GetAdjustedMealChance(eatingOutChance);
+            Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, go out to eat a meal chance is {eatingOutChance} and adjustedMealChance is {adjustedMealChance}");
+
+            if (!randomizer.ShouldOccur(adjustedMealChance))
             {
                 return false;
             }
@@ -81,42 +101,65 @@ namespace RealTime.CustomAI
             return true;
         }
 
-        /// <summary>Check if the citizen should go to eat a work or schoool related meal .</summary>
+        /// <summary>Check if the citizen should go to eat a meal while at work or school.</summary>
         /// <param name="schedule">The citizen's schedule.</param>
         /// <param name="citizenAge">The citizen's age group.</param>
         /// <param name="mealType">The citizen's meal type.</param>
-        /// <returns><c>true</c> if the citizen should go to eat a meal; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if the citizen should go to eat a meal while at work or school; otherwise, <c>false</c>.</returns>
         public bool ShouldScheduleWorkOrSchoolMeal(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge, MealType mealType)
         {
+            schedule.ResetDailyMealsIfNeeded(timeInfo.Now.DayOfYear);
+
             if (schedule.CurrentState == ResidentState.EatMeal)
             {
                 Log.Debug(LogCategory.Schedule, $"  - already eating a meal");
                 return false;
             }
 
-            if ((citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen) && schedule.SchoolStatus == SchoolStatus.Studying)
+            if (mealType != MealType.Breakfast && mealType != MealType.Lunch && mealType != MealType.Supper)
             {
-                Log.Debug(LogCategory.Schedule, $"  - kids dont eat meals while at school");
+                Log.Debug(LogCategory.Schedule, $"  - {mealType} is not a work/school full meal");
                 return false;
             }
 
-            if (mealType == MealType.Breakfast)
+            if (schedule.HasMealScheduledOrConsumedToday(mealType))
             {
-                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, work or school BreakfastQuota is {config.BreakfastDuringWorkOrSchoolQuota}");
-                return config.IsBreakfastTimeEnabledDuringWorkOrSchool && randomizer.ShouldOccur(config.BreakfastDuringWorkOrSchoolQuota);
-            }
-            else if (mealType == MealType.Lunch)
-            {
-                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, work or school LunchQuota is {config.LunchDuringWorkOrSchoolQuota}");
-                return config.IsLunchTimeEnabledDuringWorkOrSchool && randomizer.ShouldOccur(config.LunchDuringWorkOrSchoolQuota);
-            }
-            else if (mealType == MealType.Supper)
-            {
-                Log.Debug(LogCategory.Schedule, $"  - citizen age is {citizenAge}, work or school SupperQuota is {config.SupperDuringWorkOrSchoolQuota}");
-                return config.IsSupperTimeEnabledDuringWorkOrSchool && randomizer.ShouldOccur(config.SupperDuringWorkOrSchoolQuota);
+                Log.Debug(LogCategory.Schedule, $"  - {mealType} is already scheduled or consumed today");
+                return false;
             }
 
-            return false;
+            if ((citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen) && schedule.SchoolStatus == SchoolStatus.Studying)
+            {
+                Log.Debug(LogCategory.Schedule, $"  - child or teen cannot order a full meal while at school");
+                return false;
+            }
+
+            bool enabled;
+            uint quota;
+
+            switch (mealType)
+            {
+                case MealType.Breakfast:
+                    enabled = config.IsBreakfastTimeEnabledDuringWorkOrSchool;
+                    quota = config.BreakfastDuringWorkOrSchoolQuota;
+                    break;
+
+                case MealType.Lunch:
+                    enabled = config.IsLunchTimeEnabledDuringWorkOrSchool;
+                    quota = config.LunchDuringWorkOrSchoolQuota;
+                    break;
+
+                case MealType.Supper:
+                    enabled = config.IsSupperTimeEnabledDuringWorkOrSchool;
+                    quota = config.SupperDuringWorkOrSchoolQuota;
+                    break;
+
+                default:
+                    return false;
+            }
+
+            Log.Debug(LogCategory.Schedule, $" - citizen age is {citizenAge}, work/school {mealType} quota is {quota}, enabled is {enabled}");
+            return enabled && randomizer.ShouldOccur(quota);
         }
 
         /// <summary>Update the citizen's meal type according to the time of day.</summary>
@@ -220,7 +263,7 @@ namespace RealTime.CustomAI
                     continue;
                 }
 
-                if (schedule.HasConsumedMealToday(window.MealType))
+                if (schedule.HasMealScheduledOrConsumedToday(window.MealType))
                 {
                     continue;
                 }
@@ -307,6 +350,47 @@ namespace RealTime.CustomAI
             var dt = now.Date.AddHours(hour);
             return dt < now ? dt.AddDays(1) : dt;
         }
+
+        private bool ShouldScheduleSnack(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge)
+        {
+            if (IsSchoolAgeCitizen(citizenAge) && schedule.SchoolStatus == SchoolStatus.Studying)
+            {
+                Log.Debug(LogCategory.Schedule, "  - child or teen cannot go out for a snack while at school");
+                return false;
+            }
+
+            if (!schedule.CanHaveSnack(timeInfo.Now))
+            {
+                Log.Debug(LogCategory.Schedule, "  - citizen cannot go out for a snack at this time");
+                return false;
+            }
+
+            uint snackChance = GetSnackChance(citizenAge);
+
+            Log.Debug(LogCategory.Schedule, $"  - snack chance for {citizenAge} is {snackChance}");
+
+            if (!randomizer.ShouldOccur(snackChance))
+            {
+                Log.Debug(LogCategory.Schedule, $"  - citizen did not go out for a snack (chance {snackChance})");
+                return false;
+            }
+
+            schedule.Hint = ScheduleHint.LocalMealOnly;
+            Log.Debug(LogCategory.Schedule, "  - citizen went out for a snack");
+            return true;
+        }
+
+        private uint GetSnackChance(Citizen.AgeGroup citizenAge) => citizenAge switch
+        {
+            Citizen.AgeGroup.Child => 8u,
+            Citizen.AgeGroup.Teen => 12u,
+            Citizen.AgeGroup.Young => 10u,
+            Citizen.AgeGroup.Adult => 8u,
+            Citizen.AgeGroup.Senior => 4u,
+            _ => 0u,
+        };
+
+        private static bool IsSchoolAgeCitizen(Citizen.AgeGroup citizenAge) => citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen;
 
     }
 }

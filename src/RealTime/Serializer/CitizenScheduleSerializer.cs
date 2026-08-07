@@ -10,7 +10,7 @@ namespace RealTime.Serializer
 
     public class CitizenScheduleSerializer
     {
-        private const ushort iCITIZEN_SCHEDULE_DATA_VERSION = 4;
+        private const ushort iCITIZEN_SCHEDULE_DATA_VERSION = 5;
 
         private const uint uiTUPLE_START = 0xFEFEFEFE;
         private const uint uiTUPLE_END = 0xFAFAFAFA;
@@ -199,6 +199,15 @@ namespace RealTime.Serializer
                         MealHistoryDay = StorageData.ReadInt32(chunkBytes, ref index);
                     }
 
+                    int SnacksEatenToday = 0;
+                    DateTime LastSnackTime = default;
+
+                    if (chunkVersion >= 5)
+                    {
+                        SnacksEatenToday = StorageData.ReadInt32(chunkBytes, ref index);
+                        LastSnackTime = StorageData.ReadDateTime(chunkBytes, ref index);
+                    }
+
                     var scheduledMealType = (MealType)StorageData.ReadInt32(chunkBytes, ref index);
                     var lastScheduledMealType = (MealType)StorageData.ReadInt32(chunkBytes, ref index);
 
@@ -238,7 +247,7 @@ namespace RealTime.Serializer
                     schedule.UpdateTravelTimeToSchool(travelTimeToSchool);
                     schedule.UpdateWorkShift(workShift, shiftIndex, workShiftStartTime, workShiftEndTime);
                     schedule.UpdateSchoolClass(schoolClass, schoolClassStartTime, schoolClassEndTime);
-                    schedule.UpdateMealData(MealsConsumedToday, MealHistoryDay);
+                    schedule.UpdateMealData(MealsConsumedToday, MealHistoryDay, SnacksEatenToday, LastSnackTime);
 
                     if (schedule.WorkShift == WorkShift.Assigned && citizens[citizenId].m_workBuilding != 0 && shiftIndex != -1)
                     {
@@ -317,6 +326,8 @@ namespace RealTime.Serializer
 
             StorageData.WriteInt32((int)schedule.MealsConsumedToday, Data);
             StorageData.WriteInt32(schedule.MealHistoryDay, Data);
+            StorageData.WriteInt32(schedule.SnacksEatenToday, Data);
+            StorageData.WriteDateTime(schedule.LastSnackTime, Data);
             StorageData.WriteInt32((int)schedule.ScheduledMealType, Data);
             StorageData.WriteInt32((int)schedule.LastScheduledMealType, Data);
             StorageData.WriteDateTime(schedule.ScheduledMealEndTime, Data);

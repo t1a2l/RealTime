@@ -65,6 +65,12 @@ namespace RealTime.CustomAI
         /// <summary>Gets the day of the citizen's meal history.</summary>
         public int MealHistoryDay { get; private set; }
 
+        /// <summary>Gets the number of snacks that the citizen has consumed today.</summary>
+        public int SnacksEatenToday { get; private set; }
+
+        /// <summary>Gets the time when the citizen last had a snack.</summary>
+        public DateTime LastSnackTime { get; private set; }
+
         /// <summary>Gets the citizen's next scheduled meal type.</summary>
         public MealType ScheduledMealType { get; private set; }
 
@@ -362,10 +368,14 @@ namespace RealTime.CustomAI
         /// <summary>Updates the meal data for this citizen's schedule.</summary>
         /// <param name="mealsConsumedToday">The meals consumed today.</param>
         /// <param name="mealHistoryDay">The meal history day.</param>
-        public void UpdateMealData(DailyMealFlags mealsConsumedToday, int mealHistoryDay)
+        /// <param name="snacksEatenToday">The number of snacks eaten today.</param>
+        /// <param name="lastSnackTime">The time of the last snack.</param>
+        public void UpdateMealData(DailyMealFlags mealsConsumedToday, int mealHistoryDay, int snacksEatenToday, DateTime lastSnackTime)
         {
             MealsConsumedToday = mealsConsumedToday;
             MealHistoryDay = mealHistoryDay;
+            SnacksEatenToday = snacksEatenToday;
+            LastSnackTime = lastSnackTime;
         }
 
         /// <summary>Resets the daily meals consumed if the current day has changed.</summary>
@@ -379,35 +389,59 @@ namespace RealTime.CustomAI
 
             MealHistoryDay = currentDay;
             MealsConsumedToday = DailyMealFlags.None;
+            SnacksEatenToday = 0;
+            LastSnackTime = default;
         }
 
-        /// <summary>Checks if the citizen has consumed a specific meal today.</summary>
+        /// <summary>Checks if the citizen has a specific meal scheduled or consumed today.</summary>
         /// <param name="mealType">The type of meal to check.</param>
-        /// <returns>True if the citizen has consumed the specified meal today; otherwise, false.</returns>
-        public readonly bool HasConsumedMealToday(MealType mealType) => mealType switch
+        /// <returns>True if the citizen has the specified meal scheduled or consumed today; otherwise, false.</returns>
+        public readonly bool HasMealScheduledOrConsumedToday(MealType mealType)
         {
-            MealType.Breakfast => (MealsConsumedToday & DailyMealFlags.Breakfast) != 0,
-            MealType.Lunch => (MealsConsumedToday & DailyMealFlags.Lunch) != 0,
-            MealType.Supper => (MealsConsumedToday & DailyMealFlags.Supper) != 0,
-            _ => false,
-        };
+            if (mealType == MealType.None)
+            {
+                return true;
+            }
+
+            if (mealType == MealType.Other)
+            {
+                return false;
+            }
+
+            if (ScheduledMealType == mealType)
+            {
+                return true;
+            }
+
+            var flag = mealType switch
+            {
+                MealType.Breakfast => DailyMealFlags.Breakfast,
+                MealType.Lunch => DailyMealFlags.Lunch,
+                MealType.Supper => DailyMealFlags.Supper,
+                _ => DailyMealFlags.None,
+            };
+
+            return flag != DailyMealFlags.None && (MealsConsumedToday & flag) != DailyMealFlags.None;
+        }
 
         /// <summary>Marks a specific meal as consumed for today.</summary>
         /// <param name="mealType">The type of meal to mark as consumed.</param>
         public void MarkMealConsumedToday(MealType mealType)
         {
-            switch (mealType)
+            var flag = mealType switch
             {
-                case MealType.Breakfast:
-                    MealsConsumedToday |= DailyMealFlags.Breakfast;
-                    break;
-                case MealType.Lunch:
-                    MealsConsumedToday |= DailyMealFlags.Lunch;
-                    break;
-                case MealType.Supper:
-                    MealsConsumedToday |= DailyMealFlags.Supper;
-                    break;
+                MealType.Breakfast => DailyMealFlags.Breakfast,
+                MealType.Lunch => DailyMealFlags.Lunch,
+                MealType.Supper => DailyMealFlags.Supper,
+                _ => DailyMealFlags.None,
+            };
+
+            if (flag == DailyMealFlags.None)
+            {
+                return;
             }
+
+            MealsConsumedToday |= flag;
         }
 
         /// <summary>Calculates the adjusted meal chance based on the number of meals eaten out today.</summary>
@@ -415,15 +449,46 @@ namespace RealTime.CustomAI
         /// <returns>The adjusted chance of eating out.</returns>
         public uint GetAdjustedMealChance(uint baseChance)
         {
+            if (baseChance == 0)
+            {
+                return 0;
+            }
+
             ResetDailyMealsIfNeeded(DateTime.Now.DayOfYear);
 
             return MealsEatenOutToday switch
             {
                 0 => baseChance,
-                1 => Math.Max(5u, baseChance / 2),
-                2 => Math.Max(2u, baseChance / 4),
+                1 => baseChance / 2,
+                2 => baseChance / 4,
                 _ => 0u,
             };
+        }
+
+        /// <summary>Checks if the citizen can have a snack at the given time.</summary>
+        /// <param name="now">The current time.</param>
+        /// <returns>True if the citizen can have a snack; otherwise, false.</returns>
+        public bool CanHaveSnack(DateTime now)
+        {
+            if (SnacksEatenToday >= 2)
+            {
+                return false;
+            }
+
+            if (LastSnackTime == default)
+            {
+                return true;
+            }
+
+            return (now - LastSnackTime).TotalHours >= 4.0;
+        }
+
+        /// <summary>Marks a snack as consumed for today and updates the last snack time.</summary>
+        /// <param name="now">The current time.</param>
+        public void MarkSnackConsumed(DateTime now)
+        {
+            SnacksEatenToday++;
+            LastSnackTime = now;
         }
     }
 }

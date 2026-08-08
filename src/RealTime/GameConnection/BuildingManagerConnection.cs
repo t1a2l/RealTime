@@ -453,7 +453,17 @@ namespace RealTime.GameConnection
         /// </returns>
         public static bool IsHotel(ushort buildingId)
         {
+            if(buildingId == 0)
+            {
+                return false;
+            }
+
             var building = BuildingManager.instance.m_buildings.m_buffer[buildingId];
+
+            if(building.Info == null)
+            {
+                return false;
+            }
 
             if (building.Info.m_class.m_service == ItemClass.Service.Hotel)
             {

@@ -2,6 +2,7 @@
 
 namespace RealTime.CustomAI
 {
+    using System;
     using UnityEngine;
 
     /// <summary>
@@ -64,6 +65,7 @@ namespace RealTime.CustomAI
         /// <param name="subService">The building sub-service type to find.</param>
         /// <param name="commercialBuildingType">The commercial building type the citizen is going to visit.</param>
         /// <param name="parkBuildingType">The park building type the citizen is going to visit.</param>
+        /// <param name="requiredOpenUntil">The required time until the building should remain open.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
         internal ushort FindActiveBuilding(
             ushort searchAreaCenterBuilding,
@@ -71,7 +73,8 @@ namespace RealTime.CustomAI
             ItemClass.Service service,
             ItemClass.SubService subService = ItemClass.SubService.None,
             CommercialBuildingType commercialBuildingType = CommercialBuildingType.None,
-            ParkBuildingType parkBuildingType = ParkBuildingType.None);
+            ParkBuildingType parkBuildingType = ParkBuildingType.None,
+            DateTime requiredOpenUntil = default);
 
         /// <summary>Finds an active building that matches the specified criteria and can accept visitors.</summary>
         /// <param name="position">The search area center point.</param>
@@ -80,6 +83,7 @@ namespace RealTime.CustomAI
         /// <param name="subService">The building sub-service type to find.</param>
         /// <param name="commercialBuildingType">The commercial building type the citizen is going to visit.</param>
         /// <param name="parkBuildingType">The park building type the citizen is going to visit.</param>
+        /// <param name="requiredOpenUntil">The required time until the building should remain open.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
         internal ushort FindActiveBuilding(
             Vector3 position,
@@ -87,13 +91,15 @@ namespace RealTime.CustomAI
             ItemClass.Service service,
             ItemClass.SubService subService = ItemClass.SubService.None,
             CommercialBuildingType commercialBuildingType = CommercialBuildingType.None,
-            ParkBuildingType parkBuildingType = ParkBuildingType.None);
+            ParkBuildingType parkBuildingType = ParkBuildingType.None,
+            DateTime requiredOpenUntil = default);
 
         /// <summary>Finds an active cafeteria building that is in the same campus.</summary>
         /// <param name="searchAreaCenterBuilding">The building ID that represents the search area center point.</param>
         /// <param name="maxDistance">The maximum distance for search, the search area radius.</param>
+        /// <param name="requiredOpenUntil">The required time until the building should remain open.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
-        internal ushort FindActiveCafeteria(ushort searchAreaCenterBuilding, float maxDistance);
+        internal ushort FindActiveCafeteria(ushort searchAreaCenterBuilding, float maxDistance, DateTime requiredOpenUntil = default);
 
         /// <summary>
         /// Determines whether the building with the specified <paramref name="buildingId"/> is going to get closed in two hours or less
@@ -124,5 +130,27 @@ namespace RealTime.CustomAI
         ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is opened in at <paramref name="hour"/> or not, <c>false</c>.
         /// </returns>
         internal bool IsBuildingOpenAt(ushort buildingId, float hour);
+
+        /// <summary>
+        /// Determines whether the building with the specified <paramref name="buildingId"/> is opened at a given hour
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <param name="time">The datetime to check if open or not.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is opened in at <paramref name="time"/> or not, <c>false</c>.
+        /// </returns>
+        internal bool IsBuildingOpenAt(ushort buildingId, DateTime time);
+
+        /// <summary> Determines whether the building with the specified <paramref name="buildingId"/> is opened for a meal
+        /// at a given time and duration
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <param name="mealStart">The start time of the meal.</param>
+        /// <param name="mealDuration">The duration of the meal in hours.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is opened for the meal at the
+        ///   given time and duration, <c>false</c> otherwise.
+        /// </returns>
+        internal bool IsBuildingOpenForMeal(ushort buildingId, DateTime mealStart, float mealDuration);
     }
 }

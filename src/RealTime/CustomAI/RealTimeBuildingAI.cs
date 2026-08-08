@@ -1168,7 +1168,6 @@ namespace RealTime.CustomAI
             return !workTime.IsWorkingAt(future);
         }
 
-
         /// <summary>
         /// Determines whether the building with the specified <paramref name="buildingId"/> is opened at a given hour
         /// </summary>
@@ -1179,9 +1178,44 @@ namespace RealTime.CustomAI
         /// </returns>
         public bool IsBuildingOpenAt(ushort buildingId, float hour)
         {
+            var checkTime = timeInfo.Now.FutureHour(hour);
+            return IsBuildingOpenAt(buildingId, checkTime);
+        }
+
+        /// <summary>
+        /// Determines whether the building with the specified <paramref name="buildingId"/> is opened at a given hour
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <param name="time">The datetime to check if open or not.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is opened in at <paramref name="time"/> or not, <c>false</c>.
+        /// </returns>
+        public bool IsBuildingOpenAt(ushort buildingId, DateTime time)
+        {
             var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
-            var future = timeInfo.Now.FutureHour(hour);
-            return workTime.IsWorkingAt(future);
+            return workTime.IsWorkingAt(time);
+        }
+
+        /// <summary> Determines whether the building with the specified <paramref name="buildingId"/> is opened for a meal
+        /// at a given time and duration
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <param name="mealStart">The start time of the meal.</param>
+        /// <param name="mealDuration">The duration of the meal in hours.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> is opened for the meal at the
+        ///   given time and duration, <c>false</c> otherwise.
+        /// </returns>
+        public bool IsBuildingOpenForMeal(ushort buildingId, DateTime mealStart, float mealDuration)
+        {
+            if (buildingId == 0 || mealDuration <= 0f)
+            {
+                return false;
+            }
+
+            var lastMealMoment = mealStart.AddHours(mealDuration).AddMinutes(-1);
+
+            return IsBuildingOpenAt(buildingId, mealStart) && IsBuildingOpenAt(buildingId, lastMealMoment);
         }
 
         /// <summary>
@@ -1309,6 +1343,7 @@ namespace RealTime.CustomAI
         /// <param name="subService">The building sub-service type to find.</param>
         /// <param name="commercialBuildingType">The commercial building type the citizen is going to visit.</param>
         /// <param name="parkBuildingType">The park building type the citizen is going to visit.</param>
+        /// <param name="requiredOpenUntil">The required time until the building should be open.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
         public ushort FindActiveBuilding(
             ushort searchAreaCenterBuilding,
@@ -1316,7 +1351,8 @@ namespace RealTime.CustomAI
             ItemClass.Service service,
             ItemClass.SubService subService = ItemClass.SubService.None,
             CommercialBuildingType commercialBuildingType = CommercialBuildingType.None,
-            ParkBuildingType parkBuildingType = ParkBuildingType.None)
+            ParkBuildingType parkBuildingType = ParkBuildingType.None,
+            DateTime requiredOpenUntil = default)
         {
             if (searchAreaCenterBuilding == 0)
             {
@@ -1324,7 +1360,7 @@ namespace RealTime.CustomAI
             }
 
             var currentPosition = BuildingManager.instance.m_buildings.m_buffer[searchAreaCenterBuilding].m_position;
-            return FindActiveBuilding(currentPosition, maxDistance, service, subService, commercialBuildingType, parkBuildingType);
+            return FindActiveBuilding(currentPosition, maxDistance, service, subService, commercialBuildingType, parkBuildingType, requiredOpenUntil);
         }
 
         /// <summary>Finds an active building that matches the specified criteria and can accept visitors.</summary>
@@ -1334,6 +1370,7 @@ namespace RealTime.CustomAI
         /// <param name="subService">The building sub-service type to find.</param>
         /// <param name="commercialBuildingType">The commercial building type the citizen is going to visit.</param>
         /// <param name="parkBuildingType">The park building type the citizen is going to visit.</param>
+        /// <param name="requiredOpenUntil">The required time until the building should be open.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
         public ushort FindActiveBuilding(
             Vector3 position,
@@ -1341,7 +1378,8 @@ namespace RealTime.CustomAI
             ItemClass.Service service,
             ItemClass.SubService subService = ItemClass.SubService.None,
             CommercialBuildingType commercialBuildingType = CommercialBuildingType.None,
-            ParkBuildingType parkBuildingType = ParkBuildingType.None)
+            ParkBuildingType parkBuildingType = ParkBuildingType.None,
+            DateTime requiredOpenUntil = default)
         {
             if (position == Vector3.zero)
             {
@@ -1382,12 +1420,16 @@ namespace RealTime.CustomAI
 
                             if (buildingService == service && (subService == ItemClass.SubService.None || buildingSubService == subService))
                             {
-                                if (IsBuildingWorking(buildingId))
+                                bool isWorking = IsBuildingWorking(buildingId);
+                                bool remainsOpenForMeal = requiredOpenUntil == default || IsBuildingOpenAt(buildingId, requiredOpenUntil);
+                                bool hasCapacity = BuildingManagerConnection.BuildingCanBeVisited(buildingId);
+
+                                if (isWorking && remainsOpenForMeal)
                                 {
                                     float sqrDistance = Vector3.SqrMagnitude(position - building.m_position);
                                     if (sqrDistance < sqrMaxDistance)
                                     {
-                                        if (BuildingManagerConnection.BuildingCanBeVisited(buildingId))
+                                        if (hasCapacity)
                                         {
                                             if(commercialBuildingType != CommercialBuildingType.None)
                                             {
@@ -1430,6 +1472,10 @@ namespace RealTime.CustomAI
                                         Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: Too far ({Mathf.Sqrt(sqrDistance)}m).");
                                     }
                                 }
+                                else if (isWorking && !remainsOpenForMeal)
+                                {
+                                    Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: closes before the meal ends at {requiredOpenUntil:dd.MM.yy HH:mm}");
+                                }
                                 else
                                 {
                                     Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: Not working.");
@@ -1452,8 +1498,9 @@ namespace RealTime.CustomAI
         /// <summary>Finds an active cafeteria building that matches the specified criteria.</summary>
         /// <param name="searchAreaCenterBuilding">The building ID that represents the search area center point.</param>
         /// <param name="maxDistance">The maximum distance for search, the search area radius.</param>
+        /// <param name="requiredOpenUntil">The required time until the building should be open.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
-        public ushort FindActiveCafeteria(ushort searchAreaCenterBuilding, float maxDistance)
+        public ushort FindActiveCafeteria(ushort searchAreaCenterBuilding, float maxDistance, DateTime requiredOpenUntil = default)
         {
             if (searchAreaCenterBuilding == 0)
             {
@@ -1487,10 +1534,13 @@ namespace RealTime.CustomAI
                     while (buildingId != 0)
                     {
                         var building = BuildingManager.instance.m_buildings.m_buffer[buildingId];
+                        bool isWorking = IsBuildingWorking(buildingId);
+                        bool remainsOpenForMeal = requiredOpenUntil == default || IsBuildingOpenAt(buildingId, requiredOpenUntil);
+                        bool hasCapacity = BuildingManagerConnection.BuildingCanBeVisited(buildingId);
                         if (building.Info.GetAI() is CampusBuildingAI && building.Info.name.Contains("Cafeteria")
                             && BuildingManagerConnection.CheckSameCampusArea(searchAreaCenterBuilding, buildingId)
-                            && IsBuildingWorking(buildingId) &&
-                            (building.m_flags & combinedFlags) == requiredFlags)
+                            && isWorking && remainsOpenForMeal && hasCapacity
+                            && (building.m_flags & combinedFlags) == requiredFlags)
                         {
                             float sqrDistance = Vector3.SqrMagnitude(position - building.m_position);
                             if (sqrDistance < sqrMaxDistance)

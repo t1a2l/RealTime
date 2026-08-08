@@ -253,7 +253,7 @@ namespace RealTime.CustomAI
                     return true;
                 }
 
-                ushort shop = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, CommercialBuildingType.Shopping);
+                ushort shop = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, CommercialBuildingType.Shopping, default);
                 if (shop == 0)
                 {
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping, but didn't find a local shop");

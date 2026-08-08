@@ -313,6 +313,18 @@ namespace RealTime.CustomAI
             return true;
         }
 
+        /// <summary>Get the meal duration for the given meal type.</summary>
+        /// <param name="mealType">The type of the meal.</param>
+        /// <returns>The duration of the meal in hours.</returns>
+        public float GetMealDuration(MealType mealType) => mealType switch
+        {
+            MealType.Breakfast => config.BreakfastDuration,
+            MealType.Lunch => config.LunchDuration,
+            MealType.Supper => config.SupperDuration,
+            MealType.Other => 0.5f,
+            _ => 0f,
+        };
+
         private IEnumerable<MealWindow> GetConfiguredMealWindows()
         {
             yield return new MealWindow(
@@ -391,6 +403,5 @@ namespace RealTime.CustomAI
         };
 
         private static bool IsSchoolAgeCitizen(Citizen.AgeGroup citizenAge) => citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen;
-
     }
 }

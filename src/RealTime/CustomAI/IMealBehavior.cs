@@ -45,5 +45,10 @@ namespace RealTime.CustomAI
         /// <param name="opportunity">The scheduled meal opportunity.</param>
         /// <returns>True if a meal opportunity was found; otherwise, false.</returns>
         internal bool TryGetBestWorkOrSchoolMealOpportunity(ref CitizenSchedule schedule, DateTime now, out ScheduledMealOpportunity opportunity);
+
+        /// <summary>Get the meal duration for the given meal type.</summary>
+        /// <param name="mealType">The type of the meal.</param>
+        /// <returns>The duration of the meal in hours.</returns>
+        internal float GetMealDuration(MealType mealType);
     }
 }

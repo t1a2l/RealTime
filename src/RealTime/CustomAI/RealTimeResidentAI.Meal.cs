@@ -2,6 +2,7 @@ namespace RealTime.CustomAI
 {
     using System;
     using ColossalFramework;
+    using RealTime.Managers;
     using SkyTools.Tools;
     using static Constants;
 
@@ -42,24 +43,22 @@ namespace RealTime.CustomAI
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             string citizenDesc = GetCitizenDesc(citizenId, ref citizen);
-            ushort mealPlace = FindMealPlace(ref schedule, instance, citizenId, ref citizen);
-
-            if (mealPlace == 0)
-            {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} wanted to go from {currentBuilding} to eat, but there were no food places close enough or open");
-                return false;
-            }
-
+            
             if (schedule.ScheduledMealType == MealType.None)
             {
                 mealBehavior.UpdateMealTypeByTimeOfDay(citizenId, ref schedule);
                 schedule.ResetScheduledStateTime();
             }
 
+            float mealDuration = mealBehavior.GetMealDuration(schedule.ScheduledMealType);
+            var mealStart = schedule.ScheduledStateTime != default && schedule.ScheduledStateTime > TimeInfo.Now ? schedule.ScheduledStateTime : TimeInfo.Now;
+            var mealEnd = schedule.ScheduledMealEndTime != default ? schedule.ScheduledMealEndTime : mealStart.AddHours(mealDuration);
+
             if (schedule.Hint == ScheduleHint.LocalMealOnly)
             {
-                if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule))
+                if (CurrentBuildingSupportsMeal(currentBuilding) && buildingAI.IsBuildingOpenForMeal(currentBuilding, mealStart, mealDuration))
                 {
+                    MarkScheduledMealStarted(ref schedule);
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for the purpose of eating {schedule.ScheduledMealType}");
                     return true;
                 }
@@ -69,17 +68,24 @@ namespace RealTime.CustomAI
                     schedule.Hint = ScheduleHint.NoMealAnyMore;
                 }
 
-                schedule.ResetDailyMealsIfNeeded(TimeInfo.Now.DayOfYear);
-                schedule.MarkMealConsumedToday(schedule.ScheduledMealType);
-                schedule.MealsEatenOutToday++;
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} is going to eat {schedule.ScheduledMealType} at a local food place {mealPlace}");
+                ushort localMealPlace = MoveToMealPlace(ref schedule, instance, citizenId, ref citizen, LocalSearchDistance, mealEnd);
+
+                if (localMealPlace == 0)
+                {
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} wanted to go from {currentBuilding} to eat, but there were no food places close enough or open");
+                    return false;
+                }
+
+                MarkScheduledMealStarted(ref schedule);
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} is going to eat {schedule.ScheduledMealType} at a local food place {localMealPlace}");
                 return true;
             }
 
-            if (QuitVisit(citizenId, ref citizen, currentBuilding))
+            ushort mealPlace = MoveToMealPlace(ref schedule, instance, citizenId, ref citizen, MaxSearchDistance, mealEnd);
+
+            if (mealPlace == 0)
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} wanted to eat {schedule.ScheduledMealType} at {mealPlace} but it is closed - find someplace else to go to");
-                schedule.Schedule(ResidentState.Unknown);
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} wanted to go from {currentBuilding} to eat, but no suitable food place was available");
                 return false;
             }
 
@@ -89,27 +95,33 @@ namespace RealTime.CustomAI
                 schedule.Schedule(ResidentState.Unknown, schedule.ScheduledMealEndTime);
             }
 
-            schedule.ResetDailyMealsIfNeeded(TimeInfo.Now.DayOfYear);
-            schedule.MarkMealConsumedToday(schedule.ScheduledMealType);
-            schedule.MealsEatenOutToday++;
+            MarkScheduledMealStarted(ref schedule);
             return true;
         }
 
-        public ushort FindMealPlace(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
+        public ushort MoveToMealPlace(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen, float distance, DateTime mealEndTime)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+
+            if (currentBuilding == 0)
+            {
+                return 0;
+            }
+
             var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[currentBuilding];
+
             ushort mealPlace = 0;
+
             if (building.Info.GetAI() is CampusBuildingAI || building.Info.GetAI() is UniqueFacultyAI)
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} moving to cafeteria building to eat meal and the ScheduledMealType is {schedule.ScheduledMealType}");
-                mealPlace = MoveToCafeteriaBuilding(instance, citizenId, ref citizen, LocalSearchDistance);
+                mealPlace = MoveToCafeteriaBuilding(instance, citizenId, ref citizen, distance, mealEndTime);
             }
 
             if (mealPlace == 0)
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} moving to commercial building to eat meal and the ScheduledMealType is {schedule.ScheduledMealType}");
-                mealPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, CommercialBuildingType.Food);
+                mealPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, distance, CommercialBuildingType.Food, mealEndTime);
             }
 
             return mealPlace;
@@ -155,6 +167,44 @@ namespace RealTime.CustomAI
             schedule.Schedule(ResidentState.GoToMeal, opportunity.BeginTime, opportunity.MealType, opportunity.EndTime);
             Log.Debug(LogCategory.Schedule, $"  - work/school citizen will go to eat {opportunity.MealType} at {opportunity.BeginTime:dd.MM.yy HH:mm} and will finish eating at {opportunity.EndTime:dd.MM.yy HH:mm}");
             return true;
+        }
+
+        private void MarkScheduledMealStarted(ref CitizenSchedule schedule)
+        {
+            schedule.ResetDailyMealsIfNeeded(TimeInfo.Now.DayOfYear);
+
+            switch (schedule.ScheduledMealType)
+            {
+                case MealType.Breakfast:
+                case MealType.Lunch:
+                case MealType.Supper:
+                    if (schedule.TryMarkMealConsumedToday(schedule.ScheduledMealType))
+                    {
+                        schedule.MealsEatenOutToday++;
+                    }
+                    break;
+
+                case MealType.Other:
+                    schedule.MarkSnackConsumed(TimeInfo.Now);
+                    break;
+            }
+        }
+
+        private bool CurrentBuildingSupportsMeal(ushort buildingId)
+        {
+            if (buildingId == 0)
+            {
+                return false;
+            }
+
+            if (!CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
+            {
+                return false;
+            }
+
+            var commercialBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
+
+            return commercialBuildingType.IsFlagSet(CommercialBuildingType.Food);
         }
     }
 }

@@ -17,6 +17,9 @@ namespace RealTime.CustomAI
         /// <summary>A distance in game units where to search a hotel.</summary>
         public const float HotelSearchDistance = BuildingManager.BUILDINGGRID_CELL_SIZE * 50;
 
+        /// <summary>A distance in game units where to search a building.</summary>
+        public const float MaxSearchDistance = BuildingManager.BUILDINGGRID_CELL_SIZE * 50;
+
         /// <summary>A chance in percent for a citizen to stay home until next scheduled action.</summary>
         public const uint StayHomeAllDayChance = 2u;
 

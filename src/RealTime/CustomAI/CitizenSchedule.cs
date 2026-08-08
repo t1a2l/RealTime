@@ -426,7 +426,8 @@ namespace RealTime.CustomAI
 
         /// <summary>Marks a specific meal as consumed for today.</summary>
         /// <param name="mealType">The type of meal to mark as consumed.</param>
-        public void MarkMealConsumedToday(MealType mealType)
+        /// <returns>True if the meal was successfully marked as consumed; otherwise, false.</returns>
+        public bool TryMarkMealConsumedToday(MealType mealType)
         {
             var flag = mealType switch
             {
@@ -436,12 +437,14 @@ namespace RealTime.CustomAI
                 _ => DailyMealFlags.None,
             };
 
-            if (flag == DailyMealFlags.None)
+            if (flag == DailyMealFlags.None ||
+                (MealsConsumedToday & flag) != DailyMealFlags.None)
             {
-                return;
+                return false;
             }
 
             MealsConsumedToday |= flag;
+            return true;
         }
 
         /// <summary>Calculates the adjusted meal chance based on the number of meals eaten out today.</summary>
@@ -468,7 +471,7 @@ namespace RealTime.CustomAI
         /// <summary>Checks if the citizen can have a snack at the given time.</summary>
         /// <param name="now">The current time.</param>
         /// <returns>True if the citizen can have a snack; otherwise, false.</returns>
-        public bool CanHaveSnack(DateTime now)
+        public readonly bool CanHaveSnack(DateTime now)
         {
             if (SnacksEatenToday >= 2)
             {

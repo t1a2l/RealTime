@@ -122,6 +122,12 @@ namespace RealTime.CustomAI
                     break;
             }
 
+            if (IsMealStillInProgress(ref schedule))
+            {
+                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} is still eating {schedule.ScheduledMealType} until {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
+                return;
+            }
+
             if (TimeInfo.Now < schedule.ScheduledStateTime)
             {
                 var currentLocation = CitizenProxy.GetLocation(ref citizen);
@@ -466,5 +472,8 @@ namespace RealTime.CustomAI
                 }
             }
         }
+
+        private bool IsMealStillInProgress(ref CitizenSchedule schedule) => schedule.CurrentState == ResidentState.EatMeal &&
+                   schedule.ScheduledMealEndTime != default && TimeInfo.Now < schedule.ScheduledMealEndTime;
     }
 }

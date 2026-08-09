@@ -268,6 +268,11 @@ namespace RealTime.CustomAI
                     continue;
                 }
 
+                if (!HasWorkOrSchoolMealDelayPassed(ref schedule))
+                {
+                    continue;
+                }
+
                 float mealBegin = window.Begin;
                 float mealEnd = window.End;
 
@@ -324,6 +329,40 @@ namespace RealTime.CustomAI
             MealType.Other => 0.5f,
             _ => 0f,
         };
+
+        private bool HasWorkOrSchoolMealDelayPassed(ref CitizenSchedule schedule)
+        {
+            float startHour;
+
+            if (schedule.WorkStatus == WorkStatus.Working)
+            {
+                startHour = schedule.WorkShiftStartTime;
+            }
+            else if (schedule.SchoolStatus == SchoolStatus.Studying)
+            {
+                startHour = schedule.SchoolClassStartTime;
+            }
+            else
+            {
+                return false;
+            }
+
+            float elapsed = GetHoursSinceDailyStart(timeInfo.CurrentHour, startHour);
+
+            return elapsed >= Constants.MinimumWorkOrSchoolMealDelay;
+        }
+
+        private static float GetHoursSinceDailyStart(float currentHour, float startHour)
+        {
+            float result = currentHour - startHour;
+
+            if (result < 0f)
+            {
+                result += 24f;
+            }
+
+            return result;
+        }
 
         private IEnumerable<MealWindow> GetConfiguredMealWindows()
         {

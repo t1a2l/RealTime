@@ -138,7 +138,7 @@ namespace RealTime.CustomAI
 
             var mealEndTime = TimeInfo.Now.AddHours(mealDuration);
 
-            if (departureTime != default && departureTime <= mealEndTime)
+            if (departureTime != default && mealEndTime > departureTime)
             {
                 Log.Debug(LogCategory.Schedule, $"  - work/school citizen wanted to go to eat {mealType} but meal end time {mealEndTime:dd.MM.yy HH:mm} is after departureTime {departureTime:dd.MM.yy HH:mm}");
                 return false;

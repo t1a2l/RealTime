@@ -156,6 +156,31 @@ namespace RealTime.CustomAI
                 return false;
             }
 
+            float blockEndHour;
+
+            if (schedule.WorkStatus == WorkStatus.Working)
+            {
+                blockEndHour = schedule.WorkShiftEndTime;
+            }
+            else if (schedule.SchoolStatus == SchoolStatus.Studying)
+            {
+                blockEndHour = schedule.SchoolClassEndTime;
+            }
+            else
+            {
+                return false;
+            }
+
+            var blockEndTime = TimeInfo.Now.FutureHour(blockEndHour);
+
+            var latestMealEndTime = blockEndTime.AddHours(-MinimumWorkOrSchoolTimeAfterMeal);
+
+            if (opportunity.EndTime > latestMealEndTime)
+            {
+                Log.Debug(LogCategory.Schedule, $"  - {opportunity.MealType} was rejected because the citizen would have less than {MinimumWorkOrSchoolTimeAfterMeal} hours after the meal to spend at work or school.");
+                return false;
+            }
+
             schedule.Hint = ScheduleHint.WorkOrSchoolRelatedMeal;
 
             schedule.Schedule(ResidentState.GoToMeal, opportunity.BeginTime, opportunity.MealType, opportunity.EndTime);

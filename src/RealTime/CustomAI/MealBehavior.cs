@@ -349,7 +349,7 @@ namespace RealTime.CustomAI
 
             float elapsed = GetHoursSinceDailyStart(timeInfo.CurrentHour, startHour);
 
-            return elapsed >= Constants.MinimumWorkOrSchoolMealDelay;
+            return elapsed >= Constants.MinimumWorkOrSchoolTimeBeforeMeal;
         }
 
         private static float GetHoursSinceDailyStart(float currentHour, float startHour)

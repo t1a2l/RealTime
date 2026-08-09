@@ -90,7 +90,10 @@ namespace RealTime.CustomAI
         /// <summary>The maximum number of buildings (of one zone type) that are in construction or upgrading process.</summary>
         public const int MaximumBuildingsInConstruction = 50;
 
-        /// <summary>The minimum delay in hours before a citizen can have a meal at work or school.</summary>
-        public const float MinimumWorkOrSchoolMealDelay = 2.5f;
+        /// <summary>The minimum time in hours before a citizen can have a meal at work or school.</summary>
+        public const float MinimumWorkOrSchoolTimeBeforeMeal = 2.5f;
+
+        /// <summary>The minimum time in hours that a citizen should spend at work or school after having a meal.</summary>
+        public const float MinimumWorkOrSchoolTimeAfterMeal = 1.0f;
     }
 }

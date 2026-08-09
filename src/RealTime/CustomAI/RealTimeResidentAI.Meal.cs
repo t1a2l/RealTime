@@ -35,7 +35,7 @@ namespace RealTime.CustomAI
                     return ScheduleMealBeforeWorkOrSchool(ref schedule, citizenAge, departureTime);
                 }
 
-                return ScheduleMealDuringWorkOrSchool(ref schedule, departureTime);
+                return ScheduleMealDuringWorkOrSchool(ref schedule);
             }
         }
 
@@ -149,16 +149,10 @@ namespace RealTime.CustomAI
             return true;
         }
 
-        private bool ScheduleMealDuringWorkOrSchool(ref CitizenSchedule schedule, DateTime departureTime)
+        private bool ScheduleMealDuringWorkOrSchool(ref CitizenSchedule schedule)
         {
             if (!mealBehavior.TryGetBestWorkOrSchoolMealOpportunity(ref schedule, TimeInfo.Now, out var opportunity))
             {
-                return false;
-            }
-
-            if (departureTime != default && departureTime <= opportunity.EndTime)
-            {
-                Log.Debug(LogCategory.Schedule, $"  - work/school citizen wanted to go to eat {opportunity.MealType} but meal end time {opportunity.EndTime:dd.MM.yy HH:mm} is after departureTime {departureTime:dd.MM.yy HH:mm}");
                 return false;
             }
 

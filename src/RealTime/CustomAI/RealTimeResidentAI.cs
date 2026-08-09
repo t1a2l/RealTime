@@ -110,6 +110,17 @@ namespace RealTime.CustomAI
                     return;
             }
 
+            if (HandleClosedMealBuilding(ref schedule, citizenId, ref citizen))
+            {
+                return;
+            }
+
+            if (IsMealStillInProgress(ref schedule))
+            {
+                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} is still eating {schedule.ScheduledMealType} until {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
+                return;
+            }
+
             switch (schedule.CurrentState)
             {
                 case ResidentState.Unknown:
@@ -120,12 +131,6 @@ namespace RealTime.CustomAI
                 case ResidentState.Evacuating:
                     schedule.Schedule(ResidentState.GoToShelter);
                     break;
-            }
-
-            if (IsMealStillInProgress(ref schedule))
-            {
-                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} is still eating {schedule.ScheduledMealType} until {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
-                return;
             }
 
             if (TimeInfo.Now < schedule.ScheduledStateTime)
@@ -475,5 +480,47 @@ namespace RealTime.CustomAI
 
         private bool IsMealStillInProgress(ref CitizenSchedule schedule) => schedule.CurrentState == ResidentState.EatMeal &&
                    schedule.ScheduledMealEndTime != default && TimeInfo.Now < schedule.ScheduledMealEndTime;
+
+        private bool HandleClosedMealBuilding(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
+        {
+            if (schedule.CurrentState != ResidentState.EatMeal)
+            {
+                return false;
+            }
+
+            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+
+            if (currentBuilding == 0)
+            {
+                return false;
+            }
+
+            if (buildingAI.IsBuildingWorking(currentBuilding))
+            {
+                return false;
+            }
+
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} was eating {schedule.ScheduledMealType} at building {currentBuilding}, but the building is now closed");
+
+            if (schedule.Hint == ScheduleHint.WorkOrSchoolRelatedMeal)
+            {
+                if (schedule.SchoolStatus == SchoolStatus.Studying)
+                {
+                    schedule.Schedule(ResidentState.GoToSchool);
+                }
+                else if (schedule.WorkStatus == WorkStatus.Working)
+                {
+                    schedule.Schedule(ResidentState.GoToWork);
+                }
+                else
+                {
+                    schedule.Schedule(ResidentState.Unknown);
+                }
+                return true;
+            }
+
+            schedule.Schedule(ResidentState.Unknown);
+            return true;
+        }
     }
 }

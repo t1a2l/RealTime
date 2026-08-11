@@ -68,7 +68,7 @@ namespace RealTime.CustomAI
                     schedule.Hint = ScheduleHint.NoMealAnyMore;
                 }
 
-                ushort localMealPlace = MoveToMealPlace(ref schedule, instance, citizenId, ref citizen, LocalSearchDistance, mealEnd);
+                ushort localMealPlace = FindMealBuilding(ref citizen, LocalSearchDistance, mealEnd);
 
                 if (localMealPlace == 0)
                 {
@@ -76,17 +76,51 @@ namespace RealTime.CustomAI
                     return false;
                 }
 
-                MarkScheduledMealStarted(ref schedule);
+                if (schedule.Hint == ScheduleHint.WorkOrSchoolRelatedMeal)
+                {
+                    if (!TryGetMealTravelTime(ref schedule, localMealPlace, out float _, out float returnTravel))
+                    {
+                        Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} could not calculate travel time for meal place {localMealPlace}");
+                        return false;
+                    }
+
+                    if (!CanCompleteWorkOrSchoolMeal(ref schedule, mealEnd, returnTravel))
+                    {
+                        Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} cannot complete work/school meal at {localMealPlace} and return to work/school on time");
+                        return false;
+                    }
+                }
+
+                if (!StartMovingToVisitBuilding(instance, citizenId, ref citizen, localMealPlace))
+                {
+                    return false;
+                }
+
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} is going to eat {schedule.ScheduledMealType} at a local food place {localMealPlace}");
                 return true;
             }
 
-            ushort mealPlace = MoveToMealPlace(ref schedule, instance, citizenId, ref citizen, MaxSearchDistance, mealEnd);
+            ushort mealPlace = FindMealBuilding(ref citizen, MaxSearchDistance, mealEnd);
 
             if (mealPlace == 0)
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} wanted to go from {currentBuilding} to eat, but no suitable food place was available");
                 return false;
+            }
+
+            if (schedule.Hint == ScheduleHint.WorkOrSchoolRelatedMeal)
+            {
+                if (!TryGetMealTravelTime(ref schedule, mealPlace, out float _, out float returnTravel))
+                {
+                    Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} could not calculate travel time for meal place {mealPlace}");
+                    return false;
+                }
+
+                if (!CanCompleteWorkOrSchoolMeal(ref schedule, mealEnd, returnTravel))
+                {
+                    Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} cannot complete work/school meal at {mealPlace} and return to work/school on time");
+                    return false;
+                }
             }
 
             if (schedule.Hint != ScheduleHint.WorkOrSchoolRelatedMeal)
@@ -95,11 +129,10 @@ namespace RealTime.CustomAI
                 schedule.Schedule(ResidentState.Unknown, schedule.ScheduledMealEndTime);
             }
 
-            MarkScheduledMealStarted(ref schedule);
             return true;
         }
 
-        public ushort MoveToMealPlace(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen, float distance, DateTime mealEndTime)
+        private ushort FindMealBuilding(ref TCitizen citizen, float distance, DateTime mealEndTime)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
 
@@ -114,17 +147,51 @@ namespace RealTime.CustomAI
 
             if (building.Info.GetAI() is CampusBuildingAI || building.Info.GetAI() is UniqueFacultyAI)
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} moving to cafeteria building to eat meal and the ScheduledMealType is {schedule.ScheduledMealType}");
-                mealPlace = MoveToCafeteriaBuilding(instance, citizenId, ref citizen, distance, mealEndTime);
+                mealPlace = buildingAI.FindActiveCafeteria(currentBuilding, distance, mealEndTime);
             }
 
             if (mealPlace == 0)
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} moving to commercial building to eat meal and the ScheduledMealType is {schedule.ScheduledMealType}");
-                mealPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, distance, CommercialBuildingType.Food, mealEndTime);
+                mealPlace = buildingAI.FindActiveBuilding(currentBuilding, distance, ItemClass.Service.Commercial, ItemClass.SubService.None, CommercialBuildingType.Food, ParkBuildingType.None, mealEndTime);
             }
 
             return mealPlace;
+        }
+
+        private bool TryGetMealTravelTime(ref CitizenSchedule schedule, ushort mealPlace, out float outboundTravel, out float returnTravel)
+        {
+            outboundTravel = 0f;
+            returnTravel = 0f;
+
+            ushort obligationBuilding;
+
+            if (schedule.WorkStatus == WorkStatus.Working)
+            {
+                obligationBuilding = schedule.WorkBuilding;
+            }
+            else if (schedule.SchoolStatus == SchoolStatus.Studying)
+            {
+                obligationBuilding = schedule.SchoolBuilding;
+            }
+            else
+            {
+                return false;
+            }
+
+            if (obligationBuilding == 0 || mealPlace == 0)
+            {
+                return false;
+            }
+
+            if (obligationBuilding == mealPlace)
+            {
+                return true;
+            }
+
+            outboundTravel = travelBehavior.GetEstimatedTravelTime(obligationBuilding, mealPlace);
+            returnTravel = travelBehavior.GetEstimatedTravelTime(mealPlace, obligationBuilding);
+
+            return outboundTravel >= 0f && returnTravel >= 0f;
         }
 
         private bool ScheduleMealBeforeWorkOrSchool(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge, DateTime departureTime)
@@ -136,16 +203,21 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            var mealEndTime = TimeInfo.Now.AddHours(mealDuration);
+            var earliestMealEnd = TimeInfo.Now.AddHours(mealDuration);
 
-            if (departureTime != default && mealEndTime > departureTime)
+            if (departureTime != default && earliestMealEnd > departureTime)
             {
-                Log.Debug(LogCategory.Schedule, $"  - work/school citizen wanted to go to eat {mealType} but meal end time {mealEndTime:dd.MM.yy HH:mm} is after departureTime {departureTime:dd.MM.yy HH:mm}");
+                Log.Debug(LogCategory.Schedule, $"  - work/school citizen wanted to go to eat {mealType} but meal end time {earliestMealEnd:dd.MM.yy HH:mm} is after departureTime {departureTime:dd.MM.yy HH:mm}");
                 return false;
             }
 
-            schedule.Schedule(ResidentState.GoToMeal, mealType, mealEndTime);
-            Log.Debug(LogCategory.Schedule, $"  - citizen will go to eat {mealType} at {TimeInfo.Now:dd.MM.yy HH:mm} and will finish eating at {mealEndTime:dd.MM.yy HH:mm}");
+            var placeholderEndTime = TimeInfo.Now.AddHours(mealDuration);
+
+            schedule.Schedule(ResidentState.GoToMeal, mealType, placeholderEndTime);
+
+            schedule.Hint = ScheduleHint.WorkOrSchoolRelatedMeal;
+
+            Log.Debug(LogCategory.Schedule, $"  - citizen will go to eat {mealType} at {TimeInfo.Now:dd.MM.yy HH:mm} and will finish eating at {placeholderEndTime:dd.MM.yy HH:mm}");
             return true;
         }
 
@@ -182,8 +254,12 @@ namespace RealTime.CustomAI
             }
 
             schedule.Hint = ScheduleHint.WorkOrSchoolRelatedMeal;
+            schedule.Hint = ScheduleHint.LocalMealOnly;
 
-            schedule.Schedule(ResidentState.GoToMeal, opportunity.BeginTime, opportunity.MealType, opportunity.EndTime);
+            float mealDuration = mealBehavior.GetMealDuration(opportunity.MealType);
+            var placeholderEndTime = opportunity.BeginTime.AddHours(mealDuration);
+
+            schedule.Schedule(ResidentState.GoToMeal, opportunity.BeginTime, opportunity.MealType, placeholderEndTime);
             Log.Debug(LogCategory.Schedule, $"  - work/school citizen will go to eat {opportunity.MealType} at {opportunity.BeginTime:dd.MM.yy HH:mm} and will finish eating at {opportunity.EndTime:dd.MM.yy HH:mm}");
             return true;
         }
@@ -224,6 +300,37 @@ namespace RealTime.CustomAI
             var commercialBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
 
             return commercialBuildingType.IsFlagSet(CommercialBuildingType.Food);
+        }
+
+        private bool CanCompleteWorkOrSchoolMeal(ref CitizenSchedule schedule, DateTime mealEnd, float returnTravel)
+        {
+            var returnTime = mealEnd.AddHours(returnTravel);
+
+            DateTime blockEndTime;
+
+            if (schedule.WorkStatus == WorkStatus.Working)
+            {
+                blockEndTime = TimeInfo.Now.FutureHour(schedule.WorkShiftEndTime);
+            }
+            else if (schedule.SchoolStatus == SchoolStatus.Studying)
+            {
+                blockEndTime = TimeInfo.Now.FutureHour(schedule.SchoolClassEndTime);
+            }
+            else
+            {
+                return true;
+            }
+
+            var latestAllowedReturn = blockEndTime.AddHours(-MinimumWorkOrSchoolTimeAfterMeal);
+
+            if (returnTime <= latestAllowedReturn)
+            {
+                return true;
+            }
+
+            Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Meal would end at {mealEnd:dd.MM.yy HH:mm}, return would finish at {returnTime:dd.MM.yy HH:mm}, but the latest allowed return is {latestAllowedReturn:dd.MM.yy HH:mm}");
+            schedule.Schedule(schedule.SchoolStatus == SchoolStatus.Studying ? ResidentState.GoToSchool : ResidentState.GoToWork);
+            return false;
         }
     }
 }

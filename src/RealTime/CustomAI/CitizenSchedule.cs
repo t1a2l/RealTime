@@ -5,6 +5,7 @@ namespace RealTime.CustomAI
     using System;
     using RealTime.Core;
     using RealTime.Managers;
+    using SkyTools.Tools;
     using static Constants;
 
     /// <summary>A container struct that holds information about the detailed resident citizen state.
@@ -493,5 +494,9 @@ namespace RealTime.CustomAI
             SnacksEatenToday++;
             LastSnackTime = now;
         }
+
+        /// <summary>Updates the scheduled meal end time for this citizen.</summary>
+        /// <param name="mealEndTime">The new meal end time.</param>
+        public void UpdateMealEndTime(DateTime mealEndTime) => ScheduledMealEndTime = mealEndTime;
     }
 }

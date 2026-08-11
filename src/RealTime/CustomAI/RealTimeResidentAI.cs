@@ -204,6 +204,19 @@ namespace RealTime.CustomAI
                 schedule.FindVisitPlaceAttempts = 0;
             }
 
+            // Start meal after arrival
+            if (schedule.ScheduledMealType != MealType.None && schedule.ScheduledStateTime != default)
+            {
+                MarkScheduledMealStarted(ref schedule);
+
+                float mealDuration = mealBehavior.GetMealDuration(schedule.ScheduledMealType);
+
+                var mealEnd = TimeInfo.Now.AddHours(mealDuration);
+                schedule.UpdateMealEndTime(mealEnd);
+
+                Log.Debug(LogCategory.Movement, $"Citizen {citizenId} started eating {schedule.ScheduledMealType} at {TimeInfo.Now:dd.MM.yy HH:mm}, and will finish eating at {mealEnd:dd.MM.yy HH:mm}");
+            }
+
             schedule.DepartureTime = default;
         }
 

@@ -325,11 +325,11 @@ namespace RealTime.CustomAI
 
             if (returnTime <= latestAllowedReturn)
             {
+                Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Meal would end at {mealEnd:dd.MM.yy HH:mm}, return would finish at {returnTime:dd.MM.yy HH:mm}, and the latest allowed return is {latestAllowedReturn:dd.MM.yy HH:mm}");
                 return true;
             }
 
             Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Meal would end at {mealEnd:dd.MM.yy HH:mm}, return would finish at {returnTime:dd.MM.yy HH:mm}, but the latest allowed return is {latestAllowedReturn:dd.MM.yy HH:mm}");
-            schedule.Schedule(schedule.SchoolStatus == SchoolStatus.Studying ? ResidentState.GoToSchool : ResidentState.GoToWork);
             return false;
         }
     }

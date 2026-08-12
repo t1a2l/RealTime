@@ -238,13 +238,13 @@ namespace RealTime.CustomAI
 
             if (schedule.WorkStatus == WorkStatus.Working)
             {
-                Log.Debug(LogCategory.Schedule, $"  - find best work meal opportunity");
+                Log.Debug(LogCategory.Schedule, $"  - find best work meal opportunity, block start: {schedule.WorkShiftStartTime}, block end: {schedule.WorkShiftEndTime}");
                 blockStartHour = schedule.WorkShiftStartTime;
                 blockEndHour = schedule.WorkShiftEndTime;
             }
             else if (schedule.SchoolStatus == SchoolStatus.Studying)
             {
-                Log.Debug(LogCategory.Schedule, $"  - find best school meal opportunity");
+                Log.Debug(LogCategory.Schedule, $"  - find best school meal opportunity, block start: {schedule.SchoolClassStartTime}, block end: {schedule.SchoolClassEndTime}");
                 blockStartHour = schedule.SchoolClassStartTime;
                 blockEndHour = schedule.SchoolClassEndTime;
             }
@@ -255,6 +255,7 @@ namespace RealTime.CustomAI
 
             float normalizedBlockEnd = NormalizeHourRangeEnd(blockStartHour, blockEndHour);
             ScheduledMealOpportunity? best = null;
+            Log.Debug(LogCategory.Schedule, $"  - normalized block end: {normalizedBlockEnd}");
 
             foreach (var window in GetConfiguredMealWindows())
             {
@@ -292,8 +293,12 @@ namespace RealTime.CustomAI
                     continue;
                 }
 
+                Log.Debug(LogCategory.Schedule, $"  - found meal opportunity: {window.MealType}, begin: {window.Begin}, duration: {window.Duration}, overlap: {overlap}");
+
                 var beginTime = ToFutureDateTime(now, window.Begin);
                 var endTime = beginTime.AddHours(window.Duration);
+
+                Log.Debug(LogCategory.Schedule, $"  - begin time: {beginTime}, end time: {endTime}");
 
                 float midpoint = window.Begin + window.Duration / 2f;
                 float blockMidpoint = blockStartHour + (normalizedBlockEnd - blockStartHour) / 2f;
@@ -301,20 +306,26 @@ namespace RealTime.CustomAI
 
                 float score = overlap * 10f - midpointDistance;
 
+                Log.Debug(LogCategory.Schedule, $"  - meal midpoint: {midpoint}, block midpoint: {blockMidpoint}, midpoint distance: {midpointDistance}, score: {score}");
+
                 var candidate = new ScheduledMealOpportunity(window.MealType, beginTime, endTime, overlap, score);
 
                 if (best == null || candidate.Score > best.Value.Score)
                 {
                     best = candidate;
                 }
+
+                Log.Debug(LogCategory.Schedule, $"  - best meal opportunity so far: {best.Value.MealType}, score: {best.Value.Score}");
             }
 
             if (best == null)
             {
+                Log.Debug(LogCategory.Schedule, $"  - no suitable meal opportunity found");
                 return false;
             }
 
             opportunity = best.Value;
+            Log.Debug(LogCategory.Schedule, $"  - selected meal opportunity: {opportunity.MealType}, score: {opportunity.Score}");
             return true;
         }
 
@@ -347,7 +358,17 @@ namespace RealTime.CustomAI
                 return false;
             }
 
+            Log.Debug(LogCategory.Schedule, $"  - checking work/school meal delay, current hour: {timeInfo.CurrentHour}, start hour: {startHour}");
+
+            // Check if work/school hasn't started yet
+            if (timeInfo.CurrentHour < startHour && (startHour - timeInfo.CurrentHour) < 12f)
+            {
+                Log.Debug(LogCategory.Schedule, $"  - work/school hasn't started yet, current hour: {timeInfo.CurrentHour}, start hour: {startHour}");
+                return false; // Work/school hasn't started yet
+            }
+
             float elapsed = GetHoursSinceDailyStart(timeInfo.CurrentHour, startHour);
+            Log.Debug(LogCategory.Schedule, $"  - elapsed time since work/school start: {elapsed}");
 
             return elapsed >= Constants.MinimumWorkOrSchoolTimeBeforeMeal;
         }
@@ -356,10 +377,14 @@ namespace RealTime.CustomAI
         {
             float result = currentHour - startHour;
 
+            Log.Debug(LogCategory.Schedule, $"  - hours since daily start: {result}");
+
             if (result < 0f)
             {
                 result += 24f;
             }
+
+            Log.Debug(LogCategory.Schedule, $"  - adjusted hours since daily start: {result}");
 
             return result;
         }

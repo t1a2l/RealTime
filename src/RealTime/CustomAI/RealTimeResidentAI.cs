@@ -205,8 +205,9 @@ namespace RealTime.CustomAI
             }
 
             // Start meal after arrival
-            if (schedule.ScheduledMealType != MealType.None && schedule.ScheduledStateTime != default)
+            if (schedule.ScheduledMealType != MealType.None)
             {
+                Log.Debug(LogCategory.Movement, $"Citizen {citizenId} arrived at their destination at {TimeInfo.Now:dd.MM.yy HH:mm} and will start eating {schedule.ScheduledMealType}");
                 MarkScheduledMealStarted(ref schedule);
 
                 float mealDuration = mealBehavior.GetMealDuration(schedule.ScheduledMealType);
@@ -229,7 +230,7 @@ namespace RealTime.CustomAI
                 {
                     schedule.Schedule(ResidentState.Unknown, mealEnd);
                 }
-                Log.Debug(LogCategory.Movement, $"Citizen {citizenId} started eating {schedule.ScheduledMealType} at {TimeInfo.Now:dd.MM.yy HH:mm}, and will finish eating at {mealEnd:dd.MM.yy HH:mm}");
+                Log.Debug(LogCategory.Movement, $"Citizen {citizenId} started eating {schedule.ScheduledMealType} at {TimeInfo.Now:dd.MM.yy HH:mm}, and will finish eating at {mealEnd:dd.MM.yy HH:mm} and will then do {schedule.ScheduledState}");
             }
 
             schedule.DepartureTime = default;

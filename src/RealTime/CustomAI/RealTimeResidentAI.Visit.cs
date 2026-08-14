@@ -371,8 +371,25 @@ namespace RealTime.CustomAI
                 if (reason != TransferManager.TransferReason.None)
                 {
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} want to visit and then schedules {ResidentState.Unknown}, searching for visit place with reason {reason}");
-                    residentAI.FindVisitPlace(instance, citizenId, currentBuilding, reason);
-                    return true;
+
+                    ushort targetBuilding = 0;
+
+                    if(reason == TransferManager.TransferReason.Mail)
+                    {
+                        targetBuilding = FindPostOffice(ref citizen);
+                    }
+                    else if (reason == TransferManager.TransferReason.Cash)
+                    {
+                        targetBuilding = FindBank(ref citizen);
+                    }
+
+                    if(targetBuilding == 0)
+                    {
+                        Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanted to visit but did not find an active building with reason {reason}");
+                        return false;
+                    }
+
+                    return StartMovingToVisitBuilding(instance, citizenId, ref citizen, targetBuilding);
                 }
                 else
                 {
@@ -380,12 +397,10 @@ namespace RealTime.CustomAI
                     return false;
                 }
             }
-#if DEBUG
             else
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues visiting the same building.");
             }
-#endif
             return true;
         }
 
@@ -540,6 +555,24 @@ namespace RealTime.CustomAI
             }
 
             return starthour;
+        }
+
+        private ushort FindPostOffice(ref TCitizen citizen)
+        {
+            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+
+            return currentBuilding == 0
+                ? (ushort)0
+                : buildingAI.FindActiveBuilding(currentBuilding, MaxSearchDistance, ItemClass.Service.PublicTransport, ItemClass.SubService.PublicTransportPost);
+        }
+
+        private ushort FindBank(ref TCitizen citizen)
+        {
+            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+
+            return currentBuilding == 0
+                ? (ushort)0
+                : buildingAI.FindActiveBuilding(currentBuilding, MaxSearchDistance, ItemClass.Service.PoliceDepartment, ItemClass.SubService.PoliceDepartmentBank);
         }
     }
 }

@@ -471,7 +471,6 @@ namespace RealTime.CustomAI
                     nextActivityTime = default;
                 }
 
-#if DEBUG
                 if (nextActivityTime <= TimeInfo.Now)
                 {
                     Log.Debug(LogCategory.Schedule, "  - Schedule idle until next scheduling run");
@@ -480,7 +479,7 @@ namespace RealTime.CustomAI
                 {
                     Log.Debug(LogCategory.Schedule, $"  - Schedule idle until {nextActivityTime}");
                 }
-#endif
+
                 schedule.Schedule(ResidentState.Unknown, nextActivityTime);
             }
             else

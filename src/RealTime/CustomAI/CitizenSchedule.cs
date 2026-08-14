@@ -186,13 +186,13 @@ namespace RealTime.CustomAI
         /// <param name="nextStateTime">The time when the scheduled state must change.</param>
         /// <param name="mealType">The next scheduled meal type.</param>
         /// <param name="mealEndTime">The next scheduled meal end time.</param>
-        public void Schedule(ResidentState nextState, DateTime nextStateTime, MealType mealType = MealType.None, DateTime mealEndTime = default)
+        public void Schedule(ResidentState nextState, DateTime nextStateTime, MealType scheduledMealType = MealType.None, DateTime mealEndTime = default)
         {
             LastScheduledState = ScheduledState;
             ScheduledState = nextState;
             ScheduledStateTime = nextStateTime;
             LastScheduledMealType = ScheduledMealType;
-            ScheduledMealType = mealType;
+            ScheduledMealType = scheduledMealType;
             LastScheduledMealEndTime = ScheduledMealEndTime;
             ScheduledMealEndTime = mealEndTime;
         }

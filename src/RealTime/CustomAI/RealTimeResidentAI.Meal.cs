@@ -56,10 +56,10 @@ namespace RealTime.CustomAI
 
             if (schedule.Hint == ScheduleHint.LocalMealOnly)
             {
-                if (CurrentBuildingSupportsMeal(currentBuilding) && buildingAI.IsBuildingOpenForMeal(currentBuilding, mealStart, mealDuration))
+                if (schedule.Hint != ScheduleHint.WorkOrSchoolRelatedMeal && CurrentBuildingSupportsMeal(currentBuilding) && buildingAI.IsBuildingOpenForMeal(currentBuilding, mealStart, mealDuration))
                 {
                     MarkScheduledMealStarted(ref schedule);
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for the purpose of eating {schedule.ScheduledMealType}");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} stays in building {currentBuilding} for the purpose of eating {schedule.ScheduledMealType}");
                     return true;
                 }
 
@@ -80,13 +80,13 @@ namespace RealTime.CustomAI
                 {
                     if (!TryGetMealTravelTime(ref schedule, localMealPlace, out float _, out float returnTravel))
                     {
-                        Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} could not calculate travel time for meal place {localMealPlace}");
+                        Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"{citizenDesc} could not calculate travel time for meal place {localMealPlace}");
                         return false;
                     }
 
                     if (!CanCompleteWorkOrSchoolMeal(ref schedule, mealEnd, returnTravel))
                     {
-                        Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} cannot complete work/school meal at {localMealPlace} and return to work/school on time");
+                        Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"{citizenDesc} cannot complete work/school meal at {localMealPlace} and return to work/school on time");
                         return false;
                     }
                 }
@@ -96,7 +96,7 @@ namespace RealTime.CustomAI
                     return false;
                 }
 
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} is going to eat {schedule.ScheduledMealType} at a local food place {localMealPlace}");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going to eat {schedule.ScheduledMealType} at a local food place {localMealPlace}");
                 return true;
             }
 
@@ -112,23 +112,23 @@ namespace RealTime.CustomAI
             {
                 if (!TryGetMealTravelTime(ref schedule, mealPlace, out float _, out float returnTravel))
                 {
-                    Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} could not calculate travel time for meal place {mealPlace}");
+                    Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"{citizenDesc} could not calculate travel time for meal place {mealPlace}");
                     return false;
                 }
 
                 if (!CanCompleteWorkOrSchoolMeal(ref schedule, mealEnd, returnTravel))
                 {
-                    Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} cannot complete work/school meal at {mealPlace} and return to work/school on time");
+                    Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"{citizenDesc} cannot complete work/school meal at {mealPlace} and return to work/school on time");
                     return false;
                 }
             }
 
-            if (schedule.Hint != ScheduleHint.WorkOrSchoolRelatedMeal)
+            if (!StartMovingToVisitBuilding(instance, citizenId, ref citizen, mealPlace))
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} is going from {currentBuilding} to eat {schedule.ScheduledMealType} at {mealPlace} and will finish eating at {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
-                schedule.Schedule(ResidentState.Unknown, schedule.ScheduledMealEndTime);
+                return false;
             }
 
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going from {currentBuilding} to eat {schedule.ScheduledMealType} at {mealPlace} and will finish eating at {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
             return true;
         }
 

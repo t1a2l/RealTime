@@ -179,7 +179,8 @@ namespace RealTime.CustomAI
         public void RegisterCitizenArrival(uint citizenId)
         {
             ref var schedule = ref residentSchedules[citizenId];
-            switch (CitizenMgr.GetCitizenLocation(citizenId))
+            var currentLocation = CitizenMgr.GetCitizenLocation(citizenId);
+            switch (currentLocation)
             {
                 case Citizen.Location.Work:
                     if(schedule.SchoolBuilding != 0)
@@ -194,18 +195,17 @@ namespace RealTime.CustomAI
                     }
                     break;
 
+                case Citizen.Location.Visit:
+                    Log.Debug(LogCategory.Movement, $"The citizen {citizenId} arrived at their destination at {TimeInfo.Now} after {schedule.FindVisitPlaceAttempts} attempts to find a visit place");
+                    schedule.FindVisitPlaceAttempts = 0;
+                    break;
+
                 case Citizen.Location.Moving:
                     return;
             }
 
-            if(schedule.FindVisitPlaceAttempts > 0)
-            {
-                Log.Debug(LogCategory.Movement, $"The citizen {citizenId} arrived at their destination at {TimeInfo.Now} after {schedule.FindVisitPlaceAttempts} attempts to find a visit place");
-                schedule.FindVisitPlaceAttempts = 0;
-            }
-
             // Start meal after arrival
-            if (schedule.ScheduledMealType != MealType.None)
+            if (currentLocation == Citizen.Location.Visit && schedule.ScheduledMealType != MealType.None)
             {
                 Log.Debug(LogCategory.Movement, $"Citizen {citizenId} arrived at their destination at {TimeInfo.Now:dd.MM.yy HH:mm} and will start eating {schedule.ScheduledMealType}");
                 MarkScheduledMealStarted(ref schedule);
@@ -225,12 +225,13 @@ namespace RealTime.CustomAI
                     {
                         schedule.Schedule(ResidentState.GoToWork, mealEnd);
                     }
+                    Log.Debug(LogCategory.Movement, $"Citizen {citizenId} started eating {schedule.LastScheduledMealType} at {TimeInfo.Now:dd.MM.yy HH:mm}, and will finish eating at {mealEnd:dd.MM.yy HH:mm} and then will {schedule.ScheduledState}");
                 }
                 else
                 {
                     schedule.Schedule(ResidentState.Unknown, mealEnd);
+                    Log.Debug(LogCategory.Movement, $"Citizen {citizenId} started eating {schedule.LastScheduledMealType} at {TimeInfo.Now:dd.MM.yy HH:mm}, and will finish eating at {mealEnd:dd.MM.yy HH:mm} and then will schedule Unknown");
                 }
-                Log.Debug(LogCategory.Movement, $"Citizen {citizenId} started eating {schedule.ScheduledMealType} at {TimeInfo.Now:dd.MM.yy HH:mm}, and will finish eating at {mealEnd:dd.MM.yy HH:mm} and will then do {schedule.ScheduledState}");
             }
 
             schedule.DepartureTime = default;

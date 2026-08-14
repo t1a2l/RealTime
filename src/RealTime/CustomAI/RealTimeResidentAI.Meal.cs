@@ -96,7 +96,7 @@ namespace RealTime.CustomAI
                     return false;
                 }
 
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going to eat {schedule.ScheduledMealType} at a local food place {localMealPlace}");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going to eat {schedule.ScheduledMealType} at a local food place {localMealPlace} and will finish eating at {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
                 return true;
             }
 

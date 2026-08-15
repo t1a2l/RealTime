@@ -113,7 +113,8 @@ namespace RealTime.UI
             }
             finally
             {
-                UpdateCitizenInfo(ref instance, debugMode);
+                uint citizenId = instanceId == 0 ? 0u : CitizenManager.instance.m_instances.m_buffer[instanceId].m_citizen;
+                UpdateCitizenInfo(citizenId, debugMode);
             }
         }
     }

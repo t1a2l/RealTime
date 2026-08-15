@@ -18,10 +18,10 @@ namespace RealTime.UI
     /// <param name="panelName">Name of the game's panel object.</param>
     /// <param name="residentAI">The custom resident AI.</param>
     /// <param name="localizationProvider">The localization provider to use for text translation.</param>
-    /// <exception cref="System.ArgumentNullException">
+    /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="residentAI"/> or <paramref name="localizationProvider"/> is null.
     /// </exception>
-    /// <exception cref="System.ArgumentException">
+    /// <exception cref="ArgumentException">
     /// Thrown when <paramref name="panelName"/> is null or an empty string.
     /// </exception>
     internal abstract class RealTimeInfoPanelBase<T>(string panelName, RealTimeResidentAI<ResidentAI, Citizen> residentAI, ILocalizationProvider localizationProvider) : CustomInfoPanelBase<T>(panelName) where T : WorldInfoPanel
@@ -30,8 +30,8 @@ namespace RealTime.UI
         private const string AgeEducationLabelName = "AgeEducation";
         private const float LineHeight = 14f;
 
-        private readonly RealTimeResidentAI<ResidentAI, Citizen> residentAI = residentAI ?? throw new System.ArgumentNullException(nameof(residentAI));
-        private readonly ILocalizationProvider localizationProvider = localizationProvider ?? throw new System.ArgumentNullException(nameof(localizationProvider));
+        private readonly RealTimeResidentAI<ResidentAI, Citizen> residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
+        private readonly ILocalizationProvider localizationProvider = localizationProvider ?? throw new ArgumentNullException(nameof(localizationProvider));
 
         // private readonly ITimeInfo timeInfo;
         private UILabel scheduleLabel;

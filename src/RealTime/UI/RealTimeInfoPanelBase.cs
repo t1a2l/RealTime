@@ -2,11 +2,11 @@
 
 namespace RealTime.UI
 {
+    using System;
     using System.Text;
     using ColossalFramework;
     using ColossalFramework.UI;
     using RealTime.CustomAI;
-    // using RealTime.Simulation;
     using SkyTools.Localization;
     using SkyTools.Tools;
     using SkyTools.UI;
@@ -24,8 +24,7 @@ namespace RealTime.UI
     /// <exception cref="System.ArgumentException">
     /// Thrown when <paramref name="panelName"/> is null or an empty string.
     /// </exception>
-    internal abstract class RealTimeInfoPanelBase<T>(string panelName, RealTimeResidentAI<ResidentAI, Citizen> residentAI, ILocalizationProvider localizationProvider) : CustomInfoPanelBase<T>(panelName)
-        where T : WorldInfoPanel
+    internal abstract class RealTimeInfoPanelBase<T>(string panelName, RealTimeResidentAI<ResidentAI, Citizen> residentAI, ILocalizationProvider localizationProvider) : CustomInfoPanelBase<T>(panelName) where T : WorldInfoPanel
     {
         private const string ComponentId = "RealTimeInfoSchedule";
         private const string AgeEducationLabelName = "AgeEducation";
@@ -33,9 +32,16 @@ namespace RealTime.UI
 
         private readonly RealTimeResidentAI<ResidentAI, Citizen> residentAI = residentAI ?? throw new System.ArgumentNullException(nameof(residentAI));
         private readonly ILocalizationProvider localizationProvider = localizationProvider ?? throw new System.ArgumentNullException(nameof(localizationProvider));
+
         // private readonly ITimeInfo timeInfo;
         private UILabel scheduleLabel;
+
+        // The panel is reused. This cache must always be associated with a citizen.
+        private uint cachedCitizenId;
+        private Citizen.Location cachedLocation;
         private CitizenSchedule scheduleCopy;
+        private bool hasCachedDisplayState;
+        private int updateCounter;
 
         /// <summary>Disables the custom citizen info panel, if it is enabled.</summary>
         protected sealed override void DisableCore()
@@ -55,50 +61,79 @@ namespace RealTime.UI
         /// <param name="debugMode">debugMode.</param>
         protected void UpdateCitizenInfo(uint citizenId, bool debugMode)
         {
+            updateCounter++;
+
             if (citizenId == 0)
             {
-                SetCustomPanelVisibility(scheduleLabel, visible: false);
+                DebugPanel("invalid citizen ID: 0");
+                ClearCustomPanelState();
+                HideCustomPanel();
                 return;
+            }
+
+            var citizenManager = Singleton<CitizenManager>.instance;
+
+            if (citizenId >= citizenManager.m_citizens.m_buffer.Length)
+            {
+                DebugPanel($"citizen ID out of range: {citizenId}");
+                ClearCustomPanelState();
+                HideCustomPanel();
+                return;
+            }
+
+            var citizen = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId];
+
+            if ((citizen.m_flags & Citizen.Flags.Created) == 0)
+            {
+                DebugPanel($"citizen is not created: {citizenId}");
+                ClearCustomPanelState();
+                HideCustomPanel();
+                return;
+            }
+
+            bool citizenChanged = cachedCitizenId != 0 && cachedCitizenId != citizenId;
+
+            if (citizenChanged)
+            {
+                DebugPanel($"citizen changed {cachedCitizenId} -> {citizenId}; invalidating panel cache");
+
+                hasCachedDisplayState = false;
+                scheduleCopy = default;
             }
 
             ref var schedule = ref residentAI.GetCitizenSchedule(citizenId);
 
-            var citizen = Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId];
-
-            if ((citizen.m_flags & Citizen.Flags.Student) != 0 || Citizen.GetAgeGroup(citizen.m_age) == Citizen.AgeGroup.Child || Citizen.GetAgeGroup(citizen.m_age) == Citizen.AgeGroup.Teen)
-            {
-                if (schedule.LastScheduledState == scheduleCopy.LastScheduledState
-                && schedule.ScheduledStateTime == scheduleCopy.ScheduledStateTime
-                && schedule.SchoolStatus == scheduleCopy.SchoolStatus
-                && schedule.VacationDaysLeft == scheduleCopy.VacationDaysLeft
-                && schedule.SchoolClass == scheduleCopy.SchoolClass)
-                {
-                    return;
-                }
-            }
-            else
-            {
-                if (schedule.LastScheduledState == scheduleCopy.LastScheduledState
-                && schedule.ScheduledStateTime == scheduleCopy.ScheduledStateTime
-                && schedule.WorkStatus == scheduleCopy.WorkStatus
-                && schedule.VacationDaysLeft == scheduleCopy.VacationDaysLeft
-                && schedule.WorkShift == scheduleCopy.WorkShift)
-                {
-                    return;
-                }
-            }
-            
-
             if (schedule.LastScheduledState == ResidentState.Ignored)
             {
+                DebugPanel($"citizen {citizenId} is ignored");
+                cachedCitizenId = citizenId;
+                hasCachedDisplayState = false;
+                HideCustomPanel();
                 return;
             }
 
+            // Update values that this panel displays before comparing the cache.
+            // CurrentState is derived here and was previously excluded from the
+            // early-return comparison.
             UpdateCitizenState(citizenId, citizen, ref schedule);
-            Log.Debug(LogCategory.State, SimulationManager.instance.m_currentGameTime, $"UpdateCitizenInfo - citizenId {citizenId} current state is {schedule.CurrentState}");
 
-            SetCustomPanelVisibility(scheduleLabel, false);
+            var currentLocation = citizen.CurrentLocation;
+
+            bool changed = !hasCachedDisplayState || cachedCitizenId != citizenId || !HasSameDisplayedState(citizen, currentLocation, schedule, scheduleCopy, cachedLocation);
+
+            if (!changed)
+            {
+                DebugPanel($"citizen {citizenId}: display state unchanged");
+                return;
+            }
+
+            cachedCitizenId = citizenId;
+            cachedLocation = currentLocation;
             scheduleCopy = schedule;
+            hasCachedDisplayState = true;
+
+            DebugPanel($"citizen {citizenId}: rebuilding panel; location={currentLocation}, last={schedule.LastScheduledState}, next={schedule.ScheduledState}, current={schedule.CurrentState}");
+
             BuildTextInfo(citizenId, citizen, ref schedule, debugMode);
         }
 
@@ -107,235 +142,213 @@ namespace RealTime.UI
         protected sealed override bool InitializeCore()
         {
             var statusLabel = ItemsPanel.Find<UILabel>(AgeEducationLabelName);
+
             if (statusLabel == null)
             {
                 return false;
             }
 
             scheduleLabel = UIComponentTools.CreateCopy(statusLabel, ItemsPanel, ComponentId);
+
             scheduleLabel.width = 270;
             scheduleLabel.zOrder = statusLabel.zOrder + 1;
             scheduleLabel.isVisible = false;
+            scheduleLabel.text = string.Empty;
+            scheduleLabel.height = 0;
+
+            ClearCustomPanelState();
             return true;
+        }
+
+        private static bool HasSameDisplayedState(Citizen citizen, Citizen.Location currentLocation, in CitizenSchedule left, in CitizenSchedule right, Citizen.Location previousLocation)
+        {
+            if (currentLocation != previousLocation)
+            {
+                return false;
+            }
+
+            if (left.LastScheduledState != right.LastScheduledState ||
+                left.ScheduledState != right.ScheduledState ||
+                left.CurrentState != right.CurrentState ||
+                left.LastScheduledMealType != right.LastScheduledMealType ||
+                left.ScheduledMealType != right.ScheduledMealType ||
+                left.ScheduledStateTime != right.ScheduledStateTime ||
+                left.VacationDaysLeft != right.VacationDaysLeft)
+            {
+                return false;
+            }
+
+            bool isStudent = IsStudent(citizen);
+
+            if (isStudent)
+            {
+                return left.SchoolStatus == right.SchoolStatus && left.SchoolClass == right.SchoolClass;
+            }
+
+            return left.WorkStatus == right.WorkStatus && left.WorkShift == right.WorkShift && left.ShiftIndex == right.ShiftIndex;
+        }
+
+        private static bool IsStudent(Citizen citizen)
+        {
+            var ageGroup = Citizen.GetAgeGroup(citizen.m_age);
+            return (citizen.m_flags & Citizen.Flags.Student) != 0 || ageGroup == Citizen.AgeGroup.Child || ageGroup == Citizen.AgeGroup.Teen;
         }
 
         private void BuildTextInfo(uint citizenId, Citizen citizen, ref CitizenSchedule schedule, bool debugMode)
         {
-            var info = new StringBuilder(100);
+            if (scheduleLabel == null)
+            {
+                return;
+            }
+
+            var info = new StringBuilder(256);
             float labelHeight = 0;
 
             if (debugMode)
             {
-                info.Append("CitizenId").Append(": ").Append(citizenId);
-                info.AppendLine();
-                labelHeight += LineHeight;
-                info.Append("CurrentLocation").Append(": ").Append(citizen.CurrentLocation.ToString());
-                info.AppendLine();
-                labelHeight += LineHeight;
+                AppendLine(info, ref labelHeight, "CitizenId", citizenId);
+                AppendLine(info, ref labelHeight, "CurrentLocation", citizen.CurrentLocation);
+                AppendLine(info, ref labelHeight, "CitizenInstance", citizen.m_instance);
+                AppendLine(info, ref labelHeight, "VisitBuilding", citizen.m_visitBuilding);
+                AppendLine(info, ref labelHeight, "HomeBuilding", citizen.m_homeBuilding);
+                AppendLine(info, ref labelHeight, "WorkBuilding", citizen.m_workBuilding);
+                AppendLine(info, ref labelHeight, "PanelUpdate", updateCounter);
+
+                if (TryGetCitizenInstance(citizenId, citizen, out var instance))
+                {
+                    AppendLine(info, ref labelHeight, "InstanceCitizen", instance.m_citizen);
+                    AppendLine(info, ref labelHeight, "InstanceFlags", instance.m_flags);
+                    AppendLine(info, ref labelHeight, "InstanceTargetBuilding", instance.m_targetBuilding);
+                }
+                else
+                {
+                    AppendLine(info, ref labelHeight, "Instance", "Invalid");
+                }
             }
 
             if (schedule.LastScheduledState != ResidentState.Unknown)
             {
-                string current_planned_action = localizationProvider.Translate("ScheduledAction." + schedule.LastScheduledState.ToString());
-                if(schedule.LastScheduledState == ResidentState.GoToMeal && schedule.LastScheduledMealType != MealType.None)
-                {
-                    string mealType = localizationProvider.Translate("MealType." + schedule.LastScheduledMealType.ToString());
-                    if (!string.IsNullOrEmpty(mealType))
-                    {
-                        current_planned_action += $" {mealType}";
-                    }
-                }
-                if (!string.IsNullOrEmpty(current_planned_action))
-                {
-                    if (info.Length > 0)
-                    {
-                        info.AppendLine();
-                    }
-
-                    info.Append(localizationProvider.Translate(CurrentPlannedAction)).Append(": ").Append(current_planned_action);
-                    labelHeight += LineHeight;
-                }
+                string action = TranslateScheduledAction(schedule.LastScheduledState, schedule.LastScheduledMealType);
+                AppendTranslatedLine(info, ref labelHeight, CurrentPlannedAction, action);
             }
 
             if (schedule.ScheduledStateTime != default)
             {
-                string next_action_time = localizationProvider.Translate(NextScheduledActionTime);
-                if (!string.IsNullOrEmpty(next_action_time))
-                {
-                    if (info.Length > 0)
-                    {
-                        info.AppendLine();
-                    }
-
-                    info.Append(next_action_time).Append(": ").Append(schedule.ScheduledStateTime.ToString("t", localizationProvider.CurrentCulture));
-                    labelHeight += LineHeight;
-                }
+                string label = localizationProvider.Translate(NextScheduledActionTime);
+                string value = schedule.ScheduledStateTime.ToString("t", localizationProvider.CurrentCulture);
+                AppendLine(info, ref labelHeight, label, value);
             }
 
             if (schedule.ScheduledState != ResidentState.Unknown)
             {
-                string next_action = localizationProvider.Translate("ScheduledAction." + schedule.ScheduledState.ToString());
-                if (schedule.ScheduledState == ResidentState.GoToMeal && schedule.ScheduledMealType != MealType.None)
-                {
-                    string mealType = localizationProvider.Translate("MealType." + schedule.ScheduledMealType.ToString());
-                    if (!string.IsNullOrEmpty(mealType))
-                    {
-                        next_action += $" {mealType}";
-                    }
-                }
-                if (!string.IsNullOrEmpty(next_action))
-                {
-                    if (info.Length > 0)
-                    {
-                        info.AppendLine();
-                    }
-
-                    info.Append(localizationProvider.Translate(NextScheduledAction)).Append(": ").Append(next_action);
-                    labelHeight += LineHeight;
-                }
+                string action = TranslateScheduledAction(schedule.ScheduledState, schedule.ScheduledMealType);
+                AppendTranslatedLine(info, ref labelHeight, NextScheduledAction, action);
             }
 
             if (schedule.CurrentState != ResidentState.Unknown)
             {
-                string current_state = localizationProvider.Translate(CurrentState + "." + schedule.CurrentState.ToString());
+                string action = localizationProvider.Translate(CurrentState + "." + schedule.CurrentState);
+
                 if (schedule.CurrentState == ResidentState.EatMeal && schedule.LastScheduledMealType != MealType.None)
                 {
-                    string mealType = localizationProvider.Translate("MealType." + schedule.LastScheduledMealType.ToString());
+                    string mealType = localizationProvider.Translate("MealType." + schedule.LastScheduledMealType);
+
                     if (!string.IsNullOrEmpty(mealType))
                     {
-                        current_state += $" {mealType}";
+                        action += " " + mealType;
                     }
                 }
-                if (!string.IsNullOrEmpty(current_state))
-                {
-                    if (info.Length > 0)
-                    {
-                        info.AppendLine();
-                    }
 
-                    info.Append(localizationProvider.Translate(CurrentState)).Append(": ").Append(current_state);
-                    labelHeight += LineHeight;
-                }
+                AppendTranslatedLine(info, ref labelHeight, CurrentState, action);
             }
 
-            //if (schedule.TravelTimeToWork != 0)
-            //{
-            //    string action = "Travel Time";
-            //    if (!string.IsNullOrEmpty(action))
-            //    {
-            //        if (info.Length > 0)
-            //        {
-            //            info.AppendLine();
-            //        }
-            //        info.Append(action).Append(": ").Append(schedule.TravelTimeToWork);
-            //        labelHeight += LineHeight;
-            //    }
-            //}
+            AppendSchoolOrWorkInfo(info, ref labelHeight, citizen, ref schedule);
 
-            //if (schedule.WorkShiftStartHour != 0)
-            //{
-            //    string action = "Work Start";
-            //    if (!string.IsNullOrEmpty(action))
-            //    {
-            //        if (info.Length > 0)
-            //        {
-            //            info.AppendLine();
-            //        }
-            //        var now = timeInfo.Now;
-            //        var workStartTime = now.FutureHour(schedule.WorkShiftStartHour);
-
-            //        info.Append(action).Append(": ").Append(workStartTime.ToString("g", LocalizationProvider.CurrentCulture));
-            //        labelHeight += LineHeight;
-            //    }
-            //}
-
-            //if (schedule.WorkShiftEndHour != 0)
-            //{
-            //    string action = "Work End";
-            //    if (!string.IsNullOrEmpty(action))
-            //    {
-            //        if (info.Length > 0)
-            //        {
-            //            info.AppendLine();
-            //        }
-
-            //        var now = timeInfo.Now;
-            //        var workEndTime = now.FutureHour(schedule.WorkShiftEndHour);
-
-            //        info.Append(action).Append(": ").Append(workEndTime.ToString("g", LocalizationProvider.CurrentCulture));
-            //        labelHeight += LineHeight;
-            //    }
-            //}
-
-            if ((citizen.m_flags & Citizen.Flags.Student) != 0 || Citizen.GetAgeGroup(citizen.m_age) == Citizen.AgeGroup.Child || Citizen.GetAgeGroup(citizen.m_age) == Citizen.AgeGroup.Teen)
-            {
-                if (schedule.SchoolClass != SchoolClass.NoSchool)
-                {
-                    string schoolClass = localizationProvider.Translate(SchoolClassKey + "." + schedule.SchoolClass.ToString());
-                    if (!string.IsNullOrEmpty(schoolClass))
-                    {
-                        if (info.Length > 0)
-                        {
-                            info.AppendLine();
-                        }
-
-                        info.Append(schoolClass);
-                        labelHeight += LineHeight;
-
-                        if (schedule.SchoolStatus == SchoolStatus.OnVacation)
-                        {
-                            string vacation = localizationProvider.Translate(SchoolClassOnVacation);
-                            if (!string.IsNullOrEmpty(vacation))
-                            {
-                                info.Append(' ');
-                                info.AppendFormat(vacation, schedule.VacationDaysLeft);
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (schedule.WorkShift != WorkShift.Unemployed && schedule.ShiftIndex != -1)
-                {
-                    int shift = schedule.ShiftIndex + 1;
-                    string workShift = localizationProvider.Translate(WorkShiftKey + "." + schedule.WorkShift.ToString()) + " " + shift;
-                    if (!string.IsNullOrEmpty(workShift))
-                    {
-                        if (info.Length > 0)
-                        {
-                            info.AppendLine();
-                        }
-
-                        info.Append(workShift);
-                        labelHeight += LineHeight;
-
-                        if (schedule.WorkStatus == WorkStatus.OnVacation)
-                        {
-                            string vacation = localizationProvider.Translate(WorkStatusOnVacation);
-                            if (!string.IsNullOrEmpty(vacation))
-                            {
-                                info.Append(' ');
-                                info.AppendFormat(vacation, schedule.VacationDaysLeft);
-                            }
-                        }
-                    }
-                }
-            }
             scheduleLabel.height = labelHeight;
             scheduleLabel.text = info.ToString();
             SetCustomPanelVisibility(scheduleLabel, info.Length > 0);
         }
 
-        private void UpdateCitizenState(uint citizenId, Citizen citizen, ref CitizenSchedule schedule)
+        private string TranslateScheduledAction(ResidentState state, MealType mealType)
         {
-            var time_now = SimulationManager.instance.m_currentGameTime;
-            if (schedule.CurrentState == ResidentState.Ignored)
+            string action = localizationProvider.Translate("ScheduledAction." + state);
+
+            if (state == ResidentState.GoToMeal && mealType != MealType.None)
+            {
+                string translatedMeal = localizationProvider.Translate("MealType." + mealType);
+
+                if (!string.IsNullOrEmpty(translatedMeal))
+                {
+                    action += " " + translatedMeal;
+                }
+            }
+
+            return action;
+        }
+
+        private void AppendSchoolOrWorkInfo(StringBuilder info, ref float labelHeight, Citizen citizen, ref CitizenSchedule schedule)
+        {
+            if (IsStudent(citizen))
+            {
+                if (schedule.SchoolClass == SchoolClass.NoSchool)
+                {
+                    return;
+                }
+
+                string schoolClass = localizationProvider.Translate(
+                    SchoolClassKey + "." + schedule.SchoolClass);
+
+                if (string.IsNullOrEmpty(schoolClass))
+                {
+                    return;
+                }
+
+                AppendLine(info, ref labelHeight, null, schoolClass);
+
+                if (schedule.SchoolStatus == SchoolStatus.OnVacation)
+                {
+                    string vacation = localizationProvider.Translate(SchoolClassOnVacation);
+
+                    if (!string.IsNullOrEmpty(vacation))
+                    {
+                        info.Append(' ');
+                        info.AppendFormat(vacation, schedule.VacationDaysLeft);
+                    }
+                }
+
+                return;
+            }
+
+            if (schedule.WorkShift == WorkShift.Unemployed || schedule.ShiftIndex == -1)
             {
                 return;
             }
 
-            var citizenInstance = Singleton<CitizenManager>.instance.m_instances.m_buffer[citizen.m_instance];
+            int shift = schedule.ShiftIndex + 1;
+            string workShift = localizationProvider.Translate(WorkShiftKey + "." + schedule.WorkShift);
+
+            if (string.IsNullOrEmpty(workShift))
+            {
+                return;
+            }
+
+            AppendLine(info, ref labelHeight, null, workShift + " " + shift);
+
+            if (schedule.WorkStatus == WorkStatus.OnVacation)
+            {
+                string vacation = localizationProvider.Translate(WorkStatusOnVacation);
+
+                if (!string.IsNullOrEmpty(vacation))
+                {
+                    info.Append(' ');
+                    info.AppendFormat(vacation, schedule.VacationDaysLeft);
+                }
+            }
+        }
+
+        private void UpdateCitizenState(uint citizenId, Citizen citizen, ref CitizenSchedule schedule)
+        {
+            var timeNow = SimulationManager.instance.m_currentGameTime;
 
             if ((citizen.m_flags & Citizen.Flags.DummyTraffic) != 0)
             {
@@ -343,8 +356,17 @@ namespace RealTime.UI
                 return;
             }
 
+            if (!TryGetCitizenInstance(citizenId, citizen, out var citizenInstance))
+            {
+                schedule.CurrentState = ResidentState.Unknown;
+                DebugState(timeNow, citizenId, "invalid or mismatched citizen instance");
+                return;
+            }
+
             var location = citizen.CurrentLocation;
-            Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} current location is {location}");
+
+            DebugState(timeNow, citizenId, $"location={location}, instance={citizen.m_instance}, instanceCitizen={citizenInstance.m_citizen}, instanceFlags={citizenInstance.m_flags}");
+
             if (location == Citizen.Location.Moving)
             {
                 if((citizenInstance.m_flags & CitizenInstance.Flags.OnTour) != 0 || (citizenInstance.m_flags & CitizenInstance.Flags.TargetIsNode) != 0)
@@ -352,121 +374,196 @@ namespace RealTime.UI
                     schedule.Hint = ScheduleHint.OnTour;
                 }
 
-                Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} CurrentState is {schedule.CurrentState}");
+                Log.Debug(LogCategory.State, timeNow, $"UpdateCitizenInfo - Citizen {citizenId} CurrentState is {schedule.CurrentState}");
                 schedule.CurrentState = ResidentState.InTransition;
                 return;
             }
 
             ushort currentBuilding = citizen.GetBuildingByLocation();
-            if (currentBuilding == 0)
+
+            if (currentBuilding == 0 || currentBuilding >= Singleton<BuildingManager>.instance.m_buildings.m_buffer.Length)
             {
-                Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} currentBuilding is {currentBuilding} and CurrentState is {schedule.CurrentState}");
                 schedule.CurrentState = ResidentState.Unknown;
+                DebugState(timeNow, citizenId, "no valid current building");
                 return;
             }
 
             var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[currentBuilding];
 
+            if (building.Info == null)
+            {
+                schedule.CurrentState = ResidentState.Unknown;
+                DebugState(timeNow, citizenId, "current building has no info");
+                return;
+            }
+
             if ((building.m_flags & Building.Flags.Evacuating) != 0)
             {
-                Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} is evacuating and CurrentState is {schedule.CurrentState}");
                 schedule.CurrentState = ResidentState.Evacuating;
                 return;
             }
 
-            var buildingService = building.Info.GetService();
-            var buildingSubService = building.Info.GetSubService();
+            var service = building.Info.GetService();
+            var subService = building.Info.GetSubService();
+
             switch (location)
             {
                 case Citizen.Location.Home:
-                    Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} is at home and CurrentState is {schedule.CurrentState}");
                     schedule.CurrentState = ResidentState.AtHome;
                     return;
 
                 case Citizen.Location.Work:
-                    Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} location is {location}");
                     if (citizen.m_visitBuilding == currentBuilding && schedule.WorkStatus != WorkStatus.Working)
                     {
-                        // A citizen may visit their own work building (e.g. shopping),
-                        // but the game sets the location to 'work' even if the citizen visits the building.
-                        Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} visits {currentBuilding} which is also their work building but they are visiting it");
-                        goto case Citizen.Location.Visit;
+                        // The game may report Work while the citizen is visiting
+                        // their own workplace. Treat that case as Visit.
+                        HandleVisitState(schedule, service, subService);
+                        return;
                     }
 
-                    switch (buildingService)
+                    if (IsShelterService(service) && DisasterManager.instance.IsEvacuating(building.m_position))
                     {
-                        case ItemClass.Service.Electricity:
-                        case ItemClass.Service.Water:
-                        case ItemClass.Service.HealthCare:
-                        case ItemClass.Service.PoliceDepartment:
-                        case ItemClass.Service.FireDepartment:
-                        case ItemClass.Service.Disaster:
-                            if (DisasterManager.instance.IsEvacuating(BuildingManager.instance.m_buildings.m_buffer[currentBuilding].m_position))
-                            {
-                                schedule.CurrentState = ResidentState.InShelter;
-                                Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} is Evacuating, CurrentState is {schedule.CurrentState}");
-                                return;
-                            }
-
-                            break;
+                        schedule.CurrentState = ResidentState.InShelter;
+                        return;
                     }
 
-                    if ((citizen.m_flags & Citizen.Flags.Student) != 0)
-                    {
-                        schedule.CurrentState = ResidentState.AtSchool;
-                        Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} is at school");
-                    }
-                    else
-                    {
-                        schedule.CurrentState = ResidentState.AtWork;
-                        Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} is at work");
-                    }
-                    Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} CurrentState is {schedule.CurrentState}");
+                    schedule.CurrentState = (citizen.m_flags & Citizen.Flags.Student) != 0 ? ResidentState.AtSchool : ResidentState.AtWork;
                     return;
 
                 case Citizen.Location.Visit:
-                    switch (buildingService)
-                    {
-                        case ItemClass.Service.Beautification:
-                        case ItemClass.Service.Monument:
-                        case ItemClass.Service.Tourism:
-                        case ItemClass.Service.Commercial
-                            when buildingSubService == ItemClass.SubService.CommercialLeisure && schedule.WorkStatus != WorkStatus.Working:
-                            if (schedule.LastScheduledState == ResidentState.GoToRelax)
-                            {
-                                schedule.CurrentState = ResidentState.Relaxing;
-                            }
-                            else if (schedule.LastScheduledState == ResidentState.GoToMeal)
-                            {
-                                schedule.CurrentState = ResidentState.EatMeal;
-                            }
-                            Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} (Relax mode) LastScheduledState is {schedule.LastScheduledState} and CurrentState is {schedule.CurrentState}");
-                            return;
+                    HandleVisitState(schedule, service, subService);
+                    return;
 
-                        case ItemClass.Service.Commercial:
-                            if (schedule.LastScheduledState == ResidentState.GoShopping)
-                            {
-                                schedule.CurrentState = ResidentState.Shopping;
-                            }
-                            else if (schedule.LastScheduledState == ResidentState.GoToMeal)
-                            {
-                                schedule.CurrentState = ResidentState.EatMeal;
-                            }
-                            Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} (Shopping mode) LastScheduledState is {schedule.LastScheduledState} and CurrentState is {schedule.CurrentState}");
-                            return;
-
-                        case ItemClass.Service.Disaster when schedule.LastScheduledState == ResidentState.GoToShelter:
-                            schedule.CurrentState = ResidentState.InShelter;
-                            Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} CurrentState is {schedule.CurrentState}");
-                            return;
-                    }
-
-                    schedule.CurrentState = ResidentState.Visiting;
-                    Log.Debug(LogCategory.State, time_now, $"UpdateCitizenInfo - Citizen {citizenId} CurrentState is {schedule.CurrentState}");
+                default:
+                    schedule.CurrentState = ResidentState.Unknown;
                     return;
             }
-
-            return;
         }
+
+        private static void HandleVisitState(CitizenSchedule schedule, ItemClass.Service service, ItemClass.SubService subService)
+        {
+            if ((service == ItemClass.Service.Beautification ||
+                 service == ItemClass.Service.Monument ||
+                 service == ItemClass.Service.Tourism ||
+                 service == ItemClass.Service.Commercial &&
+                 subService == ItemClass.SubService.CommercialLeisure) &&
+                schedule.WorkStatus != WorkStatus.Working)
+            {
+                if (schedule.LastScheduledState == ResidentState.GoToRelax)
+                {
+                    schedule.CurrentState = ResidentState.Relaxing;
+                }
+                else if (schedule.LastScheduledState == ResidentState.GoToMeal)
+                {
+                    schedule.CurrentState = ResidentState.EatMeal;
+                }
+                else
+                {
+                    schedule.CurrentState = ResidentState.Visiting;
+                }
+
+                return;
+            }
+
+            if (service == ItemClass.Service.Commercial)
+            {
+                if (schedule.LastScheduledState == ResidentState.GoShopping)
+                {
+                    schedule.CurrentState = ResidentState.Shopping;
+                }
+                else if (schedule.LastScheduledState == ResidentState.GoToMeal)
+                {
+                    schedule.CurrentState = ResidentState.EatMeal;
+                }
+                else
+                {
+                    schedule.CurrentState = ResidentState.Visiting;
+                }
+
+                return;
+            }
+
+            if (service == ItemClass.Service.Disaster && schedule.LastScheduledState == ResidentState.GoToShelter)
+            {
+                schedule.CurrentState = ResidentState.InShelter;
+                return;
+            }
+
+            schedule.CurrentState = ResidentState.Visiting;
+        }
+
+        private static bool IsShelterService(ItemClass.Service service) => service == ItemClass.Service.Electricity ||
+                   service == ItemClass.Service.Water ||
+                   service == ItemClass.Service.HealthCare ||
+                   service == ItemClass.Service.PoliceDepartment ||
+                   service == ItemClass.Service.FireDepartment ||
+                   service == ItemClass.Service.Disaster;
+
+        private static bool TryGetCitizenInstance(uint citizenId, Citizen citizen, out CitizenInstance instance)
+        {
+            instance = default;
+
+            ushort instanceId = citizen.m_instance;
+            var manager = Singleton<CitizenManager>.instance;
+
+            if (instanceId == 0 || instanceId >= manager.m_instances.m_buffer.Length)
+            {
+                return false;
+            }
+
+            instance = manager.m_instances.m_buffer[instanceId];
+
+            return (instance.m_flags & CitizenInstance.Flags.Created) != 0 && instance.m_citizen == citizenId;
+        }
+
+        private void ClearCustomPanelState()
+        {
+            cachedCitizenId = 0;
+            cachedLocation = default;
+            scheduleCopy = default;
+            hasCachedDisplayState = false;
+        }
+
+        private void HideCustomPanel()
+        {
+            if (scheduleLabel == null)
+            {
+                return;
+            }
+
+            scheduleLabel.text = string.Empty;
+            scheduleLabel.height = 0;
+            SetCustomPanelVisibility(scheduleLabel, false);
+        }
+
+        private static void AppendTranslatedLine(StringBuilder info, ref float labelHeight, string key, string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return;
+            }
+
+            AppendLine(info, ref labelHeight, key, value);
+        }
+
+        private static void AppendLine(StringBuilder info, ref float labelHeight, string label, object value)
+        {
+            if (info.Length > 0)
+            {
+                info.AppendLine();
+            }
+
+            if (!string.IsNullOrEmpty(label))
+            {
+                info.Append(label).Append(": ");
+            }
+
+            info.Append(value);
+            labelHeight += LineHeight;
+        }
+
+        private void DebugPanel(string message) => Log.Debug(LogCategory.State, SimulationManager.instance.m_currentGameTime, $"InfoPanel update #{updateCounter}: {message}");
+
+        private static void DebugState(DateTime time, uint citizenId, string message) => Log.Debug(LogCategory.State, time, $"UpdateCitizenState - citizen {citizenId}: {message}");
     }
 }

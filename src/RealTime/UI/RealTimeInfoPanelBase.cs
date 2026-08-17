@@ -226,10 +226,17 @@ namespace RealTime.UI
                 }
             }
 
+            string plannedState = schedule.LastScheduledState.ToString();
+
+            string plannedAction = localizationProvider.Translate("ScheduledAction." + plannedState);
+
+            DebugPanel($"render citizen={citizenId}; LastScheduledState={plannedState}; translated='{plannedAction}'; length={plannedAction?.Length ?? -1}");
+
             if (schedule.LastScheduledState != ResidentState.Unknown)
             {
+                string label = localizationProvider.Translate(CurrentPlannedAction);
                 string action = TranslateScheduledAction(schedule.LastScheduledState, schedule.LastScheduledMealType);
-                AppendTranslatedLine(info, ref labelHeight, CurrentPlannedAction, action);
+                AppendTranslatedLine(info, ref labelHeight, label, action);
             }
 
             if (schedule.ScheduledStateTime != default)
@@ -241,8 +248,9 @@ namespace RealTime.UI
 
             if (schedule.ScheduledState != ResidentState.Unknown)
             {
+                string label = localizationProvider.Translate(NextScheduledAction);
                 string action = TranslateScheduledAction(schedule.ScheduledState, schedule.ScheduledMealType);
-                AppendTranslatedLine(info, ref labelHeight, NextScheduledAction, action);
+                AppendTranslatedLine(info, ref labelHeight, label, action);
             }
 
             if (schedule.CurrentState != ResidentState.Unknown)
@@ -356,16 +364,18 @@ namespace RealTime.UI
                 return;
             }
 
-            if (!TryGetCitizenInstance(citizenId, citizen, out var citizenInstance))
-            {
-                schedule.CurrentState = ResidentState.Unknown;
-                DebugState(timeNow, citizenId, "invalid or mismatched citizen instance");
-                return;
-            }
-
             var location = citizen.CurrentLocation;
 
-            DebugState(timeNow, citizenId, $"location={location}, instance={citizen.m_instance}, instanceCitizen={citizenInstance.m_citizen}, instanceFlags={citizenInstance.m_flags}");
+            bool hasCitizenInstance = TryGetCitizenInstance(citizenId, citizen, out var citizenInstance);
+
+            if (!hasCitizenInstance)
+            {
+                DebugState(timeNow, citizenId, $"no active CitizenInstance; location={location}; instanceId={citizen.m_instance}");
+            }
+            else
+            {
+                DebugState(timeNow, citizenId, $"location={location}; instanceId={citizen.m_instance}; instanceCitizen={citizenInstance.m_citizen}; instanceFlags={citizenInstance.m_flags}");
+            }
 
             if (location == Citizen.Location.Moving)
             {

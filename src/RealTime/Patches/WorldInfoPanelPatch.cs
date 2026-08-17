@@ -26,7 +26,6 @@ namespace RealTime.Patches
     using SkyTools.Localization;
     using SkyTools.Tools;
     using UnityEngine;
-    using static RealTime.Managers.BuildingWorkTimeManager;
 
     /// <summary>
     /// A static class that provides the patch objects for the world info panel game methods.

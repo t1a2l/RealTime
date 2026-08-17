@@ -226,7 +226,7 @@ namespace RealTime.Patches
         private static DateTime CalculateNextEvent(DateTime currentDate, int scheduleDay, int scheduleMonth, int scheduleHour, int scheduleMinute)
         {
             int year = currentDate.Year;
-            Log.Debug(LogCategory.Events, TimeInfo.Now, $"Year is {year} Month is {scheduleMonth}, Day is {scheduleDay}, Hour is {scheduleHour}, Minute is {scheduleMinute}");
+            Log.Debug(LogCategory.Events, SimulationManager.instance.m_currentGameTime, $"Year is {year} Month is {scheduleMonth}, Day is {scheduleDay}, Hour is {scheduleHour}, Minute is {scheduleMinute}");
             return new DateTime(year, scheduleMonth, scheduleDay, scheduleHour, scheduleMinute, 0);
         }
 

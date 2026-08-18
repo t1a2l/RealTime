@@ -31,11 +31,6 @@ namespace RealTime.CustomAI
 
             if (timeLeft <= MaxTravelTime)
             {
-                if (ScheduleMeal(ref schedule, ref citizen, true, departureTime))
-                {
-                    Log.Debug(LogCategory.Schedule, $"  - Work time in {timeLeft} hours, going to eat {schedule.ScheduledMealType} and will finish eating at {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
-                }
-
                 Log.Debug(LogCategory.Schedule, $"  - Schedule work at {departureTime:dd.MM.yy HH:mm}");
                 schedule.Schedule(ResidentState.GoToWork, departureTime);
 
@@ -46,14 +41,23 @@ namespace RealTime.CustomAI
                     return true;
                 }
 
-                // If we have some time, try to shop locally.
-                if (ScheduleShopping(ref schedule, ref citizen, localOnly: true))
+                bool didScheduleMeal = ScheduleMeal(ref schedule, ref citizen, true, departureTime);
+
+                if (didScheduleMeal)
                 {
-                    Log.Debug(LogCategory.Schedule, $"  - Work time in {timeLeft} hours, trying local shop");
+                    Log.Debug(LogCategory.Schedule, $"  - Work time in {timeLeft} hours, going to eat {schedule.ScheduledMealType} and will finish eating at {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
                 }
                 else
                 {
-                    Log.Debug(LogCategory.Schedule, $"  - Work time in {timeLeft} hours, doing nothing");
+                    // If we have some time, try to shop locally.
+                    if (ScheduleShopping(ref schedule, ref citizen, localOnly: true))
+                    {
+                        Log.Debug(LogCategory.Schedule, $"  - Work time in {timeLeft} hours, trying local shop");
+                    }
+                    else
+                    {
+                        Log.Debug(LogCategory.Schedule, $"  - Work time in {timeLeft} hours, doing nothing");
+                    }
                 }
 
                 return true;

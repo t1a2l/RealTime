@@ -31,11 +31,6 @@ namespace RealTime.CustomAI
 
             if (timeLeft <= MaxTravelTime)
             {
-                if (ScheduleMeal(ref schedule, ref citizen, true, departureTime))
-                {
-                    Log.Debug(LogCategory.Schedule, $"  - School time in {timeLeft} hours, going to eat {schedule.ScheduledMealType} at a shop or a cafeteria and will finish eating at {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
-                }
-
                 Log.Debug(LogCategory.Schedule, $"  - Schedule school at {departureTime:dd.MM.yy HH:mm}");
                 schedule.Schedule(ResidentState.GoToSchool, departureTime);
 
@@ -46,19 +41,29 @@ namespace RealTime.CustomAI
                     return true;
                 }
 
-                var age = CitizenProxy.GetAge(ref citizen);
-                if(age == Citizen.AgeGroup.Young || age == Citizen.AgeGroup.Adult)
+                bool didScheduleMeal = ScheduleMeal(ref schedule, ref citizen, true, departureTime);
+
+                if (didScheduleMeal)
                 {
-                    // If we have some time, try to shop locally.
-                    if (ScheduleShopping(ref schedule, ref citizen, localOnly: true))
+                    Log.Debug(LogCategory.Schedule, $"  - University/School time in {timeLeft} hours, going to eat {schedule.ScheduledMealType} at a shop or a cafeteria and will finish eating at {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
+                }
+                else
+                {
+                    var age = CitizenProxy.GetAge(ref citizen);
+                    if (age == Citizen.AgeGroup.Young || age == Citizen.AgeGroup.Adult)
                     {
-                        Log.Debug(LogCategory.Schedule, $"  - University time in {timeLeft} hours, trying local shop");
-                    }
-                    else
-                    {
-                        Log.Debug(LogCategory.Schedule, $"  - University time in {timeLeft} hours, doing nothing");
+                        // If we have some time, try to shop locally.
+                        if (ScheduleShopping(ref schedule, ref citizen, localOnly: true))
+                        {
+                            Log.Debug(LogCategory.Schedule, $"  - University/School time in {timeLeft} hours, trying local shop");
+                        }
+                        else
+                        {
+                            Log.Debug(LogCategory.Schedule, $"  - University/School time in {timeLeft} hours, doing nothing");
+                        }
                     }
                 }
+                
                 return true;
             }
 

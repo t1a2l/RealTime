@@ -520,6 +520,7 @@ namespace RealTime.CustomAI
                 {
                     schedule.Schedule(ResidentState.Unknown);
                 }
+                schedule.Hint = ScheduleHint.None;
                 return true;
             }
 
@@ -554,6 +555,7 @@ namespace RealTime.CustomAI
                     {
                         schedule.Schedule(ResidentState.Unknown);
                     }
+                    schedule.Hint = ScheduleHint.None;
                 }
                 else
                 {
@@ -583,6 +585,7 @@ namespace RealTime.CustomAI
                 {
                     schedule.Schedule(ResidentState.GoToWork, mealEnd);
                 }
+                schedule.Hint = ScheduleHint.None;
                 Log.Debug(LogCategory.Movement, $"Citizen {citizenId} started eating {schedule.LastScheduledMealType} at {TimeInfo.Now:dd.MM.yy HH:mm}, and will finish eating at {mealEnd:dd.MM.yy HH:mm} and then will {schedule.ScheduledState}");
             }
             else

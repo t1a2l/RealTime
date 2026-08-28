@@ -427,7 +427,7 @@ namespace RealTime.UI
                     {
                         // The game may report Work while the citizen is visiting
                         // their own workplace. Treat that case as Visit.
-                        HandleVisitState(schedule, service, subService);
+                        HandleVisitState(ref schedule, service, subService);
                         return;
                     }
 
@@ -441,7 +441,7 @@ namespace RealTime.UI
                     return;
 
                 case Citizen.Location.Visit:
-                    HandleVisitState(schedule, service, subService);
+                    HandleVisitState(ref schedule, service, subService);
                     return;
 
                 default:
@@ -450,7 +450,7 @@ namespace RealTime.UI
             }
         }
 
-        private static void HandleVisitState(CitizenSchedule schedule, ItemClass.Service service, ItemClass.SubService subService)
+        private static void HandleVisitState(ref CitizenSchedule schedule, ItemClass.Service service, ItemClass.SubService subService)
         {
             if ((service == ItemClass.Service.Beautification ||
                  service == ItemClass.Service.Monument ||

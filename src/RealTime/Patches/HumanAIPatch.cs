@@ -4,7 +4,6 @@ namespace RealTime.Patches
 {
     using HarmonyLib;
     using RealTime.CustomAI;
-    using SkyTools.Tools;
 
     /// <summary>
     /// A static class that provides the patch objects for the Human AI.
@@ -27,11 +26,11 @@ namespace RealTime.Patches
             }
         }
 
-        [HarmonyPatch(typeof(HumanAI), "ArriveAtTarget")]
+        [HarmonyPatch(typeof(HumanAI), "ArriveAtDestination")]
         [HarmonyPostfix]
-        private static void Postfix(HumanAI __instance, ushort instanceID, ref CitizenInstance citizenData)
+        private static void Postfix(HumanAI __instance, ushort instanceID, ref CitizenInstance citizenData, bool success)
         {
-            if (citizenData.m_citizen != 0 && RealTimeResidentAI != null && __instance is ResidentAI)
+            if (success && citizenData.m_citizen != 0 && RealTimeResidentAI != null && __instance is ResidentAI)
             {
                 RealTimeResidentAI.RegisterCitizenArrival(citizenData.m_citizen);
             }

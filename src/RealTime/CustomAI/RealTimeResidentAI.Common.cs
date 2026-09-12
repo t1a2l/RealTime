@@ -255,8 +255,16 @@ namespace RealTime.CustomAI
                     // Do not infer Shopping/Relaxing/EatMeal/Visiting from LastScheduledState here.
                     // Those transitions are committed in RegisterCitizenArrival based on ActiveTravelState.
                     // Just set a generic visiting state.
-                    schedule.CurrentState = ResidentState.Visiting;
-                    Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} CurrentState is {schedule.CurrentState}");
+                    Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} at Visit, building {currentBuilding}, ActiveTravelState={schedule.ActiveTravelState}, CurrentState(before)={schedule.CurrentState}");
+                    if (schedule.CurrentState == ResidentState.Unknown || schedule.CurrentState == ResidentState.Ignored)
+                    {
+                        schedule.CurrentState = ResidentState.Visiting;
+                        Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} CurrentState set to Visiting (fallback)");
+                    }
+                    else
+                    {
+                        Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} CurrentState kept as {schedule.CurrentState}");
+                    } 
                     return ScheduleAction.ProcessState;
             }
 

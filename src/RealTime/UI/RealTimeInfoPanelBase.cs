@@ -43,6 +43,29 @@ namespace RealTime.UI
         private bool hasCachedDisplayState;
         private int updateCounter;
 
+        /// <summary>Builds up the custom UI objects for the info panel.</summary>
+        /// <returns><c>true</c> on success; otherwise, <c>false</c>.</returns>
+        protected sealed override bool InitializeCore()
+        {
+            var statusLabel = ItemsPanel.Find<UILabel>(AgeEducationLabelName);
+
+            if (statusLabel == null)
+            {
+                return false;
+            }
+
+            scheduleLabel = UIComponentTools.CreateCopy(statusLabel, ItemsPanel, ComponentId);
+
+            scheduleLabel.width = 270;
+            scheduleLabel.zOrder = statusLabel.zOrder + 1;
+            scheduleLabel.isVisible = false;
+            scheduleLabel.text = string.Empty;
+            scheduleLabel.height = 0;
+
+            ClearCustomPanelState();
+            return true;
+        }
+
         /// <summary>Disables the custom citizen info panel, if it is enabled.</summary>
         protected sealed override void DisableCore()
         {

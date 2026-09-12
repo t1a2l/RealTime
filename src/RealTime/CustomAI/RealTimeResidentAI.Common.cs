@@ -252,44 +252,9 @@ namespace RealTime.CustomAI
                     return ScheduleAction.ProcessState;
 
                 case Citizen.Location.Visit:
-                    Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} location is {location}");
-                    switch (buildingService)
-                    {
-                        case ItemClass.Service.Beautification:
-                        case ItemClass.Service.Monument:
-                        case ItemClass.Service.Tourism:
-                        case ItemClass.Service.Commercial
-                            when BuildingMgr.GetBuildingSubService(currentBuilding) == ItemClass.SubService.CommercialLeisure
-                                && schedule.WorkStatus != WorkStatus.Working:          
-                            if(schedule.LastScheduledState == ResidentState.GoToRelax)
-                            {
-                                schedule.CurrentState = ResidentState.Relaxing;
-                            }
-                            else if (schedule.LastScheduledState == ResidentState.GoToMeal)
-                            {
-                                schedule.CurrentState = ResidentState.EatMeal;
-                            }
-                            Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} (Relax mode) LastScheduledState is {schedule.LastScheduledState} and CurrentState is {schedule.CurrentState}");
-                            return ScheduleAction.ProcessState;
-
-                        case ItemClass.Service.Commercial:
-                            if (schedule.LastScheduledState == ResidentState.GoShopping)
-                            {
-                                schedule.CurrentState = ResidentState.Shopping;
-                            }
-                            else if (schedule.LastScheduledState == ResidentState.GoToMeal)
-                            {
-                                schedule.CurrentState = ResidentState.EatMeal;
-                            }
-                            Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} (Shopping mode) LastScheduledState is {schedule.LastScheduledState} and CurrentState is {schedule.CurrentState}");
-                            return ScheduleAction.ProcessState;
-
-                        case ItemClass.Service.Disaster when schedule.LastScheduledState == ResidentState.GoToShelter:
-                            schedule.CurrentState = ResidentState.InShelter;
-                            Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} CurrentState is {schedule.CurrentState}");
-                            return ScheduleAction.ProcessState;
-                    }
-
+                    // Do not infer Shopping/Relaxing/EatMeal/Visiting from LastScheduledState here.
+                    // Those transitions are committed in RegisterCitizenArrival based on ActiveTravelState.
+                    // Just set a generic visiting state.
                     schedule.CurrentState = ResidentState.Visiting;
                     Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} CurrentState is {schedule.CurrentState}");
                     return ScheduleAction.ProcessState;

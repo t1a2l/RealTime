@@ -2,6 +2,7 @@
 
 namespace RealTime.Patches
 {
+    using ColossalFramework;
     using HarmonyLib;
     using RealTime.CustomAI;
 
@@ -18,11 +19,11 @@ namespace RealTime.Patches
             [typeof(uint), typeof(Citizen), typeof(ushort), typeof(ushort)],
             [ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Normal, ArgumentType.Normal])]
         [HarmonyPostfix]
-        private static void Postfix(HumanAI __instance, uint citizenID, bool __result)
+        private static void Postfix(HumanAI __instance, uint citizenID, ref Citizen data, ushort targetBuilding, bool __result)
         {
             if (__result && __instance is ResidentAI && citizenID != 0 && RealTimeResidentAI != null)
             {
-                RealTimeResidentAI.RegisterCitizenDeparture(citizenID);
+                RealTimeResidentAI.RegisterCitizenDeparture(citizenID, ref data, targetBuilding);
             }
         }
 
@@ -32,7 +33,8 @@ namespace RealTime.Patches
         {
             if (success && citizenData.m_citizen != 0 && RealTimeResidentAI != null && __instance is ResidentAI)
             {
-                RealTimeResidentAI.RegisterCitizenArrival(citizenData.m_citizen);
+                ref var citizen = ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenData.m_citizen];
+                RealTimeResidentAI.RegisterCitizenArrival(citizenData.m_citizen, ref citizen);
             }
         }
     }

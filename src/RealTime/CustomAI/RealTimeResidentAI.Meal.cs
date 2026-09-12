@@ -58,7 +58,7 @@ namespace RealTime.CustomAI
             {
                 if (schedule.Hint != ScheduleHint.WorkOrSchoolRelatedMeal && CurrentBuildingSupportsMeal(currentBuilding) && buildingAI.IsBuildingOpenForMeal(currentBuilding, mealStart, mealDuration))
                 {
-                    MarkScheduledMealStarted(ref schedule);
+                    StartMealInCurrentBuilding(citizenId, ref schedule);
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} stays in building {currentBuilding} for the purpose of eating {schedule.ScheduledMealType}");
                     return true;
                 }
@@ -310,6 +310,38 @@ namespace RealTime.CustomAI
 
             Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Meal would end at {mealEnd:dd.MM.yy HH:mm}, return would finish at {returnTime:dd.MM.yy HH:mm}, but the latest allowed return is {latestAllowedReturn:dd.MM.yy HH:mm}");
             return false;
+        }
+
+        private void StartMealInCurrentBuilding(uint citizenId, ref CitizenSchedule schedule)
+        {
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} arrived at their destination at {TimeInfo.Now:dd.MM.yy HH:mm} and will start eating {schedule.ScheduledMealType}");
+
+            MarkScheduledMealStarted(ref schedule);
+
+            float mealDuration = mealBehavior.GetMealDuration(schedule.ScheduledMealType);
+            var mealEnd = TimeInfo.Now.AddHours(mealDuration);
+
+            schedule.UpdateMealEndTime(mealEnd);
+
+            if (schedule.Hint == ScheduleHint.WorkOrSchoolRelatedMeal)
+            {
+                if (schedule.SchoolStatus == SchoolStatus.Studying)
+                {
+                    schedule.Schedule(ResidentState.GoToSchool, mealEnd);
+                }
+                else if (schedule.WorkStatus == WorkStatus.Working)
+                {
+                    schedule.Schedule(ResidentState.GoToWork, mealEnd);
+                }
+
+                schedule.Hint = ScheduleHint.None;
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} started eating {schedule.ScheduledMealType} at {TimeInfo.Now:dd.MM.yy HH:mm}, will finish eating at {mealEnd:dd.MM.yy HH:mm} and then will {schedule.ScheduledState}");
+            }
+            else
+            {
+                schedule.Schedule(ResidentState.Unknown, mealEnd);
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} started eating {schedule.ScheduledMealType} at {TimeInfo.Now:dd.MM.yy HH:mm}, will finish eating at {mealEnd:dd.MM.yy HH:mm} and then will schedule Unknown");
+            }
         }
     }
 }

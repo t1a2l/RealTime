@@ -168,7 +168,7 @@ namespace RealTime.CustomAI
 
             if (schedule.CurrentState == ResidentState.EatMeal)
             {
-                text2 += $" and the meal type is {schedule.ScheduledMealType} and the last scheduled meal type is {schedule.LastScheduledMealType}";
+                text2 += $" and the meal type is {schedule.LastScheduledMealType}";
             }
 
             Log.Debug(LogCategory.Schedule, text2);
@@ -178,33 +178,119 @@ namespace RealTime.CustomAI
 
         /// <summary>Notifies that a citizen has arrived at their destination.</summary>
         /// <param name="citizenId">The citizen ID to process.</param>
-        public void RegisterCitizenArrival(uint citizenId)
+        /// <param name="citizen">A <typeparamref name="TCitizen"/> reference to process.</param>
+        public void RegisterCitizenArrival(uint citizenId, ref TCitizen citizen)
         {
             ref var schedule = ref residentSchedules[citizenId];
             var currentLocation = CitizenMgr.GetCitizenLocation(citizenId);
             switch (currentLocation)
             {
+                case Citizen.Location.Home:
+                    schedule.CurrentState = ResidentState.AtHome;
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"The citizen {citizenId} arrived at home");
+                    schedule.ClearActiveTravelState();
+                    break;
+
                 case Citizen.Location.Work:
-                    if(schedule.SchoolBuilding != 0)
+                    bool handled = false;
+                    if (schedule.SchoolBuilding != 0 && schedule.ActiveTravelState == ResidentState.GoToSchool)
                     {
                         schedule.UpdateTravelTimeToSchool(TimeInfo.Now);
+                        schedule.CurrentState = ResidentState.AtSchool;
                         Log.Debug(LogCategory.Movement, $"The citizen {citizenId} arrived at school at {TimeInfo.Now} and needs {schedule.TravelTimeToSchool} hours to get to school");
+                        handled = true;
                     }
-                    else
+                    else if (schedule.WorkBuilding != 0 && schedule.ActiveTravelState == ResidentState.GoToWork)
                     {
                         schedule.UpdateTravelTimeToWork(TimeInfo.Now);
+                        schedule.CurrentState = ResidentState.AtWork;
                         Log.Debug(LogCategory.Movement, $"The citizen {citizenId} arrived at work at {TimeInfo.Now} and needs {schedule.TravelTimeToWork} hours to get to work");
+                        handled = true;
+                    }
+                    if (handled)
+                    {
+                        schedule.ClearActiveTravelState();
                     }
                     break;
 
                 case Citizen.Location.Visit:
                     Log.Debug(LogCategory.Movement, $"The citizen {citizenId} arrived at their destination at {TimeInfo.Now} after {schedule.FindVisitPlaceAttempts} attempts to find a visit place");
                     schedule.FindVisitPlaceAttempts = 0;
-                    if (schedule.ScheduledState == ResidentState.GoToMeal && schedule.ScheduledMealType != MealType.None)
+
+                    ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+                    var buildingService = BuildingMgr.GetBuildingService(currentBuilding);
+
+                    if(schedule.Hint == ScheduleHint.AttendingEvent && schedule.ActiveTravelState == ResidentState.GoToRelax)
                     {
-                        /// Start meal after arrival
-                        RegisterCitizenMealStart(citizenId, ref schedule);
+                        ushort eventBuilding = schedule.EventBuilding;
+                        schedule.EventBuilding = 0;
+                        var cityEvent = EventMgr.GetCityEvent(eventBuilding);
+                        if (cityEvent != null)
+                        {
+                            schedule.Schedule(ResidentState.Unknown, cityEvent.EndTime);
+                            schedule.CurrentState = ResidentState.Relaxing;
+                            Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} arrived at event '{eventBuilding}' and will schedule the next activity at {cityEvent.EndTime}");
+                        }
+                        else
+                        {
+                            Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} arrived at event building '{eventBuilding}', but the event no longer exists");
+                            schedule.Schedule(ResidentState.Unknown);
+                        }
+
+                        // Event visit is done; clear travel state and return
+                        schedule.ClearActiveTravelState();
+                        return;
                     }
+
+
+                    switch (buildingService)
+                    {
+                        case ItemClass.Service.Beautification:
+                        case ItemClass.Service.Monument:
+                        case ItemClass.Service.Tourism:
+                        case ItemClass.Service.Commercial when BuildingMgr.GetBuildingSubService(currentBuilding) == ItemClass.SubService.CommercialLeisure:
+                            if (schedule.ActiveTravelState == ResidentState.GoToRelax)
+                            {
+                                schedule.CurrentState = ResidentState.Relaxing;
+                                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at leisure building {currentBuilding}, CurrentState = Relaxing");
+                            }
+                            else if (schedule.ActiveTravelState == ResidentState.GoToMeal && schedule.ScheduledMealType != MealType.None)
+                            {
+                                schedule.CurrentState = ResidentState.EatMeal;
+                                RegisterCitizenMealStart(citizenId, ref schedule);
+                                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at meal building {currentBuilding}, CurrentState = EatMeal");
+                            }
+                            break;
+
+                        case ItemClass.Service.Commercial:
+                            if (schedule.ActiveTravelState == ResidentState.GoShopping && CurrentBuildingSupportsTarget(currentBuilding, ref schedule))
+                            {
+                                schedule.CurrentState = ResidentState.Shopping;
+                                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at shopping building {currentBuilding}, CurrentState = Shopping");
+                            }
+                            else if (schedule.ActiveTravelState == ResidentState.GoToMeal && schedule.ScheduledMealType != MealType.None)
+                            {
+                                schedule.CurrentState = ResidentState.EatMeal;
+                                RegisterCitizenMealStart(citizenId, ref schedule);
+                                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at meal building {currentBuilding}, CurrentState = EatMeal");
+                            }
+                            break;
+
+                        case ItemClass.Service.PublicTransport when BuildingMgr.GetBuildingSubService(currentBuilding) == ItemClass.SubService.PublicTransportPost:
+                        case ItemClass.Service.PoliceDepartment when BuildingMgr.GetBuildingSubService(currentBuilding) == ItemClass.SubService.PoliceDepartmentBank:
+                            if (schedule.ActiveTravelState == ResidentState.GoToVisit)
+                            {
+                                schedule.CurrentState = ResidentState.Visiting;
+                                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at post office or bank building {currentBuilding}, CurrentState = Visiting");
+                            }
+                            break;
+
+                        case ItemClass.Service.Disaster when schedule.ActiveTravelState == ResidentState.GoToShelter:
+                            schedule.CurrentState = ResidentState.InShelter;
+                            Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} CurrentState is {schedule.CurrentState}");
+                            break;
+                    }
+                    schedule.ClearActiveTravelState();
                     break;
 
                 case Citizen.Location.Moving:
@@ -245,10 +331,24 @@ namespace RealTime.CustomAI
 
         /// <summary>Notifies that a citizen has started a journey somewhere.</summary>
         /// <param name="citizenId">The citizen ID to process.</param>
-        public void RegisterCitizenDeparture(uint citizenId)
+        /// <param name="citizen">A <typeparamref name="TCitizen"/> reference to process.</param>
+        /// <param name="targetBuilding">The target building ID (0 if none).</param>
+        public void RegisterCitizenDeparture(uint citizenId, ref TCitizen citizen, ushort targetBuilding)
         {
             ref var schedule = ref residentSchedules[citizenId];
             schedule.DepartureTime = TimeInfo.Now;
+
+            // Determine the intended activity from schedule + target, then set ActiveTravelState
+            if (targetBuilding == 0)
+            {
+                // No specific building target (e.g., wandering, or some special cases)
+                return;
+            }
+
+            if(schedule.ScheduledState != ResidentState.Unknown && schedule.ScheduledState != ResidentState.Ignored)
+            {
+                schedule.BeginTravel(schedule.ScheduledState);
+            }
         }
 
         /// <summary>Performs simulation for starting a day cycle beginning with specified hour.

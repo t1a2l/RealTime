@@ -60,6 +60,12 @@ namespace RealTime.CustomAI
         /// <summary>Gets the time when the citizen will perform the next state change.</summary>
         public DateTime ScheduledStateTime { get; private set; }
 
+        /// <summary>
+        /// The activity the citizen is currently traveling to execute (GoShopping, GoToRelax, GoToMeal, GoToVisit, etc.).
+        /// Cleared on arrival or when the mission is aborted.
+        /// </summary>
+        public ResidentState ActiveTravelState { get; private set; }
+
         /// <summary>Gets the meals that the citizen has consumed today.</summary>
         public DailyMealFlags MealsConsumedToday { get; private set; }
 
@@ -220,19 +226,25 @@ namespace RealTime.CustomAI
         /// <param name="scheduledMealType">The next scheduled meal type.</param>
         public void UpdateMealType(MealType scheduledMealType) => ScheduledMealType = scheduledMealType;
 
-        /// <summary>Updates the schedule state for this citizen.</summary>
+        /// <summary>Updates the schedule state for a citizen from CitizenScheduleSerializer.</summary>
         /// <param name="scheduledState">The citizen's schedule state.</param>
-        /// <param name="lastScheduledState">The citizen's last schedule state.</param>
-        /// <param name="scheduledStateTime">The citizen's schedule state time.</param>
-        public void UpdateScheduleState(ResidentState scheduledState, ResidentState lastScheduledState, DateTime scheduledStateTime, MealType lastScheduledMealType, MealType scheduledMealType, DateTime lastScheduledMealDuration, DateTime scheduledMealDuration)
+        /// <param name="lastScheduledState">The citizen's last scheduled state.</param>
+        /// <param name="scheduledStateTime">The citizen's scheduled state time.</param>
+        /// <param name="lastScheduledMealType">The citizen's last scheduled meal type.</param>
+        /// <param name="scheduledMealType">The citizen's scheduled meal type.</param>
+        /// <param name="lastScheduledMealDuration">The citizen's last scheduled meal duration.</param>
+        /// <param name="scheduledMealDuration">The citizen's scheduled meal duration.</param>
+        /// <param name="activeTravelState">The activity the citizen is currently traveling to execute.</param>
+        public void UpdateScheduleState(ResidentState scheduledState, ResidentState lastScheduledState, DateTime scheduledStateTime, MealType lastScheduledMealType, MealType scheduledMealType, DateTime lastScheduledMealDuration, DateTime scheduledMealDuration, ResidentState activeTravelState)
         {
             ScheduledState = scheduledState;
             LastScheduledState = lastScheduledState;
-            ScheduledStateTime = scheduledStateTime;
+            ScheduledStateTime = scheduledStateTime; 
             LastScheduledMealType = lastScheduledMealType;
             ScheduledMealType = scheduledMealType;
             LastScheduledMealEndTime = lastScheduledMealDuration;
             ScheduledMealEndTime = scheduledMealDuration;
+            ActiveTravelState = activeTravelState;
         }
 
         /// <summary>Updates the travel time to work for this citizen.</summary>
@@ -498,5 +510,19 @@ namespace RealTime.CustomAI
         /// <summary>Updates the scheduled meal end time for this citizen.</summary>
         /// <param name="mealEndTime">The new meal end time.</param>
         public void UpdateMealEndTime(DateTime mealEndTime) => ScheduledMealEndTime = mealEndTime;
+
+        /// <summary>
+        /// Begins traveling to execute a specific activity.
+        /// </summary>
+        public void BeginTravel(ResidentState travelState)
+        {
+            ActiveTravelState = travelState;
+            Schedule(travelState);
+        }
+
+        /// <summary>
+        /// Clears the active travel state after arrival or abort.
+        /// </summary>
+        public void ClearActiveTravelState() => ActiveTravelState = ResidentState.Unknown;
     }
 }

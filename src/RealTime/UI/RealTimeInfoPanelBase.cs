@@ -91,17 +91,8 @@ namespace RealTime.UI
                 return;
             }
 
-            bool citizenChanged = cachedCitizenId != 0 && cachedCitizenId != citizenId;
-
-            if (citizenChanged)
-            {
-                DebugPanel($"citizen changed {cachedCitizenId} -> {citizenId}; invalidating panel cache");
-
-                hasCachedDisplayState = false;
-                scheduleCopy = default;
-            }
-
-            ref var schedule = ref residentAI.GetCitizenSchedule(citizenId);
+            // Get a *copy* of the schedule; the panel must not mutate the live schedule.
+            var schedule = residentAI.GetCitizenSchedule(citizenId);
 
             if (schedule.LastScheduledState == ResidentState.Ignored)
             {
@@ -112,12 +103,17 @@ namespace RealTime.UI
                 return;
             }
 
-            // Update values that this panel displays before comparing the cache.
-            // CurrentState is derived here and was previously excluded from the
-            // early-return comparison.
-            UpdateCitizenState(citizenId, citizen, ref schedule);
-
             var currentLocation = citizen.CurrentLocation;
+            bool citizenChanged = cachedCitizenId != 0 && cachedCitizenId != citizenId;
+
+            if (citizenChanged)
+            {
+                DebugPanel($"citizen changed {cachedCitizenId} -> {citizenId}; invalidating panel cache");
+
+                hasCachedDisplayState = false;
+                scheduleCopy = default;
+            }
+
 
             bool changed = !hasCachedDisplayState || cachedCitizenId != citizenId || !HasSameDisplayedState(citizen, currentLocation, schedule, scheduleCopy, cachedLocation);
 
@@ -132,32 +128,9 @@ namespace RealTime.UI
             scheduleCopy = schedule;
             hasCachedDisplayState = true;
 
-            DebugPanel($"citizen {citizenId}: rebuilding panel; location={currentLocation}, last={schedule.LastScheduledState}, next={schedule.ScheduledState}, current={schedule.CurrentState}");
+            DebugPanel($"citizen {citizenId}: rebuilding panel; location={currentLocation}, active={schedule.ActiveTravelState}, next={schedule.ScheduledState}, current={schedule.CurrentState}");
 
             BuildTextInfo(citizenId, citizen, ref schedule, debugMode);
-        }
-
-        /// <summary>Builds up the custom UI objects for the info panel.</summary>
-        /// <returns><c>true</c> on success; otherwise, <c>false</c>.</returns>
-        protected sealed override bool InitializeCore()
-        {
-            var statusLabel = ItemsPanel.Find<UILabel>(AgeEducationLabelName);
-
-            if (statusLabel == null)
-            {
-                return false;
-            }
-
-            scheduleLabel = UIComponentTools.CreateCopy(statusLabel, ItemsPanel, ComponentId);
-
-            scheduleLabel.width = 270;
-            scheduleLabel.zOrder = statusLabel.zOrder + 1;
-            scheduleLabel.isVisible = false;
-            scheduleLabel.text = string.Empty;
-            scheduleLabel.height = 0;
-
-            ClearCustomPanelState();
-            return true;
         }
 
         private static bool HasSameDisplayedState(Citizen citizen, Citizen.Location currentLocation, in CitizenSchedule left, in CitizenSchedule right, Citizen.Location previousLocation)
@@ -167,11 +140,12 @@ namespace RealTime.UI
                 return false;
             }
 
-            if (left.LastScheduledState != right.LastScheduledState ||
-                left.ScheduledState != right.ScheduledState ||
+            if (left.ActiveTravelState != right.ActiveTravelState ||
                 left.CurrentState != right.CurrentState ||
-                left.LastScheduledMealType != right.LastScheduledMealType ||
+                left.ScheduledState != right.ScheduledState ||
+                left.LastScheduledState != right.LastScheduledState ||
                 left.ScheduledMealType != right.ScheduledMealType ||
+                left.LastScheduledMealType != right.LastScheduledMealType ||
                 left.ScheduledStateTime != right.ScheduledStateTime ||
                 left.VacationDaysLeft != right.VacationDaysLeft)
             {
@@ -224,21 +198,23 @@ namespace RealTime.UI
                 {
                     AppendLine(info, ref labelHeight, "Instance", "Invalid");
                 }
+
+                string plannedState = schedule.LastScheduledState.ToString();
+
+                string plannedAction = localizationProvider.Translate("ScheduledAction." + plannedState);
+
+                DebugPanel($"render citizen={citizenId}; LastScheduledState={plannedState}; translated='{plannedAction}'; length={plannedAction?.Length ?? -1}");
             }
 
-            string plannedState = schedule.LastScheduledState.ToString();
-
-            string plannedAction = localizationProvider.Translate("ScheduledAction." + plannedState);
-
-            DebugPanel($"render citizen={citizenId}; LastScheduledState={plannedState}; translated='{plannedAction}'; length={plannedAction?.Length ?? -1}");
-
-            if (schedule.LastScheduledState != ResidentState.Unknown)
+            // "Going to" – active travel
+            if (schedule.ActiveTravelState != ResidentState.Unknown)
             {
-                string label = localizationProvider.Translate(CurrentPlannedAction);
-                string action = TranslateScheduledAction(schedule.LastScheduledState, schedule.LastScheduledMealType);
+                string label = localizationProvider.Translate(CurrentPlannedAction); // or a dedicated "GoingTo" key
+                string action = TranslateScheduledAction(schedule.ActiveTravelState, schedule.ScheduledMealType);
                 AppendTranslatedLine(info, ref labelHeight, label, action);
             }
 
+            // "Next scheduled action time"
             if (schedule.ScheduledStateTime != default)
             {
                 string label = localizationProvider.Translate(NextScheduledActionTime);
@@ -246,6 +222,7 @@ namespace RealTime.UI
                 AppendLine(info, ref labelHeight, label, value);
             }
 
+            // "Next scheduled action"
             if (schedule.ScheduledState != ResidentState.Unknown)
             {
                 string label = localizationProvider.Translate(NextScheduledAction);
@@ -253,6 +230,7 @@ namespace RealTime.UI
                 AppendTranslatedLine(info, ref labelHeight, label, action);
             }
 
+            // "Current state"
             if (schedule.CurrentState != ResidentState.Unknown)
             {
                 string action = localizationProvider.Translate(CurrentState + "." + schedule.CurrentState);
@@ -270,6 +248,7 @@ namespace RealTime.UI
                 AppendTranslatedLine(info, ref labelHeight, CurrentState, action);
             }
 
+            // School / work info (unchanged in spirit)
             AppendSchoolOrWorkInfo(info, ref labelHeight, citizen, ref schedule);
 
             scheduleLabel.height = labelHeight;
@@ -354,161 +333,6 @@ namespace RealTime.UI
             }
         }
 
-        private void UpdateCitizenState(uint citizenId, Citizen citizen, ref CitizenSchedule schedule)
-        {
-            var timeNow = SimulationManager.instance.m_currentGameTime;
-
-            if ((citizen.m_flags & Citizen.Flags.DummyTraffic) != 0)
-            {
-                schedule.CurrentState = ResidentState.Ignored;
-                return;
-            }
-
-            var location = citizen.CurrentLocation;
-
-            bool hasCitizenInstance = TryGetCitizenInstance(citizenId, citizen, out var citizenInstance);
-
-            if (!hasCitizenInstance)
-            {
-                DebugState(timeNow, citizenId, $"no active CitizenInstance; location={location}; instanceId={citizen.m_instance}");
-            }
-            else
-            {
-                DebugState(timeNow, citizenId, $"location={location}; instanceId={citizen.m_instance}; instanceCitizen={citizenInstance.m_citizen}; instanceFlags={citizenInstance.m_flags}");
-            }
-
-            if (location == Citizen.Location.Moving)
-            {
-                if((citizenInstance.m_flags & CitizenInstance.Flags.OnTour) != 0 || (citizenInstance.m_flags & CitizenInstance.Flags.TargetIsNode) != 0)
-                {
-                    schedule.Hint = ScheduleHint.OnTour;
-                }
-
-                Log.Debug(LogCategory.State, timeNow, $"UpdateCitizenInfo - Citizen {citizenId} CurrentState is {schedule.CurrentState}");
-                schedule.CurrentState = ResidentState.InTransition;
-                return;
-            }
-
-            ushort currentBuilding = citizen.GetBuildingByLocation();
-
-            if (currentBuilding == 0 || currentBuilding >= Singleton<BuildingManager>.instance.m_buildings.m_buffer.Length)
-            {
-                schedule.CurrentState = ResidentState.Unknown;
-                DebugState(timeNow, citizenId, "no valid current building");
-                return;
-            }
-
-            var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[currentBuilding];
-
-            if (building.Info == null)
-            {
-                schedule.CurrentState = ResidentState.Unknown;
-                DebugState(timeNow, citizenId, "current building has no info");
-                return;
-            }
-
-            if ((building.m_flags & Building.Flags.Evacuating) != 0)
-            {
-                schedule.CurrentState = ResidentState.Evacuating;
-                return;
-            }
-
-            var service = building.Info.GetService();
-            var subService = building.Info.GetSubService();
-
-            switch (location)
-            {
-                case Citizen.Location.Home:
-                    schedule.CurrentState = ResidentState.AtHome;
-                    return;
-
-                case Citizen.Location.Work:
-                    if (citizen.m_visitBuilding == currentBuilding && schedule.WorkStatus != WorkStatus.Working)
-                    {
-                        // The game may report Work while the citizen is visiting
-                        // their own workplace. Treat that case as Visit.
-                        HandleVisitState(ref schedule, service, subService);
-                        return;
-                    }
-
-                    if (IsShelterService(service) && DisasterManager.instance.IsEvacuating(building.m_position))
-                    {
-                        schedule.CurrentState = ResidentState.InShelter;
-                        return;
-                    }
-
-                    schedule.CurrentState = (citizen.m_flags & Citizen.Flags.Student) != 0 ? ResidentState.AtSchool : ResidentState.AtWork;
-                    return;
-
-                case Citizen.Location.Visit:
-                    HandleVisitState(ref schedule, service, subService);
-                    return;
-
-                default:
-                    schedule.CurrentState = ResidentState.Unknown;
-                    return;
-            }
-        }
-
-        private static void HandleVisitState(ref CitizenSchedule schedule, ItemClass.Service service, ItemClass.SubService subService)
-        {
-            if ((service == ItemClass.Service.Beautification ||
-                 service == ItemClass.Service.Monument ||
-                 service == ItemClass.Service.Tourism ||
-                 service == ItemClass.Service.Commercial &&
-                 subService == ItemClass.SubService.CommercialLeisure) &&
-                schedule.WorkStatus != WorkStatus.Working)
-            {
-                if (schedule.LastScheduledState == ResidentState.GoToRelax)
-                {
-                    schedule.CurrentState = ResidentState.Relaxing;
-                }
-                else if (schedule.LastScheduledState == ResidentState.GoToMeal)
-                {
-                    schedule.CurrentState = ResidentState.EatMeal;
-                }
-                else
-                {
-                    schedule.CurrentState = ResidentState.Visiting;
-                }
-
-                return;
-            }
-
-            if (service == ItemClass.Service.Commercial)
-            {
-                if (schedule.LastScheduledState == ResidentState.GoShopping)
-                {
-                    schedule.CurrentState = ResidentState.Shopping;
-                }
-                else if (schedule.LastScheduledState == ResidentState.GoToMeal)
-                {
-                    schedule.CurrentState = ResidentState.EatMeal;
-                }
-                else
-                {
-                    schedule.CurrentState = ResidentState.Visiting;
-                }
-
-                return;
-            }
-
-            if (service == ItemClass.Service.Disaster && schedule.LastScheduledState == ResidentState.GoToShelter)
-            {
-                schedule.CurrentState = ResidentState.InShelter;
-                return;
-            }
-
-            schedule.CurrentState = ResidentState.Visiting;
-        }
-
-        private static bool IsShelterService(ItemClass.Service service) => service == ItemClass.Service.Electricity ||
-                   service == ItemClass.Service.Water ||
-                   service == ItemClass.Service.HealthCare ||
-                   service == ItemClass.Service.PoliceDepartment ||
-                   service == ItemClass.Service.FireDepartment ||
-                   service == ItemClass.Service.Disaster;
-
         private static bool TryGetCitizenInstance(uint citizenId, Citizen citizen, out CitizenInstance instance)
         {
             instance = default;
@@ -573,7 +397,5 @@ namespace RealTime.UI
         }
 
         private void DebugPanel(string message) => Log.Debug(LogCategory.State, SimulationManager.instance.m_currentGameTime, $"InfoPanel update #{updateCounter}: {message}");
-
-        private static void DebugState(DateTime time, uint citizenId, string message) => Log.Debug(LogCategory.State, time, $"UpdateCitizenState - citizen {citizenId}: {message}");
     }
 }

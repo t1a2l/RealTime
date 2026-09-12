@@ -514,11 +514,7 @@ namespace RealTime.CustomAI
         /// <summary>
         /// Begins traveling to execute a specific activity.
         /// </summary>
-        public void BeginTravel(ResidentState travelState)
-        {
-            ActiveTravelState = travelState;
-            Schedule(travelState);
-        }
+        public void BeginTravel(ResidentState travelState) => ActiveTravelState = travelState;
 
         /// <summary>
         /// Clears the active travel state after arrival or abort.

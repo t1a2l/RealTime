@@ -182,6 +182,8 @@ namespace RealTime.CustomAI
         public void RegisterCitizenArrival(uint citizenId, ref TCitizen citizen)
         {
             ref var schedule = ref residentSchedules[citizenId];
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"The citizen {citizenId} active travel state is {schedule.ActiveTravelState}");
+
             var currentLocation = CitizenMgr.GetCitizenLocation(citizenId);
             switch (currentLocation)
             {
@@ -341,12 +343,14 @@ namespace RealTime.CustomAI
             // Determine the intended activity from schedule + target, then set ActiveTravelState
             if (targetBuilding == 0)
             {
+                Log.Debug(LogCategory.Movement, $"The citizen {citizenId} has no specific building target (e.g., wandering, or some special cases)");
                 // No specific building target (e.g., wandering, or some special cases)
                 return;
             }
 
             if(schedule.ScheduledState != ResidentState.Unknown && schedule.ScheduledState != ResidentState.Ignored)
             {
+                Log.Debug(LogCategory.Movement, $"The citizen {citizenId} begin travel to {schedule.ScheduledState} and is going to {targetBuilding}");
                 schedule.BeginTravel(schedule.ScheduledState);
             }
         }

@@ -43,9 +43,12 @@ namespace RealTime.CustomAI
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             string citizenDesc = GetCitizenDesc(citizenId, ref citizen);
-            
+
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going to eat {schedule.ScheduledMealType}");
+
             if (schedule.ScheduledMealType == MealType.None)
             {
+                Log.Debug(LogCategory.State, TimeInfo.Now, $"{citizenDesc} has no scheduled meal type - updating");
                 mealBehavior.UpdateMealTypeByTimeOfDay(citizenId, ref schedule);
                 schedule.ResetScheduledStateTime();
             }
@@ -53,6 +56,8 @@ namespace RealTime.CustomAI
             float mealDuration = mealBehavior.GetMealDuration(schedule.ScheduledMealType);
             var mealStart = schedule.ScheduledStateTime != default && schedule.ScheduledStateTime > TimeInfo.Now ? schedule.ScheduledStateTime : TimeInfo.Now;
             var mealEnd = schedule.ScheduledMealEndTime != default ? schedule.ScheduledMealEndTime : mealStart.AddHours(mealDuration);
+
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is planning to eat {schedule.ScheduledMealType} and will start eat at {mealStart:dd.MM.yy HH:mm}, and the duration of the meal will be {mealDuration} hours, and will finish eating at {mealEnd:dd.MM.yy HH:mm}");
 
             if (schedule.Hint == ScheduleHint.LocalMealOnly || schedule.Hint == ScheduleHint.WorkOrSchoolRelatedMeal)
             {

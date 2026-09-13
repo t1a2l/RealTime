@@ -18,8 +18,11 @@ namespace RealTime.CustomAI
             uint relaxChance = spareTimeBehavior.GetRelaxingChance(citizenAge, GetCitizenStartHour(ref schedule), schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
             relaxChance = AdjustRelaxChance(relaxChance, ref citizen);
 
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} has a relaxing chance of {relaxChance}%");
+
             if (!Random.ShouldOccur(relaxChance) || WeatherInfo.IsBadWeather)
             {
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will not relax due to low chance or bad weather.");
                 return false;
             }
 
@@ -32,11 +35,13 @@ namespace RealTime.CustomAI
                 schedule.Schedule(ResidentState.GoToRelax, departureTime);
                 schedule.EventBuilding = eventBuilding;
                 schedule.Hint = ScheduleHint.AttendingEvent;
+                Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will attend an event at building {eventBuilding} starting at {cityEvent.StartTime}. Departure time is {departureTime}.");
                 return true;
             }
 
             schedule.Schedule(ResidentState.GoToRelax);
             schedule.Hint = TimeInfo.IsNightTime && Random.ShouldOccur(NightLeisureChance) ? ScheduleHint.RelaxAtLeisureBuilding : ScheduleHint.None;
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will relax. Scheduled state: {schedule.ScheduledState}, Hint: {schedule.Hint}");
 
             return true;
         }

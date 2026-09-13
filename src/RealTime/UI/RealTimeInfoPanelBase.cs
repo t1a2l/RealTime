@@ -258,9 +258,9 @@ namespace RealTime.UI
             {
                 string action = localizationProvider.Translate(CurrentState + "." + schedule.CurrentState);
 
-                if (schedule.CurrentState == ResidentState.EatMeal && schedule.LastScheduledMealType != MealType.None)
+                if (schedule.CurrentState == ResidentState.EatMeal && schedule.CurrentMealType != MealType.None)
                 {
-                    string mealType = localizationProvider.Translate("MealType." + schedule.LastScheduledMealType);
+                    string mealType = localizationProvider.Translate("MealType." + schedule.CurrentMealType);
 
                     if (!string.IsNullOrEmpty(mealType))
                     {

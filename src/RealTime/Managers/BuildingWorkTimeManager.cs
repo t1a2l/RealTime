@@ -502,8 +502,6 @@ namespace RealTime.Managers
             return shifts;
         }
 
-
-
         public static bool IsBuildingActiveOnWeekend(ItemClass.Service service, ItemClass.SubService subService, ItemClass.Level level)
         {
             switch (subService)
@@ -542,7 +540,6 @@ namespace RealTime.Managers
                     return false;
             }
         }
-
 
         private static bool ShouldOccur(uint probability) => SimulationManager.instance.m_randomizer.Int32(100u) < probability;
 

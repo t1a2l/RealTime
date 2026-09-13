@@ -10,7 +10,7 @@ namespace RealTime.Serializer
 
     public class CitizenScheduleSerializer
     {
-        private const ushort iCITIZEN_SCHEDULE_DATA_VERSION = 6;
+        private const ushort iCITIZEN_SCHEDULE_DATA_VERSION = 7;
 
         private const uint uiTUPLE_START = 0xFEFEFEFE;
         private const uint uiTUPLE_END = 0xFAFAFAFA;
@@ -169,6 +169,12 @@ namespace RealTime.Serializer
                     var schedule = residentSchedules[citizenId];
 
                     schedule.CurrentState = (ResidentState)StorageData.ReadInt32(chunkBytes, ref index);
+
+                    if (chunkVersion >= 7)
+                    {
+                        schedule.CurrentMealType = (MealType)StorageData.ReadInt32(chunkBytes, ref index);
+                    }
+
                     schedule.Hint = (ScheduleHint)StorageData.ReadInt32(chunkBytes, ref index);
                     schedule.EventBuilding = StorageData.ReadUInt16(chunkBytes, ref index);
 
@@ -313,6 +319,7 @@ namespace RealTime.Serializer
             StorageData.WriteUInt32(citizenId, Data);
 
             StorageData.WriteInt32((int)schedule.CurrentState, Data);
+            StorageData.WriteInt32((int)schedule.CurrentMealType, Data);
             StorageData.WriteInt32((int)schedule.Hint, Data);
             StorageData.WriteUInt16(schedule.EventBuilding, Data);
 

@@ -168,7 +168,7 @@ namespace RealTime.CustomAI
 
             if (schedule.CurrentState == ResidentState.EatMeal)
             {
-                text2 += $" and the meal type is {schedule.LastScheduledMealType}";
+                text2 += $" and the meal type is {schedule.CurrentMealType}";
             }
 
             Log.Debug(LogCategory.Schedule, text2);
@@ -259,8 +259,9 @@ namespace RealTime.CustomAI
                             else if (schedule.ActiveTravelState == ResidentState.GoToMeal && schedule.ScheduledMealType != MealType.None)
                             {
                                 schedule.CurrentState = ResidentState.EatMeal;
+                                schedule.CurrentMealType = schedule.ScheduledMealType;
                                 RegisterCitizenMealStart(citizenId, ref schedule);
-                                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at meal building {currentBuilding}, CurrentState = EatMeal");
+                                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at meal building {currentBuilding}, CurrentState = EatMeal, CurrentMealType = {schedule.CurrentMealType}");
                             }
                             break;
 
@@ -273,8 +274,9 @@ namespace RealTime.CustomAI
                             else if (schedule.ActiveTravelState == ResidentState.GoToMeal && schedule.ScheduledMealType != MealType.None)
                             {
                                 schedule.CurrentState = ResidentState.EatMeal;
+                                schedule.CurrentMealType = schedule.ScheduledMealType;
                                 RegisterCitizenMealStart(citizenId, ref schedule);
-                                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at meal building {currentBuilding}, CurrentState = EatMeal");
+                                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at meal building {currentBuilding}, CurrentState = EatMeal, CurrentMealType = {schedule.CurrentMealType}");
                             }
                             break;
 

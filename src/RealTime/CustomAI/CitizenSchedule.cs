@@ -5,7 +5,6 @@ namespace RealTime.CustomAI
     using System;
     using RealTime.Core;
     using RealTime.Managers;
-    using SkyTools.Tools;
     using static Constants;
 
     /// <summary>A container struct that holds information about the detailed resident citizen state.
@@ -17,6 +16,9 @@ namespace RealTime.CustomAI
 
         /// <summary>The citizen's current state.</summary>
         public ResidentState CurrentState;
+
+        /// <summary>The meal type of the currently active EatMeal state, if any.</summary>
+        public MealType CurrentMealType;
 
         /// <summary>The citizen's schedule hint.</summary>
         public ScheduleHint Hint;

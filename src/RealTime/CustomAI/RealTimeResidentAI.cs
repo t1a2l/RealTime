@@ -147,14 +147,21 @@ namespace RealTime.CustomAI
                         string buildingName = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info.name;
                         text += $" and buildingId is {buildingID} and building name is {buildingName} and current location is {currentLocation}";
 
-                        if (buildingAI.IsBuildingOpeningSoon(buildingID, 1))
+                        if (buildingAI.IsBuildingWorking(buildingID))
                         {
-                            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} stay at building because it is opening soon");
+                            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} stay at building because it is open");
                         }
-                        else if(!buildingAI.IsBuildingWorking(buildingID))
+                        else
                         {
-                            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} reschedule because the building is currently closed");
-                            schedule.Schedule(ResidentState.Unknown);
+                            if (buildingAI.IsBuildingOpeningSoon(buildingID, 1))
+                            {
+                                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} stay at building because it is opening soon");
+                            }
+                            else
+                            {
+                                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} reschedule because the building is currently closed");
+                                schedule.Schedule(ResidentState.Unknown);
+                            }
                         }
                     }
                 }

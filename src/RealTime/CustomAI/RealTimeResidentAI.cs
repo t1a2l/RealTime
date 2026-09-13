@@ -199,6 +199,7 @@ namespace RealTime.CustomAI
                     {
                         schedule.UpdateTravelTimeToSchool(TimeInfo.Now);
                         schedule.CurrentState = ResidentState.AtSchool;
+                        schedule.CurrentMealType = MealType.None;
                         Log.Debug(LogCategory.Movement, $"The citizen {citizenId} arrived at school at {TimeInfo.Now} and needs {schedule.TravelTimeToSchool} hours to get to school");
                         handled = true;
                     }
@@ -206,6 +207,7 @@ namespace RealTime.CustomAI
                     {
                         schedule.UpdateTravelTimeToWork(TimeInfo.Now);
                         schedule.CurrentState = ResidentState.AtWork;
+                        schedule.CurrentMealType = MealType.None;
                         Log.Debug(LogCategory.Movement, $"The citizen {citizenId} arrived at work at {TimeInfo.Now} and needs {schedule.TravelTimeToWork} hours to get to work");
                         handled = true;
                     }
@@ -231,6 +233,7 @@ namespace RealTime.CustomAI
                         {
                             schedule.Schedule(ResidentState.Unknown, cityEvent.EndTime);
                             schedule.CurrentState = ResidentState.Relaxing;
+                            schedule.CurrentMealType = MealType.None;
                             Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} arrived at event '{eventBuilding}' and will schedule the next activity at {cityEvent.EndTime}");
                         }
                         else
@@ -254,6 +257,7 @@ namespace RealTime.CustomAI
                             if (schedule.ActiveTravelState == ResidentState.GoToRelax)
                             {
                                 schedule.CurrentState = ResidentState.Relaxing;
+                                schedule.CurrentMealType = MealType.None;
                                 Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at leisure building {currentBuilding}, CurrentState = Relaxing");
                             }
                             else if (schedule.ActiveTravelState == ResidentState.GoToMeal && schedule.ScheduledMealType != MealType.None)
@@ -269,6 +273,7 @@ namespace RealTime.CustomAI
                             if (schedule.ActiveTravelState == ResidentState.GoShopping && CurrentBuildingSupportsTarget(currentBuilding, ref schedule))
                             {
                                 schedule.CurrentState = ResidentState.Shopping;
+                                schedule.CurrentMealType = MealType.None;
                                 Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at shopping building {currentBuilding}, CurrentState = Shopping");
                             }
                             else if (schedule.ActiveTravelState == ResidentState.GoToMeal && schedule.ScheduledMealType != MealType.None)
@@ -285,12 +290,14 @@ namespace RealTime.CustomAI
                             if (schedule.ActiveTravelState == ResidentState.GoToVisit)
                             {
                                 schedule.CurrentState = ResidentState.Visiting;
+                                schedule.CurrentMealType = MealType.None;
                                 Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at post office or bank building {currentBuilding}, CurrentState = Visiting");
                             }
                             break;
 
                         case ItemClass.Service.Disaster when schedule.ActiveTravelState == ResidentState.GoToShelter:
                             schedule.CurrentState = ResidentState.InShelter;
+                            schedule.CurrentMealType = MealType.None;
                             Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} CurrentState is {schedule.CurrentState}");
                             break;
                     }

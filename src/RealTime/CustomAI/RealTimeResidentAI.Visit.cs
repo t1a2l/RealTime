@@ -105,7 +105,7 @@ namespace RealTime.CustomAI
 
                 case ScheduleHint.RelaxNearbyOnly:
 
-                    if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule))
+                    if (CurrentBuildingSupportsTarget(currentBuilding, ResidentState.Relaxing))
                     {
                         Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for {schedule.CurrentState}");
                         schedule.CurrentState = ResidentState.Relaxing;
@@ -150,7 +150,7 @@ namespace RealTime.CustomAI
 
             if (schedule.ScheduledState != ResidentState.GoToRelax || schedule.CurrentState != ResidentState.Relaxing || Random.ShouldOccur(FindAnotherShopOrEntertainmentChance) || buildingAI.IsBuildingClosingSoon(currentBuilding))
             {
-                if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule) && !buildingAI.IsBuildingClosingSoon(currentBuilding))
+                if (CurrentBuildingSupportsTarget(currentBuilding, ResidentState.Relaxing) && !buildingAI.IsBuildingClosingSoon(currentBuilding))
                 {
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for relaxing");
                     schedule.CurrentState = ResidentState.Relaxing;
@@ -247,7 +247,7 @@ namespace RealTime.CustomAI
 
             if (schedule.Hint == ScheduleHint.LocalShoppingOnly)
             {
-                if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule))
+                if (CurrentBuildingSupportsTarget(currentBuilding, ResidentState.Shopping))
                 {
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for shopping");
                     schedule.CurrentState = ResidentState.Shopping;
@@ -286,7 +286,7 @@ namespace RealTime.CustomAI
 
             if (schedule.ScheduledState != ResidentState.GoShopping || schedule.CurrentState != ResidentState.Shopping || Random.ShouldOccur(FindAnotherShopOrEntertainmentChance) || buildingAI.IsBuildingClosingSoon(currentBuilding))
             {
-                if (CurrentBuildingSupportsTarget(currentBuilding, ref schedule) && !buildingAI.IsBuildingClosingSoon(currentBuilding))
+                if (CurrentBuildingSupportsTarget(currentBuilding, ResidentState.Shopping) && !buildingAI.IsBuildingClosingSoon(currentBuilding))
                 {
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for shopping");
                     schedule.CurrentState = ResidentState.Shopping;
@@ -508,7 +508,7 @@ namespace RealTime.CustomAI
             return RescheduleVisit(ref schedule, citizenId, ref citizen, currentBuilding, noReschedule);
         }
 
-        private bool CurrentBuildingSupportsTarget(ushort buildingId, ref CitizenSchedule schedule)
+        private bool CurrentBuildingSupportsTarget(ushort buildingId, ResidentState intendedState)
         {
             if (buildingId == 0)
             {
@@ -519,7 +519,7 @@ namespace RealTime.CustomAI
             {
                 var commercialBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
 
-                return schedule.CurrentState switch
+                return intendedState switch
                 {
                     ResidentState.Shopping => commercialBuildingType.IsFlagSet(CommercialBuildingType.Shopping),
                     ResidentState.EatMeal => commercialBuildingType.IsFlagSet(CommercialBuildingType.Food),
@@ -532,7 +532,7 @@ namespace RealTime.CustomAI
             {
                 var parkBuildingType = ParkBuildingTypesManager.GetParkBuildingType(buildingId);
 
-                return schedule.CurrentState switch
+                return intendedState switch
                 {
                     ResidentState.Relaxing => parkBuildingType != ParkBuildingType.None,
                     _ => false

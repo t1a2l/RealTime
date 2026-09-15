@@ -277,7 +277,7 @@ namespace RealTime.CustomAI
                             break;
 
                         case ItemClass.Service.Commercial:
-                            if (schedule.ActiveTravelState == ResidentState.GoShopping && CurrentBuildingSupportsTarget(currentBuilding, ref schedule))
+                            if (schedule.ActiveTravelState == ResidentState.GoShopping)
                             {
                                 schedule.CurrentState = ResidentState.Shopping;
                                 schedule.CurrentMealType = MealType.None;
@@ -368,6 +368,7 @@ namespace RealTime.CustomAI
             {
                 Log.Debug(LogCategory.Movement, $"The citizen {citizenId} begin travel to {schedule.ScheduledState} and is going to {targetBuilding}");
                 schedule.BeginTravel(schedule.ScheduledState);
+                schedule.CurrentState = ResidentState.InTransition;
             }
         }
 

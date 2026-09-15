@@ -327,7 +327,7 @@ namespace RealTime.CustomAI
                         schedule.Schedule(ResidentState.Unknown);
                     }
 
-                    Log.Debug(LogCategory.Schedule, $"Updated work shifts for citizen {citizenId}: work shift {schedule.ShiftIndex}, {schedule.WorkShiftStartTime} - {schedule.WorkShiftEndTime}");
+                    Log.Debug(LogCategory.Schedule, $"Updated work shift for citizen {citizenId}: work shift {schedule.ShiftIndex}, {schedule.WorkShiftStartTime} - {schedule.WorkShiftEndTime}");
                     schedule.SchoolBuilding = 0;
                     if (schedule.ScheduledState == ResidentState.GoToSchool)
                     {
@@ -346,6 +346,8 @@ namespace RealTime.CustomAI
                     CitizenProxy.SetWorkplace(ref citizen, citizenId, 0);
                 }
             }
+
+            Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} CurrentState is {schedule.CurrentState}, ScheduledState is {schedule.ScheduledState}, ScheduledStateTime is {schedule.ScheduledStateTime:dd.MM.yy HH:mm}");
 
             if (schedule.ScheduledState != ResidentState.Unknown)
             {

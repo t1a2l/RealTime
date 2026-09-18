@@ -66,5 +66,32 @@ namespace RealTime.CustomAI
         /// <returns>A percentage value in range of 0..100 that describes the probability whether
         /// a citizen with specified age would go to eat out on current time.</returns>
         internal uint GetEatingOutChance(Citizen.AgeGroup citizenAge);
+
+
+        /// <summary>
+        /// Gets the probability whether a citizen with specified age would go to the bank on current time.
+        /// </summary>
+        ///
+        /// <param name="citizenAge">The age of the citizen to check.</param>
+        /// <param name="startHour">The citizen's assigned work shift start hour (ignored if the citizen is unemployed, default is -1).</param>
+        /// <param name="workShift">The citizen's assigned work shift (default is <see cref="WorkShift.Unemployed"/>).</param>
+        /// <param name="isOnVacation"><c>true</c> if the citizen is on vacation.</param>
+        ///
+        /// <returns>A percentage value in range of 0..100 that describes the probability whether
+        /// a citizen with specified age would go to the bank on current time.</returns>
+        internal uint GetBankChance(Citizen.AgeGroup citizenAge, float startHour = -1, WorkShift workShift = WorkShift.Unemployed, bool isOnVacation = false);
+
+        /// <summary>
+        /// Gets the probability whether a citizen with specified age would go to the post office on current time.
+        /// </summary>
+        ///
+        /// <param name="citizenAge">The age of the citizen to check.</param>
+        /// <param name="startHour">The citizen's assigned work shift start hour (ignored if the citizen is unemployed, default is -1).</param>
+        /// <param name="workShift">The citizen's assigned work shift (default is <see cref="WorkShift.Unemployed"/>).</param>
+        /// <param name="isOnVacation"><c>true</c> if the citizen is on vacation.</param>
+        ///
+        /// <returns>A percentage value in range of 0..100 that describes the probability whether
+        /// a citizen with specified age would go to the post office on current time.</returns>
+        internal uint GetPostOfficeChance(Citizen.AgeGroup citizenAge, float startHour = -1, WorkShift workShift = WorkShift.Unemployed, bool isOnVacation = false);
     }
 }

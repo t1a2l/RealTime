@@ -41,13 +41,10 @@ namespace RealTime.Core
 
         private bool isEnabled;
 
-        public delegate TransferManager.TransferReason GoToPostOfficeOrBankDelegate(Citizen.AgeGroup ageGroup);
-        public static GoToPostOfficeOrBankDelegate _goToPostOfficeOrBank;
-        public static bool _combinedAISAvailable = false;
-
         public static bool ApplyCitizenPatch = false;
         public static bool ApplyBuildingPatch = false;
         public static bool ApplyRealisticPopulationButtonPatch = false;
+        public static bool IsSchoolBusesModEnabled = false;
 
         private RealTimeCore(
             TimeAdjustment timeAdjustment,
@@ -363,39 +360,6 @@ namespace RealTime.Core
                 ApplyBuildingPatch = true;
             }
 
-            if (compatibility.IsAnyModActive(WorkshopMods.CombinedAIS) || compatibility.IsLocalModActive("CombinedAIS"))
-            {
-                var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == "CombinedAIS");
-                if (assembly == null)
-                {
-                    Log.Warning("CombinedAIS detected as active, but assembly is not loaded.");
-                    return;
-                }
-
-                var type = assembly.GetType("CombinedAIS.Managers.BankPostOfficeManager", false);
-                if (type == null)
-                {
-                    Log.Warning("CombinedAIS assembly loaded, but BankPostOfficeManager type was not found.");
-                    return;
-                }
-
-                var method = type.GetMethod("GoToPostOfficeOrBank", BindingFlags.Public | BindingFlags.Static, null, [typeof(Citizen.AgeGroup)], null);
-
-                if (method == null)
-                {
-                    Log.Warning("CombinedAIS GoToPostOfficeOrBank method was not found.");
-                    return;
-                }
-
-                _goToPostOfficeOrBank = AccessTools.MethodDelegate<GoToPostOfficeOrBankDelegate>(method);
-
-                _combinedAISAvailable = true;
-            }
-            else
-            {
-                _combinedAISAvailable = false;
-            }
-
             if (compatibility.IsAnyModActive(WorkshopMods.RealisticPopulation2))
             {
                 ApplyRealisticPopulationButtonPatch = true;
@@ -404,6 +368,11 @@ namespace RealTime.Core
             else
             {
                 ApplyRealisticPopulationButtonPatch = false;
+            }
+
+            if (compatibility.IsAnyModActive(WorkshopMods.SchoolBuses))
+            {
+                IsSchoolBusesModEnabled = true;
             }
         }
 

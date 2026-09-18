@@ -52,13 +52,13 @@ namespace RealTime.Core
         /// <summary>The Workshop ID of the 'Lifecycle Rebalance Revisited' mod.</summary>
         public const ulong LifecycleRebalanceRevisited = 2027161563ul;
 
-        /// <summary>The Workshop ID of the 'CombinedAIS' mod.</summary>
-        public const ulong CombinedAIS = 3158078540ul;
-
         /// <summary>The Workshop ID of the 'AdvancedOutsideConnections' mod.</summary>
         public const ulong AdvancedOutsideConnections = 2053500739ul;
 
         /// <summary>The Workshop ID of the 'RealisticPopulation2' mod.</summary>
         public const ulong RealisticPopulation2 = 2025147082ul;
+
+        /// <summary>The Workshop ID of the 'School Buses' mod.</summary>
+        public const ulong SchoolBuses = 3736948306ul;
     }
 }

@@ -252,7 +252,7 @@ namespace RealTime.CustomAI
                     return ScheduleAction.ProcessState;
 
                 case Citizen.Location.Visit:
-                    // Do not infer Shopping/Relaxing/EatMeal/Visiting from LastScheduledState here.
+                    // Do not infer Shopping/Relaxing/EatMeal/Bank/PostOffice from LastScheduledState here.
                     // Those transitions are committed in RegisterCitizenArrival based on ActiveTravelState.
                     // Just set a generic visiting state.
                     Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} at Visit, building {currentBuilding}, ActiveTravelState={schedule.ActiveTravelState}, CurrentState(before)={schedule.CurrentState}");
@@ -425,9 +425,15 @@ namespace RealTime.CustomAI
                     return true;
                 }
 
-                if (ScheduleVisiting(ref schedule, ref citizen))
+                if (ScheduleBankVisit(ref schedule, ref citizen))
                 {
-                    Log.Debug(LogCategory.Schedule, $"  - Schedule visiting, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
+                    Log.Debug(LogCategory.Schedule, $"  - Schedule bank visit, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
+                    return true;
+                }
+
+                if (SchedulePostOfficeVisit(ref schedule, ref citizen))
+                {
+                    Log.Debug(LogCategory.Schedule, $"  - Schedule post office visit, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
                     return true;
                 }
             }
@@ -520,12 +526,16 @@ namespace RealTime.CustomAI
                     executed = DoScheduledRelaxing(ref schedule, instance, citizenId, ref citizen);
                     break;
 
+                case ResidentState.GoToBank:
+                    executed = DoScheduledBankVisit(ref schedule, instance, citizenId, ref citizen);
+                    break;
+
+                case ResidentState.GoToPostOffice:
+                    executed = DoScheduledPostOfficeVisit(ref schedule, instance, citizenId, ref citizen);
+                    break;
+
                 case ResidentState.GoToShelter when schedule.CurrentState != ResidentState.InShelter:
                     DoScheduledEvacuation(ref schedule, instance, citizenId, ref citizen);
-                    return;
-
-                case ResidentState.GoToVisit:
-                    executed = DoScheduledVisiting(ref schedule, instance, citizenId, ref citizen);
                     return;
 
                 default:
@@ -549,12 +559,11 @@ namespace RealTime.CustomAI
                 case ResidentState.Shopping:
                     return ProcessCitizenShopping(ref schedule, citizenId, ref citizen, noReschedule);
 
-                case ResidentState.EatMeal:
-                    return ProcessCitizenEatingMeal(ref schedule, citizenId, ref citizen, noReschedule);
-
                 case ResidentState.Relaxing:
                     return ProcessCitizenRelaxing(ref schedule, citizenId, ref citizen, noReschedule);
 
+                case ResidentState.AtBank:
+                case ResidentState.AtPostOffice:
                 case ResidentState.Visiting:
                     return ProcessCitizenVisit(ref schedule, instance, citizenId, ref citizen, noReschedule);
 

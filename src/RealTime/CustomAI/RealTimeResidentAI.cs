@@ -5,6 +5,7 @@ namespace RealTime.CustomAI
     using System;
     using ColossalFramework;
     using RealTime.Config;
+    using RealTime.Core;
     using RealTime.Events;
     using RealTime.GameConnection;
     using SkyTools.Storage;
@@ -254,7 +255,6 @@ namespace RealTime.CustomAI
                         return;
                     }
 
-
                     switch (buildingService)
                     {
                         case ItemClass.Service.Beautification:
@@ -292,20 +292,34 @@ namespace RealTime.CustomAI
                             }
                             break;
 
-                        case ItemClass.Service.PublicTransport when BuildingMgr.GetBuildingSubService(currentBuilding) == ItemClass.SubService.PublicTransportPost:
                         case ItemClass.Service.PoliceDepartment when BuildingMgr.GetBuildingSubService(currentBuilding) == ItemClass.SubService.PoliceDepartmentBank:
-                            if (schedule.ActiveTravelState == ResidentState.GoToVisit)
+                            if (schedule.ActiveTravelState == ResidentState.GoToBank)
                             {
-                                schedule.CurrentState = ResidentState.Visiting;
+                                schedule.CurrentState = ResidentState.AtBank;
                                 schedule.CurrentMealType = MealType.None;
-                                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at post office or bank building {currentBuilding}, CurrentState = Visiting");
+                                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at the bank building {currentBuilding}, CurrentState = AtBank");
                             }
                             break;
 
+                        case ItemClass.Service.PublicTransport when BuildingMgr.GetBuildingSubService(currentBuilding) == ItemClass.SubService.PublicTransportPost:
+                            if (schedule.ActiveTravelState == ResidentState.GoToPostOffice)
+                            {
+                                schedule.CurrentState = ResidentState.AtPostOffice;
+                                schedule.CurrentMealType = MealType.None;
+                                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at the post office building {currentBuilding}, CurrentState = AtPostOffice");
+                            }
+                            break;
+                        
                         case ItemClass.Service.Disaster when schedule.ActiveTravelState == ResidentState.GoToShelter:
                             schedule.CurrentState = ResidentState.InShelter;
                             schedule.CurrentMealType = MealType.None;
                             Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} CurrentState is {schedule.CurrentState}");
+                            break;
+
+                        default:
+                            schedule.CurrentState = ResidentState.Visiting;
+                            schedule.CurrentMealType = MealType.None;
+                            Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at building {currentBuilding} with service {buildingService}, but no specific action is defined for this service, CurrentState = Visiting");
                             break;
                     }
                     schedule.ClearActiveTravelState();
@@ -339,6 +353,14 @@ namespace RealTime.CustomAI
             buildingAI.RegisterReachingTrouble(targetBuilding);
             if (targetBuilding == CitizenProxy.GetHomeBuilding(ref citizen))
             {
+                return;
+            }
+
+            bool isStudent = CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Student);
+            bool child_or_teen = CitizenProxy.GetAge(ref citizen) == Citizen.AgeGroup.Child || CitizenProxy.GetAge(ref citizen) == Citizen.AgeGroup.Teen;
+            if (RealTimeCore.IsSchoolBusesModEnabled && targetBuilding == CitizenProxy.GetWorkOrSchoolBuilding(ref citizen) && isStudent && child_or_teen)
+            {
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is a student and is waiting for school bus to go to school, so they will not abandon the journey");
                 return;
             }
 

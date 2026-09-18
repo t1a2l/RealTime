@@ -65,10 +65,10 @@ namespace RealTime.CustomAI
         /// <summary>The citizen is in a leisure building or in a beautification building.</summary>
         Relaxing,
 
-        /// <summary>The citizen is going to visit a building.</summary>
+        /// <summary>The citizen is going to visit an unspecified building.</summary>
         GoToVisit,
 
-        /// <summary>The citizen visits a building.</summary>
+        /// <summary>The citizen visits an unspecified building.</summary>
         Visiting,
 
         /// <summary>The citizen has to evacuate the current building (or area).</summary>
@@ -82,5 +82,17 @@ namespace RealTime.CustomAI
 
         /// <summary>The citizen was in transition from one state to another.</summary>
         InTransition,
+
+        /// <summary>The citizen is going to a bank building.</summary>
+        GoToBank,
+
+        /// <summary>The citizen is in a bank building.</summary>
+        AtBank,
+
+        /// <summary>The citizen is going to a post office building.</summary>
+        GoToPostOffice,
+
+        /// <summary>The citizen is in a post office building.</summary>
+        AtPostOffice,
     }
 }

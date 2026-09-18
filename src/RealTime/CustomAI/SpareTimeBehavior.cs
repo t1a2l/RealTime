@@ -139,6 +139,84 @@ namespace RealTime.CustomAI
             }
         }
 
+        /// <summary>
+        /// Gets the probability whether a citizen with specified age would go to the bank on current time.
+        /// </summary>
+        ///
+        /// <param name="citizenAge">The age of the citizen to check.</param>
+        /// <param name="startHour">The citizen's assigned work shift start hour (ignored if the citizen is unemployed, default is -1).</param>
+        /// <param name="workShift">The citizen's assigned work shift (default is <see cref="WorkShift.Unemployed"/>).</param>
+        /// <param name="isOnVacation"><c>true</c> if the citizen is on vacation.</param>
+        ///
+        /// <returns>A percentage value in range of 0..100 that describes the probability whether
+        /// a citizen with specified age would go to the bank on current time.</returns>
+        public uint GetBankChance(Citizen.AgeGroup citizenAge, float startHour = -1, WorkShift workShift = WorkShift.Unemployed, bool isOnVacation = false)
+        {
+            uint baseChance = defaultChances[(int)citizenAge];
+
+            float ageMultiplier = citizenAge switch
+            {
+                Citizen.AgeGroup.Young => 1.2f, // young adults use banks a bit more
+                Citizen.AgeGroup.Adult => 1.0f,
+                Citizen.AgeGroup.Senior => 0.6f, // seniors less likely in your design
+                _ => 0f,
+            };
+
+            uint chance = (uint)Math.Round(baseChance * ageMultiplier);
+
+            if (isOnVacation)
+            {
+                return chance * 2u;
+            }
+
+            if (citizenAge is Citizen.AgeGroup.Young or Citizen.AgeGroup.Adult)
+            {
+                return workShift == WorkShift.Assigned && IsInPreShiftRestWindow(startHour) ? 0 : chance;
+            }
+
+            return 0;
+        }
+
+        /// <summary>
+        /// Gets the probability whether a citizen with specified age would go to the post office on current time.
+        /// </summary>
+        ///
+        /// <param name="citizenAge">The age of the citizen to check.</param>
+        /// <param name="startHour">The citizen's assigned work shift start hour (ignored if the citizen is unemployed, default is -1).</param>
+        /// <param name="workShift">The citizen's assigned work shift (default is <see cref="WorkShift.Unemployed"/>).</param>
+        /// <param name="isOnVacation"><c>true</c> if the citizen is on vacation.</param>
+        ///
+        /// <returns>A percentage value in range of 0..100 that describes the probability whether
+        /// a citizen with specified age would go to the post office on current time.</returns>
+        public uint GetPostOfficeChance(Citizen.AgeGroup citizenAge, float startHour = -1, WorkShift workShift = WorkShift.Unemployed, bool isOnVacation = false)
+        {
+            uint baseChance = defaultChances[(int)citizenAge];
+
+            float ageMultiplier = citizenAge switch
+            {
+                Citizen.AgeGroup.Young => 0.8f,
+                Citizen.AgeGroup.Adult => 1.0f,
+                Citizen.AgeGroup.Senior => 1.3f, // seniors use post office more
+                Citizen.AgeGroup.Teen => 0.5f, // occasional use
+                _ => 0f,
+            };
+
+            uint chance = (uint)Math.Round(baseChance * ageMultiplier);
+
+            if (isOnVacation)
+            {
+                return chance * 2u;
+            }
+
+            if (citizenAge is Citizen.AgeGroup.Young or Citizen.AgeGroup.Adult)
+            {
+                return workShift == WorkShift.Assigned && IsInPreShiftRestWindow(startHour) ? 0 : chance;
+            }
+
+            // Seniors and teens can go even if not on vacation
+            return chance;
+        }
+
         /// <summary>Sets the dummy traffic ai probability based on relaxing chance of adults.</summary>
         /// <param name="probability">The dummy traffic probability.</param>
         /// <returns>The altered probability if the options is true otherwise the default value.</returns>

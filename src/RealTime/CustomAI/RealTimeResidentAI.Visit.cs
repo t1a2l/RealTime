@@ -4,7 +4,6 @@ namespace RealTime.CustomAI
 {
     using System;
     using SkyTools.Tools;
-    using RealTime.Core;
     using RealTime.Managers;
     using ColossalFramework;
     using static Constants;
@@ -130,58 +129,32 @@ namespace RealTime.CustomAI
                     return false;
             }
 
-            if(QuitVisit(citizenId, ref citizen, currentBuilding))
+            if (!buildingAI.IsBuildingClosingSoon(currentBuilding) && CurrentBuildingSupportsTarget(currentBuilding, ResidentState.Relaxing))
             {
-                schedule.Schedule(ResidentState.GoHome);
-                return false;
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for relaxing");
+                schedule.CurrentState = ResidentState.Relaxing;
+                return true;
             }
 
-            uint relaxChance = spareTimeBehavior.GetRelaxingChance(
-                CitizenProxy.GetAge(ref citizen),
-                GetCitizenStartHour(ref schedule),
-                schedule.WorkShift,
-                schedule.WorkStatus == WorkStatus.OnVacation);
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna relax, heading to an entertainment building.");
 
-            relaxChance = AdjustRelaxChance(relaxChance, ref citizen);
-
-            var nextState = Random.ShouldOccur(relaxChance) ? ResidentState.GoToRelax : ResidentState.Unknown;
-
-            schedule.Schedule(nextState);
-
-            if (schedule.ScheduledState != ResidentState.GoToRelax || schedule.CurrentState != ResidentState.Relaxing || Random.ShouldOccur(FindAnotherShopOrEntertainmentChance) || buildingAI.IsBuildingClosingSoon(currentBuilding))
+            TransferManager.TransferReason entertainmentReason;
+            var citizenAge = CitizenProxy.GetAge(ref citizen);
+            if (citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen)
             {
-                if (CurrentBuildingSupportsTarget(currentBuilding, ResidentState.Relaxing) && !buildingAI.IsBuildingClosingSoon(currentBuilding))
-                {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for relaxing");
-                    schedule.CurrentState = ResidentState.Relaxing;
-                    return true;
-                }
-
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna relax and then schedules {nextState}, heading to an entertainment building.");
-
-                TransferManager.TransferReason entertainmentReason;
-                var citizenAge = CitizenProxy.GetAge(ref citizen);
-                if (citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen)
-                {
-                    entertainmentReason = TransferManager.TransferReason.ChildCare;
-                }
-                else if (citizenAge == Citizen.AgeGroup.Senior && Random.ShouldOccur(SeniorElderCareVisitChance))
-                {
-                    entertainmentReason = TransferManager.TransferReason.ElderCare;
-                }
-                else
-                {
-                    entertainmentReason = residentAI.GetEntertainmentReason(instance);
-                }
-
-                residentAI.FindVisitPlace(instance, citizenId, currentBuilding, entertainmentReason);
-                schedule.FindVisitPlaceAttempts++;
+                entertainmentReason = TransferManager.TransferReason.ChildCare;
+            }
+            else if (citizenAge == Citizen.AgeGroup.Senior && Random.ShouldOccur(SeniorElderCareVisitChance))
+            {
+                entertainmentReason = TransferManager.TransferReason.ElderCare;
             }
             else
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues relaxing in the same entertainment building.");
-                schedule.CurrentState = ResidentState.Relaxing;
+                entertainmentReason = residentAI.GetEntertainmentReason(instance);
             }
+
+            residentAI.FindVisitPlace(instance, citizenId, currentBuilding, entertainmentReason);
+            schedule.FindVisitPlaceAttempts++;
 
             return true;
         }
@@ -268,40 +241,18 @@ namespace RealTime.CustomAI
 
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} goes shopping at a local shop {shop}");
                 return true;
-
             }
 
-            if (QuitVisit(citizenId, ref citizen, currentBuilding))
+            if (CurrentBuildingSupportsTarget(currentBuilding, ResidentState.Shopping) && !buildingAI.IsBuildingClosingSoon(currentBuilding))
             {
-                schedule.Schedule(ResidentState.Unknown);
-                return false;
-            }
-
-            uint moreShoppingChance = spareTimeBehavior.GetShoppingChance(CitizenProxy.GetAge(ref citizen));
-            var nextState = schedule.Hint != ScheduleHint.NoShoppingAnyMore && Random.ShouldOccur(moreShoppingChance)
-                ? ResidentState.GoShopping
-                : ResidentState.Unknown;
-
-            schedule.Schedule(nextState);
-
-            if (schedule.ScheduledState != ResidentState.GoShopping || schedule.CurrentState != ResidentState.Shopping || Random.ShouldOccur(FindAnotherShopOrEntertainmentChance) || buildingAI.IsBuildingClosingSoon(currentBuilding))
-            {
-                if (CurrentBuildingSupportsTarget(currentBuilding, ResidentState.Shopping) && !buildingAI.IsBuildingClosingSoon(currentBuilding))
-                {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for shopping");
-                    schedule.CurrentState = ResidentState.Shopping;
-                    return true;
-                }
-
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna go shopping and schedules {nextState}, heading to a random shop, hint = {schedule.Hint}");
-                residentAI.FindVisitPlace(instance, citizenId, currentBuilding, residentAI.GetShoppingReason(instance));
-                schedule.FindVisitPlaceAttempts++;
-            }
-            else
-            {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues shopping in the same building.");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for shopping");
                 schedule.CurrentState = ResidentState.Shopping;
+                return true;
             }
+
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna go shopping, heading to a random shop, hint = {schedule.Hint}");
+            residentAI.FindVisitPlace(instance, citizenId, currentBuilding, residentAI.GetShoppingReason(instance));
+            schedule.FindVisitPlaceAttempts++;
 
             return true;
         }
@@ -317,92 +268,83 @@ namespace RealTime.CustomAI
             return RescheduleVisit(ref schedule, citizenId, ref citizen, currentBuilding, noReschedule);
         }
 
-        private bool ScheduleVisiting(ref CitizenSchedule schedule, ref TCitizen _)
+        private bool ScheduleBankVisit(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
-            if (!RealTimeCore._combinedAISAvailable)
+            var citizenAge = CitizenProxy.GetAge(ref citizen);
+            uint visitBankChance = spareTimeBehavior.GetBankChance(citizenAge, GetCitizenStartHour(ref schedule), schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
+
+            if (WeatherInfo.IsBadWeather || !Random.ShouldOccur(visitBankChance))
             {
                 return false;
             }
 
-            if (WeatherInfo.IsBadWeather)
-            {
-                return false;
-            }
-
-            schedule.Schedule(ResidentState.GoToVisit);
-            schedule.Hint = ScheduleHint.None;
-
+            schedule.Schedule(ResidentState.GoToBank);
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} will visit a bank. Scheduled state: {schedule.ScheduledState}");
             return true;
         }
 
-        private bool DoScheduledVisiting(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
+        private bool DoScheduledBankVisit(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            // Visiting was already scheduled last time, but the citizen is still at school/work or in shelter.
+            // BankVisit was already scheduled last time, but the citizen is still at school/work or in shelter.
             // This can occur when the game's transfer manager can't find any activity for the citizen.
             // In that case, move back home.
             if ((schedule.ScheduledState == ResidentState.GoToWork || schedule.CurrentState == ResidentState.AtWork ||
                 schedule.ScheduledState == ResidentState.GoToSchool || schedule.CurrentState == ResidentState.AtSchool ||
                 schedule.ScheduledState == ResidentState.GoToShelter || schedule.CurrentState == ResidentState.InShelter)
-                && schedule.LastScheduledState == ResidentState.GoToVisit)
+                && schedule.LastScheduledState == ResidentState.GoToBank)
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to visit but is still at work or in shelter. No visit activity found. Now going home.");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to visit a bank but is still at work or at school or in a shelter. No bank visit activity found. Now going home.");
                 return false;
             }
 
-            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+            ushort targetBuilding = FindBank(ref citizen);
 
-            if (QuitVisit(citizenId, ref citizen, currentBuilding))
+            if (targetBuilding == 0)
             {
-                schedule.Schedule(ResidentState.GoHome);
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanted to visit a bank but did not find an active building");
                 return false;
             }
 
-            if (schedule.ScheduledState != ResidentState.GoToVisit || schedule.CurrentState != ResidentState.Visiting || buildingAI.IsBuildingClosingSoon(currentBuilding))
+            return StartMovingToVisitBuilding(instance, citizenId, ref citizen, targetBuilding);
+        }
+
+        private bool SchedulePostOfficeVisit(ref CitizenSchedule schedule, ref TCitizen citizen)
+        {
+            var citizenAge = CitizenProxy.GetAge(ref citizen);
+            uint visitPostOfficeChance = spareTimeBehavior.GetPostOfficeChance(citizenAge, GetCitizenStartHour(ref schedule), schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
+
+            if (WeatherInfo.IsBadWeather || !Random.ShouldOccur(visitPostOfficeChance))
             {
-                if (!RealTimeCore._combinedAISAvailable)
-                {
-                    return false;
-                }
-
-                var reason = RealTimeCore._goToPostOfficeOrBank(CitizenProxy.GetAge(ref citizen));
-                
-                schedule.FindVisitPlaceAttempts++;
-
-                if (reason != TransferManager.TransferReason.None)
-                {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} want to visit and then schedules {ResidentState.Unknown}, searching for visit place with reason {reason}");
-
-                    ushort targetBuilding = 0;
-
-                    if(reason == TransferManager.TransferReason.Mail)
-                    {
-                        targetBuilding = FindPostOffice(ref citizen);
-                    }
-                    else if (reason == TransferManager.TransferReason.Cash)
-                    {
-                        targetBuilding = FindBank(ref citizen);
-                    }
-
-                    if(targetBuilding == 0)
-                    {
-                        Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanted to visit but did not find an active building with reason {reason}");
-                        return false;
-                    }
-
-                    return StartMovingToVisitBuilding(instance, citizenId, ref citizen, targetBuilding);
-                }
-                else
-                {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanted to visit but did not find a good reason");
-                    return false;
-                }
+                return false;
             }
-            else
-            {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues visiting the same building.");
-                schedule.CurrentState = ResidentState.Visiting;
-            }
+
+            schedule.Schedule(ResidentState.GoToPostOffice);
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} will visit a post office. Scheduled state: {schedule.ScheduledState}");
             return true;
+        }
+
+        private bool DoScheduledPostOfficeVisit(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
+        {
+            // PostOfficeVisit was already scheduled last time, but the citizen is still at school/work or in shelter.
+            // This can occur when the game's transfer manager can't find any activity for the citizen.
+            // In that case, move back home.
+            if ((schedule.ScheduledState == ResidentState.GoToWork || schedule.CurrentState == ResidentState.AtWork ||
+                schedule.ScheduledState == ResidentState.GoToSchool || schedule.CurrentState == ResidentState.AtSchool ||
+                schedule.ScheduledState == ResidentState.GoToShelter || schedule.CurrentState == ResidentState.InShelter)
+                && schedule.LastScheduledState == ResidentState.GoToPostOffice)
+            {
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to visit a post office but is still at work or at school or in a shelter. No post office visit activity found. Now going home.");
+                return false;
+            }
+
+            ushort targetBuilding = FindPostOffice(ref citizen);
+            if (targetBuilding == 0)
+            {
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanted to visit a post office but did not find an active building");
+                return false;
+            }
+
+            return StartMovingToVisitBuilding(instance, citizenId, ref citizen, targetBuilding);
         }
 
         private bool ProcessCitizenVisit(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen, bool noReschedule)
@@ -423,7 +365,8 @@ namespace RealTime.CustomAI
             {
                 case ResidentState.GoShopping:
                 case ResidentState.GoToRelax:
-                case ResidentState.GoToVisit:
+                case ResidentState.GoToBank:
+                case ResidentState.GoToPostOffice:
                     break;
 
                 default:
@@ -452,9 +395,9 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            if (schedule.ScheduledState == ResidentState.GoToVisit)
+            if (schedule.ScheduledState == ResidentState.GoToBank || schedule.ScheduledState == ResidentState.GoToPostOffice)
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wont quit a visit to the bank of post office");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wont quit a visit to the bank or post office");
                 return false;
             }
 
@@ -500,12 +443,6 @@ namespace RealTime.CustomAI
             }
 
             return false;
-        }
-
-        private bool ProcessCitizenEatingMeal(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen, bool noReschedule)
-        {
-            ushort currentBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
-            return RescheduleVisit(ref schedule, citizenId, ref citizen, currentBuilding, noReschedule);
         }
 
         private bool CurrentBuildingSupportsTarget(ushort buildingId, ResidentState intendedState)

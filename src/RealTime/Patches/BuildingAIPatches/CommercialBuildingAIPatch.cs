@@ -159,6 +159,7 @@ namespace RealTime.Patches.BuildingAIPatches
                         return false;
 
                     case CommercialBuildingType.Entertainment:
+                    case CommercialBuildingType.Entertainment | CommercialBuildingType.Food:
                         __result = randomizer.Int32(4u) switch
                         {
                             0 => TransferManager.TransferReason.Entertainment,
@@ -170,6 +171,7 @@ namespace RealTime.Patches.BuildingAIPatches
                         return false;
 
                     case CommercialBuildingType.Shopping:
+                    case CommercialBuildingType.Shopping | CommercialBuildingType.Food:
                         __result = randomizer.Int32(8u) switch
                         {
                             0 => TransferManager.TransferReason.Shopping,
@@ -185,6 +187,7 @@ namespace RealTime.Patches.BuildingAIPatches
                         return false;
 
                     case CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment:
+                    case CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food:
                         __result = randomizer.Int32(100u) < num
                             ? randomizer.Int32(4u) switch
                             {
@@ -206,11 +209,10 @@ namespace RealTime.Patches.BuildingAIPatches
                                 7 => TransferManager.TransferReason.ShoppingH,
                                 _ => TransferManager.TransferReason.Shopping,
                             };
-                        __result = TransferManager.TransferReason.None;
                         return false;
 
                     default:
-                        return false;
+                        return true;
                 }
             }
             return true;  

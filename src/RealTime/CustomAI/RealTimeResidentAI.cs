@@ -111,14 +111,8 @@ namespace RealTime.CustomAI
                     return;
             }
 
-            if (HandleClosedMealBuilding(ref schedule, citizenId, ref citizen))
+            if (!TryResolveEatMealState(ref schedule, citizenId, ref citizen))
             {
-                return;
-            }
-
-            if (IsMealStillInProgress(ref schedule, ref citizen))
-            {
-                Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} is still eating {schedule.ScheduledMealType} until {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
                 return;
             }
 
@@ -628,27 +622,78 @@ namespace RealTime.CustomAI
             }
         }
 
-        private bool HandleClosedMealBuilding(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
+        /// <summary>Try Resolve citizen meal state.</summary>
+        /// <returns><c>true</c> if UpdateLocation should CONTINUE with normal processing;
+        /// <c>false</c>if we handled everything and want to skip further update this tick.</returns>
+        public bool TryResolveEatMealState(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
             if (schedule.CurrentState != ResidentState.EatMeal)
             {
-                return false;
+                // Not eating → nothing special to do.
+                return true;
             }
 
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
 
+            // No building → cannot be eating; stop meal.
             if (currentBuilding == 0)
             {
-                return false;
+                StopEatingAndScheduleNextState(ref schedule, citizenId);
+                return true; // let normal update run so they move
             }
 
-            if (buildingAI.IsBuildingWorking(currentBuilding))
+            bool buildingIsWorking = buildingAI.IsBuildingWorking(currentBuilding);
+
+            // Building closed → stop eating immediately.
+            if (!buildingIsWorking)
             {
-                return false;
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} is eating {schedule.CurrentMealType} at building {currentBuilding}, but the building is now closed");
+
+                StopEatingAndScheduleNextState(ref schedule, citizenId);
+                return true; // continue update so they leave
             }
 
-            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} was eating {schedule.ScheduledMealType} at building {currentBuilding}, but the building is now closed");
+            // No scheduled end time → treat as “no active meal”; stop eating.
+            if (schedule.ScheduledMealEndTime == default)
+            {
+                StopEatingAndScheduleNextState(ref schedule, citizenId);
+                return true;
+            }
 
+            // Still within meal time?
+            if (TimeInfo.Now < schedule.ScheduledMealEndTime)
+            {
+                if (schedule.Hint == ScheduleHint.WorkOrSchoolRelatedMeal)
+                {
+                    if (TryGetMealTravelTime(ref schedule, currentBuilding, out _, out float returnTravel))
+                    {
+                        Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen is still eating {schedule.CurrentMealType} until {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm} and needs {returnTravel} hours to get back to work or school");
+
+                        if (CanCompleteWorkOrSchoolMeal(ref schedule, schedule.ScheduledMealEndTime, returnTravel))
+                        {
+                            // Stay in EatMeal; skip normal movement this tick.
+                            return false;
+                        }
+                    }
+
+                    // Can't make it back in time → stop eating and go to work/school/unknown.
+                    StopEatingAndScheduleNextState(ref schedule, citizenId);
+                    return true; // continue update so they move
+                }
+                else
+                {
+                    // Non-work/school meal, still in time → stay in building.
+                    return false;
+                }
+            }
+
+            // Meal time expired → stop eating.
+            StopEatingAndScheduleNextState(ref schedule, citizenId);
+            return true; // continue update so they leave
+        }
+
+        private void StopEatingAndScheduleNextState(ref CitizenSchedule schedule, uint citizenId)
+        {
             if (schedule.Hint == ScheduleHint.WorkOrSchoolRelatedMeal)
             {
                 if (schedule.SchoolStatus == SchoolStatus.Studying)
@@ -663,49 +708,15 @@ namespace RealTime.CustomAI
                 {
                     schedule.Schedule(ResidentState.Unknown);
                 }
+
                 schedule.Hint = ScheduleHint.None;
-                return true;
             }
-
-            schedule.Schedule(ResidentState.Unknown);
-            return true;
-        }
-
-        private bool IsMealStillInProgress(ref CitizenSchedule schedule, ref TCitizen citizen)
-        {
-            if (schedule.CurrentState == ResidentState.EatMeal && schedule.ScheduledMealEndTime != default && TimeInfo.Now < schedule.ScheduledMealEndTime)
+            else
             {
-                if (schedule.Hint == ScheduleHint.WorkOrSchoolRelatedMeal)
-                {
-                    ushort buildingID = CitizenProxy.GetCurrentBuilding(ref citizen);
-                    if (TryGetMealTravelTime(ref schedule, buildingID, out float _, out float returnTravel))
-                    {
-                        Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen is still eating {schedule.ScheduledMealType} until {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm} and needs {returnTravel} hours to get back to work or school");
-                        if (CanCompleteWorkOrSchoolMeal(ref schedule, schedule.ScheduledMealEndTime, returnTravel))
-                        {
-                            return true;
-                        }
-                    }
-                    if (schedule.SchoolStatus == SchoolStatus.Studying)
-                    {
-                        schedule.Schedule(ResidentState.GoToSchool);
-                    }
-                    else if (schedule.WorkStatus == WorkStatus.Working)
-                    {
-                        schedule.Schedule(ResidentState.GoToWork);
-                    }
-                    else
-                    {
-                        schedule.Schedule(ResidentState.Unknown);
-                    }
-                    schedule.Hint = ScheduleHint.None;
-                }
-                else
-                {
-                    return true;
-                }
+                schedule.Schedule(ResidentState.Unknown);
             }
-            return false;
+
+            Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} stopped eating {schedule.CurrentMealType} and switched to {schedule.CurrentState}");
         }
 
         private void RegisterCitizenMealStart(uint citizenId, ref CitizenSchedule schedule)

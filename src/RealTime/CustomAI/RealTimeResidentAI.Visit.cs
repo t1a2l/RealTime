@@ -112,7 +112,16 @@ namespace RealTime.CustomAI
                     }
 
                     var parkBuildingType = ParkBuildingTypesManager.GetPreferredParkType(CitizenProxy.GetAge(ref citizen), Random);
-                    ushort parkBuildingId = buildingAI.FindActiveBuilding(currentBuilding, LocalSearchDistance, ItemClass.Service.Beautification, ItemClass.SubService.None, CommercialBuildingType.None, parkBuildingType);
+                    ushort parkBuildingId = buildingAI.FindActiveBuilding(
+                        currentBuilding,
+                        LocalSearchDistance,
+                        ItemClass.Service.Beautification,
+                        ItemClass.SubService.None,
+                        CommercialBuildingType.None,
+                        parkBuildingType,
+                        default,
+                        50);
+
                     if (parkBuildingId == 0)
                     {
                         Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to relax nearby, but no suitable park was found");
@@ -501,7 +510,15 @@ namespace RealTime.CustomAI
 
             return currentBuilding == 0
                 ? (ushort)0
-                : buildingAI.FindActiveBuilding(currentBuilding, MaxSearchDistance, ItemClass.Service.PublicTransport, ItemClass.SubService.PublicTransportPost);
+                : buildingAI.FindActiveBuilding(
+                    currentBuilding,
+                    MaxSearchDistance,
+                    ItemClass.Service.PublicTransport,
+                    ItemClass.SubService.PublicTransportPost,
+                    CommercialBuildingType.None,
+                    ParkBuildingType.None,
+                    default,
+                    30);
         }
 
         private ushort FindBank(ref TCitizen citizen)
@@ -510,7 +527,15 @@ namespace RealTime.CustomAI
 
             return currentBuilding == 0
                 ? (ushort)0
-                : buildingAI.FindActiveBuilding(currentBuilding, MaxSearchDistance, ItemClass.Service.PoliceDepartment, ItemClass.SubService.PoliceDepartmentBank);
+                : buildingAI.FindActiveBuilding(
+                    currentBuilding,
+                    MaxSearchDistance,
+                    ItemClass.Service.PoliceDepartment,
+                    ItemClass.SubService.PoliceDepartmentBank,
+                    CommercialBuildingType.None,
+                    ParkBuildingType.None,
+                    default,
+                    30);
         }
     }
 }

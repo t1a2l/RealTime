@@ -66,6 +66,7 @@ namespace RealTime.CustomAI
         /// <param name="commercialBuildingType">The commercial building type the citizen is going to visit.</param>
         /// <param name="parkBuildingType">The park building type the citizen is going to visit.</param>
         /// <param name="requiredOpenUntil">The required time until the building should remain open.</param>
+        /// <param name="maxCandidates">The maximum number of candidate buildings to consider.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
         internal ushort FindActiveBuilding(
             ushort searchAreaCenterBuilding,
@@ -74,7 +75,8 @@ namespace RealTime.CustomAI
             ItemClass.SubService subService = ItemClass.SubService.None,
             CommercialBuildingType commercialBuildingType = CommercialBuildingType.None,
             ParkBuildingType parkBuildingType = ParkBuildingType.None,
-            DateTime requiredOpenUntil = default);
+            DateTime requiredOpenUntil = default,
+            int maxCandidates = 200);
 
         /// <summary>Finds an active building that matches the specified criteria and can accept visitors.</summary>
         /// <param name="position">The search area center point.</param>
@@ -84,6 +86,7 @@ namespace RealTime.CustomAI
         /// <param name="commercialBuildingType">The commercial building type the citizen is going to visit.</param>
         /// <param name="parkBuildingType">The park building type the citizen is going to visit.</param>
         /// <param name="requiredOpenUntil">The required time until the building should remain open.</param>
+        /// <param name="maxCandidates">The maximum number of candidate buildings to consider.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
         internal ushort FindActiveBuilding(
             Vector3 position,
@@ -92,7 +95,8 @@ namespace RealTime.CustomAI
             ItemClass.SubService subService = ItemClass.SubService.None,
             CommercialBuildingType commercialBuildingType = CommercialBuildingType.None,
             ParkBuildingType parkBuildingType = ParkBuildingType.None,
-            DateTime requiredOpenUntil = default);
+            DateTime requiredOpenUntil = default,
+            int maxCandidates = 200);
 
         /// <summary>Finds an active cafeteria building that is in the same campus.</summary>
         /// <param name="searchAreaCenterBuilding">The building ID that represents the search area center point.</param>

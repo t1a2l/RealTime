@@ -6,6 +6,7 @@ namespace RealTime.CustomAI
     using System.Collections.Generic;
     using System.Linq;
     using ColossalFramework;
+    using ColossalFramework.Math;
     using ColossalFramework.PlatformServices;
     using RealTime.Config;
     using RealTime.GameConnection;
@@ -1344,6 +1345,7 @@ namespace RealTime.CustomAI
         /// <param name="commercialBuildingType">The commercial building type the citizen is going to visit.</param>
         /// <param name="parkBuildingType">The park building type the citizen is going to visit.</param>
         /// <param name="requiredOpenUntil">The required time until the building should be open.</param>
+        /// <param name="maxCandidates">The maximum number of candidate buildings to consider.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
         public ushort FindActiveBuilding(
             ushort searchAreaCenterBuilding,
@@ -1352,7 +1354,8 @@ namespace RealTime.CustomAI
             ItemClass.SubService subService = ItemClass.SubService.None,
             CommercialBuildingType commercialBuildingType = CommercialBuildingType.None,
             ParkBuildingType parkBuildingType = ParkBuildingType.None,
-            DateTime requiredOpenUntil = default)
+            DateTime requiredOpenUntil = default,
+            int maxCandidates = 200)
         {
             if (searchAreaCenterBuilding == 0)
             {
@@ -1360,7 +1363,7 @@ namespace RealTime.CustomAI
             }
 
             var currentPosition = BuildingManager.instance.m_buildings.m_buffer[searchAreaCenterBuilding].m_position;
-            return FindActiveBuilding(currentPosition, maxDistance, service, subService, commercialBuildingType, parkBuildingType, requiredOpenUntil);
+            return FindActiveBuilding(currentPosition, maxDistance, service, subService, commercialBuildingType, parkBuildingType, requiredOpenUntil, maxCandidates);
         }
 
         /// <summary>Finds an active building that matches the specified criteria and can accept visitors.</summary>
@@ -1371,6 +1374,7 @@ namespace RealTime.CustomAI
         /// <param name="commercialBuildingType">The commercial building type the citizen is going to visit.</param>
         /// <param name="parkBuildingType">The park building type the citizen is going to visit.</param>
         /// <param name="requiredOpenUntil">The required time until the building should be open.</param>
+        /// <param name="maxCandidates">The maximum number of candidate buildings to consider.</param>
         /// <returns>An ID of the first found building, or 0 if none found.</returns>
         public ushort FindActiveBuilding(
             Vector3 position,
@@ -1379,7 +1383,8 @@ namespace RealTime.CustomAI
             ItemClass.SubService subService = ItemClass.SubService.None,
             CommercialBuildingType commercialBuildingType = CommercialBuildingType.None,
             ParkBuildingType parkBuildingType = ParkBuildingType.None,
-            DateTime requiredOpenUntil = default)
+            DateTime requiredOpenUntil = default,
+            int maxCandidates = 200)
         {
             if (position == Vector3.zero)
             {
@@ -1392,6 +1397,9 @@ namespace RealTime.CustomAI
             const Building.Flags requiredFlags = Building.Flags.Created | Building.Flags.Completed | Building.Flags.Active;
             const Building.Flags combinedFlags = requiredFlags | restrictedFlags;
 
+            var candidates = new List<ushort>();
+            bool doneScanning = false;
+
             float searchBuffer = 0.5f;
             int gridXFrom = Mathf.Max((int)((position.x - maxDistance - searchBuffer) / BuildingManager.BUILDINGGRID_CELL_SIZE + BuildingGridMiddle), 0);
             int gridZFrom = Mathf.Max((int)((position.z - maxDistance - searchBuffer) / BuildingManager.BUILDINGGRID_CELL_SIZE + BuildingGridMiddle), 0);
@@ -1401,9 +1409,9 @@ namespace RealTime.CustomAI
             float sqrMaxDistance = maxDistance * maxDistance;
             var manager = BuildingManager.instance;
 
-            for (int z = gridZFrom; z <= gridZTo; ++z)
+            for (int z = gridZFrom; z <= gridZTo && !doneScanning; ++z)
             {
-                for (int x = gridXFrom; x <= gridXTo; ++x)
+                for (int x = gridXFrom; x <= gridXTo && !doneScanning; ++x)
                 {
                     ushort buildingId = manager.m_buildingGrid[z * BuildingManager.BUILDINGGRID_RESOLUTION + x];
                     uint safetyCounter = 0;
@@ -1421,50 +1429,54 @@ namespace RealTime.CustomAI
                             if (buildingService == service && (subService == ItemClass.SubService.None || buildingSubService == subService))
                             {
                                 bool isWorking = IsBuildingWorking(buildingId);
-                                bool remainsOpenForMeal = requiredOpenUntil == default || IsBuildingOpenAt(buildingId, requiredOpenUntil);
+                                bool remainsOpenAtRequiredTime = requiredOpenUntil == default || IsBuildingOpenAt(buildingId, requiredOpenUntil);
                                 bool hasCapacity = BuildingManagerConnection.BuildingCanBeVisited(buildingId);
 
-                                if (isWorking && remainsOpenForMeal)
+                                if (isWorking && remainsOpenAtRequiredTime && hasCapacity)
                                 {
                                     float sqrDistance = Vector3.SqrMagnitude(position - building.m_position);
                                     if (sqrDistance < sqrMaxDistance)
                                     {
-                                        if (hasCapacity)
+                                        bool typeMatch = true;
+
+                                        if (commercialBuildingType != CommercialBuildingType.None)
                                         {
-                                            if(commercialBuildingType != CommercialBuildingType.None)
+                                            if (!CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
                                             {
-                                                if (CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingId))
-                                                {
-                                                    var currentCommercialBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
-                                                    if ((currentCommercialBuildingType & commercialBuildingType) == commercialBuildingType)
-                                                    {
-                                                        return buildingId;
-                                                    }
-                                                    else
-                                                    {
-                                                        Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Commercial building {buildingId} rejected: Wrong commercial building type ({currentCommercialBuildingType}).");
-                                                    }
-                                                }
+                                                typeMatch = false;
                                             }
-                                            else if (parkBuildingType != ParkBuildingType.None)
+                                            else
                                             {
-                                                if (ParkBuildingTypesManager.ParkBuildingTypeExist(buildingId))
+                                                var currentCommercialBuildingType = CommercialBuildingTypesManager.GetCommercialBuildingType(buildingId);
+                                                if ((currentCommercialBuildingType & commercialBuildingType) != commercialBuildingType)
                                                 {
-                                                    var currentParkBuildingType = ParkBuildingTypesManager.GetParkBuildingType(buildingId);
-                                                    if (currentParkBuildingType == parkBuildingType)
-                                                    {
-                                                        return buildingId;
-                                                    }
-                                                    else
-                                                    {
-                                                        Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Park building {buildingId} rejected: Wrong park building type ({currentParkBuildingType}).");
-                                                    }
+                                                    typeMatch = false;
                                                 }
                                             }
                                         }
-                                        else
+                                        else if (parkBuildingType != ParkBuildingType.None)
                                         {
-                                            Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: Full capacity.");
+                                            if (!ParkBuildingTypesManager.ParkBuildingTypeExist(buildingId))
+                                            {
+                                                typeMatch = false;
+                                            }
+                                            else
+                                            {
+                                                var currentParkBuildingType = ParkBuildingTypesManager.GetParkBuildingType(buildingId);
+                                                if (currentParkBuildingType != parkBuildingType)
+                                                {
+                                                    typeMatch = false;
+                                                }
+                                            }
+                                        }
+                                        if (typeMatch)
+                                        {
+                                            candidates.Add(buildingId);
+
+                                            if (candidates.Count >= maxCandidates)
+                                            {
+                                                doneScanning = true;
+                                            }
                                         }
                                     }
                                     else
@@ -1472,9 +1484,13 @@ namespace RealTime.CustomAI
                                         Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: Too far ({Mathf.Sqrt(sqrDistance)}m).");
                                     }
                                 }
-                                else if (isWorking && !remainsOpenForMeal)
+                                else if (isWorking && !remainsOpenAtRequiredTime)
                                 {
                                     Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: closes before the meal ends at {requiredOpenUntil:dd.MM.yy HH:mm}");
+                                }
+                                else if (isWorking && !hasCapacity)
+                                {
+                                    Log.Debug(LogCategory.Advanced, timeInfo.Now, $"Building {buildingId} rejected: does not have enough capacity.");
                                 }
                                 else
                                 {
@@ -1492,7 +1508,13 @@ namespace RealTime.CustomAI
                 }
             }
 
-            return 0;
+            if (candidates.Count == 0)
+            {
+                return 0;
+            }
+
+            int idx = new Randomizer((uint)position.GetHashCode()).Int32((uint)candidates.Count);
+            return candidates[idx];
         }
 
         /// <summary>Finds an active cafeteria building that matches the specified criteria.</summary>

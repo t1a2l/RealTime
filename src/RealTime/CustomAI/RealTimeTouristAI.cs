@@ -353,7 +353,10 @@ namespace RealTime.CustomAI
                         ItemClass.Service.Beautification,
                         ItemClass.SubService.None,
                         CommercialBuildingType.None,
-                        parkBuildingType);
+                        parkBuildingType,
+                        default,
+                        50);
+
                     if (parkBuildingId == 0)
                     {
                         Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in the city, goes to enjoy nature");
@@ -371,7 +374,11 @@ namespace RealTime.CustomAI
                         LeisureSearchDistance,
                         ItemClass.Service.Commercial,
                         ItemClass.SubService.CommercialLeisure,
-                        CommercialBuildingType.Entertainment);
+                        CommercialBuildingType.Entertainment,
+                        ParkBuildingType.None,
+                        default,
+                        50);
+
                     if (leisureBuilding == 0)
                     {
                         goto case TouristTarget.Hotel;
@@ -391,7 +398,11 @@ namespace RealTime.CustomAI
                         LeisureSearchDistance,
                         ItemClass.Service.Commercial,
                         ItemClass.SubService.None,
-                        CommercialBuildingType.Food);
+                        CommercialBuildingType.Food,
+                        ParkBuildingType.None,
+                        default,
+                        50);
+
                     if (mealBuilding == 0)
                     {
                         goto case TouristTarget.Hotel;

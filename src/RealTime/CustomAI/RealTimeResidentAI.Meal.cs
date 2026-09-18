@@ -137,7 +137,15 @@ namespace RealTime.CustomAI
 
             if (mealPlace == 0)
             {
-                mealPlace = buildingAI.FindActiveBuilding(currentBuilding, distance, ItemClass.Service.Commercial, ItemClass.SubService.None, CommercialBuildingType.Food, ParkBuildingType.None, mealEndTime);
+                mealPlace = buildingAI.FindActiveBuilding(
+                    currentBuilding,
+                    distance,
+                    ItemClass.Service.Commercial,
+                    ItemClass.SubService.None,
+                    CommercialBuildingType.Food,
+                    ParkBuildingType.None,
+                    mealEndTime,
+                    50);
             }
 
             return mealPlace;

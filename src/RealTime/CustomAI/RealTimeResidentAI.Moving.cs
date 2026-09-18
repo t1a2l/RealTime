@@ -118,7 +118,16 @@ namespace RealTime.CustomAI
                 return 0;
             }
 
-            ushort foundBuilding = buildingAI.FindActiveBuilding(currentBuilding, distance, ItemClass.Service.Commercial, ItemClass.SubService.None, buildingType, ParkBuildingType.None, requiredOpenUntil);
+            ushort foundBuilding = buildingAI.FindActiveBuilding(
+                currentBuilding,
+                distance,
+                ItemClass.Service.Commercial,
+                ItemClass.SubService.None,
+                buildingType,
+                ParkBuildingType.None,
+                requiredOpenUntil,
+                50);
+
             if (foundBuilding == 0)
             {
                 Log.Debug(LogCategory.Movement, $"MoveToCommercialBuilding - Citizen {citizenId} didn't find any visitable commercial buildings nearby");
@@ -167,7 +176,10 @@ namespace RealTime.CustomAI
                 LeisureSearchDistance,
                 ItemClass.Service.Commercial,
                 ItemClass.SubService.CommercialLeisure,
-                CommercialBuildingType.Entertainment);
+                CommercialBuildingType.Entertainment,
+                ParkBuildingType.None,
+                default,
+                50);
 
             Log.Debug(LogCategory.Movement, TimeInfo.Now, $"MoveToLeisureBuilding - Citizen {citizenId} moving to visit leisure building {leisureBuilding}");
             return StartMovingToVisitBuilding(instance, citizenId, ref citizen, leisureBuilding) ? leisureBuilding : (ushort)0;

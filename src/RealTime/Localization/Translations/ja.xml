@@ -272,10 +272,10 @@
   <translation id="SnowRoadsOtherEndHour" value="その他の道路の除雪終了時間" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="その他の道路の除雪サービスが活動を終了する時間" />
 
-  <translation id="CurrentPlannedAction" value="Plan now" />
-  <translation id="NextScheduledActionTime" value="Changes at" />
-  <translation id="NextScheduledAction" value="Then" />
-  <translation id="CurrentState" value="Actual state" />
+  <translation id="CurrentPlannedAction" value="今すぐ計画" />
+  <translation id="NextScheduledActionTime" value="変更時刻" />
+  <translation id="NextScheduledAction" value="次に" />
+  <translation id="CurrentState" value="現在の状態" />
   <translation id="ScheduledAction.GoHome" value="帰宅中" />
   <translation id="CurrentState.AtHome" value="自宅" />
   <translation id="ScheduledAction.GoToSchool" value="登校中" />
@@ -288,15 +288,19 @@
   <translation id="CurrentState.Relaxing" value="休憩中" />
   <translation id="ScheduledAction.GoToVisit" value="訪問中" />
   <translation id="CurrentState.Visiting" value="訪問中" />
-  <translation id="ScheduledAction.GoToShelter" value="避難中" />
-  <translation id="CurrentState.InShelter" value="避難所" />
+  <translation id="ScheduledAction.GoToShelter" value="避難所に行く" />
+  <translation id="CurrentState.InShelter" value="避難所にいる" />
+  <translation id="ScheduledAction.GoToBank" value="銀行に行く" />
+  <translation id="CurrentState.AtBank" value="銀行にいる" />
+  <translation id="ScheduledAction.GoToPostOffice" value="郵便局に行く" />
+  <translation id="CurrentState.AtPostOffice" value="郵便局にいる" />
   <translation id="ScheduledAction.GoToMeal" value="食事中" />
-  <translation id="CurrentState.EatMeal" value="Eating" />
-  <translation id="MealType.Breakfast" value="breakfast" />
-  <translation id="MealType.Lunch" value="lunch" />
-  <translation id="MealType.Supper" value="supper" />
-  <translation id="MealType.Other" value="a snack" />
-  <translation id="WorkShift.Assigned" value="Assigned to shift" />
+  <translation id="CurrentState.EatMeal" value="食事中" />
+  <translation id="MealType.Breakfast" value="朝食" />
+  <translation id="MealType.Lunch" value="昼食" />
+  <translation id="MealType.Supper" value="夕食" />
+  <translation id="MealType.Other" value="おやつ" />
+  <translation id="WorkShift.Assigned" value="シフトに割り当て済み" />
   <translation id="WorkStatus.OnVacation" value="(休暇中：残り {0} 日)" />
 
   <translation id="AcademicYear.DaysLeft" value="残り {0} 日" />

@@ -272,10 +272,10 @@
   <translation id="SnowRoadsOtherEndHour" value="기타 도로 제설 종료 시간" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="기타 도로 제설 서비스가 운행을 종료하는 시간입니다." />
 
-  <translation id="CurrentPlannedAction" value="Plan now" />
-  <translation id="NextScheduledActionTime" value="Changes at" />
-  <translation id="NextScheduledAction" value="Then" />
-  <translation id="CurrentState" value="Actual state" />
+  <translation id="CurrentPlannedAction" value="지금 계획" />
+  <translation id="NextScheduledActionTime" value="변경 시각" />
+  <translation id="NextScheduledAction" value="다음" />
+  <translation id="CurrentState" value="현재 상태" />
   <translation id="ScheduledAction.GoHome" value="귀가" />
   <translation id="CurrentState.AtHome" value="집에 있음" />
   <translation id="ScheduledAction.GoToSchool" value="등교" />
@@ -288,15 +288,19 @@
   <translation id="CurrentState.Relaxing" value="휴식 중" />
   <translation id="ScheduledAction.GoToVisit" value="방문" />
   <translation id="CurrentState.Visiting" value="방문 중" />
-  <translation id="ScheduledAction.GoToShelter" value="피신" />
+  <translation id="ScheduledAction.GoToShelter" value="대피소로 이동" />
   <translation id="CurrentState.InShelter" value="대피소에 있음" />
+  <translation id="ScheduledAction.GoToBank" value="은행으로 이동" />
+  <translation id="CurrentState.AtBank" value="은행에 있음" />
+  <translation id="ScheduledAction.GoToPostOffice" value="우체국으로 이동" />
+  <translation id="CurrentState.AtPostOffice" value="우체국에 있음" />
   <translation id="ScheduledAction.GoToMeal" value="식사" />
-  <translation id="CurrentState.EatMeal" value="Eating" />
-  <translation id="MealType.Breakfast" value="breakfast" />
-  <translation id="MealType.Lunch" value="lunch" />
-  <translation id="MealType.Supper" value="supper" />
-  <translation id="MealType.Other" value="a snack" />
-  <translation id="WorkShift.Assigned" value="Assigned to shift" />
+  <translation id="CurrentState.EatMeal" value="식사 중" />
+  <translation id="MealType.Breakfast" value="아침 식사" />
+  <translation id="MealType.Lunch" value="점심 식사" />
+  <translation id="MealType.Supper" value="저녁 식사" />
+  <translation id="MealType.Other" value="간식" />
+  <translation id="WorkShift.Assigned" value="근무조에 배정됨" />
   <translation id="WorkStatus.OnVacation" value="(휴가 중: {0}일 남음)" />
 
   <translation id="AcademicYear.DaysLeft" value="{0}일 남음" />

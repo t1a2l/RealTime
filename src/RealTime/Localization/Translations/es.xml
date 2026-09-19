@@ -272,10 +272,10 @@
   <translation id="SnowRoadsOtherEndHour" value="Fin mantenimiento otras carreteras" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="Hora a la que finalizan los servicios de mantenimiento de nieve para otras carreteras." />
 
-  <translation id="CurrentPlannedAction" value="Plan now" />
-  <translation id="NextScheduledActionTime" value="Changes at" />
-  <translation id="NextScheduledAction" value="Then" />
-  <translation id="CurrentState" value="Actual state" />
+  <translation id="CurrentPlannedAction" value="Planificar ahora" />
+  <translation id="NextScheduledActionTime" value="Cambios a las" />
+  <translation id="NextScheduledAction" value="Luego" />
+  <translation id="CurrentState" value="Estado actual" />
   <translation id="ScheduledAction.GoHome" value="Ir a casa" />
   <translation id="CurrentState.AtHome" value="En casa" />
   <translation id="ScheduledAction.GoToSchool" value="Ir a la escuela" />
@@ -288,15 +288,19 @@
   <translation id="CurrentState.Relaxing" value="Relajándose" />
   <translation id="ScheduledAction.GoToVisit" value="Ir de visita" />
   <translation id="CurrentState.Visiting" value="Visitando" />
-  <translation id="ScheduledAction.GoToShelter" value="Ir al refugio" />
+  <translation id="ScheduledAction.GoToShelter" value="Ir a un refugio" />
   <translation id="CurrentState.InShelter" value="En el refugio" />
+  <translation id="ScheduledAction.GoToBank" value="Ir a un banco" />
+  <translation id="CurrentState.AtBank" value="En el banco" />
+  <translation id="ScheduledAction.GoToPostOffice" value="Ir a una oficina de correos" />
+  <translation id="CurrentState.AtPostOffice" value="En la oficina de correos" />
   <translation id="ScheduledAction.GoToMeal" value="Ir a comer" />
-  <translation id="CurrentState.EatMeal" value="Eating" />
-  <translation id="MealType.Breakfast" value="breakfast" />
-  <translation id="MealType.Lunch" value="lunch" />
-  <translation id="MealType.Supper" value="supper" />
-  <translation id="MealType.Other" value="a snack" />
-  <translation id="WorkShift.Assigned" value="Assigned to shift" />
+  <translation id="CurrentState.EatMeal" value="Comiendo" />
+  <translation id="MealType.Breakfast" value="desayuno" />
+  <translation id="MealType.Lunch" value="almuerzo" />
+  <translation id="MealType.Supper" value="cena" />
+  <translation id="MealType.Other" value="una merienda" />
+  <translation id="WorkShift.Assigned" value="Asignado a turno" />
   <translation id="WorkStatus.OnVacation" value="(vacaciones: {0} días)" />
 
   <translation id="AcademicYear.DaysLeft" value="Termina en {0} días" />

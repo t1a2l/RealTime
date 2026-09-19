@@ -288,8 +288,12 @@
   <translation id="CurrentState.Relaxing" value="Relaxing" />
   <translation id="ScheduledAction.GoToVisit" value="Go visit" />
   <translation id="CurrentState.Visiting" value="Visiting" />
-  <translation id="ScheduledAction.GoToShelter" value="Go to shelter" />
+  <translation id="ScheduledAction.GoToShelter" value="Go to a shelter" />
   <translation id="CurrentState.InShelter" value="At shelter" />
+  <translation id="ScheduledAction.GoToBank" value="Go to a bank" />
+  <translation id="CurrentState.AtBank" value="At the bank" />
+  <translation id="ScheduledAction.GoToPostOffice" value="Go to a post office" />
+  <translation id="CurrentState.AtPostOffice" value="At the post office" />
   <translation id="ScheduledAction.GoToMeal" value="Go to eat" />
   <translation id="CurrentState.EatMeal" value="Eating" />
   <translation id="MealType.Breakfast" value="breakfast" />

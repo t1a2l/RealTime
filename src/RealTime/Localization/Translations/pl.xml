@@ -272,10 +272,10 @@
   <translation id="SnowRoadsOtherEndHour" value="Koniec na innych drogach" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="Godzina zakończenia odśnieżania innych dróg" />
 
-  <translation id="CurrentPlannedAction" value="Plan now" />
-  <translation id="NextScheduledActionTime" value="Changes at" />
-  <translation id="NextScheduledAction" value="Then" />
-  <translation id="CurrentState" value="Actual state" />
+  <translation id="CurrentPlannedAction" value="Plan teraz" />
+  <translation id="NextScheduledActionTime" value="Zmiany o" />
+  <translation id="NextScheduledAction" value="Następnie" />
+  <translation id="CurrentState" value="Aktualny stan" />
   <translation id="ScheduledAction.GoHome" value="Idzie do domu" />
   <translation id="CurrentState.AtHome" value="W domu" />
   <translation id="ScheduledAction.GoToSchool" value="Idzie do szkoły" />
@@ -288,14 +288,18 @@
   <translation id="CurrentState.Relaxing" value="Odpoczywa" />
   <translation id="ScheduledAction.GoToVisit" value="Idzie zwiedzać" />
   <translation id="CurrentState.Visiting" value="Zwiedza" />
-  <translation id="ScheduledAction.GoToShelter" value="Idzie do schronu" />
-  <translation id="CurrentState.InShelter" value="W schronie" />
+  <translation id="ScheduledAction.GoToShelter" value="Idzie do schroniska" />
+  <translation id="CurrentState.InShelter" value="W schronisku" />
+  <translation id="ScheduledAction.GoToBank" value="Idzie do banku" />
+  <translation id="CurrentState.AtBank" value="W banku" />
+  <translation id="ScheduledAction.GoToPostOffice" value="Idzie do urzędu pocztowego" />
+  <translation id="CurrentState.AtPostOffice" value="W urzędzie pocztowym" />
   <translation id="ScheduledAction.GoToMeal" value="Idzie zjeść" />
-  <translation id="CurrentState.EatMeal" value="Eating" />
-  <translation id="MealType.Breakfast" value="breakfast" />
+  <translation id="CurrentState.EatMeal" value="Je" />
+  <translation id="MealType.Breakfast" value="śniadanie" />
   <translation id="MealType.Lunch" value="lunch" />
-  <translation id="MealType.Supper" value="supper" />
-  <translation id="MealType.Other" value="a snack" />
+  <translation id="MealType.Supper" value="kolacja" />
+  <translation id="MealType.Other" value="przekąska" />
   <translation id="WorkShift.Assigned" value="Przypisano do zmiany" />
   <translation id="WorkStatus.OnVacation" value="(urlop: {0} dni)" />
 

@@ -284,11 +284,7 @@ namespace RealTime.CustomAI
 
         private bool ScheduleBankVisit(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
-            if(!BankPostOfficeVisitManager.CitizenBankVisitDataExist(citizenId))
-            {
-                BankPostOfficeVisitManager.CitizenBankVisitDataExist(citizenId);
-            }
-            else
+            if (BankPostOfficeVisitManager.CitizenBankVisitDataExist(citizenId))
             {
                 var bankVisitData = BankPostOfficeVisitManager.GetCitizenBankVisitData(citizenId);
                 if (bankVisitData.LastVisit.AddDays(Config.VisitBankOrPostOfficeInterval) > TimeInfo.Now)
@@ -338,11 +334,7 @@ namespace RealTime.CustomAI
 
         private bool SchedulePostOfficeVisit(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
-            if (!BankPostOfficeVisitManager.CitizenPostOfficeVisitDataExist(citizenId))
-            {
-                BankPostOfficeVisitManager.CitizenPostOfficeVisitDataExist(citizenId);
-            }
-            else
+            if (BankPostOfficeVisitManager.CitizenPostOfficeVisitDataExist(citizenId))
             {
                 var postOfficeVisitData = BankPostOfficeVisitManager.GetCitizenPostOfficeVisitData(citizenId);
                 if (postOfficeVisitData.LastVisit.AddDays(Config.VisitBankOrPostOfficeInterval) > TimeInfo.Now)

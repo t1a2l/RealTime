@@ -425,13 +425,13 @@ namespace RealTime.CustomAI
                     return true;
                 }
 
-                if (ScheduleBankVisit(ref schedule, ref citizen))
+                if (ScheduleBankVisit(ref schedule, citizenId, ref citizen))
                 {
                     Log.Debug(LogCategory.Schedule, $"  - Schedule bank visit, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
                     return true;
                 }
 
-                if (SchedulePostOfficeVisit(ref schedule, ref citizen))
+                if (SchedulePostOfficeVisit(ref schedule, citizenId, ref citizen))
                 {
                     Log.Debug(LogCategory.Schedule, $"  - Schedule post office visit, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
                     return true;

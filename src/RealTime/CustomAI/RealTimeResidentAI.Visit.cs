@@ -287,7 +287,7 @@ namespace RealTime.CustomAI
             if (BankPostOfficeVisitManager.CitizenBankVisitDataExist(citizenId))
             {
                 var bankVisitData = BankPostOfficeVisitManager.GetCitizenBankVisitData(citizenId);
-                if (bankVisitData.LastVisit.AddDays(Config.VisitBankOrPostOfficeInterval) > TimeInfo.Now)
+                if (bankVisitData.LastVisit != default && bankVisitData.LastVisit.AddDays(Config.VisitBankOrPostOfficeInterval) > TimeInfo.Now)
                 {
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will not visit a bank because of cooldown. Last visit: {bankVisitData.LastVisit}, Cooldown: {Config.VisitBankOrPostOfficeInterval} days");
                     return false;
@@ -337,7 +337,7 @@ namespace RealTime.CustomAI
             if (BankPostOfficeVisitManager.CitizenPostOfficeVisitDataExist(citizenId))
             {
                 var postOfficeVisitData = BankPostOfficeVisitManager.GetCitizenPostOfficeVisitData(citizenId);
-                if (postOfficeVisitData.LastVisit.AddDays(Config.VisitBankOrPostOfficeInterval) > TimeInfo.Now)
+                if (postOfficeVisitData.LastVisit != default && postOfficeVisitData.LastVisit.AddDays(Config.VisitBankOrPostOfficeInterval) > TimeInfo.Now)
                 {
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will not visit a post office because of cooldown. Last visit: {postOfficeVisitData.LastVisit}, Cooldown: {Config.VisitBankOrPostOfficeInterval} days");
                     return false;

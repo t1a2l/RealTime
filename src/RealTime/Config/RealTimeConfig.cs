@@ -450,6 +450,13 @@ namespace RealTime.Config
         public float TogaPartyLength { get; set; }
 
         /// <summary>
+        /// Gets or sets the interval in days at which Cims visit the bank or post office.
+        /// </summary>
+        [ConfigItem("4Time", 20)]
+        [ConfigItemSlider(1f, 7f, 1f, ValueType = SliderValueType.Default)]
+        public float VisitBankOrPostOfficeInterval { get; set; }
+
+        /// <summary>
         /// Gets or sets the daytime hour when the garbage service starts for residential buildings.
         /// </summary>
         [ConfigItem("5Services", "0Garbage", 2)]
@@ -854,6 +861,8 @@ namespace RealTime.Config
             AcademicYearLength = FastMath.Clamp(AcademicYearLength, 1f, 30f);
             TogaPartyLength = FastMath.Clamp(TogaPartyLength, 4f, 24f);
 
+            VisitBankOrPostOfficeInterval = FastMath.Clamp(VisitBankOrPostOfficeInterval, 1f, 7f);
+
             GarbageResidentialStartHour = FastMath.Clamp(GarbageResidentialStartHour, 0f, 23.5f);
             GarbageResidentialEndHour = FastMath.Clamp(GarbageResidentialEndHour, 0f, 23.5f);
 
@@ -983,6 +992,7 @@ namespace RealTime.Config
             MaxVacationLength = 3u;
             AcademicYearLength = 7f;
             TogaPartyLength = 8f;
+            VisitBankOrPostOfficeInterval = 3f;
 
             GarbageResidentialStartHour = 0f;
             GarbageResidentialEndHour = 0f;

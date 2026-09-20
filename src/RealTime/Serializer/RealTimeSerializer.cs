@@ -13,7 +13,7 @@ namespace RealTime.Serializer
         private const uint uiTUPLE_START = 0xFEFEFEFE;
         private const uint uiTUPLE_END = 0xFAFAFAFA;
 
-        public const ushort DataVersion = 2;
+        public const ushort DataVersion = 3;
         public const string DataID = "RealTime";
         public static ushort SaveGameFileVersion;
         private const ushort SeparateCitizenScheduleVersion = 2;
@@ -123,6 +123,15 @@ namespace RealTime.Serializer
                     CheckStartTuple("ParkBuildingTypesSerializer", SaveGameFileVersion, data, ref Index);
                     ParkBuildingTypesSerializer.LoadData(SaveGameFileVersion, data, ref Index);
                     CheckEndTuple("ParkBuildingTypesSerializer", SaveGameFileVersion, data, ref Index);
+
+                    if (Index == data.Length)
+                    {
+                        break;
+                    }
+
+                    CheckStartTuple("BankPostOfficeVisitSerializer", SaveGameFileVersion, data, ref Index);
+                    BankPostOfficeVisitSerializer.LoadData(SaveGameFileVersion, data, ref Index);
+                    CheckEndTuple("BankPostOfficeVisitSerializer", SaveGameFileVersion, data, ref Index);
                     break;
                 }
 
@@ -184,6 +193,11 @@ namespace RealTime.Serializer
                     // park building types settings
                     StorageData.WriteUInt32(uiTUPLE_START, Data);
                     ParkBuildingTypesSerializer.SaveData(Data);
+                    StorageData.WriteUInt32(uiTUPLE_END, Data);
+
+                    // bank and post office visit settings
+                    StorageData.WriteUInt32(uiTUPLE_START, Data);
+                    BankPostOfficeVisitSerializer.SaveData(Data);
                     StorageData.WriteUInt32(uiTUPLE_END, Data);
 
                     // citizen schedules

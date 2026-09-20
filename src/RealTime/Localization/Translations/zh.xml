@@ -175,6 +175,8 @@
   <translation id="AcademicYearLengthTooltip" value="一学年的持续时长。默认为 7 天。" />
   <translation id="TogaPartyLength" value="托加聚会时长 (需要校园 DLC)" />
   <translation id="TogaPartyLengthTooltip" value="托加聚会的持续时长。默认为 8 小时。" />
+  <translation id="VisitBankOrPostOfficeInterval" value="访问银行或邮局的间隔天数" />
+  <translation id="VisitBankOrPostOfficeIntervalTooltip" value="市民访问银行或邮局的间隔天数。默认值为 3 天。" />
 
   <translation id="5Services" value="服务" />
   <translation id="0Garbage" value="垃圾收集时间" />

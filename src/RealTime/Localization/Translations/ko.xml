@@ -175,6 +175,8 @@
   <translation id="AcademicYearLengthTooltip" value="한 학기가 지속되는 일수입니다. 기본값은 7일입니다." />
   <translation id="TogaPartyLength" value="토가 파티 지속 시간 (캠퍼스 DLC 필요)" />
   <translation id="TogaPartyLengthTooltip" value="토가 파티가 지속되는 시간입니다. 기본값은 8시간입니다." />
+  <translation id="VisitBankOrPostOfficeInterval" value="은행 또는 우체국 방문 간격 (일)" />
+  <translation id="VisitBankOrPostOfficeIntervalTooltip" value="시민이 은행이나 우체국을 방문하는 간격(일)입니다. 기본값은 3일입니다." />
 
   <translation id="5Services" value="서비스" />
   <translation id="0Garbage" value="쓰레기 수거 운영 시간" />

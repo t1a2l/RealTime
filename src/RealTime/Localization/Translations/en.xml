@@ -175,6 +175,8 @@
   <translation id="AcademicYearLengthTooltip" value="how long an academic year will take. Default is 7 days." />
   <translation id="TogaPartyLength" value="Toga Party hours (Requires The Campus DLC)" />
   <translation id="TogaPartyLengthTooltip" value="how long a toga party will last. Default is 8 hours." />
+  <translation id="VisitBankOrPostOfficeInterval" value="Visit bank or post office interval days" />
+  <translation id="VisitBankOrPostOfficeIntervalTooltip" value="The interval in days at which Cims visit the bank or post office. Default is 3 days." />
   
   <translation id="5Services" value="Services" />
   <translation id="0Garbage" value="Garbage operation hours" />

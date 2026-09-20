@@ -175,6 +175,8 @@
   <translation id="AcademicYearLengthTooltip" value="Сколько длится учебный год. По умолчанию 7 дней." />
   <translation id="TogaPartyLength" value="Длительность тога-вечеринки (Требует DLC Campus)" />
   <translation id="TogaPartyLengthTooltip" value="Сколько длится тога-вечеринка. По умолчанию 8 часов." />
+  <translation id="VisitBankOrPostOfficeInterval" value="Интервал посещения банка или почты (дни)" />
+  <translation id="VisitBankOrPostOfficeIntervalTooltip" value="Интервал в днях, через который жители посещают банк или почту. По умолчанию 3 дня." />
 
   <translation id="5Services" value="Услуги" />
   <translation id="0Garbage" value="Рабочие часы мусора" />

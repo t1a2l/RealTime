@@ -70,6 +70,7 @@ namespace RealTime.CustomAI
                     {
                         Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is already in a leisure building {currentBuilding} and continues relaxing there.");
                         schedule.CurrentState = ResidentState.Relaxing;
+                        schedule.Schedule(ResidentState.Unknown);
                         return true;
                     }
 
@@ -108,6 +109,7 @@ namespace RealTime.CustomAI
                     {
                         Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for {schedule.CurrentState}");
                         schedule.CurrentState = ResidentState.Relaxing;
+                        schedule.Schedule(ResidentState.Unknown);
                         return true;
                     }
 
@@ -142,6 +144,7 @@ namespace RealTime.CustomAI
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for relaxing");
                 schedule.CurrentState = ResidentState.Relaxing;
+                schedule.Schedule(ResidentState.Unknown);
                 return true;
             }
 
@@ -233,6 +236,7 @@ namespace RealTime.CustomAI
                 {
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for shopping");
                     schedule.CurrentState = ResidentState.Shopping;
+                    schedule.Schedule(ResidentState.Unknown);
                     return true;
                 }
 
@@ -256,6 +260,7 @@ namespace RealTime.CustomAI
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for shopping");
                 schedule.CurrentState = ResidentState.Shopping;
+                schedule.Schedule(ResidentState.Unknown);
                 return true;
             }
 
@@ -277,8 +282,22 @@ namespace RealTime.CustomAI
             return RescheduleVisit(ref schedule, citizenId, ref citizen, currentBuilding, noReschedule);
         }
 
-        private bool ScheduleBankVisit(ref CitizenSchedule schedule, ref TCitizen citizen)
+        private bool ScheduleBankVisit(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
+            if(!BankPostOfficeVisitManager.CitizenBankVisitDataExist(citizenId))
+            {
+                BankPostOfficeVisitManager.CitizenBankVisitDataExist(citizenId);
+            }
+            else
+            {
+                var bankVisitData = BankPostOfficeVisitManager.GetCitizenBankVisitData(citizenId);
+                if (bankVisitData.LastVisit.AddDays(Config.VisitBankOrPostOfficeInterval) > TimeInfo.Now)
+                {
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will not visit a bank because of cooldown. Last visit: {bankVisitData.LastVisit}, Cooldown: {Config.VisitBankOrPostOfficeInterval} days");
+                    return false;
+                }
+            }
+
             var citizenAge = CitizenProxy.GetAge(ref citizen);
             uint visitBankChance = spareTimeBehavior.GetBankChance(citizenAge, GetCitizenStartHour(ref schedule), schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
 
@@ -317,8 +336,22 @@ namespace RealTime.CustomAI
             return StartMovingToVisitBuilding(instance, citizenId, ref citizen, targetBuilding);
         }
 
-        private bool SchedulePostOfficeVisit(ref CitizenSchedule schedule, ref TCitizen citizen)
+        private bool SchedulePostOfficeVisit(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
+            if (!BankPostOfficeVisitManager.CitizenPostOfficeVisitDataExist(citizenId))
+            {
+                BankPostOfficeVisitManager.CitizenPostOfficeVisitDataExist(citizenId);
+            }
+            else
+            {
+                var postOfficeVisitData = BankPostOfficeVisitManager.GetCitizenPostOfficeVisitData(citizenId);
+                if (postOfficeVisitData.LastVisit.AddDays(Config.VisitBankOrPostOfficeInterval) > TimeInfo.Now)
+                {
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will not visit a post office because of cooldown. Last visit: {postOfficeVisitData.LastVisit}, Cooldown: {Config.VisitBankOrPostOfficeInterval} days");
+                    return false;
+                }
+            }
+
             var citizenAge = CitizenProxy.GetAge(ref citizen);
             uint visitPostOfficeChance = spareTimeBehavior.GetPostOfficeChance(citizenAge, GetCitizenStartHour(ref schedule), schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
 
@@ -404,23 +437,34 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            if (schedule.ScheduledState == ResidentState.GoToBank || schedule.ScheduledState == ResidentState.GoToPostOffice)
+            if (schedule.ScheduledState == ResidentState.GoToBank || schedule.ScheduledState == ResidentState.GoToPostOffice
+                || schedule.CurrentState == ResidentState.AtBank || schedule.CurrentState == ResidentState.AtPostOffice)
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wont quit a visit to the bank or post office");
                 return false;
             }
 
             var age = CitizenProxy.GetAge(ref citizen);
-            uint stayChance = schedule.CurrentState == ResidentState.Shopping
-                ? spareTimeBehavior.GetShoppingChance(age)
-                : spareTimeBehavior.GetRelaxingChance(age, GetCitizenStartHour(ref schedule), schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
+            uint stayChance = 0;
+
+            switch (schedule.CurrentState)
+            {
+                case ResidentState.Shopping:
+                    stayChance = spareTimeBehavior.GetShoppingChance(age);
+                    break;
+                case ResidentState.Relaxing:
+                    stayChance = spareTimeBehavior.GetRelaxingChance(age, GetCitizenStartHour(ref schedule), schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
+                    break;
+            }
 
             if (!Random.ShouldOccur(stayChance))
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a visit because of time");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits the visit because of time");
                 schedule.Schedule(ResidentState.GoHome);
                 return true;
             }
+
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues the visit");
 
             return false;
         }

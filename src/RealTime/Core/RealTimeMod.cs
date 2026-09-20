@@ -120,6 +120,7 @@ namespace RealTime.Core
             try
             {
                 AcademicYearManager.Init();
+                BankPostOfficeVisitManager.Init();
                 BuildingWorkTimeManager.Init();
                 EventRouteTimeManager.Init();
                 FireBurnTimeManager.Init();
@@ -131,6 +132,7 @@ namespace RealTime.Core
             {
                 Debug.LogError(e.ToString());
                 AcademicYearManager.Deinit();
+                BankPostOfficeVisitManager.Deinit();
                 BuildingWorkTimeManager.Deinit();
                 EventRouteTimeManager.Deinit();
                 FireBurnTimeManager.Deinit();

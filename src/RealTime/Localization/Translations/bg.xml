@@ -175,6 +175,8 @@
   <translation id="AcademicYearLengthTooltip" value="Колко трае учебната година. По подразбиране е 7 дни." />
   <translation id="TogaPartyLength" value="Продължителност на тога парти (изисква Campus DLC)" />
   <translation id="TogaPartyLengthTooltip" value="Колко трае тога партито. По подразбиране е 8 часа." />
+  <translation id="VisitBankOrPostOfficeInterval" value="Интервал за посещение на банка или пощенска станция (дни)" />
+  <translation id="VisitBankOrPostOfficeIntervalTooltip" value="Интервалът в дни, през който гражданите посещават банката или пощенската станция. По подразбиране е 3 дни." />
 
   <translation id="5Services" value="Услуги" />
   <translation id="0Garbage" value="Работно време на сметосъбиране" />

@@ -8,6 +8,7 @@ namespace RealTime.CustomAI
     using RealTime.Core;
     using RealTime.Events;
     using RealTime.GameConnection;
+    using RealTime.Managers;
     using SkyTools.Storage;
     using SkyTools.Tools;
 
@@ -291,6 +292,14 @@ namespace RealTime.CustomAI
                             {
                                 schedule.CurrentState = ResidentState.AtBank;
                                 schedule.CurrentMealType = MealType.None;
+                                if(!BankPostOfficeVisitManager.CitizenBankVisitDataExist(citizenId))
+                                {
+                                    BankPostOfficeVisitManager.CreateBankVisitData(citizenId);
+                                }
+                                else
+                                {
+                                    BankPostOfficeVisitManager.SetBankVisitData(citizenId);
+                                }
                                 Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at the bank building {currentBuilding}, CurrentState = AtBank");
                             }
                             break;
@@ -300,6 +309,14 @@ namespace RealTime.CustomAI
                             {
                                 schedule.CurrentState = ResidentState.AtPostOffice;
                                 schedule.CurrentMealType = MealType.None;
+                                if (!BankPostOfficeVisitManager.CitizenPostOfficeVisitDataExist(citizenId))
+                                {
+                                    BankPostOfficeVisitManager.CreatePostOfficeVisitData(citizenId);
+                                }
+                                else
+                                {
+                                    BankPostOfficeVisitManager.SetPostOfficeVisitData(citizenId);
+                                }
                                 Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at the post office building {currentBuilding}, CurrentState = AtPostOffice");
                             }
                             break;

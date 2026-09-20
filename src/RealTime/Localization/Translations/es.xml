@@ -175,6 +175,8 @@
   <translation id="AcademicYearLengthTooltip" value="Duración del año académico. Por defecto son 7 días." />
   <translation id="TogaPartyLength" value="Duración Fiesta de Togas (DLC Campus)" />
   <translation id="TogaPartyLengthTooltip" value="Horas que dura una fiesta de togas. Por defecto son 8 horas." />
+  <translation id="VisitBankOrPostOfficeInterval" value="Intervalo de visita a banco o oficina de correos (días)" />
+  <translation id="VisitBankOrPostOfficeIntervalTooltip" value="El intervalo en días en el que los Cims visitan el banco o la oficina de correos. Por defecto son 3 días." />
 
   <translation id="5Services" value="Servicios" />
   <translation id="0Garbage" value="Horas de operación de basura" />

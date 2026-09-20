@@ -175,6 +175,8 @@
   <translation id="AcademicYearLengthTooltip" value="Określa okres trwania roku akademickiego. Domyślnie jest to 7 dni." />
   <translation id="TogaPartyLength" value="Długość imprezy w togach (Dodatek “Campus”)" />
   <translation id="TogaPartyLengthTooltip" value="Określa okres trwania imprezy w strojach toga. Domyślnie 8 godzin." />
+  <translation id="VisitBankOrPostOfficeInterval" value="Interwał odwiedzin banku lub poczty (dni)" />
+  <translation id="VisitBankOrPostOfficeIntervalTooltip" value="Interwał w dniach, w którym mieszkańcy odwiedzają bank lub pocztę. Domyślnie 3 dni." />
 
   <translation id="5Services" value="Usługi" />
   <translation id="0Garbage" value="Godziny wywozu śmieci" />

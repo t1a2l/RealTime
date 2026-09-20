@@ -175,6 +175,8 @@
   <translation id="AcademicYearLengthTooltip" value="ระยะเวลาหนึ่งปีการศึกษา ค่าเริ่มต้นคือ 7 วัน" />
   <translation id="TogaPartyLength" value="ระยะเวลาปาร์ตี้โทก้า (ต้องมี Campus DLC)" />
   <translation id="TogaPartyLengthTooltip" value="ระยะเวลาของปาร์ตี้โทก้า ค่าเริ่มต้นคือ 8 ชั่วโมง" />
+  <translation id="VisitBankOrPostOfficeInterval" value="ระยะเวลาการเยี่ยมชมธนาคารหรือไปรษณีย์ (วัน)" />
+  <translation id="VisitBankOrPostOfficeIntervalTooltip" value="ระยะเวลาเป็นวันในการที่พลเมืองจะไปเยี่ยมชมธนาคารหรือไปรษณีย์ ค่าเริ่มต้นคือ 3 วัน" />
 
   <translation id="5Services" value="บริการ" />
   <translation id="0Garbage" value="เวลาทำงานของบริการขยะ" />

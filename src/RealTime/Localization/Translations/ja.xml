@@ -175,6 +175,8 @@
   <translation id="AcademicYearLengthTooltip" value="1学年度が続く日数。デフォルトは7日です" />
   <translation id="TogaPartyLength" value="トガパーティーの持続時間 (Campus DLCが必要)" />
   <translation id="TogaPartyLengthTooltip" value="トガパーティーが開催される時間。デフォルトは8時間です" />
+  <translation id="VisitBankOrPostOfficeInterval" value="銀行または郵便局訪問間隔 (日)" />
+  <translation id="VisitBankOrPostOfficeIntervalTooltip" value="市民が銀行または郵便局を訪問する間隔（日）。デフォルトは3日です。" />
 
   <translation id="5Services" value="サービス" />
   <translation id="0Garbage" value="ゴミ収集の稼働時間" />

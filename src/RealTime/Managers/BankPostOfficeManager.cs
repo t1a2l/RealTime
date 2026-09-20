@@ -65,7 +65,7 @@ namespace RealTime.Managers
 
         public static PostOfficeVisitData GetCitizenPostOfficeVisitData(uint citizenID) => !PostOfficeVisitTracker.TryGetValue(citizenID, out var postOfficeVisitData) ? default : postOfficeVisitData;
 
-        public static void CreateBankVisitData(uint citizenID)
+        public static void CreateBankVisitData(uint citizenID, DateTime visitTime)
         {
             if (!BankVisitTracker.ContainsKey(citizenID))
             {
@@ -73,12 +73,12 @@ namespace RealTime.Managers
                 BankVisitTracker[citizenID] = new BankVisitData
                 {
                     Reason = bankReasons[index],
-                    LastVisit = DateTime.Now
+                    LastVisit = visitTime
                 };
             }
         }
 
-        public static void CreatePostOfficeVisitData(uint citizenID)
+        public static void CreatePostOfficeVisitData(uint citizenID, DateTime visitTime)
         {
             if (!PostOfficeVisitTracker.ContainsKey(citizenID))
             {
@@ -86,12 +86,12 @@ namespace RealTime.Managers
                 PostOfficeVisitTracker[citizenID] = new PostOfficeVisitData
                 {
                     Reason = postOfficeReasons[index],
-                    LastVisit = DateTime.Now
+                    LastVisit = visitTime
                 };
             }
         }
 
-        public static void SetBankVisitData(uint citizenID)
+        public static void SetBankVisitData(uint citizenID, DateTime visitTime)
         {
             if (BankVisitTracker.ContainsKey(citizenID))
             {
@@ -100,13 +100,13 @@ namespace RealTime.Managers
                 int index = SimulationManager.instance.m_randomizer.Int32((uint)bankReasons.Length);
 
                 bankVisitData.Reason = bankReasons[index];
-                bankVisitData.LastVisit = DateTime.Now;
+                bankVisitData.LastVisit = visitTime;
 
                 BankVisitTracker[citizenID] = bankVisitData;
             }
         }
 
-        public static void SetPostOfficeVisitData(uint citizenID)
+        public static void SetPostOfficeVisitData(uint citizenID, DateTime visitTime)
         {
             if (PostOfficeVisitTracker.ContainsKey(citizenID))
             {
@@ -115,7 +115,7 @@ namespace RealTime.Managers
                 int index = SimulationManager.instance.m_randomizer.Int32((uint)postOfficeReasons.Length);
 
                 postOfficeVisitData.Reason = postOfficeReasons[index];
-                postOfficeVisitData.LastVisit = DateTime.Now;
+                postOfficeVisitData.LastVisit = visitTime;
 
                 PostOfficeVisitTracker[citizenID] = postOfficeVisitData;
             }

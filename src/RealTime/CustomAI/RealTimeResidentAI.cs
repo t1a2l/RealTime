@@ -294,11 +294,11 @@ namespace RealTime.CustomAI
                                 schedule.CurrentMealType = MealType.None;
                                 if(!BankPostOfficeVisitManager.CitizenBankVisitDataExist(citizenId))
                                 {
-                                    BankPostOfficeVisitManager.CreateBankVisitData(citizenId);
+                                    BankPostOfficeVisitManager.CreateBankVisitData(citizenId, TimeInfo.Now);
                                 }
                                 else
                                 {
-                                    BankPostOfficeVisitManager.SetBankVisitData(citizenId);
+                                    BankPostOfficeVisitManager.SetBankVisitData(citizenId, TimeInfo.Now);
                                 }
                                 Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at the bank building {currentBuilding}, CurrentState = AtBank");
                             }
@@ -311,11 +311,11 @@ namespace RealTime.CustomAI
                                 schedule.CurrentMealType = MealType.None;
                                 if (!BankPostOfficeVisitManager.CitizenPostOfficeVisitDataExist(citizenId))
                                 {
-                                    BankPostOfficeVisitManager.CreatePostOfficeVisitData(citizenId);
+                                    BankPostOfficeVisitManager.CreatePostOfficeVisitData(citizenId, TimeInfo.Now);
                                 }
                                 else
                                 {
-                                    BankPostOfficeVisitManager.SetPostOfficeVisitData(citizenId);
+                                    BankPostOfficeVisitManager.SetPostOfficeVisitData(citizenId, TimeInfo.Now);
                                 }
                                 Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} arrived at the post office building {currentBuilding}, CurrentState = AtPostOffice");
                             }

@@ -6,6 +6,7 @@ namespace RealTime.Patches
     using HarmonyLib;
     using RealTime.Core;
     using RealTime.CustomAI;
+    using RealTime.Managers;
 
     /// <summary>
     /// A static class that provides the patch objects for the game's citizen manager.
@@ -19,9 +20,9 @@ namespace RealTime.Patches
         public static INewCitizenBehavior NewCitizenBehavior { get; set; }
   
         [HarmonyPatch(typeof(CitizenManager), "CreateCitizen",
-                [typeof(uint), typeof(int), typeof(int), typeof(Randomizer)],
-                [ArgumentType.Out, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Ref]
-            )]
+            [typeof(uint), typeof(int), typeof(int), typeof(Randomizer)],
+            [ArgumentType.Out, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Ref]
+        )]
         [HarmonyPostfix]
         private static void Postfix1(ref uint citizen, bool __result)
         {
@@ -40,9 +41,9 @@ namespace RealTime.Patches
         }
 
         [HarmonyPatch(typeof(CitizenManager), "CreateCitizen",
-                [typeof(uint), typeof(int), typeof(int), typeof(Randomizer), typeof(Citizen.Gender)],
-                [ArgumentType.Out, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Normal]
-            )]
+            [typeof(uint), typeof(int), typeof(int), typeof(Randomizer), typeof(Citizen.Gender)],
+            [ArgumentType.Out, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Normal]
+        )]
         [HarmonyPostfix]
         private static void Postfix2(ref uint citizen, bool __result)
         {
@@ -56,6 +57,21 @@ namespace RealTime.Patches
                 UpdateCitizenEducation(citizen);
             }
         }
+
+        [HarmonyPatch(typeof(CitizenManager), "ReleaseCitizen")]
+        [HarmonyPostfix]
+        public static void ReleaseCitizen(uint citizen)
+        {
+            if(BankPostOfficeVisitManager.CitizenBankVisitDataExist(citizen))
+            {
+                BankPostOfficeVisitManager.RemoveBankVisitData(citizen);
+            }
+            if(BankPostOfficeVisitManager.CitizenPostOfficeVisitDataExist(citizen))
+            {
+                BankPostOfficeVisitManager.RemovePostOfficeVisitData(citizen);
+            }
+        }
+
 
         private static void UpdateCitizenAge(uint citizenId)
         {

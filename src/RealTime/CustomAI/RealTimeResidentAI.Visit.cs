@@ -307,7 +307,7 @@ namespace RealTime.CustomAI
             }
 
             schedule.Schedule(ResidentState.GoToBank);
-            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} will visit a bank. Scheduled state: {schedule.ScheduledState}");
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will visit a bank. Scheduled state: {schedule.ScheduledState}");
             return true;
         }
 
@@ -361,7 +361,7 @@ namespace RealTime.CustomAI
             }
 
             schedule.Schedule(ResidentState.GoToPostOffice);
-            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} will visit a post office. Scheduled state: {schedule.ScheduledState}");
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will visit a post office. Scheduled state: {schedule.ScheduledState}");
             return true;
         }
 
@@ -437,10 +437,9 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            if (schedule.ScheduledState == ResidentState.GoToBank || schedule.ScheduledState == ResidentState.GoToPostOffice
-                || schedule.CurrentState == ResidentState.AtBank || schedule.CurrentState == ResidentState.AtPostOffice)
+            if (schedule.ActiveTravelState == ResidentState.GoToBank || schedule.ActiveTravelState == ResidentState.GoToPostOffice)
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wont quit a visit to the bank or post office");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wont quit a visit to the bank or post office while traveling");
                 return false;
             }
 
@@ -455,12 +454,18 @@ namespace RealTime.CustomAI
                 case ResidentState.Relaxing:
                     stayChance = spareTimeBehavior.GetRelaxingChance(age, GetCitizenStartHour(ref schedule), schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
                     break;
+                case ResidentState.AtBank:
+                    stayChance = spareTimeBehavior.GetBankChance(age, GetCitizenStartHour(ref schedule), schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
+                    break;
+                case ResidentState.AtPostOffice:
+                    stayChance = spareTimeBehavior.GetPostOfficeChance(age, GetCitizenStartHour(ref schedule), schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
+                    break;
             }
 
             if (!Random.ShouldOccur(stayChance))
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits the visit because of time");
-                schedule.Schedule(ResidentState.GoHome);
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits the visit to do something else");
+                schedule.Schedule(ResidentState.Unknown);
                 return true;
             }
 

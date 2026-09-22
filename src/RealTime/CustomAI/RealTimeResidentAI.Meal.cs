@@ -156,7 +156,7 @@ namespace RealTime.CustomAI
             outboundTravel = 0f;
             returnTravel = 0f;
 
-            ushort obligationBuilding;
+            ushort obligationBuilding = 0;
 
             if (schedule.WorkStatus == WorkStatus.Working)
             {
@@ -166,23 +166,34 @@ namespace RealTime.CustomAI
             {
                 obligationBuilding = schedule.SchoolBuilding;
             }
-            else
+            else if (schedule.Hint == ScheduleHint.WorkOrSchoolRelatedMeal)
             {
-                return false;
+                if (schedule.WorkBuilding != 0)
+                {
+                    obligationBuilding = schedule.WorkBuilding;
+                }
+                else if (schedule.SchoolBuilding != 0)
+                {
+                    obligationBuilding = schedule.SchoolBuilding;
+                }
             }
 
-            if (obligationBuilding == 0 || mealPlace == 0)
+            if (obligationBuilding == 0)
             {
+                Log.Debug(LogCategory.Schedule, TimeInfo.Now, $" - Cannot calculate travel time for meal place {mealPlace} because obligation building is {obligationBuilding}");
                 return false;
             }
 
             if (obligationBuilding == mealPlace)
             {
+                Log.Debug(LogCategory.Schedule, TimeInfo.Now, $" - Obligation building {obligationBuilding} is the same as meal place {mealPlace}, so no travel time is needed");
                 return true;
             }
 
             outboundTravel = travelBehavior.GetEstimatedTravelTime(obligationBuilding, mealPlace);
             returnTravel = travelBehavior.GetEstimatedTravelTime(mealPlace, obligationBuilding);
+
+            Log.Debug(LogCategory.Schedule, TimeInfo.Now, $" - Estimated travel time from obligation building {obligationBuilding} to meal place {mealPlace} is {outboundTravel} hours, and return travel time is {returnTravel} hours");
 
             return outboundTravel >= 0f && returnTravel >= 0f;
         }
@@ -314,14 +325,15 @@ namespace RealTime.CustomAI
             }
 
             var latestAllowedReturn = blockEndTime.AddHours(-MinimumWorkOrSchoolTimeAfterMeal);
+            Log.Debug(LogCategory.Schedule, TimeInfo.Now, $" - Meal would end at {mealEnd:dd.MM.yy HH:mm}, return would finish at {returnTime:dd.MM.yy HH:mm}, and the latest allowed return is {latestAllowedReturn:dd.MM.yy HH:mm}");
 
             if (returnTime <= latestAllowedReturn)
             {
-                Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Meal would end at {mealEnd:dd.MM.yy HH:mm}, return would finish at {returnTime:dd.MM.yy HH:mm}, and the latest allowed return is {latestAllowedReturn:dd.MM.yy HH:mm}");
+                Log.Debug(LogCategory.Schedule, TimeInfo.Now, $" - the citizen can complete the meal on time");
                 return true;
             }
 
-            Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Meal would end at {mealEnd:dd.MM.yy HH:mm}, return would finish at {returnTime:dd.MM.yy HH:mm}, but the latest allowed return is {latestAllowedReturn:dd.MM.yy HH:mm}");
+            Log.Debug(LogCategory.Schedule, TimeInfo.Now, $" - the citizen cannot complete the meal on time");
             return false;
         }
 

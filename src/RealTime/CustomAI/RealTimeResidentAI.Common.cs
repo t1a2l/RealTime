@@ -542,10 +542,15 @@ namespace RealTime.CustomAI
                     return;
             }
 
-            if (!executed && (schedule.CurrentState == ResidentState.AtSchool || schedule.CurrentState == ResidentState.AtWork || schedule.CurrentState == ResidentState.InShelter))
+            if (!executed)
             {
+                Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} failed to execute scheduled state {schedule.ScheduledState}, rescheduling");
                 schedule.Schedule(ResidentState.Unknown);
-                DoScheduledHome(ref schedule, instance, citizenId, ref citizen);
+                if(schedule.CurrentState == ResidentState.AtSchool || schedule.CurrentState == ResidentState.AtWork || schedule.CurrentState == ResidentState.InShelter)
+                {
+                    Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is at school/work/shelter, going home");
+                    DoScheduledHome(ref schedule, instance, citizenId, ref citizen);
+                }
             }
         }
 

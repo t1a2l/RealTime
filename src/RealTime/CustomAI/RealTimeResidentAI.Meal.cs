@@ -61,9 +61,10 @@ namespace RealTime.CustomAI
 
             if (schedule.Hint == ScheduleHint.LocalMealOnly || schedule.Hint == ScheduleHint.WorkOrSchoolRelatedMeal)
             {
-                if (schedule.Hint != ScheduleHint.WorkOrSchoolRelatedMeal && CurrentBuildingSupportsMeal(currentBuilding) && buildingAI.IsBuildingOpenForMeal(currentBuilding, mealStart, mealDuration))
+                if (CurrentBuildingSupportsMeal(currentBuilding) && buildingAI.IsBuildingOpenForMeal(currentBuilding, mealStart, mealDuration))
                 {
                     StartMealInCurrentBuilding(citizenId, ref schedule);
+                    schedule.CurrentState = ResidentState.EatMeal;
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} stays in building {currentBuilding} for the purpose of eating {schedule.ScheduledMealType}");
                     return true;
                 }
@@ -97,6 +98,14 @@ namespace RealTime.CustomAI
                 }
 
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going to eat {schedule.ScheduledMealType} at a local food place {localMealPlace} and will finish eating at {schedule.ScheduledMealEndTime:dd.MM.yy HH:mm}");
+                return true;
+            }
+
+            if (CurrentBuildingSupportsMeal(currentBuilding) && buildingAI.IsBuildingOpenForMeal(currentBuilding, mealStart, mealDuration))
+            {
+                StartMealInCurrentBuilding(citizenId, ref schedule);
+                schedule.CurrentState = ResidentState.EatMeal;
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} stays in building {currentBuilding} for the purpose of eating {schedule.ScheduledMealType}");
                 return true;
             }
 

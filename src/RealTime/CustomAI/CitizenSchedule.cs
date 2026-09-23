@@ -509,10 +509,6 @@ namespace RealTime.CustomAI
             LastSnackTime = now;
         }
 
-        /// <summary>Updates the scheduled meal end time for this citizen.</summary>
-        /// <param name="mealEndTime">The new meal end time.</param>
-        public void UpdateMealEndTime(DateTime mealEndTime) => ScheduledMealEndTime = mealEndTime;
-
         /// <summary>
         /// Begins traveling to execute a specific activity.
         /// </summary>

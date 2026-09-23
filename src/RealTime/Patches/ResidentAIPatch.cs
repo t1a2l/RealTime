@@ -5,10 +5,10 @@ namespace RealTime.Patches
     using System;
     using System.Collections.Generic;
     using System.Reflection.Emit;
-    using System.Xml.Schema;
     using ColossalFramework;
     using ColossalFramework.Math;
     using HarmonyLib;
+    using RealTime.AI;
     using RealTime.Core;
     using RealTime.CustomAI;
     using RealTime.GameConnection;
@@ -17,7 +17,6 @@ namespace RealTime.Patches
     using UnityEngine;
     using static RealTime.GameConnection.HumanAIConnectionBase<ResidentAI, Citizen>;
     using static RealTime.GameConnection.ResidentAIConnection<ResidentAI, Citizen>;
-    using static RenderManager;
 
     /// <summary>
     /// A static class that provides the patch objects and the game connection objects for the resident AI .
@@ -124,7 +123,6 @@ namespace RealTime.Patches
             __result = false;
             return false;
         }
-
 
         [HarmonyPatch(typeof(ResidentAI), "Spawn")]
         [HarmonyPrefix]
@@ -377,6 +375,30 @@ namespace RealTime.Patches
 
             // Always return false as we don't want to run the buggy vanilla function
             return false;
+        }
+
+        [HarmonyPatch(typeof(ResidentAI), "GetLocalizedStatus",
+            [typeof(uint), typeof(Citizen), typeof(InstanceID)],
+            [ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Out])]
+        [HarmonyPostfix]
+        private static void GetLocalizedStatus(uint citizenID, ref Citizen data, ref InstanceID target, ref string __result)
+        {
+            var currentLocation = data.CurrentLocation;
+            ushort visitBuilding = data.m_visitBuilding;
+            var info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[visitBuilding].Info;
+            if (info != null && currentLocation == Citizen.Location.Visit)
+            {
+                if (info.GetAI() is ExtendedBankOfficeAI && BankPostOfficeVisitManager.CitizenBankVisitDataExist(citizenID))
+                {
+                    var bankVisitData = BankPostOfficeVisitManager.GetCitizenBankVisitData(citizenID);
+                    __result = bankVisitData.Reason;
+                }
+                else if (info.GetAI() is ExtendedPostOfficeAI && BankPostOfficeVisitManager.CitizenPostOfficeVisitDataExist(citizenID))
+                {
+                    var postOfficeVisitData = BankPostOfficeVisitManager.GetCitizenPostOfficeVisitData(citizenID);
+                    __result = postOfficeVisitData.Reason;
+                }
+            }
         }
 
         // Added support for the nursing home mod which tries to patch the same function

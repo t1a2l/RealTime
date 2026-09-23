@@ -544,6 +544,23 @@ namespace RealTime.CustomAI
 
             if (!executed)
             {
+                if(schedule.Hint == ScheduleHint.WorkOrSchoolRelatedMeal && (schedule.CurrentState == ResidentState.AtSchool || schedule.CurrentState == ResidentState.AtWork))
+                {
+                    DateTime endTime = default;
+                    if(schedule.CurrentState == ResidentState.AtSchool)
+                    {
+                        endTime = TimeInfo.Now.FutureHour(schedule.SchoolClassEndTime);
+                    }
+                    else if (schedule.CurrentState == ResidentState.AtWork)
+                    {
+                        endTime = TimeInfo.Now.FutureHour(schedule.WorkShiftEndTime);
+                    }
+                    schedule.Hint = ScheduleHint.None;
+                    schedule.Schedule(ResidentState.Unknown, endTime);
+                    Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} at work/school but unable to go to eat, staying at work/school until endtime");
+                    return;
+                }
+
                 Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} failed to execute scheduled state {schedule.ScheduledState}, rescheduling");
                 schedule.Schedule(ResidentState.Unknown);
                 if(schedule.CurrentState == ResidentState.AtSchool || schedule.CurrentState == ResidentState.AtWork || schedule.CurrentState == ResidentState.InShelter)

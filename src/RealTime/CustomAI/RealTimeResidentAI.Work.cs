@@ -71,10 +71,11 @@ namespace RealTime.CustomAI
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             schedule.WorkStatus = WorkStatus.Working;
 
-            if (currentBuilding == schedule.WorkBuilding && schedule.CurrentState != ResidentState.AtWork && schedule.ScheduledState != ResidentState.GoToWork) // to check
+            if (currentBuilding == schedule.WorkBuilding && schedule.CurrentState != ResidentState.AtWork) 
             {
                 CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Work);
+                schedule.CurrentState = ResidentState.AtWork;
                 return;
             }
 

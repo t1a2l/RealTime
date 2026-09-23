@@ -76,6 +76,7 @@ namespace RealTime.CustomAI
                 CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Work);
                 schedule.CurrentState = ResidentState.AtWork;
+                schedule.CurrentMealType = MealType.None;
                 return;
             }
 

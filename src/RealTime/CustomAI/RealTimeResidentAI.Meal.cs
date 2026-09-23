@@ -155,8 +155,6 @@ namespace RealTime.CustomAI
                 }
 
                 schedule.Schedule(returnState, default, MealType.None, mealEnd);
-
-                schedule.Hint = ScheduleHint.None;
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Citizen {citizenId} started eating {mealType} at {TimeInfo.Now:dd.MM.yy HH:mm}, will finish eating at {mealEnd:dd.MM.yy HH:mm} and then will {returnState}");
             }
             else

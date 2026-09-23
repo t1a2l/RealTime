@@ -30,7 +30,7 @@ namespace RealTime.CustomAI
                     }
                     else
                     {
-                        Log.Debug(LogCategory.State, $"Teleporting {GetCitizenDesc(citizenId, ref citizen)} back home because instance is 0 and no vehicle is 0");
+                        Log.Debug(LogCategory.State, $"Teleporting {GetCitizenDesc(citizenId, ref citizen)} back home because instance is 0 and vehicle id is 0");
                         CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
                         CitizenProxy.SetArrested(ref citizen, isArrested: false);
                         schedule.Schedule(ResidentState.Unknown);

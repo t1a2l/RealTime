@@ -141,11 +141,11 @@ namespace RealTime.CustomAI
             {
                 ResidentState returnState;
 
-                if (schedule.SchoolStatus == SchoolStatus.Studying || schedule.SchoolBuilding != 0 && schedule.WorkBuilding == 0)
+                if (schedule.SchoolStatus == SchoolStatus.Studying)
                 {
                     returnState = ResidentState.GoToSchool;
                 }
-                else if (schedule.WorkStatus == WorkStatus.Working || schedule.WorkBuilding != 0 && schedule.SchoolBuilding == 0)
+                else if (schedule.WorkStatus == WorkStatus.Working)
                 {
                     returnState = ResidentState.GoToWork;
                 }
@@ -235,11 +235,11 @@ namespace RealTime.CustomAI
         {
             if (schedule.Hint == ScheduleHint.WorkOrSchoolRelatedMeal)
             {
-                if (schedule.SchoolStatus == SchoolStatus.Studying || schedule.SchoolBuilding != 0 && schedule.WorkBuilding == 0)
+                if (schedule.SchoolStatus == SchoolStatus.Studying)
                 {
                     schedule.Schedule(ResidentState.GoToSchool);
                 }
-                else if (schedule.WorkStatus == WorkStatus.Working || schedule.WorkBuilding != 0 && schedule.SchoolBuilding == 0)
+                else if (schedule.WorkStatus == WorkStatus.Working)
                 {
                     schedule.Schedule(ResidentState.GoToWork);
                 }

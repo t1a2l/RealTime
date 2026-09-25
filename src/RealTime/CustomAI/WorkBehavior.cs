@@ -124,14 +124,14 @@ namespace RealTime.CustomAI
 
             float departureHour = schedule.WorkShiftEndTime + GetOvertime(citizenAge) + time;
 
-            Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} departureHour is {departureHour}");
+            Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} departureHour from work at work end is {departureHour}");
 
             if (departureHour < timeInfo.CurrentHour)
             {
                 departureHour = timeInfo.CurrentHour;
             }
 
-            Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} departureHour is {departureHour} and future hour is {timeInfo.Now.FutureHour(departureHour):dd.MM.yy HH:mm}");
+            Log.Debug(LogCategory.Schedule, timeInfo.Now, $"The Citizen {citizenId} departureHour from work at work end is {departureHour} and actual departure time is {timeInfo.Now.FutureHour(departureHour):dd.MM.yy HH:mm}");
             schedule.Schedule(ResidentState.Unknown, timeInfo.Now.FutureHour(departureHour));
         }
 

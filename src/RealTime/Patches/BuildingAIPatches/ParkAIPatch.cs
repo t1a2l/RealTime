@@ -5,6 +5,8 @@ namespace RealTime.Patches.BuildingAIPatches
     using ColossalFramework;
     using HarmonyLib;
     using ICities;
+    using RealTime.CustomAI;
+    using RealTime.Managers;
     using System.Linq;
     using System.Reflection;
     using UnityEngine;
@@ -22,7 +24,7 @@ namespace RealTime.Patches.BuildingAIPatches
 
         [HarmonyPatch(typeof(ParkAI), "ProduceGoods")]
         [HarmonyPrefix]
-        public static bool ProduceGoods(ParkAI __instance, ushort buildingID, ref Building buildingData, ref Building.Frame frameData, int productionRate, int finalProductionRate, ref Citizen.BehaviourData behaviour, int aliveWorkerCount, int totalWorkerCount, int workPlaceCount, int aliveVisitorCount, int totalVisitorCount, int visitPlaceCount)
+        public static bool ProduceGoodsPrefix(ParkAI __instance, ushort buildingID, ref Building buildingData, ref Building.Frame frameData, int productionRate, int finalProductionRate, ref Citizen.BehaviourData behaviour, int aliveWorkerCount, int totalWorkerCount, int workPlaceCount, int aliveVisitorCount, int totalVisitorCount, int visitPlaceCount)
         {
             if (CarParkingBuildings.Any(s => __instance.name.Contains(s)))
             {
@@ -61,6 +63,55 @@ namespace RealTime.Patches.BuildingAIPatches
                 return false;
             }
             return true;
+        }
+
+        [HarmonyPatch(typeof(ParkAI), "ProduceGoods")]
+        [HarmonyPostfix]
+        public static void ProduceGoodsPostfix(ParkAI __instance, ushort buildingID, ref Building buildingData, ref Building.Frame frameData, int productionRate, int finalProductionRate, ref Citizen.BehaviourData behaviour, int aliveWorkerCount, int totalWorkerCount, int workPlaceCount, int aliveVisitorCount, int totalVisitorCount, int visitPlaceCount)
+        {
+            if (CarParkingBuildings.Any(s => __instance.name.Contains(s)))
+            {
+                return;
+            }
+
+            if (ParkBuildingTypesManager.ParkBuildingTypeExist(buildingID))
+            {
+                var parkBuildingType = ParkBuildingTypesManager.GetParkBuildingType(buildingID);
+
+                if(parkBuildingType == ParkBuildingType.Playground || parkBuildingType == ParkBuildingType.Garden)
+                {
+                    int num6 = Mathf.Min((finalProductionRate * __instance.m_visitPlaceCount0 + 99) / 100, __instance.m_visitPlaceCount0 * 5 / 4);
+                    int num7 = Mathf.Min((finalProductionRate * __instance.m_visitPlaceCount1 + 99) / 100, __instance.m_visitPlaceCount1 * 5 / 4);
+                    int num8 = Mathf.Min((finalProductionRate * __instance.m_visitPlaceCount2 + 99) / 100, __instance.m_visitPlaceCount2 * 5 / 4);
+                    int num9 = Mathf.Max(1, num6 + num7 + num8);
+                    int num10 = Mathf.Max(0, num9 - totalVisitorCount);
+                    int num11 = Mathf.Max(Mathf.Max(num6, num7), Mathf.Max(1, num8));
+                    int num12 = num10 * num6 / num9;
+                    int num13 = num10 * num7 / num9;
+                    int num14 = num10 * num8 / num9;
+                    if (num12 + num13 + num14 > 0)
+                    {
+                        int num15 = Mathf.Max(Mathf.Max(num12, num13), Mathf.Max(1, num14));
+                        var offer = new TransferManager.TransferOffer
+                        {
+                            Priority = Mathf.Max(1, num15 * 8 / num11),
+                            Building = buildingID,
+                            Position = buildingData.m_position,
+                            Amount = num12 + num13 + num14,
+                            Active = false
+                        };
+
+                        if(parkBuildingType == ParkBuildingType.Playground)
+                        {
+                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.ChildCare, offer);
+                        }
+                        else if (parkBuildingType == ParkBuildingType.Garden)
+                        {
+                            Singleton<TransferManager>.instance.AddOutgoingOffer(TransferManager.TransferReason.ElderCare, offer);
+                        }
+                    }
+                }
+            }
         }
 
         [HarmonyPatch(typeof(ParkAI), "GetColor")]

@@ -136,14 +136,7 @@ namespace RealTime.Managers
 
             random -= plaza;
 
-            if (random < garden)
-            {
-                return ParkBuildingType.Garden;
-            }
-
-            random -= garden;
-
-            return ParkBuildingType.Sports;
+            return random < garden ? ParkBuildingType.Garden : ParkBuildingType.Sports;
         }
 
         internal static float GetParkTypeWeight(Citizen.AgeGroup age, ParkBuildingType parkType)

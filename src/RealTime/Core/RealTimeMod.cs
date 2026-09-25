@@ -113,7 +113,6 @@ namespace RealTime.Core
             }
         }
 
-
         public override void OnCreated(ILoading loading)
         {
             base.OnCreated(loading);
@@ -235,8 +234,7 @@ namespace RealTime.Core
                 return localModPath;
             }
 
-            var pluginInfo = PluginManager.instance.GetPluginsInfo()
-                .FirstOrDefault(pi => pi.publishedFileID.AsUInt64 == WorkshopId);
+            var pluginInfo = PluginManager.instance.GetPluginsInfo().FirstOrDefault(pi => pi.publishedFileID.AsUInt64 == WorkshopId);
 
             return pluginInfo?.modPath;
         }
@@ -305,9 +303,16 @@ namespace RealTime.Core
 
         private void BuildingWorkTimeCheck(ushort buildingID, BuildingInfo buildingInfo)
         {
-            if (BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID) && !BuildingWorkTimeManager.ShouldHaveBuildingWorkTime(buildingID))
+            if (BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID))
             {
-                BuildingWorkTimeManager.RemoveBuildingWorkTime(buildingID);
+                if(!BuildingWorkTimeManager.ShouldHaveBuildingWorkTime(buildingID))
+                {
+                    BuildingWorkTimeManager.RemoveBuildingWorkTime(buildingID);
+                }
+                else
+                {
+                    BuildingWorkTimeManager.CheckBuildingWorkTime(buildingID, buildingInfo);
+                }
             }
             else if (!BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID) && BuildingWorkTimeManager.ShouldHaveBuildingWorkTime(buildingID))
             {

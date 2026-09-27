@@ -179,100 +179,142 @@
   <translation id="VisitBankOrPostOfficeIntervalTooltip" value="Интервалът в дни, през който гражданите посещават банката или пощенската станция. По подразбиране е 3 дни." />
 
   <translation id="5Services" value="Услуги" />
-  <translation id="0Garbage" value="Работно време на сметосъбиране" />
-  <translation id="1Mail" value="Работно време на пощата" />
-  <translation id="2ParkMaintenance" value="Работно време на поддръжка на паркове" />
-  <translation id="3RoadMaintenance" value="Работно време на поддръжка на пътища" />
-  <translation id="4Snow" value="Работно време на снегопочистване" />
-  
-  <translation id="GarbageResidentialStartHour" value="Жилищни зони: начало" />
-  <translation id="GarbageResidentialStartHourTooltip" value="Кога започват работа камионите за боклук в жилищните райони" />
-  <translation id="GarbageResidentialEndHour" value="Жилищни зони: край" />
-  <translation id="GarbageResidentialEndHourTooltip" value="Кога спират работа камионите за боклук в жилищните райони" />
-  <translation id="GarbageCommercialStartHour" value="Търговски зони: начало" />
-  <translation id="GarbageCommercialStartHourTooltip" value="Кога започват работа камионите за боклук в търговските райони" />
-  <translation id="GarbageCommercialEndHour" value="Търговски зони: край" />
-  <translation id="GarbageCommercialEndHourTooltip" value="Кога спират работа камионите за боклук в търговските райони" />
-  <translation id="GarbageIndustrialStartHour" value="Индустриални зони: начало" />
-  <translation id="GarbageIndustrialStartHourTooltip" value="Кога започват работа камионите за боклук в индустриалните райони" />
-  <translation id="GarbageIndustrialEndHour" value="Индустриални зони: край" />
-  <translation id="GarbageIndustrialEndHourTooltip" value="Кога спират работа камионите за боклук в индустриалните райони" />
-  <translation id="GarbageOfficeStartHour" value="Офис зони: начало" />
-  <translation id="GarbageOfficeStartHourTooltip" value="Кога започват работа камионите за боклук в офис районите" />
-  <translation id="GarbageOfficeEndHour" value="Офис зони: край" />
-  <translation id="GarbageOfficeEndHourTooltip" value="Кога спират работа камионите за боклук в офис районите" />
-  <translation id="GarbageOtherStartHour" value="Други зони: начало" />
-  <translation id="GarbageOtherStartHourTooltip" value="Кога започват работа камионите за боклук в други райони" />
-  <translation id="GarbageOtherEndHour" value="Други зони: край" />
-  <translation id="GarbageOtherEndHourTooltip" value="Кога спират работа камионите за боклук в други райони" />
+  <translation id="0Garbage" value="Работно време за сметосъбиране" />
+  <translation id="1Mail" value="Работно време на пощенските услуги" />
+  <translation id="2ParkMaintenance" value="Работно време за поддръжка на паркове" />
+  <translation id="3RoadMaintenance" value="Работно време за поддръжка на пътища" />
+  <translation id="4Snow" value="Работно време за снегопочистване" />
 
-  <translation id="MailResidentialStartHour" value="Жилищни зони: начало" />
-  <translation id="MailResidentialStartHourTooltip" value="Кога започват пощенските доставки в жилищните райони" />
-  <translation id="MailResidentialEndHour" value="Жилищни зони: край" />
-  <translation id="MailResidentialEndHourTooltip" value="Кога спират пощенските доставки в жилищните райони" />
-  <translation id="MailCommercialStartHour" value="Търговски зони: начало" />
-  <translation id="MailCommercialStartHourTooltip" value="Кога започват пощенските доставки в търговските райони" />
-  <translation id="MailCommercialEndHour" value="Търговски зони: край" />
-  <translation id="MailCommercialEndHourTooltip" value="Кога спират пощенските доставки в търговските райони" />
-  <translation id="MailIndustrialStartHour" value="Индустриални зони: начало" />
-  <translation id="MailIndustrialStartHourTooltip" value="Кога започват пощенските доставки в индустриалните райони" />
-  <translation id="MailIndustrialEndHour" value="Индустриални зони: край" />
-  <translation id="MailIndustrialEndHourTooltip" value="Кога спират пощенските доставки в индустриалните райони" />
-  <translation id="MailOfficeStartHour" value="Офис зони: начало" />
-  <translation id="MailOfficeStartHourTooltip" value="Кога започват пощенските доставки в офис районите" />
-  <translation id="MailOfficeEndHour" value="Офис зони: край" />
-  <translation id="MailOfficeEndHourTooltip" value="Кога спират пощенските доставки в офис районите" />
-  <translation id="MailOtherStartHour" value="Други зони: начало" />
-  <translation id="MailOtherStartHourTooltip" value="Кога започват пощенските доставки в други райони" />
-  <translation id="MailOtherEndHour" value="Други зони: край" />
-  <translation id="MailOtherEndHourTooltip" value="Кога спират пощенските доставки в други райони" />
+  <translation id="EnableTimeRangeGarbageResidential" value="Жилищни зони: включено" />
+  <translation id="EnableTimeRangeGarbageResidentialTooltip" value="Включване на ограничение на работното време за сметосъбирането в жилищни зони" />
+  <translation id="GarbageResidentialStartHour" value="Жилищни зони: начален час" />
+  <translation id="GarbageResidentialStartHourTooltip" value="Часът, в който започва сметосъбирането в жилищни зони" />
+  <translation id="GarbageResidentialEndHour" value="Жилищни зони: краен час" />
+  <translation id="GarbageResidentialEndHourTooltip" value="Часът, в който приключва сметосъбирането в жилищни зони" />
+  <translation id="EnableTimeRangeGarbageCommercial" value="Търговски зони: включено" />
+  <translation id="EnableTimeRangeGarbageCommercialTooltip" value="Включване на ограничение на работното време за сметосъбирането в търговски зони" />
+  <translation id="GarbageCommercialStartHour" value="Търговски зони: начален час" />
+  <translation id="GarbageCommercialStartHourTooltip" value="Часът, в който започва сметосъбирането в търговски зони" />
+  <translation id="GarbageCommercialEndHour" value="Търговски зони: краен час" />
+  <translation id="GarbageCommercialEndHourTooltip" value="Часът, в който приключва сметосъбирането в търговски зони" />
+  <translation id="EnableTimeRangeGarbageIndustrial" value="Промишлени зони: включено" />
+  <translation id="EnableTimeRangeGarbageIndustrialTooltip" value="Включване на ограничение на работното време за сметосъбирането в промишлени зони" />
+  <translation id="GarbageIndustrialStartHour" value="Промишлени зони: начален час" />
+  <translation id="GarbageIndustrialStartHourTooltip" value="Часът, в който започва сметосъбирането в промишлени зони" />
+  <translation id="GarbageIndustrialEndHour" value="Промишлени зони: краен час" />
+  <translation id="GarbageIndustrialEndHourTooltip" value="Часът, в който приключва сметосъбирането в промишлени зони" />
+  <translation id="EnableTimeRangeGarbageOffice" value="Офис зони: включено" />
+  <translation id="EnableTimeRangeGarbageOfficeTooltip" value="Включване на ограничение на работното време за сметосъбирането в офис зони" />
+  <translation id="GarbageOfficeStartHour" value="Офис зони: начален час" />
+  <translation id="GarbageOfficeStartHourTooltip" value="Часът, в който започва сметосъбирането в офис зони" />
+  <translation id="GarbageOfficeEndHour" value="Офис зони: краен час" />
+  <translation id="GarbageOfficeEndHourTooltip" value="Часът, в който приключва сметосъбирането в офис зони" />
+  <translation id="EnableTimeRangeGarbageOther" value="Други зони: включено" />
+  <translation id="EnableTimeRangeGarbageOtherTooltip" value="Включване на ограничение на работното време за сметосъбирането в други зони" />
+  <translation id="GarbageOtherStartHour" value="Други зони: начален час" />
+  <translation id="GarbageOtherStartHourTooltip" value="Часът, в който започва сметосъбирането в други зони" />
+  <translation id="GarbageOtherEndHour" value="Други зони: краен час" />
+  <translation id="GarbageOtherEndHourTooltip" value="Часът, в който приключва сметосъбирането в други зони" />
 
-  <translation id="ParkMaintenanceStartHour" value="Поддръжка на паркове: начало" />
-  <translation id="ParkMaintenanceStartHourTooltip" value="Кога започва поддръжката на парковете" />
-  <translation id="ParkMaintenanceEndHour" value="Поддръжка на паркове: край" />
-  <translation id="ParkMaintenanceEndHourTooltip" value="Кога приключва поддръжката на парковете" />
+  <translation id="EnableTimeRangeMailResidential" value="Жилищни зони: включено" />
+  <translation id="EnableTimeRangeMailResidentialTooltip" value="Включване на ограничение на работното време за пощенските услуги в жилищни зони" />
+  <translation id="MailResidentialStartHour" value="Жилищни зони: начален час" />
+  <translation id="MailResidentialStartHourTooltip" value="Часът, в който започва пощенските услуги в жилищни зони" />
+  <translation id="MailResidentialEndHour" value="Жилищни зони: краен час" />
+  <translation id="MailResidentialEndHourTooltip" value="Часът, в който приключва пощенските услуги в жилищни зони" />
+  <translation id="EnableTimeRangeMailCommercial" value="Търговски зони: включено" />
+  <translation id="EnableTimeRangeMailCommercialTooltip" value="Включване на ограничение на работното време за пощенските услуги в търговски зони" />
+  <translation id="MailCommercialStartHour" value="Търговски зони: начален час" />
+  <translation id="MailCommercialStartHourTooltip" value="Часът, в който започва пощенските услуги в търговски зони" />
+  <translation id="MailCommercialEndHour" value="Търговски зони: краен час" />
+  <translation id="MailCommercialEndHourTooltip" value="Часът, в който приключва пощенските услуги в търговски зони" />
+  <translation id="EnableTimeRangeMailIndustrial" value="Промишлени зони: включено" />
+  <translation id="EnableTimeRangeMailIndustrialTooltip" value="Включване на ограничение на работното време за пощенските услуги в промишлени зони" />
+  <translation id="MailIndustrialStartHour" value="Промишлени зони: начален час" />
+  <translation id="MailIndustrialStartHourTooltip" value="Часът, в който започва пощенските услуги в промишлени зони" />
+  <translation id="MailIndustrialEndHour" value="Промишлени зони: краен час" />
+  <translation id="MailIndustrialEndHourTooltip" value="Часът, в който приключва пощенските услуги в промишлени зони" />
+  <translation id="EnableTimeRangeMailOffice" value="Офис зони: включено" />
+  <translation id="EnableTimeRangeMailOfficeTooltip" value="Включване на ограничение на работното време за пощенските услуги в офис зони" />
+  <translation id="MailOfficeStartHour" value="Офис зони: начален час" />
+  <translation id="MailOfficeStartHourTooltip" value="Часът, в който започва пощенските услуги в офис зони" />
+  <translation id="MailOfficeEndHour" value="Офис зони: краен час" />
+  <translation id="MailOfficeEndHourTooltip" value="Часът, в който приключва пощенските услуги в офис зони" />
+  <translation id="EnableTimeRangeMailOther" value="Други зони: включено" />
+  <translation id="EnableTimeRangeMailOtherTooltip" value="Включване на ограничение на работното време за пощенските услуги в други зони" />
+  <translation id="MailOtherStartHour" value="Други зони: начален час" />
+  <translation id="MailOtherStartHourTooltip" value="Часът, в който започва пощенските услуги в други зони" />
+  <translation id="MailOtherEndHour" value="Други зони: краен час" />
+  <translation id="MailOtherEndHourTooltip" value="Часът, в който приключва пощенските услуги в други зони" />
 
-  <translation id="RoadMaintenanceRoadsSmallStartHour" value="Поддръжка на малки пътища: начало" />
-  <translation id="RoadMaintenanceRoadsSmallStartHourTooltip" value="Кога започва поддръжката на малките пътища" />
-  <translation id="RoadMaintenanceRoadsSmallEndHour" value="Поддръжка на малки пътища: край" />
-  <translation id="RoadMaintenanceRoadsSmallEndHourTooltip" value="Кога приключва поддръжката на малките пътища" />
-  <translation id="RoadMaintenanceRoadsMediumStartHour" value="Поддръжка на средни пътища: начало" />
-  <translation id="RoadMaintenanceRoadsMediumStartHourTooltip" value="Кога започва поддръжката на средните пътища" />
-  <translation id="RoadMaintenanceRoadsMediumEndHour" value="Поддръжка на средни пътища: край" />
-  <translation id="RoadMaintenanceRoadsMediumEndHourTooltip" value="Кога приключва поддръжката на средните пътища" />
-  <translation id="RoadMaintenanceRoadsLargeStartHour" value="Поддръжка на големи пътища: начало" />
-  <translation id="RoadMaintenanceRoadsLargeStartHourTooltip" value="Кога започва поддръжката на големите пътища" />
-  <translation id="RoadMaintenanceRoadsLargeEndHour" value="Поддръжка на големи пътища: край" />
-  <translation id="RoadMaintenanceRoadsLargeEndHourTooltip" value="Кога приключва поддръжката на големите пътища" />
-  <translation id="RoadMaintenanceRoadsHighwayStartHour" value="Поддръжка на магистрали: начало" />
-  <translation id="RoadMaintenanceRoadsHighwayStartHourTooltip" value="Кога започва поддръжката на магистралите" />
-  <translation id="RoadMaintenanceRoadsHighwayEndHour" value="Поддръжка на магистрали: край" />
-  <translation id="RoadMaintenanceRoadsHighwayEndHourTooltip" value="Кога приключва поддръжката на магистралите" />
-  <translation id="RoadMaintenanceRoadsOtherStartHour" value="Поддръжка на други пътища: начало" />
-  <translation id="RoadMaintenanceRoadsOtherStartHourTooltip" value="Кога започва поддръжката на други пътища" />
-  <translation id="RoadMaintenanceRoadsOtherEndHour" value="Поддръжка на други пътища: край" />
-  <translation id="RoadMaintenanceRoadsOtherEndHourTooltip" value="Кога приключва поддръжката на други пътища" />
-  
-  <translation id="SnowRoadsSmallStartHour" value="Поддръжка на малки пътища: начало" />
-  <translation id="SnowRoadsSmallStartHourTooltip" value="Кога започва поддръжката на малките пътища" />
-  <translation id="SnowRoadsSmallEndHour" value="Поддръжка на малки пътища: край" />
-  <translation id="SnowRoadsSmallEndHourTooltip" value="Кога приключва поддръжката на малките пътища" />
-  <translation id="SnowRoadsMediumStartHour" value="Поддръжка на средни пътища: начало" />
-  <translation id="SnowRoadsMediumStartHourTooltip" value="Кога започва поддръжката на средните пътища" />
-  <translation id="SnowRoadsMediumEndHour" value="Поддръжка на средни пътища: край" />
-  <translation id="SnowRoadsMediumEndHourTooltip" value="Кога приключва поддръжката на средните пътища" />
-  <translation id="SnowRoadsLargeStartHour" value="Поддръжка на големи пътища: начало" />
-  <translation id="SnowRoadsLargeStartHourTooltip" value="Кога започва поддръжката на големите пътища" />
-  <translation id="SnowRoadsLargeEndHour" value="Поддръжка на големи пътища: край" />
-  <translation id="SnowRoadsLargeEndHourTooltip" value="Кога приключва поддръжката на големите пътища" />
-  <translation id="SnowRoadsHighwayStartHour" value="Поддръжка на магистрали: начало" />
-  <translation id="SnowRoadsHighwayStartHourTooltip" value="Кога започва поддръжката на магистралите" />
-  <translation id="SnowRoadsHighwayEndHour" value="Поддръжка на магистрали: край" />
-  <translation id="SnowRoadsHighwayEndHourTooltip" value="Кога приключва поддръжката на магистралите" />
-  <translation id="SnowRoadsOtherStartHour" value="Поддръжка на други пътища: начало" />
-  <translation id="SnowRoadsOtherStartHourTooltip" value="Кога започва поддръжката на други пътища" />
-  <translation id="SnowRoadsOtherEndHour" value="Поддръжка на други пътища: край" />
-  <translation id="SnowRoadsOtherEndHourTooltip" value="Кога приключва поддръжката на други пътища" />
+  <translation id="EnableTimeRangeParkMaintenance" value="Поддръжка на паркове: включено" />
+  <translation id="EnableTimeRangeParkMaintenanceTooltip" value="Включване на ограничение на работното време за поддръжката на паркове" />
+  <translation id="ParkMaintenanceStartHour" value="Поддръжка на паркове: начален час" />
+  <translation id="ParkMaintenanceStartHourTooltip" value="Часът, в който започва поддръжката на паркове" />
+  <translation id="ParkMaintenanceEndHour" value="Поддръжка на паркове: краен час" />
+  <translation id="ParkMaintenanceEndHourTooltip" value="Часът, в който приключва поддръжката на паркове" />
+
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsSmall" value="Малки пътища: включено" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsSmallTooltip" value="Включване на ограничение на работното време за поддръжката на пътища по малки пътища" />
+  <translation id="RoadMaintenanceRoadsSmallStartHour" value="Малки пътища: начален час" />
+  <translation id="RoadMaintenanceRoadsSmallStartHourTooltip" value="Часът, в който започва поддръжката на пътища по малки пътища" />
+  <translation id="RoadMaintenanceRoadsSmallEndHour" value="Малки пътища: краен час" />
+  <translation id="RoadMaintenanceRoadsSmallEndHourTooltip" value="Часът, в който приключва поддръжката на пътища по малки пътища" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsMedium" value="Средни пътища: включено" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsMediumTooltip" value="Включване на ограничение на работното време за поддръжката на пътища по средни пътища" />
+  <translation id="RoadMaintenanceRoadsMediumStartHour" value="Средни пътища: начален час" />
+  <translation id="RoadMaintenanceRoadsMediumStartHourTooltip" value="Часът, в който започва поддръжката на пътища по средни пътища" />
+  <translation id="RoadMaintenanceRoadsMediumEndHour" value="Средни пътища: краен час" />
+  <translation id="RoadMaintenanceRoadsMediumEndHourTooltip" value="Часът, в който приключва поддръжката на пътища по средни пътища" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsLarge" value="Големи пътища: включено" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsLargeTooltip" value="Включване на ограничение на работното време за поддръжката на пътища по големи пътища" />
+  <translation id="RoadMaintenanceRoadsLargeStartHour" value="Големи пътища: начален час" />
+  <translation id="RoadMaintenanceRoadsLargeStartHourTooltip" value="Часът, в който започва поддръжката на пътища по големи пътища" />
+  <translation id="RoadMaintenanceRoadsLargeEndHour" value="Големи пътища: краен час" />
+  <translation id="RoadMaintenanceRoadsLargeEndHourTooltip" value="Часът, в който приключва поддръжката на пътища по големи пътища" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsHighway" value="Магистрали: включено" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsHighwayTooltip" value="Включване на ограничение на работното време за поддръжката на пътища по магистрали" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHour" value="Магистрали: начален час" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHourTooltip" value="Часът, в който започва поддръжката на пътища по магистрали" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHour" value="Магистрали: краен час" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHourTooltip" value="Часът, в който приключва поддръжката на пътища по магистрали" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsOther" value="Други пътища: включено" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsOtherTooltip" value="Включване на ограничение на работното време за поддръжката на пътища по други пътища" />
+  <translation id="RoadMaintenanceRoadsOtherStartHour" value="Други пътища: начален час" />
+  <translation id="RoadMaintenanceRoadsOtherStartHourTooltip" value="Часът, в който започва поддръжката на пътища по други пътища" />
+  <translation id="RoadMaintenanceRoadsOtherEndHour" value="Други пътища: краен час" />
+  <translation id="RoadMaintenanceRoadsOtherEndHourTooltip" value="Часът, в който приключва поддръжката на пътища по други пътища" />
+
+  <translation id="EnableTimeRangeSnowRoadsSmall" value="Малки пътища: включено" />
+  <translation id="EnableTimeRangeSnowRoadsSmallTooltip" value="Включване на ограничение на работното време за снегопочистването по малки пътища" />
+  <translation id="SnowRoadsSmallStartHour" value="Малки пътища: начален час" />
+  <translation id="SnowRoadsSmallStartHourTooltip" value="Часът, в който започва снегопочистването по малки пътища" />
+  <translation id="SnowRoadsSmallEndHour" value="Малки пътища: краен час" />
+  <translation id="SnowRoadsSmallEndHourTooltip" value="Часът, в който приключва снегопочистването по малки пътища" />
+  <translation id="EnableTimeRangeSnowRoadsMedium" value="Средни пътища: включено" />
+  <translation id="EnableTimeRangeSnowRoadsMediumTooltip" value="Включване на ограничение на работното време за снегопочистването по средни пътища" />
+  <translation id="SnowRoadsMediumStartHour" value="Средни пътища: начален час" />
+  <translation id="SnowRoadsMediumStartHourTooltip" value="Часът, в който започва снегопочистването по средни пътища" />
+  <translation id="SnowRoadsMediumEndHour" value="Средни пътища: краен час" />
+  <translation id="SnowRoadsMediumEndHourTooltip" value="Часът, в който приключва снегопочистването по средни пътища" />
+  <translation id="EnableTimeRangeSnowRoadsLarge" value="Големи пътища: включено" />
+  <translation id="EnableTimeRangeSnowRoadsLargeTooltip" value="Включване на ограничение на работното време за снегопочистването по големи пътища" />
+  <translation id="SnowRoadsLargeStartHour" value="Големи пътища: начален час" />
+  <translation id="SnowRoadsLargeStartHourTooltip" value="Часът, в който започва снегопочистването по големи пътища" />
+  <translation id="SnowRoadsLargeEndHour" value="Големи пътища: краен час" />
+  <translation id="SnowRoadsLargeEndHourTooltip" value="Часът, в който приключва снегопочистването по големи пътища" />
+  <translation id="EnableTimeRangeSnowRoadsHighway" value="Магистрали: включено" />
+  <translation id="EnableTimeRangeSnowRoadsHighwayTooltip" value="Включване на ограничение на работното време за снегопочистването по магистрали" />
+  <translation id="SnowRoadsHighwayStartHour" value="Магистрали: начален час" />
+  <translation id="SnowRoadsHighwayStartHourTooltip" value="Часът, в който започва снегопочистването по магистрали" />
+  <translation id="SnowRoadsHighwayEndHour" value="Магистрали: краен час" />
+  <translation id="SnowRoadsHighwayEndHourTooltip" value="Часът, в който приключва снегопочистването по магистрали" />
+  <translation id="EnableTimeRangeSnowRoadsOther" value="Други пътища: включено" />
+  <translation id="EnableTimeRangeSnowRoadsOtherTooltip" value="Включване на ограничение на работното време за снегопочистването по други пътища" />
+  <translation id="SnowRoadsOtherStartHour" value="Други пътища: начален час" />
+  <translation id="SnowRoadsOtherStartHourTooltip" value="Часът, в който започва снегопочистването по други пътища" />
+  <translation id="SnowRoadsOtherEndHour" value="Други пътища: краен час" />
+  <translation id="SnowRoadsOtherEndHourTooltip" value="Часът, в който приключва снегопочистването по други пътища" />
 
   <translation id="ScheduledState" value="Следващо действие" />
   <translation id="ScheduledStateTime" value="в" />

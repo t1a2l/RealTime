@@ -179,100 +179,142 @@
   <translation id="VisitBankOrPostOfficeIntervalTooltip" value="ระยะเวลาเป็นวันในการที่พลเมืองจะไปเยี่ยมชมธนาคารหรือไปรษณีย์ ค่าเริ่มต้นคือ 3 วัน" />
 
   <translation id="5Services" value="บริการ" />
-  <translation id="0Garbage" value="เวลาทำงานของบริการขยะ" />
-  <translation id="1Mail" value="เวลาทำงานของบริการไปรษณีย์" />
-  <translation id="2ParkMaintenance" value="เวลาทำงานของบริการบำรุงรักษาสวนสาธารณะ" />
-  <translation id="3RoadMaintenance" value="เวลาทำงานของบริการบำรุงรักษาถนน" />
-  <translation id="4Snow" value="เวลาทำงานของบริการหิมะ" />
-  
-  <translation id="GarbageResidentialStartHour" value="เขตที่พักอาศัย: เริ่ม" />
-  <translation id="GarbageResidentialStartHourTooltip" value="เวลาที่รถขยะเริ่มทำงานในเขตที่พักอาศัย" />
-  <translation id="GarbageResidentialEndHour" value="เขตที่พักอาศัย: สิ้นสุด" />
-  <translation id="GarbageResidentialEndHourTooltip" value="เวลาที่รถขยะหยุดทำงานในเขตที่พักอาศัย" />
-  <translation id="GarbageCommercialStartHour" value="เขตพาณิชย์: เริ่ม" />
-  <translation id="GarbageCommercialStartHourTooltip" value="เวลาที่รถขยะเริ่มทำงานในเขตพาณิชย์" />
-  <translation id="GarbageCommercialEndHour" value="เขตพาณิชย์: สิ้นสุด" />
-  <translation id="GarbageCommercialEndHourTooltip" value="เวลาที่รถขยะหยุดทำงานในเขตพาณิชย์" />
-  <translation id="GarbageIndustrialStartHour" value="เขตอุตสาหกรรม: เริ่ม" />
-  <translation id="GarbageIndustrialStartHourTooltip" value="เวลาที่รถขยะเริ่มทำงานในเขตอุตสาหกรรม" />
-  <translation id="GarbageIndustrialEndHour" value="เขตอุตสาหกรรม: สิ้นสุด" />
-  <translation id="GarbageIndustrialEndHourTooltip" value="เวลาที่รถขยะหยุดทำงานในเขตอุตสาหกรรม" />
-  <translation id="GarbageOfficeStartHour" value="เขตสำนักงาน: เริ่ม" />
-  <translation id="GarbageOfficeStartHourTooltip" value="เวลาที่รถขยะเริ่มทำงานในเขตสำนักงาน" />
-  <translation id="GarbageOfficeEndHour" value="เขตสำนักงาน: สิ้นสุด" />
-  <translation id="GarbageOfficeEndHourTooltip" value="เวลาที่รถขยะหยุดทำงานในเขตสำนักงาน" />
-  <translation id="GarbageOtherStartHour" value="เขตอื่นๆ: เริ่ม" />
-  <translation id="GarbageOtherStartHourTooltip" value="เวลาที่รถขยะเริ่มทำงานในเขตอื่นๆ" />
-  <translation id="GarbageOtherEndHour" value="เขตอื่นๆ: สิ้นสุด" />
-  <translation id="GarbageOtherEndHourTooltip" value="เวลาที่รถขยะหยุดทำงานในเขตอื่นๆ" />
+  <translation id="0Garbage" value="เวลาทำการของบริการเก็บขยะ" />
+  <translation id="1Mail" value="เวลาทำการของบริการไปรษณีย์" />
+  <translation id="2ParkMaintenance" value="เวลาทำการของบริการบำรุงรักษาสวนสาธารณะ" />
+  <translation id="3RoadMaintenance" value="เวลาทำการของบริการบำรุงรักษาถนน" />
+  <translation id="4Snow" value="เวลาทำการของบริการกำจัดหิมะ" />
 
-  <translation id="MailResidentialStartHour" value="เขตที่พักอาศัย: เริ่ม" />
-  <translation id="MailResidentialStartHourTooltip" value="เวลาที่บริการไปรษณีย์เริ่มทำงานในเขตที่พักอาศัย" />
-  <translation id="MailResidentialEndHour" value="เขตที่พักอาศัย: สิ้นสุด" />
-  <translation id="MailResidentialEndHourTooltip" value="เวลาที่บริการไปรษณีย์หยุดทำงานในเขตที่พักอาศัย" />
-  <translation id="MailCommercialStartHour" value="เขตพาณิชย์: เริ่ม" />
-  <translation id="MailCommercialStartHourTooltip" value="เวลาที่บริการไปรษณีย์เริ่มทำงานในเขตพาณิชย์" />
-  <translation id="MailCommercialEndHour" value="เขตพาณิชย์: สิ้นสุด" />
-  <translation id="MailCommercialEndHourTooltip" value="เวลาที่บริการไปรษณีย์หยุดทำงานในเขตพาณิชย์" />
-  <translation id="MailIndustrialStartHour" value="เขตอุตสาหกรรม: เริ่ม" />
-  <translation id="MailIndustrialStartHourTooltip" value="เวลาที่บริการไปรษณีย์เริ่มทำงานในเขตอุตสาหกรรม" />
-  <translation id="MailIndustrialEndHour" value="เขตอุตสาหกรรม: สิ้นสุด" />
-  <translation id="MailIndustrialEndHourTooltip" value="เวลาที่บริการไปรษณีย์หยุดทำงานในเขตอุตสาหกรรม" />
-  <translation id="MailOfficeStartHour" value="เขตสำนักงาน: เริ่ม" />
-  <translation id="MailOfficeStartHourTooltip" value="เวลาที่บริการไปรษณีย์เริ่มทำงานในเขตสำนักงาน" />
-  <translation id="MailOfficeEndHour" value="เขตสำนักงาน: สิ้นสุด" />
-  <translation id="MailOfficeEndHourTooltip" value="เวลาที่บริการไปรษณีย์หยุดทำงานในเขตสำนักงาน" />
-  <translation id="MailOtherStartHour" value="เขตอื่นๆ: เริ่ม" />
-  <translation id="MailOtherStartHourTooltip" value="เวลาที่บริการไปรษณีย์เริ่มทำงานในเขตอื่นๆ" />
-  <translation id="MailOtherEndHour" value="เขตอื่นๆ: สิ้นสุด" />
-  <translation id="MailOtherEndHourTooltip" value="เวลาที่บริการไปรษณีย์หยุดทำงานในเขตอื่นๆ" />
+  <translation id="EnableTimeRangeGarbageResidential" value="เขตที่อยู่อาศัย: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeGarbageResidentialTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการเก็บขยะในเขตที่อยู่อาศัย" />
+  <translation id="GarbageResidentialStartHour" value="เขตที่อยู่อาศัย: เวลาเริ่ม" />
+  <translation id="GarbageResidentialStartHourTooltip" value="เวลาที่การเก็บขยะในเขตที่อยู่อาศัยเริ่มดำเนินการ" />
+  <translation id="GarbageResidentialEndHour" value="เขตที่อยู่อาศัย: เวลาสิ้นสุด" />
+  <translation id="GarbageResidentialEndHourTooltip" value="เวลาที่การเก็บขยะในเขตที่อยู่อาศัยหยุดดำเนินการ" />
+  <translation id="EnableTimeRangeGarbageCommercial" value="เขตพาณิชยกรรม: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeGarbageCommercialTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการเก็บขยะในเขตพาณิชยกรรม" />
+  <translation id="GarbageCommercialStartHour" value="เขตพาณิชยกรรม: เวลาเริ่ม" />
+  <translation id="GarbageCommercialStartHourTooltip" value="เวลาที่การเก็บขยะในเขตพาณิชยกรรมเริ่มดำเนินการ" />
+  <translation id="GarbageCommercialEndHour" value="เขตพาณิชยกรรม: เวลาสิ้นสุด" />
+  <translation id="GarbageCommercialEndHourTooltip" value="เวลาที่การเก็บขยะในเขตพาณิชยกรรมหยุดดำเนินการ" />
+  <translation id="EnableTimeRangeGarbageIndustrial" value="เขตอุตสาหกรรม: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeGarbageIndustrialTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการเก็บขยะในเขตอุตสาหกรรม" />
+  <translation id="GarbageIndustrialStartHour" value="เขตอุตสาหกรรม: เวลาเริ่ม" />
+  <translation id="GarbageIndustrialStartHourTooltip" value="เวลาที่การเก็บขยะในเขตอุตสาหกรรมเริ่มดำเนินการ" />
+  <translation id="GarbageIndustrialEndHour" value="เขตอุตสาหกรรม: เวลาสิ้นสุด" />
+  <translation id="GarbageIndustrialEndHourTooltip" value="เวลาที่การเก็บขยะในเขตอุตสาหกรรมหยุดดำเนินการ" />
+  <translation id="EnableTimeRangeGarbageOffice" value="เขตสำนักงาน: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeGarbageOfficeTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการเก็บขยะในเขตสำนักงาน" />
+  <translation id="GarbageOfficeStartHour" value="เขตสำนักงาน: เวลาเริ่ม" />
+  <translation id="GarbageOfficeStartHourTooltip" value="เวลาที่การเก็บขยะในเขตสำนักงานเริ่มดำเนินการ" />
+  <translation id="GarbageOfficeEndHour" value="เขตสำนักงาน: เวลาสิ้นสุด" />
+  <translation id="GarbageOfficeEndHourTooltip" value="เวลาที่การเก็บขยะในเขตสำนักงานหยุดดำเนินการ" />
+  <translation id="EnableTimeRangeGarbageOther" value="พื้นที่อื่น: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeGarbageOtherTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการเก็บขยะในพื้นที่อื่น" />
+  <translation id="GarbageOtherStartHour" value="พื้นที่อื่น: เวลาเริ่ม" />
+  <translation id="GarbageOtherStartHourTooltip" value="เวลาที่การเก็บขยะในพื้นที่อื่นเริ่มดำเนินการ" />
+  <translation id="GarbageOtherEndHour" value="พื้นที่อื่น: เวลาสิ้นสุด" />
+  <translation id="GarbageOtherEndHourTooltip" value="เวลาที่การเก็บขยะในพื้นที่อื่นหยุดดำเนินการ" />
 
-  <translation id="ParkMaintenanceStartHour" value="บำรุงรักษาสวน: เริ่ม" />
-  <translation id="ParkMaintenanceStartHourTooltip" value="เวลาเริ่มบริการบำรุงรักษาสวนสาธารณะ" />
-  <translation id="ParkMaintenanceEndHour" value="บำรุงรักษาสวน: สิ้นสุด" />
-  <translation id="ParkMaintenanceEndHourTooltip" value="เวลาสิ้นสุดบริการบำรุงรักษาสวนสาธารณะ" />
+  <translation id="EnableTimeRangeMailResidential" value="เขตที่อยู่อาศัย: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeMailResidentialTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับบริการไปรษณีย์ในเขตที่อยู่อาศัย" />
+  <translation id="MailResidentialStartHour" value="เขตที่อยู่อาศัย: เวลาเริ่ม" />
+  <translation id="MailResidentialStartHourTooltip" value="เวลาที่บริการไปรษณีย์ในเขตที่อยู่อาศัยเริ่มดำเนินการ" />
+  <translation id="MailResidentialEndHour" value="เขตที่อยู่อาศัย: เวลาสิ้นสุด" />
+  <translation id="MailResidentialEndHourTooltip" value="เวลาที่บริการไปรษณีย์ในเขตที่อยู่อาศัยหยุดดำเนินการ" />
+  <translation id="EnableTimeRangeMailCommercial" value="เขตพาณิชยกรรม: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeMailCommercialTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับบริการไปรษณีย์ในเขตพาณิชยกรรม" />
+  <translation id="MailCommercialStartHour" value="เขตพาณิชยกรรม: เวลาเริ่ม" />
+  <translation id="MailCommercialStartHourTooltip" value="เวลาที่บริการไปรษณีย์ในเขตพาณิชยกรรมเริ่มดำเนินการ" />
+  <translation id="MailCommercialEndHour" value="เขตพาณิชยกรรม: เวลาสิ้นสุด" />
+  <translation id="MailCommercialEndHourTooltip" value="เวลาที่บริการไปรษณีย์ในเขตพาณิชยกรรมหยุดดำเนินการ" />
+  <translation id="EnableTimeRangeMailIndustrial" value="เขตอุตสาหกรรม: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeMailIndustrialTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับบริการไปรษณีย์ในเขตอุตสาหกรรม" />
+  <translation id="MailIndustrialStartHour" value="เขตอุตสาหกรรม: เวลาเริ่ม" />
+  <translation id="MailIndustrialStartHourTooltip" value="เวลาที่บริการไปรษณีย์ในเขตอุตสาหกรรมเริ่มดำเนินการ" />
+  <translation id="MailIndustrialEndHour" value="เขตอุตสาหกรรม: เวลาสิ้นสุด" />
+  <translation id="MailIndustrialEndHourTooltip" value="เวลาที่บริการไปรษณีย์ในเขตอุตสาหกรรมหยุดดำเนินการ" />
+  <translation id="EnableTimeRangeMailOffice" value="เขตสำนักงาน: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeMailOfficeTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับบริการไปรษณีย์ในเขตสำนักงาน" />
+  <translation id="MailOfficeStartHour" value="เขตสำนักงาน: เวลาเริ่ม" />
+  <translation id="MailOfficeStartHourTooltip" value="เวลาที่บริการไปรษณีย์ในเขตสำนักงานเริ่มดำเนินการ" />
+  <translation id="MailOfficeEndHour" value="เขตสำนักงาน: เวลาสิ้นสุด" />
+  <translation id="MailOfficeEndHourTooltip" value="เวลาที่บริการไปรษณีย์ในเขตสำนักงานหยุดดำเนินการ" />
+  <translation id="EnableTimeRangeMailOther" value="พื้นที่อื่น: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeMailOtherTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับบริการไปรษณีย์ในพื้นที่อื่น" />
+  <translation id="MailOtherStartHour" value="พื้นที่อื่น: เวลาเริ่ม" />
+  <translation id="MailOtherStartHourTooltip" value="เวลาที่บริการไปรษณีย์ในพื้นที่อื่นเริ่มดำเนินการ" />
+  <translation id="MailOtherEndHour" value="พื้นที่อื่น: เวลาสิ้นสุด" />
+  <translation id="MailOtherEndHourTooltip" value="เวลาที่บริการไปรษณีย์ในพื้นที่อื่นหยุดดำเนินการ" />
 
-  <translation id="RoadMaintenanceRoadsSmallStartHour" value="ถนนขนาดเล็ก: เริ่ม" />
-  <translation id="RoadMaintenanceRoadsSmallStartHourTooltip" value="เวลาเริ่มบริการบำรุงรักษาถนนขนาดเล็ก" />
-  <translation id="RoadMaintenanceRoadsSmallEndHour" value="ถนนขนาดเล็ก: สิ้นสุด" />
-  <translation id="RoadMaintenanceRoadsSmallEndHourTooltip" value="เวลาสิ้นสุดบริการบำรุงรักษาถนนขนาดเล็ก" />
-  <translation id="RoadMaintenanceRoadsMediumStartHour" value="ถนนขนาดกลาง: เริ่ม" />
-  <translation id="RoadMaintenanceRoadsMediumStartHourTooltip" value="เวลาเริ่มบริการบำรุงรักษาถนนขนาดกลาง" />
-  <translation id="RoadMaintenanceRoadsMediumEndHour" value="ถนนขนาดกลาง: สิ้นสุด" />
-  <translation id="RoadMaintenanceRoadsMediumEndHourTooltip" value="เวลาสิ้นสุดบริการบำรุงรักษาถนนขนาดกลาง" />
-  <translation id="RoadMaintenanceRoadsLargeStartHour" value="ถนนขนาดใหญ่: เริ่ม" />
-  <translation id="RoadMaintenanceRoadsLargeStartHourTooltip" value="เวลาเริ่มบริการบำรุงรักษาถนนขนาดใหญ่" />
-  <translation id="RoadMaintenanceRoadsLargeEndHour" value="ถนนขนาดใหญ่: สิ้นสุด" />
-  <translation id="RoadMaintenanceRoadsLargeEndHourTooltip" value="เวลาสิ้นสุดบริการบำรุงรักษาถนนขนาดใหญ่" />
-  <translation id="RoadMaintenanceRoadsHighwayStartHour" value="ถนนทางด่วน: เริ่ม" />
-  <translation id="RoadMaintenanceRoadsHighwayStartHourTooltip" value="เวลาเริ่มบริการบำรุงรักษาถนนทางด่วน" />
-  <translation id="RoadMaintenanceRoadsHighwayEndHour" value="ถนนทางด่วน: สิ้นสุด" />
-  <translation id="RoadMaintenanceRoadsHighwayEndHourTooltip" value="เวลาสิ้นสุดบริการบำรุงรักษาถนนทางด่วน" />
-  <translation id="RoadMaintenanceRoadsOtherStartHour" value="ถนนอื่น ๆ: เริ่ม" />
-  <translation id="RoadMaintenanceRoadsOtherStartHourTooltip" value="เวลาเริ่มบริการบำรุงรักษาถนนอื่น ๆ" />
-  <translation id="RoadMaintenanceRoadsOtherEndHour" value="ถนนอื่น ๆ: สิ้นสุด" />
-  <translation id="RoadMaintenanceRoadsOtherEndHourTooltip" value="เวลาสิ้นสุดบริการบำรุงรักษาถนนอื่น ๆ" />
-  
-  <translation id="SnowRoadsSmallStartHour" value="ถนนขนาดเล็ก: เริ่ม" />
-  <translation id="SnowRoadsSmallStartHourTooltip" value="เวลาเริ่มบริการหิมะสำหรับถนนขนาดเล็ก" />
-  <translation id="SnowRoadsSmallEndHour" value="ถนนขนาดเล็ก: สิ้นสุด" />
-  <translation id="SnowRoadsSmallEndHourTooltip" value="เวลาสิ้นสุดบริการหิมะสำหรับถนนขนาดเล็ก" />
-  <translation id="SnowRoadsMediumStartHour" value="ถนนขนาดกลาง: เริ่ม" />
-  <translation id="SnowRoadsMediumStartHourTooltip" value="เวลาเริ่มบริการหิมะสำหรับถนนขนาดกลาง" />
-  <translation id="SnowRoadsMediumEndHour" value="ถนนขนาดกลาง: สิ้นสุด" />
-  <translation id="SnowRoadsMediumEndHourTooltip" value="เวลาสิ้นสุดบริการหิมะสำหรับถนนขนาดกลาง" />
-  <translation id="SnowRoadsLargeStartHour" value="ถนนขนาดใหญ่: เริ่ม" />
-  <translation id="SnowRoadsLargeStartHourTooltip" value="เวลาเริ่มบริการหิมะสำหรับถนนขนาดใหญ่" />
-  <translation id="SnowRoadsLargeEndHour" value="ถนนขนาดใหญ่: สิ้นสุด" />
-  <translation id="SnowRoadsLargeEndHourTooltip" value="เวลาสิ้นสุดบริการหิมะสำหรับถนนขนาดใหญ่" />
-  <translation id="SnowRoadsHighwayStartHour" value="ถนนทางด่วน: เริ่ม" />
-  <translation id="SnowRoadsHighwayStartHourTooltip" value="เวลาเริ่มบริการหิมะสำหรับถนนทางด่วน" />
-  <translation id="SnowRoadsHighwayEndHour" value="ถนนทางด่วน: สิ้นสุด" />
-  <translation id="SnowRoadsHighwayEndHourTooltip" value="เวลาสิ้นสุดบริการหิมะสำหรับถนนทางด่วน" />
-  <translation id="SnowRoadsOtherStartHour" value="ถนนอื่น ๆ: เริ่ม" />
-  <translation id="SnowRoadsOtherStartHourTooltip" value="เวลาเริ่มบริการหิมะสำหรับถนนอื่น ๆ" />
-  <translation id="SnowRoadsOtherEndHour" value="ถนนอื่น ๆ: สิ้นสุด" />
-  <translation id="SnowRoadsOtherEndHourTooltip" value="เวลาสิ้นสุดบริการหิมะสำหรับถนนอื่น ๆ" />
+  <translation id="EnableTimeRangeParkMaintenance" value="การบำรุงรักษาสวนสาธารณะ: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeParkMaintenanceTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการบำรุงรักษาสวนสาธารณะ" />
+  <translation id="ParkMaintenanceStartHour" value="การบำรุงรักษาสวนสาธารณะ: เวลาเริ่ม" />
+  <translation id="ParkMaintenanceStartHourTooltip" value="เวลาที่การบำรุงรักษาสวนสาธารณะเริ่มดำเนินการ" />
+  <translation id="ParkMaintenanceEndHour" value="การบำรุงรักษาสวนสาธารณะ: เวลาสิ้นสุด" />
+  <translation id="ParkMaintenanceEndHourTooltip" value="เวลาที่การบำรุงรักษาสวนสาธารณะหยุดดำเนินการ" />
+
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsSmall" value="ถนนขนาดเล็ก: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsSmallTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการบำรุงรักษาถนนบนถนนขนาดเล็ก" />
+  <translation id="RoadMaintenanceRoadsSmallStartHour" value="ถนนขนาดเล็ก: เวลาเริ่ม" />
+  <translation id="RoadMaintenanceRoadsSmallStartHourTooltip" value="เวลาที่การบำรุงรักษาถนนบนถนนขนาดเล็กเริ่มดำเนินการ" />
+  <translation id="RoadMaintenanceRoadsSmallEndHour" value="ถนนขนาดเล็ก: เวลาสิ้นสุด" />
+  <translation id="RoadMaintenanceRoadsSmallEndHourTooltip" value="เวลาที่การบำรุงรักษาถนนบนถนนขนาดเล็กหยุดดำเนินการ" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsMedium" value="ถนนขนาดกลาง: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsMediumTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการบำรุงรักษาถนนบนถนนขนาดกลาง" />
+  <translation id="RoadMaintenanceRoadsMediumStartHour" value="ถนนขนาดกลาง: เวลาเริ่ม" />
+  <translation id="RoadMaintenanceRoadsMediumStartHourTooltip" value="เวลาที่การบำรุงรักษาถนนบนถนนขนาดกลางเริ่มดำเนินการ" />
+  <translation id="RoadMaintenanceRoadsMediumEndHour" value="ถนนขนาดกลาง: เวลาสิ้นสุด" />
+  <translation id="RoadMaintenanceRoadsMediumEndHourTooltip" value="เวลาที่การบำรุงรักษาถนนบนถนนขนาดกลางหยุดดำเนินการ" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsLarge" value="ถนนขนาดใหญ่: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsLargeTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการบำรุงรักษาถนนบนถนนขนาดใหญ่" />
+  <translation id="RoadMaintenanceRoadsLargeStartHour" value="ถนนขนาดใหญ่: เวลาเริ่ม" />
+  <translation id="RoadMaintenanceRoadsLargeStartHourTooltip" value="เวลาที่การบำรุงรักษาถนนบนถนนขนาดใหญ่เริ่มดำเนินการ" />
+  <translation id="RoadMaintenanceRoadsLargeEndHour" value="ถนนขนาดใหญ่: เวลาสิ้นสุด" />
+  <translation id="RoadMaintenanceRoadsLargeEndHourTooltip" value="เวลาที่การบำรุงรักษาถนนบนถนนขนาดใหญ่หยุดดำเนินการ" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsHighway" value="ทางหลวง: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsHighwayTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการบำรุงรักษาถนนบนทางหลวง" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHour" value="ทางหลวง: เวลาเริ่ม" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHourTooltip" value="เวลาที่การบำรุงรักษาถนนบนทางหลวงเริ่มดำเนินการ" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHour" value="ทางหลวง: เวลาสิ้นสุด" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHourTooltip" value="เวลาที่การบำรุงรักษาถนนบนทางหลวงหยุดดำเนินการ" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsOther" value="ถนนอื่น: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsOtherTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการบำรุงรักษาถนนบนถนนอื่น" />
+  <translation id="RoadMaintenanceRoadsOtherStartHour" value="ถนนอื่น: เวลาเริ่ม" />
+  <translation id="RoadMaintenanceRoadsOtherStartHourTooltip" value="เวลาที่การบำรุงรักษาถนนบนถนนอื่นเริ่มดำเนินการ" />
+  <translation id="RoadMaintenanceRoadsOtherEndHour" value="ถนนอื่น: เวลาสิ้นสุด" />
+  <translation id="RoadMaintenanceRoadsOtherEndHourTooltip" value="เวลาที่การบำรุงรักษาถนนบนถนนอื่นหยุดดำเนินการ" />
+
+  <translation id="EnableTimeRangeSnowRoadsSmall" value="ถนนขนาดเล็ก: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeSnowRoadsSmallTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการกำจัดหิมะบนถนนขนาดเล็ก" />
+  <translation id="SnowRoadsSmallStartHour" value="ถนนขนาดเล็ก: เวลาเริ่ม" />
+  <translation id="SnowRoadsSmallStartHourTooltip" value="เวลาที่การกำจัดหิมะบนถนนขนาดเล็กเริ่มดำเนินการ" />
+  <translation id="SnowRoadsSmallEndHour" value="ถนนขนาดเล็ก: เวลาสิ้นสุด" />
+  <translation id="SnowRoadsSmallEndHourTooltip" value="เวลาที่การกำจัดหิมะบนถนนขนาดเล็กหยุดดำเนินการ" />
+  <translation id="EnableTimeRangeSnowRoadsMedium" value="ถนนขนาดกลาง: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeSnowRoadsMediumTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการกำจัดหิมะบนถนนขนาดกลาง" />
+  <translation id="SnowRoadsMediumStartHour" value="ถนนขนาดกลาง: เวลาเริ่ม" />
+  <translation id="SnowRoadsMediumStartHourTooltip" value="เวลาที่การกำจัดหิมะบนถนนขนาดกลางเริ่มดำเนินการ" />
+  <translation id="SnowRoadsMediumEndHour" value="ถนนขนาดกลาง: เวลาสิ้นสุด" />
+  <translation id="SnowRoadsMediumEndHourTooltip" value="เวลาที่การกำจัดหิมะบนถนนขนาดกลางหยุดดำเนินการ" />
+  <translation id="EnableTimeRangeSnowRoadsLarge" value="ถนนขนาดใหญ่: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeSnowRoadsLargeTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการกำจัดหิมะบนถนนขนาดใหญ่" />
+  <translation id="SnowRoadsLargeStartHour" value="ถนนขนาดใหญ่: เวลาเริ่ม" />
+  <translation id="SnowRoadsLargeStartHourTooltip" value="เวลาที่การกำจัดหิมะบนถนนขนาดใหญ่เริ่มดำเนินการ" />
+  <translation id="SnowRoadsLargeEndHour" value="ถนนขนาดใหญ่: เวลาสิ้นสุด" />
+  <translation id="SnowRoadsLargeEndHourTooltip" value="เวลาที่การกำจัดหิมะบนถนนขนาดใหญ่หยุดดำเนินการ" />
+  <translation id="EnableTimeRangeSnowRoadsHighway" value="ทางหลวง: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeSnowRoadsHighwayTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการกำจัดหิมะบนทางหลวง" />
+  <translation id="SnowRoadsHighwayStartHour" value="ทางหลวง: เวลาเริ่ม" />
+  <translation id="SnowRoadsHighwayStartHourTooltip" value="เวลาที่การกำจัดหิมะบนทางหลวงเริ่มดำเนินการ" />
+  <translation id="SnowRoadsHighwayEndHour" value="ทางหลวง: เวลาสิ้นสุด" />
+  <translation id="SnowRoadsHighwayEndHourTooltip" value="เวลาที่การกำจัดหิมะบนทางหลวงหยุดดำเนินการ" />
+  <translation id="EnableTimeRangeSnowRoadsOther" value="ถนนอื่น: เปิดใช้งาน" />
+  <translation id="EnableTimeRangeSnowRoadsOtherTooltip" value="เปิดใช้การจำกัดช่วงเวลาสำหรับการกำจัดหิมะบนถนนอื่น" />
+  <translation id="SnowRoadsOtherStartHour" value="ถนนอื่น: เวลาเริ่ม" />
+  <translation id="SnowRoadsOtherStartHourTooltip" value="เวลาที่การกำจัดหิมะบนถนนอื่นเริ่มดำเนินการ" />
+  <translation id="SnowRoadsOtherEndHour" value="ถนนอื่น: เวลาสิ้นสุด" />
+  <translation id="SnowRoadsOtherEndHourTooltip" value="เวลาที่การกำจัดหิมะบนถนนอื่นหยุดดำเนินการ" />
 
   <translation id="ScheduledState" value="การกระทำถัดไป" />
   <translation id="ScheduledStateTime" value="เวลา" />

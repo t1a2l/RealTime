@@ -179,100 +179,142 @@
   <translation id="VisitBankOrPostOfficeIntervalTooltip" value="El intervalo en días en el que los Cims visitan el banco o la oficina de correos. Por defecto son 3 días." />
 
   <translation id="5Services" value="Servicios" />
-  <translation id="0Garbage" value="Horas de operación de basura" />
-  <translation id="1Mail" value="Horas de operación de correo" />
-  <translation id="2ParkMaintenance" value="Horas de operación de mantenimiento de parques" />
-  <translation id="3RoadMaintenance" value="Horas de operación de mantenimiento de carreteras" />
-  <translation id="4Snow" value="Horas de operación de servicios de nieve" />
-  
-  <translation id="GarbageResidentialStartHour" value="Inicio residencial" />
-  <translation id="GarbageResidentialStartHourTooltip" value="Hora a la que inicia el servicio de basura en zonas residenciales." />
-  <translation id="GarbageResidentialEndHour" value="Fin residencial" />
-  <translation id="GarbageResidentialEndHourTooltip" value="Hora a la que finaliza el servicio de basura en zonas residenciales." />
-  <translation id="GarbageCommercialStartHour" value="Inicio comercial" />
-  <translation id="GarbageCommercialStartHourTooltip" value="Hora a la que inicia el servicio de basura en zonas comerciales." />
-  <translation id="GarbageCommercialEndHour" value="Fin comercial" />
-  <translation id="GarbageCommercialEndHourTooltip" value="Hora a la que finaliza el servicio de basura en zonas comerciales." />
-  <translation id="GarbageIndustrialStartHour" value="Inicio industrial" />
-  <translation id="GarbageIndustrialStartHourTooltip" value="Hora a la que inicia el servicio de basura en zonas industriales." />
-  <translation id="GarbageIndustrialEndHour" value="Fin industrial" />
-  <translation id="GarbageIndustrialEndHourTooltip" value="Hora a la que finaliza el servicio de basura en zonas industriales." />
-  <translation id="GarbageOfficeStartHour" value="Inicio oficinas" />
-  <translation id="GarbageOfficeStartHourTooltip" value="Hora a la que inicia el servicio de basura en zonas de oficinas." />
-  <translation id="GarbageOfficeEndHour" value="Fin oficinas" />
-  <translation id="GarbageOfficeEndHourTooltip" value="Hora a la que finaliza el servicio de basura en zonas de oficinas." />
-  <translation id="GarbageOtherStartHour" value="Inicio otros" />
-  <translation id="GarbageOtherStartHourTooltip" value="Hora a la que inicia el servicio de basura en otras áreas." />
-  <translation id="GarbageOtherEndHour" value="Fin otros" />
-  <translation id="GarbageOtherEndHourTooltip" value="Hora a la que finaliza el servicio de basura en otras áreas." />
+  <translation id="0Garbage" value="Horario de recogida de basura" />
+  <translation id="1Mail" value="Horario del servicio postal" />
+  <translation id="2ParkMaintenance" value="Horario de mantenimiento de parques" />
+  <translation id="3RoadMaintenance" value="Horario de mantenimiento de carreteras" />
+  <translation id="4Snow" value="Horario de retirada de nieve" />
 
-  <translation id="MailResidentialStartHour" value="Inicio correo residencial" />
-  <translation id="MailResidentialStartHourTooltip" value="Hora a la que inicia el servicio postal en zonas residenciales." />
-  <translation id="MailResidentialEndHour" value="Fin correo residencial" />
-  <translation id="MailResidentialEndHourTooltip" value="Hora a la que finaliza el servicio postal en zonas residenciales." />
-  <translation id="MailCommercialStartHour" value="Inicio correo comercial" />
-  <translation id="MailCommercialStartHourTooltip" value="Hora a la que inicia el servicio postal en zonas comerciales." />
-  <translation id="MailCommercialEndHour" value="Fin correo comercial" />
-  <translation id="MailCommercialEndHourTooltip" value="Hora a la que finaliza el servicio postal en zonas comerciales." />
-  <translation id="MailIndustrialStartHour" value="Inicio correo industrial" />
-  <translation id="MailIndustrialStartHourTooltip" value="Hora a la que inicia el servicio postal en zonas industriales." />
-  <translation id="MailIndustrialEndHour" value="Fin correo industrial" />
-  <translation id="MailIndustrialEndHourTooltip" value="Hora a la que finaliza el servicio postal en zonas industriales." />
-  <translation id="MailOfficeStartHour" value="Inicio correo oficinas" />
-  <translation id="MailOfficeStartHourTooltip" value="Hora a la que inicia el servicio postal en zonas de oficinas." />
-  <translation id="MailOfficeEndHour" value="Fin correo oficinas" />
-  <translation id="MailOfficeEndHourTooltip" value="Hora a la que finaliza el servicio postal en zonas de oficinas." />
-  <translation id="MailOtherStartHour" value="Inicio correo otros" />
-  <translation id="MailOtherStartHourTooltip" value="Hora a la que inicia el servicio postal en otras áreas." />
-  <translation id="MailOtherEndHour" value="Fin correo otros" />
-  <translation id="MailOtherEndHourTooltip" value="Hora a la que finaliza el servicio postal en otras áreas." />
+  <translation id="EnableTimeRangeGarbageResidential" value="Zonas residenciales: activado" />
+  <translation id="EnableTimeRangeGarbageResidentialTooltip" value="Activar restricciones horarias para la recogida de basura en zonas residenciales" />
+  <translation id="GarbageResidentialStartHour" value="Zonas residenciales: hora de inicio" />
+  <translation id="GarbageResidentialStartHourTooltip" value="Hora a la que comienza la recogida de basura en zonas residenciales" />
+  <translation id="GarbageResidentialEndHour" value="Zonas residenciales: hora de finalización" />
+  <translation id="GarbageResidentialEndHourTooltip" value="Hora a la que termina la recogida de basura en zonas residenciales" />
+  <translation id="EnableTimeRangeGarbageCommercial" value="Zonas comerciales: activado" />
+  <translation id="EnableTimeRangeGarbageCommercialTooltip" value="Activar restricciones horarias para la recogida de basura en zonas comerciales" />
+  <translation id="GarbageCommercialStartHour" value="Zonas comerciales: hora de inicio" />
+  <translation id="GarbageCommercialStartHourTooltip" value="Hora a la que comienza la recogida de basura en zonas comerciales" />
+  <translation id="GarbageCommercialEndHour" value="Zonas comerciales: hora de finalización" />
+  <translation id="GarbageCommercialEndHourTooltip" value="Hora a la que termina la recogida de basura en zonas comerciales" />
+  <translation id="EnableTimeRangeGarbageIndustrial" value="Zonas industriales: activado" />
+  <translation id="EnableTimeRangeGarbageIndustrialTooltip" value="Activar restricciones horarias para la recogida de basura en zonas industriales" />
+  <translation id="GarbageIndustrialStartHour" value="Zonas industriales: hora de inicio" />
+  <translation id="GarbageIndustrialStartHourTooltip" value="Hora a la que comienza la recogida de basura en zonas industriales" />
+  <translation id="GarbageIndustrialEndHour" value="Zonas industriales: hora de finalización" />
+  <translation id="GarbageIndustrialEndHourTooltip" value="Hora a la que termina la recogida de basura en zonas industriales" />
+  <translation id="EnableTimeRangeGarbageOffice" value="Zonas de oficinas: activado" />
+  <translation id="EnableTimeRangeGarbageOfficeTooltip" value="Activar restricciones horarias para la recogida de basura en zonas de oficinas" />
+  <translation id="GarbageOfficeStartHour" value="Zonas de oficinas: hora de inicio" />
+  <translation id="GarbageOfficeStartHourTooltip" value="Hora a la que comienza la recogida de basura en zonas de oficinas" />
+  <translation id="GarbageOfficeEndHour" value="Zonas de oficinas: hora de finalización" />
+  <translation id="GarbageOfficeEndHourTooltip" value="Hora a la que termina la recogida de basura en zonas de oficinas" />
+  <translation id="EnableTimeRangeGarbageOther" value="Otras zonas: activado" />
+  <translation id="EnableTimeRangeGarbageOtherTooltip" value="Activar restricciones horarias para la recogida de basura en otras zonas" />
+  <translation id="GarbageOtherStartHour" value="Otras zonas: hora de inicio" />
+  <translation id="GarbageOtherStartHourTooltip" value="Hora a la que comienza la recogida de basura en otras zonas" />
+  <translation id="GarbageOtherEndHour" value="Otras zonas: hora de finalización" />
+  <translation id="GarbageOtherEndHourTooltip" value="Hora a la que termina la recogida de basura en otras zonas" />
 
-  <translation id="ParkMaintenanceStartHour" value="Inicio mantenimiento parques" />
-  <translation id="ParkMaintenanceStartHourTooltip" value="Hora a la que inician los servicios de mantenimiento de parques." />
-  <translation id="ParkMaintenanceEndHour" value="Fin mantenimiento parques" />
-  <translation id="ParkMaintenanceEndHourTooltip" value="Hora a la que finalizan los servicios de mantenimiento de parques." />
+  <translation id="EnableTimeRangeMailResidential" value="Zonas residenciales: activado" />
+  <translation id="EnableTimeRangeMailResidentialTooltip" value="Activar restricciones horarias para el servicio postal en zonas residenciales" />
+  <translation id="MailResidentialStartHour" value="Zonas residenciales: hora de inicio" />
+  <translation id="MailResidentialStartHourTooltip" value="Hora a la que comienza el servicio postal en zonas residenciales" />
+  <translation id="MailResidentialEndHour" value="Zonas residenciales: hora de finalización" />
+  <translation id="MailResidentialEndHourTooltip" value="Hora a la que termina el servicio postal en zonas residenciales" />
+  <translation id="EnableTimeRangeMailCommercial" value="Zonas comerciales: activado" />
+  <translation id="EnableTimeRangeMailCommercialTooltip" value="Activar restricciones horarias para el servicio postal en zonas comerciales" />
+  <translation id="MailCommercialStartHour" value="Zonas comerciales: hora de inicio" />
+  <translation id="MailCommercialStartHourTooltip" value="Hora a la que comienza el servicio postal en zonas comerciales" />
+  <translation id="MailCommercialEndHour" value="Zonas comerciales: hora de finalización" />
+  <translation id="MailCommercialEndHourTooltip" value="Hora a la que termina el servicio postal en zonas comerciales" />
+  <translation id="EnableTimeRangeMailIndustrial" value="Zonas industriales: activado" />
+  <translation id="EnableTimeRangeMailIndustrialTooltip" value="Activar restricciones horarias para el servicio postal en zonas industriales" />
+  <translation id="MailIndustrialStartHour" value="Zonas industriales: hora de inicio" />
+  <translation id="MailIndustrialStartHourTooltip" value="Hora a la que comienza el servicio postal en zonas industriales" />
+  <translation id="MailIndustrialEndHour" value="Zonas industriales: hora de finalización" />
+  <translation id="MailIndustrialEndHourTooltip" value="Hora a la que termina el servicio postal en zonas industriales" />
+  <translation id="EnableTimeRangeMailOffice" value="Zonas de oficinas: activado" />
+  <translation id="EnableTimeRangeMailOfficeTooltip" value="Activar restricciones horarias para el servicio postal en zonas de oficinas" />
+  <translation id="MailOfficeStartHour" value="Zonas de oficinas: hora de inicio" />
+  <translation id="MailOfficeStartHourTooltip" value="Hora a la que comienza el servicio postal en zonas de oficinas" />
+  <translation id="MailOfficeEndHour" value="Zonas de oficinas: hora de finalización" />
+  <translation id="MailOfficeEndHourTooltip" value="Hora a la que termina el servicio postal en zonas de oficinas" />
+  <translation id="EnableTimeRangeMailOther" value="Otras zonas: activado" />
+  <translation id="EnableTimeRangeMailOtherTooltip" value="Activar restricciones horarias para el servicio postal en otras zonas" />
+  <translation id="MailOtherStartHour" value="Otras zonas: hora de inicio" />
+  <translation id="MailOtherStartHourTooltip" value="Hora a la que comienza el servicio postal en otras zonas" />
+  <translation id="MailOtherEndHour" value="Otras zonas: hora de finalización" />
+  <translation id="MailOtherEndHourTooltip" value="Hora a la que termina el servicio postal en otras zonas" />
 
-  <translation id="RoadMaintenanceRoadsSmallStartHour" value="Inicio mantenimiento carreteras pequeñas" />
-  <translation id="RoadMaintenanceRoadsSmallStartHourTooltip" value="Hora a la que inician los servicios de mantenimiento de carreteras pequeñas." />
-  <translation id="RoadMaintenanceRoadsSmallEndHour" value="Fin mantenimiento carreteras pequeñas" />
-  <translation id="RoadMaintenanceRoadsSmallEndHourTooltip" value="Hora a la que finalizan los servicios de mantenimiento de carreteras pequeñas." />
-  <translation id="RoadMaintenanceRoadsMediumStartHour" value="Inicio mantenimiento carreteras medianas" />
-  <translation id="RoadMaintenanceRoadsMediumStartHourTooltip" value="Hora a la que inician los servicios de mantenimiento de carreteras medianas." />
-  <translation id="RoadMaintenanceRoadsMediumEndHour" value="Fin mantenimiento carreteras medianas" />
-  <translation id="RoadMaintenanceRoadsMediumEndHourTooltip" value="Hora a la que finalizan los servicios de mantenimiento de carreteras medianas." />
-  <translation id="RoadMaintenanceRoadsLargeStartHour" value="Inicio mantenimiento carreteras grandes" />
-  <translation id="RoadMaintenanceRoadsLargeStartHourTooltip" value="Hora a la que inician los servicios de mantenimiento de carreteras grandes." />
-  <translation id="RoadMaintenanceRoadsLargeEndHour" value="Fin mantenimiento carreteras grandes" />
-  <translation id="RoadMaintenanceRoadsLargeEndHourTooltip" value="Hora a la que finalizan los servicios de mantenimiento de carreteras grandes." />
-  <translation id="RoadMaintenanceRoadsHighwayStartHour" value="Inicio mantenimiento autopistas" />
-  <translation id="RoadMaintenanceRoadsHighwayStartHourTooltip" value="Hora a la que inician los servicios de mantenimiento de autopistas." />
-  <translation id="RoadMaintenanceRoadsHighwayEndHour" value="Fin mantenimiento autopistas" />
-  <translation id="RoadMaintenanceRoadsHighwayEndHourTooltip" value="Hora a la que finalizan los servicios de mantenimiento de autopistas." />
-  <translation id="RoadMaintenanceRoadsOtherStartHour" value="Inicio mantenimiento otras carreteras" />
-  <translation id="RoadMaintenanceRoadsOtherStartHourTooltip" value="Hora a la que inician los servicios de mantenimiento de otras carreteras." />
-  <translation id="RoadMaintenanceRoadsOtherEndHour" value="Fin mantenimiento otras carreteras" />
-  <translation id="RoadMaintenanceRoadsOtherEndHourTooltip" value="Hora a la que finalizan los servicios de mantenimiento de otras carreteras." />
-  
-  <translation id="SnowRoadsSmallStartHour" value="Inicio mantenimiento carreteras pequeñas" />
-  <translation id="SnowRoadsSmallStartHourTooltip" value="Hora a la que inician los servicios de mantenimiento de nieve para carreteras pequeñas." />
-  <translation id="SnowRoadsSmallEndHour" value="Fin mantenimiento carreteras pequeñas" />
-  <translation id="SnowRoadsSmallEndHourTooltip" value="Hora a la que finalizan los servicios de mantenimiento de nieve para carreteras pequeñas." />
-  <translation id="SnowRoadsMediumStartHour" value="Inicio mantenimiento carreteras medianas" />
-  <translation id="SnowRoadsMediumStartHourTooltip" value="Hora a la que inician los servicios de mantenimiento de nieve para carreteras medianas." />
-  <translation id="SnowRoadsMediumEndHour" value="Fin mantenimiento carreteras medianas" />
-  <translation id="SnowRoadsMediumEndHourTooltip" value="Hora a la que finalizan los servicios de mantenimiento de nieve para carreteras medianas." />
-  <translation id="SnowRoadsLargeStartHour" value="Inicio mantenimiento carreteras grandes" />
-  <translation id="SnowRoadsLargeStartHourTooltip" value="Hora a la que inician los servicios de mantenimiento de nieve para carreteras grandes." />
-  <translation id="SnowRoadsLargeEndHour" value="Fin mantenimiento carreteras grandes" />
-  <translation id="SnowRoadsLargeEndHourTooltip" value="Hora a la que finalizan los servicios de mantenimiento de nieve para carreteras grandes." />
-  <translation id="SnowRoadsHighwayStartHour" value="Inicio mantenimiento autopistas" />
-  <translation id="SnowRoadsHighwayStartHourTooltip" value="Hora a la que inician los servicios de mantenimiento de nieve para autopistas." />
-  <translation id="SnowRoadsHighwayEndHour" value="Fin mantenimiento autopistas" />
-  <translation id="SnowRoadsHighwayEndHourTooltip" value="Hora a la que finalizan los servicios de mantenimiento de nieve para autopistas." />
-  <translation id="SnowRoadsOtherStartHour" value="Inicio mantenimiento otras carreteras" />
-  <translation id="SnowRoadsOtherStartHourTooltip" value="Hora a la que inician los servicios de mantenimiento de nieve para otras carreteras." />
-  <translation id="SnowRoadsOtherEndHour" value="Fin mantenimiento otras carreteras" />
-  <translation id="SnowRoadsOtherEndHourTooltip" value="Hora a la que finalizan los servicios de mantenimiento de nieve para otras carreteras." />
+  <translation id="EnableTimeRangeParkMaintenance" value="Mantenimiento de parques: activado" />
+  <translation id="EnableTimeRangeParkMaintenanceTooltip" value="Activar restricciones horarias para el mantenimiento de parques" />
+  <translation id="ParkMaintenanceStartHour" value="Mantenimiento de parques: hora de inicio" />
+  <translation id="ParkMaintenanceStartHourTooltip" value="Hora a la que comienza el mantenimiento de parques" />
+  <translation id="ParkMaintenanceEndHour" value="Mantenimiento de parques: hora de finalización" />
+  <translation id="ParkMaintenanceEndHourTooltip" value="Hora a la que termina el mantenimiento de parques" />
+
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsSmall" value="Vías pequeñas: activado" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsSmallTooltip" value="Activar restricciones horarias para el mantenimiento de carreteras en vías pequeñas" />
+  <translation id="RoadMaintenanceRoadsSmallStartHour" value="Vías pequeñas: hora de inicio" />
+  <translation id="RoadMaintenanceRoadsSmallStartHourTooltip" value="Hora a la que comienza el mantenimiento de carreteras en vías pequeñas" />
+  <translation id="RoadMaintenanceRoadsSmallEndHour" value="Vías pequeñas: hora de finalización" />
+  <translation id="RoadMaintenanceRoadsSmallEndHourTooltip" value="Hora a la que termina el mantenimiento de carreteras en vías pequeñas" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsMedium" value="Vías medianas: activado" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsMediumTooltip" value="Activar restricciones horarias para el mantenimiento de carreteras en vías medianas" />
+  <translation id="RoadMaintenanceRoadsMediumStartHour" value="Vías medianas: hora de inicio" />
+  <translation id="RoadMaintenanceRoadsMediumStartHourTooltip" value="Hora a la que comienza el mantenimiento de carreteras en vías medianas" />
+  <translation id="RoadMaintenanceRoadsMediumEndHour" value="Vías medianas: hora de finalización" />
+  <translation id="RoadMaintenanceRoadsMediumEndHourTooltip" value="Hora a la que termina el mantenimiento de carreteras en vías medianas" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsLarge" value="Vías grandes: activado" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsLargeTooltip" value="Activar restricciones horarias para el mantenimiento de carreteras en vías grandes" />
+  <translation id="RoadMaintenanceRoadsLargeStartHour" value="Vías grandes: hora de inicio" />
+  <translation id="RoadMaintenanceRoadsLargeStartHourTooltip" value="Hora a la que comienza el mantenimiento de carreteras en vías grandes" />
+  <translation id="RoadMaintenanceRoadsLargeEndHour" value="Vías grandes: hora de finalización" />
+  <translation id="RoadMaintenanceRoadsLargeEndHourTooltip" value="Hora a la que termina el mantenimiento de carreteras en vías grandes" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsHighway" value="Autopistas: activado" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsHighwayTooltip" value="Activar restricciones horarias para el mantenimiento de carreteras en autopistas" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHour" value="Autopistas: hora de inicio" />
+  <translation id="RoadMaintenanceRoadsHighwayStartHourTooltip" value="Hora a la que comienza el mantenimiento de carreteras en autopistas" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHour" value="Autopistas: hora de finalización" />
+  <translation id="RoadMaintenanceRoadsHighwayEndHourTooltip" value="Hora a la que termina el mantenimiento de carreteras en autopistas" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsOther" value="Otras vías: activado" />
+  <translation id="EnableTimeRangeRoadMaintenanceRoadsOtherTooltip" value="Activar restricciones horarias para el mantenimiento de carreteras en otras vías" />
+  <translation id="RoadMaintenanceRoadsOtherStartHour" value="Otras vías: hora de inicio" />
+  <translation id="RoadMaintenanceRoadsOtherStartHourTooltip" value="Hora a la que comienza el mantenimiento de carreteras en otras vías" />
+  <translation id="RoadMaintenanceRoadsOtherEndHour" value="Otras vías: hora de finalización" />
+  <translation id="RoadMaintenanceRoadsOtherEndHourTooltip" value="Hora a la que termina el mantenimiento de carreteras en otras vías" />
+
+  <translation id="EnableTimeRangeSnowRoadsSmall" value="Vías pequeñas: activado" />
+  <translation id="EnableTimeRangeSnowRoadsSmallTooltip" value="Activar restricciones horarias para la retirada de nieve en vías pequeñas" />
+  <translation id="SnowRoadsSmallStartHour" value="Vías pequeñas: hora de inicio" />
+  <translation id="SnowRoadsSmallStartHourTooltip" value="Hora a la que comienza la retirada de nieve en vías pequeñas" />
+  <translation id="SnowRoadsSmallEndHour" value="Vías pequeñas: hora de finalización" />
+  <translation id="SnowRoadsSmallEndHourTooltip" value="Hora a la que termina la retirada de nieve en vías pequeñas" />
+  <translation id="EnableTimeRangeSnowRoadsMedium" value="Vías medianas: activado" />
+  <translation id="EnableTimeRangeSnowRoadsMediumTooltip" value="Activar restricciones horarias para la retirada de nieve en vías medianas" />
+  <translation id="SnowRoadsMediumStartHour" value="Vías medianas: hora de inicio" />
+  <translation id="SnowRoadsMediumStartHourTooltip" value="Hora a la que comienza la retirada de nieve en vías medianas" />
+  <translation id="SnowRoadsMediumEndHour" value="Vías medianas: hora de finalización" />
+  <translation id="SnowRoadsMediumEndHourTooltip" value="Hora a la que termina la retirada de nieve en vías medianas" />
+  <translation id="EnableTimeRangeSnowRoadsLarge" value="Vías grandes: activado" />
+  <translation id="EnableTimeRangeSnowRoadsLargeTooltip" value="Activar restricciones horarias para la retirada de nieve en vías grandes" />
+  <translation id="SnowRoadsLargeStartHour" value="Vías grandes: hora de inicio" />
+  <translation id="SnowRoadsLargeStartHourTooltip" value="Hora a la que comienza la retirada de nieve en vías grandes" />
+  <translation id="SnowRoadsLargeEndHour" value="Vías grandes: hora de finalización" />
+  <translation id="SnowRoadsLargeEndHourTooltip" value="Hora a la que termina la retirada de nieve en vías grandes" />
+  <translation id="EnableTimeRangeSnowRoadsHighway" value="Autopistas: activado" />
+  <translation id="EnableTimeRangeSnowRoadsHighwayTooltip" value="Activar restricciones horarias para la retirada de nieve en autopistas" />
+  <translation id="SnowRoadsHighwayStartHour" value="Autopistas: hora de inicio" />
+  <translation id="SnowRoadsHighwayStartHourTooltip" value="Hora a la que comienza la retirada de nieve en autopistas" />
+  <translation id="SnowRoadsHighwayEndHour" value="Autopistas: hora de finalización" />
+  <translation id="SnowRoadsHighwayEndHourTooltip" value="Hora a la que termina la retirada de nieve en autopistas" />
+  <translation id="EnableTimeRangeSnowRoadsOther" value="Otras vías: activado" />
+  <translation id="EnableTimeRangeSnowRoadsOtherTooltip" value="Activar restricciones horarias para la retirada de nieve en otras vías" />
+  <translation id="SnowRoadsOtherStartHour" value="Otras vías: hora de inicio" />
+  <translation id="SnowRoadsOtherStartHourTooltip" value="Hora a la que comienza la retirada de nieve en otras vías" />
+  <translation id="SnowRoadsOtherEndHour" value="Otras vías: hora de finalización" />
+  <translation id="SnowRoadsOtherEndHourTooltip" value="Hora a la que termina la retirada de nieve en otras vías" />
 
   <translation id="ScheduledState" value="Próxima acción" />
   <translation id="ScheduledStateTime" value="a las" />

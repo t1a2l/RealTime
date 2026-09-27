@@ -25,17 +25,14 @@ namespace RealTime.Localization
         /// <summary>The key for the abbreviated 'minutes' text.</summary>
         public const string Minutes = "Minutes";
 
-        /// <summary>The key for the current planned action text.</summary>
-        public const string CurrentPlannedAction = "CurrentPlannedAction";
-
         /// <summary>The key for the current state text.</summary>
         public const string CurrentState = "CurrentState";
 
-        /// <summary>The key for the next scheduled action time text.</summary>
-        public const string NextScheduledActionTime = "NextScheduledActionTime";
+        /// <summary>The key for the next scheduled state time text.</summary>
+        public const string ScheduledStateTime = "ScheduledStateTime";
 
-        /// <summary>The key for the next scheduled action text.</summary>
-        public const string NextScheduledAction = "NextScheduledAction";
+        /// <summary>The key for the next scheduled state text.</summary>
+        public const string ScheduledState = "ScheduledState";
 
         /// <summary>The key for the work shift text.</summary>
         public const string WorkShiftKey = "WorkShift";

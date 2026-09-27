@@ -229,38 +229,42 @@ namespace RealTime.UI
                 DebugPanel($"render citizen={citizenId}; LastScheduledState={plannedState}; translated='{plannedAction}'; length={plannedAction?.Length ?? -1}");
             }
 
-            // "Going to" – active travel
-            if (schedule.ActiveTravelState != ResidentState.Unknown)
-            {
-                string plannedActionLabel = localizationProvider.Translate(CurrentPlannedAction);
-                string activeTravelStateAction = TranslateScheduledAction(schedule.ActiveTravelState, schedule.ScheduledMealType);
-                AppendTranslatedLine(info, ref labelHeight, plannedActionLabel, activeTravelStateAction);
-            }
+            // "ScheduledState" – next thing to do
+            string scheduledStateLabel = localizationProvider.Translate(ScheduledState);
+            string scheduledState = TranslateScheduledState(schedule.ScheduledState, schedule.ScheduledStateTime, schedule.ScheduledMealType);
 
             // "Next scheduled action time"
             if (schedule.ScheduledStateTime != default)
             {
-                string label = localizationProvider.Translate(NextScheduledActionTime);
+                string label = localizationProvider.Translate(ScheduledStateTime);
                 string value = schedule.ScheduledStateTime.ToString("t", localizationProvider.CurrentCulture);
-                AppendLine(info, ref labelHeight, label, value);
+                scheduledState += " " + label + " " + value;
             }
 
-            // "Next scheduled action"
-            string nextScheduledActionLabel = localizationProvider.Translate(NextScheduledAction);
-            string scheduledStateAction = TranslateScheduledAction(schedule.ScheduledState, schedule.ScheduledMealType);
-            AppendTranslatedLine(info, ref labelHeight, nextScheduledActionLabel, scheduledStateAction);
+            AppendTranslatedLine(info, ref labelHeight, scheduledStateLabel, scheduledState);
 
-            // "Current state"
             string currentStateLabel = localizationProvider.Translate(CurrentState);
-            string currentStateAction = localizationProvider.Translate(CurrentState + "." + schedule.CurrentState);
 
-            if (schedule.CurrentState == ResidentState.EatMeal && schedule.CurrentMealType != MealType.None)
+            string currentStateAction;
+
+            // "Going to" – active travel
+            if (citizen.CurrentLocation == Citizen.Location.Moving && schedule.ActiveTravelState != ResidentState.Unknown)
             {
-                string mealType = localizationProvider.Translate("MealType." + schedule.CurrentMealType);
+                currentStateAction = localizationProvider.Translate("ActiveTravelState." + schedule.ActiveTravelState);
+            }
+            else
+            {
+                // "Current state"
+                currentStateAction = localizationProvider.Translate(CurrentState + "." + schedule.CurrentState);
 
-                if (!string.IsNullOrEmpty(mealType))
+                if (schedule.CurrentState == ResidentState.EatMeal && schedule.CurrentMealType != MealType.None)
                 {
-                    currentStateAction += " " + mealType;
+                    string mealType = localizationProvider.Translate("MealType." + schedule.CurrentMealType);
+
+                    if (!string.IsNullOrEmpty(mealType))
+                    {
+                        currentStateAction += " " + mealType;
+                    }
                 }
             }
 
@@ -274,9 +278,17 @@ namespace RealTime.UI
             SetCustomPanelVisibility(scheduleLabel, info.Length > 0);
         }
 
-        private string TranslateScheduledAction(ResidentState state, MealType mealType)
+        private string TranslateScheduledState(ResidentState state, DateTime stateTime, MealType mealType)
         {
-            string action = localizationProvider.Translate("ScheduledAction." + state);
+            string scheduledState;
+            if (state == ResidentState.Unknown && stateTime != default)
+            {
+                scheduledState = localizationProvider.Translate("ScheduledState." + state + "At");
+            }
+            else
+            {
+                scheduledState = localizationProvider.Translate("ScheduledState." + state);
+            }
 
             if (state == ResidentState.GoToMeal && mealType != MealType.None)
             {
@@ -284,11 +296,11 @@ namespace RealTime.UI
 
                 if (!string.IsNullOrEmpty(translatedMeal))
                 {
-                    action += " " + translatedMeal;
+                    scheduledState += " " + translatedMeal;
                 }
             }
 
-            return action;
+            return scheduledState;
         }
 
         private void AppendSchoolOrWorkInfo(StringBuilder info, ref float labelHeight, Citizen citizen, ref CitizenSchedule schedule)

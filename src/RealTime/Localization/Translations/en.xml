@@ -141,6 +141,10 @@
   <translation id="EventPreparationDurationTooltip" value="The duration of the event preparation period" />
 
   <translation id="4Time" value="Time" />
+  <translation id="0General" value="General time settings" />
+  <translation id="1Meal" value="Meal time settings" />
+  <translation id="2Education" value="Education time settings" />
+  
   <translation id="MaxOvertime" value="Max. Overtime" />
   <translation id="MaxOvertimeTooltip" value="The maximum overtime for the Cims - they come to work earlier or stay at work longer" />
   <translation id="SchoolBegin" value="School start hour" />

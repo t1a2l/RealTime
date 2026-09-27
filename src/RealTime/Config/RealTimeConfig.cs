@@ -354,170 +354,170 @@ namespace RealTime.Config
         /// <summary>
         /// Gets or sets the daytime hour when the city wakes up.
         /// </summary>
-        [ConfigItem("4Time", 0)]
+        [ConfigItem("4Time", "0General", 0)]
         [ConfigItemSlider(4f, 8f, 0.25f, ValueType = SliderValueType.Time)]
         public float WakeUpHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the city goes to sleep.
         /// </summary>
-        [ConfigItem("4Time", 1)]
+        [ConfigItem("4Time", "0General", 1)]
         [ConfigItemSlider(20f, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
         public float GoToSleepHour { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether Cims should go out for breakfast during work or school.
-        /// </summary>
-        [ConfigItem("4Time", 2)]
-        [ConfigItemCheckBox]
-        public bool IsBreakfastTimeEnabledDuringWorkOrSchool { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether Cims should go out for lunch during work or school.
-        /// </summary>
-        [ConfigItem("4Time", 3)]
-        [ConfigItemCheckBox]
-        public bool IsLunchTimeEnabledDuringWorkOrSchool { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether Cims should go out for supper during work or school.
-        /// </summary>
-        [ConfigItem("4Time", 4)]
-        [ConfigItemCheckBox]
-        public bool IsSupperTimeEnabledDuringWorkOrSchool { get; set; }
-
-        /// <summary>
-        /// Gets or sets the start daytime hour when the Cims go out for breakfast.
-        /// </summary>
-        [ConfigItem("4Time", 5)]
-        [ConfigItemSlider(6f, 8f, 0.25f, ValueType = SliderValueType.Time)]
-        public float BreakfastBegin { get; set; }
-
-        /// <summary>
-        /// Gets or sets the duration time of eating breakfast.
-        /// </summary>
-        [ConfigItem("4Time", 6)]
-        [ConfigItemSlider(0.5f, 1.5f, 0.25f, ValueType = SliderValueType.Duration)]
-        public float BreakfastDuration { get; set; }
-
-        /// <summary>
-        /// Gets or sets the end daytime hour when the Cims go out for breakfast.
-        /// </summary>
-        [ConfigItem("4Time", 7)]
-        [ConfigItemSlider(8f, 10f, 0.25f, ValueType = SliderValueType.Time, MinFrom = nameof(BreakfastBegin), MinOffset = 2f)]
-        public float BreakfastEnd { get; set; }
-
-        /// <summary>
-        /// Gets or sets the start daytime hour when the Cims go out for lunch.
-        /// </summary>
-        [ConfigItem("4Time", 8)]
-        [ConfigItemSlider(11f, 13f, 0.25f, ValueType = SliderValueType.Time)]
-        public float LunchBegin { get; set; }
-
-        /// <summary>
-        /// Gets or sets the duration time of eating lunch.
-        /// </summary>
-        [ConfigItem("4Time", 9)]
-        [ConfigItemSlider(0.5f, 2f, 0.25f, ValueType = SliderValueType.Duration)]
-        public float LunchDuration { get; set; }
-
-        /// <summary>
-        /// Gets or sets the end daytime hour when the Cims go out for lunch.
-        /// </summary>
-        [ConfigItem("4Time", 10)]
-        [ConfigItemSlider(13f, 15f, 0.25f, ValueType = SliderValueType.Time, MinFrom = nameof(LunchBegin), MinOffset = 2f)]
-        public float LunchEnd { get; set; }
-
-        /// <summary>
-        /// Gets or sets the start daytime hour when the Cims go out for supper.
-        /// </summary>
-        [ConfigItem("4Time", 11)]
-        [ConfigItemSlider(17f, 19f, 0.25f, ValueType = SliderValueType.Time)]
-        public float SupperBegin { get; set; }
-
-        /// <summary>
-        /// Gets or sets the duration time of eating supper.
-        /// </summary>
-        [ConfigItem("4Time", 12)]
-        [ConfigItemSlider(0.5f, 2f, 0.25f, ValueType = SliderValueType.Duration)]
-        public float SupperDuration { get; set; }
-
-        /// <summary>
-        /// Gets or sets the end daytime hour when the Cims go out for supper.
-        /// </summary>
-        [ConfigItem("4Time", 13)]
-        [ConfigItemSlider(19f, 21f, 0.25f, ValueType = SliderValueType.Time, MinFrom = nameof(SupperBegin), MinOffset = 2f)]
-        public float SupperEnd  { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum overtime for the Cims. They come to work earlier or stay at work longer for at most this
         /// amount of hours. This applies only for those Cims that are not on time, see <see cref="OnTimeQuota"/>.
         /// The young Cims (school and university) don't do overtime.
         /// </summary>
-        [ConfigItem("4Time", 14)]
+        [ConfigItem("4Time", "0General", 2)]
         [ConfigItemSlider(0, 4, 0.25f, ValueType = SliderValueType.Duration)]
         public float MaxOvertime { get; set; }
 
         /// <summary>
+        /// Gets or sets the interval in days at which Cims visit the bank or post office.
+        /// </summary>
+        [ConfigItem("4Time", "0General", 3)]
+        [ConfigItemSlider(1f, 7f, 1f, ValueType = SliderValueType.Default)]
+        public float VisitBankOrPostOfficeInterval { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether Cims should go out for breakfast during work or school.
+        /// </summary>
+        [ConfigItem("4Time", "1Meal", 0)]
+        [ConfigItemCheckBox]
+        public bool IsBreakfastTimeEnabledDuringWorkOrSchool { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether Cims should go out for lunch during work or school.
+        /// </summary>
+        [ConfigItem("4Time", "1Meal", 1)]
+        [ConfigItemCheckBox]
+        public bool IsLunchTimeEnabledDuringWorkOrSchool { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether Cims should go out for supper during work or school.
+        /// </summary>
+        [ConfigItem("4Time", "1Meal", 2)]
+        [ConfigItemCheckBox]
+        public bool IsSupperTimeEnabledDuringWorkOrSchool { get; set; }
+
+        /// <summary>
+        /// Gets or sets the start daytime hour when the Cims go out for breakfast.
+        /// </summary>
+        [ConfigItem("4Time", "1Meal", 3)]
+        [ConfigItemSlider(6f, 8f, 0.25f, ValueType = SliderValueType.Time)]
+        public float BreakfastBegin { get; set; }
+
+        /// <summary>
+        /// Gets or sets the duration time of eating breakfast.
+        /// </summary>
+        [ConfigItem("4Time", "1Meal", 4)]
+        [ConfigItemSlider(0.5f, 1.5f, 0.25f, ValueType = SliderValueType.Duration)]
+        public float BreakfastDuration { get; set; }
+
+        /// <summary>
+        /// Gets or sets the end daytime hour when the Cims go out for breakfast.
+        /// </summary>
+        [ConfigItem("4Time", "1Meal", 5)]
+        [ConfigItemSlider(8f, 10f, 0.25f, ValueType = SliderValueType.Time, MinFrom = nameof(BreakfastBegin), MinOffset = 2f)]
+        public float BreakfastEnd { get; set; }
+
+        /// <summary>
+        /// Gets or sets the start daytime hour when the Cims go out for lunch.
+        /// </summary>
+        [ConfigItem("4Time", "1Meal", 6)]
+        [ConfigItemSlider(11f, 13f, 0.25f, ValueType = SliderValueType.Time)]
+        public float LunchBegin { get; set; }
+
+        /// <summary>
+        /// Gets or sets the duration time of eating lunch.
+        /// </summary>
+        [ConfigItem("4Time", "1Meal", 7)]
+        [ConfigItemSlider(0.5f, 2f, 0.25f, ValueType = SliderValueType.Duration)]
+        public float LunchDuration { get; set; }
+
+        /// <summary>
+        /// Gets or sets the end daytime hour when the Cims go out for lunch.
+        /// </summary>
+        [ConfigItem("4Time", "1Meal", 8)]
+        [ConfigItemSlider(13f, 15f, 0.25f, ValueType = SliderValueType.Time, MinFrom = nameof(LunchBegin), MinOffset = 2f)]
+        public float LunchEnd { get; set; }
+
+        /// <summary>
+        /// Gets or sets the start daytime hour when the Cims go out for supper.
+        /// </summary>
+        [ConfigItem("4Time", "1Meal", 9)]
+        [ConfigItemSlider(17f, 19f, 0.25f, ValueType = SliderValueType.Time)]
+        public float SupperBegin { get; set; }
+
+        /// <summary>
+        /// Gets or sets the duration time of eating supper.
+        /// </summary>
+        [ConfigItem("4Time", "1Meal", 10)]
+        [ConfigItemSlider(0.5f, 2f, 0.25f, ValueType = SliderValueType.Duration)]
+        public float SupperDuration { get; set; }
+
+        /// <summary>
+        /// Gets or sets the end daytime hour when the Cims go out for supper.
+        /// </summary>
+        [ConfigItem("4Time", "1Meal", 11)]
+        [ConfigItemSlider(19f, 21f, 0.25f, ValueType = SliderValueType.Time, MinFrom = nameof(SupperBegin), MinOffset = 2f)]
+        public float SupperEnd  { get; set; }
+
+        /// <summary>
         /// Gets or sets the school start daytime hour. The young Cims must go at school or university.
         /// </summary>
-        [ConfigItem("4Time", 15)]
+        [ConfigItem("4Time", "2Education", 0)]
         [ConfigItemSlider(4, 10, 0.25f, ValueType = SliderValueType.Time)]
         public float SchoolBegin { get; set; }
 
         /// <summary>
         /// Gets or sets the school end daytime hour. The young Cims must return from school or university.
         /// </summary>
-        [ConfigItem("4Time", 16)]
+        [ConfigItem("4Time", "2Education", 1)]
         [ConfigItemSlider(11, 16, 0.25f, ValueType = SliderValueType.Time, MinFrom = nameof(SchoolBegin), MinOffset = 6f)]
         public float SchoolEnd { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum vacation length in days.
         /// </summary>
-        [ConfigItem("4Time", 17)]
+        [ConfigItem("4Time", "2Education", 3)]
         [ConfigItemSlider(0, 7, ValueType = SliderValueType.Default)]
         public uint MaxVacationLength { get; set; }
 
         /// <summary>
         /// Gets or sets the length of the academic year in hours.
         /// </summary>
-        [ConfigItem("4Time", 18)]
+        [ConfigItem("4Time", "2Education", 4)]
         [ConfigItemSlider(1f, 30f, 1f, ValueType = SliderValueType.Default)]
         public float AcademicYearLength { get; set; }
 
         /// <summary>
         /// Gets or sets the length of a Toga party in hours.
         /// </summary>
-        [ConfigItem("4Time", 19)]
+        [ConfigItem("4Time", "2Education", 5)]
         [ConfigItemSlider(4f, 24f, 1f, ValueType = SliderValueType.Default)]
         public float TogaPartyLength { get; set; }
-
-        /// <summary>
-        /// Gets or sets the interval in days at which Cims visit the bank or post office.
-        /// </summary>
-        [ConfigItem("4Time", 20)]
-        [ConfigItemSlider(1f, 7f, 1f, ValueType = SliderValueType.Default)]
-        public float VisitBankOrPostOfficeInterval { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether time range restrictions are enabled for garbage collection at residential buildings.
         /// When set to <c>false</c>, garbage collection operates 24/7.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 2)]
+        [ConfigItem("5Services", "0Garbage", 0)]
         [ConfigItemCheckBox]
         public bool EnableTimeRangeGarbageResidential { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the garbage collection starts for residential buildings.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 3)]
+        [ConfigItem("5Services", "0Garbage", 1)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float GarbageResidentialStartHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the garbage collection ends for residential buildings.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 4)]
+        [ConfigItem("5Services", "0Garbage", 2)]
         [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(GarbageResidentialStartHour), MinOffset = 2f)]
         public float GarbageResidentialEndHour { get; set; }
 
@@ -525,21 +525,21 @@ namespace RealTime.Config
         /// Gets or sets a value indicating whether time range restrictions are enabled for garbage collection at commercial buildings.
         /// When set to <c>false</c>, garbage collection operates 24/7.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 5)]
+        [ConfigItem("5Services", "0Garbage", 3)]
         [ConfigItemCheckBox]
         public bool EnableTimeRangeGarbageCommercial { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the garbage collection starts for commercial buildings.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 6)]
+        [ConfigItem("5Services", "0Garbage", 4)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float GarbageCommercialStartHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the garbage collection ends for commercial buildings.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 7)]
+        [ConfigItem("5Services", "0Garbage", 5)]
         [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(GarbageCommercialStartHour), MinOffset = 2f)]
         public float GarbageCommercialEndHour { get; set; }
 
@@ -547,21 +547,21 @@ namespace RealTime.Config
         /// Gets or sets a value indicating whether time range restrictions are enabled for garbage collection at industrial buildings.
         /// When set to <c>false</c>, garbage collection operates 24/7.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 8)]
+        [ConfigItem("5Services", "0Garbage", 6)]
         [ConfigItemCheckBox]
         public bool EnableTimeRangeGarbageIndustrial { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the garbage collection starts for industrial buildings.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 9)]
+        [ConfigItem("5Services", "0Garbage", 7)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float GarbageIndustrialStartHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the garbage collection ends for industrial buildings.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 10)]
+        [ConfigItem("5Services", "0Garbage", 8)]
         [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(GarbageIndustrialStartHour), MinOffset = 2f)]
         public float GarbageIndustrialEndHour { get; set; }
 
@@ -569,21 +569,21 @@ namespace RealTime.Config
         /// Gets or sets a value indicating whether time range restrictions are enabled for garbage collection at office buildings.
         /// When set to <c>false</c>, garbage collection operates 24/7.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 11)]
+        [ConfigItem("5Services", "0Garbage", 9)]
         [ConfigItemCheckBox]
         public bool EnableTimeRangeGarbageOffice { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the garbage collection starts for office buildings.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 12)]
+        [ConfigItem("5Services", "0Garbage", 10)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float GarbageOfficeStartHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the garbage collection ends for office buildings.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 13)]
+        [ConfigItem("5Services", "0Garbage", 11)]
         [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(GarbageOfficeStartHour), MinOffset = 2f)]
         public float GarbageOfficeEndHour { get; set; }
 
@@ -591,21 +591,21 @@ namespace RealTime.Config
         /// Gets or sets a value indicating whether time range restrictions are enabled for garbage collection at other buildings.
         /// When set to <c>false</c>, garbage collection operates 24/7.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 14)]
+        [ConfigItem("5Services", "0Garbage", 12)]
         [ConfigItemCheckBox]
         public bool EnableTimeRangeGarbageOther { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the garbage collection starts for other buildings.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 15)]
+        [ConfigItem("5Services", "0Garbage", 13)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float GarbageOtherStartHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the garbage collection ends for other buildings.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 16)]
+        [ConfigItem("5Services", "0Garbage", 14)]
         [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(GarbageOtherStartHour), MinOffset = 2f)]
         public float GarbageOtherEndHour { get; set; }
 

@@ -34,7 +34,6 @@ namespace RealTime.Core
         public static readonly string modVersion = "2.8";
         private readonly string modPath = GetModPath();
 
-
         public static ConfigurationProvider<RealTimeConfig> configProvider;
         private RealTimeCore core;
         private ConfigUI configUI;
@@ -205,6 +204,9 @@ namespace RealTime.Core
                     ParkBuildingTypeCheck(buildingId);
                 }
             }
+
+            RealTimeConfig.IsCityReady = true;
+            configProvider.Configuration.ApplyWeekendSetting();
         }
 
         /// <summary>
@@ -221,6 +223,7 @@ namespace RealTime.Core
             }
 
             configProvider.LoadDefaultConfiguration();
+            RealTimeConfig.IsCityReady = false;
         }
 
         private static string GetModPath()

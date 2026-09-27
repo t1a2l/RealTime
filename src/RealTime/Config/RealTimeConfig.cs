@@ -5,6 +5,7 @@ namespace RealTime.Config
     using System;
     using System.Reflection;
     using ColossalFramework;
+    using RealTime.Core;
     using RealTime.Managers;
     using SkyTools.Configuration;
     using SkyTools.Tools;
@@ -85,7 +86,27 @@ namespace RealTime.Config
                 }
 
                 field = value;
-                OnWeekendEnabledChanged(value);
+
+                if (IsCityReady)
+                {
+                    OnWeekendEnabledChanged(value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets this when the city is ready.
+        /// </summary>
+        internal static bool IsCityReady { get; set; }
+
+        /// <summary>
+        /// Apply when city is ready
+        /// </summary>
+        internal void ApplyWeekendSetting()
+        {
+            if (IsCityReady)
+            {
+                OnWeekendEnabledChanged(IsWeekendEnabled);
             }
         }
 

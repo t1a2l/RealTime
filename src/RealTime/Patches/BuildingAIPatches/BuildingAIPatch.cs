@@ -27,7 +27,7 @@ namespace RealTime.Patches.BuildingAIPatches
         [HarmonyPostfix]
         private static void CalculateUnspawnPosition(BuildingAI __instance, ushort buildingID, ref Building data, ref Randomizer randomizer, CitizenInfo info, ref Vector3 position, ref Vector3 target, ref CitizenInstance.Flags specialFlags)
         {
-            if (WeatherInfo != null && !WeatherInfo.IsBadWeather || data.Info == null || data.Info.m_enterDoors == null)
+            if (WeatherInfo == null || WeatherInfo != null && !WeatherInfo.IsBadWeather || data.Info == null || data.Info.m_enterDoors == null)
             {
                 return;
             }

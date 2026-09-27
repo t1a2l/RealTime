@@ -311,7 +311,7 @@ namespace RealTime.Core
                 }
                 else
                 {
-                    BuildingWorkTimeManager.CheckBuildingWorkTime(buildingID, buildingInfo);
+                    BuildingWorkTimeManager.SetBuildingWorkTimeDefaults(buildingID, buildingInfo);
                 }
             }
             else if (!BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID) && BuildingWorkTimeManager.ShouldHaveBuildingWorkTime(buildingID))

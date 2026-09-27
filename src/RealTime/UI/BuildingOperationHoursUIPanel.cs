@@ -1303,7 +1303,7 @@ namespace RealTime.UI
 
         private void BackToDefault(ushort buildingID, BuildingInfo buildingInfo)
         {
-            var buildingWorkTimeDefault = BuildingWorkTimeManager.CreateDefaultBuildingWorkTime(buildingID, buildingInfo);
+            var buildingWorkTimeDefault = BuildingWorkTimeManager.GetDefaultBuildingWorkTime(buildingID, buildingInfo);
 
             SetActiveDays(buildingWorkTimeDefault.WorkDays);
             SetActiveShifts(buildingWorkTimeDefault.WorkShifts);

@@ -274,36 +274,47 @@
   <translation id="SnowRoadsOtherEndHour" value="Fine servizi neve altre strade" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="Fine attività dei servizi neve per le altre strade." />
 
-  <translation id="CurrentPlannedAction" value="Pianifica ora" /> 
-  <translation id="NextScheduledActionTime" value="Cambiamenti a" />
-  <translation id="NextScheduledAction" value="Poi" />
+  <translation id="ScheduledState" value="Azione successiva" />
+  <translation id="ScheduledStateTime" value="alle" />
   <translation id="CurrentState" value="Stato attuale" />
-  <translation id="ScheduledAction.GoHome" value="Ritorno a casa" />
+  <translation id="ScheduledState.Unknown" value="Decidendo cosa fare dopo..." />
+  <translation id="ScheduledState.UnknownAt" value="Deciderà cosa fare dopo" />
+  <translation id="ScheduledState.GoHome" value="Andare a casa" />
+  <translation id="ActiveTravelState.GoHome" value="Andando a casa" />
   <translation id="CurrentState.AtHome" value="A casa" />
-  <translation id="ScheduledAction.GoToSchool" value="Andando a scuola" />
+  <translation id="ScheduledState.GoToSchool" value="Andare a scuola" />
+  <translation id="ActiveTravelState.GoToSchool" value="Andando a scuola" />
   <translation id="CurrentState.AtSchool" value="A scuola" />
-  <translation id="ScheduledAction.GoToWork" value="Andando al lavoro" />
+  <translation id="ScheduledState.GoToWork" value="Andare al lavoro" />
+  <translation id="ActiveTravelState.GoToWork" value="Andando al lavoro" />
   <translation id="CurrentState.AtWork" value="Al lavoro" />
-  <translation id="ScheduledAction.GoShopping" value="Andando a fare shopping" />
-  <translation id="CurrentState.Shopping" value="Facendo shopping" />
-  <translation id="ScheduledAction.GoToRelaxg" value="Andando a rilassarsi" />
+  <translation id="ScheduledState.GoShopping" value="Andare a fare shopping" />
+  <translation id="ActiveTravelState.GoShopping" value="Andando a fare shopping" />
+  <translation id="CurrentState.Shopping" value="Fare shopping" />
+  <translation id="ScheduledState.GoToRelax" value="Andare a rilassarsi" />
+  <translation id="ActiveTravelState.GoToRelax" value="Andando a rilassarsi" />
   <translation id="CurrentState.Relaxing" value="Rilassandosi" />
-  <translation id="ScheduledAction.GoToVisit" value="In visita" />
+  <translation id="ScheduledState.GoToVisit" value="Andare a visitare" />
+  <translation id="ActiveTravelState.GoToVisit" value="Andando a visitare" />
   <translation id="CurrentState.Visiting" value="Visitando" />
-  <translation id="ScheduledAction.GoToShelter" value="Andando a un rifugio" />
+  <translation id="ScheduledState.GoToShelter" value="Andare al rifugio" />
+  <translation id="ActiveTravelState.GoToShelter" value="Andando al rifugio" />
   <translation id="CurrentState.InShelter" value="Al rifugio" />
-  <translation id="ScheduledAction.GoToBank" value="Andando in banca" />
+  <translation id="ScheduledState.GoToBank" value="Andare in banca" />
+  <translation id="ActiveTravelState.GoToBank" value="Andando in banca" />
   <translation id="CurrentState.AtBank" value="In banca" />
-  <translation id="ScheduledAction.GoToPostOffice" value="Andando all'ufficio postale" />
+  <translation id="ScheduledState.GoToPostOffice" value="Andare all'ufficio postale" />
+  <translation id="ActiveTravelState.GoToPostOffice" value="Andando all'ufficio postale" />
   <translation id="CurrentState.AtPostOffice" value="All'ufficio postale" />
-  <translation id="ScheduledAction.GoToMeal" value="Andando a mangiare" />
-  <translation id="CurrentState.EatMeal" value="Mangiare" />
+  <translation id="ScheduledState.GoToMeal" value="Andare a mangiare" />
+  <translation id="ActiveTravelState.GoToMeal" value="Andando a mangiare" />
+  <translation id="CurrentState.EatMeal" value="Mangiando" />
   <translation id="MealType.Breakfast" value="colazione" />
   <translation id="MealType.Lunch" value="pranzo" />
   <translation id="MealType.Supper" value="cena" />
   <translation id="MealType.Other" value="uno spuntino" />
   <translation id="WorkShift.Assigned" value="Assegnato al turno" />
-  <translation id="WorkStatus.OnVacation" value="(In vacanza: ancora {0} gg)" />
+  <translation id="WorkStatus.OnVacation" value="(vacanza: {0} giorni)" />
 
   <translation id="AcademicYear.DaysLeft" value="{0} gg rimasti" />
   <translation id="AcademicYear.HoursLeft" value="{0} ore rimaste" />

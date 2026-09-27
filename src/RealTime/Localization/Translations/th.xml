@@ -274,35 +274,46 @@
   <translation id="SnowRoadsOtherEndHour" value="ถนนอื่น ๆ: สิ้นสุด" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="เวลาสิ้นสุดบริการหิมะสำหรับถนนอื่น ๆ" />
 
-  <translation id="CurrentPlannedAction" value="วางแผนตอนนี้" />
-  <translation id="NextScheduledActionTime" value="เปลี่ยนแปลงเวลา" />
-  <translation id="NextScheduledAction" value="จากนั้น" />
+  <translation id="ScheduledState" value="การกระทำถัดไป" />
+  <translation id="ScheduledStateTime" value="เวลา" />
   <translation id="CurrentState" value="สถานะปัจจุบัน" />
-  <translation id="ScheduledAction.GoHome" value="กลับบ้าน" />
+  <translation id="ScheduledState.Unknown" value="กำลังตัดสินใจว่าจะทำอะไรต่อไป..." />
+  <translation id="ScheduledState.UnknownAt" value="จะตัดสินใจว่าจะทำอะไรต่อไป" />
+  <translation id="ScheduledState.GoHome" value="กลับบ้าน" />
+  <translation id="ActiveTravelState.GoHome" value="กำลังกลับบ้าน" />
   <translation id="CurrentState.AtHome" value="อยู่บ้าน" />
-  <translation id="ScheduledAction.GoToSchool" value="ไปโรงเรียน" />
-  <translation id="CurrentState.AtSchool" value="อยู่ที่โรงเรียน" />
-  <translation id="ScheduledAction.GoToWork" value="ไปทำงาน" />
+  <translation id="ScheduledState.GoToSchool" value="ไปโรงเรียน" />
+  <translation id="ActiveTravelState.GoToSchool" value="กำลังไปโรงเรียน" />
+  <translation id="CurrentState.AtSchool" value="อยู่โรงเรียน" />
+  <translation id="ScheduledState.GoToWork" value="ไปทำงาน" />
+  <translation id="ActiveTravelState.GoToWork" value="กำลังไปทำงาน" />
   <translation id="CurrentState.AtWork" value="อยู่ที่ทำงาน" />
-  <translation id="ScheduledAction.GoShopping" value="ไปชอปปิง" />
-  <translation id="CurrentState.Shopping" value="กำลังชอปปิง" />
-  <translation id="ScheduledAction.GoToRelaxg" value="ไปพักผ่อน" />
+  <translation id="ScheduledState.GoShopping" value="ไปช้อปปิ้ง" />
+  <translation id="ActiveTravelState.GoShopping" value="กำลังไปช้อปปิ้ง" />
+  <translation id="CurrentState.Shopping" value="กำลังช้อปปิ้ง" />
+  <translation id="ScheduledState.GoToRelax" value="ไปพักผ่อน" />
+  <translation id="ActiveTravelState.GoToRelax" value="กำลังไปพักผ่อน" />
   <translation id="CurrentState.Relaxing" value="กำลังพักผ่อน" />
-  <translation id="ScheduledAction.GoToVisit" value="ไปเยี่ยมเยียน" />
-  <translation id="CurrentState.Visiting" value="กำลังเยี่ยมเยียน" />
-  <translation id="ScheduledAction.GoToShelter" value="ไปที่ที่พักพิง" />
-  <translation id="CurrentState.InShelter" value="อยู่ที่ที่พักพิง" />
-  <translation id="ScheduledAction.GoToBank" value="ไปที่ธนาคาร" />
+  <translation id="ScheduledState.GoToVisit" value="ไปเยี่ยม" />
+  <translation id="ActiveTravelState.GoToVisit" value="กำลังไปเยี่ยม" />
+  <translation id="CurrentState.Visiting" value="กำลังเยี่ยม" />
+  <translation id="ScheduledState.GoToShelter" value="ไปที่ที่หลบภัย" />
+  <translation id="ActiveTravelState.GoToShelter" value="กำลังไปที่ที่หลบภัย" />
+  <translation id="CurrentState.InShelter" value="อยู่ที่ที่หลบภัย" />
+  <translation id="ScheduledState.GoToBank" value="ไปธนาคาร" />
+  <translation id="ActiveTravelState.GoToBank" value="กำลังไปธนาคาร" />
   <translation id="CurrentState.AtBank" value="อยู่ที่ธนาคาร" />
-  <translation id="ScheduledAction.GoToPostOffice" value="ไปที่ทำการไปรษณีย์" />
-  <translation id="CurrentState.AtPostOffice" value="อยู่ที่ทำการไปรษณีย์" />
-  <translation id="ScheduledAction.GoToMeal" value="ไปทานอาหาร" />
+  <translation id="ScheduledState.GoToPostOffice" value="ไปไปรษณีย์" />
+  <translation id="ActiveTravelState.GoToPostOffice" value="กำลังไปไปรษณีย์" />
+  <translation id="CurrentState.AtPostOffice" value="อยู่ที่ไปรษณีย์" />
+  <translation id="ScheduledState.GoToMeal" value="ไปทานอาหาร" />
+  <translation id="ActiveTravelState.GoToMeal" value="กำลังไปทานอาหาร" />
   <translation id="CurrentState.EatMeal" value="กำลังทานอาหาร" />
   <translation id="MealType.Breakfast" value="อาหารเช้า" />
   <translation id="MealType.Lunch" value="อาหารกลางวัน" />
   <translation id="MealType.Supper" value="อาหารเย็น" />
-  <translation id="MealType.Other" value="ของว่าง" />
-  <translation id="WorkShift.Assigned" value="ได้รับมอบหมายให้ทำงาน" />
+  <translation id="MealType.Other" value="อาหารว่าง" />
+  <translation id="WorkShift.Assigned" value="ได้รับมอบหมายกะการทำงาน" />
   <translation id="WorkStatus.OnVacation" value="(ลาพักร้อน: {0} วัน)" />
 
   <translation id="AcademicYear.DaysLeft" value="เหลืออีก {0} วันจะจบปีการศึกษา" />

@@ -274,36 +274,47 @@
   <translation id="SnowRoadsOtherEndHour" value="其他道路除雪：结束时间" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="其他道路除雪服务停止的时间" />
 
-  <translation id="CurrentPlannedAction" value="现在计划" /> 
-  <translation id="NextScheduledActionTime" value="更改时间" />
-  <translation id="NextScheduledAction" value="然后" />
+  <translation id="ScheduledState" value="下一步行动" />
+  <translation id="ScheduledStateTime" value="在" />
   <translation id="CurrentState" value="当前状态" />
-  <translation id="ScheduledAction.GoHome" value="回家" />
+  <translation id="ScheduledState.Unknown" value="决定下一步做什么..." />
+  <translation id="ScheduledState.UnknownAt" value="将决定下一步做什么" />
+  <translation id="ScheduledState.GoHome" value="回家" />
+  <translation id="ActiveTravelState.GoHome" value="正在回家" />
   <translation id="CurrentState.AtHome" value="在家" />
-  <translation id="ScheduledAction.GoToSchool" value="去上学" />
+  <translation id="ScheduledState.GoToSchool" value="去上学" />
+  <translation id="ActiveTravelState.GoToSchool" value="正在去上学" />
   <translation id="CurrentState.AtSchool" value="在学校" />
-  <translation id="ScheduledAction.GoToWork" value="去上班" />
+  <translation id="ScheduledState.GoToWork" value="去上班" />
+  <translation id="ActiveTravelState.GoToWork" value="正在去上班" />
   <translation id="CurrentState.AtWork" value="在工作" />
-  <translation id="ScheduledAction.GoShopping" value="去购物" />
-  <translation id="CurrentState.Shopping" value="正在购物" />
-  <translation id="ScheduledAction.GoToRelaxg" value="去放松" />
-  <translation id="CurrentState.Relaxing" value="正在休息" />
-  <translation id="ScheduledAction.GoToVisit" value="去访问" />
-  <translation id="CurrentState.Visiting" value="正在访问" />
-  <translation id="ScheduledAction.GoToShelter" value="去避难所" />
+  <translation id="ScheduledState.GoShopping" value="去购物" />
+  <translation id="ActiveTravelState.GoShopping" value="正在去购物" />
+  <translation id="CurrentState.Shopping" value="购物中" />
+  <translation id="ScheduledState.GoToRelax" value="去放松" />
+  <translation id="ActiveTravelState.GoToRelax" value="正在去放松" />
+  <translation id="CurrentState.Relaxing" value="放松中" />
+  <translation id="ScheduledState.GoToVisit" value="去访问" />
+  <translation id="ActiveTravelState.GoToVisit" value="正在去访问" />
+  <translation id="CurrentState.Visiting" value="访问中" />
+  <translation id="ScheduledState.GoToShelter" value="去避难所" />
+  <translation id="ActiveTravelState.GoToShelter" value="正在去避难所" />
   <translation id="CurrentState.InShelter" value="在避难所" />
-  <translation id="ScheduledAction.GoToBank" value="去银行" />
+  <translation id="ScheduledState.GoToBank" value="去银行" />
+  <translation id="ActiveTravelState.GoToBank" value="正在去银行" />
   <translation id="CurrentState.AtBank" value="在银行" />
-  <translation id="ScheduledAction.GoToPostOffice" value="去邮局" />
+  <translation id="ScheduledState.GoToPostOffice" value="去邮局" />
+  <translation id="ActiveTravelState.GoToPostOffice" value="正在去邮局" />
   <translation id="CurrentState.AtPostOffice" value="在邮局" />
-  <translation id="ScheduledAction.GoToMeal" value="去吃饭" />
-  <translation id="CurrentState.EatMeal" value="正在吃饭" />
+  <translation id="ScheduledState.GoToMeal" value="去吃饭" />
+  <translation id="ActiveTravelState.GoToMeal" value="正在去吃饭" />
+  <translation id="CurrentState.EatMeal" value="吃饭中" />
   <translation id="MealType.Breakfast" value="早餐" />
   <translation id="MealType.Lunch" value="午餐" />
   <translation id="MealType.Supper" value="晚餐" />
-  <translation id="MealType.Other" value="零食" />
-  <translation id="WorkShift.Assigned" value="已分配班次" />
-  <translation id="WorkStatus.OnVacation" value="(休假中：{0} 天)" />
+  <translation id="MealType.Other" value="小食" />
+  <translation id="WorkShift.Assigned" value="分配班次" />
+  <translation id="WorkStatus.OnVacation" value="（休假：{0} 天）" />
 
   <translation id="AcademicYear.DaysLeft" value="还有 {0} 天结束" />
   <translation id="AcademicYear.HoursLeft" value="还有 {0} 小时结束" />

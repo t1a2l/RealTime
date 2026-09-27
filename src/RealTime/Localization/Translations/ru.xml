@@ -274,35 +274,46 @@
   <translation id="SnowRoadsOtherEndHour" value="Обслуживание дорог (прочие): конец" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="Время окончания работы служб уборки снега для прочих дорог" />
 
-  <translation id="CurrentPlannedAction" value="Планировать сейчас" />
-  <translation id="NextScheduledActionTime" value="Изменения в" />
-  <translation id="NextScheduledAction" value="Тогда" />
+  <translation id="ScheduledState" value="Следующее действие" />
+  <translation id="ScheduledStateTime" value="в" />
   <translation id="CurrentState" value="Текущее состояние" />
-  <translation id="ScheduledAction.GoHome" value="Домой" />
+  <translation id="ScheduledState.Unknown" value="Решаю, что делать дальше..." />
+  <translation id="ScheduledState.UnknownAt" value="Решит, что делать дальше" />
+  <translation id="ScheduledState.GoHome" value="Идти домой" />
+  <translation id="ActiveTravelState.GoHome" value="Идёт домой" />
   <translation id="CurrentState.AtHome" value="Дома" />
-  <translation id="ScheduledAction.GoToSchool" value="В школу" />
+  <translation id="ScheduledState.GoToSchool" value="Идти в школу" />
+  <translation id="ActiveTravelState.GoToSchool" value="Идёт в школу" />
   <translation id="CurrentState.AtSchool" value="В школе" />
-  <translation id="ScheduledAction.GoToWork" value="На работу" />
+  <translation id="ScheduledState.GoToWork" value="Идти на работу" />
+  <translation id="ActiveTravelState.GoToWork" value="Идёт на работу" />
   <translation id="CurrentState.AtWork" value="На работе" />
-  <translation id="ScheduledAction.GoShopping" value="За покупками" />
-  <translation id="CurrentState.Shopping" value="В магазине" />
-  <translation id="ScheduledAction.GoToRelaxg" value="Отдыхать" />
+  <translation id="ScheduledState.GoShopping" value="Идти за покупками" />
+  <translation id="ActiveTravelState.GoShopping" value="Идёт за покупками" />
+  <translation id="CurrentState.Shopping" value="Покупает" />
+  <translation id="ScheduledState.GoToRelax" value="Идти отдыхать" />
+  <translation id="ActiveTravelState.GoToRelax" value="Идёт отдыхать" />
   <translation id="CurrentState.Relaxing" value="Отдыхает" />
-  <translation id="ScheduledAction.GoToVisit" value="В гости" />
+  <translation id="ScheduledState.GoToVisit" value="Идти в гости" />
+  <translation id="ActiveTravelState.GoToVisit" value="Идёт в гости" />
   <translation id="CurrentState.Visiting" value="В гостях" />
-  <translation id="ScheduledAction.GoToShelter" value="Идти в укрытие" />
+  <translation id="ScheduledState.GoToShelter" value="Идти в укрытие" />
+  <translation id="ActiveTravelState.GoToShelter" value="Идёт в укрытие" />
   <translation id="CurrentState.InShelter" value="В укрытии" />
-  <translation id="ScheduledAction.GoToBank" value="Идти в банк" />
+  <translation id="ScheduledState.GoToBank" value="Идти в банк" />
+  <translation id="ActiveTravelState.GoToBank" value="Идёт в банк" />
   <translation id="CurrentState.AtBank" value="В банке" />
-  <translation id="ScheduledAction.GoToPostOffice" value="Идти на почту" />
+  <translation id="ScheduledState.GoToPostOffice" value="Идти на почту" />
+  <translation id="ActiveTravelState.GoToPostOffice" value="Идёт на почту" />
   <translation id="CurrentState.AtPostOffice" value="На почте" />
-  <translation id="ScheduledAction.GoToMeal" value="Поесть" />
+  <translation id="ScheduledState.GoToMeal" value="Идти есть" />
+  <translation id="ActiveTravelState.GoToMeal" value="Идёт есть" />
   <translation id="CurrentState.EatMeal" value="Ест" />
   <translation id="MealType.Breakfast" value="завтрак" />
   <translation id="MealType.Lunch" value="обед" />
   <translation id="MealType.Supper" value="ужин" />
   <translation id="MealType.Other" value="перекус" />
-  <translation id="WorkShift.Assigned" value="Назначен на смену" />
+  <translation id="WorkShift.Assigned" value="Назначена смена" />
   <translation id="WorkStatus.OnVacation" value="(отпуск: {0} дн.)" />
 
   <translation id="AcademicYear.DaysLeft" value="Закончится через {0} дн." />

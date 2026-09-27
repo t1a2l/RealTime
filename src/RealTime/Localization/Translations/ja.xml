@@ -274,36 +274,47 @@
   <translation id="SnowRoadsOtherEndHour" value="その他の道路の除雪終了時間" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="その他の道路の除雪サービスが活動を終了する時間" />
 
-  <translation id="CurrentPlannedAction" value="今すぐ計画" />
-  <translation id="NextScheduledActionTime" value="変更時刻" />
-  <translation id="NextScheduledAction" value="次に" />
+  <translation id="ScheduledState" value="次のアクション" />
+  <translation id="ScheduledStateTime" value="時刻" />
   <translation id="CurrentState" value="現在の状態" />
-  <translation id="ScheduledAction.GoHome" value="帰宅中" />
-  <translation id="CurrentState.AtHome" value="自宅" />
-  <translation id="ScheduledAction.GoToSchool" value="登校中" />
-  <translation id="CurrentState.AtSchool" value="学校" />
-  <translation id="ScheduledAction.GoToWork" value="出勤中" />
+  <translation id="ScheduledState.Unknown" value="次にすることを決定中..." />
+  <translation id="ScheduledState.UnknownAt" value="次にすることを決定します" />
+  <translation id="ScheduledState.GoHome" value="家に帰る" />
+  <translation id="ActiveTravelState.GoHome" value="家に帰る中" />
+  <translation id="CurrentState.AtHome" value="家にいる" />
+  <translation id="ScheduledState.GoToSchool" value="学校に行く" />
+  <translation id="ActiveTravelState.GoToSchool" value="学校に向かう中" />
+  <translation id="CurrentState.AtSchool" value="学校にいる" />
+  <translation id="ScheduledState.GoToWork" value="仕事に行く" />
+  <translation id="ActiveTravelState.GoToWork" value="仕事に向かう中" />
   <translation id="CurrentState.AtWork" value="仕事中" />
-  <translation id="ScheduledAction.GoShopping" value="買い物中" />
+  <translation id="ScheduledState.GoShopping" value="買い物に行く" />
+  <translation id="ActiveTravelState.GoShopping" value="買い物に向かう中" />
   <translation id="CurrentState.Shopping" value="買い物中" />
-  <translation id="ScheduledAction.GoToRelaxg" value="リラックス中" />
-  <translation id="CurrentState.Relaxing" value="休憩中" />
-  <translation id="ScheduledAction.GoToVisit" value="訪問中" />
+  <translation id="ScheduledState.GoToRelax" value="休息に行く" />
+  <translation id="ActiveTravelState.GoToRelax" value="休息に向かう中" />
+  <translation id="CurrentState.Relaxing" value="休息中" />
+  <translation id="ScheduledState.GoToVisit" value="訪問に行く" />
+  <translation id="ActiveTravelState.GoToVisit" value="訪問に向かう中" />
   <translation id="CurrentState.Visiting" value="訪問中" />
-  <translation id="ScheduledAction.GoToShelter" value="避難所に行く" />
-  <translation id="CurrentState.InShelter" value="避難所にいる" />
-  <translation id="ScheduledAction.GoToBank" value="銀行に行く" />
+  <translation id="ScheduledState.GoToShelter" value="シェルターに行く" />
+  <translation id="ActiveTravelState.GoToShelter" value="シェルターに向かう中" />
+  <translation id="CurrentState.InShelter" value="シェルターにいる" />
+  <translation id="ScheduledState.GoToBank" value="銀行に行く" />
+  <translation id="ActiveTravelState.GoToBank" value="銀行に向かう中" />
   <translation id="CurrentState.AtBank" value="銀行にいる" />
-  <translation id="ScheduledAction.GoToPostOffice" value="郵便局に行く" />
+  <translation id="ScheduledState.GoToPostOffice" value="郵便局に行く" />
+  <translation id="ActiveTravelState.GoToPostOffice" value="郵便局に向かう中" />
   <translation id="CurrentState.AtPostOffice" value="郵便局にいる" />
-  <translation id="ScheduledAction.GoToMeal" value="食事中" />
+  <translation id="ScheduledState.GoToMeal" value="食事に行く" />
+  <translation id="ActiveTravelState.GoToMeal" value="食事に向かう中" />
   <translation id="CurrentState.EatMeal" value="食事中" />
   <translation id="MealType.Breakfast" value="朝食" />
   <translation id="MealType.Lunch" value="昼食" />
   <translation id="MealType.Supper" value="夕食" />
-  <translation id="MealType.Other" value="おやつ" />
-  <translation id="WorkShift.Assigned" value="シフトに割り当て済み" />
-  <translation id="WorkStatus.OnVacation" value="(休暇中：残り {0} 日)" />
+  <translation id="MealType.Other" value="軽食" />
+  <translation id="WorkShift.Assigned" value="シフトに割り当てられている" />
+  <translation id="WorkStatus.OnVacation" value="（休暇中: {0} 日間）" />
 
   <translation id="AcademicYear.DaysLeft" value="残り {0} 日" />
   <translation id="AcademicYear.HoursLeft" value="残り {0} 時間" />

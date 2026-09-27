@@ -274,36 +274,47 @@
   <translation id="SnowRoadsOtherEndHour" value="Поддръжка на други пътища: край" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="Кога приключва поддръжката на други пътища" />
 
-  <translation id="CurrentPlannedAction" value="Планирай сега" />
-  <translation id="NextScheduledActionTime" value="Промени в" />
-  <translation id="NextScheduledAction" value="След това" />
+  <translation id="ScheduledState" value="Следващо действие" />
+  <translation id="ScheduledStateTime" value="в" />
   <translation id="CurrentState" value="Текущо състояние" />
-  <translation id="ScheduledAction.GoHome" value="Към вкъщи" />
+  <translation id="ScheduledState.Unknown" value="Решаване какво да направи следващо..." />
+  <translation id="ScheduledState.UnknownAt" value="Ще решава какво да направи следващо" />
+  <translation id="ScheduledState.GoHome" value="Отиди вкъщи" />
+  <translation id="ActiveTravelState.GoHome" value="Отиване вкъщи" />
   <translation id="CurrentState.AtHome" value="Вкъщи" />
-  <translation id="ScheduledAction.GoToSchool" value="На училище" />
+  <translation id="ScheduledState.GoToSchool" value="Отиди в училище" />
+  <translation id="ActiveTravelState.GoToSchool" value="Отиване в училище" />
   <translation id="CurrentState.AtSchool" value="В училище" />
-  <translation id="ScheduledAction.GoToWork" value="На работа" />
+  <translation id="ScheduledState.GoToWork" value="Отиди на работа" />
+  <translation id="ActiveTravelState.GoToWork" value="Отиване на работа" />
   <translation id="CurrentState.AtWork" value="На работа" />
-  <translation id="ScheduledAction.GoShopping" value="На пазар" />
-  <translation id="CurrentState.Shopping" value="Пазарува" />
-  <translation id="ScheduledAction.GoToRelaxg" value="Почивка" />
-  <translation id="CurrentState.Relaxing" value="Почива си" />
-  <translation id="ScheduledAction.GoToVisit" value="На гости" />
-  <translation id="CurrentState.Visiting" value="На гости е" />
-  <translation id="ScheduledAction.GoToShelter" value="Към убежище" />
+  <translation id="ScheduledState.GoShopping" value="Отиди да пазарува" />
+  <translation id="ActiveTravelState.GoShopping" value="Отиване на пазаруване" />
+  <translation id="CurrentState.Shopping" value="Пазаруване" />
+  <translation id="ScheduledState.GoToRelax" value="Отиди да почине" />
+  <translation id="ActiveTravelState.GoToRelax" value="Отиване да почива" />
+  <translation id="CurrentState.Relaxing" value="Почивка" />
+  <translation id="ScheduledState.GoToVisit" value="Отиди да посети" />
+  <translation id="ActiveTravelState.GoToVisit" value="Отиване да посети" />
+  <translation id="CurrentState.Visiting" value="Посещение" />
+  <translation id="ScheduledState.GoToShelter" value="Отиди в убежище" />
+  <translation id="ActiveTravelState.GoToShelter" value="Отиване в убежище" />
   <translation id="CurrentState.InShelter" value="В убежище" />
-  <translation id="ScheduledAction.GoToBank" value="Към банка" />
-  <translation id="CurrentState.AtBank" value="В банка" />
-  <translation id="ScheduledAction.GoToPostOffice" value="Към пощенска станция" />
-  <translation id="CurrentState.AtPostOffice" value="В пощенска станция" />
-  <translation id="ScheduledAction.GoToMeal" value="За хранене" />
-  <translation id="CurrentState.EatMeal" value="Яде" />
+  <translation id="ScheduledState.GoToBank" value="Отиди в банка" />
+  <translation id="ActiveTravelState.GoToBank" value="Отиване в банка" />
+  <translation id="CurrentState.AtBank" value="В банката" />
+  <translation id="ScheduledState.GoToPostOffice" value="Отиди в пощенска станция" />
+  <translation id="ActiveTravelState.GoToPostOffice" value="Отиване в пощенска станция" />
+  <translation id="CurrentState.AtPostOffice" value="В пощенската станция" />
+  <translation id="ScheduledState.GoToMeal" value="Отиди да ядосва" />
+  <translation id="ActiveTravelState.GoToMeal" value="Отиване да хранене" />
+  <translation id="CurrentState.EatMeal" value="Хранене" />
   <translation id="MealType.Breakfast" value="закуска" />
   <translation id="MealType.Lunch" value="обяд" />
   <translation id="MealType.Supper" value="вечеря" />
-  <translation id="MealType.Other" value="снак" />
-  <translation id="WorkShift.Assigned" value="Назначен за смяна" />
-  <translation id="WorkStatus.OnVacation" value="(в отпуск: {0} дни)" />
+  <translation id="MealType.Other" value="закуска" />
+  <translation id="WorkShift.Assigned" value="Назначен на смяна" />
+  <translation id="WorkStatus.OnVacation" value="(отпуск: {0} дни)" />
 
   <translation id="AcademicYear.DaysLeft" value="Завършва след {0} дни" />
   <translation id="AcademicYear.HoursLeft" value="Завършва след {0} часа" />

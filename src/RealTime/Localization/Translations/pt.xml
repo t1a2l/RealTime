@@ -274,29 +274,40 @@
   <translation id="SnowRoadsOtherEndHour" value="Fim da remoção de neve em outras estradas" />
   <translation id="SnowRoadsOtherEndHourTooltip" value="Horário em que os serviços de remoção de neve param de operar para outras estradas" />
 
-  <translation id="CurrentPlannedAction" value="Planejar agora" />
-  <translation id="NextScheduledActionTime" value="Mudanças em" />
-  <translation id="NextScheduledAction" value="Então" />
+  <translation id="ScheduledState" value="Próxima ação" />
+  <translation id="ScheduledStateTime" value="em" />
   <translation id="CurrentState" value="Estado atual" />
-  <translation id="ScheduledAction.GoHome" value="Ir para casa" />
+  <translation id="ScheduledState.Unknown" value="Decidindo o que fazer a seguir..." />
+  <translation id="ScheduledState.UnknownAt" value="Decidirá o que fazer a seguir" />
+  <translation id="ScheduledState.GoHome" value="Ir para casa" />
+  <translation id="ActiveTravelState.GoHome" value="Indo para casa" />
   <translation id="CurrentState.AtHome" value="Em casa" />
-  <translation id="ScheduledAction.GoToSchool" value="Ir para a escola" />
+  <translation id="ScheduledState.GoToSchool" value="Ir para a escola" />
+  <translation id="ActiveTravelState.GoToSchool" value="Indo para a escola" />
   <translation id="CurrentState.AtSchool" value="Na escola" />
-  <translation id="ScheduledAction.GoToWork" value="Ir para o trabalho" />
+  <translation id="ScheduledState.GoToWork" value="Ir para o trabalho" />
+  <translation id="ActiveTravelState.GoToWork" value="Indo para o trabalho" />
   <translation id="CurrentState.AtWork" value="No trabalho" />
-  <translation id="ScheduledAction.GoShopping" value="Ir às compras" />
+  <translation id="ScheduledState.GoShopping" value="Ir fazer compras" />
+  <translation id="ActiveTravelState.GoShopping" value="Indo fazer compras" />
   <translation id="CurrentState.Shopping" value="Comprando" />
-  <translation id="ScheduledAction.GoToRelaxg" value="Ir relaxar" />
+  <translation id="ScheduledState.GoToRelax" value="Ir relaxar" />
+  <translation id="ActiveTravelState.GoToRelax" value="Indo relaxar" />
   <translation id="CurrentState.Relaxing" value="Relaxando" />
-  <translation id="ScheduledAction.GoToVisit" value="Ir visitar" />
+  <translation id="ScheduledState.GoToVisit" value="Ir visitar" />
+  <translation id="ActiveTravelState.GoToVisit" value="Indo visitar" />
   <translation id="CurrentState.Visiting" value="Visitando" />
-  <translation id="ScheduledAction.GoToShelter" value="Ir para um abrigo" />
+  <translation id="ScheduledState.GoToShelter" value="Ir para um abrigo" />
+  <translation id="ActiveTravelState.GoToShelter" value="Indo para um abrigo" />
   <translation id="CurrentState.InShelter" value="No abrigo" />
-  <translation id="ScheduledAction.GoToBank" value="Ir para um banco" />
+  <translation id="ScheduledState.GoToBank" value="Ir para um banco" />
+  <translation id="ActiveTravelState.GoToBank" value="Indo para um banco" />
   <translation id="CurrentState.AtBank" value="No banco" />
-  <translation id="ScheduledAction.GoToPostOffice" value="Ir para um correio" />
-  <translation id="CurrentState.AtPostOffice" value="No correio" />
-  <translation id="ScheduledAction.GoToMeal" value="Ir comer" />
+  <translation id="ScheduledState.GoToPostOffice" value="Ir para uma agência de correios" />
+  <translation id="ActiveTravelState.GoToPostOffice" value="Indo para uma agência de correios" />
+  <translation id="CurrentState.AtPostOffice" value="Na agência de correios" />
+  <translation id="ScheduledState.GoToMeal" value="Ir comer" />
+  <translation id="ActiveTravelState.GoToMeal" value="Indo comer" />
   <translation id="CurrentState.EatMeal" value="Comendo" />
   <translation id="MealType.Breakfast" value="café da manhã" />
   <translation id="MealType.Lunch" value="almoço" />

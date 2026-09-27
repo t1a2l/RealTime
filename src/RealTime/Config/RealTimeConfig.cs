@@ -3,6 +3,7 @@
 namespace RealTime.Config
 {
     using System;
+    using System.Reflection;
     using ColossalFramework;
     using RealTime.Managers;
     using SkyTools.Configuration;
@@ -14,21 +15,26 @@ namespace RealTime.Config
     /// </summary>
     public sealed class RealTimeConfig : IConfiguration
     {
-        /// <summary>The storage ID for the configuration objects.</summary>
+        /// <summary>
+        /// The storage ID for the configuration objects.
+        /// </summary>
         public const string StorageId = "RealTimeConfiguration";
 
-        private const int LatestVersion = 4;
+        private const int LatestVersion = 5;
 
-        /// <summary>Initializes a new instance of the <see cref="RealTimeConfig"/> class.</summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RealTimeConfig"/> class.
+        /// </summary>
         public RealTimeConfig()
         {
             ResetToDefaults();
         }
 
-        /// <summary>Initializes a new instance of the <see cref="RealTimeConfig"/> class.</summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RealTimeConfig"/> class.
+        /// </summary>
         /// <param name="latestVersion">if set to <c>true</c>, the latest version of the configuration will be created.</param>
-        public RealTimeConfig(bool latestVersion)
-            : this()
+        public RealTimeConfig(bool latestVersion) : this()
         {
             if (latestVersion)
             {
@@ -36,7 +42,9 @@ namespace RealTime.Config
             }
         }
 
-        /// <summary>Gets or sets the version number of this configuration.</summary>
+        /// <summary>
+        /// Gets or sets the version number of this configuration.
+        /// </summary>
         public int Version { get; set; }
 
         /// <summary>
@@ -124,38 +132,52 @@ namespace RealTime.Config
         [ConfigItemSlider(0, 100f, 5f, ValueType = SliderValueType.Default)]
         public float SwitchOffLightsMaxHeight { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether a citizen can abandon a journey when being too long in
-        /// a traffic congestion or waiting too long for public transport.</summary>
+        /// <summary>
+        /// Gets or sets a value indicating whether a citizen can abandon a journey when being too long in
+        /// a traffic congestion or waiting too long for public transport.
+        /// </summary>
         [ConfigItem("1General", "1Other", 6)]
         [ConfigItemCheckBox]
         public bool CanAbandonJourney { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether buildings will have RealisticFires</summary>
+        /// <summary>
+        /// Gets or sets a value indicating whether buildings will have RealisticFires.
+        /// </summary>
         [ConfigItem("1General", "1Other", 7)]
         [ConfigItemCheckBox]
         public bool RealisticFires { get; set; }
 
-        /// <summary>garbage accumulation rate</summary>
+        /// <summary>
+        /// Gets or sets the value of slow down garbage accumulation.
+        /// </summary>
         [ConfigItem("1General", "1Other", 8)]
         [ConfigItemSlider(0.05f, 1.0f, 0.05f, ValueType = SliderValueType.Default)]
         public float GarbageSlowDown { get; set; }
 
-        /// <summary>mail accumulation rate</summary>
+        /// <summary>
+        /// Gets or sets the value of slow down mail accumulation.
+        /// </summary>
         [ConfigItem("1General", "1Other", 9)]
         [ConfigItemSlider(0.1f, 1.0f, 0.05f, ValueType = SliderValueType.Default)]
         public float MailSlowDown { get; set; }
 
-        /// <summary>crime accumulation rate</summary>
+        /// <summary>
+        /// Gets or sets the value of slow down crime accumulation.
+        /// </summary>
         [ConfigItem("1General", "1Other", 10)]
         [ConfigItemSlider(0.1f, 1.0f, 0.05f, ValueType = SliderValueType.Default)]
         public float CrimeSlowDown { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether a commerical building will receive goods delivery once a week</summary>
+        /// /// <summary>
+        /// Gets or sets a value indicating whether a commerical building will receive goods delivery once a week.
+        /// </summary>
         [ConfigItem("1General", "1Other", 11)]
         [ConfigItemCheckBox]
         public bool WeeklyCommericalDeliveries { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether the spare time behavior has affect on the dummy traffic ai </summary>
+        /// <summary>
+        /// Gets or sets a value indicating whether the spare time behavior has affect on the dummy traffic AI.
+        /// </summary>
         [ConfigItem("1General", "1Other", 12)]
         [ConfigItemCheckBox]
         public bool DummyTrafficBehavior { get; set; }
@@ -284,7 +306,7 @@ namespace RealTime.Config
         /// Gets or sets the daytime hour when the latest event on a week day can start.
         /// </summary>
         [ConfigItem("3Events", 2)]
-        [ConfigItemSlider(0, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(0, 23.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(EarliestHourEventStartWeekday), MinOffset = 4f)]
         public float LatestHourEventStartWeekday { get; set; }
 
         /// <summary>
@@ -298,7 +320,7 @@ namespace RealTime.Config
         /// Gets or sets the daytime hour when the latest event on a Weekend day can start.
         /// </summary>
         [ConfigItem("3Events", 4)]
-        [ConfigItemSlider(0, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(0, 23.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(EarliestHourEventStartWeekend), MinOffset = 4f)]
         public float LatestHourEventStartWeekend { get; set; }
 
         /// <summary>
@@ -360,7 +382,7 @@ namespace RealTime.Config
         /// Gets or sets the end daytime hour when the Cims go out for breakfast.
         /// </summary>
         [ConfigItem("4Time", 7)]
-        [ConfigItemSlider(8f, 10f, 0.25f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(8f, 10f, 0.25f, ValueType = SliderValueType.Time, MinFrom = nameof(BreakfastBegin), MinOffset = 2f)]
         public float BreakfastEnd { get; set; }
 
         /// <summary>
@@ -381,7 +403,7 @@ namespace RealTime.Config
         /// Gets or sets the end daytime hour when the Cims go out for lunch.
         /// </summary>
         [ConfigItem("4Time", 10)]
-        [ConfigItemSlider(13f, 15f, 0.25f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(13f, 15f, 0.25f, ValueType = SliderValueType.Time, MinFrom = nameof(LunchBegin), MinOffset = 2f)]
         public float LunchEnd { get; set; }
 
         /// <summary>
@@ -402,7 +424,7 @@ namespace RealTime.Config
         /// Gets or sets the end daytime hour when the Cims go out for supper.
         /// </summary>
         [ConfigItem("4Time", 13)]
-        [ConfigItemSlider(19f, 21f, 0.25f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(19f, 21f, 0.25f, ValueType = SliderValueType.Time, MinFrom = nameof(SupperBegin), MinOffset = 2f)]
         public float SupperEnd  { get; set; }
 
         /// <summary>
@@ -425,7 +447,7 @@ namespace RealTime.Config
         /// Gets or sets the school end daytime hour. The young Cims must return from school or university.
         /// </summary>
         [ConfigItem("4Time", 16)]
-        [ConfigItemSlider(11, 16, 0.25f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(11, 16, 0.25f, ValueType = SliderValueType.Time, MinFrom = nameof(SchoolBegin), MinOffset = 6f)]
         public float SchoolEnd { get; set; }
 
         /// <summary>
@@ -457,297 +479,465 @@ namespace RealTime.Config
         public float VisitBankOrPostOfficeInterval { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the garbage service starts for residential buildings.
+        /// Gets or sets a value indicating whether time range restrictions are enabled for garbage collection at residential buildings.
+        /// When set to <c>false</c>, garbage collection operates 24/7.
         /// </summary>
         [ConfigItem("5Services", "0Garbage", 2)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeGarbageResidential { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the garbage collection starts for residential buildings.
+        /// </summary>
+        [ConfigItem("5Services", "0Garbage", 3)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float GarbageResidentialStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the garbage service ends for residential buildings.
+        /// Gets or sets the daytime hour when the garbage collection ends for residential buildings.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 3)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "0Garbage", 4)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(GarbageResidentialStartHour), MinOffset = 2f)]
         public float GarbageResidentialEndHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the garbage service starts for commercial buildings.
+        /// Gets or sets a value indicating whether time range restrictions are enabled for garbage collection at commercial buildings.
+        /// When set to <c>false</c>, garbage collection operates 24/7.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 4)]
+        [ConfigItem("5Services", "0Garbage", 5)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeGarbageCommercial { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the garbage collection starts for commercial buildings.
+        /// </summary>
+        [ConfigItem("5Services", "0Garbage", 6)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float GarbageCommercialStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the garbage service ends for commercial buildings.
+        /// Gets or sets the daytime hour when the garbage collection ends for commercial buildings.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 5)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "0Garbage", 7)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(GarbageCommercialStartHour), MinOffset = 2f)]
         public float GarbageCommercialEndHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the garbage service starts for industrial buildings.
+        /// Gets or sets a value indicating whether time range restrictions are enabled for garbage collection at industrial buildings.
+        /// When set to <c>false</c>, garbage collection operates 24/7.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 6)]
+        [ConfigItem("5Services", "0Garbage", 8)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeGarbageIndustrial { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the garbage collection starts for industrial buildings.
+        /// </summary>
+        [ConfigItem("5Services", "0Garbage", 9)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float GarbageIndustrialStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the garbage service ends for industrial buildings.
+        /// Gets or sets the daytime hour when the garbage collection ends for industrial buildings.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 7)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "0Garbage", 10)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(GarbageIndustrialStartHour), MinOffset = 2f)]
         public float GarbageIndustrialEndHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the garbage service starts for office buildings.
+        /// Gets or sets a value indicating whether time range restrictions are enabled for garbage collection at office buildings.
+        /// When set to <c>false</c>, garbage collection operates 24/7.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 8)]
+        [ConfigItem("5Services", "0Garbage", 11)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeGarbageOffice { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the garbage collection starts for office buildings.
+        /// </summary>
+        [ConfigItem("5Services", "0Garbage", 12)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float GarbageOfficeStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the garbage service ends for office buildings.
+        /// Gets or sets the daytime hour when the garbage collection ends for office buildings.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 9)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "0Garbage", 13)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(GarbageOfficeStartHour), MinOffset = 2f)]
         public float GarbageOfficeEndHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the garbage service starts for other buildings.
+        /// Gets or sets a value indicating whether time range restrictions are enabled for garbage collection at other buildings.
+        /// When set to <c>false</c>, garbage collection operates 24/7.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 10)]
+        [ConfigItem("5Services", "0Garbage", 14)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeGarbageOther { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the garbage collection starts for other buildings.
+        /// </summary>
+        [ConfigItem("5Services", "0Garbage", 15)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float GarbageOtherStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the garbage service ends for other buildings.
+        /// Gets or sets the daytime hour when the garbage collection ends for other buildings.
         /// </summary>
-        [ConfigItem("5Services", "0Garbage", 11)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "0Garbage", 16)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(GarbageOtherStartHour), MinOffset = 2f)]
         public float GarbageOtherEndHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether time range restrictions are enabled for mail service at residential buildings.
+        /// When set to <c>false</c>, mail service operates 24/7.
+        /// </summary>
+        [ConfigItem("5Services", "1Mail", 0)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeMailResidential { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the mail service starts for residential buildings.
         /// </summary>
-        [ConfigItem("5Services", "1Mail", 0)]
+        [ConfigItem("5Services", "1Mail", 1)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float MailResidentialStartHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the mail service ends for residential buildings.
         /// </summary>
-        [ConfigItem("5Services", "1Mail", 1)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "1Mail", 2)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(MailResidentialStartHour), MinOffset = 2f)]
         public float MailResidentialEndHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether time range restrictions are enabled for mail service at commercial buildings.
+        /// When set to <c>false</c>, mail service operates 24/7.
+        /// </summary>
+        [ConfigItem("5Services", "1Mail", 3)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeMailCommercial { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the mail service starts for commercial buildings.
         /// </summary>
-        [ConfigItem("5Services", "1Mail", 2)]
+        [ConfigItem("5Services", "1Mail", 4)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float MailCommercialStartHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the mail service ends for commercial buildings.
         /// </summary>
-        [ConfigItem("5Services", "1Mail", 3)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "1Mail", 5)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(MailCommercialStartHour), MinOffset = 2f)]
         public float MailCommercialEndHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether time range restrictions are enabled for mail service at industrial buildings.
+        /// When set to <c>false</c>, mail service operates 24/7.
+        /// </summary>
+        [ConfigItem("5Services", "1Mail", 6)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeMailIndustrial { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the mail service starts for industrial buildings.
         /// </summary>
-        [ConfigItem("5Services", "1Mail", 4)]
+        [ConfigItem("5Services", "1Mail", 7)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float MailIndustrialStartHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the mail service ends for industrial buildings.
         /// </summary>
-        [ConfigItem("5Services", "1Mail", 5)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "1Mail", 8)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(MailIndustrialStartHour), MinOffset = 2f)]
         public float MailIndustrialEndHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether time range restrictions are enabled for mail service at office buildings.
+        /// When set to <c>false</c>, mail service operates 24/7.
+        /// </summary>
+        [ConfigItem("5Services", "1Mail", 9)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeMailOffice { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the mail service starts for office buildings.
         /// </summary>
-        [ConfigItem("5Services", "1Mail", 6)]
+        [ConfigItem("5Services", "1Mail", 10)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float MailOfficeStartHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the mail service ends for office buildings.
         /// </summary>
-        [ConfigItem("5Services", "1Mail", 7)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "1Mail", 11)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(MailOfficeStartHour), MinOffset = 2f)]
         public float MailOfficeEndHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether time range restrictions are enabled for mail service at other buildings.
+        /// When set to <c>false</c>, mail service operates 24/7.
+        /// </summary>
+        [ConfigItem("5Services", "1Mail", 12)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeMailOther { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the mail service starts for other buildings.
         /// </summary>
-        [ConfigItem("5Services", "1Mail", 8)]
+        [ConfigItem("5Services", "1Mail", 13)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float MailOtherStartHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the mail service ends for other buildings.
         /// </summary>
-        [ConfigItem("5Services", "1Mail", 9)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "1Mail", 14)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(MailOtherStartHour), MinOffset = 2f)]
         public float MailOtherEndHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the park maintenance service starts.
+        /// Gets or sets a value indicating whether time range restrictions are enabled for park maintenance.
+        /// When set to <c>false</c>, park maintenance operates 24/7.
         /// </summary>
         [ConfigItem("5Services", "2ParkMaintenance", 0)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeParkMaintenance { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the park maintenance starts.
+        /// </summary>
+        [ConfigItem("5Services", "2ParkMaintenance", 1)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float ParkMaintenanceStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the park maintenance service ends.
+        /// Gets or sets the daytime hour when the park maintenance ends.
         /// </summary>
-        [ConfigItem("5Services", "2ParkMaintenance", 1)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "2ParkMaintenance", 2)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(ParkMaintenanceStartHour), MinOffset = 2f)]
         public float ParkMaintenanceEndHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the maintenance and snow service starts for small roads.
+        /// Gets or sets a value indicating whether time range restrictions are enabled for road maintenance on small roads.
+        /// When set to <c>false</c>, road maintenance operates 24/7.
         /// </summary>
         [ConfigItem("5Services", "3RoadMaintenance", 0)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeRoadMaintenanceRoadsSmall { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the road maintenance service starts for small roads.
+        /// </summary>
+        [ConfigItem("5Services", "3RoadMaintenance", 1)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float RoadMaintenanceRoadsSmallStartHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the road maintenance service ends for small roads.
         /// </summary>
-        [ConfigItem("5Services", "3RoadMaintenance", 1)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "3RoadMaintenance", 2)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(RoadMaintenanceRoadsSmallStartHour), MinOffset = 2f)]
         public float RoadMaintenanceRoadsSmallEndHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether time range restrictions are enabled for road maintenance on medium roads.
+        /// When set to <c>false</c>, road maintenance operates 24/7.
+        /// </summary>
+        [ConfigItem("5Services", "3RoadMaintenance", 3)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeRoadMaintenanceRoadsMedium { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the road maintenance service starts for medium roads.
         /// </summary>
-        [ConfigItem("5Services", "3RoadMaintenance", 2)]
+        [ConfigItem("5Services", "3RoadMaintenance", 4)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float RoadMaintenanceRoadsMediumStartHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the road maintenance service ends for medium roads.
         /// </summary>
-        [ConfigItem("5Services", "3RoadMaintenance", 3)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "3RoadMaintenance", 5)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(RoadMaintenanceRoadsMediumStartHour), MinOffset = 2f)]
         public float RoadMaintenanceRoadsMediumEndHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether time range restrictions are enabled for road maintenance on large roads.
+        /// When set to <c>false</c>, road maintenance operates 24/7.
+        /// </summary>
+        [ConfigItem("5Services", "3RoadMaintenance", 6)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeRoadMaintenanceRoadsLarge { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the road maintenance service starts for large roads.
         /// </summary>
-        [ConfigItem("5Services", "3RoadMaintenance", 4)]
+        [ConfigItem("5Services", "3RoadMaintenance", 7)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float RoadMaintenanceRoadsLargeStartHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the road maintenance service ends for large roads.
         /// </summary>
-        [ConfigItem("5Services", "3RoadMaintenance", 5)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "3RoadMaintenance", 8)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(RoadMaintenanceRoadsLargeStartHour), MinOffset = 2f)]
         public float RoadMaintenanceRoadsLargeEndHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether time range restrictions are enabled for road maintenance on highway roads.
+        /// When set to <c>false</c>, road maintenance operates 24/7.
+        /// </summary>
+        [ConfigItem("5Services", "3RoadMaintenance", 9)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeRoadMaintenanceRoadsHighway { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the road maintenance service starts for highway roads.
         /// </summary>
-        [ConfigItem("5Services", "3RoadMaintenance", 6)]
+        [ConfigItem("5Services", "3RoadMaintenance", 10)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float RoadMaintenanceRoadsHighwayStartHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the road maintenance service ends for highway roads.
         /// </summary>
-        [ConfigItem("5Services", "3RoadMaintenance", 7)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "3RoadMaintenance", 11)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(RoadMaintenanceRoadsHighwayStartHour), MinOffset = 2f)]
         public float RoadMaintenanceRoadsHighwayEndHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether time range restrictions are enabled for road maintenance on other roads.
+        /// When set to <c>false</c>, road maintenance operates 24/7.
+        /// </summary>
+        [ConfigItem("5Services", "3RoadMaintenance", 12)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeRoadMaintenanceRoadsOther { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the road maintenance service starts for other roads.
         /// </summary>
-        [ConfigItem("5Services", "3RoadMaintenance", 8)]
+        [ConfigItem("5Services", "3RoadMaintenance", 13)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float RoadMaintenanceRoadsOtherStartHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the road maintenance service ends for other roads.
         /// </summary>
-        [ConfigItem("5Services", "3RoadMaintenance", 9)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "3RoadMaintenance", 14)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(RoadMaintenanceRoadsOtherStartHour), MinOffset = 2f)]
         public float RoadMaintenanceRoadsOtherEndHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the snow service starts for small roads.
+        /// Gets or sets a value indicating whether time range restrictions are enabled for snow removal on small roads.
+        /// When set to <c>false</c>, snow removal operates 24/7.
         /// </summary>
         [ConfigItem("5Services", "4Snow", 0)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeSnowRoadsSmall { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the snow removal starts for small roads.
+        /// </summary>
+        [ConfigItem("5Services", "4Snow", 1)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float SnowRoadsSmallStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the snow service ends for small roads.
+        /// Gets or sets the daytime hour when the snow removal ends for small roads.
         /// </summary>
-        [ConfigItem("5Services", "4Snow", 1)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "4Snow", 2)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(SnowRoadsSmallStartHour), MinOffset = 2f)]
         public float SnowRoadsSmallEndHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the snow service starts for medium roads.
+        /// Gets or sets a value indicating whether time range restrictions are enabled for snow removal on medium roads.
+        /// When set to <c>false</c>, snow removal operates 24/7.
         /// </summary>
-        [ConfigItem("5Services", "4Snow", 2)]
+        [ConfigItem("5Services", "4Snow", 3)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeSnowRoadsMedium { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the snow removal starts for medium roads.
+        /// </summary>
+        [ConfigItem("5Services", "4Snow", 4)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float SnowRoadsMediumStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the snow service ends for medium roads.
+        /// Gets or sets the daytime hour when the snow removal ends for medium roads.
         /// </summary>
-        [ConfigItem("5Services", "4Snow", 3)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "4Snow", 5)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(SnowRoadsMediumStartHour), MinOffset = 2f)]
         public float SnowRoadsMediumEndHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the snow service starts for large roads.
+        /// Gets or sets a value indicating whether time range restrictions are enabled for snow removal on large roads.
+        /// When set to <c>false</c>, snow removal operates 24/7.
         /// </summary>
-        [ConfigItem("5Services", "4Snow", 4)]
+        [ConfigItem("5Services", "4Snow", 6)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeSnowRoadsLarge { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the snow removal starts for large roads.
+        /// </summary>
+        [ConfigItem("5Services", "4Snow", 7)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float SnowRoadsLargeStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the snow service ends for large roads.
+        /// Gets or sets the daytime hour when the snow removal ends for large roads.
         /// </summary>
-        [ConfigItem("5Services", "4Snow", 5)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "4Snow", 8)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(SnowRoadsLargeStartHour), MinOffset = 2f)]
         public float SnowRoadsLargeEndHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the snow service starts for highway roads.
+        /// Gets or sets a value indicating whether time range restrictions are enabled for snow removal on highway roads.
+        /// When set to <c>false</c>, snow removal operates 24/7.
         /// </summary>
-        [ConfigItem("5Services", "4Snow", 6)]
+        [ConfigItem("5Services", "4Snow", 9)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeSnowRoadsHighway { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the snow removal starts for highway roads.
+        /// </summary>
+        [ConfigItem("5Services", "4Snow", 10)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float SnowRoadsHighwayStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the snow service ends for highway roads.
+        /// Gets or sets the daytime hour when the snow removal ends for highway roads.
         /// </summary>
-        [ConfigItem("5Services", "4Snow", 7)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "4Snow", 11)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(SnowRoadsHighwayStartHour), MinOffset = 2f)]
         public float SnowRoadsHighwayEndHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the snow service starts for other roads.
+        /// Gets or sets a value indicating whether time range restrictions are enabled for snow removal on other roads.
+        /// When set to <c>false</c>, snow removal operates 24/7.
         /// </summary>
-        [ConfigItem("5Services", "4Snow", 8)]
+        [ConfigItem("5Services", "4Snow", 12)]
+        [ConfigItemCheckBox]
+        public bool EnableTimeRangeSnowRoadsOther { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the snow removal starts for other roads.
+        /// </summary>
+        [ConfigItem("5Services", "4Snow", 13)]
         [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float SnowRoadsOtherStartHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the snow service ends for other roads.
+        /// Gets or sets the daytime hour when the snow removal ends for other roads.
         /// </summary>
-        [ConfigItem("5Services", "4Snow", 9)]
-        [ConfigItemSlider(0f, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
+        [ConfigItem("5Services", "4Snow", 14)]
+        [ConfigItemSlider(2f, 47.5f, 0.5f, ValueType = SliderValueType.Time, MinFrom = nameof(SnowRoadsOtherStartHour), MinOffset = 2f)]
         public float SnowRoadsOtherEndHour { get; set; }
 
         /// <summary>
@@ -785,7 +975,9 @@ namespace RealTime.Config
         [ConfigItemCheckBox]
         public bool AdvancedLoggingMode { get; set; }
 
-        /// <summary>Checks the version of the deserialized object and migrates it to the latest version when necessary.</summary>
+        /// <summary>
+        /// Checks the version of the deserialized object and migrates it to the latest version when necessary.
+        /// </summary>
         public void MigrateWhenNecessary()
         {
             if (Version == 0)
@@ -793,11 +985,17 @@ namespace RealTime.Config
                 SecondShiftQuota = (uint)(SecondShiftQuota * 3.125f);
                 NightShiftQuota = (uint)(NightShiftQuota * 3.125f);
             }
+            if(Version < 5)
+            {
+                MigrateServiceHoursToVersion5();
+            }
 
             Version = LatestVersion;
         }
 
-        /// <summary>Validates this instance and corrects possible invalid property values.</summary>
+        /// <summary>
+        /// Validates this instance and corrects possible invalid property values.
+        /// </summary>
         public void Validate()
         {
             WakeUpHour = FastMath.Clamp(WakeUpHour, 4f, 8f);
@@ -829,33 +1027,25 @@ namespace RealTime.Config
             NightClassQuota = FastMath.Clamp(NightClassQuota, 0u, 100u);
 
             EarliestHourEventStartWeekday = FastMath.Clamp(EarliestHourEventStartWeekday, 0f, 23.5f);
-            LatestHourEventStartWeekday = FastMath.Clamp(LatestHourEventStartWeekday, 0f, 23.5f);
-            if (LatestHourEventStartWeekday < EarliestHourEventStartWeekday)
-            {
-                LatestHourEventStartWeekday = EarliestHourEventStartWeekday;
-            }
+            LatestHourEventStartWeekday = FastMath.Clamp(LatestHourEventStartWeekday, EarliestHourEventStartWeekday + 4f, 23.5f);
 
             EarliestHourEventStartWeekend = FastMath.Clamp(EarliestHourEventStartWeekend, 0f, 23.5f);
-            LatestHourEventStartWeekend = FastMath.Clamp(LatestHourEventStartWeekend, 0f, 23.5f);
-            if (LatestHourEventStartWeekend < EarliestHourEventStartWeekend)
-            {
-                LatestHourEventStartWeekend = EarliestHourEventStartWeekend;
-            }
+            LatestHourEventStartWeekend = FastMath.Clamp(LatestHourEventStartWeekend, EarliestHourEventStartWeekend + 4f, 23.5f);
 
             EventPreparationDuration = FastMath.Clamp(EventPreparationDuration, 2f, 8f);
 
             BreakfastBegin = FastMath.Clamp(BreakfastBegin, 6f, 8f);
             BreakfastDuration = FastMath.Clamp(BreakfastDuration, 0.5f, 1.5f);
-            BreakfastEnd = FastMath.Clamp(BreakfastEnd, 8f, 10f);
+            BreakfastEnd = FastMath.Clamp(BreakfastEnd, BreakfastBegin + 2f, 10f);
             LunchBegin = FastMath.Clamp(LunchBegin, 11f, 13f);
             LunchDuration = FastMath.Clamp(LunchDuration, 0.5f, 2f);
-            LunchEnd = FastMath.Clamp(LunchEnd, 13f, 15f);
+            LunchEnd = FastMath.Clamp(LunchEnd, LunchBegin + 2f, 15f);
             SupperBegin = FastMath.Clamp(SupperBegin, 17f, 19f);
             SupperDuration = FastMath.Clamp(SupperDuration, 0.5f, 2f);
-            SupperEnd = FastMath.Clamp(SupperEnd, 19f, 21f);
+            SupperEnd = FastMath.Clamp(SupperEnd, SupperBegin + 2f, 21f);
 
             SchoolBegin = FastMath.Clamp(SchoolBegin, 4f, 10f);
-            SchoolEnd = FastMath.Clamp(SchoolEnd, 11f, 16f);
+            SchoolEnd = FastMath.Clamp(SchoolEnd, SchoolBegin + 6f, 16f);
             MaxOvertime = FastMath.Clamp(MaxOvertime, 0f, 4f);
             MaxVacationLength = FastMath.Clamp(MaxVacationLength, 0u, 7u);
             AcademicYearLength = FastMath.Clamp(AcademicYearLength, 1f, 30f);
@@ -864,65 +1054,67 @@ namespace RealTime.Config
             VisitBankOrPostOfficeInterval = FastMath.Clamp(VisitBankOrPostOfficeInterval, 1f, 7f);
 
             GarbageResidentialStartHour = FastMath.Clamp(GarbageResidentialStartHour, 0f, 23.5f);
-            GarbageResidentialEndHour = FastMath.Clamp(GarbageResidentialEndHour, 0f, 23.5f);
+            GarbageResidentialEndHour = FastMath.Clamp(GarbageResidentialEndHour, GarbageResidentialStartHour + 2f, 47.5f);
 
             GarbageCommercialStartHour = FastMath.Clamp(GarbageCommercialStartHour, 0f, 23.5f);
-            GarbageCommercialEndHour = FastMath.Clamp(GarbageCommercialEndHour, 0f, 23.5f);
+            GarbageCommercialEndHour = FastMath.Clamp(GarbageCommercialEndHour, GarbageCommercialStartHour + 2f, 47.5f);
 
             GarbageIndustrialStartHour = FastMath.Clamp(GarbageIndustrialStartHour, 0f, 23.5f);
-            GarbageIndustrialEndHour = FastMath.Clamp(GarbageIndustrialEndHour, 0f, 23.5f);
+            GarbageIndustrialEndHour = FastMath.Clamp(GarbageIndustrialEndHour, GarbageIndustrialStartHour + 2f, 47.5f);
 
             GarbageOfficeStartHour = FastMath.Clamp(GarbageOfficeStartHour, 0f, 23.5f);
-            GarbageOfficeEndHour = FastMath.Clamp(GarbageOfficeEndHour, 0f, 23.5f);
+            GarbageOfficeEndHour = FastMath.Clamp(GarbageOfficeEndHour, GarbageOfficeStartHour + 2f, 47.5f);
 
             GarbageOtherStartHour = FastMath.Clamp(GarbageOtherStartHour, 0f, 23.5f);
-            GarbageOtherEndHour = FastMath.Clamp(GarbageOtherEndHour, 0f, 23.5f);
+            GarbageOtherEndHour = FastMath.Clamp(GarbageOtherEndHour, GarbageOtherStartHour + 2f, 47.5f);
 
             MailResidentialStartHour = FastMath.Clamp(MailResidentialStartHour, 0f, 23.5f);
-            MailResidentialEndHour = FastMath.Clamp(MailResidentialEndHour, 0f, 23.5f);
+            MailResidentialEndHour = FastMath.Clamp(MailResidentialEndHour, MailResidentialStartHour + 2f, 47.5f);
 
             MailCommercialStartHour = FastMath.Clamp(MailCommercialStartHour, 0f, 23.5f);
-            MailCommercialEndHour = FastMath.Clamp(MailCommercialEndHour,0f, 23.5f);
+            MailCommercialEndHour = FastMath.Clamp(MailCommercialEndHour, MailCommercialStartHour + 2f, 47.5f);
 
             MailIndustrialStartHour = FastMath.Clamp(MailIndustrialStartHour, 0f, 23.5f);
-            MailIndustrialEndHour = FastMath.Clamp(MailIndustrialEndHour, 0f, 23.5f);
+            MailIndustrialEndHour = FastMath.Clamp(MailIndustrialEndHour, MailIndustrialStartHour + 2f, 47.5f);
 
             MailOfficeStartHour = FastMath.Clamp(MailOfficeStartHour, 0f, 23.5f);
-            MailOfficeEndHour = FastMath.Clamp(MailOfficeEndHour, 0f, 23.5f);
+            MailOfficeEndHour = FastMath.Clamp(MailOfficeEndHour, MailOfficeStartHour + 2f, 47.5f);
 
             MailOtherStartHour = FastMath.Clamp(MailOtherStartHour, 0f, 23.5f);
-            MailOtherEndHour = FastMath.Clamp(MailOtherEndHour, 0f, 23.5f);
-
+            MailOtherEndHour = FastMath.Clamp(MailOtherEndHour, MailOtherStartHour + 2f, 47.5f);
+           
             ParkMaintenanceStartHour = FastMath.Clamp(ParkMaintenanceStartHour, 0f, 23.5f);
-            ParkMaintenanceEndHour = FastMath.Clamp(ParkMaintenanceEndHour, 0f, 23.5f);
-
+            ParkMaintenanceEndHour = FastMath.Clamp(ParkMaintenanceEndHour, ParkMaintenanceStartHour + 2f, 47.5f);
+           
             RoadMaintenanceRoadsSmallStartHour = FastMath.Clamp(RoadMaintenanceRoadsSmallStartHour, 0f, 23.5f);
-            RoadMaintenanceRoadsSmallEndHour = FastMath.Clamp(RoadMaintenanceRoadsSmallEndHour, 0f, 23.5f);
+            RoadMaintenanceRoadsSmallEndHour = FastMath.Clamp(RoadMaintenanceRoadsSmallEndHour, RoadMaintenanceRoadsSmallStartHour + 2f, 47.5f);
 
             RoadMaintenanceRoadsMediumStartHour = FastMath.Clamp(RoadMaintenanceRoadsMediumStartHour, 0f, 23.5f);
-            RoadMaintenanceRoadsMediumEndHour = FastMath.Clamp(RoadMaintenanceRoadsMediumEndHour, 0f, 23.5f);
+            RoadMaintenanceRoadsMediumEndHour = FastMath.Clamp(RoadMaintenanceRoadsMediumEndHour, RoadMaintenanceRoadsMediumStartHour + 2f, 47.5f);
+
             RoadMaintenanceRoadsLargeStartHour = FastMath.Clamp(RoadMaintenanceRoadsLargeStartHour, 0f, 23.5f);
-            RoadMaintenanceRoadsLargeEndHour = FastMath.Clamp(RoadMaintenanceRoadsLargeEndHour, 0f, 23.5f);
+            RoadMaintenanceRoadsLargeEndHour = FastMath.Clamp(RoadMaintenanceRoadsLargeEndHour, RoadMaintenanceRoadsLargeStartHour + 2f, 47.5f);
 
             RoadMaintenanceRoadsHighwayStartHour = FastMath.Clamp(RoadMaintenanceRoadsHighwayStartHour, 0f, 23.5f);
-            RoadMaintenanceRoadsHighwayEndHour = FastMath.Clamp(RoadMaintenanceRoadsHighwayEndHour, 0f, 23.5f);
+            RoadMaintenanceRoadsHighwayEndHour = FastMath.Clamp(RoadMaintenanceRoadsHighwayEndHour, RoadMaintenanceRoadsHighwayStartHour + 2f, 47.5f);
 
             RoadMaintenanceRoadsOtherStartHour = FastMath.Clamp(RoadMaintenanceRoadsOtherStartHour, 0f, 23.5f);
-            RoadMaintenanceRoadsOtherEndHour = FastMath.Clamp(RoadMaintenanceRoadsOtherEndHour, 0f, 23.5f);
-
+            RoadMaintenanceRoadsOtherEndHour = FastMath.Clamp(RoadMaintenanceRoadsOtherEndHour, RoadMaintenanceRoadsOtherStartHour + 2f, 47.5f);
+            
             SnowRoadsSmallStartHour = FastMath.Clamp(SnowRoadsSmallStartHour, 0f, 23.5f);
-            SnowRoadsSmallEndHour = FastMath.Clamp(SnowRoadsSmallEndHour, 0f, 23.5f);
+            SnowRoadsSmallEndHour = FastMath.Clamp(SnowRoadsSmallEndHour, SnowRoadsSmallStartHour + 2f, 47.5f);
 
             SnowRoadsMediumStartHour = FastMath.Clamp(SnowRoadsMediumStartHour, 0f, 23.5f);
-            SnowRoadsMediumEndHour = FastMath.Clamp(SnowRoadsMediumEndHour, 0f, 23.5f);
+            SnowRoadsMediumEndHour = FastMath.Clamp(SnowRoadsMediumEndHour, SnowRoadsMediumStartHour + 2f, 47.5f);
+
             SnowRoadsLargeStartHour = FastMath.Clamp(SnowRoadsLargeStartHour, 0f, 23.5f);
-            SnowRoadsLargeEndHour = FastMath.Clamp(SnowRoadsLargeEndHour, 0f, 23.5f);
+            SnowRoadsLargeEndHour = FastMath.Clamp(SnowRoadsLargeEndHour, SnowRoadsLargeStartHour + 2f, 47.5f);
 
             SnowRoadsHighwayStartHour = FastMath.Clamp(SnowRoadsHighwayStartHour, 0f, 23.5f);
-            SnowRoadsHighwayEndHour = FastMath.Clamp(SnowRoadsHighwayEndHour, 0f, 23.5f);
+            SnowRoadsHighwayEndHour = FastMath.Clamp(SnowRoadsHighwayEndHour, SnowRoadsHighwayStartHour + 2f, 47.5f);
 
             SnowRoadsOtherStartHour = FastMath.Clamp(SnowRoadsOtherStartHour, 0f, 23.5f);
-            SnowRoadsOtherEndHour = FastMath.Clamp(SnowRoadsOtherEndHour, 0f, 23.5f);
+            SnowRoadsOtherEndHour = FastMath.Clamp(SnowRoadsOtherEndHour, SnowRoadsOtherStartHour + 2f, 47.5f);
         }
 
         /// <summary>Resets all values to their defaults.</summary>
@@ -994,59 +1186,79 @@ namespace RealTime.Config
             TogaPartyLength = 8f;
             VisitBankOrPostOfficeInterval = 3f;
 
+            EnableTimeRangeGarbageResidential = false;
             GarbageResidentialStartHour = 0f;
-            GarbageResidentialEndHour = 0f;
+            GarbageResidentialEndHour = 2f;
+            EnableTimeRangeGarbageCommercial = false;
             GarbageCommercialStartHour = 0f;
-            GarbageCommercialEndHour = 0f;
+            GarbageCommercialEndHour = 2f;
+            EnableTimeRangeGarbageIndustrial = false;
             GarbageIndustrialStartHour = 0f;
-            GarbageIndustrialEndHour = 0f;
+            GarbageIndustrialEndHour = 2f;
+            EnableTimeRangeGarbageOffice = false;
             GarbageOfficeStartHour = 0f;
-            GarbageOfficeEndHour = 0f;
+            GarbageOfficeEndHour = 2f;
+            EnableTimeRangeGarbageOther = false;
             GarbageOtherStartHour = 0f;
-            GarbageOtherEndHour = 0f;
+            GarbageOtherEndHour = 2f;
 
+            EnableTimeRangeMailResidential = false;
             MailResidentialStartHour = 0f;
-            MailResidentialEndHour = 0f;
+            MailResidentialEndHour = 2f;
+            EnableTimeRangeMailCommercial = false;
             MailCommercialStartHour = 0f;
-            MailCommercialEndHour = 0f;
+            MailCommercialEndHour = 2f;
+            EnableTimeRangeMailIndustrial = false;
             MailIndustrialStartHour = 0f;
-            MailIndustrialEndHour = 0f;
+            MailIndustrialEndHour = 2f;
+            EnableTimeRangeMailOffice = false;
             MailOfficeStartHour = 0f;
-            MailOfficeEndHour = 0f;
+            MailOfficeEndHour = 2f;
+            EnableTimeRangeMailResidential = false;
             MailOtherStartHour = 0f;
-            MailOtherEndHour = 0f;
+            MailOtherEndHour = 2f;
 
+            EnableTimeRangeParkMaintenance = false;
             ParkMaintenanceStartHour = 0f;
-            ParkMaintenanceEndHour = 0f;
+            ParkMaintenanceEndHour = 2f;
 
+            EnableTimeRangeRoadMaintenanceRoadsSmall = false;
             RoadMaintenanceRoadsSmallStartHour = 0f;
-            RoadMaintenanceRoadsSmallEndHour = 0f;
+            RoadMaintenanceRoadsSmallEndHour = 2f;
+            EnableTimeRangeRoadMaintenanceRoadsMedium = false;
             RoadMaintenanceRoadsMediumStartHour = 0f;
-            RoadMaintenanceRoadsMediumEndHour = 0f;
+            RoadMaintenanceRoadsMediumEndHour = 2f;
+            EnableTimeRangeRoadMaintenanceRoadsLarge = false;
             RoadMaintenanceRoadsLargeStartHour = 0f;
-            RoadMaintenanceRoadsLargeEndHour = 0f;
+            RoadMaintenanceRoadsLargeEndHour = 2f;
+            EnableTimeRangeRoadMaintenanceRoadsHighway = false;
             RoadMaintenanceRoadsHighwayStartHour = 0f;
-            RoadMaintenanceRoadsHighwayEndHour = 0f;
+            RoadMaintenanceRoadsHighwayEndHour = 2f;
+            EnableTimeRangeRoadMaintenanceRoadsOther = false;
             RoadMaintenanceRoadsOtherStartHour = 0f;
-            RoadMaintenanceRoadsOtherEndHour = 0f;
+            RoadMaintenanceRoadsOtherEndHour = 2f;
 
+            EnableTimeRangeSnowRoadsSmall = false;
             SnowRoadsSmallStartHour = 0f;
-            SnowRoadsSmallEndHour = 0f;
+            SnowRoadsSmallEndHour = 2f;
+            EnableTimeRangeSnowRoadsMedium = false;
             SnowRoadsMediumStartHour = 0f;
-            SnowRoadsMediumEndHour = 0f;
+            SnowRoadsMediumEndHour = 2f;
+            EnableTimeRangeSnowRoadsLarge = false;
             SnowRoadsLargeStartHour = 0f;
-            SnowRoadsLargeEndHour = 0f;
+            SnowRoadsLargeEndHour = 2f;
+            EnableTimeRangeSnowRoadsHighway = false;
             SnowRoadsHighwayStartHour = 0f;
-            SnowRoadsHighwayEndHour = 0f;
+            SnowRoadsHighwayEndHour = 2f;
+            EnableTimeRangeSnowRoadsOther = false;
             SnowRoadsOtherStartHour = 0f;
-            SnowRoadsOtherEndHour = 0f;
+            SnowRoadsOtherEndHour = 2f;
 
             ShowIncompatibilityNotifications = true;
             DebugMode = false;
             LoggingMode = false;
             AdvancedLoggingMode = false;
         }
-
 
         private void OnWeekendEnabledChanged(bool value)
         {
@@ -1081,14 +1293,73 @@ namespace RealTime.Config
                             {
                                 var service = building.Info.m_class.m_service;
                                 var subService = building.Info.m_class.m_subService;
-                                var level = building.Info.m_class.m_level;
-                                bool openOnWeekends = BuildingWorkTimeManager.IsBuildingActiveOnWeekend(service, subService, level);
+                                bool openOnWeekends = BuildingWorkTimeManager.IsBuildingActiveOnWeekend(service, subService);
                                 workTime.WorkDays = openOnWeekends ? allWeek : noWeekend;
                             }
                             BuildingWorkTimeManager.SetBuildingWorkTime(buildingId, workTime);
                         }
                     }
                 }
+            }
+        }
+
+        private void MigrateServiceHoursToVersion5()
+        {
+            var type = GetType();
+
+            foreach (var enabledProperty in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                const string prefix = "EnableTimeRange";
+
+                if (!enabledProperty.Name.StartsWith(prefix, StringComparison.Ordinal) || enabledProperty.PropertyType != typeof(bool))
+                {
+                    continue;
+                }
+
+                string serviceName = enabledProperty.Name.Substring(prefix.Length);
+
+                var startProperty = type.GetProperty(serviceName + "StartHour");
+
+                var endProperty = type.GetProperty(serviceName + "EndHour");
+
+                if (startProperty?.PropertyType != typeof(float) || endProperty?.PropertyType != typeof(float))
+                {
+                    throw new InvalidOperationException($"Missing time-range properties for {serviceName}");
+                }
+
+                float oldStart = (float)startProperty.GetValue(this, null);
+                float oldEnd = (float)endProperty.GetValue(this, null);
+
+                // In v4, equal values meant unrestricted service.
+                bool enabled = oldStart != oldEnd;
+
+                float start = Math.Max(0f, Math.Min(23.5f, oldStart));
+                float end;
+
+                if (!enabled)
+                {
+                    // v5 needs valid slider values even when disabled.
+                    end = start + 2f;
+                }
+                else
+                {
+                    end = oldEnd;
+
+                    // Convert an overnight clock time into next-day hours.
+                    if (end < start)
+                    {
+                        end += 24f;
+                    }
+
+                    // A v4 interval shorter than 2 hours cannot be
+                    // represented under the new minimum-duration rule.
+                    end = Math.Max(end, start + 2f);
+                    end = Math.Min(end, start + 24f);
+                }
+
+                startProperty.SetValue(this, start, null);
+                endProperty.SetValue(this, end, null);
+                enabledProperty.SetValue(this, enabled, null);
             }
         }
     }

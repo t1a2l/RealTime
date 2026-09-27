@@ -50,6 +50,7 @@ namespace RealTime.UI
 
         private readonly RadioButtonsConfig radioConfig = new();
         private readonly List<IViewItem> radioCheckboxes = [];
+        private readonly List<Action> detachSliderDependencies = [];
 
         private static readonly Dictionary<RadioButtonsConfig.ModeType, string> ModeToIdMap = new() {
             { RadioButtonsConfig.ModeType.ClearStuckCitizensSchedule, ClearStuckCitizensScheduleId },
@@ -103,6 +104,7 @@ namespace RealTime.UI
             CreateViewItems(configProvider, itemFactory, viewItems);
 
             var result = new ConfigUI(configProvider, viewItems);
+            result.BindSliderDependencies();
 
             var toolsTab = viewItems.OfType<IContainerViewItem>().FirstOrDefault(i => i.Id == ToolsId);
             if (toolsTab == null)
@@ -151,7 +153,17 @@ namespace RealTime.UI
         }
 
         /// <summary>Closes this instance.</summary>
-        public void Close() => configProvider.Changed -= ConfigProviderChanged;
+        public void Close()
+        {
+            foreach (var detach in detachSliderDependencies)
+            {
+                detach();
+            }
+
+            detachSliderDependencies.Clear();
+
+            configProvider.Changed -= ConfigProviderChanged;
+        }
 
         /// <summary>Translates the UI using the specified localization provider.</summary>
         /// <param name="localizationProvider">The localization provider to use for translation.</param>
@@ -238,7 +250,9 @@ namespace RealTime.UI
                         slider.Max,
                         slider.Step,
                         slider.ValueType,
-                        slider.DisplayMultiplier);
+                        slider.DisplayMultiplier,
+                        slider.MinFrom,
+                        slider.MaxFrom);
 
                 case ConfigItemCheckBoxAttribute _ when property.PropertyType == typeof(bool):
                     return itemFactory.CreateCheckBox(container, property.Name, property, Config);
@@ -251,9 +265,110 @@ namespace RealTime.UI
             }
         }
 
-        private static T GetCustomItemAttribute<T>(PropertyInfo property, bool inherit = false)
-            where T : Attribute
+        private static T GetCustomItemAttribute<T>(PropertyInfo property, bool inherit = false) where T : Attribute
             => (T)property.GetCustomAttributes(typeof(T), inherit).FirstOrDefault();
+
+        private void BindSliderDependencies()
+        {
+            var sliders = viewItems.OfType<CitiesSliderItem>().ToDictionary(item => item.Id, StringComparer.Ordinal);
+
+            foreach (var dependent in sliders)
+            {
+                var property = configProvider.Configuration.GetType().GetProperty(dependent.Key);
+                if (property == null)
+                {
+                    continue;
+                }
+
+                var attribute = GetCustomItemAttribute<ConfigItemSliderAttribute>(property);
+
+                if (attribute == null)
+                {
+                    continue;
+                }
+
+                CitiesSliderItem minSource = null;
+                CitiesSliderItem maxSource = null;
+
+                if (!string.IsNullOrEmpty(attribute.MinFrom))
+                {
+                    sliders.TryGetValue(attribute.MinFrom, out minSource);
+                }
+
+                if (!string.IsNullOrEmpty(attribute.MaxFrom))
+                {
+                    sliders.TryGetValue(attribute.MaxFrom, out maxSource);
+                }
+
+                if (minSource == null && maxSource == null)
+                {
+                    continue;
+                }
+
+                var target = dependent.Value;
+
+                void updateRange()
+                {
+                    float min = attribute.Min;
+                    float max = attribute.Max;
+                    float minOffset = attribute.MinOffset;
+
+                    if (minSource != null)
+                    {
+                        min = Math.Max(min, minSource.CurrentValue + minOffset);
+                    }
+
+                    if (maxSource != null)
+                    {
+                        max = Math.Min(max, maxSource.CurrentValue);
+                    }
+
+                    if (max > min)
+                    {
+                        target.SetRange(min, max);
+                    }
+                }
+
+                if (minSource != null)
+                {
+                    void onMinChanged(float _) => updateRange();
+                    minSource.ValueUpdated += onMinChanged;
+                    detachSliderDependencies.Add(() => minSource.ValueUpdated -= onMinChanged);
+                }
+
+                if (maxSource != null && !ReferenceEquals(minSource, maxSource))
+                {
+                    void onMaxChanged(float _) => updateRange();
+                    maxSource.ValueUpdated += onMaxChanged;
+                    detachSliderDependencies.Add(() => maxSource.ValueUpdated -= onMaxChanged);
+                }
+
+                var configType = configProvider.Configuration.GetType();
+
+                var sourceProperty = configType.GetProperty(attribute.MinFrom);
+
+                var sourceAttribute = sourceProperty == null ? null : GetCustomItemAttribute<ConfigItemSliderAttribute>(sourceProperty);
+
+                if (minSource != null && attribute.MinOffset > 0f)
+                {
+                    if (sourceAttribute == null)
+                    {
+                        throw new InvalidOperationException($"MinFrom '{attribute.MinFrom}' is not a slider property.");
+                    }
+
+                    float sourceMax = Math.Min(sourceAttribute.Max, attribute.Max - attribute.MinOffset);
+
+                    if (sourceMax < sourceAttribute.Min)
+                    {
+                        throw new InvalidOperationException($"No valid range for '{attribute.MinFrom}'.");
+                    }
+
+                    minSource.SetRange(sourceAttribute.Min, sourceMax);
+                }
+
+                updateRange();
+            }
+        }
 
         private void ExecuteSelectedAction()
         {

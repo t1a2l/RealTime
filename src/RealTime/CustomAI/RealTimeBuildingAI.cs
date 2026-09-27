@@ -428,114 +428,14 @@ namespace RealTime.CustomAI
 
             float currentHour = timeInfo.CurrentHour;
 
-            switch (buildingManager.GetBuildingService(buildingId))
+            return buildingManager.GetBuildingService(buildingId) switch
             {
-                case ItemClass.Service.Residential:
-                    if (config.GarbageResidentialStartHour == config.GarbageResidentialEndHour)
-                    {
-                        return true;
-                    }
-                    if(config.GarbageResidentialStartHour < config.GarbageResidentialEndHour)
-                    {
-                        if(currentHour >= config.GarbageResidentialStartHour && currentHour <= config.GarbageResidentialEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if(config.GarbageResidentialStartHour <= currentHour || currentHour <= config.GarbageResidentialEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                case ItemClass.Service.Commercial:
-                    if (config.GarbageCommercialStartHour == config.GarbageCommercialEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.GarbageCommercialStartHour < config.GarbageCommercialEndHour)
-                    {
-                        if (currentHour >= config.GarbageCommercialStartHour && currentHour <= config.GarbageCommercialEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.GarbageCommercialStartHour <= currentHour || currentHour <= config.GarbageCommercialEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                case ItemClass.Service.Industrial:
-                case ItemClass.Service.PlayerIndustry:
-                    if (config.GarbageIndustrialStartHour == config.GarbageIndustrialEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.GarbageIndustrialStartHour < config.GarbageIndustrialEndHour)
-                    {
-                        if (currentHour >= config.GarbageIndustrialStartHour && currentHour <= config.GarbageIndustrialEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.GarbageIndustrialStartHour <= currentHour || currentHour <= config.GarbageIndustrialEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                case ItemClass.Service.Office:
-                    if (config.GarbageOfficeStartHour == config.GarbageOfficeEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.GarbageOfficeStartHour < config.GarbageOfficeEndHour)
-                    {
-                        if (currentHour >= config.GarbageOfficeStartHour && currentHour <= config.GarbageOfficeEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.GarbageOfficeStartHour <= currentHour || currentHour <= config.GarbageOfficeEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                default:
-                    if (config.GarbageOtherStartHour == config.GarbageOtherEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.GarbageOtherStartHour < config.GarbageOtherEndHour)
-                    {
-                        if (currentHour >= config.GarbageOtherStartHour && currentHour <= config.GarbageOtherEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.GarbageOtherStartHour <= currentHour || currentHour <= config.GarbageOtherEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-            }
+                ItemClass.Service.Residential => !config.EnableTimeRangeGarbageResidential || IsWithinServiceHours(currentHour, config.GarbageResidentialStartHour, config.GarbageResidentialEndHour),
+                ItemClass.Service.Commercial => !config.EnableTimeRangeGarbageCommercial || IsWithinServiceHours(currentHour, config.GarbageCommercialStartHour, config.GarbageCommercialEndHour),
+                ItemClass.Service.Industrial or ItemClass.Service.PlayerIndustry => !config.EnableTimeRangeGarbageIndustrial || IsWithinServiceHours(currentHour, config.GarbageIndustrialStartHour, config.GarbageIndustrialEndHour),
+                ItemClass.Service.Office => !config.EnableTimeRangeGarbageOffice || IsWithinServiceHours(currentHour, config.GarbageOfficeStartHour, config.GarbageOfficeEndHour),
+                _ => !config.EnableTimeRangeGarbageOther || IsWithinServiceHours(currentHour, config.GarbageOtherStartHour, config.GarbageOtherEndHour),
+            };
         }
 
         /// <summary>
@@ -571,114 +471,14 @@ namespace RealTime.CustomAI
 
             float currentHour = timeInfo.CurrentHour;
 
-            switch (buildingManager.GetBuildingService(buildingId))
+            return buildingManager.GetBuildingService(buildingId) switch
             {
-                case ItemClass.Service.Residential:
-                    if (config.MailResidentialStartHour == config.MailResidentialEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.MailResidentialStartHour < config.MailResidentialEndHour)
-                    {
-                        if (currentHour >= config.MailResidentialStartHour && currentHour <= config.MailResidentialEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.MailResidentialStartHour <= currentHour || currentHour <= config.MailResidentialEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                case ItemClass.Service.Commercial:
-                    if (config.MailCommercialStartHour == config.MailCommercialEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.MailCommercialStartHour < config.MailCommercialEndHour)
-                    {
-                        if (currentHour >= config.MailCommercialStartHour && currentHour <= config.MailCommercialEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.MailCommercialStartHour <= currentHour || currentHour <= config.MailCommercialEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                case ItemClass.Service.Industrial:
-                case ItemClass.Service.PlayerIndustry:
-                    if (config.MailIndustrialStartHour == config.MailIndustrialEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.MailIndustrialStartHour < config.MailIndustrialEndHour)
-                    {
-                        if (currentHour >= config.MailIndustrialStartHour && currentHour <= config.MailIndustrialEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.MailIndustrialStartHour <= currentHour || currentHour <= config.MailIndustrialEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                case ItemClass.Service.Office:
-                    if (config.MailOfficeStartHour == config.MailOfficeEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.MailOfficeStartHour < config.MailOfficeEndHour)
-                    {
-                        if (currentHour >= config.MailOfficeStartHour && currentHour <= config.MailOfficeEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.MailOfficeStartHour <= currentHour || currentHour <= config.MailOfficeEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                default:
-                    if (config.MailOtherStartHour == config.MailOtherEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.MailOtherStartHour < config.MailOtherEndHour)
-                    {
-                        if (currentHour >= config.MailOtherStartHour && currentHour <= config.MailOtherEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.MailOtherStartHour <= currentHour || currentHour <= config.MailOtherEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-            }
+                ItemClass.Service.Residential => !config.EnableTimeRangeMailResidential || IsWithinServiceHours(currentHour, config.MailResidentialStartHour, config.MailResidentialEndHour),
+                ItemClass.Service.Commercial => !config.EnableTimeRangeMailCommercial || IsWithinServiceHours(currentHour, config.MailCommercialStartHour, config.MailCommercialEndHour),
+                ItemClass.Service.Industrial or ItemClass.Service.PlayerIndustry => !config.EnableTimeRangeMailIndustrial || IsWithinServiceHours(currentHour, config.MailIndustrialStartHour, config.MailIndustrialEndHour),
+                ItemClass.Service.Office => !config.EnableTimeRangeMailOffice || IsWithinServiceHours(currentHour, config.MailOfficeStartHour, config.MailOfficeEndHour),
+                _ => !config.EnableTimeRangeMailOther || IsWithinServiceHours(currentHour, config.MailOtherStartHour, config.MailOtherEndHour),
+            };
         }
 
         /// <summary>
@@ -704,157 +504,10 @@ namespace RealTime.CustomAI
 
             float currentHour = timeInfo.CurrentHour;
 
-            switch (buildingManager.GetBuildingService(buildingId))
+            return buildingManager.GetBuildingService(buildingId) switch
             {
-                case ItemClass.Service.Beautification:
-                default:
-                    if (config.ParkMaintenanceStartHour == config.ParkMaintenanceEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.ParkMaintenanceStartHour < config.ParkMaintenanceEndHour)
-                    {
-                        if (currentHour >= config.ParkMaintenanceStartHour && currentHour <= config.ParkMaintenanceEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.ParkMaintenanceStartHour <= currentHour || currentHour <= config.ParkMaintenanceEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-            }
-        }
-
-        /// <summary>
-        /// Determines whether the segment with the specified ID is allowed to accept snow services in this time of day.
-        /// </summary>
-        /// <param name="segmentId">The segment ID to check.</param>
-        /// <returns>
-        ///   <c>true</c> if the segment is allowed to accept snow services in this time of day; otherwise, <c>false</c>.
-        /// </returns>
-        public bool IsSnowServiceHours(ushort segmentId)
-        {
-            if (segmentId == 0)
-            {
-                return true;
-            }
-
-            float currentHour = timeInfo.CurrentHour;
-
-            var road_info = Singleton<NetManager>.instance.m_segments.m_buffer[segmentId].Info;
-
-            switch (road_info.category)
-            {
-                case "RoadsSmall":
-                    if (config.SnowRoadsSmallStartHour == config.SnowRoadsSmallEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.SnowRoadsSmallStartHour < config.SnowRoadsSmallEndHour)
-                    {
-                        if (currentHour >= config.SnowRoadsSmallStartHour && currentHour <= config.SnowRoadsSmallEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.SnowRoadsSmallStartHour <= currentHour || currentHour <= config.SnowRoadsSmallEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                case "RoadsMedium":
-                    if (config.SnowRoadsMediumStartHour == config.SnowRoadsMediumEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.SnowRoadsMediumStartHour < config.SnowRoadsMediumEndHour)
-                    {
-                        if (currentHour >= config.SnowRoadsMediumStartHour && currentHour <= config.SnowRoadsMediumEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.SnowRoadsMediumStartHour <= currentHour || currentHour <= config.SnowRoadsMediumEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                case "RoadsLarge":
-                    if (config.SnowRoadsLargeStartHour == config.SnowRoadsLargeEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.SnowRoadsLargeStartHour < config.SnowRoadsLargeEndHour)
-                    {
-                        if (currentHour >= config.SnowRoadsLargeStartHour && currentHour <= config.SnowRoadsLargeEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.SnowRoadsLargeStartHour <= currentHour || currentHour <= config.SnowRoadsLargeEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                case "RoadsHighway":
-                    if (config.SnowRoadsHighwayStartHour == config.SnowRoadsHighwayEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.SnowRoadsHighwayStartHour < config.SnowRoadsHighwayEndHour)
-                    {
-                        if (currentHour >= config.SnowRoadsHighwayStartHour && currentHour <= config.SnowRoadsHighwayEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.SnowRoadsHighwayStartHour <= currentHour || currentHour <= config.SnowRoadsHighwayEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                default:
-                    if (config.SnowRoadsOtherStartHour == config.SnowRoadsOtherEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.SnowRoadsOtherStartHour < config.SnowRoadsOtherEndHour)
-                    {
-                        if (currentHour >= config.SnowRoadsOtherStartHour && currentHour <= config.SnowRoadsOtherEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.SnowRoadsOtherStartHour <= currentHour || currentHour <= config.SnowRoadsOtherEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-            }
+                _ => !config.EnableTimeRangeParkMaintenance || IsWithinServiceHours(currentHour, config.ParkMaintenanceStartHour, config.ParkMaintenanceEndHour),
+            };
         }
 
         /// <summary>
@@ -875,113 +528,42 @@ namespace RealTime.CustomAI
 
             var road_info = Singleton<NetManager>.instance.m_segments.m_buffer[segmentId].Info;
 
-            switch (road_info.category)
+            return road_info.category switch
             {
-                case "RoadsSmall":
-                    if (config.RoadMaintenanceRoadsSmallStartHour == config.RoadMaintenanceRoadsSmallEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.RoadMaintenanceRoadsSmallStartHour < config.RoadMaintenanceRoadsSmallEndHour)
-                    {
-                        if (currentHour >= config.RoadMaintenanceRoadsSmallStartHour && currentHour <= config.RoadMaintenanceRoadsSmallEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.RoadMaintenanceRoadsSmallStartHour <= currentHour || currentHour <= config.RoadMaintenanceRoadsSmallEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
+                "RoadsSmall" => !config.EnableTimeRangeRoadMaintenanceRoadsSmall || IsWithinServiceHours(currentHour, config.RoadMaintenanceRoadsSmallStartHour, config.RoadMaintenanceRoadsSmallEndHour),
+                "RoadsMedium" => !config.EnableTimeRangeRoadMaintenanceRoadsMedium || IsWithinServiceHours(currentHour, config.RoadMaintenanceRoadsMediumStartHour, config.RoadMaintenanceRoadsMediumEndHour),
+                "RoadsLarge" => !config.EnableTimeRangeRoadMaintenanceRoadsLarge || IsWithinServiceHours(currentHour, config.RoadMaintenanceRoadsLargeStartHour, config.RoadMaintenanceRoadsLargeEndHour),
+                "RoadsHighway" => !config.EnableTimeRangeRoadMaintenanceRoadsHighway || IsWithinServiceHours(currentHour, config.RoadMaintenanceRoadsHighwayStartHour, config.RoadMaintenanceRoadsHighwayEndHour),
+                _ => !config.EnableTimeRangeRoadMaintenanceRoadsOther || IsWithinServiceHours(currentHour, config.RoadMaintenanceRoadsOtherStartHour, config.RoadMaintenanceRoadsOtherEndHour),
+            };
+        }
 
-                case "RoadsMedium":
-                    if (config.RoadMaintenanceRoadsMediumStartHour == config.RoadMaintenanceRoadsMediumEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.RoadMaintenanceRoadsMediumStartHour < config.RoadMaintenanceRoadsMediumEndHour)
-                    {
-                        if (currentHour >= config.RoadMaintenanceRoadsMediumStartHour && currentHour <= config.RoadMaintenanceRoadsMediumEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.RoadMaintenanceRoadsMediumStartHour <= currentHour || currentHour <= config.RoadMaintenanceRoadsMediumEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                case "RoadsLarge":
-                    if (config.RoadMaintenanceRoadsLargeStartHour == config.RoadMaintenanceRoadsLargeEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.RoadMaintenanceRoadsLargeStartHour < config.RoadMaintenanceRoadsLargeEndHour)
-                    {
-                        if (currentHour >= config.RoadMaintenanceRoadsLargeStartHour && currentHour <= config.RoadMaintenanceRoadsLargeEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.RoadMaintenanceRoadsLargeStartHour <= currentHour || currentHour <= config.RoadMaintenanceRoadsLargeEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                case "RoadsHighway":
-                    if (config.RoadMaintenanceRoadsHighwayStartHour == config.RoadMaintenanceRoadsHighwayEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.RoadMaintenanceRoadsHighwayStartHour < config.RoadMaintenanceRoadsHighwayEndHour)
-                    {
-                        if (currentHour >= config.RoadMaintenanceRoadsHighwayStartHour && currentHour <= config.RoadMaintenanceRoadsHighwayEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.RoadMaintenanceRoadsHighwayStartHour <= currentHour || currentHour <= config.RoadMaintenanceRoadsHighwayEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                default:
-                    if (config.RoadMaintenanceRoadsOtherStartHour == config.RoadMaintenanceRoadsOtherEndHour)
-                    {
-                        return true;
-                    }
-                    if (config.RoadMaintenanceRoadsOtherStartHour < config.RoadMaintenanceRoadsOtherEndHour)
-                    {
-                        if (currentHour >= config.RoadMaintenanceRoadsOtherStartHour && currentHour <= config.RoadMaintenanceRoadsOtherEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (config.RoadMaintenanceRoadsOtherStartHour <= currentHour || currentHour <= config.RoadMaintenanceRoadsOtherEndHour)
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
+        /// <summary>
+        /// Determines whether the segment with the specified ID is allowed to accept snow services in this time of day.
+        /// </summary>
+        /// <param name="segmentId">The segment ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the segment is allowed to accept snow services in this time of day; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsSnowServiceHours(ushort segmentId)
+        {
+            if (segmentId == 0)
+            {
+                return true;
             }
+
+            float currentHour = timeInfo.CurrentHour;
+
+            var road_info = Singleton<NetManager>.instance.m_segments.m_buffer[segmentId].Info;
+
+            return road_info.category switch
+            {
+                "RoadsSmall" => !config.EnableTimeRangeSnowRoadsSmall || IsWithinServiceHours(currentHour, config.SnowRoadsSmallStartHour, config.SnowRoadsSmallEndHour),
+                "RoadsMedium" => !config.EnableTimeRangeSnowRoadsMedium || IsWithinServiceHours(currentHour, config.SnowRoadsMediumStartHour, config.SnowRoadsMediumEndHour),
+                "RoadsLarge" => !config.EnableTimeRangeSnowRoadsLarge || IsWithinServiceHours(currentHour, config.SnowRoadsLargeStartHour, config.SnowRoadsLargeEndHour),
+                "RoadsHighway" => !config.EnableTimeRangeSnowRoadsHighway || IsWithinServiceHours(currentHour, config.SnowRoadsHighwayStartHour, config.SnowRoadsHighwayEndHour),
+                _ => !config.EnableTimeRangeSnowRoadsOther || IsWithinServiceHours(currentHour, config.SnowRoadsOtherStartHour, config.SnowRoadsOtherEndHour),
+            };
         }
 
         /// <summary>Determines whether a building with specified ID is currently active.</summary>
@@ -1760,6 +1342,21 @@ namespace RealTime.CustomAI
             var info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info;
             BuildingWorkTimeManager.RemoveBuildingWorkTime(buildingID);
             BuildingWorkTimeManager.CreateBuildingWorkTime(buildingID, info);
+        }
+
+        private static bool IsWithinServiceHours(float currentHour, float startHour, float endHour)
+        {
+            if (endHour - startHour >= 24f)
+            {
+                return true;
+            }
+
+            if (endHour < 24f)
+            {
+                return currentHour >= startHour && currentHour <= endHour;
+            }
+
+            return currentHour >= startHour || currentHour <= endHour - 24f;
         }
     }
 }

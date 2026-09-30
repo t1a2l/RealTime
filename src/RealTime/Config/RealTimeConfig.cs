@@ -1326,6 +1326,8 @@ namespace RealTime.Config
 
         private void MigrateServiceHoursToVersion5()
         {
+            Log.Info("MigrateServiceHoursToVersion5");
+
             var type = GetType();
 
             foreach (var enabledProperty in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -1381,6 +1383,8 @@ namespace RealTime.Config
                 startProperty.SetValue(this, start, null);
                 endProperty.SetValue(this, end, null);
                 enabledProperty.SetValue(this, enabled, null);
+
+                RealTimeMod.configProvider.SaveDefaultConfiguration();
             }
         }
     }

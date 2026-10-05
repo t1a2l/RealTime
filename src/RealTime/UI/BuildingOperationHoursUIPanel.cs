@@ -1057,11 +1057,44 @@ namespace RealTime.UI
 
         private bool AreAllShiftsValid()
         {
+            var intervals = new List<(float Start, float End)>();
+
             foreach (var row in m_shiftEditRows)
             {
-                if (row.IsActive && !row.GetEntry().IsValid)
+                if (!row.IsActive)
+                {
+                    continue;
+                }
+
+                var shift = row.GetEntry();
+
+                if (!shift.IsValid)
                 {
                     return false;
+                }
+
+                if (shift.EndTime > shift.StartTime)
+                {
+                    intervals.Add((shift.StartTime, shift.EndTime));
+                }
+                else
+                {
+                    intervals.Add((shift.StartTime, 24f));
+                    intervals.Add((0f, shift.EndTime));
+                }
+            }
+
+            for (int i = 0; i < intervals.Count; i++)
+            {
+                for (int j = i + 1; j < intervals.Count; j++)
+                {
+                    var left = intervals[i];
+                    var right = intervals[j];
+
+                    if (left.Start < right.End && right.Start < left.End)
+                    {
+                        return false;
+                    }
                 }
             }
 

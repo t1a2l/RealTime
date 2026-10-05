@@ -99,12 +99,6 @@
 
   <translation id="OnTimeQuota" value="정시 출퇴근 비율" />
   <translation id="OnTimeQuotaTooltip" value="정확한 시간에 출근하고 퇴근하는 시민의 비율입니다." />
-  <translation id="SecondShiftQuota" value="2교대 근무자 비율" />
-  <translation id="SecondShiftQuotaTooltip" value="오후 근무(2교대)를 하는 시민의 비율입니다." />
-  <translation id="NightShiftQuota" value="야간 근무자 비율" />
-  <translation id="NightShiftQuotaTooltip" value="야간 근무를 하는 시민의 비율입니다." />
-  <translation id="ContinuousNightShiftQuota" value="상시 야간 근무자 비율" />
-  <translation id="ContinuousNightShiftQuotaTooltip" value="지속적으로 야간 근무를 하는 시민의 비율입니다." />
   <translation id="NightClassQuota" value="야간 수업 학생 비율" />
   <translation id="NightClassQuotaTooltip" value="밤에 학교에 다니는 시민의 비율입니다." />
   <translation id="BreakfastDuringWorkOrSchoolQuota" value="업무 중 아침 식사 확률" />

@@ -99,12 +99,6 @@
 
   <translation id="OnTimeQuota" value="อัตราความตรงต่อเวลา" />
   <translation id="OnTimeQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่ไปทำงานและกลับบ้านตรงเวลา" />
-  <translation id="SecondShiftQuota" value="พนักงานกะที่สอง" />
-  <translation id="SecondShiftQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่ทำงานในกะที่สอง" />
-  <translation id="NightShiftQuota" value="พนักงานกะกลางคืน" />
-  <translation id="NightShiftQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่ทำงานในกะกลางคืน" />
-  <translation id="ContinuousNightShiftQuota" value="พนักงานกะกลางคืนแบบต่อเนื่อง" />
-  <translation id="ContinuousNightShiftQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่ทำงานกะกลางคืนแบบไม่หยุดพัก" />
   <translation id="NightClassQuota" value="นักเรียนภาคค่ำ" />
   <translation id="NightClassQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่เข้าเรียนในภาคค่ำ" />
   <translation id="BreakfastDuringWorkOrSchoolQuota" value="ความน่าจะเป็นในการกินมื้อเช้าระหว่างงาน/เรียน" />

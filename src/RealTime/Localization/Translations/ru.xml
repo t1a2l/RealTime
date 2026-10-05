@@ -99,12 +99,6 @@
 
   <translation id="OnTimeQuota" value="Коэффициент пунктуальности" />
   <translation id="OnTimeQuotaTooltip" value="Процент жителей, которые приходят на работу и уходят с нее вовремя" />
-  <translation id="SecondShiftQuota" value="Рабочие второй смены" />
-  <translation id="SecondShiftQuotaTooltip" value="Процент жителей, работающих во вторую смену" />
-  <translation id="NightShiftQuota" value="Рабочие ночной смены" />
-  <translation id="NightShiftQuotaTooltip" value="Процент жителей, работающих в ночную смену" />
-  <translation id="ContinuousNightShiftQuota" value="Постоянные ночные рабочие" />
-  <translation id="ContinuousNightShiftQuotaTooltip" value="Процент жителей, работающих в непрерывную ночную смену" />
   <translation id="NightClassQuota" value="Студенты вечерней школы" />
   <translation id="NightClassQuotaTooltip" value="Процент жителей, посещающих вечернюю школу" />
   <translation id="BreakfastDuringWorkOrSchoolQuota" value="Вероятность завтрака во время работы или учебы" />

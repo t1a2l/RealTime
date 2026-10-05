@@ -99,12 +99,6 @@
 
   <translation id="OnTimeQuota" value="On-time ratio" />
   <translation id="OnTimeQuotaTooltip" value="The percentage of the Cims that will go to and leave their work on time" />
-  <translation id="SecondShiftQuota" value="Second shift workers" />
-  <translation id="SecondShiftQuotaTooltip" value="The percentage of the citizens that work a second shift" />
-  <translation id="NightShiftQuota" value="Night shift workers" />
-  <translation id="NightShiftQuotaTooltip" value="The percentage of the citizens that work a night shift" />
-  <translation id="ContinuousNightShiftQuota" value="Continuous Night shift workers" />
-  <translation id="ContinuousNightShiftQuotaTooltip" value="The percentage of the citizens that work a continuous night shift" />
   <translation id="NightClassQuota" value="Night School students" />
   <translation id="NightClassQuotaTooltip" value="The percentage of the citizens that go to night school" />
   <translation id="BreakfastDuringWorkOrSchoolQuota" value="Breakfast during work or school probability" />

@@ -99,12 +99,6 @@
 
   <translation id="OnTimeQuota" value="Punktualność" />
   <translation id="OnTimeQuotaTooltip" value="Odsetek mieszkańców przychodzących i wychodzących z pracy punktualnie." />
-  <translation id="SecondShiftQuota" value="Pracownicy drugiej zmiany" />
-  <translation id="SecondShiftQuotaTooltip" value="Odsetek mieszkańców pracujących na drugą zmianę." />
-  <translation id="NightShiftQuota" value="Pracownicy nocnej zmiany" />
-  <translation id="NightShiftQuotaTooltip" value="Odsetek mieszkańców pracujących na nocną zmianę." />
-  <translation id="ContinuousNightShiftQuota" value="Pracownicy nocnej zmiany w trybie równoważnym" />
-  <translation id="ContinuousNightShiftQuotaTooltip" value="Odsetek mieszkańców pracujących na nocną zmianę w ruchu ciągłym." />
   <translation id="NightClassQuota" value="Uczniowie szkół wieczorowych" />
   <translation id="NightClassQuotaTooltip" value="Odsetek obywateli uczęszczających do szkół wieczorowych." />
   <translation id="BreakfastDuringWorkOrSchoolQuota" value="Prawdopodobieństwo śniadania podczas pracy lub szkoły" />

@@ -99,12 +99,6 @@
   
   <translation id="OnTimeQuota" value="Коефициент на точност" />
   <translation id="OnTimeQuotaTooltip" value="Процентът граждани, които пристигат и си тръгват от работа точно навреме" />
-  <translation id="SecondShiftQuota" value="Работно време на втора смяна" />
-  <translation id="SecondShiftQuotaTooltip" value="Процентът граждани, работещи втора смяна" />
-  <translation id="NightShiftQuota" value="Работно време на нощна смяна" />
-  <translation id="NightShiftQuotaTooltip" value="Процентът граждани, работещи нощна смяна" />
-  <translation id="ContinuousNightShiftQuota" value="Постоянни нощни работници" />
-  <translation id="ContinuousNightShiftQuotaTooltip" value="Процентът граждани, работещи постоянна нощна смяна" />
   <translation id="NightClassQuota" value="Студенти във вечерно училище" />
   <translation id="NightClassQuotaTooltip" value="Процентът граждани, които посещават вечерно училище" />
   <translation id="BreakfastDuringWorkOrSchoolQuota" value="Вероятност за закуска по време на работа/училище" />

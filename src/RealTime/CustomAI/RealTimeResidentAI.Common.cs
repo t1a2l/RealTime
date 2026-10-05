@@ -748,45 +748,34 @@ namespace RealTime.CustomAI
 
             uint[] workForce = buildingAI.GetBuildingWorkForce(workBuildingId);
 
-            var building = BuildingManager.instance.m_buildings.m_buffer[workBuildingId];
-
-            BuildingWorkTimeManager.WorkTime workTime;
-
-            if (!BuildingWorkTimeManager.BuildingWorkTimeExist(workBuildingId))
-            {
-                if (!BuildingWorkTimeManager.ShouldHaveBuildingWorkTime(workBuildingId))
-                {
-                    return -1;
-                }
-                workTime = BuildingWorkTimeManager.CreateBuildingWorkTime(workBuildingId, building.Info);
-            }
-            else
-            {
-                workTime = BuildingWorkTimeManager.GetBuildingWorkTime(workBuildingId);
-            }
+            var workTime = GetOrCreateWorkTime(workBuildingId);
 
             if (workTime.WorkShifts == null || workTime.WorkShifts.Length == 0)
             {
                 return -1;
             }
 
+            return GetBalancedShiftIndex(workBuildingId, workTime);
+        }
 
-            // initialize one counter per shift, all starting at 0
+        private int GetBalancedShiftIndex(ushort workBuildingId, BuildingWorkTimeManager.WorkTime workTime)
+        {
+            uint[] workForce = buildingAI.GetBuildingWorkForce(workBuildingId);
+
             int[] citizenPerShift = new int[workTime.WorkShifts.Length];
 
             foreach (uint citizenId in workForce)
             {
                 var schedule = GetCitizenSchedule(citizenId);
-                if (schedule.WorkShift == WorkShift.Assigned
-                    && schedule.ShiftIndex >= 0
-                    && schedule.ShiftIndex < citizenPerShift.Length)
+
+                if (schedule.WorkShift == WorkShift.Assigned && schedule.ShiftIndex >= 0 && schedule.ShiftIndex < citizenPerShift.Length)
                 {
                     citizenPerShift[schedule.ShiftIndex]++;
                 }
             }
 
-            // find the shift index with the fewest workers
             int leastPopulatedIndex = 0;
+
             for (int i = 1; i < citizenPerShift.Length; i++)
             {
                 if (citizenPerShift[i] < citizenPerShift[leastPopulatedIndex])
@@ -796,6 +785,22 @@ namespace RealTime.CustomAI
             }
 
             return leastPopulatedIndex;
+        }
+
+        private BuildingWorkTimeManager.WorkTime GetOrCreateWorkTime(ushort workBuildingId)
+        {
+            if (!BuildingWorkTimeManager.BuildingWorkTimeExist(workBuildingId))
+            {
+                if (!BuildingWorkTimeManager.ShouldHaveBuildingWorkTime(workBuildingId))
+                {
+                    return default;
+                }
+                return BuildingWorkTimeManager.CreateBuildingWorkTime(workBuildingId, BuildingManager.instance.m_buildings.m_buffer[workBuildingId].Info);
+            }
+            else
+            {
+                return BuildingWorkTimeManager.GetBuildingWorkTime(workBuildingId);
+            }
         }
     }
 }

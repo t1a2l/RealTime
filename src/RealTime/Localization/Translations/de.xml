@@ -99,12 +99,6 @@
 
   <translation id="OnTimeQuota" value="Pünktlichkeitsquote" />
   <translation id="OnTimeQuotaTooltip" value="Prozentsatz der Bürger, die exakt pünktlich zur Arbeit erscheinen oder sie verlassen." />
-  <translation id="SecondShiftQuota" value="Quote für Spätschicht" />
-  <translation id="SecondShiftQuotaTooltip" value="Prozentsatz der Bürger, die in der Spätschicht arbeiten." />
-  <translation id="NightShiftQuota" value="Quote für Nachtschicht" />
-  <translation id="NightShiftQuotaTooltip" value="Prozentsatz der Bürger, die in der Nachtschicht arbeiten." />
-  <translation id="ContinuousNightShiftQuota" value="Quote für permanente Nachtschicht" />
-  <translation id="ContinuousNightShiftQuotaTooltip" value="Prozentsatz der Bürger, die dauerhaft nachts arbeiten." />
   <translation id="NightClassQuota" value="Quote für Abendschule" />
   <translation id="NightClassQuotaTooltip" value="Prozentsatz der Bürger, die nachts die Schule/Universität besuchen." />
   <translation id="BreakfastDuringWorkOrSchoolQuota" value="Wahrscheinlichkeit Frühstück während Arbeit oder Schule" />

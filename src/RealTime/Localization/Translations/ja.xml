@@ -99,12 +99,6 @@
 
   <translation id="OnTimeQuota" value="定時行動率" />
   <translation id="OnTimeQuotaTooltip" value="定時に出勤・退勤する市民の割合" />
-  <translation id="SecondShiftQuota" value="第2シフトの労働者" />
-  <translation id="SecondShiftQuotaTooltip" value="第2シフト（午後）で働く市民の割合" />
-  <translation id="NightShiftQuota" value="夜勤の労働者" />
-  <translation id="NightShiftQuotaTooltip" value="夜勤で働く市民の割合" />
-  <translation id="ContinuousNightShiftQuota" value="常駐夜勤の労働者" />
-  <translation id="ContinuousNightShiftQuotaTooltip" value="継続的な夜勤に従事する市民の割合" />
   <translation id="NightClassQuota" value="夜間学校の生徒" />
   <translation id="NightClassQuotaTooltip" value="夜間に学校に通う市民の割合" />
   <translation id="BreakfastDuringWorkOrSchoolQuota" value="勤務中の朝食確率" />

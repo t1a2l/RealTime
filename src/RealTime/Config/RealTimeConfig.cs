@@ -213,34 +213,10 @@ namespace RealTime.Config
         public uint OnTimeQuota { get; set; }
 
         /// <summary>
-        /// Gets or sets a value that determines the percentage of the Cims that will work a second shift.
-        /// Valid values are 1..8.
-        /// </summary>
-        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 1)]
-        [ConfigItemSlider(1, 25)]
-        public uint SecondShiftQuota { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value that determines the percentage of the Cims that will work a night shift.
-        /// Valid values are 1..8.
-        /// </summary>
-        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 2)]
-        [ConfigItemSlider(1, 25)]
-        public uint NightShiftQuota { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value that determines the percentage of the Cims that will work a continuous night shift.
-        /// Valid values are 1..8.
-        /// </summary>
-        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 3)]
-        [ConfigItemSlider(1, 25)]
-        public uint ContinuousNightShiftQuota { get; set; }
-
-        /// <summary>
         /// Gets or sets the percentage of the Cims that will go to night class.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 4)]
+        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 1)]
         [ConfigItemSlider(0, 100)]
         public uint NightClassQuota { get; set; }
 
@@ -248,7 +224,7 @@ namespace RealTime.Config
         /// Gets or sets the percentage of the Cims that will go out for breakfast during work or school.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 5)]
+        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 2)]
         [ConfigItemSlider(0, 100)]
         public uint BreakfastDuringWorkOrSchoolQuota { get; set; }
 
@@ -256,7 +232,7 @@ namespace RealTime.Config
         /// Gets or sets the percentage of the Cims that will go out for lunch during work or school.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 6)]
+        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 3)]
         [ConfigItemSlider(0, 100)]
         public uint LunchDuringWorkOrSchoolQuota { get; set; }
 
@@ -264,7 +240,7 @@ namespace RealTime.Config
         /// Gets or sets the percentage of the Cims that will go out for supper during work or school.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 7)]
+        [ConfigItem("2Quotas", "0WorkAndSchoolQuotas", 4)]
         [ConfigItemSlider(0, 100)]
         public uint SupperDuringWorkOrSchoolQuota { get; set; }
 
@@ -1001,11 +977,6 @@ namespace RealTime.Config
         /// </summary>
         public void MigrateWhenNecessary()
         {
-            if (Version == 0)
-            {
-                SecondShiftQuota = (uint)(SecondShiftQuota * 3.125f);
-                NightShiftQuota = (uint)(NightShiftQuota * 3.125f);
-            }
             if(Version < 5)
             {
                 MigrateServiceHoursToVersion5();
@@ -1029,10 +1000,6 @@ namespace RealTime.Config
             ConstructionSpeed = FastMath.Clamp(ConstructionSpeed, 1u, 100u);
 
             SwitchOffLightsMaxHeight = FastMath.Clamp(SwitchOffLightsMaxHeight, 0f, 100f);
-
-            SecondShiftQuota = FastMath.Clamp(SecondShiftQuota, 1u, 25u);
-            NightShiftQuota = FastMath.Clamp(NightShiftQuota, 1u, 25u);
-            ContinuousNightShiftQuota = FastMath.Clamp(ContinuousNightShiftQuota, 1u, 25u);
 
             BreakfastDuringWorkOrSchoolQuota = FastMath.Clamp(BreakfastDuringWorkOrSchoolQuota, 0u, 100u);
             LunchDuringWorkOrSchoolQuota = FastMath.Clamp(LunchDuringWorkOrSchoolQuota, 0u, 100u);
@@ -1166,10 +1133,6 @@ namespace RealTime.Config
             CrimeSlowDown = 0.2f;
             WeeklyCommericalDeliveries = true;
             DummyTrafficBehavior = true;
-
-            SecondShiftQuota = 13;
-            NightShiftQuota = 6;
-            ContinuousNightShiftQuota = 6;
 
             BreakfastDuringWorkOrSchoolQuota = 20;
             LunchDuringWorkOrSchoolQuota = 80;

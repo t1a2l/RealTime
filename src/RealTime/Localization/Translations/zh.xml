@@ -99,12 +99,6 @@
 
   <translation id="OnTimeQuota" value="准点率" />
   <translation id="OnTimeQuotaTooltip" value="能够准时上下班的市民比例" />
-  <translation id="SecondShiftQuota" value="二班制员工" />
-  <translation id="SecondShiftQuotaTooltip" value="在第二班次工作的市民比例" />
-  <translation id="NightShiftQuota" value="三班制 (夜班) 员工" />
-  <translation id="NightShiftQuotaTooltip" value="在夜班工作的市民比例" />
-  <translation id="ContinuousNightShiftQuota" value="持续夜班员工" />
-  <translation id="ContinuousNightShiftQuotaTooltip" value="在持续夜班工作的市民比例" />
   <translation id="NightClassQuota" value="夜校学生比例" />
   <translation id="NightClassQuotaTooltip" value="参加夜校学习的市民比例" />
   <translation id="BreakfastDuringWorkOrSchoolQuota" value="工作/上学期间吃早餐的概率" />

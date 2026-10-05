@@ -19,6 +19,8 @@ namespace RealTime.Managers
 
         public static Dictionary<string, int> HotelNamesList;
 
+        private const float MinimumShiftHours = 1f;
+
         public struct WorkTime
         {
             public DayOfWeek[] WorkDays;       // e.g. { Monday, Tuesday, Wednesday, Thursday, Friday }
@@ -95,8 +97,31 @@ namespace RealTime.Managers
                 endHour = EndTime;
             }
 
-            /// <summary>Returns true if this shift has a non-zero duration.</summary>
-            public readonly bool IsValid => StartTime != EndTime;
+            /// <summary>Returns true if this shift has a minimum of 1 hour duration.</summary>
+            public readonly bool IsValid
+            {
+                get
+                {
+                    if (StartTime < 0f || StartTime >= 24f || EndTime < 0f || EndTime >= 24f)
+                    {
+                        return false;
+                    }
+
+                    if (StartTime == EndTime)
+                    {
+                        return false;
+                    }
+
+                    float duration = EndTime - StartTime;
+
+                    if (duration < 0f)
+                    {
+                        duration += 24f;
+                    }
+
+                    return duration >= MinimumShiftHours;
+                }
+            }
         }
 
         public static void Init()
@@ -361,6 +386,7 @@ namespace RealTime.Managers
                 case ItemClass.Service.Hotel:
                 case ItemClass.Service.Race:
                 case ItemClass.Service.ServicePoint:
+                case ItemClass.Service.Commercial when subService == ItemClass.SubService.CommercialLow && ShouldOccur(RealTimeMod.configProvider.Configuration.OpenLowCommercialAtNightQuota):
                     return ShiftCountToWorkTime(buildingInfo, 3);
 
                 default:

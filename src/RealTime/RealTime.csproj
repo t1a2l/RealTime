@@ -34,6 +34,7 @@
   <ItemGroup>
     <PackageReference Include="CitiesHarmony.API" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="Portable.System.ValueTuple" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">

@@ -341,14 +341,9 @@ namespace RealTime.Managers
             {
                 return ShiftCountToWorkTime(buildingID, buildingInfo, 3);
             }
-            else if (service == ItemClass.Service.Beautification && subService == ItemClass.SubService.BeautificationParks)
+            else if (service == ItemClass.Service.Beautification && subService == ItemClass.SubService.BeautificationParks && BuildingManagerConnection.IsPolicyActive(buildingID, DistrictPolicies.Policies.NightTours))
             {
-                var position = BuildingManager.instance.m_buildings.m_buffer[buildingID].m_position;
-                byte parkId = DistrictManager.instance.GetPark(position);
-                if (parkId != 0 && (DistrictManager.instance.m_parks.m_buffer[parkId].m_parkPolicies & DistrictPolicies.Park.NightTours) != 0)
-                {
-                    return ShiftCountToWorkTime(buildingID, buildingInfo, 3);
-                }
+                return ShiftCountToWorkTime(buildingID, buildingInfo, 3);
             }
             else if (BuildingManagerConnection.IsEssentialIndustryBuilding(buildingID) && (subService == ItemClass.SubService.PlayerIndustryFarming || subService == ItemClass.SubService.PlayerIndustryForestry))
             {

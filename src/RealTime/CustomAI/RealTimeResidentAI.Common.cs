@@ -620,6 +620,7 @@ namespace RealTime.CustomAI
             // vacation can start only between midnight and 2am
             if (TimeInfo.CurrentHour <= 23.85f || TimeInfo.CurrentHour >= 2f)
             {
+                Log.Debug(LogCategory.State, $"Citizen {citizenId} cannot go on vacation because it is not between midnight and 2am");
                 return false;
             }
 
@@ -627,6 +628,7 @@ namespace RealTime.CustomAI
             {
                 if (schedule.SchoolBuilding == 0)
                 {
+                    Log.Debug(LogCategory.State, $"Citizen {citizenId} cannot go on vacation because they are a student but have no school building");
                     return false;
                 }
 
@@ -634,24 +636,29 @@ namespace RealTime.CustomAI
                     || schedule.ScheduledState == ResidentState.GoToSchool || schedule.ScheduledState == ResidentState.GoToMeal ||
                     schedule.ScheduledState == ResidentState.GoShopping)
                 {
+                    Log.Debug(LogCategory.State, $"Citizen {citizenId} cannot go on vacation because they are a student but are currently at school or scheduled to go to school - {schedule.CurrentState}, {schedule.ScheduledState}");
                     return false;
                 }
 
+                Log.Debug(LogCategory.State, $"Student Citizen {citizenId} can go on vacation");
                 return true;
             }
             else
             {
                 if (schedule.WorkBuilding == 0)
                 {
+                    Log.Debug(LogCategory.State, $"Citizen {citizenId} cannot go on vacation because they are a worker but have no work building");
                     return false;
                 }
                 if (schedule.CurrentState == ResidentState.AtWork || schedule.CurrentState == ResidentState.EatMeal
                     || schedule.ScheduledState == ResidentState.GoToWork || schedule.ScheduledState == ResidentState.GoToMeal
                     || schedule.ScheduledState == ResidentState.GoShopping)
                 {
+                    Log.Debug(LogCategory.State, $"Citizen {citizenId} cannot go on vacation because they are a worker but are currently at work or scheduled to go to work - {schedule.CurrentState}, {schedule.ScheduledState}");
                     return false;
                 }
 
+                Log.Debug(LogCategory.State, $"Worker Citizen {citizenId} can go on vacation");
                 return true;
             }
         }
@@ -666,14 +673,17 @@ namespace RealTime.CustomAI
                 if ((citizen.m_flags & Citizen.Flags.Student) != 0)
                 {
                     schedule.SchoolStatus = SchoolStatus.OnVacation;
+                    Log.Debug(LogCategory.State, $"The citizen {citizenId} is a student and is now on vacation");
                 }
                 else
                 {
                     schedule.WorkStatus = WorkStatus.OnVacation;
+                    Log.Debug(LogCategory.State, $"The citizen {citizenId} is a worker and is now on vacation");
                 }
             }
             else
             {
+                Log.Debug(LogCategory.State, $"The citizen {citizenId} cannot go on vacation");
                 return;
             }
 
@@ -682,13 +692,16 @@ namespace RealTime.CustomAI
             // But we intentionally don't avoid this - let's add some randomness.
             if ((schedule.SchoolStatus == SchoolStatus.OnVacation || schedule.WorkStatus == WorkStatus.OnVacation) && schedule.VacationDaysLeft > 0)
             {
+                Log.Debug(LogCategory.State, $"The citizen {citizenId} is already on vacation with {schedule.VacationDaysLeft} days left");
                 // vacation can end only between midnight and 2am
                 if (TimeInfo.CurrentHour <= 23.85f || TimeInfo.CurrentHour >= 2f)
                 {
+                    Log.Debug(LogCategory.State, $"The citizen {citizenId}'s vacation cannot end yet because it is not between midnight and 2am");
                     return;
                 }
 
                 --schedule.VacationDaysLeft;
+                Log.Debug(LogCategory.State, $"The citizen {citizenId} has {schedule.VacationDaysLeft} vacation days left");
 
                 if (schedule.VacationDaysLeft == 0)
                 {
@@ -713,6 +726,7 @@ namespace RealTime.CustomAI
             Log.Debug(LogCategory.State, $"The citizen {citizenId} is now on vacation for {days} days");
             if (!Random.ShouldOccur(FamilyVacationChance) || !CitizenMgr.TryGetFamily(citizenId, familyBuffer))
             {
+                Log.Debug(LogCategory.State, $"The citizen {citizenId} is going on vacation alone");
                 return;
             }
 

@@ -573,40 +573,6 @@ namespace RealTime.CustomAI
         /// </returns>
         public bool IsBuildingActive(ushort buildingId) => buildingManager.BuildingHasFlags(buildingId, Building.Flags.Active);
 
-        /// <summary>
-        /// Determines whether the building with the specified <paramref name="buildingId"/> is noise restricted
-        /// (has NIMBY policy that is active on current time).
-        /// </summary>
-        /// <param name="buildingId">The building ID to check.</param>
-        /// <param name="currentBuildingId">The ID of a building where the citizen starts their journey.
-        /// Specify 0 if there is no journey in schedule.</param>
-        /// <returns>
-        ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> has NIMBY policy
-        ///   that is active on current time; otherwise, <c>false</c>.
-        /// </returns>
-        public bool IsNoiseRestricted(ushort buildingId, ushort currentBuildingId = 0)
-        {
-            float currentHour = timeInfo.CurrentHour;
-            if (currentHour >= config.GoToSleepHour || currentHour <= config.WakeUpHour)
-            {
-                return BuildingManagerConnection.IsBuildingNoiseRestricted(buildingId);
-            }
-
-            if (currentBuildingId == 0)
-            {
-                return false;
-            }
-
-            float travelTime = travelBehavior.GetEstimatedTravelTime(currentBuildingId, buildingId);
-            if (travelTime == 0)
-            {
-                return false;
-            }
-
-            float arriveHour = (float)timeInfo.Now.AddHours(travelTime).TimeOfDay.TotalHours;
-            return (arriveHour >= config.GoToSleepHour || arriveHour <= config.WakeUpHour) && BuildingManagerConnection.IsBuildingNoiseRestricted(buildingId);
-        }
-
         /// <summary>Registers a trouble reaching the building with the specified ID.</summary>
         /// <param name="buildingId">The ID of the building where the citizen will not arrive as planned.</param>
         public void RegisterReachingTrouble(ushort buildingId)
@@ -837,6 +803,19 @@ namespace RealTime.CustomAI
                 ? BuildingWorkTimeManager.CreateBuildingWorkTime(buildingId, building.Info)
                 : BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
 
+
+            int activeShiftIndex = workTime.GetShiftIndex(timeInfo.Now);
+
+            if (activeShiftIndex < 0)
+            {
+                return false;
+            }
+
+            if (BuildingWorkTimeManager.IsPolicyClosed(buildingId, activeShiftIndex))
+            {
+                return false;
+            }
+
             return workTime.IsWorkingAt(timeInfo.Now);
         }
 
@@ -852,27 +831,31 @@ namespace RealTime.CustomAI
             }
 
             var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingID);
-            if (workTime.IgnorePolicy || !workTime.IsDefault)
+
+            if (workTime.IgnorePolicy)
             {
                 return;
             }
 
             var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
+
             var service = building.Info.m_class.m_service;
             var subService = building.Info.m_class.m_subService;
 
-            switch (subService)
+            BuildingWorkTimeManager.ClearPolicyClosed(buildingID);
+
+            if (workTime.WorkShifts == null)
             {
-                case ItemClass.SubService.CommercialLeisure:
-                    UpdateLeisurePolicy(buildingID, workTime);
-                    break;
-                case ItemClass.SubService.PlayerIndustryFarming:
-                case ItemClass.SubService.PlayerIndustryForestry:
-                    UpdateFarmingForestryPolicy(buildingID, workTime);
-                    break;
-                case ItemClass.SubService.BeautificationParks when service == ItemClass.Service.Beautification:
-                    UpdateParkNightToursPolicy(buildingID, workTime);
-                    break;
+                return;
+            }
+
+            for (int index = 0; index < workTime.WorkShifts.Length; index++)
+            {
+                var shift = workTime.WorkShifts[index];
+
+                bool allowed = PolicyAllowsShift(buildingID, service, subService, shift);
+
+                BuildingWorkTimeManager.SetPolicyClosed(buildingID, index, !allowed);
             }
         }
 
@@ -1292,58 +1275,6 @@ namespace RealTime.CustomAI
             }
         }
 
-        private void UpdateLeisurePolicy(ushort buildingID, BuildingWorkTimeManager.WorkTime workTime)
-        {
-            bool isNoiseRestricted = BuildingManagerConnection.IsBuildingNoiseRestricted(buildingID);
-            bool hasNightShift = HasNightShift(workTime);
-
-            // noise restricted but currently has night coverage, or vice versa — regenerate
-            if (isNoiseRestricted == hasNightShift)
-            {
-                RegenerateDefaultWorkTime(buildingID);
-            }
-        }
-
-        private void UpdateFarmingForestryPolicy(ushort buildingID, BuildingWorkTimeManager.WorkTime workTime)
-        {
-            bool isEssential = BuildingManagerConnection.IsEssentialIndustryBuilding(buildingID);
-            bool hasNightShift = HasNightShift(workTime);
-
-            if (isEssential != hasNightShift)
-            {
-                RegenerateDefaultWorkTime(buildingID);
-            }
-        }
-
-        private void UpdateParkNightToursPolicy(ushort buildingID, BuildingWorkTimeManager.WorkTime workTime)
-        {
-            var position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].m_position;
-            byte parkId = DistrictManager.instance.GetPark(position);
-            if (parkId == 0)
-            {
-                return;
-            }
-
-            bool nightTours = (DistrictManager.instance.m_parks.m_buffer[parkId].m_parkPolicies & DistrictPolicies.Park.NightTours) != 0;
-            bool hasNightShift = HasNightShift(workTime);
-
-            if (nightTours == hasNightShift)
-            {
-                return; // already correct
-            }
-
-            RegenerateDefaultWorkTime(buildingID);
-        }
-
-        private bool HasNightShift(BuildingWorkTimeManager.WorkTime workTime) => workTime.WorkShifts != null && workTime.WorkShifts.Any(s => s.StartTime >= config.GoToSleepHour || s.EndTime <= config.WakeUpHour);
-
-        private void RegenerateDefaultWorkTime(ushort buildingID)
-        {
-            var info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info;
-            BuildingWorkTimeManager.RemoveBuildingWorkTime(buildingID);
-            BuildingWorkTimeManager.CreateBuildingWorkTime(buildingID, info);
-        }
-
         private static bool IsWithinServiceHours(float currentHour, float startHour, float endHour)
         {
             if (endHour - startHour >= 24f)
@@ -1358,5 +1289,31 @@ namespace RealTime.CustomAI
 
             return currentHour >= startHour || currentHour <= endHour - 24f;
         }
+
+        private void RegenerateDefaultWorkTime(ushort buildingID)
+        {
+            var info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info;
+            BuildingWorkTimeManager.RemoveBuildingWorkTime(buildingID);
+            BuildingWorkTimeManager.CreateBuildingWorkTime(buildingID, info);
+        }
+
+        private bool PolicyAllowsShift(ushort buildingId, ItemClass.Service service, ItemClass.SubService subService, BuildingWorkTimeManager.WorkShiftTime shiftTime)  
+        {
+            if (!HasNightCoverage(shiftTime))
+            {
+                return true;
+            }
+
+            return subService switch
+            {
+                ItemClass.SubService.CommercialLeisure => !BuildingManagerConnection.IsPolicyActive(buildingId, DistrictPolicies.Policies.NoLoudNoises),
+                ItemClass.SubService.PlayerIndustryFarming or ItemClass.SubService.PlayerIndustryForestry => BuildingManagerConnection.IsEssentialIndustryBuilding(buildingId),
+                ItemClass.SubService.BeautificationParks when service == ItemClass.Service.Beautification => BuildingManagerConnection.IsPolicyActive(buildingId, DistrictPolicies.Policies.NightTours),
+                _ => true,
+            };
+        }
+
+        private bool HasNightCoverage(BuildingWorkTimeManager.WorkShiftTime shiftTime) => shiftTime.StartTime >= config.GoToSleepHour || shiftTime.EndTime <= config.WakeUpHour;
+
     }
 }

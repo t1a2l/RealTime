@@ -15,11 +15,13 @@ namespace RealTime.Managers
 
         public static List<WorkTimePrefab> BuildingsWorkTimePrefabs;
 
-        private static readonly string[] CarParkingBuildings = ["parking", "garage", "car park", "Parking", "Car Port", "Garage", "Car Park"];
-
         public static Dictionary<string, int> HotelNamesList;
 
+        private static readonly string[] CarParkingBuildings = ["parking", "garage", "car park", "Parking", "Car Port", "Garage", "Car Park"];
+
         private const float MinimumShiftHours = 1f;
+
+        private static readonly Dictionary<ushort, HashSet<int>> PolicyClosedShifts = [];
 
         public struct WorkTime
         {
@@ -63,6 +65,24 @@ namespace RealTime.Managers
                 }
 
                 return ContainsHour((float)dateTime.TimeOfDay.TotalHours);
+            }
+
+            public readonly int GetShiftIndex(DateTime dateTime)
+            {
+                if (WorkShifts == null)
+                {
+                    return -1;
+                }
+
+                for (int index = 0; index < WorkShifts.Length; index++)
+                {
+                    if (WorkShifts[index].ContainsTime((float)dateTime.TimeOfDay.TotalHours))
+                    {
+                        return index;
+                    }
+                }
+
+                return -1;
             }
         }
 
@@ -319,7 +339,7 @@ namespace RealTime.Managers
             if (BuildingManagerConnection.IsHotel(buildingID) || BuildingManagerConnection.IsAreaMainBuilding(buildingID) && ai is not ParkGateAI
                 || BuildingManagerConnection.IsWarehouseBuilding(buildingID) || BuildingManagerConnection.IsUniqueFactoryBuilding(buildingID))
             {
-                return ShiftCountToWorkTime(buildingInfo, 3);
+                return ShiftCountToWorkTime(buildingID, buildingInfo, 3);
             }
             else if (service == ItemClass.Service.Beautification && subService == ItemClass.SubService.BeautificationParks)
             {
@@ -327,25 +347,26 @@ namespace RealTime.Managers
                 byte parkId = DistrictManager.instance.GetPark(position);
                 if (parkId != 0 && (DistrictManager.instance.m_parks.m_buffer[parkId].m_parkPolicies & DistrictPolicies.Park.NightTours) != 0)
                 {
-                    return ShiftCountToWorkTime(buildingInfo, 3);
+                    return ShiftCountToWorkTime(buildingID, buildingInfo, 3);
                 }
             }
             else if (BuildingManagerConnection.IsEssentialIndustryBuilding(buildingID) && (subService == ItemClass.SubService.PlayerIndustryFarming || subService == ItemClass.SubService.PlayerIndustryForestry))
             {
-                return ShiftCountToWorkTime(buildingInfo, 3);
+                return ShiftCountToWorkTime(buildingID, buildingInfo, 3);
             }
             else if (BuildingManagerConnection.IsRecreationalCareBuilding(buildingID))
             {
-                return ShiftCountToWorkTime(buildingInfo, 2);
+                return ShiftCountToWorkTime(buildingID, buildingInfo, 2);
             }
-            else if (service == ItemClass.Service.Commercial && subService == ItemClass.SubService.CommercialLeisure && BuildingManagerConnection.IsBuildingNoiseRestricted(buildingID))
+            else if (service == ItemClass.Service.Commercial && subService == ItemClass.SubService.CommercialLeisure && BuildingManagerConnection.IsPolicyActive(buildingID, DistrictPolicies.Policies.NoLoudNoises))
             {
-                return ShouldOccur(RealTimeMod.configProvider.Configuration.OpenCommercialSecondShiftQuota) ? ShiftCountToWorkTime(buildingInfo, 2) : ShiftCountToWorkTime(buildingInfo, 1);
+                int shiftCount = ShouldOccur(RealTimeMod.configProvider.Configuration.OpenCommercialSecondShiftQuota) ? 2 : 1;
+                return ShiftCountToWorkTime(buildingID, buildingInfo, shiftCount);
             }
 
             if (CarParkingBuildings.Any(s => buildingInfo.name.Contains(s)))
             {
-                return ShiftCountToWorkTime(buildingInfo, 3);
+                return ShiftCountToWorkTime(buildingID, buildingInfo, 3);
             }
 
             switch (service)
@@ -358,7 +379,7 @@ namespace RealTime.Managers
                     when subService == ItemClass.SubService.IndustrialForestry || subService == ItemClass.SubService.IndustrialFarming:
                 case ItemClass.Service.PoliceDepartment when subService == ItemClass.SubService.PoliceDepartmentBank:
                 case ItemClass.Service.PublicTransport when subService == ItemClass.SubService.PublicTransportPost:
-                    return ShiftCountToWorkTime(buildingInfo, 1);
+                    return ShiftCountToWorkTime(buildingID, buildingInfo, 1);
 
                 case ItemClass.Service.Beautification:
                 case ItemClass.Service.Monument:
@@ -369,7 +390,7 @@ namespace RealTime.Managers
                 case ItemClass.Service.Commercial when ShouldOccur(RealTimeMod.configProvider.Configuration.OpenCommercialSecondShiftQuota):
                 case ItemClass.Service.HealthCare when ai is SaunaAI:
                 case ItemClass.Service.Fishing when level == ItemClass.Level.Level1 && ai is MarketAI:
-                    return ShiftCountToWorkTime(buildingInfo, 2);
+                    return ShiftCountToWorkTime(buildingID, buildingInfo, 2);
 
                 case ItemClass.Service.Industrial:
                 case ItemClass.Service.Tourism:
@@ -387,10 +408,10 @@ namespace RealTime.Managers
                 case ItemClass.Service.Race:
                 case ItemClass.Service.ServicePoint:
                 case ItemClass.Service.Commercial when subService == ItemClass.SubService.CommercialLow && ShouldOccur(RealTimeMod.configProvider.Configuration.OpenLowCommercialAtNightQuota):
-                    return ShiftCountToWorkTime(buildingInfo, 3);
+                    return ShiftCountToWorkTime(buildingID, buildingInfo, 3);
 
                 default:
-                    return ShiftCountToWorkTime(buildingInfo, 1);
+                    return ShiftCountToWorkTime(buildingID, buildingInfo, 1);
             }
         }
 
@@ -414,13 +435,13 @@ namespace RealTime.Managers
             }
         }
 
-        public static WorkTime ShiftCountToWorkTime(BuildingInfo buildingInfo, int shiftCount)
+        public static WorkTime ShiftCountToWorkTime(ushort buildingID, BuildingInfo buildingInfo, int shiftCount)
         {
             var service = buildingInfo.m_class.m_service;
             var subService = buildingInfo.m_class.m_subService;
             var level = buildingInfo.m_class.m_level;
 
-            bool openOnWeekends = IsBuildingActiveOnWeekend(service, subService);
+            bool openOnWeekends = IsBuildingWorkingOnWeekend(buildingID, service, subService);
             bool extendedShift = HasExtendedFirstWorkShift(service, subService);
             bool continuousShift = HasContinuousWorkShift(service, subService, level, extendedShift);
 
@@ -571,8 +592,14 @@ namespace RealTime.Managers
             return shifts;
         }
 
-        public static bool IsBuildingActiveOnWeekend(ItemClass.Service service, ItemClass.SubService subService)
+        public static bool IsBuildingWorkingOnWeekend(ushort buildingID, ItemClass.Service service, ItemClass.SubService subService)
         {
+            if (BuildingManagerConnection.IsHotel(buildingID) || BuildingManagerConnection.IsAreaMainBuilding(buildingID)
+                || BuildingManagerConnection.IsWarehouseBuilding(buildingID) || BuildingManagerConnection.IsUniqueFactoryBuilding(buildingID))
+            {
+                return true;
+            }
+
             switch (subService)
             {
                 case ItemClass.SubService.CommercialTourist:
@@ -637,6 +664,39 @@ namespace RealTime.Managers
 
             SetBuildingWorkTime(buildingID, workTime);
         }
+
+        public static bool IsPolicyClosed(ushort buildingId, int shiftIndex) => PolicyClosedShifts.TryGetValue(buildingId, out var closedShifts) && closedShifts.Contains(shiftIndex);
+
+        public static void SetPolicyClosed(ushort buildingId, int shiftIndex, bool closed)
+        {
+            if (closed)
+            {
+                if (!PolicyClosedShifts.TryGetValue(buildingId, out var closedShifts))
+                {
+                    closedShifts = [];
+                    PolicyClosedShifts[buildingId] = closedShifts;
+                }
+
+                closedShifts.Add(shiftIndex);
+                return;
+            }
+
+            if (!PolicyClosedShifts.TryGetValue(buildingId, out var existingShifts))
+            {
+                return;
+            }
+
+            existingShifts.Remove(shiftIndex);
+
+            if (existingShifts.Count == 0)
+            {
+                PolicyClosedShifts.Remove(buildingId);
+            }
+        }
+
+        public static void ClearPolicyClosed(ushort buildingId) => PolicyClosedShifts.Remove(buildingId);
+
+        public static void ClearAllPolicyClosures() => PolicyClosedShifts.Clear();
 
         private static bool ShouldOccur(uint probability) => SimulationManager.instance.m_randomizer.Int32(100u) < probability;
 

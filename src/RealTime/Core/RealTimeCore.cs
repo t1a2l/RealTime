@@ -253,6 +253,7 @@ namespace RealTime.Core
             EventManagerPatch.RealTimeBuildingAI = null;
             EventManagerPatch.TimeAdjustment = null;
             EventManagerPatch.TimeInfo = null;
+            HumanAIPatch.RealTimeBuildingAI = null;
             HumanAIPatch.RealTimeResidentAI = null;
             OutsideConnectionAIPatch.SpareTimeBehavior = null;
             OutsideConnectionAIPatch.Compatibility = null;
@@ -479,8 +480,9 @@ namespace RealTime.Core
             EventManagerPatch.RealTimeBuildingAI = realTimeBuildingAI;
             EventManagerPatch.TimeInfo = timeInfo;
 
+            HumanAIPatch.RealTimeBuildingAI = realTimeBuildingAI;
             HumanAIPatch.RealTimeResidentAI = realTimeResidentAI;
-
+            
             OutsideConnectionAIPatch.SpareTimeBehavior = spareTimeBehavior;
             OutsideConnectionAIPatch.Compatibility = compatibility;
 

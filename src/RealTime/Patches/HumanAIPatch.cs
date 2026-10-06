@@ -12,8 +12,50 @@ namespace RealTime.Patches
     [HarmonyPatch]
     internal static class HumanAIPatch
     {
-        /// <summary>Gets or sets the custom AI object for resident citizens.</summary>
+        /// <summary>
+        /// Gets or sets the custom AI object for resident citizens.
+        /// </summary>
         public static RealTimeResidentAI<ResidentAI, Citizen> RealTimeResidentAI { get; set; }
+
+        /// <summary>
+        ///  Gets or sets the custom AI object for buildings.
+        /// </summary>
+        public static RealTimeBuildingAI RealTimeBuildingAI { get; set; }
+
+        [HarmonyPatch(typeof(HumanAI), "StartMoving",
+                [typeof(uint), typeof(Citizen), typeof(ushort), typeof(ushort)],
+                [ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Normal, ArgumentType.Normal])]
+        [HarmonyPrefix]
+        public static bool StartMoving(HumanAI __instance, uint citizenID, ref Citizen data, ushort sourceBuilding, ushort targetBuilding, ref bool __result)
+        {
+            if (targetBuilding == sourceBuilding)
+            {
+                return true;
+            }
+
+            if (targetBuilding == 0)
+            {
+                return true;
+            }
+
+            var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[targetBuilding];
+
+            bool active = (building.m_flags & Building.Flags.Active) != 0;
+
+            if (active)
+            {
+                return true;
+            }
+
+            if (!RealTimeBuildingAI.IsBuildingOpeningSoon(targetBuilding, 1))
+            {
+                return true;
+            }
+
+            __result = true;
+            return false;
+        }
+
 
         [HarmonyPatch(typeof(HumanAI), "StartMoving",
             [typeof(uint), typeof(Citizen), typeof(ushort), typeof(ushort)],

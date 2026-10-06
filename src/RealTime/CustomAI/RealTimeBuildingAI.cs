@@ -688,7 +688,7 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>
-        /// Determines whether the building with the specified <paramref name="buildingId"/> is going to get closed in two hours or less
+        /// Determines whether the building with the specified <paramref name="buildingId"/> is going to get open in one hour or less
         /// </summary>
         /// <param name="buildingId">The building ID to check.</param>
         /// <param name="timeBeforeOpening">The time before opening in hours, default is 1 hour.</param>

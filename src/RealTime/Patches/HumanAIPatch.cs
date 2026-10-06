@@ -47,7 +47,7 @@ namespace RealTime.Patches
                 return true;
             }
 
-            if (!RealTimeBuildingAI.IsBuildingOpeningSoon(targetBuilding, 1))
+            if (!RealTimeBuildingAI.IsBuildingOpeningSoon(targetBuilding, 1) || building.m_fireIntensity != 0 || (building.m_flags & Building.Flags.Evacuating) != 0)
             {
                 return true;
             }

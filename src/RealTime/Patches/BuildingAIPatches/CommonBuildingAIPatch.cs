@@ -4,6 +4,7 @@ namespace RealTime.Patches.BuildingAIPatches
     using System.Runtime.CompilerServices;
     using ColossalFramework;
     using HarmonyLib;
+    using ICities;
     using RealTime.CustomAI;
     using RealTime.GameConnection;
     using RealTime.Managers;
@@ -83,67 +84,18 @@ namespace RealTime.Patches.BuildingAIPatches
         [HarmonyPrefix]
         public static bool EmptyBuilding(ushort buildingID, ref Building data, CitizenUnit.Flags flags, bool onlyMoving)
         {
-            if (data.m_fireIntensity != 0)
+            bool evacuating = (data.m_flags & Building.Flags.Evacuating) != 0;
+
+            bool onFire = data.m_fireIntensity != 0;
+
+            // Preserve vanilla evacuation for emergencies.
+            if (evacuating || onFire)
             {
-                var instance = Singleton<CitizenManager>.instance;
-                uint num = data.m_citizenUnits;
-                int num2 = 0;
-                while (num != 0)
-                {
-                    if ((instance.m_units.m_buffer[num].m_flags & flags) != 0)
-                    {
-                        for (int i = 0; i < 5; i++)
-                        {
-                            uint citizen = instance.m_units.m_buffer[num].GetCitizen(i);
-                            if (citizen == 0)
-                            {
-                                continue;
-                            }
-                            ushort instance2 = instance.m_citizens.m_buffer[citizen].m_instance;
-                            if ((onlyMoving || instance.m_citizens.m_buffer[citizen].GetBuildingByLocation() != buildingID) && (instance2 == 0 || instance.m_instances.m_buffer[instance2].m_targetBuilding != buildingID || (instance.m_instances.m_buffer[instance2].m_flags & CitizenInstance.Flags.TargetIsNode) != 0) || instance.m_citizens.m_buffer[citizen].Collapsed)
-                            {
-                                continue;
-                            }
-                            ushort num3 = 0;
-                            if (instance.m_citizens.m_buffer[citizen].m_workBuilding == buildingID)
-                            {
-                                num3 = instance.m_citizens.m_buffer[citizen].m_homeBuilding;
-                            }
-                            else if (instance.m_citizens.m_buffer[citizen].m_visitBuilding == buildingID)
-                            {
-                                if (instance.m_citizens.m_buffer[citizen].Arrested)
-                                {
-                                    instance.m_citizens.m_buffer[citizen].Arrested = false;
-                                    if (instance2 != 0)
-                                    {
-                                        instance.ReleaseCitizenInstance(instance2);
-                                    }
-                                }
-                                instance.m_citizens.m_buffer[citizen].SetVisitplace(citizen, 0, 0u);
-                                num3 = instance.m_citizens.m_buffer[citizen].m_homeBuilding;
-                            }
-                            if (num3 != 0)
-                            {
-                                var citizenInfo = instance.m_citizens.m_buffer[citizen].GetCitizenInfo(citizen);
-                                var humanAI = citizenInfo.m_citizenAI as HumanAI;
-                                if (humanAI != null)
-                                {
-                                    instance.m_citizens.m_buffer[citizen].m_flags &= ~Citizen.Flags.Evacuating;
-                                    humanAI.StartMoving(citizen, ref instance.m_citizens.m_buffer[citizen], buildingID, num3);
-                                }
-                            }
-                        }
-                    }
-                    num = instance.m_units.m_buffer[num].m_nextUnit;
-                    if (++num2 > Singleton<CitizenManager>.instance.m_units.m_size)
-                    {
-                        CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                        break;
-                    }
-                }
-                return false;
+                return true;
             }
-            return true;
+
+            // Keep citizens inside temporary until the building is open again.
+            return !RealTimeBuildingAI.IsBuildingOpeningSoon(buildingID, 1);
         }
 
         [HarmonyPatch(typeof(CommonBuildingAI), "HandleFire")]

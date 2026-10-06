@@ -1277,7 +1277,7 @@ namespace RealTime.Config
                             {
                                 var service = building.Info.m_class.m_service;
                                 var subService = building.Info.m_class.m_subService;
-                                bool openOnWeekends = BuildingWorkTimeManager.IsBuildingActiveOnWeekend(service, subService);
+                                bool openOnWeekends = BuildingWorkTimeManager.IsBuildingWorkingOnWeekend(buildingId, service, subService);
                                 workTime.WorkDays = openOnWeekends ? allWeek : noWeekend;
                             }
                             BuildingWorkTimeManager.SetBuildingWorkTime(buildingId, workTime);

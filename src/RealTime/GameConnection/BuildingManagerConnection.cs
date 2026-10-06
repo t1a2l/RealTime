@@ -270,31 +270,6 @@ namespace RealTime.GameConnection
                 ? string.Empty
                 : BuildingManager.instance.GetBuildingName(buildingId, InstanceID.Empty);
 
-        /// <summary>
-        /// Determines whether the building with specified ID is located in a noise restricted district.
-        /// </summary>
-        /// <param name="buildingId">The building ID to check.</param>
-        /// <returns>
-        ///   <c>true</c> if the building with specified ID is located in a noise restricted district;
-        ///   otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsBuildingNoiseRestricted(ushort buildingId)
-        {
-            if (buildingId == 0)
-            {
-                return false;
-            }
-
-            var location = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position;
-            byte district = DistrictManager.instance.GetDistrict(location);
-            if(district == 0)
-            {
-                return false;
-            }
-            var policies = DistrictManager.instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
-            return (policies & DistrictPolicies.CityPlanning.NoLoudNoises) != 0;
-        }
-
         /// <summary>Gets the maximum possible buildings count.</summary>
         /// <returns>The maximum possible buildings count.</returns>
         public int GetMaxBuildingsCount() => BuildingManager.instance.m_buildings.m_buffer.Length;
@@ -336,30 +311,6 @@ namespace RealTime.GameConnection
             ref var building = ref BuildingManager.instance.m_buildings.m_buffer[buildingId];
             building.Info?.m_buildingAI.BuildingDeactivated(buildingId, ref building);
         }
-
-        /// <summary>Gets the ID of the park area where the building with specified ID is located. Returns 0 if the building
-        /// is not in a park.</summary>
-        /// <param name="buildingId">The ID of the building to get the park ID of.</param>
-        /// <returns>An ID of the park where the building is located, or 0.</returns>
-        public byte GetParkId(ushort buildingId)
-        {
-            if (buildingId == 0)
-            {
-                return 0;
-            }
-
-            var position = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position;
-            return DistrictManager.instance.GetPark(position);
-        }
-
-        /// <summary>Gets the policies for a park with specified ID. Returns <see cref="DistrictPolicies.Park.None"/>
-        /// if the specified park ID is 0 or invalid.</summary>
-        /// <param name="parkId">The ID of the park to get policies of.</param>
-        /// <returns>The policies of the park.</returns>
-        public DistrictPolicies.Park GetParkPolicies(byte parkId) =>
-            parkId == 0
-                ? DistrictPolicies.Park.None
-                : DistrictManager.instance.m_parks.m_buffer[parkId].m_parkPolicies;
 
         /// <summary>
         /// Determines whether the area around the building with specified ID is currently being evacuated.
@@ -695,6 +646,17 @@ namespace RealTime.GameConnection
             return false;
         }
 
+        /// <summary>Checks if a policy is active for the district where the building with specified ID is located. Returns <see cref="DistrictPolicies.Policies.None"/>
+        /// if the specified district ID is 0 or invalid.</summary>
+        /// <param name="buildingId">The ID of the building to check the policy for.</param>
+        /// <param name="policy">The policy to check.</param>
+        /// <returns><c>true</c> if the policy is active; otherwise, <c>false</c>.</returns>
+        public static bool IsPolicyActive(ushort buildingId, DistrictPolicies.Policies policy)
+        {
+            byte districtId = GetDistrictId(buildingId);
+            return IsDistrictPolicyActive(districtId, policy);
+        }
+
         /// <summary>
         /// Determines whether the building with specified ID is essential to the supply chain
         /// when advanced automation policy is on.
@@ -715,24 +677,7 @@ namespace RealTime.GameConnection
             var buildingInfo = building.Info;
             var buildinAI = buildingInfo?.m_buildingAI;
 
-            var instance = Singleton<DistrictManager>.instance;
-            byte b = instance.GetPark(building.m_position);
-            if (b != 0)
-            {
-                if (instance.m_parks.m_buffer[b].IsIndustry)
-                {
-                    var parkPolicies = instance.m_parks.m_buffer[b].m_parkPolicies;
-                    if ((parkPolicies & DistrictPolicies.Park.AdvancedAutomation) != 0)
-                    {
-                        if (buildinAI is ProcessingFacilityAI || buildinAI is WarehouseAI || buildinAI is WarehouseStationAI)
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-
-            return false;
+            return (buildinAI is ProcessingFacilityAI || buildinAI is WarehouseAI || buildinAI is WarehouseStationAI) && IsPolicyActive(buildingId, DistrictPolicies.Policies.AdvancedAutomation);
         }
 
 
@@ -1010,6 +955,19 @@ namespace RealTime.GameConnection
             }
             citizenManager.m_citizens.m_buffer[citizen].m_vehicle = 0;
         }
+
+        private static byte GetDistrictId(ushort buildingId)
+        {
+            if (buildingId == 0)
+            {
+                return 0;
+            }
+
+            var position = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position;
+            return DistrictManager.instance.GetDistrict(position);
+        }
+
+        private static bool IsDistrictPolicyActive(byte districtId, DistrictPolicies.Policies policy) => districtId != 0 && DistrictManager.instance.m_districts.m_buffer[districtId].IsPolicySet(policy);
 
     }
 }

@@ -349,8 +349,11 @@
   <translation id="MealType.Lunch" value="昼食" />
   <translation id="MealType.Supper" value="夕食" />
   <translation id="MealType.Other" value="軽食" />
-  <translation id="WorkShift.Assigned" value="シフトに割り当てられている" />
-  <translation id="WorkStatus.OnVacation" value="（休暇中: {0} 日間）" />
+  <translation id="WorkShift.Assigned" value="シフトに割り当てられました" />
+  <translation id="WorkStatus.OnVacation" value="(仕事の休暇: {0}日)" />
+  <translation id="SchoolClass.DayClass" value="昼間クラスに割り当てられました" />
+  <translation id="SchoolClass.NightClass" value="夜間クラスに割り当てられました" />
+  <translation id="SchoolStatus.OnVacation" value="(学校の休暇: {0}日)" />
 
   <translation id="AcademicYear.DaysLeft" value="残り {0} 日" />
   <translation id="AcademicYear.HoursLeft" value="残り {0} 時間" />

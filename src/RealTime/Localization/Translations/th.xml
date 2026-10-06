@@ -110,7 +110,7 @@
   
   <translation id="LocalBuildingSearchQuota" value="อัตราการชอปปิงในท้องถิ่น" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่จะค้นหาร้านค้าในบริเวณใกล้เคียง" />
-  <translation id="ShoppingForFunQuota" value="การชอปปิงเพื่อความบันเทิง" />
+  <translation id="ShoppingForFunQuota" value="การชอปปิ้งเพื่อความบันเทิง" />
   <translation id="ShoppingForFunQuotaTooltip" value="เปอร์เซ็นต์ของพลเมืองที่จะออกไปชอปปิงเพื่อความสนุกแม้ว่าจะไม่ต้องการสินค้าใดๆ ก็ตาม" />
   
   <translation id="OpenLowCommercialAtNightQuota" value="ร้านค้าขนาดเล็กที่เปิดตอนกลางคืน" />
@@ -349,8 +349,11 @@
   <translation id="MealType.Lunch" value="อาหารกลางวัน" />
   <translation id="MealType.Supper" value="อาหารเย็น" />
   <translation id="MealType.Other" value="อาหารว่าง" />
-  <translation id="WorkShift.Assigned" value="ได้รับมอบหมายกะการทำงาน" />
-  <translation id="WorkStatus.OnVacation" value="(ลาพักร้อน: {0} วัน)" />
+  <translation id="WorkShift.Assigned" value="มอบหมายให้ทำงานกะนี้" />  
+  <translation id="WorkStatus.OnVacation" value="(ลาจากงาน: {0} วัน)" />
+  <translation id="SchoolClass.DayClass" value="มอบหมายให้เรียนเวลากลางวัน" />
+  <translation id="SchoolClass.NightClass" value="มอบหมายให้เรียนเวลากลางคืน" />
+  <translation id="SchoolStatus.OnVacation" value="(ลาจากโรงเรียน: {0} วัน)" />
 
   <translation id="AcademicYear.DaysLeft" value="เหลืออีก {0} วันจะจบปีการศึกษา" />
   <translation id="AcademicYear.HoursLeft" value="เหลืออีก {0} ชั่วโมงจะจบปีการศึกษา" />

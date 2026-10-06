@@ -350,7 +350,10 @@
   <translation id="MealType.Supper" value="вечеря" />
   <translation id="MealType.Other" value="закуска" />
   <translation id="WorkShift.Assigned" value="Назначен на смяна" />
-  <translation id="WorkStatus.OnVacation" value="(отпуск: {0} дни)" />
+  <translation id="WorkStatus.OnVacation" value="(отпуск от работа: {0} дни)" />
+  <translation id="SchoolClass.DayClass" value="Назначен на дневен клас" />
+  <translation id="SchoolClass.NightClass" value="Назначен на вечерен клас" />
+  <translation id="SchoolStatus.OnVacation" value="(отпуск от училище: {0} дни)" />
 
   <translation id="AcademicYear.DaysLeft" value="Завършва след {0} дни" />
   <translation id="AcademicYear.HoursLeft" value="Завършва след {0} часа" />

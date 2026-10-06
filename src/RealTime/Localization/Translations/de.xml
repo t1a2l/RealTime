@@ -349,8 +349,11 @@
   <translation id="MealType.Lunch" value="Mittagessen" />
   <translation id="MealType.Supper" value="Abendessen" />
   <translation id="MealType.Other" value="einen Snack" />
-  <translation id="WorkShift.Assigned" value="Schicht zugewiesen" />
-  <translation id="WorkStatus.OnVacation" value="(Urlaub: {0} Tage)" />
+  <translation id="WorkShift.Assigned" value="Zur Schicht zugewiesen" />
+  <translation id="WorkStatus.OnVacation" value="(Arbeitsurlaub: {0} Tage)" />
+  <translation id="SchoolClass.DayClass" value="Zur Tagesklasse zugewiesen" />
+  <translation id="SchoolClass.NightClass" value="Zur Abendklasse zugewiesen" />
+  <translation id="SchoolStatus.OnVacation" value="(Schulferien: {0} Tage)" />
 
   <translation id="AcademicYear.DaysLeft" value="noch {0} Tage" />
   <translation id="AcademicYear.HoursLeft" value="noch {0} Std." />

@@ -349,8 +349,11 @@
   <translation id="MealType.Lunch" value="점심 식사" />
   <translation id="MealType.Supper" value="저녁 식사" />
   <translation id="MealType.Other" value="간식" />
-  <translation id="WorkShift.Assigned" value="교대 근무 배정됨" />
-  <translation id="WorkStatus.OnVacation" value="(휴가 중: {0}일)" />
+  <translation id="WorkShift.Assigned" value="근무 교대로 배정됨" />
+  <translation id="WorkStatus.OnVacation" value="(업무 휴가: {0}일)" />
+  <translation id="SchoolClass.DayClass" value="주간 수업으로 배정됨" />
+  <translation id="SchoolClass.NightClass" value="야간 수업으로 배정됨" />
+  <translation id="SchoolStatus.OnVacation" value="(학교 휴가: {0}일)" />
 
   <translation id="AcademicYear.DaysLeft" value="{0}일 남음" />
   <translation id="AcademicYear.HoursLeft" value="{0}시간 남음" />

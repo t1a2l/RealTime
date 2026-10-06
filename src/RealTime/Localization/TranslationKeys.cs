@@ -34,17 +34,11 @@ namespace RealTime.Localization
         /// <summary>The key for the next scheduled state text.</summary>
         public const string ScheduledState = "ScheduledState";
 
-        /// <summary>The key for the work shift text.</summary>
-        public const string WorkShiftKey = "WorkShift";
-
         /// <summary>The key for the work vacation text.</summary>
         public const string WorkStatusOnVacation = "WorkStatus.OnVacation";
 
-        /// <summary>The key for the school class text.</summary>
-        public const string SchoolClassKey = "SchoolClass";
-
-        /// <summary>The key for the school class vacation text.</summary>
-        public const string SchoolClassOnVacation = "SchoolClass.OnVacation";
+        /// <summary>The key for the school vacation text.</summary>
+        public const string SchoolStatusOnVacation = "SchoolStatus.OnVacation";
 
         /// <summary>The key for the academic year end ETA text (in days).</summary>
         public const string AcademicYearDaysLeft = "AcademicYear.DaysLeft";

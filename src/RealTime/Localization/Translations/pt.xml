@@ -350,7 +350,10 @@
   <translation id="MealType.Supper" value="jantar" />
   <translation id="MealType.Other" value="um lanche" />
   <translation id="WorkShift.Assigned" value="Atribuído ao turno" />
-  <translation id="WorkStatus.OnVacation" value="(férias: {0} dias)" />
+  <translation id="WorkStatus.OnVacation" value="(férias do trabalho: {0} dias)" />
+  <translation id="SchoolClass.DayClass" value="Atribuído à aula diurna" />
+  <translation id="SchoolClass.NightClass" value="Atribuído à aula noturna" />
+  <translation id="SchoolStatus.OnVacation" value="(férias da escola: {0} dias)" />
 
   <translation id="AcademicYear.DaysLeft" value="Termina em {0} dias" />
   <translation id="AcademicYear.HoursLeft" value="Termina em {0} hora(s)" />

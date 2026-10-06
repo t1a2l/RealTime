@@ -354,7 +354,10 @@
   <translation id="MealType.Supper" value="supper" />
   <translation id="MealType.Other" value="a snack" />
   <translation id="WorkShift.Assigned" value="Assigned to shift" />
-  <translation id="WorkStatus.OnVacation" value="(vacation: {0} days)" />
+  <translation id="WorkStatus.OnVacation" value="(vacation from work: {0} days)" />
+  <translation id="SchoolClass.DayClass" value="Assigned to day class" />
+  <translation id="SchoolClass.NightClass" value="Assigned to night class" />
+  <translation id="SchoolStatus.OnVacation" value="(vacation from school: {0} days)" />
 
   <translation id="AcademicYear.DaysLeft" value="Ends in {0} days" />
   <translation id="AcademicYear.HoursLeft" value="Ends in {0} hour(s)" />

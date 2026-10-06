@@ -349,8 +349,11 @@
   <translation id="MealType.Lunch" value="déjeuner" />
   <translation id="MealType.Supper" value="dîner" />
   <translation id="MealType.Other" value="une collation" />
-  <translation id="WorkShift.Assigned" value="Affecté au quart" />
-  <translation id="WorkStatus.OnVacation" value="(vacances : {0} jours)" />
+  <translation id="WorkShift.Assigned" value="Assigné au quart" />
+  <translation id="WorkStatus.OnVacation" value="(congés du travail: {0} jours)" />
+  <translation id="SchoolClass.DayClass" value="Assigné à la classe de jour" />
+  <translation id="SchoolClass.NightClass" value="Assigné à la classe du soir" />
+  <translation id="SchoolStatus.OnVacation" value="(congés scolaires: {0} jours)" />
 
   <translation id="AcademicYear.DaysLeft" value="{0} j restants" />
   <translation id="AcademicYear.HoursLeft" value="{0} h restantes" />

@@ -312,19 +312,21 @@ namespace RealTime.UI
                     return;
                 }
 
-                string schoolClass = localizationProvider.Translate(
-                    SchoolClassKey + "." + schedule.SchoolClass);
+                string schoolClass = localizationProvider.Translate("SchoolClass." + schedule.SchoolClass);
 
                 if (string.IsNullOrEmpty(schoolClass))
                 {
                     return;
                 }
 
-                AppendLine(info, ref labelHeight, null, schoolClass);
+                string schoolStartHour = DateTime.Now.FutureHour(schedule.SchoolClassStartTime).ToString("t", localizationProvider.CurrentCulture);
+                string schoolEndHour = DateTime.Now.FutureHour(schedule.SchoolClassEndTime).ToString("t", localizationProvider.CurrentCulture);
+
+                AppendLine(info, ref labelHeight, null, schoolClass + ": " + schoolStartHour + " - " + schoolEndHour);
 
                 if (schedule.SchoolStatus == SchoolStatus.OnVacation)
                 {
-                    string vacation = localizationProvider.Translate(SchoolClassOnVacation);
+                    string vacation = localizationProvider.Translate(SchoolStatusOnVacation);
 
                     if (!string.IsNullOrEmpty(vacation))
                     {
@@ -342,14 +344,17 @@ namespace RealTime.UI
             }
 
             int shift = schedule.ShiftIndex + 1;
-            string workShift = localizationProvider.Translate(WorkShiftKey + "." + schedule.WorkShift);
+            string workShift = localizationProvider.Translate("WorkShift." + schedule.WorkShift);
 
             if (string.IsNullOrEmpty(workShift))
             {
                 return;
             }
 
-            AppendLine(info, ref labelHeight, null, workShift + " " + shift);
+            string workStartHour = DateTime.Now.FutureHour(schedule.WorkShiftStartTime).ToString("t", localizationProvider.CurrentCulture);
+            string workEndHour = DateTime.Now.FutureHour(schedule.WorkShiftEndTime).ToString("t", localizationProvider.CurrentCulture);
+
+            AppendLine(info, ref labelHeight, null, workShift + " " + shift + ": " + workStartHour + " - " + workEndHour);
 
             if (schedule.WorkStatus == WorkStatus.OnVacation)
             {

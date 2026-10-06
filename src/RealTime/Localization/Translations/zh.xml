@@ -349,9 +349,12 @@
   <translation id="MealType.Lunch" value="午餐" />
   <translation id="MealType.Supper" value="晚餐" />
   <translation id="MealType.Other" value="小食" />
-  <translation id="WorkShift.Assigned" value="分配班次" />
-  <translation id="WorkStatus.OnVacation" value="（休假：{0} 天）" />
-
+  <translation id="WorkShift.Assigned" value="分配至班次" />
+  <translation id="WorkStatus.OnVacation" value="(休假中: {0} 天)" />
+  <translation id="SchoolClass.DayClass" value="分配至日班" />
+  <translation id="SchoolClass.NightClass" value="分配至夜班" />
+  <translation id="SchoolStatus.OnVacation" value="(休假中: {0} 天)" />
+  
   <translation id="AcademicYear.DaysLeft" value="还有 {0} 天结束" />
   <translation id="AcademicYear.HoursLeft" value="还有 {0} 小时结束" />
   <translation id="AcademicYear.EndsSoon" value="将在 1 小时内结束" />

@@ -6,7 +6,6 @@ namespace RealTime.Patches
     using HarmonyLib;
     using RealTime.CustomAI;
     using SkyTools.Tools;
-    using static RenderManager;
 
     /// <summary>
     /// A static class that provides the patch objects for the Human AI.
@@ -30,47 +29,67 @@ namespace RealTime.Patches
         [HarmonyPrefix]
         public static bool StartMoving(HumanAI __instance, uint citizenID, ref Citizen data, ushort sourceBuilding, ushort targetBuilding, ref bool __result)
         {
+            var citizenManager = Singleton<CitizenManager>.instance;
             if (targetBuilding == sourceBuilding)
             {
-                Log.Debug(LogCategory.Movement, $"Citizen {citizenID} - targetBuilding and sourceBuilding are the same, run the original function.");
-                return true;
+                Log.Debug(LogCategory.Movement, $"Citizen {citizenID} - targetBuilding and sourceBuilding are the same.");
+                __result = false;
+                return false;
             }
 
             if (targetBuilding == 0)
             {
-                Log.Debug(LogCategory.Movement, $"Citizen {citizenID} targetBuilding is 0, run the original function.");
-                return true;
-            }
-
-            var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[targetBuilding];
-
-            bool active = (building.m_flags & Building.Flags.Active) != 0;
-
-            if (active)
-            {
-                Log.Debug(LogCategory.Movement, $"Citizen {citizenID} is moving to building {targetBuilding} which is active, run the original function.");
-                return true;
-            }
-
-            if (!RealTimeBuildingAI.IsBuildingOpeningSoon(targetBuilding, 1) || building.m_fireIntensity != 0 || (building.m_flags & Building.Flags.Evacuating) != 0)
-            {
-                Log.Debug(LogCategory.Movement, $"Citizen {citizenID} is moving to building {targetBuilding} which is not opening soon, on fire or evacuating, run the original function.");
-                return true;
-            }
-
-            Log.Debug(LogCategory.Movement, $"Citizen {citizenID} is moving to building {targetBuilding} which is not active but opening soon, try to create a citizen instance and set the source and target buildings.");
-            var instance = Singleton<CitizenManager>.instance;
-            if (instance.CreateCitizenInstance(out ushort instance2, ref Singleton<SimulationManager>.instance.m_randomizer, __instance.m_info, citizenID))
-            {
-                __instance.m_info.m_citizenAI.SetSource(instance2, ref instance.m_instances.m_buffer[instance2], sourceBuilding);
-                __instance.m_info.m_citizenAI.SetTarget(instance2, ref instance.m_instances.m_buffer[instance2], targetBuilding);
-                data.CurrentLocation = Citizen.Location.Moving;
-                __result = true;
-                Log.Debug(LogCategory.Movement, $"Citizen {citizenID} - instance {instance2} created successfully and source and target buildings set, returning true.");
+                Log.Debug(LogCategory.Movement, $"Citizen {citizenID} targetBuilding is 0.");
+                __result = false;
                 return false;
             }
 
-            Log.Debug(LogCategory.Movement, $"Citizen {citizenID} - failed to create citizen instance, returning false.");
+            ref var building = ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[targetBuilding];
+
+            bool targetActive = (building.m_flags & Building.Flags.Active) != 0;
+
+            bool emergency = building.m_fireIntensity != 0 || (building.m_flags & Building.Flags.Evacuating) != 0;
+
+            bool openingSoon = RealTimeBuildingAI.IsBuildingOpeningSoon(targetBuilding, 1);
+
+            if (!targetActive && (!openingSoon || emergency))
+            {
+                Log.Debug(LogCategory.Movement, $"Citizen {citizenID} targetBuilding is not active and not opening soon or has an emergency.");
+                __result = false;
+                return false;
+            }
+
+            if (data.m_instance != 0)
+            {
+                __instance.m_info.m_citizenAI.SetTarget(data.m_instance, ref citizenManager.m_instances.m_buffer[data.m_instance], targetBuilding);
+                data.CurrentLocation = Citizen.Location.Moving;
+                Log.Debug(LogCategory.Movement, $"Citizen {citizenID} already has an instance {data.m_instance}, set the target building and return true.");
+                __result = true;
+                return false;
+            }
+
+            if (sourceBuilding == 0)
+            {
+                sourceBuilding = data.GetBuildingByLocation();
+                if (sourceBuilding == 0)
+                {
+                    Log.Debug(LogCategory.Movement, $"Citizen {citizenID} sourceBuilding is 0 and cannot find a building by location.");
+                    __result = false;
+                    return false;
+                }
+            }
+
+            if (citizenManager.CreateCitizenInstance(out ushort instanceID, ref Singleton<SimulationManager>.instance.m_randomizer, __instance.m_info, citizenID))
+            {
+                __instance.m_info.m_citizenAI.SetSource(instanceID, ref citizenManager.m_instances.m_buffer[instanceID], sourceBuilding);
+                __instance.m_info.m_citizenAI.SetTarget(instanceID, ref citizenManager.m_instances.m_buffer[instanceID], targetBuilding);
+                data.CurrentLocation = Citizen.Location.Moving;
+                Log.Debug(LogCategory.Movement, $"Citizen {citizenID} created a new instance {instanceID}, set the source and target buildings and starts moving.");
+                __result = true;
+                return false;
+            }
+
+            Log.Debug(LogCategory.Movement, $"Citizen {citizenID} failed to create a new instance.");
             __result = false;
             return false;
         }

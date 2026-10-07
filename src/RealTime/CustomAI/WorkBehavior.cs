@@ -151,9 +151,7 @@ namespace RealTime.CustomAI
 
         private float GetOvertime(Citizen.AgeGroup citizenAge) => citizenAge switch
         {
-            Citizen.AgeGroup.Young or Citizen.AgeGroup.Adult => randomizer.ShouldOccur(config.OnTimeQuota)
-                                    ? 0
-                                    : config.MaxOvertime * randomizer.GetRandomValue(100u) / 100f,
+            Citizen.AgeGroup.Young or Citizen.AgeGroup.Adult => randomizer.ShouldOccur(config.OnTimeQuota) ? 0 : config.MaxOvertime * randomizer.GetRandomValue(100u) / 100f,
             _ => 0,
         };
     }

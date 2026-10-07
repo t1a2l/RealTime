@@ -204,7 +204,7 @@ namespace RealTime.Config
         public bool DummyTrafficBehavior { get; set; }
 
         /// <summary>
-        /// Gets or sets the percentage of the Cims that will go to and leave their work or school.
+        /// Gets or sets the percentage of the Cims that will go to and leave their work or school
         /// on time (no overtime!).
         /// Valid values are 0..100.
         /// </summary>

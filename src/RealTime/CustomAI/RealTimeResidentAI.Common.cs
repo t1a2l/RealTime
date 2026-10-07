@@ -347,6 +347,8 @@ namespace RealTime.CustomAI
                 }
             }
 
+            NormalizeVacationStatus(ref schedule, ref citizen);
+
             Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} CurrentState is {schedule.CurrentState}, ScheduledState is {schedule.ScheduledState}, ScheduledStateTime is {schedule.ScheduledStateTime:dd.MM.yy HH:mm}");
 
             if (schedule.ScheduledState != ResidentState.Unknown)
@@ -612,148 +614,7 @@ namespace RealTime.CustomAI
             }
         }
 
-        private bool CanGoOnVacation(uint citizenId)
-        {
-            ref var schedule = ref residentSchedules[citizenId];
-            var citizen = CitizenManager.instance.m_citizens.m_buffer[citizenId];
-
-            // vacation can start only between midnight and 2am
-            if (TimeInfo.CurrentHour <= 23.85f || TimeInfo.CurrentHour >= 2f)
-            {
-                Log.Debug(LogCategory.State, $"Citizen {citizenId} cannot go on vacation because it is not between midnight and 2am");
-                return false;
-            }
-
-            if ((citizen.m_flags & Citizen.Flags.Student) != 0)
-            {
-                if (schedule.SchoolBuilding == 0)
-                {
-                    Log.Debug(LogCategory.State, $"Citizen {citizenId} cannot go on vacation because they are a student but have no school building");
-                    return false;
-                }
-
-                if (schedule.CurrentState == ResidentState.AtSchool || schedule.CurrentState == ResidentState.EatMeal
-                    || schedule.ScheduledState == ResidentState.GoToSchool || schedule.ScheduledState == ResidentState.GoToMeal ||
-                    schedule.ScheduledState == ResidentState.GoShopping)
-                {
-                    Log.Debug(LogCategory.State, $"Citizen {citizenId} cannot go on vacation because they are a student but are currently at school or scheduled to go to school - {schedule.CurrentState}, {schedule.ScheduledState}");
-                    return false;
-                }
-
-                Log.Debug(LogCategory.State, $"Student Citizen {citizenId} can go on vacation");
-                return true;
-            }
-            else
-            {
-                if (schedule.WorkBuilding == 0)
-                {
-                    Log.Debug(LogCategory.State, $"Citizen {citizenId} cannot go on vacation because they are a worker but have no work building");
-                    return false;
-                }
-                if (schedule.CurrentState == ResidentState.AtWork || schedule.CurrentState == ResidentState.EatMeal
-                    || schedule.ScheduledState == ResidentState.GoToWork || schedule.ScheduledState == ResidentState.GoToMeal
-                    || schedule.ScheduledState == ResidentState.GoShopping)
-                {
-                    Log.Debug(LogCategory.State, $"Citizen {citizenId} cannot go on vacation because they are a worker but are currently at work or scheduled to go to work - {schedule.CurrentState}, {schedule.ScheduledState}");
-                    return false;
-                }
-
-                Log.Debug(LogCategory.State, $"Worker Citizen {citizenId} can go on vacation");
-                return true;
-            }
-        }
-
-        private void ProcessVacation(uint citizenId)
-        {
-            ref var schedule = ref residentSchedules[citizenId];
-            var citizen = CitizenManager.instance.m_citizens.m_buffer[citizenId];
-
-            if (CanGoOnVacation(citizenId))
-            {
-                if ((citizen.m_flags & Citizen.Flags.Student) != 0)
-                {
-                    schedule.SchoolStatus = SchoolStatus.OnVacation;
-                    Log.Debug(LogCategory.State, $"The citizen {citizenId} is a student and is now on vacation");
-                }
-                else
-                {
-                    schedule.WorkStatus = WorkStatus.OnVacation;
-                    Log.Debug(LogCategory.State, $"The citizen {citizenId} is a worker and is now on vacation");
-                }
-            }
-            else
-            {
-                Log.Debug(LogCategory.State, $"The citizen {citizenId} cannot go on vacation");
-                return;
-            }
-
-            // Note: this might lead to different vacation durations for family members even if they all were initialized to same length.
-            // This is because the simulation loop for a family member could process this citizen right after their vacation has been set.
-            // But we intentionally don't avoid this - let's add some randomness.
-            if ((schedule.SchoolStatus == SchoolStatus.OnVacation || schedule.WorkStatus == WorkStatus.OnVacation) && schedule.VacationDaysLeft > 0)
-            {
-                Log.Debug(LogCategory.State, $"The citizen {citizenId} is already on vacation with {schedule.VacationDaysLeft} days left");
-                // vacation can end only between midnight and 2am
-                if (TimeInfo.CurrentHour <= 23.85f || TimeInfo.CurrentHour >= 2f)
-                {
-                    Log.Debug(LogCategory.State, $"The citizen {citizenId}'s vacation cannot end yet because it is not between midnight and 2am");
-                    return;
-                }
-
-                --schedule.VacationDaysLeft;
-                Log.Debug(LogCategory.State, $"The citizen {citizenId} has {schedule.VacationDaysLeft} vacation days left");
-
-                if (schedule.VacationDaysLeft == 0)
-                {
-                    Log.Debug(LogCategory.State, $"The citizen {citizenId} returns from vacation");
-                    if ((citizen.m_flags & Citizen.Flags.Student) != 0)
-                    {
-                        schedule.SchoolStatus = SchoolStatus.None;
-                    }
-                    else
-                    {
-                        schedule.WorkStatus = WorkStatus.None;
-                    }
-
-                }
-
-                return;
-            }
-
-            int days = 1 + Random.GetRandomValue(Config.MaxVacationLength - 1);
-            schedule.VacationDaysLeft = (byte)days;
-
-            Log.Debug(LogCategory.State, $"The citizen {citizenId} is now on vacation for {days} days");
-            if (!Random.ShouldOccur(FamilyVacationChance) || !CitizenMgr.TryGetFamily(citizenId, familyBuffer))
-            {
-                Log.Debug(LogCategory.State, $"The citizen {citizenId} is going on vacation alone");
-                return;
-            }
-
-            for (int i = 0; i < familyBuffer.Length; ++i)
-            {
-                uint familyMemberId = familyBuffer[i];
-                if (familyMemberId != 0)
-                {
-                    Log.Debug(LogCategory.State, $"The citizen {familyMemberId} goes on vacation with {citizenId} as a family member");
-                    if(CanGoOnVacation(familyMemberId))
-                    {
-                        if ((CitizenManager.instance.m_citizens.m_buffer[familyMemberId].m_flags & Citizen.Flags.Student) != 0)
-                        {
-                            residentSchedules[familyMemberId].SchoolStatus = SchoolStatus.OnVacation;
-                        }
-                        else
-                        {
-                            residentSchedules[familyMemberId].WorkStatus = WorkStatus.OnVacation;
-                        }
-                    }
-                    residentSchedules[familyMemberId].VacationDaysLeft = (byte)days;
-                }
-            }
-        }
-
-        // set work shift to the shift with the minimum number of people 
-        public int SetWorkShiftIndex(ushort workBuildingId)
+        private int SetWorkShiftIndex(ushort workBuildingId)
         {
             if (workBuildingId == 0)
             {
@@ -814,6 +675,215 @@ namespace RealTime.CustomAI
             else
             {
                 return BuildingWorkTimeManager.GetBuildingWorkTime(workBuildingId);
+            }
+        }
+
+        private void ProcessVacation(uint citizenId)
+        {
+            ref var schedule = ref residentSchedules[citizenId];
+            var citizen = CitizenManager.instance.m_citizens.m_buffer[citizenId];
+
+            if (IsOnVacation(schedule))
+            {
+                ProcessExistingVacation(citizenId, ref schedule);
+                return;
+            }
+
+            if (!CanGoOnVacation(citizenId))
+            {
+                Log.Debug(LogCategory.State, $"The citizen {citizenId} cannot go on vacation");
+                return;
+            }
+
+            StartVacation(citizenId, ref schedule, ref citizen);
+        }
+
+        private void ProcessExistingVacation(uint citizenId, ref CitizenSchedule schedule)
+        {
+            if (schedule.VacationDaysLeft == 0)
+            {
+                EndVacation(citizenId, ref schedule);
+                Log.Debug(LogCategory.State, $"The citizen {citizenId} has finished their vacation");
+                return;
+            }
+
+            if (!IsVacationWindow())
+            {
+                Log.Debug(LogCategory.State, $"Citizen {citizenId}'s vacation cannot end because the current time is outside the midnight-to-2am window.");
+                return;
+            }
+
+            --schedule.VacationDaysLeft;
+            Log.Debug(LogCategory.State, $"The citizen {citizenId} has {schedule.VacationDaysLeft} vacation days left");
+
+            if (schedule.VacationDaysLeft == 0)
+            {
+                EndVacation(citizenId, ref schedule);
+                Log.Debug(LogCategory.State, $"The citizen {citizenId} has finished their vacation");
+            }
+        }
+
+        private bool CanGoOnVacation(uint citizenId)
+        {
+            if (!IsVacationWindow())
+            {
+                Log.Debug(LogCategory.State, $"Citizen {citizenId} cannot go on vacation because the current time is outside the midnight-to-2am window.");
+                return false;
+            }
+
+            ref var schedule = ref residentSchedules[citizenId];
+            var citizen = CitizenManager.instance.m_citizens.m_buffer[citizenId];
+
+            bool isStudent = (citizen.m_flags & Citizen.Flags.Student) != 0;
+
+            if (isStudent)
+            {
+                return CanStudentGoOnVacation(citizenId, ref schedule);
+            }
+
+            return CanWorkerGoOnVacation(citizenId, ref schedule);
+        }
+
+        private void StartVacation(uint citizenId, ref CitizenSchedule schedule, ref Citizen citizen)
+        {
+            int days = 1 + Random.GetRandomValue(Config.MaxVacationLength - 1);
+
+            schedule.VacationDaysLeft = (byte)days;
+
+            if ((citizen.m_flags & Citizen.Flags.Student) != 0)
+            {
+                schedule.SchoolStatus = SchoolStatus.OnVacation;
+
+                Log.Debug(LogCategory.State, $"Student citizen {citizenId} is on vacation for {days} days.");
+            }
+            else
+            {
+                schedule.WorkStatus = WorkStatus.OnVacation;
+
+                Log.Debug(LogCategory.State, $"Worker citizen {citizenId} is on vacation for {days} days.");
+            }
+
+            TryStartFamilyVacation(citizenId, days);
+        }
+
+        private void TryStartFamilyVacation(uint citizenId, int days)
+        {
+            if (!Random.ShouldOccur(FamilyVacationChance))
+            {
+                Log.Debug(LogCategory.State, $"Citizen {citizenId} is going on vacation alone.");
+                return;
+            }
+
+            if (!CitizenMgr.TryGetFamily(citizenId, familyBuffer))
+            {
+                Log.Debug(LogCategory.State, $"Citizen {citizenId} has no family available for a group vacation.");
+                return;
+            }
+
+            for (int i = 0; i < familyBuffer.Length; i++)
+            {
+                uint familyMemberId = familyBuffer[i];
+
+                if (familyMemberId == 0 || familyMemberId == citizenId)
+                {
+                    continue;
+                }
+
+                if (!CanGoOnVacation(familyMemberId))
+                {
+                    Log.Debug(LogCategory.State, $"Family member {familyMemberId} cannot join the vacation.");
+                    continue;
+                }
+
+                ref var familySchedule = ref residentSchedules[familyMemberId];
+
+                ref var familyCitizen = ref CitizenManager.instance.m_citizens.m_buffer[familyMemberId];
+
+                if ((familyCitizen.m_flags & Citizen.Flags.Student) != 0)
+                {
+                    familySchedule.SchoolStatus = SchoolStatus.OnVacation;
+                }
+                else
+                {
+                    familySchedule.WorkStatus = WorkStatus.OnVacation;
+                }
+
+                familySchedule.VacationDaysLeft = (byte)days;
+                Log.Debug(LogCategory.State, $"Family member {familyMemberId} joins citizen {citizenId} on vacation for {days} days.");
+            }
+        }
+
+        private void EndVacation(uint citizenId, ref CitizenSchedule schedule)
+        {
+            bool endedSchoolVacation = schedule.SchoolStatus == SchoolStatus.OnVacation;
+
+            bool endedWorkVacation = schedule.WorkStatus == WorkStatus.OnVacation;
+
+            if (endedSchoolVacation)
+            {
+                schedule.SchoolStatus = SchoolStatus.None;
+            }
+
+            if (endedWorkVacation)
+            {
+                schedule.WorkStatus = WorkStatus.None;
+            }
+
+            schedule.VacationDaysLeft = 0;
+
+            Log.Debug(LogCategory.State, $"Citizen {citizenId} returned from vacation.");
+        }
+
+        private bool IsVacationWindow()
+        {
+            float hour = TimeInfo.CurrentHour;
+            return hour >= 0f && hour < 2f;
+        }
+
+        private static bool IsOnVacation(CitizenSchedule schedule) => schedule.SchoolStatus == SchoolStatus.OnVacation || schedule.WorkStatus == WorkStatus.OnVacation;
+
+        private bool CanStudentGoOnVacation(uint citizenId, ref CitizenSchedule schedule)
+        {
+            if (schedule.SchoolBuilding == 0)
+            {
+                Log.Debug(LogCategory.State, $"Student citizen {citizenId} cannot go on vacation because they have no school building");
+                return false;
+            }
+
+            Log.Debug(LogCategory.State, $"Student citizen {citizenId} can go on vacation only if they are not at school or eating a meal");
+            return schedule.CurrentState != ResidentState.AtSchool && schedule.CurrentState != ResidentState.EatMeal;
+        }
+
+        private bool CanWorkerGoOnVacation(uint citizenId, ref CitizenSchedule schedule)
+        {
+            if (schedule.WorkBuilding == 0)
+            {
+                Log.Debug(LogCategory.State, $"Worker citizen {citizenId} cannot go on vacation because they have no work building");
+                return false;
+            }
+
+            Log.Debug(LogCategory.State, $"Worker citizen {citizenId} can go on vacation only if they are not at work or eating a meal");
+            return schedule.CurrentState != ResidentState.AtWork && schedule.CurrentState != ResidentState.EatMeal;
+        }
+
+        private void NormalizeVacationStatus( ref CitizenSchedule schedule, ref TCitizen citizen)
+        {
+            bool isStudent = CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Student);
+
+            if (isStudent)
+            {
+                if (schedule.WorkStatus == WorkStatus.OnVacation)
+                {
+                    schedule.WorkStatus = WorkStatus.None;
+                    schedule.SchoolStatus = SchoolStatus.OnVacation;
+                }
+                return;
+            }
+
+            if (schedule.SchoolStatus == SchoolStatus.OnVacation)
+            {
+                schedule.SchoolStatus = SchoolStatus.None;
+                schedule.WorkStatus = WorkStatus.OnVacation;
             }
         }
     }

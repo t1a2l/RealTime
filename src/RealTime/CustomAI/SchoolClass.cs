@@ -3,7 +3,7 @@
 namespace RealTime.CustomAI
 {
     /// <summary>
-    /// An enumeration that describes the citizen's work shift.
+    /// An enumeration that describes the citizen's school class.
     /// </summary>
     internal enum SchoolClass : byte
     {

@@ -318,8 +318,7 @@ namespace RealTime.CustomAI
             else if (currentHour < maxShoppingChanceStartHour)
             {
                 isNight = true;
-                chance = NightShoppingChance
-                    + (100u - NightShoppingChance) * (currentHour - minShoppingChanceEndHour) / (maxShoppingChanceStartHour - minShoppingChanceEndHour);
+                chance = NightShoppingChance + (100u - NightShoppingChance) * (currentHour - minShoppingChanceEndHour) / (maxShoppingChanceStartHour - minShoppingChanceEndHour);
             }
             else if (currentHour < maxShoppingChanceEndHour)
             {
@@ -329,8 +328,7 @@ namespace RealTime.CustomAI
             else
             {
                 isNight = true;
-                chance = NightShoppingChance
-                    + (100u - NightShoppingChance) * (24f - currentHour) / (24f - maxShoppingChanceEndHour);
+                chance = NightShoppingChance + (100u - NightShoppingChance) * (24f - currentHour) / (24f - maxShoppingChanceEndHour);
             }
 
             uint roundedChance = (uint)Math.Round(chance);
@@ -392,7 +390,7 @@ namespace RealTime.CustomAI
             bool isLateEvening = currentHour >= config.GoToSleepHour - 2f;
 
             eatingOutChances[(int)Citizen.AgeGroup.Child] = 0u;
-            eatingOutChances[(int)Citizen.AgeGroup.Teen] = 0u;
+            eatingOutChances[(int)Citizen.AgeGroup.Teen] = isLateEvening ? (uint)Math.Round(roundedChance * 0.1f) : (uint)Math.Round(roundedChance * 0.5f);
             eatingOutChances[(int)Citizen.AgeGroup.Young] = roundedChance;
             eatingOutChances[(int)Citizen.AgeGroup.Adult] = roundedChance;
             eatingOutChances[(int)Citizen.AgeGroup.Senior] = isLateEvening ? (uint)Math.Round(roundedChance * 0.5f) : (uint)Math.Round(roundedChance * 0.8f);

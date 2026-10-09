@@ -6,7 +6,9 @@ namespace RealTime.Managers
     using System.Collections.Generic;
     using System.Linq;
     using ColossalFramework;
+    using RealTime.Config;
     using RealTime.Core;
+    using RealTime.CustomAI;
     using RealTime.GameConnection;
 
     public static class BuildingWorkTimeManager
@@ -691,7 +693,35 @@ namespace RealTime.Managers
 
         public static void ClearPolicyClosed(ushort buildingId) => PolicyClosedShifts.Remove(buildingId);
 
-        public static void ClearAllPolicyClosures() => PolicyClosedShifts.Clear();
+        public static void BuildingWorkTimeCheck(ushort buildingID, BuildingInfo buildingInfo)
+        {
+            if (BuildingWorkTimeExist(buildingID))
+            {
+                if (!ShouldHaveBuildingWorkTime(buildingID))
+                {
+                    RemoveBuildingWorkTime(buildingID);
+                }
+                else
+                {
+                    SetBuildingWorkTimeDefaults(buildingID, buildingInfo);
+                }
+            }
+            else if (!BuildingWorkTimeExist(buildingID) && ShouldHaveBuildingWorkTime(buildingID))
+            {
+                CreateBuildingWorkTime(buildingID, buildingInfo);
+
+                if (PrefabExist(buildingInfo))
+                {
+                    var buildignPrefab = GetPrefab(buildingInfo);
+                    UpdateBuildingSettings.SetBuildingToPrefab(buildingID, buildignPrefab);
+                }
+                else if (BuildingWorkTimeGlobalConfig.Config.GlobalSettingsExist(buildingInfo))
+                {
+                    var buildignGlobal = BuildingWorkTimeGlobalConfig.Config.GetGlobalSettings(buildingInfo);
+                    UpdateBuildingSettings.SetBuildingToGlobal(buildingID, buildignGlobal);
+                }
+            }
+        }
 
         private static bool ShouldOccur(uint probability) => SimulationManager.instance.m_randomizer.Int32(100u) < probability;
 

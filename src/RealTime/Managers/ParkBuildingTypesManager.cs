@@ -200,5 +200,13 @@ namespace RealTime.Managers
 
             return Math.Min(weight, 3f);
         }
+
+        internal static void ParkBuildingTypeCheck(ushort buildingID)
+        {
+            if (BuildingManagerConnection.IsAllowedParkBuildingType(buildingID) && !ParkBuildingTypeExist(buildingID))
+            {
+                CreateParkBuildingType(buildingID, ParkBuildingType.Generic);
+            }
+        }
     }
 }

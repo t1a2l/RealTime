@@ -3,10 +3,7 @@
 namespace RealTime.Patches.BuildingAIPatches
 {
     using System.Reflection;
-    using ColossalFramework.Math;
-    using ColossalFramework;
     using HarmonyLib;
-    using RealTime.Config;
     using RealTime.Core;
     using RealTime.CustomAI;
     using RealTime.GameConnection;
@@ -31,52 +28,12 @@ namespace RealTime.Patches.BuildingAIPatches
         public static bool CreateBuilding(PrivateBuildingAI __instance, ushort buildingID, ref Building data)
         {
             var buildingInfo = data.Info;
-            if (!BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID) && BuildingWorkTimeManager.ShouldHaveBuildingWorkTime(buildingID))
-            {
-                BuildingWorkTimeManager.CreateBuildingWorkTime(buildingID, buildingInfo);
-
-                if (BuildingWorkTimeManager.PrefabExist(buildingInfo))
-                {
-                    var buildignPrefab = BuildingWorkTimeManager.GetPrefab(buildingInfo);
-                    UpdateBuildingSettings.SetBuildingToPrefab(buildingID, buildignPrefab);
-                }
-                else if (BuildingWorkTimeGlobalConfig.Config.GlobalSettingsExist(buildingInfo))
-                {
-                    var buildignGlobal = BuildingWorkTimeGlobalConfig.Config.GetGlobalSettings(buildingInfo);
-                    UpdateBuildingSettings.SetBuildingToGlobal(buildingID, buildignGlobal);
-                }
-            }
-            if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && !CommercialBuildingTypesManager.CommercialBuildingTypeExist(buildingID))
-            {
-                if (buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
-                {
-                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
-                }
-                else
-                {
-                    CommercialBuildingTypesManager.CreateCommercialBuildingType(buildingID, CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
-                }
-            }
+            BuildingWorkTimeManager.BuildingWorkTimeCheck(buildingID, buildingInfo);
+            CommercialBuildingTypesManager.CommercialBuildingTypeCheck(buildingID, buildingInfo);
             if (BuildingManagerConnection.IsHotel(buildingID))
             {
                 BaseCreateBuilding(__instance, buildingID, ref data);
-                data.m_level = (byte)__instance.m_info.m_class.m_level;
-                __instance.CalculateWorkplaceCount((ItemClass.Level)data.m_level, new Randomizer(buildingID), data.Width, data.Length, out int level, out int level2, out int level3, out int level4);
-                __instance.AdjustWorkplaceCount(buildingID, ref data, ref level, ref level2, ref level3, ref level4);
-                int workCount = level + level2 + level3 + level4;
-                int visitCount = __instance.CalculateVisitplaceCount((ItemClass.Level)data.m_level, new Randomizer(buildingID), data.Width, data.Length);
-                int hotelRoomCount = visitCount;
-                if (BuildingWorkTimeManager.HotelNamesList.ContainsKey(buildingInfo.name))
-                {
-                    hotelRoomCount = BuildingWorkTimeManager.HotelNamesList[buildingInfo.name];
-                }
-                visitCount = hotelRoomCount * 20 / 100;
-                data.m_roomMax = (ushort)hotelRoomCount;
-                Singleton<CitizenManager>.instance.CreateUnits(out data.m_citizenUnits, ref Singleton<SimulationManager>.instance.m_randomizer, buildingID, 0, 0, workCount, visitCount, 0, 0, hotelRoomCount);
-                if (!HotelManager.HotelExist(buildingID))
-                {
-                    HotelManager.AddHotel(buildingID);
-                }
+                HotelManager.HotelCheck(buildingID, ref data, "create");
                 return false;
             }
             else
@@ -87,17 +44,7 @@ namespace RealTime.Patches.BuildingAIPatches
 
         [HarmonyPatch(typeof(PrivateBuildingAI), "BuildingLoaded")]
         [HarmonyPrefix]
-        public static bool BuildingLoaded(PrivateBuildingAI __instance, ushort buildingID, ref Building data, uint version)
-        {
-            if (BuildingManagerConnection.IsHotel(buildingID))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        public static bool BuildingLoaded(PrivateBuildingAI __instance, ushort buildingID, ref Building data, uint version) => !BuildingManagerConnection.IsHotel(buildingID);
 
         [HarmonyPatch(typeof(PrivateBuildingAI), "HandleWorkers")]
         [HarmonyPrefix]

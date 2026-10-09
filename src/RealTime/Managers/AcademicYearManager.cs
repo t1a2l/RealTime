@@ -81,5 +81,14 @@ namespace RealTime.Managers
             }
             return true;
         }
+
+        public static void AcademicYearCheck(ushort buildingID, BuildingInfo buildingInfo)
+        {
+            if (buildingInfo.GetAI() is MainCampusBuildingAI && !MainCampusBuildingExist(buildingID))
+            {
+                CreateAcademicYearData(buildingID);
+            }
+        }
+
     }
 }

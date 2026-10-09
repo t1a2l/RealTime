@@ -62,5 +62,21 @@ namespace RealTime.Managers
             CrimeAccumulator[buildingID] = accumulated - adjustedCrime;
             buildingData.m_crimeBuffer = (ushort)(crimeBefore + adjustedCrime);
         }
+
+        public static void ClearGarbageAndMailBufferForOldVersion(Building building)
+        {
+            var version = typeof(RealTimeMod).Assembly.GetName().Version;
+            int major = version.Major;
+            int minor = version.Minor;
+            building.m_garbageBuffer = 0;
+            building.m_mailBuffer = 0;
+            if (major < 2 || major >= 2 && minor < 6)
+            {
+                // zero
+                building.m_garbageBuffer = 0;
+                building.m_mailBuffer = 0;
+            }
+        }
+
     }
 }

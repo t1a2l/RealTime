@@ -116,5 +116,21 @@ namespace RealTime.Managers
             CommercialBuildingType.Shopping | CommercialBuildingType.Entertainment | CommercialBuildingType.Food => 6,
             _ => 0,
         };
+
+        internal static void CommercialBuildingTypeCheck(ushort buildingID, BuildingInfo buildingInfo)
+        {
+            if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && !CommercialBuildingTypeExist(buildingID))
+            {
+                if (buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
+                {
+                    CreateCommercialBuildingType(buildingID, CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
+                }
+                else
+                {
+                    CreateCommercialBuildingType(buildingID, CommercialBuildingType.Shopping | CommercialBuildingType.Food);
+                }
+            }
+
+        }
     }
 }

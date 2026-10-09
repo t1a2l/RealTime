@@ -121,7 +121,7 @@ namespace RealTime.Managers
         {
             if (BuildingManagerConnection.IsAllowedCommercialBuildingType(buildingID) && !CommercialBuildingTypeExist(buildingID))
             {
-                if (buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
+                if (buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialLeisure || buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialTourist)
                 {
                     CreateCommercialBuildingType(buildingID, CommercialBuildingType.Entertainment | CommercialBuildingType.Food);
                 }

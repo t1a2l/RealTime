@@ -50,6 +50,9 @@ namespace RealTime.CustomAI
         /// <summary>Gets the number of meals eaten out today.</summary>
         public byte MealsEatenOutToday;
 
+        /// <summary>Gets the number of tries for night visits.</summary>
+        public bool TriedNightVisit;
+
         /// <summary> The maximum travel time (in hours) that can be stored for a citizen. This is used to limit the travel time value and prevent overflow during serialization.</summary>
         private const float TravelTimeMultiplier = ushort.MaxValue / MaxTravelTime;
 
@@ -124,6 +127,9 @@ namespace RealTime.CustomAI
 
         /// <summary>Gets the time when the citizen's school class ends.</summary>
         public float SchoolClassEndTime { get; private set; }
+
+        /// <summary>Gets the last scheduled visit type</summary>
+        public VisitType LastScheduledVisitType { get; private set; }
 
         /// <summary>Updates the travel time that the citizen needs to read the work building.</summary>
         /// <param name="arrivalTime">
@@ -379,6 +385,10 @@ namespace RealTime.CustomAI
 
             UpdateSchoolClass(schoolClass, schoolBegin, schoolEnd);
         }
+
+        /// <summary>Updates the last scheduled visit type.</summary>
+        /// <param name="lastScheduledVisitType">The visit type to update.</param>
+        public void UpdateLastScheduledVisitType(VisitType lastScheduledVisitType) => LastScheduledVisitType = lastScheduledVisitType;
 
         /// <summary>Updates the meal data for this citizen's schedule.</summary>
         /// <param name="mealsConsumedToday">The meals consumed today.</param>

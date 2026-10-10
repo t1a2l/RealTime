@@ -138,7 +138,7 @@ namespace RealTime.CustomAI
             {
                 var currentLocation = CitizenProxy.GetLocation(ref citizen);
                 string text = $"The Citizen {citizenId} current state is {schedule.CurrentState}";
-                if (currentLocation != Citizen.Location.Moving)
+                if (currentLocation != Citizen.Location.Moving && currentLocation != Citizen.Location.Home)
                 {
                     ushort buildingID = CitizenProxy.GetCurrentBuilding(ref citizen);
                     if (buildingID != 0)
@@ -225,7 +225,6 @@ namespace RealTime.CustomAI
 
                 case Citizen.Location.Visit:
                     Log.Debug(LogCategory.Movement, $"The citizen {citizenId} arrived at their destination at {TimeInfo.Now} after {schedule.FindVisitPlaceAttempts} attempts to find a visit place");
-                    schedule.FindVisitPlaceAttempts = 0;
 
                     ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
                     var buildingService = BuildingMgr.GetBuildingService(currentBuilding);
@@ -439,10 +438,15 @@ namespace RealTime.CustomAI
         /// <param name="citizenId">The citizen ID to process.</param>
         public void BeginNewDayForCitizen(uint citizenId)
         {
-            if (citizenId != 0)
+            if (citizenId == 0)
             {
-                ProcessVacation(citizenId);
+                return;
             }
+
+            ref var schedule = ref GetCitizenSchedule(citizenId);
+            schedule.TriedNightVisit = false;
+
+            ProcessVacation(citizenId);
         }
 
         /// <summary>
@@ -541,7 +545,6 @@ namespace RealTime.CustomAI
             schedule.SchoolBuilding = 0;
             schedule.WorkStatus = 0;
             schedule.SchoolStatus = 0;
-            schedule.FindVisitPlaceAttempts = 0;
             schedule.MealsEatenOutToday = 0;
             schedule.VacationDaysLeft = 0;
             schedule.DepartureTime = default;

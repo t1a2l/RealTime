@@ -3,6 +3,7 @@
 namespace RealTime.CustomAI
 {
     using System;
+    using System.Collections.Generic;
     using RealTime.Managers;
     using SkyTools.Tools;
     using static Constants;
@@ -407,37 +408,15 @@ namespace RealTime.CustomAI
                 }
             }
 
-            if(schedule.FindVisitPlaceAttempts < 3)
+            if (ShouldStayHomeUntilMorning(ref schedule))
             {
-                if (ScheduleShopping(ref schedule, ref citizen, localOnly: false))
-                {
-                    Log.Debug(LogCategory.Schedule, $"  - Schedule shopping, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
-                    return true;
-                }
+                schedule.Schedule(ResidentState.Unknown, GetNextWakeUpTime());
+                return true;
+            }
 
-                if (ScheduleRelaxing(ref schedule, citizenId, ref citizen))
-                {
-                    Log.Debug(LogCategory.Schedule, $"  - Schedule relaxing, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
-                    return true;
-                }
-
-                if (ScheduleMeal(ref schedule, ref citizen))
-                {
-                    Log.Debug(LogCategory.Schedule, $"  - Schedule meal, meal type is {schedule.ScheduledMealType}, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
-                    return true;
-                }
-
-                if (ScheduleBankVisit(ref schedule, citizenId, ref citizen))
-                {
-                    Log.Debug(LogCategory.Schedule, $"  - Schedule bank visit, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
-                    return true;
-                }
-
-                if (SchedulePostOfficeVisit(ref schedule, citizenId, ref citizen))
-                {
-                    Log.Debug(LogCategory.Schedule, $"  - Schedule post office visit, visit attempt number {schedule.FindVisitPlaceAttempts + 1}");
-                    return true;
-                }
+            if (TryScheduleVisit(ref schedule, citizenId, ref citizen))
+            {
+                return true;
             }
 
             if (schedule.CurrentState == ResidentState.AtHome)
@@ -884,6 +863,91 @@ namespace RealTime.CustomAI
             {
                 schedule.SchoolStatus = SchoolStatus.None;
                 schedule.WorkStatus = WorkStatus.OnVacation;
+            }
+        }
+
+        private bool ShouldStayHomeUntilMorning(ref CitizenSchedule schedule)
+        {
+            if (schedule.CurrentState != ResidentState.AtHome)
+            {
+                return false;
+            }
+
+            if (!TimeInfo.IsNightTime)
+            {
+                return false;
+            }
+
+            if (!schedule.TriedNightVisit)
+            {
+                return false;
+            }
+
+            // Do not prevent a citizen from leaving for
+            // work or school that is starting soon.
+            return schedule.ScheduledState != ResidentState.GoToWork && schedule.ScheduledState != ResidentState.GoToSchool;
+        }
+
+        private DateTime GetNextWakeUpTime()
+        {
+            var tomorrow = TimeInfo.Now.Date.AddDays(1);
+            return tomorrow.AddHours(Config.WakeUpHour);
+        }
+
+        private bool TryScheduleVisit(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
+        {
+            List<VisitType> visitTypes =
+            [
+                VisitType.Shopping,
+                VisitType.Relaxing,
+                VisitType.Meal,
+                VisitType.Bank,
+                VisitType.PostOffice
+            ];
+
+            ShuffleVisitTypes(visitTypes, schedule.LastScheduledVisitType);
+
+            foreach (var visitType in visitTypes)
+            {
+                if (TryScheduleVisitType(ref schedule, citizenId, ref citizen, visitType))
+                {
+                    schedule.UpdateLastScheduledVisitType(visitType);
+                    return true;
+                }
+            }
+
+            if (schedule.CurrentState == ResidentState.AtHome && TimeInfo.IsNightTime)
+            {
+                schedule.TriedNightVisit = true;
+            }
+
+            return false;
+        }
+
+        private bool TryScheduleVisitType(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen, VisitType visitType) => visitType switch
+        {
+            VisitType.Shopping => ScheduleShopping(ref schedule, ref citizen, localOnly: false),
+            VisitType.Relaxing => ScheduleRelaxing(ref schedule, citizenId, ref citizen),
+            VisitType.Meal => ScheduleMeal(ref schedule, ref citizen),
+            VisitType.Bank => ScheduleBankVisit(ref schedule, citizenId, ref citizen),
+            VisitType.PostOffice => SchedulePostOfficeVisit(ref schedule, citizenId, ref citizen),
+            VisitType.None => false,
+            _ => false,
+        };
+
+        private void ShuffleVisitTypes(List<VisitType> visitTypes, VisitType previousType)
+        {
+            // Move the previous type toward the end,
+            // then shuffle the remaining types.
+            visitTypes.Remove(previousType);
+            visitTypes.Add(previousType);
+
+            int shuffleCount = visitTypes.Count - 1;
+
+            for (int i = shuffleCount - 1; i > 0; i--)
+            {
+                int j = SimulationManager.instance.m_randomizer.Int32((uint)(i + 1));
+                (visitTypes[i], visitTypes[j]) = (visitTypes[j], visitTypes[i]);
             }
         }
     }

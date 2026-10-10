@@ -10,7 +10,7 @@ namespace RealTime.Serializer
 
     public class CitizenScheduleSerializer
     {
-        private const ushort iCITIZEN_SCHEDULE_DATA_VERSION = 7;
+        private const ushort iCITIZEN_SCHEDULE_DATA_VERSION = 8;
 
         private const uint uiTUPLE_START = 0xFEFEFEFE;
         private const uint uiTUPLE_END = 0xFAFAFAFA;
@@ -180,12 +180,17 @@ namespace RealTime.Serializer
 
                     schedule.WorkStatus = (WorkStatus)StorageData.ReadInt32(chunkBytes, ref index);
                     schedule.SchoolStatus = (SchoolStatus)StorageData.ReadInt32(chunkBytes, ref index);
-                    schedule.FindVisitPlaceAttempts = StorageData.ReadInt32(chunkBytes, ref index);
+                    StorageData.ReadInt32(chunkBytes, ref index);
                     schedule.VacationDaysLeft = StorageData.ReadByte(chunkBytes, ref index);
 
                     if (chunkVersion >= 4)
                     {
                         schedule.MealsEatenOutToday = StorageData.ReadByte(chunkBytes, ref index);
+                    }
+
+                    if (chunkVersion >= 8)
+                    {
+                        schedule.TriedNightVisit = StorageData.ReadBool(chunkBytes, ref index);
                     }
 
                     schedule.WorkBuilding = StorageData.ReadUInt16(chunkBytes, ref index);
@@ -246,7 +251,7 @@ namespace RealTime.Serializer
                     else
                     {
                         // In version 1, weekend work was stored as a boolean. In version 2, it's determined based on the building.
-                        bool _ = StorageData.ReadBool(chunkBytes, ref index);
+                        StorageData.ReadBool(chunkBytes, ref index);
                         shiftIndex = -1; // Shift index is not available in version 1
                     }
                         
@@ -254,12 +259,19 @@ namespace RealTime.Serializer
                     float schoolClassStartTime = StorageData.ReadFloat(chunkBytes, ref index);
                     float schoolClassEndTime = StorageData.ReadFloat(chunkBytes, ref index);
 
+                    var LastScheduledVisitType = VisitType.None;
+                    if (chunkVersion >= 8)
+                    {
+                        LastScheduledVisitType = (VisitType)StorageData.ReadInt32(chunkBytes, ref index);
+                    }
+
                     schedule.UpdateScheduleState(scheduledState, lastScheduledState, scheduledStateTime, lastScheduledMealType, scheduledMealType, lastScheduledMealEndTime, scheduledMealEndTime, ActiveTravelState);
                     schedule.UpdateTravelTimeToWork(travelTimeToWork);
                     schedule.UpdateTravelTimeToSchool(travelTimeToSchool);
                     schedule.UpdateWorkShift(workShift, shiftIndex, workShiftStartTime, workShiftEndTime);
                     schedule.UpdateSchoolClass(schoolClass, schoolClassStartTime, schoolClassEndTime);
                     schedule.UpdateMealData(MealsConsumedToday, MealHistoryDay, SnacksEatenToday, LastSnackTime);
+                    schedule.UpdateLastScheduledVisitType(LastScheduledVisitType);
 
                     if (schedule.WorkShift == WorkShift.Assigned && citizens[citizenId].m_workBuilding != 0 && shiftIndex != -1)
                     {
@@ -325,9 +337,9 @@ namespace RealTime.Serializer
 
             StorageData.WriteInt32((int)schedule.WorkStatus, Data);
             StorageData.WriteInt32((int)schedule.SchoolStatus, Data);
-            StorageData.WriteInt32(schedule.FindVisitPlaceAttempts, Data);
             StorageData.WriteByte(schedule.VacationDaysLeft, Data);
             StorageData.WriteByte(schedule.MealsEatenOutToday, Data);
+            StorageData.WriteBool(schedule.TriedNightVisit, Data);
 
             StorageData.WriteUInt16(schedule.WorkBuilding, Data);
             StorageData.WriteUInt16(schedule.SchoolBuilding, Data);
@@ -358,6 +370,7 @@ namespace RealTime.Serializer
             StorageData.WriteInt32((int)schedule.SchoolClass, Data);
             StorageData.WriteFloat(schedule.SchoolClassStartTime, Data);
             StorageData.WriteFloat(schedule.SchoolClassEndTime, Data);
+            StorageData.WriteInt32((int)schedule.LastScheduledVisitType, Data);
 
             StorageData.WriteUInt32(uiTUPLE_END, Data);
         }

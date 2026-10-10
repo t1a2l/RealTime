@@ -362,7 +362,7 @@ namespace RealTime.UI
 
                 if (!string.IsNullOrEmpty(vacation))
                 {
-                    info.Append(' ');
+                    info.Append(Environment.NewLine);
                     info.AppendFormat(vacation, schedule.VacationDaysLeft);
                 }
             }

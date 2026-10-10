@@ -870,18 +870,23 @@ namespace RealTime.CustomAI
         {
             if (schedule.CurrentState != ResidentState.AtHome)
             {
+                Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen should not stay home until morning because they are not at home (CurrentState is {schedule.CurrentState})");
                 return false;
             }
 
             if (!TimeInfo.IsNightTime)
             {
+                Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen should not stay home until morning because it is not night time");
                 return false;
             }
 
             if (!schedule.TriedNightVisit)
             {
+                Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen should not stay home until morning because they have not yet tried to go out for a visit");
                 return false;
             }
+
+            Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen should stay home until morning because they are at home, it's night time, and they have already tried to go out for a visit and they are not scheduled to go to work or school");
 
             // Do not prevent a citizen from leaving for
             // work or school that is starting soon.
@@ -896,6 +901,8 @@ namespace RealTime.CustomAI
 
         private bool TryScheduleVisit(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
+            Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} is trying to schedule a visit");
+
             List<VisitType> visitTypes =
             [
                 VisitType.Shopping,
@@ -912,12 +919,14 @@ namespace RealTime.CustomAI
                 if (TryScheduleVisitType(ref schedule, citizenId, ref citizen, visitType))
                 {
                     schedule.UpdateLastScheduledVisitType(visitType);
+                    Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} scheduled a visit of type {visitType}");
                     return true;
                 }
             }
 
             if (schedule.CurrentState == ResidentState.AtHome && TimeInfo.IsNightTime)
             {
+                Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"Citizen {citizenId} is at home and it's night time, marking that they have tried to go out for a visit");
                 schedule.TriedNightVisit = true;
             }
 

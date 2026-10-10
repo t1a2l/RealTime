@@ -24,6 +24,7 @@ namespace RealTime.Core
     using SkyTools.Tools;
     using SkyTools.UI;
     using UnityEngine;
+    using static RenderManager;
 
     /// <summary>The main class of the Real Time mod.</summary>
     public class RealTimeMod : LoadingExtensionBase, IUserMod
@@ -198,10 +199,13 @@ namespace RealTime.Core
                 {
                     ResourceSlowdownManager.ClearGarbageAndMailBufferForOldVersion(building);
                     BuildingWorkTimeManager.BuildingWorkTimeCheck(buildingId, building.Info);
-                    HotelManager.HotelCheck(buildingId, ref building, "loaded");
                     AcademicYearManager.AcademicYearCheck(buildingId, building.Info);
                     CommercialBuildingTypesManager.CommercialBuildingTypeCheck(buildingId, building.Info);
                     ParkBuildingTypesManager.ParkBuildingTypeCheck(buildingId);
+                    if (BuildingManagerConnection.IsHotel(buildingId))
+                    {
+                        HotelManager.HotelCheck(buildingId, ref building, "loaded");
+                    }
                 }
             }
 

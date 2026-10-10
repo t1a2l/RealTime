@@ -71,6 +71,7 @@ namespace RealTime.CustomAI
                         Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is already in a leisure building {currentBuilding} and continues relaxing there.");
                         schedule.CurrentState = ResidentState.Relaxing;
                         schedule.Schedule(ResidentState.Unknown);
+                        schedule.FindVisitPlaceAttempts = 0;
                         return true;
                     }
 
@@ -78,6 +79,7 @@ namespace RealTime.CustomAI
                     if (leisure == 0)
                     {
                         Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted relax but didn't find a leisure building");
+                        schedule.FindVisitPlaceAttempts++;
                         return false;
                     }
 
@@ -101,6 +103,7 @@ namespace RealTime.CustomAI
                         Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to go to an event at {eventBuilding} but cant");
                     }
 
+                    schedule.FindVisitPlaceAttempts++;
                     return false;
 
                 case ScheduleHint.RelaxNearbyOnly:
@@ -110,6 +113,7 @@ namespace RealTime.CustomAI
                         Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for {schedule.CurrentState}");
                         schedule.CurrentState = ResidentState.Relaxing;
                         schedule.Schedule(ResidentState.Unknown);
+                        schedule.FindVisitPlaceAttempts = 0;
                         return true;
                     }
 
@@ -137,6 +141,7 @@ namespace RealTime.CustomAI
                         Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} found park {parkBuildingId}, heading to it");
                         return true;
                     }
+                    schedule.FindVisitPlaceAttempts++;
                     return false;
             }
 
@@ -145,6 +150,7 @@ namespace RealTime.CustomAI
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for relaxing");
                 schedule.CurrentState = ResidentState.Relaxing;
                 schedule.Schedule(ResidentState.Unknown);
+                schedule.FindVisitPlaceAttempts = 0;
                 return true;
             }
 
@@ -237,6 +243,7 @@ namespace RealTime.CustomAI
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for shopping");
                     schedule.CurrentState = ResidentState.Shopping;
                     schedule.Schedule(ResidentState.Unknown);
+                    schedule.FindVisitPlaceAttempts = 0;
                     return true;
                 }
 
@@ -244,6 +251,7 @@ namespace RealTime.CustomAI
                 if (shop == 0)
                 {
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping, but didn't find a local shop");
+                    schedule.FindVisitPlaceAttempts++;
                     return false;
                 }
 
@@ -261,6 +269,7 @@ namespace RealTime.CustomAI
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} stays in building {currentBuilding} for shopping");
                 schedule.CurrentState = ResidentState.Shopping;
                 schedule.Schedule(ResidentState.Unknown);
+                schedule.FindVisitPlaceAttempts = 0;
                 return true;
             }
 
@@ -326,6 +335,7 @@ namespace RealTime.CustomAI
             if (targetBuilding == 0)
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanted to visit a bank but did not find an active building");
+                schedule.FindVisitPlaceAttempts++;
                 return false;
             }
 
@@ -375,6 +385,7 @@ namespace RealTime.CustomAI
             if (targetBuilding == 0)
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanted to visit a post office but did not find an active building");
+                schedule.FindVisitPlaceAttempts++;
                 return false;
             }
 

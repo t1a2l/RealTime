@@ -646,15 +646,30 @@ namespace RealTime.GameConnection
             return false;
         }
 
-        /// <summary>Checks if a policy is active for the district where the building with specified ID is located. Returns <see cref="DistrictPolicies.Policies.None"/>
+        /// <summary>Checks if a policy is active for a district or a park where the building with specified ID is located. Returns <see cref="DistrictPolicies.Policies.None"/>
         /// if the specified district ID is 0 or invalid.</summary>
         /// <param name="buildingId">The ID of the building to check the policy for.</param>
         /// <param name="policy">The policy to check.</param>
         /// <returns><c>true</c> if the policy is active; otherwise, <c>false</c>.</returns>
         public static bool IsPolicyActive(ushort buildingId, DistrictPolicies.Policies policy)
         {
-            byte districtId = GetDistrictId(buildingId);
-            return IsDistrictPolicyActive(districtId, policy);
+            if (buildingId == 0 || policy == DistrictPolicies.Policies.None)
+            {
+                return false;
+            }
+
+            var position = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position;
+            var policyType = (DistrictPolicies.Types)((int)policy >> 5);
+
+            if (policyType == DistrictPolicies.Types.Park)
+            {
+                byte parkId = DistrictManager.instance.GetPark(position);
+                return parkId != 0 && DistrictManager.instance.IsParkPolicySet(policy, parkId);
+            }
+
+            byte districtId = DistrictManager.instance.GetDistrict(position);
+
+            return districtId != 0 && DistrictManager.instance.IsDistrictPolicySet(policy, districtId);
         }
 
         /// <summary>
@@ -955,19 +970,5 @@ namespace RealTime.GameConnection
             }
             citizenManager.m_citizens.m_buffer[citizen].m_vehicle = 0;
         }
-
-        private static byte GetDistrictId(ushort buildingId)
-        {
-            if (buildingId == 0)
-            {
-                return 0;
-            }
-
-            var position = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position;
-            return DistrictManager.instance.GetDistrict(position);
-        }
-
-        private static bool IsDistrictPolicyActive(byte districtId, DistrictPolicies.Policies policy) => districtId != 0 && DistrictManager.instance.m_districts.m_buffer[districtId].IsPolicySet(policy);
-
     }
 }

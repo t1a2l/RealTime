@@ -105,7 +105,7 @@ namespace RealTime.Serializer
                     CheckEndTuple($"Buffer({i})", iBankPostOfficeVisitVersion, Data, ref iIndex);
                 }
 
-                CheckStartTuple($"BankVisitTracker End", iBankPostOfficeVisitVersion, Data, ref iIndex);
+                CheckEndTuple($"BankVisitTracker End", iBankPostOfficeVisitVersion, Data, ref iIndex);
 
                 // Now do the same for the post office visit tracker
 

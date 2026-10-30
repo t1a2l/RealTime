@@ -180,7 +180,14 @@ namespace RealTime.Serializer
 
                     schedule.WorkStatus = (WorkStatus)StorageData.ReadInt32(chunkBytes, ref index);
                     schedule.SchoolStatus = (SchoolStatus)StorageData.ReadInt32(chunkBytes, ref index);
-                    StorageData.ReadInt32(chunkBytes, ref index);
+
+                    if (chunkVersion < 8)
+                    {
+                        // Legacy field: present in version 7 and earlier saves,
+                        // but no longer written by the version 8 writer.
+                        StorageData.ReadInt32(chunkBytes, ref index);
+                    }
+
                     schedule.VacationDaysLeft = StorageData.ReadByte(chunkBytes, ref index);
 
                     if (chunkVersion >= 4)

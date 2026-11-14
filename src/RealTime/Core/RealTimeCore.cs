@@ -10,6 +10,7 @@ namespace RealTime.Core
     using RealTime.Events.Storage;
     using RealTime.GameConnection;
     using RealTime.Integration;
+    using RealTime.Managers;
     using RealTime.Patches;
     using RealTime.Patches.BuildingAIPatches;
     using RealTime.Serializer;
@@ -228,13 +229,16 @@ namespace RealTime.Core
                 return;
             }
 
+            SimulationHandler.Buildings?.ClearPolicyAreaCache();
+            BuildingWorkTimeManager.ClearAllPolicyClosed();
+
             AcademicYearAIPatch.RealTimeBuildingAI = null;
             AcademicYearAIPatch.TimeInfo = null;
             BuildingAIPatch.RealTimeBuildingAI = null;
             BuildingAIPatch.WeatherInfo = null;
             BuildingManagerPatch.RealTimeBuildingAI = null;
             CommercialBuildingAIPatch.RealTimeBuildingAI = null;
-            CommonBuildingAIPatch.RealTimeBuildingAI = null;
+            CommonBuildingAIPatch.RealTimeBuildingAI = null;  
             IndustrialBuildingAIPatch.RealTimeBuildingAI = null;
             IndustrialExtractorAIPatch.RealTimeBuildingAI = null;
             LibraryAIPatch.RealTimeBuildingAI = null;
@@ -248,6 +252,7 @@ namespace RealTime.Core
             DistrictParkPatch.RealTimeConfig = null;
             DistrictParkPatch.SpareTimeBehavior = null;
             DistrictParkPatch.TimeInfo = null;
+            DistrictManagerPatch.RealTimeBuildingAI = null;
             EventAIPatch.RealTimeBuildingAI = null;
             EventAIPatch.RealTimeConfig = null;
             EventManagerPatch.RealTimeBuildingAI = null;
@@ -307,6 +312,8 @@ namespace RealTime.Core
 
             RealTimeBridge.RealTimeConfig = null;
             RealTimeBridge.TimeInfo = null;
+
+            BuildingWorkTimeManager.RealTimeBuildingAI = null;
 
             isEnabled = false;
         }
@@ -474,6 +481,8 @@ namespace RealTime.Core
             DistrictParkPatch.SpareTimeBehavior = spareTimeBehavior;
             DistrictParkPatch.TimeInfo = timeInfo;
 
+            DistrictManagerPatch.RealTimeBuildingAI = realTimeBuildingAI;
+
             EventAIPatch.RealTimeBuildingAI = realTimeBuildingAI;
             EventAIPatch.RealTimeConfig = config;
 
@@ -506,6 +515,8 @@ namespace RealTime.Core
 
             RealTimeBridge.RealTimeConfig = config;
             RealTimeBridge.TimeInfo = timeInfo;
+
+            BuildingWorkTimeManager.RealTimeBuildingAI = realTimeBuildingAI;
 
             return true;
         }

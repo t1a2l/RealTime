@@ -79,6 +79,8 @@ namespace RealTime.Patches.BuildingAIPatches
                     HotelManager.RemoveHotel(buildingID);
                 }
             }
+
+            RealTimeBuildingAI.UpdatePolicyRestrictionsIfAreaChanged(buildingID);
         }
 
         [HarmonyPatch(typeof(PrivateBuildingAI), "GetConstructionTime")]

@@ -111,6 +111,19 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>
+        /// Defines the scope of a policy.
+        /// </summary>
+        public enum PolicyScope
+        {
+            City,
+            District,
+            Park,
+        }
+
+
+        private readonly Dictionary<ushort, byte> policyAreaByBuilding = [];
+
+        /// <summary>
         /// Gets the building construction time taking into account the current day time.
         /// </summary>
         ///
@@ -811,7 +824,7 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            if (BuildingWorkTimeManager.IsPolicyClosed(buildingId, activeShiftIndex))
+            if (!workTime.IgnorePolicy && BuildingWorkTimeManager.IsPolicyClosed(buildingId, activeShiftIndex))
             {
                 return false;
             }
@@ -820,11 +833,13 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>
-        /// Updates the work time of a building based on its policy.
+        /// Updates the policy restrictions of a building's configured shifts.
         /// </summary>
-        /// <param name="buildingID">The ID of the building to update.</param>
+        /// <param name="buildingID">The building ID to update.</param>
         public void UpdateBuildingWorkTimeByPolicy(ushort buildingID)
         {
+            BuildingWorkTimeManager.ClearPolicyClosed(buildingID);
+
             if (!BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID))
             {
                 return;
@@ -832,32 +847,162 @@ namespace RealTime.CustomAI
 
             var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingID);
 
-            if (workTime.IgnorePolicy)
+            if (workTime.IgnorePolicy || workTime.WorkShifts == null)
             {
                 return;
             }
 
             var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
 
-            var service = building.Info.m_class.m_service;
-            var subService = building.Info.m_class.m_subService;
-
-            BuildingWorkTimeManager.ClearPolicyClosed(buildingID);
-
-            if (workTime.WorkShifts == null)
+            var info = building.Info;
+            if (info == null)
             {
                 return;
             }
 
+            var service = info.m_class.m_service;
+            var subService = info.m_class.m_subService;
+
             for (int index = 0; index < workTime.WorkShifts.Length; index++)
             {
-                var shift = workTime.WorkShifts[index];
-
-                bool allowed = PolicyAllowsShift(buildingID, service, subService, shift);
+                bool allowed = PolicyAllowsShift(buildingID, service, subService, workTime.WorkShifts[index]);
 
                 BuildingWorkTimeManager.SetPolicyClosed(buildingID, index, !allowed);
             }
         }
+
+        /// <summary>
+        /// Refreshes the policy restrictions of all buildings affected by the specified <paramref name="policy"/> and <paramref name="scope"/>.
+        /// </summary>
+        /// <param name="policy">The policy to refresh restrictions for.</param>
+        /// <param name="scope">The scope of the policy.</param>
+        /// <param name="areaId">The area ID to update.</param>
+        public void RefreshPolicyRestrictions(DistrictPolicies.Policies policy, PolicyScope scope, byte areaId = 0)
+        {
+            if (!AffectsWorkTime(policy))
+            {
+                return;
+            }
+
+            bool isParkPolicy = (DistrictPolicies.Types)((int)policy >> 5) == DistrictPolicies.Types.Park;
+
+            // Match the policy source used by IsPolicyActive.
+            if (scope == PolicyScope.Park && !isParkPolicy)
+            {
+                return;
+            }
+
+            if (scope == PolicyScope.District && isParkPolicy)
+            {
+                return;
+            }
+
+            var districtManager = Singleton<DistrictManager>.instance;
+            var buildings = Singleton<BuildingManager>.instance.m_buildings;
+
+            for (int index = 1; index < buildings.m_size; index++)
+            {
+                ref var building = ref buildings.m_buffer[index];
+
+                if ((building.m_flags & Building.Flags.Created) == 0)
+                {
+                    continue;
+                }
+
+                var info = building.Info;
+                if (info == null)
+                {
+                    continue;
+                }
+
+                if (!AffectsBuilding(policy, info.m_class.m_service, info.m_class.m_subService))
+                {
+                    continue;
+                }
+
+                if (scope == PolicyScope.District && districtManager.GetDistrict(building.m_position) != areaId)
+                {
+                    continue;
+                }
+
+                if (scope == PolicyScope.Park && districtManager.GetPark(building.m_position) != areaId)
+                {
+                    continue;
+                }
+
+                UpdateBuildingWorkTimeByPolicy((ushort)index);
+            }
+        }
+
+        /// <summary>
+        /// Updates the policy restrictions of a building's configured shifts if the building has changed its district or park area.
+        /// </summary>
+        /// <param name="buildingId"></param>
+        public void UpdatePolicyRestrictionsIfAreaChanged(ushort buildingId)
+        {
+            ref var building = ref BuildingManager.instance.m_buildings.m_buffer[buildingId];
+
+            var info = building.Info;
+            if (info == null)
+            {
+                return;
+            }
+
+            var service = info.m_class.m_service;
+            var subService = info.m_class.m_subService;
+
+            DistrictPolicies.Policies policy;
+
+            switch (subService)
+            {
+                case ItemClass.SubService.CommercialLeisure:
+                    policy = DistrictPolicies.Policies.NoLoudNoises;
+                    break;
+
+                case ItemClass.SubService.PlayerIndustryFarming:
+                case ItemClass.SubService.PlayerIndustryForestry:
+                    policy = DistrictPolicies.Policies.AdvancedAutomation;
+                    break;
+
+                case ItemClass.SubService.BeautificationParks when service == ItemClass.Service.Beautification:
+                case ItemClass.SubService.None when service == ItemClass.Service.Beautification:
+                    policy = DistrictPolicies.Policies.NightTours;
+                    break;
+
+                default:
+                    return;
+            }
+
+            var districtManager = DistrictManager.instance;
+
+            bool isParkPolicy = (DistrictPolicies.Types)((int)policy >> 5) == DistrictPolicies.Types.Park;
+
+            byte currentArea = isParkPolicy ? districtManager.GetPark(building.m_position) : districtManager.GetDistrict(building.m_position);
+
+            if (policyAreaByBuilding.TryGetValue(buildingId, out byte previousArea) && previousArea == currentArea)
+            {
+                return;
+            }
+
+            UpdateBuildingWorkTimeByPolicy(buildingId);
+
+            policyAreaByBuilding[buildingId] = currentArea;
+        }
+
+        /// <summary>
+        /// Clears the policy state for a building, removing any stored area information and clearing any policy restrictions.
+        /// </summary>
+        /// <param name="buildingId">The ID of the building to clear policy state for.</param>
+        public void ClearBuildingPolicyState(ushort buildingId)
+        {
+            policyAreaByBuilding.Remove(buildingId);
+            BuildingWorkTimeManager.ClearPolicyClosed(buildingId);
+        }
+
+        /// <summary>
+        /// Clears the policy area cache for all buildings, removing any stored area information and clearing any policy restrictions.
+        /// </summary>
+        public void ClearPolicyAreaCache() => policyAreaByBuilding.Clear();
 
         /// <summary>
         /// Get the number of workers currently working in the specified <paramref name="buildingId"/>
@@ -1297,7 +1442,7 @@ namespace RealTime.CustomAI
             BuildingWorkTimeManager.CreateBuildingWorkTime(buildingID, info);
         }
 
-        private bool PolicyAllowsShift(ushort buildingId, ItemClass.Service service, ItemClass.SubService subService, BuildingWorkTimeManager.WorkShiftTime shiftTime)  
+        private bool PolicyAllowsShift(ushort buildingId, ItemClass.Service service, ItemClass.SubService subService, BuildingWorkTimeManager.WorkShiftTime shiftTime)
         {
             if (!HasNightCoverage(shiftTime))
             {
@@ -1308,12 +1453,24 @@ namespace RealTime.CustomAI
             {
                 ItemClass.SubService.CommercialLeisure => !BuildingManagerConnection.IsPolicyActive(buildingId, DistrictPolicies.Policies.NoLoudNoises),
                 ItemClass.SubService.PlayerIndustryFarming or ItemClass.SubService.PlayerIndustryForestry => BuildingManagerConnection.IsEssentialIndustryBuilding(buildingId),
-                ItemClass.SubService.BeautificationParks when service == ItemClass.Service.Beautification => BuildingManagerConnection.IsPolicyActive(buildingId, DistrictPolicies.Policies.NightTours),
+                ItemClass.SubService.BeautificationParks or ItemClass.SubService.None when service == ItemClass.Service.Beautification => BuildingManagerConnection.IsPolicyActive(buildingId, DistrictPolicies.Policies.NightTours),
                 _ => true,
             };
         }
 
         private bool HasNightCoverage(BuildingWorkTimeManager.WorkShiftTime shiftTime) => shiftTime.StartTime >= config.GoToSleepHour || shiftTime.EndTime <= config.WakeUpHour;
+
+        private bool AffectsWorkTime(DistrictPolicies.Policies policy) => policy == DistrictPolicies.Policies.NoLoudNoises
+                || policy == DistrictPolicies.Policies.AdvancedAutomation
+                || policy == DistrictPolicies.Policies.NightTours;
+
+        private bool AffectsBuilding(DistrictPolicies.Policies policy, ItemClass.Service service, ItemClass.SubService subService) => policy switch
+        {
+            DistrictPolicies.Policies.NoLoudNoises => subService == ItemClass.SubService.CommercialLeisure,
+            DistrictPolicies.Policies.AdvancedAutomation => subService == ItemClass.SubService.PlayerIndustryFarming || subService == ItemClass.SubService.PlayerIndustryForestry,
+            DistrictPolicies.Policies.NightTours => service == ItemClass.Service.Beautification && (subService == ItemClass.SubService.BeautificationParks || subService == ItemClass.SubService.None),
+            _ => false,
+        };
 
     }
 }

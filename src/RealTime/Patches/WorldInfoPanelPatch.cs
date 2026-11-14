@@ -63,9 +63,6 @@ namespace RealTime.Patches
         /// <summary>Gets or sets the custom AI object for buildings.</summary>
         public static RealTimeBuildingAI RealTimeBuildingAI { get; set; }
 
-        /// <summary>car parking buildings.</summary>
-        private static readonly string[] CarParkingBuildings = ["parking", "garage", "car park", "Parking", "Car Port", "Garage", "Car Park"];
-
         [HarmonyPatch]
         private sealed class WorldInfoPanel_UpdateBindings
         {
@@ -86,37 +83,6 @@ namespace RealTime.Patches
                     case CampusWorldInfoPanel _:
                         CampusWorldInfoPanel?.UpdateCustomInfo(ref ___m_InstanceID, RealTimeConfig.DebugMode);
                         break;
-                }
-            }
-        }
-
-        [HarmonyPatch]
-        private sealed class DistrictWorldInfoPanel_UpdatePolicies
-        {
-            [HarmonyPatch(typeof(DistrictWorldInfoPanel), "UpdatePolicies")]
-            [HarmonyPostfix]
-            private static void Postfix()
-            {
-                var buildings = Singleton<BuildingManager>.instance.m_buildings;
-
-                for (ushort buildingId = 0; buildingId < buildings.m_size; buildingId++)
-                {
-                    ref var building = ref buildings.m_buffer[buildingId];
-                    if ((building.m_flags & Building.Flags.Created) != 0)
-                    {
-                        var service = building.Info.m_class.m_service;
-                        var subService = building.Info.m_class.m_subService;
-
-                        switch (subService)
-                        {
-                            case ItemClass.SubService.CommercialLeisure:
-                            case ItemClass.SubService.PlayerIndustryFarming:
-                            case ItemClass.SubService.PlayerIndustryForestry:
-                            case ItemClass.SubService.BeautificationParks when service == ItemClass.Service.Beautification:
-                                RealTimeBuildingAI.UpdateBuildingWorkTimeByPolicy(buildingId);
-                                break;
-                        }
-                    }
                 }
             }
         }

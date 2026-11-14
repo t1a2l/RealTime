@@ -192,8 +192,9 @@ namespace RealTime.Core
 
             var buildings = Singleton<BuildingManager>.instance.m_buildings;
 
-            for (ushort buildingId = 0; buildingId < buildings.m_size; buildingId++)
+            for (int index = 1; index < buildings.m_size; index++)
             {
+                ushort buildingId = (ushort)index;
                 ref var building = ref buildings.m_buffer[buildingId];
                 if ((building.m_flags & Building.Flags.Created) != 0)
                 {

@@ -5,12 +5,11 @@ namespace RealTime.Patches.BuildingAIPatches
     using System.Collections.Generic;
     using System.Reflection.Emit;
     using HarmonyLib;
-    using RealTime.Config;
     using RealTime.CustomAI;
     using RealTime.GameConnection;
+    using RealTime.Localization;
     using RealTime.Managers;
     using SkyTools.Localization;
-    using RealTime.Localization;
 
     [HarmonyPatch]
     internal class PlayerBuildingAIPatch
@@ -25,40 +24,18 @@ namespace RealTime.Patches.BuildingAIPatches
         [HarmonyPrefix]
         public static void CreateBuilding(PlayerBuildingAI __instance, ushort buildingID, ref Building data)
         {
-            if (!BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID) && BuildingWorkTimeManager.ShouldHaveBuildingWorkTime(buildingID))
+            BuildingWorkTimeManager.BuildingWorkTimeCheck(buildingID, data.Info);
+            AcademicYearManager.AcademicYearCheck(buildingID, data.Info);
+            CommercialBuildingTypesManager.CommercialBuildingTypeCheck(buildingID, data.Info);
+            ParkBuildingTypesManager.ParkBuildingTypeCheck(buildingID);
+            if (BuildingManagerConnection.IsHotel(buildingID))
             {
-                var buildingInfo = data.Info;
-                BuildingWorkTimeManager.CreateBuildingWorkTime(buildingID, buildingInfo);
-
-                if (BuildingWorkTimeManager.PrefabExist(buildingInfo))
-                {
-                    var buildignPrefab = BuildingWorkTimeManager.GetPrefab(buildingInfo);
-                    UpdateBuildingSettings.SetBuildingToPrefab(buildingID, buildignPrefab);
-                }
-                else if (BuildingWorkTimeGlobalConfig.Config.GlobalSettingsExist(buildingInfo))
-                {
-                    var buildignGlobal = BuildingWorkTimeGlobalConfig.Config.GetGlobalSettings(buildingInfo);
-                    UpdateBuildingSettings.SetBuildingToGlobal(buildingID, buildignGlobal);
-                }
-
-                if (BuildingManagerConnection.IsHotel(buildingID) && !HotelManager.HotelExist(buildingID))
-                {
-                    HotelManager.AddHotel(buildingID);
-                } 
-            }
-
-            if (data.Info.GetAI() is MainCampusBuildingAI && !AcademicYearManager.MainCampusBuildingExist(buildingID))
-            {
-                AcademicYearManager.CreateAcademicYearData(buildingID);
-            }
-
-            if (BuildingManagerConnection.IsAllowedParkBuildingType(buildingID) && !ParkBuildingTypesManager.ParkBuildingTypeExist(buildingID))
-            {
-                ParkBuildingTypesManager.CreateParkBuildingType(buildingID, ParkBuildingType.Generic);
+                HotelManager.HotelCheck(buildingID, ref data, "create");
             }
         }
 
         [HarmonyPatch(typeof(PlayerBuildingAI), "SimulationStepActive")]
+        [HarmonyPrefix]
         public static void SimulationStepActive(ushort buildingID, ref Building buildingData, ref Building.Frame frameData)
         {
             if ((buildingData.m_flags & Building.Flags.Collapsed) != 0)
@@ -72,6 +49,8 @@ namespace RealTime.Patches.BuildingAIPatches
                     HotelManager.RemoveHotel(buildingID);
                 }
             }
+
+            RealTimeBuildingAI.UpdatePolicyRestrictionsIfAreaChanged(buildingID);
         }
 
         [HarmonyPatch(typeof(PlayerBuildingAI), "GetLocalizedStatus")]

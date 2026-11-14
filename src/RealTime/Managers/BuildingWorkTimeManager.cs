@@ -25,6 +25,8 @@ namespace RealTime.Managers
 
         private static readonly Dictionary<ushort, HashSet<int>> PolicyClosedShifts = [];
 
+        internal static RealTimeBuildingAI RealTimeBuildingAI { get; set; }
+
         public struct WorkTime
         {
             public DayOfWeek[] WorkDays;       // e.g. { Monday, Tuesday, Wednesday, Thursday, Friday }
@@ -343,7 +345,7 @@ namespace RealTime.Managers
             {
                 return ShiftCountToWorkTime(buildingID, buildingInfo, 3);
             }
-            else if (service == ItemClass.Service.Beautification && subService == ItemClass.SubService.BeautificationParks && BuildingManagerConnection.IsPolicyActive(buildingID, DistrictPolicies.Policies.NightTours))
+            else if (service == ItemClass.Service.Beautification && (subService == ItemClass.SubService.BeautificationParks || subService == ItemClass.SubService.None) && BuildingManagerConnection.IsPolicyActive(buildingID, DistrictPolicies.Policies.NightTours))
             {
                 return ShiftCountToWorkTime(buildingID, buildingInfo, 3);
             }
@@ -421,6 +423,7 @@ namespace RealTime.Managers
             if (BuildingsWorkTime.TryGetValue(buildingID, out var _))
             {
                 BuildingsWorkTime[buildingID] = workTime;
+                RealTimeBuildingAI?.UpdateBuildingWorkTimeByPolicy(buildingID);
             }
         }
 
@@ -429,6 +432,7 @@ namespace RealTime.Managers
             if (BuildingsWorkTime.TryGetValue(buildingID, out var _))
             {
                 BuildingsWorkTime.Remove(buildingID);
+                BuildingWorkTimeManager.ClearPolicyClosed(buildingID);
             }
         }
 
@@ -693,6 +697,8 @@ namespace RealTime.Managers
 
         public static void ClearPolicyClosed(ushort buildingId) => PolicyClosedShifts.Remove(buildingId);
 
+        public static void ClearAllPolicyClosed() => PolicyClosedShifts.Clear();
+
         public static void BuildingWorkTimeCheck(ushort buildingID, BuildingInfo buildingInfo)
         {
             if (BuildingWorkTimeExist(buildingID))
@@ -719,6 +725,10 @@ namespace RealTime.Managers
                 {
                     var buildignGlobal = BuildingWorkTimeGlobalConfig.Config.GetGlobalSettings(buildingInfo);
                     UpdateBuildingSettings.SetBuildingToGlobal(buildingID, buildignGlobal);
+                }
+                else
+                {
+                    RealTimeBuildingAI?.UpdateBuildingWorkTimeByPolicy(buildingID);
                 }
             }
         }

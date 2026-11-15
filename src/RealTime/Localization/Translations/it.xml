@@ -401,8 +401,6 @@
   <translation id="InvalidShiftsText" value="Uno o più turni hanno la stessa ora di inizio e fine" />
   <translation id="AddShift" value="+ Aggiungi Turno" />
   <translation id="AddShiftTooltip" value="Aggiungi un nuovo turno di lavoro per questo edificio" />
-  <translation id="IgnorePolicy" value="Ignora le politiche del distretto" />
-  <translation id="IgnorePolicyTooltip" value="L'edificio ignorerà eventuali restrizioni dalle politiche del distretto" />
   <translation id="AccessAdvancedSettings" value="Accedi alle impostazioni avanzate" />
   <translation id="AccessAdvancedSettingsTooltip" value="Apri il pannello delle impostazioni avanzate per questo edificio" />
   <translation id="SaveBuildingSettings" value="Salva" />

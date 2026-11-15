@@ -401,8 +401,6 @@
   <translation id="InvalidShiftsText" value="Um ou mais turnos têm o mesmo horário de início e término" />
   <translation id="AddShift" value="+ Adicionar Turno" />
   <translation id="AddShiftTooltip" value="Adicionar um novo turno de trabalho para este prédio" />
-  <translation id="IgnorePolicy" value="Ignorar Políticas do Distrito" />
-  <translation id="IgnorePolicyTooltip" value="O prédio ignorará quaisquer restrições das políticas do distrito" />
   <translation id="AccessAdvancedSettings" value="Acessar Configurações Avançadas" />
   <translation id="AccessAdvancedSettingsTooltip" value="Abrir o painel de configurações avançadas para este prédio" />
   <translation id="SaveBuildingSettings" value="Salvar" />

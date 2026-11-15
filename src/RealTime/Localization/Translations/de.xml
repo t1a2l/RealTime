@@ -401,8 +401,6 @@
   <translation id="InvalidShiftsText" value="Eine oder mehrere Schichten haben die gleiche Start- und Endzeit" />
   <translation id="AddShift" value="+ Schicht hinzufügen" />
   <translation id="AddShiftTooltip" value="Eine neue Arbeitschicht für dieses Gebäude hinzufügen" />
-  <translation id="IgnorePolicy" value="Distrikt-Richtlinien ignorieren" />
-  <translation id="IgnorePolicyTooltip" value="Das Gebäude wird alle Einschränkungen durch Distrikt-Richtlinien ignorieren" />
   <translation id="AccessAdvancedSettings" value="Erweiterte Einstellungen zugreifen" />
   <translation id="AccessAdvancedSettingsTooltip" value="Öffnen Sie das erweiterte Einstellungsfenster für dieses Gebäude" />
   <translation id="SaveBuildingSettings" value="Speichern" />

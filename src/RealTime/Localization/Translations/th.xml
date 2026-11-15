@@ -401,8 +401,6 @@
   <translation id="InvalidShiftsText" value="กะหนึ่งหรือมากกว่ามีเวลาเริ่มต้นและสิ้นสุดเหมือนกัน" />
   <translation id="AddShift" value="+ เพิ่มกะ" />
   <translation id="AddShiftTooltip" value="เพิ่มกะการทำงานใหม่สำหรับอาคารนี้" />
-  <translation id="IgnorePolicy" value="ละเว้นนโยบายเขต" />
-  <translation id="IgnorePolicyTooltip" value="อาคารจะละเว้นข้อจำกัดใด ๆ จากนโยบายเขต" />
   <translation id="AccessAdvancedSettings" value="เข้าถึงการตั้งค่าขั้นสูง" />
   <translation id="AccessAdvancedSettingsTooltip" value="เปิดแผงการตั้งค่าขั้นสูงสำหรับอาคารนี้" />
   <translation id="SaveBuildingSettings" value="บันทึก" />

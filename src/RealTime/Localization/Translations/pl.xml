@@ -401,8 +401,6 @@
   <translation id="InvalidShiftsText" value="Jedna lub więcej zmian ma ten sam czas rozpoczęcia i zakończenia" />
   <translation id="AddShift" value="+ Dodaj zmianę" />
   <translation id="AddShiftTooltip" value="Dodaj nową zmianę pracy dla tego budynku" />
-  <translation id="IgnorePolicy" value="Pomijaj zasady dzielnicy" />
-  <translation id="IgnorePolicyTooltip" value="Budynek będzie ignorować wszelkie ograniczenia wynikające z zasad dzielnicy" />
   <translation id="AccessAdvancedSettings" value="Ustawienia zaawansowane" />
   <translation id="AccessAdvancedSettingsTooltip" value="Otwórz panel zaawansowanych ustawień dla tego budynku" />
   <translation id="SaveBuildingSettings" value="Zapisz ustawienia budynku" />

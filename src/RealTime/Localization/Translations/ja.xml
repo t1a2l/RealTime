@@ -401,8 +401,6 @@
   <translation id="InvalidShiftsText" value="1つ以上のシフトが同じ開始時刻と終了時刻を持っています" />
   <translation id="AddShift" value="+ シフト追加" />
   <translation id="AddShiftTooltip" value="この建物の新しい勤務シフトを追加します" />
-  <translation id="IgnorePolicy" value="地区ポリシーを無視" />
-  <translation id="IgnorePolicyTooltip" value="この建物は地区ポリシーの制限を無視します" />
   <translation id="AccessAdvancedSettings" value="高度な設定にアクセス" />
   <translation id="AccessAdvancedSettingsTooltip" value="この建物の高度な設定パネルを開きます" />
   <translation id="SaveBuildingSettings" value="保存" />

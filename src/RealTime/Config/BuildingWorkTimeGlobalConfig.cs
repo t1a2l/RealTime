@@ -87,28 +87,33 @@ namespace RealTime.Config
             try
             {
                 string path = GetXMLPath();
-                if (File.Exists(path))
+
+                if (!File.Exists(path))
                 {
-                    using FileStream stream = new(path, FileMode.Open, FileAccess.Read);
-
-                    if (Ser_.Deserialize(stream) is not BuildingWorkTimeGlobalConfig config)
-                    {
-                        return null;
-                    }
-
-                    if (config.BuildingWorkTimeGlobalSettings.Count > 0 && config.BuildingWorkTimeGlobalSettingsV2.Count == 0)
-                    {
-                        Debug.Log("RealTimeMod: Migrating legacy global work time settings.");
-                        config.MigrateLegacySettings();
-                        config.Serialize();
-                    }
+                    return null;
                 }
+
+                using FileStream stream = new(path, FileMode.Open, FileAccess.Read);
+
+                if (Ser_.Deserialize(stream) is not BuildingWorkTimeGlobalConfig config)
+                {
+                    return null;
+                }
+
+                if (config.BuildingWorkTimeGlobalSettings.Count > 0)
+                {
+                    Debug.Log("RealTimeMod: Migrating legacy global work time settings.");
+                    config.MigrateLegacySettings();
+                    config.Serialize();
+                }
+
+                return config;
             }
             catch (Exception ex)
             {
                 Debug.LogError("RealTimeMod: " + ex.Message);
+                return null;
             }
-            return null;
         }
 
         public void Serialize()
@@ -145,16 +150,19 @@ namespace RealTime.Config
                 var xmlShifts = BuildingWorkTimeManager.GetShifts(extendedShift, continuousShift, shiftCount).Select(s => new WorkShiftTimeXml(s)).ToArray();
 
 
-                var buildingWorkTimeGlobal = new BuildingWorkTimeGlobal
+                var migrated = new BuildingWorkTimeGlobal
                 {
                     InfoName = legacy.InfoName,
                     BuildingAI = legacy.BuildingAI,
-                    IgnorePolicy = legacy.IgnorePolicy,
                     WorkDays = BuildingWorkTimeManager.GetWorkDays(openOnWeekends),
                     WorkShifts = xmlShifts
                 };
 
-                BuildingWorkTimeGlobalSettingsV2.Add(buildingWorkTimeGlobal);
+                if (GetIndex(migrated.InfoName, migrated.BuildingAI) == -1)
+                {
+                    BuildingWorkTimeGlobalSettingsV2.Add(migrated);
+                }
+
             }
 
             // Old list no longer needed
@@ -171,9 +179,6 @@ namespace RealTime.Config
 
         [XmlAttribute("BuildingAI")]
         public string BuildingAI { get; set; }
-
-        [XmlAttribute("IgnorePolicy")]
-        public bool IgnorePolicy { get; set; }
 
         // DayOfWeek[] as a comma-separated string attribute — simplest approach
         [XmlIgnore]

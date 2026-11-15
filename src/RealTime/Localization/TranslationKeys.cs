@@ -175,12 +175,6 @@ namespace RealTime.Localization
         /// <summary>The key for the add shift button tooltip.</summary>
         public const string AddShiftTooltip = "AddShiftTooltip";
 
-        /// <summary>The key for the ignore policy checkbox.</summary>
-        public const string IgnorePolicy = "IgnorePolicy";
-
-        /// <summary>The key for the ignore policy checkbox tooltip.</summary>
-        public const string IgnorePolicyTooltip = "IgnorePolicyTooltip";
-
         /// <summary>The key for the save building settings button.</summary>
         public const string SaveBuildingSettings = "SaveBuildingSettings";
 

@@ -57,7 +57,6 @@ namespace RealTime.UI
         internal UILabel m_shiftsEditorLabel;
         internal ShiftRow[] m_shiftEditRows;  // up to MaxShifts = 5
         internal UIButton m_addShiftBtn;
-        internal UICheckBox m_ignorePolicy;
 
         // ─────────────────────────────────────────── Action buttons ───────────────────────────────────────────────
         internal UIButton m_saveBuildingSettingsBtn;
@@ -106,8 +105,6 @@ namespace RealTime.UI
         private List<BuildingWorkTimeManager.WorkShiftTime> m_shiftsClipboard;
 
         private List<DayOfWeek> m_daysOfWeekClipboard;
-
-        private bool m_ignorePolicyClipboard;
 
         private bool m_isLockedClipboard;
 
@@ -213,7 +210,6 @@ namespace RealTime.UI
 
             m_shiftsClipboard = [];
             m_daysOfWeekClipboard = [];
-            m_ignorePolicyClipboard = false;
             m_isLockedClipboard = false;
 
             CreateHeader();
@@ -642,12 +638,6 @@ namespace RealTime.UI
             m_addShiftBtn = UIButtons.CreateButton(m_shiftsEditorPanel, 5f, 220f, "AddShift", "+ Add Shift", "", 280f);
             m_addShiftBtn.eventClicked += (_, __) => AddShift();
             
-            m_ignorePolicy = UICheckBoxes.CreateCheckBox(m_shiftsEditorPanel, "IgnorePolicy", "", "", false);
-            m_ignorePolicy.width = 110f;
-            m_ignorePolicy.label.textColor = new Color32(185, 221, 254, 255);
-            m_ignorePolicy.label.textScale = 0.8125f;
-            m_ignorePolicy.relativePosition = new Vector3(10f, 260f);
-
             RefreshShiftsSummary();
         }
 
@@ -753,9 +743,6 @@ namespace RealTime.UI
 
             m_addShiftBtn?.text = localizationProvider.Translate(TranslationKeys.AddShift);
             m_addShiftBtn?.tooltip = localizationProvider.Translate(TranslationKeys.AddShiftTooltip);
-
-            m_ignorePolicy?.text = localizationProvider.Translate(TranslationKeys.IgnorePolicy);
-            m_ignorePolicy?.tooltip = localizationProvider.Translate(TranslationKeys.IgnorePolicyTooltip);
 
             // ──────────────────────────────────────── Invalid shifts error message translation ─────────────────────────────────────────
             t_invalidShiftsTitle = localizationProvider.Translate(TranslationKeys.InvalidShiftsTitle);
@@ -1026,8 +1013,6 @@ namespace RealTime.UI
                 m_shiftsClipboard = [.. shifts];
             }
 
-            m_ignorePolicyClipboard = m_ignorePolicy.isChecked;
-
             m_isLockedClipboard = m_lockUnlockChangesBtn.normalFgSprite == "Lock";
 
             m_isCopied = true;
@@ -1046,7 +1031,6 @@ namespace RealTime.UI
             {
                 WorkDays = [.. m_daysOfWeekClipboard],
                 WorkShifts = [.. m_shiftsClipboard],
-                IgnorePolicy = m_ignorePolicyClipboard,
                 IsLocked = m_isLockedClipboard
             };
 
@@ -1159,7 +1143,6 @@ namespace RealTime.UI
             {
                 WorkDays = GetActiveDays(),
                 WorkShifts = GetActiveShifts(),
-                IgnorePolicy = m_ignorePolicy.isChecked,
                 IsLocked = m_lockUnlockChangesBtn.normalFgSprite == "Lock"
             };
 
@@ -1181,7 +1164,6 @@ namespace RealTime.UI
 
                 SetActiveDays(prefabRecord.WorkDays);
                 SetActiveShifts(prefabRecord.WorkShifts);
-                m_ignorePolicy.isChecked = prefabRecord.IgnorePolicy;
                 m_settingsStatus.text = t_prefabSettingsStatus;
 
                 UpdateBuildingSettings.SetBuildingToPrefab(buildingID, prefabRecord);
@@ -1201,7 +1183,6 @@ namespace RealTime.UI
 
                 SetActiveDays(buildingWorkTimeGlobal.WorkDays);
                 SetActiveShifts(UpdateBuildingSettings.ConvertXMLToWorkShifts(buildingWorkTimeGlobal.WorkShifts));
-                m_ignorePolicy.isChecked = buildingWorkTimeGlobal.IgnorePolicy;
                 m_settingsStatus.text = t_globalSettingsStatus;
 
                 UpdateBuildingSettings.SetBuildingToGlobal(buildingID, buildingWorkTimeGlobal);
@@ -1232,8 +1213,7 @@ namespace RealTime.UI
             var newPrefabSettings = new BuildingWorkTimeManager.WorkTime
             {
                 WorkDays = GetActiveDays(),
-                WorkShifts = GetActiveShifts(),
-                IgnorePolicy = m_ignorePolicy.isChecked
+                WorkShifts = GetActiveShifts()
             };
 
             if (!buildingWorkTime.IsLocked)
@@ -1268,8 +1248,7 @@ namespace RealTime.UI
             var newGlobalSettings = new BuildingWorkTimeManager.WorkTime
             {
                 WorkDays = GetActiveDays(),
-                WorkShifts = GetActiveShifts(),
-                IgnorePolicy = m_ignorePolicy.isChecked
+                WorkShifts = GetActiveShifts()
             };
 
             if (!buildingWorkTime.IsLocked)
@@ -1340,7 +1319,6 @@ namespace RealTime.UI
 
             SetActiveDays(buildingWorkTimeDefault.WorkDays);
             SetActiveShifts(buildingWorkTimeDefault.WorkShifts);
-            m_ignorePolicy.isChecked = buildingWorkTimeDefault.IgnorePolicy;
 
             UpdateBuildingSettings.UpdateBuildingToDefaultSettings(buildingID, buildingWorkTimeDefault);
 

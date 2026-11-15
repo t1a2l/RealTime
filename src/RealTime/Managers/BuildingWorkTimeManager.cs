@@ -36,7 +36,6 @@ namespace RealTime.Managers
             public bool IsPrefab;
             public bool IsGlobal;
             public bool IsLocked;
-            public bool IgnorePolicy;
 
             public readonly bool ContainsHour(float hour)
             {
@@ -94,7 +93,6 @@ namespace RealTime.Managers
         {
             public string InfoName;
             public string BuildingAI;
-            public bool IgnorePolicy;
 
             public DayOfWeek[] WorkDays;
             public WorkShiftTime[] WorkShifts;
@@ -296,10 +294,17 @@ namespace RealTime.Managers
                 return false;
             }
 
+            if (ai is ParkGateAI)
+            {
+                var DistrictInstance = Singleton<DistrictManager>.instance;
+                byte parkId = DistrictInstance.GetPark(building.m_position);
+                return parkId != 0 && DistrictInstance.m_parks.m_buffer[parkId].IsPark && DistrictInstance.m_parks.m_buffer[parkId].m_mainGate == buildingID;
+            }
+
             if (ai is DecorationBuildingAI || ai is OutsideConnectionAI || ai is WaterJunctionAI || ai is CableCarPylonAI ||
                 ai is IntersectionAI || ai is MonorailPylonAI || ai is PowerPoleAI || ai is WildlifeSpawnPointAI || ai is TsunamiBuoyAI ||
                 ai is RadioMastAI || ai is FirewatchTowerAI || ai is EarthquakeSensorAI || ai is DummyBuildingAI || ai is PowerLineAI ||
-                ai is AirportGateAI || ai is AirportCargoGateAI)
+                ai is AirportGateAI || ai is AirportCargoGateAI || ai is ParkBuildingAI)
             {
                 return false;
             }
@@ -340,18 +345,23 @@ namespace RealTime.Managers
             var level = buildingInfo.m_class.m_level;
             var ai = buildingInfo.m_buildingAI;
 
-            if (BuildingManagerConnection.IsHotel(buildingID) || BuildingManagerConnection.IsAreaMainBuilding(buildingID) && ai is not ParkGateAI
-                || BuildingManagerConnection.IsWarehouseBuilding(buildingID) || BuildingManagerConnection.IsUniqueFactoryBuilding(buildingID))
+            if (BuildingManagerConnection.IsHotel(buildingID) || BuildingManagerConnection.IsWarehouseBuilding(buildingID) || BuildingManagerConnection.IsUniqueFactoryBuilding(buildingID))
             {
                 return ShiftCountToWorkTime(buildingID, buildingInfo, 3);
             }
-            else if (service == ItemClass.Service.Beautification && (subService == ItemClass.SubService.BeautificationParks || subService == ItemClass.SubService.None) && BuildingManagerConnection.IsPolicyActive(buildingID, DistrictPolicies.Policies.NightTours))
+            else if (BuildingManagerConnection.IsAreaMainBuilding(buildingID))
             {
+                if(ai is ParkGateAI)
+                {
+                    int shiftCount = BuildingManagerConnection.IsPolicyActive(buildingID, DistrictPolicies.Policies.NightTours) ? 3 : 1;
+                    return ShiftCountToWorkTime(buildingID, buildingInfo, shiftCount);
+                }
                 return ShiftCountToWorkTime(buildingID, buildingInfo, 3);
             }
-            else if (BuildingManagerConnection.IsEssentialIndustryBuilding(buildingID) && (subService == ItemClass.SubService.PlayerIndustryFarming || subService == ItemClass.SubService.PlayerIndustryForestry))
+            else if (subService == ItemClass.SubService.PlayerIndustryFarming || subService == ItemClass.SubService.PlayerIndustryForestry)
             {
-                return ShiftCountToWorkTime(buildingID, buildingInfo, 3);
+                int shiftCount = BuildingManagerConnection.IsEssentialIndustryBuilding(buildingID) ? 3 : 1;
+                return ShiftCountToWorkTime(buildingID, buildingInfo, shiftCount);
             }
             else if (BuildingManagerConnection.IsRecreationalCareBuilding(buildingID))
             {
@@ -372,10 +382,7 @@ namespace RealTime.Managers
             {
                 case ItemClass.Service.Office:
                 case ItemClass.Service.Education when level == ItemClass.Level.Level1 || level == ItemClass.Level.Level2:
-                case ItemClass.Service.PlayerIndustry
-                    when subService == ItemClass.SubService.PlayerIndustryForestry || subService == ItemClass.SubService.PlayerIndustryFarming:
-                case ItemClass.Service.Industrial
-                    when subService == ItemClass.SubService.IndustrialForestry || subService == ItemClass.SubService.IndustrialFarming:
+                case ItemClass.Service.Industrial when subService == ItemClass.SubService.IndustrialForestry || subService == ItemClass.SubService.IndustrialFarming:
                 case ItemClass.Service.PoliceDepartment when subService == ItemClass.SubService.PoliceDepartmentBank:
                 case ItemClass.Service.PublicTransport when subService == ItemClass.SubService.PublicTransportPost:
                     return ShiftCountToWorkTime(buildingID, buildingInfo, 1);
@@ -423,17 +430,13 @@ namespace RealTime.Managers
             if (BuildingsWorkTime.TryGetValue(buildingID, out var _))
             {
                 BuildingsWorkTime[buildingID] = workTime;
-                RealTimeBuildingAI?.UpdateBuildingWorkTimeByPolicy(buildingID);
             }
         }
 
         public static void RemoveBuildingWorkTime(ushort buildingID)
         {
-            if (BuildingsWorkTime.TryGetValue(buildingID, out var _))
-            {
-                BuildingsWorkTime.Remove(buildingID);
-                BuildingWorkTimeManager.ClearPolicyClosed(buildingID);
-            }
+            BuildingsWorkTime.Remove(buildingID);
+            ClearPolicyClosed(buildingID);
         }
 
         public static WorkTime ShiftCountToWorkTime(ushort buildingID, BuildingInfo buildingInfo, int shiftCount)
@@ -531,8 +534,7 @@ namespace RealTime.Managers
                 IsDefault = true,
                 IsPrefab = false,
                 IsGlobal = false,
-                IsLocked = false,
-                IgnorePolicy = false
+                IsLocked = false
             };
         }
 
@@ -645,6 +647,13 @@ namespace RealTime.Managers
             var service = building.Info.GetService();
             var sub_service = building.Info.GetSubService();
             var DistrictInstance = Singleton<DistrictManager>.instance;
+
+            if(buildingAI is ParkGateAI)
+            {
+                byte parkId = DistrictInstance.GetPark(building.m_position);
+                return parkId != 0 && DistrictInstance.m_parks.m_buffer[parkId].IsPark && DistrictInstance.m_parks.m_buffer[parkId].m_mainGate == buildingID;
+            }
+
             bool IsAllowedZonedCommercial = buildingAI is CommercialBuildingAI && service == ItemClass.Service.Commercial && !BuildingManagerConnection.IsHotel(buildingID);
             bool IsAllowedZonedGeneral = buildingAI is IndustrialBuildingAI || buildingAI is IndustrialExtractorAI || buildingAI is OfficeBuildingAI;
             bool isAllowedCityService = buildingAI is BankOfficeAI || buildingAI is PostOfficeAI || buildingAI is SaunaAI || buildingAI is TourBuildingAI || buildingAI is MonumentAI || buildingAI is MarketAI || buildingAI is LibraryAI;
@@ -775,6 +784,64 @@ namespace RealTime.Managers
             }
         }
 
+        public static ushort GetParkScheduleSource(ushort buildingId)
+        {
+            if (buildingId == 0)
+            {
+                return buildingId;
+            }
+
+            var buildings = Singleton<BuildingManager>.instance.m_buildings;
+            ref var building = ref buildings.m_buffer[buildingId];
+
+            var info = building.Info;
+            if (info == null)
+            {
+                return buildingId;
+            }
+
+            // Explicitly include gates without relying on AI inheritance.
+            if (info.m_buildingAI is not ParkBuildingAI && info.m_buildingAI is not ParkGateAI)
+            {
+                return buildingId;
+            }
+
+            byte parkId = GetParkArea(building);
+            if (parkId == 0)
+            {
+                return buildingId;
+            }
+
+            ushort mainGateId = Singleton<DistrictManager>.instance.m_parks.m_buffer[parkId].m_mainGate;
+
+            if (mainGateId == 0 || mainGateId == buildingId || mainGateId >= buildings.m_buffer.Length)
+            {
+                return buildingId;
+            }
+
+            ref var mainGate = ref buildings.m_buffer[mainGateId];
+
+            if ((mainGate.m_flags & Building.Flags.Created) == 0 || mainGate.Info == null || mainGate.Info.m_buildingAI is not ParkGateAI || GetParkArea(mainGate) != parkId)
+            {
+                return buildingId;
+            }
+
+            return mainGateId;
+        }
+
+        private static byte GetParkArea(Building data)
+        {
+            var instance = Singleton<DistrictManager>.instance;
+            byte b = instance.GetPark(data.m_position);
+            if (b != 0)
+            {
+                if (!instance.m_parks.m_buffer[b].IsPark)
+                {
+                    b = 0;
+                }
+            }
+            return b;
+        }
     }
 
 }

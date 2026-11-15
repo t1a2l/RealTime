@@ -12,7 +12,7 @@ namespace RealTime.Serializer
         private const uint uiTUPLE_START = 0xFEFEFEFE;
         private const uint uiTUPLE_END = 0xFAFAFAFA;
 
-        private const ushort iBUILDING_WORK_TIME_DATA_VERSION = 6;
+        private const ushort iBUILDING_WORK_TIME_DATA_VERSION = 7;
 
         public static void SaveData(FastList<byte> Data)
         {
@@ -53,7 +53,6 @@ namespace RealTime.Serializer
                 StorageData.WriteBool(kvp.Value.IsPrefab, Data);
                 StorageData.WriteBool(kvp.Value.IsGlobal, Data);
                 StorageData.WriteBool(kvp.Value.IsLocked, Data);
-                StorageData.WriteBool(kvp.Value.IgnorePolicy, Data);
 
                 // Write end tuple
                 StorageData.WriteUInt32(uiTUPLE_END, Data);
@@ -75,7 +74,6 @@ namespace RealTime.Serializer
                 // Write actual settings
                 StorageData.WriteString(kvp.InfoName, Data);
                 StorageData.WriteString(kvp.BuildingAI, Data);
-                StorageData.WriteBool(kvp.IgnorePolicy, Data);
 
                 StorageData.WriteInt32(kvp.WorkDays.Length, Data);
 
@@ -105,196 +103,129 @@ namespace RealTime.Serializer
         {
             if (Data != null && Data.Length > iIndex)
             {
-                int iBuildingWorkTimeVersion = StorageData.ReadUInt16(Data, ref iIndex);
-                Debug.Log("RealTime BuildingWorkTime - Global: " + iGlobalVersion + " BufferVersion: " + iBuildingWorkTimeVersion + " DataLength: " + Data.Length + " Index: " + iIndex);
+                int version = StorageData.ReadUInt16(Data, ref iIndex);
+                Debug.Log("RealTime BuildingWorkTime - Global: " + iGlobalVersion + " BufferVersion: " + version + " DataLength: " + Data.Length + " Index: " + iIndex);
 
                 BuildingWorkTimeManager.BuildingsWorkTime ??= [];
+                BuildingWorkTimeManager.BuildingsWorkTime.Clear();
 
-                if (BuildingWorkTimeManager.BuildingsWorkTime.Count > 0)
+                BuildingWorkTimeManager.BuildingsWorkTimePrefabs ??= [];
+                BuildingWorkTimeManager.BuildingsWorkTimePrefabs.Clear();
+
+                switch (version)
                 {
-                    BuildingWorkTimeManager.BuildingsWorkTime.Clear();
-                }
+                    case < 4:
+                        LoadLegacyBuffers(version, Data, ref iIndex);
+                        return;
 
-                if (iBuildingWorkTimeVersion >= 4)
-                {
-                    CheckStartTuple($"BuildingsWorkTime Start", iBuildingWorkTimeVersion, Data, ref iIndex);
+                    case < 6:
+                        LoadLegacyBuffers(version, Data, ref iIndex);
+                        LoadLegacyPrefabs(version, Data, ref iIndex);
+                        return;
 
-                    BuildingWorkTimeManager.BuildingsWorkTimePrefabs ??= [];
-
-                    if (BuildingWorkTimeManager.BuildingsWorkTimePrefabs.Count > 0)
-                    {
-                        BuildingWorkTimeManager.BuildingsWorkTimePrefabs.Clear();
-                    }
-                }
-
-                int BuildingsWorkTime_Count = StorageData.ReadInt32(Data, ref iIndex);
-                for (int i = 0; i < BuildingsWorkTime_Count; i++)
-                {
-                    CheckStartTuple($"Buffer({i})", iBuildingWorkTimeVersion, Data, ref iIndex);
-
-                    if (iBuildingWorkTimeVersion < 6)
-                    {
-                        ushort BuildingId = StorageData.ReadUInt16(Data, ref iIndex);
-                        bool _ = StorageData.ReadBool(Data, ref iIndex);
-                        bool WorkAtWeekands = StorageData.ReadBool(Data, ref iIndex);
-                        bool HasExtendedWorkShift = StorageData.ReadBool(Data, ref iIndex);
-                        bool HasContinuousWorkShift = StorageData.ReadBool(Data, ref iIndex);
-                        int WorkShifts = StorageData.ReadInt32(Data, ref iIndex);
-
-                        var workTime = new BuildingWorkTimeManager.WorkTime()
-                        {
-                            IsDefault = true,
-                            IsPrefab = false,
-                            IsGlobal = false,
-                            IsLocked = false,
-                            IgnorePolicy = false
-                        };
-
-                        if (iBuildingWorkTimeVersion >= 2)
-                        {
-                            workTime.IsDefault = StorageData.ReadBool(Data, ref iIndex);
-                            workTime.IsPrefab = StorageData.ReadBool(Data, ref iIndex);
-                            workTime.IsGlobal = StorageData.ReadBool(Data, ref iIndex);
-                        }
-
-                        if (iBuildingWorkTimeVersion >= 3)
-                        {
-                            workTime.IsLocked = StorageData.ReadBool(Data, ref iIndex);
-                        }
-
-                        if (iBuildingWorkTimeVersion >= 5)
-                        {
-                            workTime.IgnorePolicy = StorageData.ReadBool(Data, ref iIndex);
-                        }
-
-                        workTime = BuildingWorkTimeManager.LegacyToWorkTime(workTime, WorkAtWeekands, HasExtendedWorkShift, HasContinuousWorkShift, WorkShifts);
-                        BuildingWorkTimeManager.BuildingsWorkTime.Add(BuildingId, workTime);
-                    }
-                    else
-                    {
-                        ushort BuildingId = StorageData.ReadUInt16(Data, ref iIndex);
-
-                        int WorkDays_Length = StorageData.ReadInt32(Data, ref iIndex);
-
-                        var days = new DayOfWeek[WorkDays_Length];
-
-                        for (int j = 0; j < WorkDays_Length; j++)
-                        {
-                            days[j] = (DayOfWeek)StorageData.ReadInt32(Data, ref iIndex);
-                        }
-
-                        int WorkShifts_Length = StorageData.ReadInt32(Data, ref iIndex);
-
-                        var shifts = new BuildingWorkTimeManager.WorkShiftTime[WorkShifts_Length];
-
-                        for (int j = 0; j < WorkShifts_Length; j++)
-                        {
-                            shifts[j].StartTime = StorageData.ReadFloat(Data, ref iIndex);
-                            shifts[j].EndTime = StorageData.ReadFloat(Data, ref iIndex);
-                        }
-
-                        var workTime = new BuildingWorkTimeManager.WorkTime()
-                        {
-                            WorkDays = days,
-                            WorkShifts = shifts,
-                            IsDefault = true,
-                            IsPrefab = false,
-                            IsGlobal = false,
-                            IsLocked = false,
-                            IgnorePolicy = false
-                        };
-
-                        workTime.IsDefault = StorageData.ReadBool(Data, ref iIndex);
-                        workTime.IsPrefab = StorageData.ReadBool(Data, ref iIndex);
-                        workTime.IsGlobal = StorageData.ReadBool(Data, ref iIndex);
-                        workTime.IsLocked = StorageData.ReadBool(Data, ref iIndex);
-                        workTime.IgnorePolicy = StorageData.ReadBool(Data, ref iIndex);
-
-                        BuildingWorkTimeManager.BuildingsWorkTime.Add(BuildingId, workTime);
-                    }
-
-                    CheckEndTuple($"Buffer({i})", iBuildingWorkTimeVersion, Data, ref iIndex);
-                }
-
-                if (iBuildingWorkTimeVersion >= 4)
-                {
-                    CheckEndTuple($"BuildingsWorkTime End", iBuildingWorkTimeVersion, Data, ref iIndex);
-
-                    CheckStartTuple($"BuildingsWorkTimePrefabs Start", iBuildingWorkTimeVersion, Data, ref iIndex);
-
-                    int BuildingsWorkTimePrefabs_Count = StorageData.ReadInt32(Data, ref iIndex);
-                    for (int i = 0; i < BuildingsWorkTimePrefabs_Count; i++)
-                    {
-                        CheckStartTuple($"Buffer({i})", iBuildingWorkTimeVersion, Data, ref iIndex);
-
-                        if (iBuildingWorkTimeVersion < 6)
-                        {
-                            string InfoName = StorageData.ReadString(Data, ref iIndex);
-                            string BuildingAI = StorageData.ReadString(Data, ref iIndex);
-                            bool _ = StorageData.ReadBool(Data, ref iIndex);
-                            bool WorkAtWeekands = StorageData.ReadBool(Data, ref iIndex);
-                            bool HasExtendedWorkShift = StorageData.ReadBool(Data, ref iIndex);
-                            bool HasContinuousWorkShift = StorageData.ReadBool(Data, ref iIndex);
-                            int WorkShifts = StorageData.ReadInt32(Data, ref iIndex);
-
-                            var workTimePrefab = new BuildingWorkTimeManager.WorkTimePrefab()
-                            {
-                                InfoName = InfoName,
-                                BuildingAI = BuildingAI,
-                            };
-
-                            if (iBuildingWorkTimeVersion >= 5)
-                            {
-                                workTimePrefab.IgnorePolicy = StorageData.ReadBool(Data, ref iIndex);
-                            }
-
-                            workTimePrefab = BuildingWorkTimeManager.LegacyToWorkTimePrefab(workTimePrefab, WorkAtWeekands, HasExtendedWorkShift, HasContinuousWorkShift, WorkShifts);
-
-                            BuildingWorkTimeManager.BuildingsWorkTimePrefabs.Add(workTimePrefab);
-                        }
-                        else
-                        {
-                            string InfoName = StorageData.ReadString(Data, ref iIndex);
-                            string BuildingAI = StorageData.ReadString(Data, ref iIndex);
-                            bool IgnorePolicy = StorageData.ReadBool(Data, ref iIndex);
-
-                            int WorkDays_Length = StorageData.ReadInt32(Data, ref iIndex);
-
-                            var days = new DayOfWeek[WorkDays_Length];
-
-                            for (int j = 0; j < WorkDays_Length; j++)
-                            {
-                                days[j] = (DayOfWeek)StorageData.ReadInt32(Data, ref iIndex);
-                            }
-
-                            int WorkShifts_Length = StorageData.ReadInt32(Data, ref iIndex);
-
-                            var shifts = new BuildingWorkTimeManager.WorkShiftTime[WorkShifts_Length];
-
-                            for (int j = 0; j < WorkShifts_Length; j++)
-                            {
-                                shifts[j].StartTime = StorageData.ReadFloat(Data, ref iIndex);
-                                shifts[j].EndTime = StorageData.ReadFloat(Data, ref iIndex);
-                            }
-
-                            var workTimePrefab = new BuildingWorkTimeManager.WorkTimePrefab()
-                            {
-                                InfoName = InfoName,
-                                BuildingAI = BuildingAI,
-                                IgnorePolicy = IgnorePolicy,
-                                WorkDays = days,
-                                WorkShifts = shifts
-                            };
-
-                            BuildingWorkTimeManager.BuildingsWorkTimePrefabs.Add(workTimePrefab);
-                        }
-
-                        CheckEndTuple($"Buffer({i})", iBuildingWorkTimeVersion, Data, ref iIndex);
-                    }
-
-                    CheckEndTuple($"BuildingsWorkTimePrefabs End", iBuildingWorkTimeVersion, Data, ref iIndex);
+                    default:
+                        LoadCurrentBuffers(version, Data, ref iIndex);
+                        LoadCurrentPrefabs(version, Data, ref iIndex);
+                        return;
                 }
             }
+        }
+
+        private static void LoadCurrentBuffers(int version, byte[] data, ref int index)
+        {
+            CheckStartTuple("BuildingsWorkTime Start", version, data, ref index);
+
+            int workTimeCount = StorageData.ReadInt32(data, ref index);
+
+            for (int i = 0; i < workTimeCount; i++)
+            {
+                CheckStartTuple($"Buffer({i})", version, data, ref index);
+
+                ushort buildingId = StorageData.ReadUInt16(data, ref index);
+
+                var workTime = ReadCurrentWorkTime(data, ref index);
+
+                if (version < 7)
+                {
+                    // Obsolete IgnorePolicy field.
+                    StorageData.ReadBool(data, ref index);
+                }
+
+                BuildingWorkTimeManager.BuildingsWorkTime.Add(buildingId, workTime);
+
+                CheckEndTuple($"Buffer({i})", version, data, ref index);
+            }
+
+            CheckEndTuple("BuildingsWorkTime End", version, data, ref index);
+        }
+
+        private static void LoadCurrentPrefabs(int version, byte[] data, ref int index)
+        {
+            CheckEndTuple("BuildingsWorkTime End", version, data, ref index);
+
+            CheckStartTuple("BuildingsWorkTimePrefabs Start", version, data, ref index);
+
+            int prefabCount = StorageData.ReadInt32(data, ref index);
+
+            for (int i = 0; i < prefabCount; i++)
+            {
+                CheckStartTuple($"Prefab({i})", version, data, ref index);
+
+                var workTimePrefab = ReadCurrentWorkTimePrefab(version,data, ref index);
+
+                BuildingWorkTimeManager.BuildingsWorkTimePrefabs.Add(workTimePrefab);
+
+                CheckEndTuple($"Prefab({i})", version, data, ref index);
+            }
+
+            CheckEndTuple("BuildingsWorkTimePrefabs End", version, data, ref index);
+        }
+
+        private static void LoadLegacyBuffers(int version, byte[] data, ref int index)
+        {
+            if (version >= 4)
+            {
+                CheckStartTuple("BuildingsWorkTime Start", version, data, ref index);
+            }
+
+            int count = StorageData.ReadInt32(data, ref index);
+
+            for (int i = 0; i < count; i++)
+            {
+                CheckStartTuple($"Buffer({i})", version, data, ref index);
+
+                ushort buildingId = StorageData.ReadUInt16(data, ref index);
+
+                var workTime = ReadLegacyWorkTime(version, data, ref index);
+
+                BuildingWorkTimeManager.BuildingsWorkTime.Add(buildingId, workTime);
+
+                CheckEndTuple($"Buffer({i})", version, data, ref index);
+            }
+
+            CheckEndTuple("BuildingsWorkTime End", version, data, ref index);
+        }
+
+        private static void LoadLegacyPrefabs(int version, byte[] data, ref int index)
+        {
+            CheckEndTuple("BuildingsWorkTime End", version, data, ref index);
+
+            CheckStartTuple("BuildingsWorkTimePrefabs Start", version, data, ref index);
+
+            int prefabCount = StorageData.ReadInt32(data, ref index);
+
+            for (int i = 0; i < prefabCount; i++)
+            {
+                CheckStartTuple($"Prefab({i})", version, data, ref index);
+
+                var workTimePrefab = ReadLegacyWorkTimePrefab(version, data, ref index);
+
+                BuildingWorkTimeManager.BuildingsWorkTimePrefabs.Add(workTimePrefab);
+
+                CheckEndTuple($"Prefab({i})", version, data, ref index);
+            }
+
+            CheckEndTuple("BuildingsWorkTimePrefabs End", version, data, ref index);
         }
 
         private static void CheckStartTuple(string sTupleLocation, int iDataVersion, byte[] Data, ref int iIndex)
@@ -319,6 +250,147 @@ namespace RealTime.Serializer
                     throw new Exception($"BuildingWorkTime Buffer end tuple not found at: {sTupleLocation}");
                 }
             }
+        }
+
+        private static BuildingWorkTimeManager.WorkTime ReadCurrentWorkTime(byte[] data, ref int index)
+        {
+            int workDayCount = StorageData.ReadInt32(data, ref index);
+            var workDays = new DayOfWeek[workDayCount];
+
+            for (int i = 0; i < workDayCount; i++)
+            {
+                workDays[i] = (DayOfWeek)StorageData.ReadInt32(data, ref index);
+            }
+
+            int workShiftCount = StorageData.ReadInt32(data, ref index);
+            var workShifts = new BuildingWorkTimeManager.WorkShiftTime[workShiftCount];
+
+            for (int i = 0; i < workShiftCount; i++)
+            {
+                workShifts[i].StartTime = StorageData.ReadFloat(data, ref index);
+                workShifts[i].EndTime = StorageData.ReadFloat(data, ref index);
+            }
+
+            return new BuildingWorkTimeManager.WorkTime
+            {
+                WorkDays = workDays,
+                WorkShifts = workShifts,
+                IsDefault = StorageData.ReadBool(data, ref index),
+                IsPrefab = StorageData.ReadBool(data, ref index),
+                IsGlobal = StorageData.ReadBool(data, ref index),
+                IsLocked = StorageData.ReadBool(data, ref index)
+            };
+        }
+
+        private static BuildingWorkTimeManager.WorkTimePrefab ReadCurrentWorkTimePrefab(int version, byte[] data, ref int index)
+        {
+            string infoName = StorageData.ReadString(data, ref index);
+
+            string buildingAI = StorageData.ReadString(data, ref index);
+
+            if (version < 7)
+            {
+                // Version 6 only: obsolete IgnorePolicy field.
+                StorageData.ReadBool(data, ref index);
+            }
+
+            int workDayCount = StorageData.ReadInt32(data, ref index);
+
+            var workDays = new DayOfWeek[workDayCount];
+
+            for (int i = 0; i < workDayCount; i++)
+            {
+                workDays[i] = (DayOfWeek)StorageData.ReadInt32(data, ref index);
+            }
+
+            int workShiftCount = StorageData.ReadInt32(data, ref index);
+
+            var workShifts = new BuildingWorkTimeManager.WorkShiftTime[workShiftCount];
+
+            for (int i = 0; i < workShiftCount; i++)
+            {
+                workShifts[i].StartTime = StorageData.ReadFloat(data, ref index);
+
+                workShifts[i].EndTime = StorageData.ReadFloat(data, ref index);
+            }
+
+            return new BuildingWorkTimeManager.WorkTimePrefab
+            {
+                InfoName = infoName,
+                BuildingAI = buildingAI,
+                WorkDays = workDays,
+                WorkShifts = workShifts
+            };
+        }
+
+        private static BuildingWorkTimeManager.WorkTime ReadLegacyWorkTime(int version, byte[] data, ref int index)
+        {
+            StorageData.ReadBool(data, ref index); // obsolete WorkAtNight
+            bool workAtWeekends = StorageData.ReadBool(data, ref index);
+            bool extendedShift = StorageData.ReadBool(data, ref index);
+            bool continuousShift = StorageData.ReadBool(data, ref index);
+            int shiftCount = StorageData.ReadInt32(data, ref index);
+
+            var workTime = new BuildingWorkTimeManager.WorkTime
+            {
+                IsDefault = true,
+                IsPrefab = false,
+                IsGlobal = false,
+                IsLocked = false
+            };
+
+            if (version >= 2)
+            {
+                workTime.IsDefault = StorageData.ReadBool(data, ref index);
+                workTime.IsPrefab = StorageData.ReadBool(data, ref index);
+                workTime.IsGlobal = StorageData.ReadBool(data, ref index);
+            }
+
+            if (version >= 3)
+            {
+                workTime.IsLocked = StorageData.ReadBool(data, ref index);
+            }
+
+            if (version >= 5)
+            {
+                StorageData.ReadBool(data, ref index); // obsolete IgnorePolicy
+            }
+
+            workTime = BuildingWorkTimeManager.LegacyToWorkTime(workTime, workAtWeekends, extendedShift, continuousShift, shiftCount);
+
+            return workTime;
+        }
+
+        private static BuildingWorkTimeManager.WorkTimePrefab ReadLegacyWorkTimePrefab(int version, byte[] data, ref int index)
+        {
+            string infoName = StorageData.ReadString(data, ref index);
+
+            string buildingAI = StorageData.ReadString(data, ref index);
+
+            // Obsolete WorkAtNight field
+            StorageData.ReadBool(data, ref index);
+
+            bool workAtWeekends = StorageData.ReadBool(data, ref index);
+
+            bool hasExtendedWorkShift = StorageData.ReadBool(data, ref index);
+
+            bool hasContinuousWorkShift = StorageData.ReadBool(data, ref index);
+
+            int workShiftCount = StorageData.ReadInt32(data, ref index);
+
+            if (version >= 5)
+            {
+                // Obsolete IgnorePolicy field.
+                StorageData.ReadBool(data, ref index);
+            }
+
+            var workTimePrefab = new BuildingWorkTimeManager.WorkTimePrefab
+            {
+                InfoName = infoName,
+                BuildingAI = buildingAI
+            };
+
+            return BuildingWorkTimeManager.LegacyToWorkTimePrefab(workTimePrefab, workAtWeekends, hasExtendedWorkShift, hasContinuousWorkShift, workShiftCount);
         }
 
     }

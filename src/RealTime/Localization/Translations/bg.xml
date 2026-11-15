@@ -407,8 +407,6 @@
   <translation id="ShiftEditorLabel_5" value="Смяна 5" />
   <translation id="AddShift" value="+ Добавяне на смяна" />
   <translation id="AddShiftTooltip" value="Добавяне на нова работна смяна за тази сграда" />
-  <translation id="IgnorePolicy" value="Игнориране на политики на района" />
-  <translation id="IgnorePolicyTooltip" value="Сградата ще игнорира всякакви ограничения от политиките на района" />
   <translation id="AccessAdvancedSettings" value="Достъп до разширени настройки" />
   <translation id="AccessAdvancedSettingsTooltip" value="Отваряне на панела за разширени настройки за тази сграда" />
   <translation id="SaveBuildingSettings" value="Запази" />

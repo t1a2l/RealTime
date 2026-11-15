@@ -401,8 +401,6 @@
   <translation id="InvalidShiftsText" value="一个或多个班次的开始和结束时间相同" />
   <translation id="AddShift" value="+ 添加班次" />
   <translation id="AddShiftTooltip" value="为此建筑添加新的工作班次" />
-  <translation id="IgnorePolicy" value="忽略区域政策" />
-  <translation id="IgnorePolicyTooltip" value="此建筑将忽略任何区域政策的限制" />
   <translation id="AccessAdvancedSettings" value="访问高级设置" />
   <translation id="AccessAdvancedSettingsTooltip" value="打开此建筑的高级设置面板" />
   <translation id="SaveBuildingSettings" value="保存" />

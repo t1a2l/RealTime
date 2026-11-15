@@ -401,8 +401,6 @@
   <translation id="InvalidShiftsText" value="Un ou plusieurs quarts ont la même heure de début et de fin" />
   <translation id="AddShift" value="+ Ajouter un quart" />
   <translation id="AddShiftTooltip" value="Ajouter un nouveau quart de travail pour ce bâtiment" />
-  <translation id="IgnorePolicy" value="Ignorer les politiques de district" />
-  <translation id="IgnorePolicyTooltip" value="Le bâtiment ignorera toutes les restrictions des politiques de district" />
   <translation id="AccessAdvancedSettings" value="Accéder aux paramètres avancés" />
   <translation id="AccessAdvancedSettingsTooltip" value="Ouvrir le panneau des paramètres avancés pour ce bâtiment" />
   <translation id="SaveBuildingSettings" value="Enreg." />

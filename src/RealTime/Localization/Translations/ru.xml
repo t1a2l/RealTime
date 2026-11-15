@@ -401,8 +401,6 @@
   <translation id="InvalidShiftsText" value="Одна или несколько смен имеют одинаковое время начала и окончания" />
   <translation id="AddShift" value="+ Добавить смену" />
   <translation id="AddShiftTooltip" value="Добавить новую рабочую смену для этого здания" />
-  <translation id="IgnorePolicy" value="Игнорировать политики района" />
-  <translation id="IgnorePolicyTooltip" value="Здание будет игнорировать любые ограничения, установленные политиками района" />
   <translation id="AccessAdvancedSettings" value="Доступ к расширенным настройкам" />
   <translation id="AccessAdvancedSettingsTooltip" value="Открыть панель расширенных настроек для этого здания" />
   <translation id="SaveBuildingSettings" value="Сохранить" />

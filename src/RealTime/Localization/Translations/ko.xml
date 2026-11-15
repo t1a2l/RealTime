@@ -401,8 +401,6 @@
   <translation id="InvalidShiftsText" value="하나 이상의 근무조가 동일한 시작 및 종료 시간을 가지고 있습니다" />
   <translation id="AddShift" value="+ 근무조 추가" />
   <translation id="AddShiftTooltip" value="이 건물에 새로운 근무조를 추가합니다" />
-  <translation id="IgnorePolicy" value="구역 정책 무시" />
-  <translation id="IgnorePolicyTooltip" value="이 건물은 구역 정책의 제한을 무시합니다" />
   <translation id="AccessAdvancedSettings" value="고급 설정 접근" />
   <translation id="AccessAdvancedSettingsTooltip" value="이 건물의 고급 설정 패널을 엽니다" />
   <translation id="SaveBuildingSettings" value="저장" />

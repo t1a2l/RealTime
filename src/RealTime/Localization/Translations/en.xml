@@ -405,8 +405,6 @@
   <translation id="InvalidShiftsText" value="One or more shifts have the same start and end time" />
   <translation id="AddShift" value="+ Add Shift" />
   <translation id="AddShiftTooltip" value="Add a new work shift for this building" />
-  <translation id="IgnorePolicy" value="Ignore District Policies" />
-  <translation id="IgnorePolicyTooltip" value="The building will ignore any restirctions from district policies" />
   <translation id="AccessAdvancedSettings" value="Access Advanced Settings" />
   <translation id="AccessAdvancedSettingsTooltip" value="Open the advanced settings panel for this building" />
   <translation id="SaveBuildingSettings" value="Save" />

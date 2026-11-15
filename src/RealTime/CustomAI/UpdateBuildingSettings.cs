@@ -22,7 +22,6 @@ namespace RealTime.CustomAI
 
             buildingWorkTime.WorkDays = workTime.WorkDays;
             buildingWorkTime.WorkShifts = workTime.WorkShifts;
-            buildingWorkTime.IgnorePolicy = workTime.IgnorePolicy;
             buildingWorkTime.IsDefault = false;
             buildingWorkTime.IsPrefab = false;
             buildingWorkTime.IsGlobal = false;
@@ -36,7 +35,6 @@ namespace RealTime.CustomAI
 
             buildingWorkTime.WorkDays = workTimePrefab.WorkDays;
             buildingWorkTime.WorkShifts = workTimePrefab.WorkShifts;
-            buildingWorkTime.IgnorePolicy = workTimePrefab.IgnorePolicy;
             buildingWorkTime.IsDefault = false;
             buildingWorkTime.IsPrefab = true;
             buildingWorkTime.IsGlobal = false;
@@ -50,7 +48,6 @@ namespace RealTime.CustomAI
 
             buildingWorkTime.WorkDays = buildingWorkTimeGlobalConfig.WorkDays;
             buildingWorkTime.WorkShifts = ConvertXMLToWorkShifts(buildingWorkTimeGlobalConfig.WorkShifts);
-            buildingWorkTime.IgnorePolicy = buildingWorkTimeGlobalConfig.IgnorePolicy;
             buildingWorkTime.IsDefault = false;
             buildingWorkTime.IsPrefab = false;
             buildingWorkTime.IsGlobal = true;
@@ -64,7 +61,6 @@ namespace RealTime.CustomAI
 
             buildingWorkTime.WorkDays = newDefaultWorkTime.WorkDays;
             buildingWorkTime.WorkShifts = newDefaultWorkTime.WorkShifts;
-            buildingWorkTime.IgnorePolicy = newDefaultWorkTime.IgnorePolicy;
             buildingWorkTime.IsDefault = true;
             buildingWorkTime.IsPrefab = false;
             buildingWorkTime.IsGlobal = false;
@@ -111,7 +107,6 @@ namespace RealTime.CustomAI
             {
                 InfoName = buildingInfo.name,
                 BuildingAI = BuildingAIstr,
-                IgnorePolicy = newWorkTime.IgnorePolicy,
                 WorkDays = newWorkTime.WorkDays,
                 WorkShifts = newWorkTime.WorkShifts
             };
@@ -122,7 +117,6 @@ namespace RealTime.CustomAI
                 
                 workTime.WorkDays = buildingWorkTimePrefab.WorkDays;
                 workTime.WorkShifts = buildingWorkTimePrefab.WorkShifts;
-                workTime.IgnorePolicy = buildingWorkTimePrefab.IgnorePolicy;
                 workTime.IsDefault = false;
                 workTime.IsPrefab = true;
                 workTime.IsGlobal = false;
@@ -135,7 +129,6 @@ namespace RealTime.CustomAI
                 // update the prefab
                 var prefabRecord = BuildingWorkTimeManager.GetPrefab(buildingInfo);
 
-                prefabRecord.IgnorePolicy = buildingWorkTimePrefab.IgnorePolicy;
                 prefabRecord.WorkDays = buildingWorkTimePrefab.WorkDays;
                 prefabRecord.WorkShifts = buildingWorkTimePrefab.WorkShifts;
 
@@ -187,7 +180,6 @@ namespace RealTime.CustomAI
             {
                 InfoName = buildingInfo.name,
                 BuildingAI = BuildingAIstr,
-                IgnorePolicy = newWorkTime.IgnorePolicy,
                 WorkDays = newWorkTime.WorkDays,
                 WorkShifts = ConvertWorkShiftsToXML(newWorkTime.WorkShifts)
             };
@@ -198,7 +190,6 @@ namespace RealTime.CustomAI
 
                 workTime.WorkShifts = ConvertXMLToWorkShifts(buildingWorkTimeGlobal.WorkShifts);
                 workTime.WorkDays = buildingWorkTimeGlobal.WorkDays;
-                workTime.IgnorePolicy = buildingWorkTimeGlobal.IgnorePolicy;
                 workTime.IsDefault = false;
                 workTime.IsPrefab = false;
                 workTime.IsGlobal = true;
@@ -210,7 +201,6 @@ namespace RealTime.CustomAI
             {
                 var globalRecord = BuildingWorkTimeGlobalConfig.Config.GetGlobalSettings(buildingInfo);
 
-                globalRecord.IgnorePolicy = buildingWorkTimeGlobal.IgnorePolicy;
                 globalRecord.WorkDays = buildingWorkTimeGlobal.WorkDays;
                 globalRecord.WorkShifts = buildingWorkTimeGlobal.WorkShifts;
 

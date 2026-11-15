@@ -392,6 +392,11 @@ namespace RealTime.Patches
                         panelHeight = 40f;
                     }
 
+                    if (buildingAI is ParkGateAI)
+                    {
+                        checkBoxXposition = 300f;
+                    }
+
                     CityServiceOperationHoursPanel.UpdateData(panelHeight, LocalizationProvider);
                     CityServiceOperationHoursCheckBoxPanel.UpdateData(checkBoxXposition, checkBoxYposition, LocalizationProvider, CityServiceOperationHoursPanel);
 

@@ -600,8 +600,6 @@ namespace RealTime.CustomAI
                 return -1;
             }
 
-            uint[] workForce = buildingAI.GetBuildingWorkForce(workBuildingId);
-
             var workTime = GetOrCreateWorkTime(workBuildingId);
 
             if (workTime.WorkShifts == null || workTime.WorkShifts.Length == 0)

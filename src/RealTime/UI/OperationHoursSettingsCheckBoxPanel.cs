@@ -18,7 +18,7 @@ namespace RealTime.UI
 
             name = "OperationHoursSettingsCheckBoxPanel";
             width = 100f;
-            height = 40f;
+            height = 20f;
             autoLayout = false;
 
             OperationHoursSettingsCheckBox = UICheckBoxes.CreateCheckBox(this, "OperationHoursSettingsCheckBox", "", "", false);

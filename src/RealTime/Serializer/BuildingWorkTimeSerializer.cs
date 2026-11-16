@@ -161,8 +161,6 @@ namespace RealTime.Serializer
 
         private static void LoadCurrentPrefabs(int version, byte[] data, ref int index)
         {
-            CheckEndTuple("BuildingsWorkTime End", version, data, ref index);
-
             CheckStartTuple("BuildingsWorkTimePrefabs Start", version, data, ref index);
 
             int prefabCount = StorageData.ReadInt32(data, ref index);
@@ -203,13 +201,14 @@ namespace RealTime.Serializer
                 CheckEndTuple($"Buffer({i})", version, data, ref index);
             }
 
-            CheckEndTuple("BuildingsWorkTime End", version, data, ref index);
+            if (version >= 4)
+            {
+                CheckStartTuple("BuildingsWorkTime End", version, data, ref index);
+            }
         }
 
         private static void LoadLegacyPrefabs(int version, byte[] data, ref int index)
         {
-            CheckEndTuple("BuildingsWorkTime End", version, data, ref index);
-
             CheckStartTuple("BuildingsWorkTimePrefabs Start", version, data, ref index);
 
             int prefabCount = StorageData.ReadInt32(data, ref index);

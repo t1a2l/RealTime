@@ -304,7 +304,7 @@ namespace RealTime.Managers
             if (ai is DecorationBuildingAI || ai is OutsideConnectionAI || ai is WaterJunctionAI || ai is CableCarPylonAI ||
                 ai is IntersectionAI || ai is MonorailPylonAI || ai is PowerPoleAI || ai is WildlifeSpawnPointAI || ai is TsunamiBuoyAI ||
                 ai is RadioMastAI || ai is FirewatchTowerAI || ai is EarthquakeSensorAI || ai is DummyBuildingAI || ai is PowerLineAI ||
-                ai is AirportGateAI || ai is AirportCargoGateAI || ai is ParkBuildingAI)
+                ai is AirportGateAI || ai is AirportCargoGateAI)
             {
                 return false;
             }
@@ -652,6 +652,12 @@ namespace RealTime.Managers
             {
                 byte parkId = DistrictInstance.GetPark(building.m_position);
                 return parkId != 0 && DistrictInstance.m_parks.m_buffer[parkId].IsPark && DistrictInstance.m_parks.m_buffer[parkId].m_mainGate == buildingID;
+            }
+
+            if (buildingAI is ParkBuildingAI)
+            {
+                byte parkId = DistrictInstance.GetPark(building.m_position);
+                return parkId == 0;
             }
 
             bool IsAllowedZonedCommercial = buildingAI is CommercialBuildingAI && service == ItemClass.Service.Commercial && !BuildingManagerConnection.IsHotel(buildingID);

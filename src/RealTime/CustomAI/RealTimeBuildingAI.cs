@@ -119,7 +119,6 @@ namespace RealTime.CustomAI
             Park,
         }
 
-
         private readonly Dictionary<ushort, byte> policyAreaByBuilding = [];
 
         /// <summary>
@@ -709,7 +708,7 @@ namespace RealTime.CustomAI
         /// </returns>
         public bool IsBuildingOpeningSoon(ushort buildingId, int timeBeforeOpening = 1)
         {
-            ushort scheduleSourceId = BuildingWorkTimeManager.GetParkScheduleSource(buildingId);
+            ushort scheduleSourceId = GetParkScheduleSource(buildingId);
 
             if (scheduleSourceId != buildingId)
             {
@@ -731,7 +730,7 @@ namespace RealTime.CustomAI
         /// </returns>
         public bool IsBuildingClosingSoon(ushort buildingId, int timeBeforeClosing = 2)
         {
-            ushort scheduleSourceId = BuildingWorkTimeManager.GetParkScheduleSource(buildingId);
+            ushort scheduleSourceId = GetParkScheduleSource(buildingId);
 
             if (scheduleSourceId != buildingId)
             {
@@ -767,7 +766,7 @@ namespace RealTime.CustomAI
         /// </returns>
         public bool IsBuildingOpenAt(ushort buildingId, DateTime time)
         {
-            ushort scheduleSourceId = BuildingWorkTimeManager.GetParkScheduleSource(buildingId);
+            ushort scheduleSourceId = GetParkScheduleSource(buildingId);
 
             if (scheduleSourceId != buildingId)
             {
@@ -826,7 +825,7 @@ namespace RealTime.CustomAI
             
             if((building.m_flags & Building.Flags.Abandoned) != 0 || (building.m_flags & Building.Flags.Collapsed) != 0)
             {
-                return true;
+                return false;
             }
 
             if(building.Info == null)
@@ -834,33 +833,24 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            ushort scheduleSourceId = BuildingWorkTimeManager.GetParkScheduleSource(buildingId);
+            if (!BuildingWorkTimeManager.ShouldHaveBuildingWorkTime(buildingId))
+            {
+                return true;
+            }
+
+            ushort scheduleSourceId = GetParkScheduleSource(buildingId);
 
             if (scheduleSourceId != buildingId)
             {
                 return IsBuildingWorking(scheduleSourceId);
             }
 
-            if (!BuildingWorkTimeManager.ShouldHaveBuildingWorkTime(buildingId))
+            if (!BuildingWorkTimeManager.BuildingWorkTimeExist(buildingId))
             {
-                return true;
+                BuildingWorkTimeManager.BuildingWorkTimeCheck(buildingId, building.Info);
             }
 
-            var workTime = !BuildingWorkTimeManager.BuildingWorkTimeExist(buildingId)
-                ? BuildingWorkTimeManager.CreateBuildingWorkTime(buildingId, building.Info)
-                : BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
-
-            int activeShiftIndex = workTime.GetShiftIndex(timeInfo.Now);
-
-            if (activeShiftIndex < 0)
-            {
-                return false;
-            }
-
-            if (workTime.IsDefault && BuildingWorkTimeManager.IsPolicyClosed(buildingId, activeShiftIndex))
-            {
-                return false;
-            }
+            var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingId);
 
             return workTime.IsWorkingAt(timeInfo.Now);
         }
@@ -871,8 +861,6 @@ namespace RealTime.CustomAI
         /// <param name="buildingID">The building ID to update.</param>
         public void UpdateBuildingWorkTimeByPolicy(ushort buildingID)
         {
-            BuildingWorkTimeManager.ClearPolicyClosed(buildingID);
-
             if (!BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID))
             {
                 return;
@@ -880,7 +868,7 @@ namespace RealTime.CustomAI
 
             var workTime = BuildingWorkTimeManager.GetBuildingWorkTime(buildingID);
 
-            if (workTime.WorkShifts == null)
+            if (!workTime.IsDefault)
             {
                 return;
             }
@@ -894,23 +882,9 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (!workTime.IsDefault)
-            {
-                return;
-            }
+            var newWorkTime = BuildingWorkTimeManager.GetDefaultBuildingWorkTime(buildingID, info);
 
-            if (info.m_buildingAI is ParkGateAI)
-            {
-                int shiftCount = BuildingManagerConnection.IsPolicyActive(buildingID, DistrictPolicies.Policies.NightTours) ? 3 : 1;
-                var newWorkTime = BuildingWorkTimeManager.ShiftCountToWorkTime(buildingID, info, shiftCount);
-                BuildingWorkTimeManager.SetBuildingWorkTime(buildingID, newWorkTime);
-
-                RecalculatePolicyClosures(buildingID, info, newWorkTime);
-
-                return;
-            }
-
-            RecalculatePolicyClosures(buildingID, info, workTime);
+            BuildingWorkTimeManager.SetBuildingWorkTime(buildingID, newWorkTime);
         }
 
         /// <summary>
@@ -939,47 +913,24 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (scope == PolicyScope.Park && policy == DistrictPolicies.Policies.NightTours && TryGetParkMainGate((byte)areaId, out ushort parkMainGateId))
+            if (scope == PolicyScope.Park)
             {
-                UpdateBuildingWorkTimeByPolicy(parkMainGateId);
+                if (policy == DistrictPolicies.Policies.NightTours)
+                {
+                    if (!TryGetParkMainGate(areaId, out ushort parkMainGateId))
+                    {
+                        return;
+                    }
+
+                    UpdateBuildingWorkTimeByPolicy(parkMainGateId);
+                    return;
+                }
+
+                RefreshBuildings(policy, areaId, true);
                 return;
             }
 
-            var districtManager = Singleton<DistrictManager>.instance;
-            var buildings = Singleton<BuildingManager>.instance.m_buildings;
-
-            for (int index = 1; index < buildings.m_size; index++)
-            {
-                ref var building = ref buildings.m_buffer[index];
-
-                if ((building.m_flags & Building.Flags.Created) == 0)
-                {
-                    continue;
-                }
-
-                var info = building.Info;
-                if (info == null)
-                {
-                    continue;
-                }
-
-                if (!AffectsBuilding(policy, info))
-                {
-                    continue;
-                }
-
-                if (scope == PolicyScope.District && districtManager.GetDistrict(building.m_position) != areaId)
-                {
-                    continue;
-                }
-
-                if (scope == PolicyScope.Park && districtManager.GetPark(building.m_position) != areaId)
-                {
-                    continue;
-                }
-
-                UpdateBuildingWorkTimeByPolicy((ushort)index);
-            }
+            RefreshBuildings(policy, areaId, false);
         }
 
         /// <summary>
@@ -997,54 +948,47 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            var districtManager = DistrictManager.instance;
+            var ai = info.m_buildingAI;
 
-            byte currentPark = districtManager.GetPark(building.m_position);
-
-            if (currentPark != 0)
+            if (ai == null)
             {
-                HandleParkAreaChange(buildingId, currentPark);
+                return;
+            }
+
+            if(ai is ParkGateAI && BuildingManagerConnection.IsAreaMainBuilding(buildingId))
+            {
+                HandlePolicyAreaChange(buildingId, building.m_position, true);
                 return;
             }
 
             var subService = info.m_class.m_subService;
 
-            byte currentDistrict = districtManager.GetDistrict(building.m_position);
-
-            if (policyAreaByBuilding.TryGetValue(buildingId, out byte previousDistrict) && previousDistrict == currentDistrict)
-            {
-                return;
-            }
-
             switch (subService)
             {
-                case ItemClass.SubService.CommercialLeisure:
                 case ItemClass.SubService.PlayerIndustryFarming:
                 case ItemClass.SubService.PlayerIndustryForestry:
-                    UpdateBuildingWorkTimeByPolicy(buildingId);
+                    HandlePolicyAreaChange(buildingId, building.m_position, true);
+                    break;
+
+                case ItemClass.SubService.CommercialLeisure:
+                    HandlePolicyAreaChange(buildingId, building.m_position, false);
                     break;
 
                 default:
                     return;
             }
-
-            policyAreaByBuilding[buildingId] = currentDistrict;
         }
 
         /// <summary>
-        /// Clears the policy state for a building, removing any stored area information and clearing any policy restrictions.
+        /// Removes the cached policy area for a building.
         /// </summary>
-        /// <param name="buildingId">The ID of the building to clear policy state for.</param>
-        public void ClearBuildingPolicyState(ushort buildingId)
-        {
-            policyAreaByBuilding.Remove(buildingId);
-            BuildingWorkTimeManager.ClearPolicyClosed(buildingId);
-        }
+        /// <param name="buildingId">The ID of the building whose cached policy area should be removed.</param>
+        public void RemovePolicyArea(ushort buildingId) => policyAreaByBuilding.Remove(buildingId);
 
         /// <summary>
-        /// Clears the policy area cache for all buildings, removing any stored area information and clearing any policy restrictions.
+        /// Clears the policy area for all buildings.
         /// </summary>
-        public void ClearPolicyAreaCache() => policyAreaByBuilding.Clear();
+        public void ClearPolicyAreas() => policyAreaByBuilding.Clear();
 
         /// <summary>
         /// Get the number of workers currently working in the specified <paramref name="buildingId"/>
@@ -1477,48 +1421,14 @@ namespace RealTime.CustomAI
             return currentHour >= startHour || currentHour <= endHour - 24f;
         }
 
-        private void RecalculatePolicyClosures(ushort buildingID, BuildingInfo info, BuildingWorkTimeManager.WorkTime workTime)
-        {
-            if (workTime.WorkShifts == null)
-            {
-                return;
-            }
-
-            for (int index = 0; index < workTime.WorkShifts.Length; index++)
-            {
-                bool allowed = PolicyAllowsShift(buildingID, info, workTime.WorkShifts[index]);
-                BuildingWorkTimeManager.SetPolicyClosed(buildingID, index, !allowed);
-            }
-        }
-
-        private bool PolicyAllowsShift(ushort buildingId, BuildingInfo buildingInfo, BuildingWorkTimeManager.WorkShiftTime shiftTime)
-        {
-            if (!HasNightCoverage(shiftTime))
-            {
-                return true;
-            }
-
-            if (buildingInfo.m_buildingAI is ParkGateAI)
-            {
-                return BuildingManagerConnection.IsPolicyActive(buildingId, DistrictPolicies.Policies.NightTours);
-            }
-
-            return buildingInfo.m_class.m_subService switch
-            {
-                ItemClass.SubService.CommercialLeisure => !BuildingManagerConnection.IsPolicyActive(buildingId, DistrictPolicies.Policies.NoLoudNoises),
-                ItemClass.SubService.PlayerIndustryFarming or ItemClass.SubService.PlayerIndustryForestry => BuildingManagerConnection.IsEssentialIndustryBuilding(buildingId),
-                _ => true,
-            };
-        }
-
-        private bool HasNightCoverage(BuildingWorkTimeManager.WorkShiftTime shiftTime) => shiftTime.StartTime >= config.GoToSleepHour || shiftTime.EndTime <= config.WakeUpHour;
-
-        private bool AffectsWorkTime(DistrictPolicies.Policies policy) => policy == DistrictPolicies.Policies.NoLoudNoises
-                || policy == DistrictPolicies.Policies.AdvancedAutomation
-                || policy == DistrictPolicies.Policies.NightTours;
+        private bool AffectsWorkTime(DistrictPolicies.Policies policy) =>
+               policy == DistrictPolicies.Policies.NoLoudNoises
+            || policy == DistrictPolicies.Policies.AdvancedAutomation
+            || policy == DistrictPolicies.Policies.NightTours;
 
         private bool AffectsBuilding(DistrictPolicies.Policies policy, BuildingInfo buildingInfo) => policy switch
         {
+            DistrictPolicies.Policies.NightTours => buildingInfo.m_buildingAI is ParkGateAI,
             DistrictPolicies.Policies.NoLoudNoises => buildingInfo.m_class.m_subService == ItemClass.SubService.CommercialLeisure,
             DistrictPolicies.Policies.AdvancedAutomation => buildingInfo.m_class.m_subService == ItemClass.SubService.PlayerIndustryFarming || buildingInfo.m_class.m_subService == ItemClass.SubService.PlayerIndustryForestry,
             _ => false,
@@ -1545,19 +1455,112 @@ namespace RealTime.CustomAI
             return mainGateId != 0;
         }
 
-        private void HandleParkAreaChange(ushort buildingId, byte currentPark)
+        private void RefreshBuildings(DistrictPolicies.Policies policy, byte areaId, bool isPark)
         {
-            if (policyAreaByBuilding.TryGetValue(buildingId, out byte previousPark) && previousPark == currentPark)
+            var districtManager = Singleton<DistrictManager>.instance;
+            var buildings = Singleton<BuildingManager>.instance.m_buildings;
+
+            for (int index = 1; index < buildings.m_size; index++)
+            {
+                ref var building = ref buildings.m_buffer[index];
+
+                if ((building.m_flags & Building.Flags.Created) == 0)
+                {
+                    continue;
+                }
+
+                var info = building.Info;
+
+                if (info == null)
+                {
+                    continue;
+                }
+
+                if (!AffectsBuilding(policy, info))
+                {
+                    continue;
+                }
+
+                if (isPark ? districtManager.GetPark(building.m_position) != areaId : districtManager.GetDistrict(building.m_position) != areaId)
+                {
+                    continue;
+                }
+
+                UpdateBuildingWorkTimeByPolicy((ushort)index);
+            }
+        }
+
+        private void HandlePolicyAreaChange(ushort buildingId, Vector3 position, bool isPark)
+        {
+            byte currentArea = isPark ? DistrictManager.instance.GetPark(position) : DistrictManager.instance.GetDistrict(position);
+
+            if (policyAreaByBuilding.TryGetValue(buildingId, out byte previousArea) && previousArea == currentArea)
             {
                 return;
             }
 
-            if (TryGetParkMainGate(currentPark, out ushort mainGateId) && mainGateId != buildingId)
+            UpdateBuildingWorkTimeByPolicy(buildingId);
+
+            policyAreaByBuilding[buildingId] = currentArea;
+        }
+
+        private ushort GetParkScheduleSource(ushort buildingId)
+        {
+            if (buildingId == 0)
             {
-                UpdateBuildingWorkTimeByPolicy(mainGateId);
+                return buildingId;
             }
 
-            policyAreaByBuilding[buildingId] = currentPark;
+            var buildings = Singleton<BuildingManager>.instance.m_buildings;
+            ref var building = ref buildings.m_buffer[buildingId];
+
+            var info = building.Info;
+            if (info == null)
+            {
+                return buildingId;
+            }
+
+            // Explicitly include gates without relying on AI inheritance.
+            if (info.m_buildingAI is not ParkBuildingAI && info.m_buildingAI is not ParkGateAI)
+            {
+                return buildingId;
+            }
+
+            byte parkId = GetParkArea(building);
+            if (parkId == 0)
+            {
+                return buildingId;
+            }
+
+            ushort mainGateId = Singleton<DistrictManager>.instance.m_parks.m_buffer[parkId].m_mainGate;
+
+            if (mainGateId == 0 || mainGateId == buildingId || mainGateId >= buildings.m_buffer.Length)
+            {
+                return buildingId;
+            }
+
+            ref var mainGate = ref buildings.m_buffer[mainGateId];
+
+            if ((mainGate.m_flags & Building.Flags.Created) == 0 || mainGate.Info == null || mainGate.Info.m_buildingAI is not ParkGateAI || GetParkArea(mainGate) != parkId)
+            {
+                return buildingId;
+            }
+
+            return mainGateId;
+        }
+
+        private byte GetParkArea(Building data)
+        {
+            var instance = Singleton<DistrictManager>.instance;
+            byte b = instance.GetPark(data.m_position);
+            if (b != 0)
+            {
+                if (!instance.m_parks.m_buffer[b].IsPark)
+                {
+                    b = 0;
+                }
+            }
+            return b;
         }
     }
 }

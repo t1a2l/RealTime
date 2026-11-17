@@ -54,6 +54,9 @@ namespace RealTime.Serializer
                 StorageData.WriteBool(kvp.Value.IsGlobal, Data);
                 StorageData.WriteBool(kvp.Value.IsLocked, Data);
 
+                // Write version of worktime
+                StorageData.WriteInt32(kvp.Value.DefaultVersion, Data);
+
                 // Write end tuple
                 StorageData.WriteUInt32(uiTUPLE_END, Data);
             }
@@ -151,6 +154,8 @@ namespace RealTime.Serializer
                     StorageData.ReadBool(data, ref index);
                 }
 
+                workTime.DefaultVersion = version < 7 ? 0 : StorageData.ReadInt32(data, ref index);
+
                 BuildingWorkTimeManager.BuildingsWorkTime.Add(buildingId, workTime);
 
                 CheckEndTuple($"Buffer({i})", version, data, ref index);
@@ -195,6 +200,9 @@ namespace RealTime.Serializer
                 ushort buildingId = StorageData.ReadUInt16(data, ref index);
 
                 var workTime = ReadLegacyWorkTime(version, data, ref index);
+
+                // legacy worktime version
+                workTime.DefaultVersion = 0;
 
                 BuildingWorkTimeManager.BuildingsWorkTime.Add(buildingId, workTime);
 

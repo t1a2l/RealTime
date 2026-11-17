@@ -23,7 +23,7 @@ namespace RealTime.Managers
 
         private const float MinimumShiftHours = 1f;
 
-        private static readonly Dictionary<ushort, HashSet<int>> PolicyClosedShifts = [];
+        public const int CurrentDefaultVersion = 1;
 
         internal static RealTimeBuildingAI RealTimeBuildingAI { get; set; }
 
@@ -36,6 +36,8 @@ namespace RealTime.Managers
             public bool IsPrefab;
             public bool IsGlobal;
             public bool IsLocked;
+
+            public int DefaultVersion;
 
             public readonly bool ContainsHour(float hour)
             {
@@ -351,7 +353,7 @@ namespace RealTime.Managers
             }
             else if (BuildingManagerConnection.IsAreaMainBuilding(buildingID))
             {
-                if(ai is ParkGateAI)
+                if (ai is ParkGateAI)
                 {
                     int shiftCount = BuildingManagerConnection.IsPolicyActive(buildingID, DistrictPolicies.Policies.NightTours) ? 3 : 1;
                     return ShiftCountToWorkTime(buildingID, buildingInfo, shiftCount);
@@ -433,11 +435,7 @@ namespace RealTime.Managers
             }
         }
 
-        public static void RemoveBuildingWorkTime(ushort buildingID)
-        {
-            BuildingsWorkTime.Remove(buildingID);
-            ClearPolicyClosed(buildingID);
-        }
+        public static void RemoveBuildingWorkTime(ushort buildingID) => BuildingsWorkTime.Remove(buildingID);
 
         public static WorkTime ShiftCountToWorkTime(ushort buildingID, BuildingInfo buildingInfo, int shiftCount)
         {
@@ -678,41 +676,11 @@ namespace RealTime.Managers
 
             var workTime = GetDefaultBuildingWorkTime(buildingID, buildingInfo);
 
+            workTime.IsDefault = true;
+            workTime.DefaultVersion = CurrentDefaultVersion;
+
             SetBuildingWorkTime(buildingID, workTime);
         }
-
-        public static bool IsPolicyClosed(ushort buildingId, int shiftIndex) => PolicyClosedShifts.TryGetValue(buildingId, out var closedShifts) && closedShifts.Contains(shiftIndex);
-
-        public static void SetPolicyClosed(ushort buildingId, int shiftIndex, bool closed)
-        {
-            if (closed)
-            {
-                if (!PolicyClosedShifts.TryGetValue(buildingId, out var closedShifts))
-                {
-                    closedShifts = [];
-                    PolicyClosedShifts[buildingId] = closedShifts;
-                }
-
-                closedShifts.Add(shiftIndex);
-                return;
-            }
-
-            if (!PolicyClosedShifts.TryGetValue(buildingId, out var existingShifts))
-            {
-                return;
-            }
-
-            existingShifts.Remove(shiftIndex);
-
-            if (existingShifts.Count == 0)
-            {
-                PolicyClosedShifts.Remove(buildingId);
-            }
-        }
-
-        public static void ClearPolicyClosed(ushort buildingId) => PolicyClosedShifts.Remove(buildingId);
-
-        public static void ClearAllPolicyClosed() => PolicyClosedShifts.Clear();
 
         public static void BuildingWorkTimeCheck(ushort buildingID, BuildingInfo buildingInfo)
         {
@@ -724,27 +692,44 @@ namespace RealTime.Managers
                 }
                 else
                 {
+                    var workTime = GetBuildingWorkTime(buildingID);
+
+                    if (!workTime.IsDefault)
+                    {
+                        return;
+                    }
+
+                    if (workTime.DefaultVersion >= CurrentDefaultVersion)
+                    {
+                        return;
+                    }
+
+                    // Legacy default schedule: migrate once.
                     SetBuildingWorkTimeDefaults(buildingID, buildingInfo);
+                    return;
                 }
             }
-            else if (!BuildingWorkTimeExist(buildingID) && ShouldHaveBuildingWorkTime(buildingID))
-            {
-                CreateBuildingWorkTime(buildingID, buildingInfo);
 
-                if (PrefabExist(buildingInfo))
-                {
-                    var buildignPrefab = GetPrefab(buildingInfo);
-                    UpdateBuildingSettings.SetBuildingToPrefab(buildingID, buildignPrefab);
-                }
-                else if (BuildingWorkTimeGlobalConfig.Config.GlobalSettingsExist(buildingInfo))
-                {
-                    var buildignGlobal = BuildingWorkTimeGlobalConfig.Config.GetGlobalSettings(buildingInfo);
-                    UpdateBuildingSettings.SetBuildingToGlobal(buildingID, buildignGlobal);
-                }
-                else
-                {
-                    RealTimeBuildingAI?.UpdateBuildingWorkTimeByPolicy(buildingID);
-                }
+            if (!ShouldHaveBuildingWorkTime(buildingID))
+            {
+                return;
+            }
+
+            CreateBuildingWorkTime(buildingID, buildingInfo);
+
+            if (PrefabExist(buildingInfo))
+            {
+                var buildignPrefab = GetPrefab(buildingInfo);
+                UpdateBuildingSettings.SetBuildingToPrefab(buildingID, buildignPrefab);
+            }
+            else if (BuildingWorkTimeGlobalConfig.Config.GlobalSettingsExist(buildingInfo))
+            {
+                var buildignGlobal = BuildingWorkTimeGlobalConfig.Config.GetGlobalSettings(buildingInfo);
+                UpdateBuildingSettings.SetBuildingToGlobal(buildingID, buildignGlobal);
+            }
+            else
+            {
+                RealTimeBuildingAI?.UpdateBuildingWorkTimeByPolicy(buildingID);
             }
         }
 
@@ -788,65 +773,6 @@ namespace RealTime.Managers
                 default:
                     return false;
             }
-        }
-
-        public static ushort GetParkScheduleSource(ushort buildingId)
-        {
-            if (buildingId == 0)
-            {
-                return buildingId;
-            }
-
-            var buildings = Singleton<BuildingManager>.instance.m_buildings;
-            ref var building = ref buildings.m_buffer[buildingId];
-
-            var info = building.Info;
-            if (info == null)
-            {
-                return buildingId;
-            }
-
-            // Explicitly include gates without relying on AI inheritance.
-            if (info.m_buildingAI is not ParkBuildingAI && info.m_buildingAI is not ParkGateAI)
-            {
-                return buildingId;
-            }
-
-            byte parkId = GetParkArea(building);
-            if (parkId == 0)
-            {
-                return buildingId;
-            }
-
-            ushort mainGateId = Singleton<DistrictManager>.instance.m_parks.m_buffer[parkId].m_mainGate;
-
-            if (mainGateId == 0 || mainGateId == buildingId || mainGateId >= buildings.m_buffer.Length)
-            {
-                return buildingId;
-            }
-
-            ref var mainGate = ref buildings.m_buffer[mainGateId];
-
-            if ((mainGate.m_flags & Building.Flags.Created) == 0 || mainGate.Info == null || mainGate.Info.m_buildingAI is not ParkGateAI || GetParkArea(mainGate) != parkId)
-            {
-                return buildingId;
-            }
-
-            return mainGateId;
-        }
-
-        private static byte GetParkArea(Building data)
-        {
-            var instance = Singleton<DistrictManager>.instance;
-            byte b = instance.GetPark(data.m_position);
-            if (b != 0)
-            {
-                if (!instance.m_parks.m_buffer[b].IsPark)
-                {
-                    b = 0;
-                }
-            }
-            return b;
         }
     }
 

@@ -9,11 +9,9 @@ namespace RealTime.Core
     using ColossalFramework;
     using ColossalFramework.Globalization;
     using ColossalFramework.IO;
-    using ColossalFramework.Math;
     using ColossalFramework.Plugins;
     using ICities;
     using RealTime.Config;
-    using RealTime.CustomAI;
     using RealTime.GameConnection;
     using RealTime.Localization;
     using RealTime.Managers;
@@ -24,7 +22,6 @@ namespace RealTime.Core
     using SkyTools.Tools;
     using SkyTools.UI;
     using UnityEngine;
-    using static RenderManager;
 
     /// <summary>The main class of the Real Time mod.</summary>
     public class RealTimeMod : LoadingExtensionBase, IUserMod

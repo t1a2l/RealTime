@@ -506,10 +506,24 @@ namespace RealTime.GameConnection
                 return false;
             }
 
-            var buildingInfo = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info;
+            var building = BuildingManager.instance.m_buildings.m_buffer[buildingId];
+            var buildingInfo = building.Info;
+
+            if (buildingInfo == null)
+            {
+                return false;
+            }
+
             var buildinAI = buildingInfo?.m_buildingAI;
-            return buildinAI is AirportEntranceAI || buildinAI is MainCampusBuildingAI || buildinAI is MainIndustryBuildingAI ||
-                    buildinAI is ParkGateAI || buildinAI is RaceStartBuildingAI;
+
+            if(buildinAI is ParkGateAI)
+            {
+                var DistrictInstance = Singleton<DistrictManager>.instance;
+                byte parkId = DistrictInstance.GetPark(building.m_position);
+                return Singleton<DistrictManager>.instance.m_parks.m_buffer[parkId].IsPark && DistrictInstance.m_parks.m_buffer[parkId].m_mainGate == buildingId;
+            }
+
+            return buildinAI is AirportEntranceAI || buildinAI is MainCampusBuildingAI || buildinAI is MainIndustryBuildingAI || buildinAI is RaceStartBuildingAI;
         }
 
         /// <summary>

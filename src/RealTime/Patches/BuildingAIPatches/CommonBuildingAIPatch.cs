@@ -137,7 +137,7 @@ namespace RealTime.Patches.BuildingAIPatches
         [HarmonyPostfix]
         public static void ReleaseBuildingPostfix(ushort buildingID, ref Building data)
         {
-            RealTimeBuildingAI?.ClearBuildingPolicyState(buildingID);
+            RealTimeBuildingAI?.RemovePolicyArea(buildingID);
 
             if (BuildingWorkTimeManager.BuildingWorkTimeExist(buildingID))
             {

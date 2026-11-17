@@ -229,8 +229,7 @@ namespace RealTime.Core
                 return;
             }
 
-            SimulationHandler.Buildings?.ClearPolicyAreaCache();
-            BuildingWorkTimeManager.ClearAllPolicyClosed();
+            SimulationHandler.Buildings?.ClearPolicyAreas();
 
             AcademicYearAIPatch.RealTimeBuildingAI = null;
             AcademicYearAIPatch.TimeInfo = null;

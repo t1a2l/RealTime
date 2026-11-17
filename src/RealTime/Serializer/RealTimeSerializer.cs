@@ -21,6 +21,9 @@ namespace RealTime.Serializer
         public static RealTimeSerializer instance = null;
         private ISerializableData m_serializableData = null;
 
+        // DataSerializer.WriteByteArray throws for arrays of this size or larger.
+        private const int MaxSerializableDataBytes = 16711680;
+
         public void OnCreated(ISerializableData serializedData)
         {
             instance = this;
@@ -42,97 +45,37 @@ namespace RealTime.Serializer
                 if (data == null || data.Length == 0)
                 {
                     Debug.Log("Data is null");
-
                     return;
                 }
 
-                int Index = 0;
-                SaveGameFileVersion = StorageData.ReadUInt16(data, ref Index);
+                int index = 0;
+                SaveGameFileVersion = StorageData.ReadUInt16(data, ref index);
 
                 Debug.Log("RealTime LoadData - DataID: " + DataID + "; Data length: " + data.Length.ToString() + "; Data Version: " + SaveGameFileVersion);
 
                 if (SaveGameFileVersion > DataVersion)
                 {
-                    string sMessage = "This saved game was saved with a newer version of RealTime.\r\n";
-                    sMessage += "\r\n";
-                    sMessage += "Unable to load settings.\r\n";
-                    sMessage += "\r\n";
-                    sMessage += "Saved game data version: " + SaveGameFileVersion + "\r\n";
-                    sMessage += "MOD data version: " + DataVersion + "\r\n";
-                    Debug.Log(sMessage);
+                    Debug.Log($"This saved game was saved with a newer version of RealTime. Saved game data version: {SaveGameFileVersion}. Mod data version: {DataVersion}.");
                     return;
                 }
 
+                bool hasEmbeddedCitizenSchedules = SaveGameFileVersion < SeparateCitizenScheduleVersion;
 
-                while (Index < data.Length)
+                bool isOversized = data.Length >= MaxSerializableDataBytes;
+
+                LoadMainRealTimeData(data, ref index);
+
+                if (isOversized && hasEmbeddedCitizenSchedules)
                 {
-                    CheckStartTuple("FireBurnStartTimeSerializer", SaveGameFileVersion, data, ref Index);
-                    FireBurnTimeSerializer.LoadData(SaveGameFileVersion, data, ref Index);
-                    CheckEndTuple("FireBurnStartTimeSerializer", SaveGameFileVersion, data, ref Index);
-
-                    if (Index == data.Length)
-                    {
-                        break;
-                    }
-
-                    CheckStartTuple("BuildingWorkTimeSerializer", SaveGameFileVersion, data, ref Index);
-                    BuildingWorkTimeSerializer.LoadData(SaveGameFileVersion, data, ref Index);
-                    CheckEndTuple("BuildingWorkTimeSerializer", SaveGameFileVersion, data, ref Index);
-
-                    if (Index == data.Length)
-                    {
-                        break;
-                    }
-
-                    CheckStartTuple("GraduationSerializer", SaveGameFileVersion, data, ref Index);
-                    AcademicYearSerializer.LoadData(SaveGameFileVersion, data, ref Index);
-                    CheckEndTuple("GraduationSerializer", SaveGameFileVersion, data, ref Index);
-
-                    if (Index == data.Length)
-                    {
-                        break;
-                    }
-
-                    CheckStartTuple("GarbageSlowdownSerializer", SaveGameFileVersion, data, ref Index);
-                    ResourceSlowdownSerializer.LoadData(SaveGameFileVersion, data, ref Index);
-                    CheckEndTuple("GarbageSlowdownSerializer", SaveGameFileVersion, data, ref Index);
-
-                    if (Index == data.Length)
-                    {
-                        break;
-                    }
-
-                    CheckStartTuple("EventRouteTimeSerializer", SaveGameFileVersion, data, ref Index);
-                    EventRouteTimeSerializer.LoadData(SaveGameFileVersion, data, ref Index);
-                    CheckEndTuple("EventRouteTimeSerializer", SaveGameFileVersion, data, ref Index);
-
-                    if (Index == data.Length)
-                    {
-                        break;
-                    }
-
-                    CheckStartTuple("CommercialBuildingTypesSerializer", SaveGameFileVersion, data, ref Index);
-                    CommercialBuildingTypesSerializer.LoadData(SaveGameFileVersion, data, ref Index);
-                    CheckEndTuple("CommercialBuildingTypesSerializer", SaveGameFileVersion, data, ref Index);
-
-                    if (Index == data.Length)
-                    {
-                        break;
-                    }
-
-                    CheckStartTuple("ParkBuildingTypesSerializer", SaveGameFileVersion, data, ref Index);
-                    ParkBuildingTypesSerializer.LoadData(SaveGameFileVersion, data, ref Index);
-                    CheckEndTuple("ParkBuildingTypesSerializer", SaveGameFileVersion, data, ref Index);
-
-                    if (Index == data.Length)
-                    {
-                        break;
-                    }
-
-                    CheckStartTuple("BankPostOfficeVisitSerializer", SaveGameFileVersion, data, ref Index);
-                    BankPostOfficeVisitSerializer.LoadData(SaveGameFileVersion, data, ref Index);
-                    CheckEndTuple("BankPostOfficeVisitSerializer", SaveGameFileVersion, data, ref Index);
-                    break;
+                    // The current loader does not read the citizen schedules embedded
+                    // in this legacy main key. Remove the oversized legacy block so it
+                    // cannot be written back and exceed DataSerializer's 16 MB limit.
+                    m_serializableData.EraseData(DataID);
+                    Debug.LogWarning($"Removed oversized legacy RealTime data block ({data.Length:N0} bytes). Citizen schedules will be rebuilt.");
+                }
+                else if (isOversized)
+                {
+                    Debug.LogError($"RealTime data key '{DataID}' is {data.Length:N0} bytes, which exceeds the game's 16 MB serialized-array limit. Do not erase it automatically; investigate the current data format.");
                 }
 
                 if (SaveGameFileVersion >= SeparateCitizenScheduleVersion)
@@ -205,7 +148,19 @@ namespace RealTime.Serializer
                     
                     BuildingWorkTimeGlobalConfig.Config.Serialize();
 
-                    m_serializableData.SaveData(DataID, Data.ToArray());
+                    byte[] serializedData = Data.ToArray();
+
+                    if (serializedData.Length >= MaxSerializableDataBytes)
+                    {
+                        Debug.LogError(
+                            $"RealTime main data key would be {serializedData.Length:N0} bytes, "
+                            + "which exceeds the game's 16 MB serialized-array limit. "
+                            + "Saving the main RealTime key was skipped.");
+
+                        return;
+                    }
+
+                    m_serializableData.SaveData(DataID, serializedData);
                 }
             }
             catch (Exception ex)
@@ -236,6 +191,80 @@ namespace RealTime.Serializer
                 {
                     throw new Exception($"RealTime End tuple not found at: {sTupleLocation}");
                 }
+            }
+        }
+
+        private void LoadMainRealTimeData(byte[] data, ref int index)
+        {
+            while (index < data.Length)
+            {
+                CheckStartTuple("FireBurnStartTimeSerializer", SaveGameFileVersion, data, ref index);
+                FireBurnTimeSerializer.LoadData(SaveGameFileVersion, data, ref index);
+                CheckEndTuple("FireBurnStartTimeSerializer", SaveGameFileVersion, data, ref index);
+
+                if (index == data.Length)
+                {
+                    break;
+                }
+
+                CheckStartTuple("BuildingWorkTimeSerializer", SaveGameFileVersion, data, ref index);
+                BuildingWorkTimeSerializer.LoadData(SaveGameFileVersion, data, ref index);
+                CheckEndTuple("BuildingWorkTimeSerializer", SaveGameFileVersion, data, ref index);
+
+                if (index == data.Length)
+                {
+                    break;
+                }
+
+                CheckStartTuple("GraduationSerializer", SaveGameFileVersion, data, ref index);
+                AcademicYearSerializer.LoadData(SaveGameFileVersion, data, ref index);
+                CheckEndTuple("GraduationSerializer", SaveGameFileVersion, data, ref index);
+
+                if (index == data.Length)
+                {
+                    break;
+                }
+
+                CheckStartTuple("GarbageSlowdownSerializer", SaveGameFileVersion, data, ref index);
+                ResourceSlowdownSerializer.LoadData(SaveGameFileVersion, data, ref index);
+                CheckEndTuple("GarbageSlowdownSerializer", SaveGameFileVersion, data, ref index);
+
+                if (index == data.Length)
+                {
+                    break;
+                }
+
+                CheckStartTuple("EventRouteTimeSerializer", SaveGameFileVersion, data, ref index);
+                EventRouteTimeSerializer.LoadData(SaveGameFileVersion, data, ref index);
+                CheckEndTuple("EventRouteTimeSerializer", SaveGameFileVersion, data, ref index);
+
+                if (index == data.Length)
+                {
+                    break;
+                }
+
+                CheckStartTuple("CommercialBuildingTypesSerializer", SaveGameFileVersion, data, ref index);
+                CommercialBuildingTypesSerializer.LoadData(SaveGameFileVersion, data, ref index);
+                CheckEndTuple("CommercialBuildingTypesSerializer", SaveGameFileVersion, data, ref index);
+
+                if (index == data.Length)
+                {
+                    break;
+                }
+
+                CheckStartTuple("ParkBuildingTypesSerializer", SaveGameFileVersion, data, ref index);
+                ParkBuildingTypesSerializer.LoadData(SaveGameFileVersion, data, ref index);
+                CheckEndTuple("ParkBuildingTypesSerializer", SaveGameFileVersion, data, ref index);
+
+                if (index == data.Length)
+                {
+                    break;
+                }
+
+                CheckStartTuple("BankPostOfficeVisitSerializer", SaveGameFileVersion, data, ref index);
+                BankPostOfficeVisitSerializer.LoadData(SaveGameFileVersion, data, ref index);
+                CheckEndTuple("BankPostOfficeVisitSerializer", SaveGameFileVersion, data, ref index);
+                break;
             }
         }
 

@@ -655,7 +655,16 @@ namespace RealTime.Managers
             if (buildingAI is ParkBuildingAI)
             {
                 byte parkId = DistrictInstance.GetPark(building.m_position);
-                return parkId == 0;
+
+                // Standalone building, or inside a non-Parklife area
+                // such as a campus or industry park: own settings.
+                if (parkId == 0 || !DistrictInstance.m_parks.m_buffer[parkId].IsPark)
+                {
+                    return true;
+                }
+
+                // Inside a Parklife park: inherit the main gate's settings.
+                return false;
             }
 
             bool IsAllowedZonedCommercial = buildingAI is CommercialBuildingAI && service == ItemClass.Service.Commercial && !BuildingManagerConnection.IsHotel(buildingID);

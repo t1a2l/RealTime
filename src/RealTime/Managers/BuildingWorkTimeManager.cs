@@ -667,13 +667,8 @@ namespace RealTime.Managers
             return IsAllowedZonedCommercial || IsAllowedZonedGeneral || isAllowedCityService || isAllowedParkBuilding || isPark || isAllowedIndustriesBuilding;
         }
 
-        public static void SetBuildingWorkTimeDefaults(ushort buildingID, BuildingInfo buildingInfo)
+        public static void MigrateLegacyBuildingWorkTimeDefaults(ushort buildingID, BuildingInfo buildingInfo)
         {
-            if(AllowCustomizeOperationHours(buildingID))
-            {
-                return;
-            }
-
             var workTime = GetDefaultBuildingWorkTime(buildingID, buildingInfo);
 
             workTime.IsDefault = true;
@@ -705,7 +700,7 @@ namespace RealTime.Managers
                     }
 
                     // Legacy default schedule: migrate once.
-                    SetBuildingWorkTimeDefaults(buildingID, buildingInfo);
+                    MigrateLegacyBuildingWorkTimeDefaults(buildingID, buildingInfo);
                     return;
                 }
             }

@@ -362,7 +362,7 @@ namespace RealTime.Managers
             }
             else if (subService == ItemClass.SubService.PlayerIndustryFarming || subService == ItemClass.SubService.PlayerIndustryForestry)
             {
-                int shiftCount = BuildingManagerConnection.IsEssentialIndustryBuilding(buildingID) ? 3 : 1;
+                int shiftCount = BuildingManagerConnection.IsPolicyActive(buildingID, DistrictPolicies.Policies.AdvancedAutomation) ? 3 : 1;
                 return ShiftCountToWorkTime(buildingID, buildingInfo, shiftCount);
             }
             else if (BuildingManagerConnection.IsRecreationalCareBuilding(buildingID))
@@ -671,7 +671,7 @@ namespace RealTime.Managers
             bool IsAllowedZonedGeneral = buildingAI is IndustrialBuildingAI || buildingAI is IndustrialExtractorAI || buildingAI is OfficeBuildingAI;
             bool isAllowedCityService = buildingAI is BankOfficeAI || buildingAI is PostOfficeAI || buildingAI is SaunaAI || buildingAI is TourBuildingAI || buildingAI is MonumentAI || buildingAI is MarketAI || buildingAI is LibraryAI;
             bool isAllowedParkBuilding = buildingAI is ParkBuildingAI && (DistrictInstance.GetPark(building.m_position) == 0 || service == ItemClass.Service.Monument) && !CarParkingBuildings.Any(s => building.Info.name.Contains(s));
-            bool isAllowedIndustriesBuilding = buildingAI is ExtractingFacilityAI || buildingAI is ProcessingFacilityAI || buildingAI is UniqueFactoryAI || buildingAI is WarehouseAI || buildingAI is WarehouseStationAI;
+            bool isAllowedIndustriesBuilding = buildingAI is ExtractingFacilityAI || buildingAI is ProcessingFacilityAI || buildingAI is UniqueFactoryAI || buildingAI is WarehouseAI || buildingAI is WarehouseStationAI || buildingAI is AuxiliaryBuildingAI;
             bool isPark = buildingAI is ParkAI && !CarParkingBuildings.Any(s => building.Info.name.Contains(s));
             return IsAllowedZonedCommercial || IsAllowedZonedGeneral || isAllowedCityService || isAllowedParkBuilding || isPark || isAllowedIndustriesBuilding;
         }

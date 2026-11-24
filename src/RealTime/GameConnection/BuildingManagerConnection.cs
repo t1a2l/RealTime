@@ -687,30 +687,6 @@ namespace RealTime.GameConnection
         }
 
         /// <summary>
-        /// Determines whether the building with specified ID is essential to the supply chain
-        /// when advanced automation policy is on.
-        /// </summary>
-        /// <param name="buildingId">The building ID to check.</param>
-        /// <returns>
-        ///   <c>true</c> if the building with the specified ID is essential to the supply chain when advanced automation policy is on;
-        ///   otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsEssentialIndustryBuilding(ushort buildingId)
-        {
-            if (buildingId == 0)
-            {
-                return false;
-            }
-
-            var building = BuildingManager.instance.m_buildings.m_buffer[buildingId];
-            var buildingInfo = building.Info;
-            var buildinAI = buildingInfo?.m_buildingAI;
-
-            return (buildinAI is ProcessingFacilityAI || buildinAI is WarehouseAI || buildinAI is WarehouseStationAI) && IsPolicyActive(buildingId, DistrictPolicies.Policies.AdvancedAutomation);
-        }
-
-
-        /// <summary>
         /// Determines whether building A and building B belong to the same campus.
         /// </summary>
         /// <param name="currentBuilding">Building A.</param>

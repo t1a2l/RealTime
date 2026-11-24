@@ -646,6 +646,11 @@ namespace RealTime.Managers
             var sub_service = building.Info.GetSubService();
             var DistrictInstance = Singleton<DistrictManager>.instance;
 
+            if(BuildingManagerConnection.IsAreaResidentalBuilding(buildingID))
+            {
+                return false;
+            }
+
             if(buildingAI is ParkGateAI)
             {
                 byte parkId = DistrictInstance.GetPark(building.m_position);

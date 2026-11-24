@@ -385,7 +385,7 @@ namespace RealTime.Patches
                         CityServiceOperationHoursCheckBoxPanel = buttonPanels.AddUIComponent<OperationHoursSettingsCheckBoxPanel>();
                     }
 
-                    if (buildingAI is ExtractingFacilityAI || buildingAI is ProcessingFacilityAI)
+                    if (buildingAI is ExtractingFacilityAI || buildingAI is ProcessingFacilityAI || buildingAI is AuxiliaryBuildingAI)
                     {
                         checkBoxXposition = 360f;
                         checkBoxYposition = 0f;

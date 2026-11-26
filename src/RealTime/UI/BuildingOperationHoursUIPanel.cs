@@ -263,6 +263,8 @@ namespace RealTime.UI
 
             m_lockUnlockChangesBtn.Invalidate();
             m_lockUnlockChangesBtn.parent.Invalidate();
+
+            UpdateSettingsButtons();
         }
 
         private void CreateHeader()
@@ -272,7 +274,7 @@ namespace RealTime.UI
             m_settingsTitle.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_settingsTitle.textAlignment = UIHorizontalAlignment.Left;
             m_settingsTitle.textColor = new Color32(255, 255, 255, 255);
-            m_settingsTitle.relativePosition = new Vector3(0f, 4f);
+            m_settingsTitle.relativePosition = new Vector3(-5f, 7f);
             m_settingsTitle.width = 220f;
             m_settingsTitle.textScale = 1.3f;
 
@@ -281,7 +283,7 @@ namespace RealTime.UI
             m_settingsStatusLabel.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_settingsStatusLabel.textAlignment = UIHorizontalAlignment.Left;
             m_settingsStatusLabel.textColor = new Color32(255, 255, 255, 255);
-            m_settingsStatusLabel.relativePosition = new Vector3(0f, 50f);
+            m_settingsStatusLabel.relativePosition = new Vector3(-5f, 55f);
             m_settingsStatusLabel.width = 100f;
             m_settingsStatusLabel.textScale = 1.1f;
 
@@ -295,7 +297,7 @@ namespace RealTime.UI
             m_settingsStatus.font = UIFonts.GetUIFont("OpenSans-Regular");
             m_settingsStatus.textAlignment = UIHorizontalAlignment.Left;
             m_settingsStatus.textColor = new Color32(0, 0, 0, 255);
-            m_settingsStatus.relativePosition = new Vector3(20f, 5f);
+            m_settingsStatus.relativePosition = new Vector3(15f, 7f);
             m_settingsStatus.width = 220f;
             m_settingsStatus.textScale = 1.1f;
             m_settingsStatus.font.lineHeight = 22;
@@ -322,7 +324,7 @@ namespace RealTime.UI
             m_lockUnlockChangesBtn.pressedFgSprite = "UnLock";
             m_lockUnlockChangesBtn.eventClicked += LockUnlockChanges;
 
-            m_settingsCopyBtn = UIButtons.CreateButton(m_headerRow, 165f, 3f, "CopySettings", "", "", 32f, 32f);
+            m_settingsCopyBtn = UIButtons.CreateButton(m_headerRow, 168f, 3f, "CopySettings", "", "", 32f, 32f);
             m_settingsCopyBtn.atlas = TextureUtils.GetAtlas("CopyPasteAtlas");
             m_settingsCopyBtn.normalFgSprite = "Copy";
             m_settingsCopyBtn.foregroundSpriteMode = UIForegroundSpriteMode.Scale;
@@ -790,31 +792,6 @@ namespace RealTime.UI
 
             string spriteName = m_editMode ? "NoneEdit" : "Edit";
 
-            foreach (var btn in m_dayButtons)
-            {
-                btn.isEnabled = m_editMode;
-            }
-
-            m_saveBuildingSettingsBtn.isEnabled = m_editMode;
-            m_returnToDefaultBtn.isEnabled = m_editMode;
-            m_shiftsEditBtn.isEnabled = m_editMode;
-            m_accessAdvancedSettingsBtn.isEnabled = m_editMode;
-                
-            ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
-            var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
-
-            bool prefabExists = BuildingWorkTimeManager.PrefabExist(building.Info);
-
-            m_applyPrefabSettingsBtn.isEnabled = m_editMode && prefabExists;
-            m_setPrefabSettingsBtn.isEnabled = m_editMode && !prefabExists;
-            m_deletePrefabSettingsBtn.isEnabled = m_editMode && prefabExists;
-
-            bool globalSettingsExist = BuildingWorkTimeGlobalConfig.Config.GlobalSettingsExist(building.Info);
-
-            m_applyGlobalSettingsBtn.isEnabled = m_editMode && globalSettingsExist;
-            m_setGlobalSettingsBtn.isEnabled = m_editMode && !globalSettingsExist;
-            m_deleteGlobalSettingsBtn.isEnabled = m_editMode && globalSettingsExist;
-
             m_editSettingsBtn.normalFgSprite = spriteName;
             m_editSettingsBtn.disabledFgSprite = spriteName;
             m_editSettingsBtn.focusedFgSprite = spriteName;
@@ -823,6 +800,8 @@ namespace RealTime.UI
 
             m_editSettingsBtn.Invalidate();
             m_editSettingsBtn.parent.Invalidate();
+
+            UpdateSettingsButtons();
         }
 
         private void LockUnlockChanges(UIComponent c, UIMouseEventParameter eventParameter)
@@ -1167,6 +1146,10 @@ namespace RealTime.UI
                 m_settingsStatus.text = t_prefabSettingsStatus;
 
                 UpdateBuildingSettings.SetBuildingToPrefab(buildingID, prefabRecord);
+
+                RefreshData(buildingID, BuildingWorkTimeManager.GetBuildingWorkTime(buildingID));
+
+                UpdateSettingsButtons();
             }
         }
 
@@ -1186,6 +1169,10 @@ namespace RealTime.UI
                 m_settingsStatus.text = t_globalSettingsStatus;
 
                 UpdateBuildingSettings.SetBuildingToGlobal(buildingID, buildingWorkTimeGlobal);
+
+                RefreshData(buildingID, BuildingWorkTimeManager.GetBuildingWorkTime(buildingID));
+
+                UpdateSettingsButtons();
             }
         }
 
@@ -1222,6 +1209,10 @@ namespace RealTime.UI
             }
 
             UpdateBuildingSettings.CreatePrefabSettings(buildingID, newPrefabSettings);
+
+            RefreshData(buildingID, BuildingWorkTimeManager.GetBuildingWorkTime(buildingID));
+
+            UpdateSettingsButtons();
         }
 
         private void SetGlobalSettings(UIComponent c, UIMouseEventParameter eventParameter)
@@ -1232,7 +1223,7 @@ namespace RealTime.UI
                 return;
             }
 
-            ConfirmPanel.ShowModal(t_confirmPanelSetGlobalTitle, t_confirmPanelSetGlobalText, (comp, ret) => PrefabSettingsConfirmPanel(ret));
+            ConfirmPanel.ShowModal(t_confirmPanelSetGlobalTitle, t_confirmPanelSetGlobalText, (comp, ret) => GlobalSettingsConfirmPanel(ret));
         }
 
         private void GlobalSettingsConfirmPanel(int ret)
@@ -1257,6 +1248,10 @@ namespace RealTime.UI
             }
 
             UpdateBuildingSettings.CreateGlobalSettings(buildingID, newGlobalSettings);
+
+            RefreshData(buildingID, BuildingWorkTimeManager.GetBuildingWorkTime(buildingID));
+
+            UpdateSettingsButtons();
         }
 
         private void DeletePrefabSettings(UIComponent c, UIMouseEventParameter eventParameter) => ConfirmPanel.ShowModal(t_confirmPanelDeletePrefabTitle, t_confirmPanelDeletePrefabText, (comp, ret) =>
@@ -1274,6 +1269,7 @@ namespace RealTime.UI
                 foreach (var item in BuildingWorkTimeManager.BuildingsWorkTime)
                 {
                     var Info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[item.Key].Info;
+
                     if (Info.name == buildingInfo.name)
                     {
                         BackToDefault(item.Key, Info);
@@ -1283,6 +1279,10 @@ namespace RealTime.UI
                 var prefabRecord = BuildingWorkTimeManager.GetPrefab(buildingInfo);
 
                 BuildingWorkTimeManager.RemovePrefab(prefabRecord);
+
+                RefreshData(buildingID, BuildingWorkTimeManager.GetBuildingWorkTime(buildingID));
+
+                UpdateSettingsButtons();
             }
         });
 
@@ -1301,6 +1301,7 @@ namespace RealTime.UI
                 foreach (var item in BuildingWorkTimeManager.BuildingsWorkTime)
                 {
                     var Info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[item.Key].Info;
+
                     if (Info.name == buildingInfo.name)
                     {
                         BackToDefault(item.Key, Info);
@@ -1310,6 +1311,10 @@ namespace RealTime.UI
                 var globalRecord = BuildingWorkTimeGlobalConfig.Config.GetGlobalSettings(buildingInfo);
 
                 BuildingWorkTimeGlobalConfig.Config.RemoveGlobalSettings(globalRecord);
+
+                RefreshData(buildingID, BuildingWorkTimeManager.GetBuildingWorkTime(buildingID));
+
+                UpdateSettingsButtons();
             }
         });
 
@@ -1325,5 +1330,36 @@ namespace RealTime.UI
             RefreshData(buildingID, buildingWorkTimeDefault);
         }
 
+        private void UpdateSettingsButtons()
+        {
+            foreach (var btn in m_dayButtons)
+            {
+                btn.isEnabled = m_editMode;
+            }
+
+            m_saveBuildingSettingsBtn.isEnabled = m_editMode;
+            m_returnToDefaultBtn.isEnabled = m_editMode;
+            m_shiftsEditBtn.isEnabled = m_editMode;
+            m_accessAdvancedSettingsBtn.isEnabled = m_editMode;
+
+            ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
+            var building = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
+
+            bool isLocked = BuildingWorkTimeManager.GetBuildingWorkTime(buildingID).IsLocked;
+
+            bool prefabExists = BuildingWorkTimeManager.PrefabExist(building.Info);
+
+            m_applyPrefabSettingsBtn.isEnabled = m_editMode && prefabExists && !isLocked;
+            m_setPrefabSettingsBtn.isEnabled = m_editMode && !prefabExists;
+            m_deletePrefabSettingsBtn.isEnabled = m_editMode && prefabExists;
+
+            bool globalSettingsExist = BuildingWorkTimeGlobalConfig.Config.GlobalSettingsExist(building.Info);
+
+            m_applyGlobalSettingsBtn.isEnabled = m_editMode && globalSettingsExist && !isLocked;
+            m_setGlobalSettingsBtn.isEnabled = m_editMode && !globalSettingsExist;
+            m_deleteGlobalSettingsBtn.isEnabled = m_editMode && globalSettingsExist;
+
+            Invalidate();
+        }
     }
 }

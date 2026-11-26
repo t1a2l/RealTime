@@ -369,7 +369,7 @@
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="เปลี่ยนเวลาทำการของอาคาร" />
   <translation id="SettingsTitle" value="ชั่วโมงงาน" />
   <translation id="EditSettingsTooltip" value="อนุญาต/ไม่อนุญาตการแก้ไข" />
-  <translation id="LockUnlockChangesTooltip" value="หากล็อก - การตั้งค่าประเภทและการตั้งค่าทั่วไปจะไม่มีผลต่ออาคารนี้" />
+  <translation id="LockUnlockChangesTooltip" value="ล็อกอยู่: ไม่สนใจการตั้งค่าประเภทและการตั้งค่าทั่วไป แต่ยังสามารถสร้างการตั้งค่าเหล่านั้นได้." />
   <translation id="CopySettingsTooltip" value="คัดลอกการตั้งค่าจากอาคารนี้" />
   <translation id="PasteSettingsTooltip" value="วางการตั้งค่าไปยังอาคารนี้" />
   <translation id="BuildingStatusLabel" value="สถานะ:" />

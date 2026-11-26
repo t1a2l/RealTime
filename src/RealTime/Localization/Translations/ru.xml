@@ -369,7 +369,7 @@
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="Изменить часы работы здания" />
   <translation id="SettingsTitle" value="Часы раб." />
   <translation id="EditSettingsTooltip" value="Разрешить/запретить правку" />
-  <translation id="LockUnlockChangesTooltip" value="Если заблокировано - тип и глобальные настройки не влияют на это здание" />
+  <translation id="LockUnlockChangesTooltip" value="Заблокировано: игнорирует настройки типа и глобальные настройки, но всё ещё может создавать их." />
   <translation id="CopySettingsTooltip" value="Копировать настройки с этого здания" />
   <translation id="PasteSettingsTooltip" value="Вставить настройки в это здание" />
   <translation id="BuildingStatusLabel" value="Статус:" />

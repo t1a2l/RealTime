@@ -369,7 +369,7 @@
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="Zmiana rozkładu czasu pracy budynku." />
   <translation id="SettingsTitle" value="Rozkład czasu pracy" />
   <translation id="EditSettingsTooltip" value="Zezwól/zabroń edycji" />
-  <translation id="LockUnlockChangesTooltip" value="Jeśli zablokowane – ustawienia globalne oraz lokalne nie mają wpływu na ten budynek" />
+  <translation id="LockUnlockChangesTooltip" value="Zablokowane: ignoruje ustawienia typu i globalne, ale nadal może je tworzyć." />
   <translation id="CopySettingsTooltip" value="Kopiuj ustawienia z tego budynku" />
   <translation id="PasteSettingsTooltip" value="Wklej ustawienia do tego budynku" />
   <translation id="BuildingStatusLabel" value="Ustawione:" />

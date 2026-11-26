@@ -369,7 +369,7 @@
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="Alterar horas de operação do prédio" />
   <translation id="SettingsTitle" value="Horas Op." />
   <translation id="EditSettingsTooltip" value="Permitir/negar edição" />
-  <translation id="LockUnlockChangesTooltip" value="Se bloqueado - as configurações de tipo e globais não afetam este prédio" />
+  <translation id="LockUnlockChangesTooltip" value="Bloqueado: ignora as configurações de tipo e globais, mas ainda pode criá-las." />
   <translation id="CopySettingsTooltip" value="Copiar configurações deste prédio" />
   <translation id="PasteSettingsTooltip" value="Colar configurações neste prédio" />
   <translation id="BuildingStatusLabel" value="Estado:" />

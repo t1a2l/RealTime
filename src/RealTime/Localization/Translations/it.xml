@@ -369,7 +369,7 @@
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="Modifica gli orari di funzionamento degli edifici" />
   <translation id="SettingsTitle" value="Ore Op." />
   <translation id="EditSettingsTooltip" value="Consenti/nega modifica" />
-  <translation id="LockUnlockChangesTooltip" value="Se bloccato - le impostazioni di tipo e globali non influenzano questo edificio" />
+  <translation id="LockUnlockChangesTooltip" value="Bloccato: ignora le impostazioni del tipo e quelle globali, ma può comunque crearle." />
   <translation id="CopySettingsTooltip" value="Copia le impostazioni da questo edificio" />
   <translation id="PasteSettingsTooltip" value="Incolla le impostazioni in questo edificio" />
   <translation id="BuildingStatusLabel" value="Stato:" />

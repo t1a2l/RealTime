@@ -369,7 +369,7 @@
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="Betriebszeiten des Gebäudes ändern" />
   <translation id="SettingsTitle" value="Betriebszeit" />
   <translation id="EditSettingsTooltip" value="Bearbeitung erlauben/verbieten" />
-  <translation id="LockUnlockChangesTooltip" value="Wenn gesperrt - Typ- und globale Einstellungen haben keine Auswirkungen auf dieses Gebäude" />
+  <translation id="LockUnlockChangesTooltip" value="Gesperrt: ignoriert Typ- und globale Einstellungen, kann sie aber weiterhin erstellen." />
   <translation id="CopySettingsTooltip" value="Einstellungen von diesem Gebäude kopieren" />
   <translation id="PasteSettingsTooltip" value="Einstellungen in dieses Gebäude einfügen" />
   <translation id="BuildingStatusLabel" value="Status:" />

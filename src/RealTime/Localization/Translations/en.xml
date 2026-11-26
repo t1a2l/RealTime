@@ -373,7 +373,7 @@
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="Change building operation hours" />
   <translation id="SettingsTitle" value="Operation Hours" />
   <translation id="EditSettingsTooltip" value="Allow or disallow editing settings" />
-  <translation id="LockUnlockChangesTooltip" value="If Locked - type and global settings has no affect on this building" />
+  <translation id="LockUnlockChangesTooltip" value="Locked: ignores type and global settings, but can still create them." />
   <translation id="CopySettingsTooltip" value="Copy settings from this building" />
   <translation id="PasteSettingsTooltip" value="Paste settings to this building" />
   <translation id="BuildingStatusLabel" value="Status:" />

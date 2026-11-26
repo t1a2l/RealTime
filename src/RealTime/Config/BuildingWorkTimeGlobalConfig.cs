@@ -111,7 +111,7 @@ namespace RealTime.Config
             }
             catch (Exception ex)
             {
-                Debug.LogError("RealTimeMod: " + ex.Message);
+                Debug.LogError($"[RealTime] Failed to load global work-time settings: {ex}");
                 return null;
             }
         }
@@ -125,7 +125,7 @@ namespace RealTime.Config
             }
             catch (Exception ex)
             {
-                Debug.LogError("RealTimeMod: " + ex.Message);
+                Debug.LogError($"[RealTime] Failed to save global work-time settings: {ex}");
             }
         }
 

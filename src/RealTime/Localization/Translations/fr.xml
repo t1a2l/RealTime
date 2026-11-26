@@ -369,7 +369,7 @@
   <translation id="OperationHoursSettingsCheckBoxTooltip" value="Modifier les heures d'ouverture des bâtiments" />
   <translation id="SettingsTitle" value="Heures Op." />
   <translation id="EditSettingsTooltip" value="Autoriser/interdire l'édition" />
-  <translation id="LockUnlockChangesTooltip" value="Si verrouillé - les paramètres de type et globaux n'ont aucun effet sur ce bâtiment" />
+  <translation id="LockUnlockChangesTooltip" value="Verrouillé: ignore les paramètres de type et les paramètres globaux, mais peut toujours les créer." />
   <translation id="CopySettingsTooltip" value="Copier les paramètres de ce bâtiment" />
   <translation id="PasteSettingsTooltip" value="Coller les paramètres dans ce bâtiment" />
   <translation id="BuildingStatusLabel" value="État:" />

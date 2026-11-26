@@ -1264,26 +1264,38 @@ namespace RealTime.UI
             ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
             var buildingInfo = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info;
 
-            if (BuildingWorkTimeManager.PrefabExist(buildingInfo))
+            if (!BuildingWorkTimeManager.PrefabExist(buildingInfo))
             {
-                foreach (var item in BuildingWorkTimeManager.BuildingsWorkTime)
-                {
-                    var Info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[item.Key].Info;
-
-                    if (Info.name == buildingInfo.name)
-                    {
-                        BackToDefault(item.Key, Info);
-                    }
-                }
-
-                var prefabRecord = BuildingWorkTimeManager.GetPrefab(buildingInfo);
-
-                BuildingWorkTimeManager.RemovePrefab(prefabRecord);
-
-                RefreshData(buildingID, BuildingWorkTimeManager.GetBuildingWorkTime(buildingID));
-
-                UpdateSettingsButtons();
+                return;
             }
+
+            var affected = new List<ushort>();
+
+            foreach (var item in BuildingWorkTimeManager.BuildingsWorkTime)
+            {
+                var info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[item.Key].Info;
+
+                if (info.name == buildingInfo.name && item.Value.IsPrefab && !item.Value.IsLocked)
+                {
+                    affected.Add(item.Key);
+                }
+            }
+
+            var prefabRecord = BuildingWorkTimeManager.GetPrefab(buildingInfo);
+            BuildingWorkTimeManager.RemovePrefab(prefabRecord);
+
+            foreach (ushort id in affected)
+            {
+                var info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[id].Info;
+                var defaults = BuildingWorkTimeManager.GetDefaultBuildingWorkTime(id, info);
+
+                UpdateBuildingSettings.UpdateBuildingToDefaultSettings(id, defaults);
+            }
+
+            var current = BuildingWorkTimeManager.GetBuildingWorkTime(buildingID);
+
+            RefreshData(buildingID, current);
+            UpdateSettingsButtons();
         });
 
         private void DeleteGlobalSettings(UIComponent c, UIMouseEventParameter eventParameter) => ConfirmPanel.ShowModal(t_confirmPanelDeleteGlobalTitle, t_confirmPanelDeleteGlobalText, (comp, ret) =>
@@ -1296,26 +1308,38 @@ namespace RealTime.UI
             ushort buildingID = WorldInfoPanel.GetCurrentInstanceID().Building;
             var buildingInfo = Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID].Info;
 
-            if (BuildingWorkTimeGlobalConfig.Config.GlobalSettingsExist(buildingInfo))
+            if (!BuildingWorkTimeGlobalConfig.Config.GlobalSettingsExist(buildingInfo))
             {
-                foreach (var item in BuildingWorkTimeManager.BuildingsWorkTime)
-                {
-                    var Info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[item.Key].Info;
-
-                    if (Info.name == buildingInfo.name)
-                    {
-                        BackToDefault(item.Key, Info);
-                    }
-                }
-
-                var globalRecord = BuildingWorkTimeGlobalConfig.Config.GetGlobalSettings(buildingInfo);
-
-                BuildingWorkTimeGlobalConfig.Config.RemoveGlobalSettings(globalRecord);
-
-                RefreshData(buildingID, BuildingWorkTimeManager.GetBuildingWorkTime(buildingID));
-
-                UpdateSettingsButtons();
+                return;
             }
+
+            var affected = new List<ushort>();
+
+            foreach (var item in BuildingWorkTimeManager.BuildingsWorkTime)
+            {
+                var info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[item.Key].Info;
+
+                if (info.name == buildingInfo.name && item.Value.IsGlobal && !item.Value.IsLocked)
+                {
+                    affected.Add(item.Key);
+                }
+            }
+
+            var globalRecord = BuildingWorkTimeGlobalConfig.Config.GetGlobalSettings(buildingInfo);
+            BuildingWorkTimeGlobalConfig.Config.RemoveGlobalSettings(globalRecord);
+
+            foreach (ushort id in affected)
+            {
+                var info = Singleton<BuildingManager>.instance.m_buildings.m_buffer[id].Info;
+                var defaults = BuildingWorkTimeManager.GetDefaultBuildingWorkTime(id, info);
+
+                UpdateBuildingSettings.UpdateBuildingToDefaultSettings(id, defaults);
+            }
+
+            var current = BuildingWorkTimeManager.GetBuildingWorkTime(buildingID);
+
+            RefreshData(buildingID, current);
+            UpdateSettingsButtons();
         });
 
         private void BackToDefault(ushort buildingID, BuildingInfo buildingInfo)

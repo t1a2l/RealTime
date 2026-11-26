@@ -61,6 +61,7 @@ namespace RealTime.Config
             if (index != -1)
             {
                 BuildingWorkTimeGlobalSettingsV2[index] = buildingWorkTimeGlobal;
+                Serialize();
             }
         }
          
@@ -70,6 +71,7 @@ namespace RealTime.Config
             if (index == -1)
             {
                 BuildingWorkTimeGlobalSettingsV2.Add(buildingWorkTimeGlobal);
+                Serialize();
             }
         }
 
@@ -79,6 +81,7 @@ namespace RealTime.Config
             if (index != -1)
             {
                 BuildingWorkTimeGlobalSettingsV2.RemoveAt(index);
+                Serialize();
             }
         }
 
@@ -118,21 +121,38 @@ namespace RealTime.Config
 
         public void Serialize()
         {
+            string path = GetXMLPath();
+            string tempPath = path + ".tmp";
+
             try
             {
-                using var stream = new FileStream(GetXMLPath(), FileMode.Create, FileAccess.Write);
-                Ser_.Serialize(stream, this);
+                using (var stream = new FileStream(tempPath, FileMode.Create, FileAccess.Write))
+                {
+                    Ser_.Serialize(stream, this);
+                }
+
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+
+                File.Move(tempPath, path);
             }
             catch (Exception ex)
             {
                 Debug.LogError($"[RealTime] Failed to save global work-time settings: {ex}");
+
+                if (File.Exists(tempPath))
+                {
+                    File.Delete(tempPath);
+                }
             }
         }
 
         public static string GetXMLPath()
         {
-            string fileName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            string CO_path = Path.Combine(fileName, "Colossal Order");
+            string LocalDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string CO_path = Path.Combine(LocalDataPath, "Colossal Order");
             string CS_path = Path.Combine(CO_path, "Cities_Skylines");
             string file_path = Path.Combine(CS_path, optionsFileName);
             return file_path;

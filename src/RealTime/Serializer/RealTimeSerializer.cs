@@ -146,8 +146,6 @@ namespace RealTime.Serializer
                     // citizen schedules
                     CitizenScheduleSerializer.SaveData(m_serializableData);
                     
-                    BuildingWorkTimeGlobalConfig.Config.Serialize();
-
                     byte[] serializedData = Data.ToArray();
 
                     if (serializedData.Length >= MaxSerializableDataBytes)

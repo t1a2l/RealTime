@@ -8,6 +8,7 @@
     <Description>Unit tests for the Real Time mods</Description>
     <Copyright>Copyright © 2018, dymanoid</Copyright>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556">

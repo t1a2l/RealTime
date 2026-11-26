@@ -4,6 +4,7 @@
     <Product>RealTime</Product>
     <Description>A mod for the Cities:Skylines game</Description>
     <Configurations>Debug;Release;Benchmark</Configurations>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
